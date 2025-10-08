@@ -1,0 +1,226 @@
+a {
+    color: #0045FF;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    color: #0045FF;
+    text-decoration: underline;
+}
+
+h2, h3, h4, h5, h6,
+.h2, .h3, .h4, .h5, .h6 {
+    font-weight: 600;
+}
+h2, h3, h4, h5, h6, p {
+    margin-bottom: calc(20rem / 16);
+}
+* + h2,
+* + h3
+* + h4,
+* + h5 {
+    margin-top: calc(30rem / 16);
+}
+h1, .h1 {
+    margin-bottom: calc(30rem / 16);
+    font-size: calc(36rem / 16);
+}
+h2, .h2 {
+    font-size: calc(28rem / 16);
+}
+h3, .h3 {
+    font-size: calc(22rem / 16);
+}
+h4, .h4 {
+    font-size: calc(18rem / 16);
+}
+h5, .h5,
+h6, .h6 {
+    font-size: 1rem;
+}
+
+figure:last-child,
+.callout:last-child,
+p:last-child,
+ol:last-child,
+ul:last-child {
+    margin-bottom: 0;
+}
+figure figcaption {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em 0;
+    font-size: 75%;
+}
+figure.oem-image {
+    margin: calc(40rem / 16) 0;
+}
+figure.oem-image img {
+    width: 100%;
+    border-radius: clamp(calc(12rem / 16), 2vw, calc(20rem /16));
+}
+
+main.content,
+aside.details {
+    margin: 2rem 0;
+}
+.row-cards {
+    margin-top: calc(40rem / 16);
+    margin-bottom: calc(40rem / 16);
+}
+
+.row-list > * {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+.row-list .card-title {
+    margin-right: .5em;
+}
+.row-list .card-details {
+    color: #333538;
+}
+.row-list .card-details:before {
+    content: '(';
+}
+.row-list .card-details:after {
+    content: ')';
+}
+
+.card {
+    overflow: hidden;
+    border-radius: calc(12rem / 16);
+    border: 1px solid #E6E7E8;
+    box-shadow: 0px 0px 14px #00000014;
+    transition: border-color .25s ease-out;
+}
+.card-title {
+    transition: color .25s ease-out;
+}
+.card-details {
+    color: #707070;
+}
+a.card {
+    text-decoration: none;
+}
+a.card:hover,
+a.card:focus {
+    border-color: #0045FF;
+}
+a.card:hover .card-description,
+a.card:focus .card-description {
+    color: initial;
+}
+
+.callout {
+    margin: calc(30rem / 16) 0;
+    padding: calc(24rem / 16);
+    border-radius: calc(12rem / 16);
+    background: #F8F9FA;
+    border-left: 4px solid #DEE2E6;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+.accordion {
+    margin: 0
+}
+.accordion + .accordion {
+    margin-top: -1px;
+    padding-top: 0
+}
+.accordion .card {
+    border-radius: 0
+}
+.accordion .card:first-child {
+    border-top-left-radius: var(--bs-border-radius);
+    border-top-right-radius: var(--bs-border-radius)
+}
+.accordion .card:last-child {
+    border-bottom-left-radius: var(--bs-border-radius);
+    border-bottom-right-radius: var(--bs-border-radius)
+}
+.accordion .card:only-child {
+    border-radius: var(--bs-border-radius)
+}
+.accordion > .card {
+    box-shadow: none;
+    border-width: 2px;
+}
+.accordion > .card a.card {
+    border-radius: calc(12rem / 16);
+}
+.accordion .card-body {
+    padding: calc(20rem / 16);
+}
+.accordion .card-header {
+    padding: 0
+}
+.accordion .card-header .btn-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: calc(12rem / 16) calc(20rem / 16);
+    border-radius: 0;
+    background: #E6E7E8;
+    font-size: calc(20rem / 16);
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none
+}
+.accordion .card-header .btn-link:not(.collapsed) .icon {
+    transform: rotate(180deg)
+}
+
+.embed-responsive img {
+
+    transition: border-color .25s ease-out;
+}
+.embed-responsive-3by2 {
+    padding-top: 0;
+    aspect-ratio: 3 / 2;
+    margin-bottom: 0;
+}
+@media screen and (min-width: 576px) {
+
+    .card-horizontal .card-body,
+    .accordion .card-horizontal .card-body {
+        padding: calc(20rem / 16);
+    }
+}
+@media screen and (min-width: 768px) {
+
+    main.content {
+        border-right: 1px solid #c9cdd3;
+    }
+    aside.details img {
+        display: block;
+        margin: 0 auto;
+    }
+}
+@media screen and (min-width: 1024px) {
+
+    .card-horizontal {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        margin-bottom: calc(-20rem / 16);
+    }
+    .card-horizontal .card-img-top {
+        flex: 0 0 40%;
+        max-width: 40%;
+        border-radius: 0;
+    }
+    .card-horizontal .card-body,
+    .accordion .card-horizontal .card-body {
+        flex: 1;
+        padding: calc(30rem / 16);
+    }
+    main.content {
+        padding-right: calc(50rem / 16);
+    }
+}
