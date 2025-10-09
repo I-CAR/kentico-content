@@ -176,7 +176,7 @@ hr {
 
 h1,
 .ic-h1 {
-    margin-bottom: var(--space-30);
+    margin-bottom: var(--space-20) !important;
     font-size: var(--h1-font-size);
     font-weight: var(--bold);
     color: var(--black);
@@ -184,7 +184,7 @@ h1,
 
 h2,
 .ic-h2 {
-    margin-bottom: var(--space-20);
+    margin-bottom: var(--space-20) !important;
     font-size: var(--h2-font-size);
     font-weight: var(--bold);
     color: var(--black);
@@ -192,7 +192,7 @@ h2,
 
 h3,
 .ic-h3 {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-12) !important;
     font-size: var(--h3-font-size);
     font-weight: var(--semibold);
     color: var(--darkest);
@@ -200,7 +200,7 @@ h3,
 
 h4,
 .ic-h4 {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-12) !important;
     font-size: var(--h4-font-size);
     font-weight: var(--bold);
     color: var(--darkest);
@@ -208,7 +208,7 @@ h4,
 
 h5,
 .ic-h5 {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-12) !important;
     font-size: var(--h5-font-size);
     font-weight: var(--semibold);
     color: var(--dark);
@@ -217,7 +217,7 @@ h5,
 
 h6,
 .ic-h6 {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-12) !important;
     font-size: var(--h5-font-size);
     font-weight: var(--semibold);
     color: var(--darkest);
@@ -1484,7 +1484,7 @@ form.ic-form .ic-required {
 .ic-section:has(.ic-image-cutout)+.ic-section:has(.ic-image-banner, .ic-video-banner),
 .ic-section.ic-background-light+.ic-section:has(.ic-image-banner, .ic-video-banner),
 .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section.ic-background-light {
-    margin-top: 0;
+    /* margin-top: 0; */
 }
 
 @media (min-width: 768.1px) {
@@ -1513,6 +1513,7 @@ form.ic-form .ic-required {
 
     .ic-section#what-is-adas {
         height: 100%;
+        margin-top: 0;
     }
 
     .ic-section#what-is-adas .ic-image-banner {
@@ -1820,9 +1821,9 @@ form.ic-form .ic-required {
     padding-right: .75rem;
 }
 
-.breadcrumb {
+/* .breadcrumb {
     display: none;
-}
+} */
 
 @media screen and (min-width: 1520px) {
 
