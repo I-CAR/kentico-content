@@ -484,6 +484,38 @@ ul.ic-logo-list>li p:not(:has(.ic-btn)) {
     margin-bottom: var(--space-8);
 }
 
+ul.ic-card-list-courses {
+    list-style: none;
+    margin: var(--space-20) 0 0;
+    padding: 0;
+}
+
+ul.ic-card-list-courses>li {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    gap: var(--space-20);
+    padding: var(--space-20) 0;
+}
+
+ul.ic-card-list-courses>li:first-child {
+    padding-top: 0;
+}
+
+ul.ic-card-list-courses>li:last-child {
+    padding-bottom: 0;
+}
+
+ul.ic-card-list-courses>li span {
+    flex: 0 0 var(--space-60);
+    max-width: var(--space-60);
+    text-align: right;
+}
+
+ul.ic-card-list-courses>li+li {
+    border-top: 2px solid var(--light);
+}
+
 ol {
     padding-left: 1.75rem;
 }
@@ -1497,6 +1529,10 @@ form.ic-form .ic-required {
 .ic-section.ic-background-light+.ic-section:has(.ic-image-banner, .ic-video-banner),
 .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section.ic-background-light {
     /* margin-top: 0; */
+}
+
+.ic-section#courses .ic-card {
+    height: auto;
 }
 
 @media (min-width: 768.1px) {
