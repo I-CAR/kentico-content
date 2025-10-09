@@ -1089,8 +1089,13 @@ form.ic-form .ic-required {
 }
 
 .ic-card.accordion-item {
-    max-width: calc(616rem / var(--rem-base));
+    width: 100%;
+    max-width: 100%;
     border-radius: var(--card-border-radius-sm);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header {
+    margin-bottom: 0 !important;
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button {
@@ -1129,6 +1134,13 @@ form.ic-form .ic-required {
 
 .ic-card.accordion-item .accordion-body :is(ul, ol) {
     padding-left: var(--space-20);
+}
+
+@media (min-width: 768.1px) {
+
+    .ic-card.accordion-item {
+        max-width: calc(616rem / var(--rem-base));
+    }
 }
 
 @media (min-width: 992px) {
@@ -1821,9 +1833,9 @@ form.ic-form .ic-required {
     padding-right: .75rem;
 }
 
-/* .breadcrumb {
+.breadcrumb {
     display: none;
-} */
+}
 
 @media screen and (min-width: 1520px) {
 
