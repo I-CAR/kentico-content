@@ -93,9 +93,12 @@
     --form-field-padding: var(--form-field-padding-y) var(--form-field-padding-x);
     --form-field-border-width: 1px;
 
-    --card-padding-y: var(--space-20);
-    --card-padding-x: var(--space-30);
+    --card-padding-y: var(--space-30);
+    --card-padding-x: var(--space-20);
     --card-padding: var(--card-padding-y) var(--card-padding-x);
+    --card-border-radius-sm: var(--space-12);
+    --card-border-radius-lg: var(--space-20);
+    --card-border-radius: clamp(var(--card-border-radius-sm), 0.422rem + 0.97vw, var(--card-border-radius-lg));
     --card-border-width: 1px;
     --card-box-shadow: 0px 0px var(--space-20) #0000001A;
 
@@ -533,7 +536,7 @@ iframe {
 }
 
 img.ic-image-rounded {
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
 }
 
 img.ic-image-banner {
@@ -1052,15 +1055,17 @@ form.ic-form .ic-required {
     justify-content: flex-start;
     align-items: stretch;
     position: relative;
+    height: 100%;
     transition: border-color .25s ease-out;
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) {
+    overflow: hidden;
     border-radius: var(--border-radius);
     border: var(--card-border-width) solid var(--light);
 }
 
-.ic-card:is(.ic-background-white):has(.stretched-link) {
+.ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
     box-shadow: var(--card-box-shadow);
 }
 
@@ -1081,6 +1086,49 @@ form.ic-form .ic-required {
 .ic-card:has(.stretched-link):has(.ic-card-image):not(.ic-background-white, .ic-background-light):not(:has(.ic-card-media:first-child:not(:only-child))),
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) {
     text-align: center;
+}
+
+.ic-card.accordion-item {
+    max-width: calc(616rem / var(--rem-base));
+    border-radius: var(--card-border-radius-sm);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    border-radius: var(--card-border-radius-sm);
+    border: var(--card-border-width) solid transparent;
+    box-shadow: none !important;
+    background: none !important;
+    color: initial !important;
+    transition: border-color .25s ease-out;
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:hover {
+    border-color: var(--primary-color);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button[aria-expanded="true"] {
+    border-color: transparent;
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:after {
+    order: -1;
+    margin: 0 var(--space-12) 0 0;
+    transition: transform .25s ease-out;
+}
+
+.ic-card.accordion-item .accordion-body {
+    padding-top: 0;
+}
+
+.ic-card.accordion-item .accordion-body>* {
+    margin-left: calc(32.5rem / var(--rem-base));
+}
+
+.ic-card.accordion-item .accordion-body :is(ul, ol) {
+    padding-left: var(--space-20);
 }
 
 @media (min-width: 992px) {
@@ -1116,7 +1164,7 @@ form.ic-form .ic-required {
 .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
 .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
-    padding: var(--space-20) var(--space-30) var(--space-30);
+    padding: var(--space-12) var(--space-20) var(--space-30);
 }
 
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
@@ -1439,10 +1487,6 @@ form.ic-form .ic-required {
     margin-top: 0;
 }
 
-.ic-section + .ic-section:has(.ic-video-banner, .ic-image-banner) {
-    margin-top: 0 !important;
-}
-
 @media (min-width: 768.1px) {
 
     .ic-section-hero.ic-background-light {
@@ -1450,8 +1494,12 @@ form.ic-form .ic-required {
     }
 
     .ic-section:has(.ic-video-banner, .ic-image-banner) {
-        padding: var(--hero-padding) 0;
+        padding: var(--hero-padding-sm) 0;
         margin-top: 0;
+    }
+
+    .ic-section.ic-section-hero:has(.ic-video-banner, .ic-image-banner) {
+        padding: var(--hero-padding) 0;
     }
 
     .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
@@ -1471,6 +1519,7 @@ form.ic-form .ic-required {
         top: auto;
         left: auto;
         width: auto;
+        height: auto;
     }
 }
 
@@ -1485,15 +1534,23 @@ form.ic-form .ic-required {
     }
 
     .ic-section#what-is-adas {
-        aspect-ratio: 40 / 51;
+        aspect-ratio: 1 / 1;
         width: 100%;
         max-height: calc(100vh - var(--space-30));
     }
 
     .ic-section#what-is-adas .ic-image-banner {
         position: absolute;
+        top: auto;
         bottom: 0;
         right: 0;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .ic-section#what-is-adas {
+        aspect-ratio: 2 / 3;
     }
 }
 
@@ -1571,6 +1628,11 @@ form.ic-form .ic-required {
 }
 
 /* UTILITIES */
+
+.ic-sticky {
+    position: sticky;
+    top: var(--space-30);
+}
 
 .ic-visually-hidden {
     position: absolute !important;
