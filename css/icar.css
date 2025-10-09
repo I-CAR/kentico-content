@@ -567,6 +567,11 @@ iframe {
     aspect-ratio: 16 / 9;
 }
 
+.ic-playlist {
+    font-size: 0;
+    color: transparent;
+}
+
 img.ic-image-rounded {
     border-radius: var(--card-border-radius);
 }
