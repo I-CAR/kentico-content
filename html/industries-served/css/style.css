@@ -20,6 +20,13 @@
     padding-bottom: 0;
 }
 
+@media (max-width: 768px) {
+
+    #main>article {
+        overflow: hidden;
+    }
+}
+
 .header .header-inner,
 .footer .footer-inner,
 .breadcrumb {

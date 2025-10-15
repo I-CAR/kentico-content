@@ -495,7 +495,7 @@ ul.ic-card-list-courses>li {
     flex-flow: row nowrap;
     justify-content: space-between;
     gap: var(--space-20);
-    padding: var(--space-20) 0;
+    padding: clamp(var(--space-12), 0.422rem + 0.97vw, var(--space-20)) 0;
 }
 
 ul.ic-card-list-courses>li:first-child {
@@ -1103,6 +1103,8 @@ form.ic-form .ic-required {
 }
 
 .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
+    max-width: calc(565rem / var(--rem-base));
+    width: 100%;
     box-shadow: var(--card-box-shadow);
 }
 
@@ -1343,6 +1345,10 @@ form.ic-form .ic-required {
     }
 }
 
+.ic-card:has(.ic-card-list-courses) .ic-card-body {
+    padding: clamp(var(--space-20), 0.84rem + 1.212vw, var(--space-30));
+}
+
 /* BOXES */
 
 .ic-box {
@@ -1477,6 +1483,28 @@ form.ic-form .ic-required {
     box-shadow: 0px 3px var(--space-20) #00000033;
 }
 
+/* SLIDERS */
+
+.swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-horizontal {
+    position: static;
+    margin-top: calc(5rem / 16);
+}
+
+.ic-section>.container>.row .row:has(.ic-swiper) {
+    max-width: calc(100% + 3rem);
+}
+
+.ic-swiper {
+    width: 100%;
+}
+
+@media (min-width: 769px) {
+
+    .ic-swiper .swiper-slide {
+        margin-left: .375rem;
+    }
+}
+
 /* SECTIONS */
 
 .ic-section {
@@ -1540,6 +1568,10 @@ form.ic-form .ic-required {
     height: auto;
 }
 
+.ic-section#gold-class {
+    padding: var(--space-40) 0 !important;
+}
+
 @media (min-width: 768.1px) {
 
     .ic-section-hero.ic-background-light {
@@ -1555,14 +1587,14 @@ form.ic-form .ic-required {
         padding: var(--hero-padding) 0;
     }
 
-    .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
+    /* .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
         padding-bottom: var(--section-padding);
-    }
+    } */
 
-    .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
+    /* .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
     .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
         margin-bottom: var(--section-margin) !important;
-    }
+    } */
 
     .ic-section#what-is-adas {
         height: 100%;
@@ -1588,9 +1620,10 @@ form.ic-form .ic-required {
     }
 
     .ic-section#what-is-adas {
-        aspect-ratio: 1 / 1;
+        /* aspect-ratio: 1 / 1; */
         width: 100%;
-        max-height: calc(100vh - var(--space-30));
+        padding-bottom: calc(130rem / var(--rem-base));
+        /* max-height: calc(100vh - var(--space-30)); */
     }
 
     .ic-section#what-is-adas .ic-image-banner {
@@ -1601,12 +1634,12 @@ form.ic-form .ic-required {
     }
 }
 
-@media (max-width: 420px) {
+/* @media (max-width: 420px) {
 
     .ic-section#what-is-adas {
         aspect-ratio: 2 / 3;
     }
-}
+} */
 
 @media (min-width: 768px) and (max-width: 1200px) {
 
@@ -1849,6 +1882,13 @@ form.ic-form .ic-required {
     padding: 0;
 }
 
+@media (max-width: 768px) {
+
+    #main>article {
+        overflow: hidden;
+    }
+}
+
 #main>article>.row>.content {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -1885,7 +1925,7 @@ form.ic-form .ic-required {
     .breadcrumb,
     .header .header-inner,
     .footer .footer-inner {
-        max-width: calc(1440rem / 16) !important;
+        max-width: calc(1520rem / 16) !important;
     }
 }
 
