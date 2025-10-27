@@ -3,19 +3,31 @@
     --secondary-color: #3E72FD;
     --tertiary-color: #006CB4;
     --success-color: #209C02;
-    --error-color: #D90000;
+
     --lighter: #F7F7F7;
     --light: #E6E7E8;
     --gray: #A0A0A0;
     --dark: #707070;
-    --primary-font: 'Source Sans 3', 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    --darker: #333538;
     --global-semibold: 600;
-    --global-border-width: 2px;
     --rem-base: 16;
-    --global-radius: clamp(calc(12rem / var(--rem-base)), 3vw, calc(20rem / var(--rem-base)));
-    --button-radius: calc(8rem / var(--rem-base));
+    --space-12: calc(12rem / var(--rem-base));
+    --space-20: calc(20rem / var(--rem-base));
+    --space-30: calc(30rem / var(--rem-base));
+    --space-40: calc(40rem / var(--rem-base));
     --space-60: calc(60rem / var(--rem-base));
     --space-80: calc(80rem / var(--rem-base));
+    --h4-font-size: calc(18rem / 16);
+    --primary-font: 'Source Sans 3', 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    --global-semibold: 600;
+    --global-radius-sm: var(--space-12);
+    --global-radius-lg: var(--space-20);
+    --global-radius: clamp(var(--global-radius-sm), calc(0.385rem + 1.013vw), var(--global-radius-lg));
+    --global-border-width: 2px;
+    --section-padding: clamp(var(--space-40), 1.68rem + 2.424vw, var(--space-60));
+    --section-margin: clamp(var(--space-20), 0.43rem + 2.424vw, var(--space-40));
+    --button-radius: calc(8rem / var(--rem-base));
+    --form-field-padding: .75em;
 }
 
 html {
@@ -483,6 +495,11 @@ textarea {
 
 .section_hero+.section.bg-light {
     margin-top: 0;
+}
+
+.section.bg-light:only-child,
+.section.bg-light:last-child {
+    margin-bottom: 0;
 }
 
 .box {
@@ -961,8 +978,13 @@ form button.btn,
 form>input[type="submit"] {
     width: auto;
     margin-top: 2rem;
-    margin-bottom: calc(20rem / 16);
+    /* margin-bottom: calc(20rem / 16); */
     font-size: 1rem;
+}
+
+form>input[type="submit"]:focus,
+form>input[type="submit"]:active {
+    border-radius: var(--button-radius);
 }
 
 form input,
@@ -1026,11 +1048,11 @@ form .ktc-default-section {
     margin: 0 calc(15rem / -16);
 }
 
-.row--with-cols-padding:has(div[id*="form-GetMyShopToGoldClass"]),
+/* .row--with-cols-padding:has(div[id*="form-GetMyShopToGoldClass"]),
 .row--with-cols-padding:has(.formwidget-submit-text) {
     padding: calc(60rem / 16) calc(15rem / 16);
     background-color: var(--lighter);
-}
+} */
 
 .row--with-cols-padding:has(.formwidget-submit-text) .subhead,
 .row--with-cols-padding:has(.formwidget-submit-text) .disclaimer {
@@ -1099,10 +1121,10 @@ form .form-field:has(select[id*="benefits"]) {
         aspect-ratio: 5 / 2;
     }
 
-    form .form-field {
+    /* form .form-field {
         flex: 0 0 50%;
         max-width: 50%;
-    }
+    } */
 }
 
 @media screen and (min-width: 768px) {
@@ -1232,10 +1254,10 @@ form .form-field:has(select[id*="benefits"]) {
         padding: var(--icon-card-body-padding);
     }
 
-    form .form-field {
+    /* form .form-field {
         flex: 0 0 100%;
         max-width: 100%;
-    }
+    } */
 }
 
 @media screen and (min-width: 1024px) {
@@ -1331,10 +1353,10 @@ form .form-field:has(select[id*="benefits"]) {
         padding: calc(30rem / 16);
     }
 
-    form .form-field {
+    /* form .form-field {
         flex: 0 0 50%;
         max-width: 50%;
-    }
+    } */
 }
 
 @media screen and (min-width: 1520px) {
@@ -1451,4 +1473,27 @@ form .form-field:has(select[id*="benefits"]) {
         flex: 1;
         max-width: 100%;
     }
+}
+
+main+.row.row--with-cols-padding {
+    margin-top: var(--section-margin);
+    background: var(--lighter) !important;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    padding-bottom: var(--section-padding);
+}
+
+main+.row.row--with-cols-padding form {
+    max-width: calc(500rem / var(--rem-base));
+    margin: 0 auto;
+}
+
+main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
+    margin-top: 0;
+}
+
+.formwidget-submit-text {
+    text-align: center;
+    font-size: var(--h4-font-size);
+    font-weight: var(--global-semibold);
 }

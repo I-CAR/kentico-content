@@ -1901,6 +1901,17 @@ form.ic-form .ic-required {
     }
 }
 
+main+.row.row--with-cols-padding {
+    margin-top: var(--section-margin);
+    background: #f7f7f7 !important;
+    padding: var(--section-padding) 0;
+}
+
+main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
+    margin-top: 0;
+    background: none !important;
+}
+
 .header {
     border-bottom: 0;
 }
