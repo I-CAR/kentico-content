@@ -55,7 +55,9 @@
     --space-40: calc(var(--space-20) * 2);
     --space-50: calc(50rem / var(--rem-base));
     --space-60: calc(var(--space-30) * 2);
+    --space-80: calc(var(--space-40) * 2);
     --space-100: calc(100rem / var(--rem-base));
+    --space-120: calc(var(--space-60) * 2);
     --space-250: calc(var(--space-100) * 2.5);
     --space-300: calc(var(--space-100) * 3);
 
@@ -312,6 +314,7 @@ strong {
 ul,
 ol {
     margin: var(--space-10) 0 var(--space-30);
+    padding-left: var(--space-20);
 }
 
 ul {}
@@ -1240,7 +1243,7 @@ form.ic-form .ic-required {
     justify-content: flex-start;
     align-items: stretch;
     position: relative;
-    height: 100%;
+    /* height: 100%; */
     transition: border-color .25s ease-out;
 }
 
@@ -1251,7 +1254,6 @@ form.ic-form .ic-required {
 }
 
 .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
-    max-width: calc(565rem / var(--rem-base));
     width: 100%;
     box-shadow: var(--card-box-shadow);
 }
@@ -1277,8 +1279,16 @@ form.ic-form .ic-required {
 
 @media (min-width: 769px) {
 
+    .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
+        max-width: calc(565rem / var(--rem-base));
+    }
+
     .ic-card:has(svg) {
         max-width: calc(300rem / var(--rem-base));
+    }
+
+    .ic-card:has(h4, ul, ol):has(svg) {
+        max-width: 100%;
     }
 }
 
@@ -1289,8 +1299,34 @@ form.ic-form .ic-required {
         align-items: center;
     }
 
+    .ic-card:has(h4, ul, ol):has(svg) {
+        flex-flow: column nowrap;
+        align-items: flex-start;
+    }
+
     .ic-card:has(svg) .ic-card-body {
         padding: var(--space-10) 0 var(--space-10) var(--space-20) !important;
+    }
+
+    .ic-card:has(h4, ul, ol):has(svg) .ic-card-body {
+        padding: var(--space-10) var(--space-20) var(--space-20) !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child).ic-card-row_mobile {
+        flex-flow: row nowrap;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child).ic-card-row_mobile .ic-card-media {
+        padding: var(--space-24) 0 0 var(--space-20);
+    }
+
+    .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child).ic-card-row_mobile .ic-card-body {
+        padding: var(--space-20);
     }
 }
 
@@ -1364,15 +1400,35 @@ form.ic-form .ic-required {
     }
 }
 
-.ic-card:has(.stretched-link):hover {
+.ic-card:has(svg):has(ul, ol) {
+    max-width: 100%;
+}
+
+.ic-card:has(.stretched-link):hover,
+.ic-card:has(.stretched-link:is(:focus, :active)) {
     border-color: var(--primary-color);
 }
 
-.ic-card:has(.stretched-link):hover .stretched-link {
+.ic-card:has(.stretched-link):hover .stretched-link,
+.ic-card:has(.stretched-link:is(:focus, :active)) .stretched-link {
     text-decoration: none;
 }
 
+.ic-card:has(.stretched-link):hover a:not(.stretched-link),
+.ic-card:has(.stretched-link:is(:focus, :active)) a:not(.stretched-link) {
+    text-decoration: underline;
+}
+
+.ic-card:has(.stretched-link) a:not(.stretched-link) {
+    position: relative;
+    z-index: 1;
+}
+
 .ic-card:is(.ic-background-white, .ic-background-light) .ic-card-body {
+    padding: var(--space-20) var(--space-30);
+}
+
+.ic-card:is(.ic-background-white, .ic-background-light):has(h4, ul, ol) .ic-card-body {
     padding: var(--space-30);
 }
 
@@ -1380,11 +1436,22 @@ form.ic-form .ic-required {
     padding: 0;
 }
 
+.col:has(>.ic-card:nth-child(2)) {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: var(--space-10);
+}
+
 @media (max-width: 768px) {
 
     .ic-card.ic-card-lg .ic-card-body {
         padding: var(--space-20) 0 0;
     }
+
+    .ic-card:is(.ic-background-white, .ic-background-light):has(h4, ul, ol) .ic-card-body {
+        padding: var(--space-20);
+    }
+
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
@@ -1409,10 +1476,13 @@ form.ic-form .ic-required {
     padding: 0 0 0 var(--space-20);
 }
 
+.ic-card:has(h4, ul, ol):has(.ic-card-icon) .ic-card-media {
+    padding: var(--space-20) var(--space-20) 0;
+}
+
 .ic-card:has(.ic-card-label) .ic-card-body {
     display: flex;
     flex-flow: column nowrap;
-
 }
 
 @media (min-width: 992px) {
@@ -1437,6 +1507,11 @@ form.ic-form .ic-required {
 .ic-card:has(h4, ul, ol) .ic-card-title {
     font-size: var(--h3-font-size);
     font-weight: var(--semibold);
+}
+
+.ic-card:has(h4, ul, ol):has(svg) .ic-card-title {
+    font-size: var(--h4-font-size);
+    font-weight: var(--bold);
 }
 
 .ic-card .ic-card-title a {
@@ -1490,7 +1565,7 @@ form.ic-form .ic-required {
 }
 
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) .ic-card-media {
-    padding-top: var(--space-20);
+    padding-top: var(--space-24);
 }
 
 .ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(.ic-background-white, .ic-background-light) .ic-card-media {
@@ -2110,8 +2185,12 @@ main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
     background: none !important;
 }
 
+main>section:last-child {
+    padding-bottom: clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120));
+}
+
 .header {
-    border-bottom: 0;
+    border-bottom: 1px solid #ddd;
 }
 
 .header .header-inner,
@@ -2125,8 +2204,7 @@ main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
 
 .breadcrumb {
     /* display: none; */
-    margin-left: auto;
-    margin-right: auto;
+    margin: calc(25rem / var(--rem-base)) auto;
     padding: 0 calc(10rem / 16);
 }
 
@@ -2155,4 +2233,8 @@ body>.pageWrap {
 
 :is(input, textarea, select).form-control {
     box-shadow: none !important;
+}
+
+h1:empty {
+    display: none !important;
 }
