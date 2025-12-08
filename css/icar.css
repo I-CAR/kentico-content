@@ -1834,12 +1834,12 @@ form.ic-form .ic-required {
     width: 100%;
 }
 
-@media (min-width: 769px) {
+/* @media (min-width: 769px) {
 
     .ic-swiper .swiper-slide {
         margin-left: .375rem;
     }
-}
+} */
 
 .ic-swiper-courses {
     position: relative;
@@ -1884,7 +1884,7 @@ form.ic-form .ic-required {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1rem;
     line-height: 1;
     cursor: pointer;
     z-index: 10;
