@@ -1380,7 +1380,7 @@ form.ic-form .ic-required {
 
     .ic-card:has(svg) {
         flex-flow: row nowrap;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .ic-card:has(h4, ul, ol):has(svg) {
@@ -1390,6 +1390,10 @@ form.ic-form .ic-required {
 
     .ic-card:has(svg) .ic-card-body {
         padding: var(--space-10) 0 var(--space-10) var(--space-20) !important;
+    }
+
+    .ic-card:has(svg) .ic-card-media {
+        padding-top: var(--space-10) !important;
     }
 
     .ic-card:has(h4, ul, ol):has(svg) .ic-card-body {
@@ -1587,10 +1591,17 @@ form.ic-form .ic-required {
     font-weight: var(--bold);
 }
 
-/* .ic-card:has(.ic-card-image) .ic-card-title, */
+.ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title,
+.ic-card:has(h4, ul, ol) .ic-card-title {
+    font-weight: var(--semibold);
+}
+
+.ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title {
+    font-size: var(--body-font-size);
+}
+
 .ic-card:has(h4, ul, ol) .ic-card-title {
     font-size: var(--h3-font-size);
-    font-weight: var(--semibold);
 }
 
 .ic-card:has(h4, ul, ol):has(svg) .ic-card-title {
@@ -1613,11 +1624,13 @@ form.ic-form .ic-required {
 .ic-card .ic-card-media {
     order: -1;
     margin: 0;
-    border-radius: var(--border-radius);
+    border-radius: 0;
+    /* border-radius: var(--border-radius); */
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) .ic-card-media {
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-radius: 0;
+    /* border-radius: var(--border-radius) var(--border-radius) 0 0; */
 }
 
 .ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) .ic-card-media {
@@ -2339,7 +2352,7 @@ ul:has(.ic-card) {
 main+.row.row--with-cols-padding {
     margin-top: var(--section-margin);
     background: white !important;
-    padding: var(--section-padding) calc(12rem / 16);
+    padding: var(--section-padding) calc(12rem / 16) clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120)) calc(12rem / 16);
 }
 
 main:has(section.ic-background-white:last-child)+.row.row--with-cols-padding {
