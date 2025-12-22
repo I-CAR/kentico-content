@@ -2242,6 +2242,32 @@ form.ic-form .ic-required {
     border: 0;
 }
 
+.ic-section.ic-background-white.ic-section-border {
+    padding: 0;
+}
+
+.ic-section.ic-background-white.ic-section-border .container {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+    border-top: 1px solid var(--light);
+}
+
+@media (min-width: 1551px) {
+
+    .ic-section.ic-background-white.ic-section-border .container {
+        padding: var(--section-padding) 0;
+    }
+}
+
+.ic-section.ic-background-white.ic-section-border:first-child .container {
+    /* padding-top: 0; */
+    border: 0;
+}
+
+.ic-section.ic-background-white.ic-section-border+.ic-section.ic-background-white.ic-section-border {
+    padding-top: 0;
+}
+
 .ic-background-gray-50 {
     background-color: var(--gray-50);
     --color-hex: "#F7F7F7";
