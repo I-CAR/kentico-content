@@ -1367,36 +1367,36 @@ form.ic-form .ic-required {
         max-width: calc(565rem / var(--rem-base));
     }
 
-    .ic-card:has(svg) {
+    .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
         max-width: calc(300rem / var(--rem-base));
     }
 
-    .ic-card:has(h4, ul, ol):has(svg) {
+    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) {
         max-width: 100%;
     }
 }
 
 @media (max-width: 768px) {
 
-    .ic-card:has(svg) {
+    .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
         flex-flow: row nowrap;
         align-items: flex-start;
     }
 
-    .ic-card:has(h4, ul, ol):has(svg) {
+    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) {
         flex-flow: column nowrap;
         align-items: flex-start;
     }
 
-    .ic-card:has(svg) .ic-card-body {
+    .ic-card:has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
         padding: var(--space-10) 0 var(--space-10) var(--space-20) !important;
     }
 
-    .ic-card:has(svg) .ic-card-media {
+    .ic-card:has(svg):not(.ic-background-white, .ic-background-light) .ic-card-media {
         padding-top: var(--space-10) !important;
     }
 
-    .ic-card:has(h4, ul, ol):has(svg) .ic-card-body {
+    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
         padding: var(--space-10) var(--space-20) var(--space-20) !important;
     }
 }
@@ -1420,7 +1420,7 @@ form.ic-form .ic-required {
 
 @media (max-width: 540px) {
 
-    .ic-card:has(svg) svg {
+    .ic-card:has(svg):not(.ic-background-white, .ic-background-light) svg {
         width: calc(60rem / var(--rem-base));
         height: calc(60rem / var(--rem-base));
     }
@@ -1445,6 +1445,7 @@ form.ic-form .ic-required {
     box-shadow: none !important;
     background: none !important;
     color: initial !important;
+    font-weight: var(--bold);
     transition: border-color .25s ease-out;
 }
 
@@ -1604,7 +1605,7 @@ form.ic-form .ic-required {
     font-size: var(--h3-font-size);
 }
 
-.ic-card:has(h4, ul, ol):has(svg) .ic-card-title {
+.ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-title {
     font-size: var(--h4-font-size);
     font-weight: var(--bold);
 }
@@ -1646,8 +1647,15 @@ form.ic-form .ic-required {
     padding: var(--space-20) var(--space-30) 0;
 }
 
+.ic-card:has(.ic-card-icon, .ic-card-logo) .ic-card-media:only-child {
+    padding: var(--space-20) var(--space-30);
+}
+
 .ic-card-media .ic-card-icon,
 .ic-card-media .ic-card-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     transition: transform .25s ease-out;
 }
 
@@ -1940,6 +1948,10 @@ form.ic-form .ic-required {
 
 .ic-section:first-child {
     padding-top: 0;
+}
+
+.ic-section:last-child {
+    padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
 }
 
 .ic-section:has(.ic-image-banner, .ic-video-banner) {
