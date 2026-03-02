@@ -182,7 +182,7 @@ h1,
     margin-bottom: var(--space-20) !important;
     font-size: var(--h1-font-size);
     font-weight: var(--bold);
-    color: var(--black);
+    color: var(--gray-900)
 }
 
 h2,
@@ -190,7 +190,7 @@ h2,
     margin-bottom: var(--space-12) !important;
     font-size: var(--h2-font-size);
     font-weight: var(--bold);
-    color: var(--black);
+    color: var(--gray-900)
 }
 
 h3,
@@ -956,7 +956,7 @@ form input[type="submit"]:active {
 
 .ic-dropdown-menu>li>a {
     padding: calc(var(--button-padding-y) / 2) var(--button-padding-x);
-    color: var(--black);
+    color: var(--gray-900)
 }
 
 /* SWATCHES */
@@ -1383,6 +1383,10 @@ form.ic-form .ic-required {
         align-items: flex-start;
     }
 
+    .ic-card:has(svg.ic-card-icon):not(.ic-background-white, .ic-background-light) {
+        align-items: center;
+    }
+
     .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) {
         flex-flow: column nowrap;
         align-items: flex-start;
@@ -1393,7 +1397,7 @@ form.ic-form .ic-required {
     }
 
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) .ic-card-media {
-        padding-top: var(--space-10) !important;
+        /* padding-top: var(--space-10) !important; */
     }
 
     .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
@@ -1424,6 +1428,11 @@ form.ic-form .ic-required {
         width: calc(60rem / var(--rem-base));
         height: calc(60rem / var(--rem-base));
     }
+
+    .accordion {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .ic-card.accordion-item {
@@ -1444,8 +1453,8 @@ form.ic-form .ic-required {
     border: var(--card-border-width) solid transparent;
     box-shadow: none !important;
     background: none !important;
-    color: initial !important;
-    font-weight: var(--bold);
+    color: var(--gray-900) !important;
+    /* font-weight: var(--bold); */
     transition: border-color .25s ease-out;
 }
 
@@ -1465,6 +1474,10 @@ form.ic-form .ic-required {
 
 .ic-card.accordion-item .accordion-body {
     padding-top: 0;
+}
+
+.ic-card.accordion-item .accordion-body p {
+    color: var(--gray-900);
 }
 
 .ic-card.accordion-item .accordion-body>* {
@@ -1550,7 +1563,8 @@ form.ic-form .ic-required {
 }
 
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
-    padding: var(--space-20) 0 0;
+    /* padding: var(--space-20) 0 0; */
+    padding: var(--space-8) 0 0;
 }
 
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) .ic-card-body {
@@ -1845,6 +1859,7 @@ form.ic-form .ic-required {
 .swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-horizontal {
     position: static;
     margin-top: calc(5rem / 16);
+    margin-left: calc(var(--space-12) * -1);
 }
 
 .ic-section>.container>.row .row:has(.ic-swiper) {
@@ -1901,8 +1916,7 @@ form.ic-form .ic-required {
     height: var(--space-50);
     border-radius: 50%;
     background: var(--light);
-    color: var(--black);
-    display: flex;
+    color: var(--gray-900) display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
@@ -1913,7 +1927,7 @@ form.ic-form .ic-required {
 
 .ic-swiper-nav:is(:hover, :focus) {
     background: var(--gray);
-    color: var(--black);
+    color: var(--gray-900)
 }
 
 .ic-swiper-nav:active {
@@ -2320,7 +2334,7 @@ form.ic-form .ic-required {
 }
 
 .ic-background-black {
-    background-color: var(--black);
+    background-color: var(--gray-900);
     color: var(--white);
     --color-hex: "#000000";
     --color-rgb: "rgb(0, 0, 0)";
