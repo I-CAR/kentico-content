@@ -2485,3 +2485,111 @@ h1:empty {
     font-size: var(--h4-font-size);
     font-weight: 600;
 }
+
+/* BOARD OF DIRECTORS APPLY - KEY DATES AND MILESTONES */
+
+.ic-milestone-list {
+    position: relative;
+    margin-left: 36px !important;
+}
+
+.ic-milestone-card.ic-card:is(.ic-background-white, .ic-background-light) .ic-card-body {
+    padding: var(--space-20);
+}
+
+.ic-milestone-card.ic-card .ic-card-title,
+.ic-milestone-card.ic-card:has(.ic-card-image) .ic-card-title {
+    margin-bottom: 0 !important;
+}
+
+.ic-milestone-item {
+    position: relative;
+}
+
+.ic-milestone-item::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 10px);
+    left: -36px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    background-color: var(--white);
+    transition: background-color .2s ease, border-color .2s ease;
+    z-index: 1;
+}
+
+.ic-milestone-list::before {
+    content: "";
+    position: absolute;
+    top: 3.5em;
+    bottom: 3.5em;
+    left: -27px;
+    width: 1px;
+    background-color: var(--gray-200);
+    z-index: 0;
+}
+
+@media (min-width: 480px) {
+
+    .ic-milestone-list::before {
+        top: 3em;
+        bottom: 3em;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .ic-milestone-list {
+        margin-left: 48px !important;
+    }
+
+    .ic-milestone-list::before {
+        left: -39px;
+    }
+
+    .ic-milestone-item::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -48px;
+        width: 48px;
+        height: 1px;
+        background-color: var(--gray-200);
+        transition: background-color .2s ease;
+    }
+
+    .ic-milestone-item::before {
+        left: -48px;
+    }
+
+    .ic-milestone-item:hover::before {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .ic-milestone-item:hover::after {
+        background-color: var(--primary);
+    }
+
+    .ic-milestone-item:hover .ic-milestone-card {
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    .ic-milestone-list {
+        padding-left: 34px;
+    }
+
+    .ic-milestone-item::before {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .ic-milestone-item .ic-milestone-card {
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+    }
+}
