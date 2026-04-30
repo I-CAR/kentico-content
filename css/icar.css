@@ -8,6 +8,8 @@
     --positive-color: #209C02;
     --negative-color: #D90000;
 
+    --primary-100: #e5f0f7;
+
     --cc-primary-color-100: #469AE4;
     --cc-primary-color-200: #2B8CE0;
     --cc-primary-color-300: #1E7CCF;
@@ -557,6 +559,14 @@ a:hover,
 a:focus {
     color: var(--link-color);
     text-decoration: underline;
+}
+
+a:visited {
+    color: initial;
+}
+
+a.ic-btn:visited {
+    color: var(--white);
 }
 
 :is(h1, h2, h3, h4, h5, h6, p, ol, ul, blockquote, img, figure):last-child {
@@ -2294,6 +2304,10 @@ form.ic-form .ic-required {
     padding-top: 0;
 }
 
+.ic-background-primary-100 {
+    background-color: var(--primary-100);
+}
+
 .ic-background-gray-50 {
     background-color: var(--gray-50);
     --color-hex: "#F7F7F7";
@@ -2493,6 +2507,10 @@ h1:empty {
     margin-left: 36px !important;
 }
 
+.ic-milestone-item .ic-milestone-card {
+    border-radius: var(--border-radius-xs);
+}
+
 .ic-milestone-card.ic-card:is(.ic-background-white, .ic-background-light) .ic-card-body {
     padding: var(--space-20);
 }
@@ -2500,6 +2518,17 @@ h1:empty {
 .ic-milestone-card.ic-card .ic-card-title,
 .ic-milestone-card.ic-card:has(.ic-card-image) .ic-card-title {
     margin-bottom: 0 !important;
+}
+
+@media (min-width: 1201px) {
+
+    .ic-milestone-card.ic-card .col-xl-auto {
+        min-width: calc(140rem / 16)
+    }
+}
+
+.ic-milestone-card.ic-card .ic-card-title {
+    font-size: var(--h5-font-size);
 }
 
 .ic-milestone-item {
@@ -2513,7 +2542,7 @@ h1:empty {
     left: -36px;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--tertiary-color);
     border-radius: 50%;
     background-color: var(--white);
     transition: background-color .2s ease, border-color .2s ease;
@@ -2565,12 +2594,12 @@ h1:empty {
     }
 
     .ic-milestone-item:hover::before {
-        background-color: var(--primary);
-        border-color: var(--primary);
+        background-color: var(--tertiary-color);
+        border-color: var(--tertiary-color);
     }
 
     .ic-milestone-item:hover::after {
-        background-color: var(--primary);
+        background-color: var(--tertiary-color);
     }
 
     .ic-milestone-item:hover .ic-milestone-card {
@@ -2585,8 +2614,8 @@ h1:empty {
     }
 
     .ic-milestone-item::before {
-        background-color: var(--primary);
-        border-color: var(--primary);
+        background-color: var(--tertiary-color);
+        border-color: var(--tertiary-color);
     }
 
     .ic-milestone-item .ic-milestone-card {
