@@ -105,7 +105,8 @@
     --card-border-radius: clamp(var(--card-border-radius-sm), 0.422rem + 0.97vw, var(--card-border-radius-lg));
     --card-border-width: 1px;
     /* --card-box-shadow: 0px 0px var(--space-20) #0000001A; */
-    --card-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+    /* --card-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20); */
+    --card-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
 
     --box-padding-y: var(--space-40);
     --box-padding-x: var(--box-padding-y);
@@ -500,8 +501,8 @@ ul.ic-card-list-courses>li {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    gap: var(--space-20);
-    padding: clamp(var(--space-12), 0.422rem + 0.97vw, var(--space-20)) 0;
+    gap: var(--space-12);
+    padding: var(--space-12) 0;
 }
 
 ul.ic-card-list-courses>li:first-child {
@@ -788,6 +789,14 @@ form input[type="submit"] {
 .ic-btn-primary.ic-btn-outline {
     border-color: var(--primary-color);
     color: var(--primary-color);
+}
+
+.ic-btn-primary.ic-btn-outline:visited {
+    color: var(--primary-color);
+}
+
+.ic-btn-primary.ic-btn-outline:visited:hover {
+    color: var(--white);
 }
 
 .ic-btn-primary svg {
@@ -1379,11 +1388,16 @@ form.ic-form .ic-required {
 
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
         max-width: calc(300rem / var(--rem-base));
+        margin: 0 auto;
     }
 
     .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) {
         max-width: 100%;
     }
+}
+
+.accordion {
+    padding: 0;
 }
 
 @media (max-width: 768px) {
@@ -1448,7 +1462,12 @@ form.ic-form .ic-required {
 .ic-card.accordion-item {
     width: 100%;
     max-width: 100%;
+    margin-bottom: 0;
     border-radius: var(--card-border-radius-sm);
+}
+
+.ic-card.accordion-item+.ic-card.accordion-item {
+    margin-top: var(--space-10);
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header {
@@ -1574,7 +1593,7 @@ form.ic-form .ic-required {
 
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
     /* padding: var(--space-20) 0 0; */
-    padding: var(--space-8) 0 0;
+    padding: var(--space-12) 0 0;
 }
 
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) .ic-card-body {
@@ -1974,7 +1993,7 @@ form.ic-form .ic-required {
     padding-top: 0;
 }
 
-.ic-section:last-child {
+main:not(+.row--with-cols-padding) .ic-section:last-child {
     padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
 }
 
