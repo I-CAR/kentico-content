@@ -704,6 +704,82 @@ html[data-darkreader-scheme="dark"] img[src*="placehold.co"] {
     filter: invert(1) hue-rotate(180deg);
 }
 
+/* TABLES */
+
+.table {
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+}
+
+.table:last-child {
+    margin-bottom: 0;
+}
+
+.table td,
+.table th {
+    padding: calc(5rem / 16) 0;
+    vertical-align: center;
+}
+
+.table tr {
+    width: 100%;
+}
+
+.table th {
+    width: 100%;
+    font-weight: normal;
+}
+
+.table tfoot {
+    padding-top: calc(20rem / 16);
+}
+
+.table tfoot tr {
+    border-top: 1px solid var(--gray);
+}
+
+.tfoot {
+    border-top: 2px solid var(#E6E7E8);
+}
+
+.table tfoot th,
+.table tfoot td {
+    padding-top: calc(20rem / 16);
+}
+
+.table tbody tr td {
+    text-align: right;
+}
+
+.table tr.total th,
+.table tr.total td {
+    font-size: calc(22rem / 16);
+    font-weight: 700;
+}
+
+.table tr:not(.total) th,
+.table tr:not(.total) td {
+    font-size: calc(18rem / 16);
+}
+
+@media screen and (min-width: 400px) {
+    .table tr.total~tr:not(.total) th {
+        padding-left: calc(30rem / 16);
+    }
+}
+
+@media screen and (min-width: 576px) {
+
+    .table tr.total th,
+    .table tr.total td {
+        font-size: calc(28rem / 16);
+    }
+
+    .table tr:not(.total) th,
+    .table tr:not(.total) td {
+        font-size: calc(22rem / 16);
+    }
+}
+
 /* BUTTONS */
 
 .ic-btn,
@@ -1214,6 +1290,10 @@ form .ktc-default-section {
 .row--with-cols-padding:has(.formwidget-submit-text) .subhead,
 .row--with-cols-padding:has(.formwidget-submit-text) .disclaimer {
     display: none !important;
+}
+
+.row--with-cols-padding form {
+    max-width: none;
 }
 
 form .form-field .form-control {
@@ -2517,6 +2597,10 @@ h1:empty {
     text-align: center;
     font-size: var(--h4-font-size);
     font-weight: 600;
+}
+
+.table>:not(caption)>*>* {
+    background: none;
 }
 
 /* BOARD OF DIRECTORS APPLY - KEY DATES AND MILESTONES */
