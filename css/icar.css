@@ -2612,6 +2612,7 @@
 
     .table>:not(caption)>*>* {
         background: none;
+        color: var(--darkest);
     }
 
     /* BOARD OF DIRECTORS APPLY - KEY DATES AND MILESTONES */
