@@ -1299,7 +1299,7 @@
         display: none !important;
     }
 
-    .row--with-cols-padding:has(form) {
+    .row--with-cols-padding:has(form, .formwidget-submit-text) {
         margin: 0;
     }
 
