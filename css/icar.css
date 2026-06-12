@@ -302,6 +302,7 @@
     p:has(.ic-btn:nth-child(2)) {
         display: flex;
         flex-flow: row wrap;
+        justify-content: center;
         gap: var(--space-20);
     }
 
@@ -1049,7 +1050,7 @@
         padding: var(--button-padding-y) 0;
     }
 
-    .ic-menu>li>a {
+    .ic-menu>li>a:not(.ic-btn) {
         display: block;
         padding: calc(var(--button-padding-y) / 2) 0;
     }
@@ -1061,13 +1062,31 @@
         margin-top: .5rem;
     }
 
-    .ic-menu.ic-menu-horizontal>li>a {
+    .ic-menu.ic-menu-horizontal:has(.ic-btn) {
+        justify-content: center;
+        gap: var(--space-20);
+    }
+
+    .ic-menu.ic-menu-horizontal>li>a:not(.ic-btn) {
         padding: 0;
     }
 
-    .ic-dropdown-menu>li>a {
+    .ic-dropdown-menu>li>a:not(.ic-btn) {
         padding: calc(var(--button-padding-y) / 2) var(--button-padding-x);
         color: var(--gray-900)
+    }
+
+    @media (max-width: 420px) {
+
+        .ic-menu.ic-menu-horizontal:has(.ic-btn) {
+            flex-flow: column nowrap;
+            align-items: stretch;
+        }
+
+        .ic-menu.ic-menu-horizontal .ic-btn {
+            width: 100%;
+            text-align: center;
+        }
     }
 
     /* SWATCHES */
@@ -2333,6 +2352,11 @@
         .ic-section .col.text-md-center {
             align-items: center;
         }
+    }
+
+    .ic-section.ic-section-nav {
+        margin-top: 0;
+        padding: var(--space-20) 0;
     }
 
     .ic-background-light {
