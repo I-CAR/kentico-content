@@ -1707,7 +1707,17 @@
     .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
-        padding: var(--space-12) var(--space-20) var(--space-20);
+        padding: var(--space-12);
+    }
+
+    @media (max-width: 420px) {
+
+        .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
+        .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
+        .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
@@ -1749,18 +1759,18 @@
 
     .ic-card .ic-card-title,
     .ic-card:has(.ic-card-image) .ic-card-title {
-        margin-bottom: calc(6rem / 16) !important;
+        margin-bottom: calc(8rem / 16) !important;
         font-size: var(--h4-font-size);
         font-weight: var(--bold);
     }
 
     .ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title,
     .ic-card:has(h4, ul, ol) .ic-card-title {
-        font-weight: var(--semibold);
+        font-weight: var(--bold);
     }
 
     .ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title {
-        font-size: var(--body-font-size);
+        font-size: var(--h4-font-size);
     }
 
     .ic-card:has(h4, ul, ol) .ic-card-title {
@@ -2167,11 +2177,8 @@
         padding-bottom: 0;
     }
 
-    .ic-section:has(.ic-image-cutout)+.ic-section.ic-background-light,
-    .ic-section:has(.ic-image-cutout)+.ic-section:has(.ic-image-banner, .ic-video-banner),
-    .ic-section.ic-background-light+.ic-section:has(.ic-image-banner, .ic-video-banner),
     .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section.ic-background-light {
-        /* margin-top: 0; */
+        margin-top: 0;
     }
 
     .ic-section#courses .ic-card {
