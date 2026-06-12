@@ -255,6 +255,15 @@
         text-transform: uppercase;
     }
 
+    .ic-section:has(p.ic-sublabel) .ic-section-title {
+        margin-bottom: var(--space-12) !important;
+    }
+
+    p.ic-sublabel {
+        margin-top: 0;
+        font-weight: var(--semibold);
+    }
+
     p.ic-section-label {
         order: -1;
         display: inline-block;
