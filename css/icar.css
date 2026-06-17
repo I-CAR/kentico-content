@@ -1834,12 +1834,21 @@
         }
     }
 
-    .ic-card:is(blockquote) p.ic-card-text:before {
+    .ic-card:is(blockquote) p.ic-card-text:before,
+    blockquote p.ic-quote-text:before {
         content: "“";
     }
 
-    .ic-card:is(blockquote) p.ic-card-text:after {
+    .ic-card:is(blockquote) p.ic-card-text:after,
+    blockquote p.ic-quote-text:after {
         content: "”";
+    }
+
+    @media screen and (min-width: 768.1px) {
+
+        blockquote p.ic-quote-text+.ic-cite {
+            justify-content: center;
+        }
     }
 
     .ic-card .ic-card-media {
