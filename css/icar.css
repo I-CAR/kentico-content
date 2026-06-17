@@ -255,6 +255,10 @@
         text-transform: uppercase;
     }
 
+    .ic-section .ic-section-title:only-child {
+        margin-bottom: 0 !important;
+    }
+
     .ic-section:has(p.ic-sublabel) .ic-section-title {
         margin-bottom: var(--space-12) !important;
     }
@@ -287,12 +291,32 @@
     }
 
     p>cite {
-        font-size: calc(14rem / var(--rem-base));
+        font-style: normal;
+        line-height: 1.5;
     }
 
     p>cite>strong {
         font-size: 1rem;
+
         font-style: normal;
+    }
+
+    @media screen and (max-width: 768px) {
+
+        p>cite {
+            line-height: 1.25;
+        }
+    }
+
+    .ic-cite {
+        display: flex;
+        align-items: center;
+        gap: var(--space-12);
+    }
+
+    img.ic-cite-photo {
+        border-radius: 50%;
+        border: 1px solid var(--gray-100);
     }
 
     p:has(.ic-btn-primary, .ic-btn-white, .ic-btn-gray) {
@@ -1465,8 +1489,21 @@
         justify-content: flex-start;
         align-items: stretch;
         position: relative;
-        /* height: 100%; */
         transition: border-color .25s ease-out;
+    }
+
+    .align-items-stretch>*>.ic-card {
+        height: 100%;
+    }
+
+    .align-items-stretch>*>.ic-card .ic-card-body {
+        display: flex;
+        flex-flow: column nowrap;
+        height: 100%;
+    }
+
+    .align-items-stretch>*>.ic-card .ic-card-cite {
+        margin-top: auto;
     }
 
     .ic-card:is(.ic-background-white, .ic-background-light) {
@@ -1786,6 +1823,17 @@
         color: inherit;
     }
 
+    .ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-body {
+        padding: var(--space-20);
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-text {
+            font-size: calc(14rem / var(--rem-base));
+        }
+    }
+
     .ic-card:is(blockquote) p.ic-card-text:before {
         content: "“";
     }
@@ -2040,7 +2088,8 @@
         padding-bottom: 1.5rem;
     }
 
-    .ic-swiper-courses .swiper-wrapper {
+    .ic-swiper-courses .swiper-wrapper,
+    .ic-swiper .swiper-wrapper {
         flex-wrap: nowrap;
         align-items: stretch;
     }
