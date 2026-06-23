@@ -116,12 +116,12 @@
         --box-padding: var(--box-padding-x);
 
         --section-padding-sm: var(--space-40);
-        --section-padding-lg: var(--space-60);
-        --section-padding: clamp(var(--section-padding-sm), 1.68rem + 2.424vw, var(--section-padding-lg));
+        --section-padding-lg: var(--space-80);
+        --section-padding: clamp(var(--section-padding-sm), 0.996rem + 4.449vw, var(--section-padding-lg));
 
         --section-margin-sm: var(--space-20);
-        --section-margin-lg: var(--space-40);
-        --section-margin: clamp(var(--section-margin-sm), 0.43rem + 2.424vw, var(--section-margin-lg));
+        --section-margin-lg: var(--section-margin-sm);
+        --section-margin: var(--section-margin-lg);
 
         --hero-padding-sm: var(--space-100);
         --hero-padding-lg: var(--space-250);
@@ -249,10 +249,17 @@
     p.ic-label,
     p.ic-card-label {
         order: -1;
-        margin-bottom: var(--space-10);
         font-weight: var(--semibold);
         color: var(--dark);
         text-transform: uppercase;
+    }
+
+    p.ic-label {
+        margin-bottom: 0;
+    }
+
+    p.ic-card-label {
+        margin-bottom: var(--space-10);
     }
 
     .ic-section .ic-section-title:only-child {
@@ -260,7 +267,7 @@
     }
 
     .ic-section:has(p.ic-sublabel) .ic-section-title {
-        margin-bottom: var(--space-12) !important;
+        margin-bottom: var(--space-8) !important;
     }
 
     p.ic-sublabel {
@@ -314,6 +321,14 @@
         gap: var(--space-12);
     }
 
+    .ic-cite cite {
+        font-size: calc(14rem / 16);
+    }
+
+    .ic-cite strong {
+        font-weight: var(--semibold);
+    }
+
     img.ic-cite-photo {
         border-radius: 50%;
         border: 1px solid var(--gray-100);
@@ -341,6 +356,13 @@
 
     strong {
         font-weight: var(--bold);
+    }
+
+    p:has(small) {
+        margin-bottom: var(--space-12);
+        font-size: calc(14rem / 16);
+        line-height: 1.34;
+        color: var(--darkest);
     }
 
     :is(ul, ol):last-of-type:not(:last-child) {
@@ -1521,6 +1543,20 @@
         padding: var(--space-30);
     }
 
+    .ic-card:is(blockquote) {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+
+    .ic-card:is(blockquote) .ic-card-media {
+        flex: 0 0 auto;
+        padding: var(--card-padding);
+    }
+
+    .ic-card.ic-card-lg:is(blockquote) .ic-card-cite {
+        flex-flow: column nowrap;
+    }
+
     /* .ic-card:has(.ic-card-icon, .ic-card-logo):has(.ic-card-media:first-child:not(:only-child)) {
     padding: var(--space-20) 0;
 } */
@@ -1556,6 +1592,8 @@
         padding: 0;
     }
 
+
+
     @media (max-width: 768px) {
 
         .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
@@ -1582,6 +1620,25 @@
 
         .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
             padding: var(--space-10) var(--space-20) var(--space-20) !important;
+        }
+
+        .ic-card.ic-card-horizontal-mobile {
+            flex-flow: row nowrap;
+            gap: var(--space-20);
+            align-items: center;
+            padding: 0 var(--space-20);
+            text-align: left !important;
+        }
+
+        .ic-card.ic-card-horizontal-mobile>figure.ic-card-media {
+            padding: 0
+        }
+    }
+
+    @media (min-width: 768.1px) {
+
+        .ic-card.ic-card-horizontal-mobile>.ic-card-body {
+            text-align: center;
         }
     }
 
@@ -1754,6 +1811,7 @@
         .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
             padding-left: 0;
             padding-right: 0;
+            padding-bottom: 0;
         }
     }
 
@@ -1796,7 +1854,7 @@
 
     .ic-card .ic-card-title,
     .ic-card:has(.ic-card-image) .ic-card-title {
-        margin-bottom: calc(8rem / 16) !important;
+        margin-bottom: calc(4rem / 16) !important;
         font-size: var(--h4-font-size);
         font-weight: var(--bold);
     }
@@ -1819,6 +1877,18 @@
         font-weight: var(--bold);
     }
 
+    .ic-card:is(.ic-background-white, .ic-background-light):has(h3):has(svg) {
+        border-radius: var(--card-border-radius-sm);
+    }
+
+    .ic-card:is(.ic-background-white, .ic-background-light):has(h3):has(svg) .ic-card-title {
+        font-size: var(--body-font-size);
+    }
+
+    .ic-card:is(.ic-background-white, .ic-background-light):has(h3) svg {
+        width: calc(50rem / 16);
+    }
+
     .ic-card .ic-card-title a {
         color: inherit;
     }
@@ -1835,18 +1905,18 @@
     }
 
     .ic-card:is(blockquote) p.ic-card-text:before,
-    blockquote p.ic-quote-text:before {
+    blockquote .ic-quote-text:before {
         content: "“";
     }
 
     .ic-card:is(blockquote) p.ic-card-text:after,
-    blockquote p.ic-quote-text:after {
+    blockquote .ic-quote-text:after {
         content: "”";
     }
 
     @media screen and (min-width: 768.1px) {
 
-        blockquote p.ic-quote-text+.ic-cite {
+        blockquote .ic-quote-text+.ic-cite {
             justify-content: center;
         }
     }
@@ -2176,6 +2246,26 @@
         border: 0;
     }
 
+    .ic-section.ic-section-padding-top-sm {
+        padding-top: var(--section-padding-sm);
+    }
+
+    @media (min-width: 1024.1px) {
+
+        .ic-section.ic-section-padding-bottom-lg {
+            padding-bottom: calc(var(--section-margin-lg) * 2 + var(--section-padding-lg));
+        }
+    }
+
+    .ic-section .ic-section-title::before,
+    .ic-section .ic-label:before,
+    .ic-section .ic-sublabel::before,
+    .ic-section .ic-btn::before,
+    .ic-section .ic-card-title::before,
+    .ic-section .ic-menu>li>a::before {
+        content: var(--name) " ";
+    }
+
     .ic-section:first-child {
         padding-top: 0;
     }
@@ -2212,6 +2302,10 @@
 
     @media (min-width: 768.1px) {
 
+        .ic-section.ic-background-light+.ic-section.ic-background-light {
+            padding-top: calc(var(--section-padding-lg) + var(--section-margin-lg));
+        }
+
         .ic-section-hero.ic-background-light .col:has(h1, h2) {
             padding-top: var(--section-padding);
             padding-bottom: var(--section-padding);
@@ -2229,6 +2323,13 @@
     .ic-section.ic-background-light+.ic-section:not(.ic-background-light),
     .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) {
         margin-top: var(--section-margin);
+    }
+
+    @media (max-width: 768px) {
+
+        .ic-section.ic-background-light+.ic-section.ic-background-light {
+            padding-top: calc(var(--section-padding-sm) + var(--section-margin-sm));
+        }
     }
 
     .ic-section:has(.ic-image-cutout) {
@@ -2254,12 +2355,12 @@
         }
 
         .ic-section:has(.ic-video-banner, .ic-image-banner) {
-            padding: var(--hero-padding-sm) 0;
+            /* padding: var(--hero-padding-sm) 0; */
             margin-top: 0;
         }
 
         .ic-section.ic-section-hero:has(.ic-video-banner, .ic-image-banner) {
-            padding: var(--hero-padding) 0;
+            padding: var(--section-padding);
         }
 
         /* .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
@@ -2290,8 +2391,12 @@
         .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
             position: static;
             transform: none;
-            margin-top: 2rem;
             border-radius: var(--border-radius);
+        }
+
+        .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
+        .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
+            /* margin-top: 2rem; */
         }
 
         .ic-section#what-is-adas {
@@ -2318,9 +2423,13 @@
 
     @media (min-width: 768px) and (max-width: 1200px) {
 
-        .ic-section.ic-background-light img.ic-image-rounded {
+        .ic-section.ic-background-light img.ic-image-rounded:not(.ic-card-image) {
             aspect-ratio: 1 / 1;
         }
+    }
+
+    .ic-section .ic-section-image {
+        width: 100%;
     }
 
     /* ANCHORS */
@@ -2416,6 +2525,28 @@
 
         .ic-section .col.text-md-center {
             align-items: center;
+        }
+
+        .ic-section .col.text-md-start {
+            align-items: flex-start;
+        }
+    }
+
+    .row.row_compact {
+        width: calc(100% + var(--space-10));
+        margin: -5px;
+    }
+
+    .col-xxl-5up {
+        padding: 5px !important;
+    }
+
+    @media (min-width: 1520px) {
+
+        .row.row_compact .col-xxl-5up {
+            flex: 0 0 20%;
+            max-width: 20%;
+
         }
     }
 
