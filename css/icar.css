@@ -2626,6 +2626,10 @@
         padding: 5px !important;
     }
 
+    .row.row_compact .col-xxl-5up .ic-card {
+        height: 100%;
+    }
+
     @media (min-width: 1440px) {
 
         .row .col-xxl-5up {
