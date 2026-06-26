@@ -74,6 +74,52 @@ Unless explicitly requested:
 - If final assets are not provided, leave image placeholders or existing asset references in place and update only the copy.
 - If assets are provided, map them to the correct section based on the approved reference.
 
+## Scoped Image Placement Rules
+Apply these rules only when:
+
+- editing files under `html/`
+- placing designer-provided image URLs into marketing/content page templates
+- the task includes populating image `src` and `srcset` values
+
+### Image Mapping Rules
+- Prefer mapping assets by filename/section-name when the designer names files after page headlines or card titles.
+- Assume filenames such as `Hero`, `Hiring-Process`, `Employee-Benefits`, `Work-That-Works-For-You`, or `Drive-Meaningful-Impact` correspond to the matching visible section or card headline.
+- Before asking for clarification, attempt to map assets to template slots using:
+  1. section headline
+  2. card headline
+  3. quote attribution name
+  4. image placement in the template
+
+### Responsive URL Rules
+- Only update image `src` and `srcset` values unless the task explicitly asks for more.
+- If a slot uses `<picture>`, populate:
+  - `source srcset`
+  - `img src`
+  - `img srcset`
+- If a slot uses only `<img>`, populate:
+  - `img src`
+  - `img srcset`
+- Do not remove or simplify an existing responsive image pattern unless explicitly requested.
+
+### Desktop / Mobile Naming Rules
+- When filenames include `-D` and `-M`, treat:
+  - `-M` as the mobile `source srcset`
+  - `-D` as the default `img src` and `img srcset`
+- When only one responsive set exists and there is no `-D` / `-M` split, use that set in the existing `img src` and `img srcset` fields.
+
+### Headshot Rules
+- Map person-named assets to matching quote/headshot slots by surname or full name.
+- For small profile images, use the smaller file as `src` and include the larger companion file in `srcset`.
+
+### Missing Asset Rules
+- After mapping, explicitly identify any gaps by slot name, not just by count.
+- Report missing assets in a checklist format.
+- If all visible template image slots are covered, state that no asset gaps remain.
+
+### Placeholder Replacement Rules
+- Replace placeholder image URLs when real assets are available for that slot.
+- Before finishing, confirm there are no remaining placeholder image URLs.
+
 ## Legal Copy
 - Replace placeholder legal/disclaimer copy with approved legal copy exactly.
 - Apply text normalization rules to legal copy unless doing so would alter a required official string.
@@ -88,4 +134,3 @@ Before finishing a scoped content-page task, confirm:
 - Quote text does not include literal quotation marks when CSS handles them
 - Display-uppercase text is title case in source
 - On-page nav links target real section IDs
-
