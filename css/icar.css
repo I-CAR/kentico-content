@@ -335,7 +335,8 @@
     }
 
     .ic-cite strong,
-    .ic-card-profile strong {
+    .ic-card-profile strong,
+    .ic-card strong {
         font-weight: var(--semibold);
     }
 
