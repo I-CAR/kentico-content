@@ -657,7 +657,7 @@
     }
 
     a:visited {
-        color: initial;
+        color: var(--link-color);
     }
 
     a.ic-btn:visited {
