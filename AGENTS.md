@@ -42,7 +42,11 @@ Unless explicitly requested:
 - Replace all placeholder copy with approved source copy.
 - Remove placeholder labels such as `Section Headline`, `Card Title`, `Section Button`, `Section Link`, `Cite Name`, `Cite Title`, and lorem ipsum text.
 - Keep the existing heading hierarchy unless there is a clear structural problem.
-- Use approved source copy as written unless the user asks for editorial changes.
+- Use approved source copy exactly as written unless the user asks for editorial changes.
+- Treat mockups, approved screenshots, and user-provided text as the source of truth for wording, punctuation, capitalization, dashes, quotation marks, and formatting-sensitive phrasing.
+- Do not rewrite, normalize, simplify, “clean up,” or optimize approved copy on your own.
+- If source text appears unusual but is clearly intentional in the approved reference, preserve it.
+- If the source is ambiguous or unreadable, ask or flag the ambiguity instead of inventing a cleaned-up version.
 
 ## Typography Rules
 - For non-heading copy longer than 5 words, replace the space between the last two words with `&nbsp;` to prevent widows.
