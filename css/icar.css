@@ -173,6 +173,10 @@
         margin-top: var(--space-10);
     }
 
+    :is(p, ul, ol, img, figure, blockquote)+ :is(h2, h3, h4, h5, h6) {
+        margin-top: var(--space-30);
+    }
+
     :is(h1, h2, h3, h4, h5, h6) {
         font-family: var(--primary-font);
     }
@@ -608,13 +612,37 @@
     }
 
     ul.ic-card-list-courses>li span {
-        flex: 0 0 var(--space-60);
-        max-width: var(--space-60);
-        text-align: right;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    @media (min-width: 1440.1px) {
+
+        ul.ic-card-list-courses>li span {
+            flex: 0 0 calc(200rem / 16);
+            max-width: calc(200rem / 16);
+            text-align: right;
+        }
+    }
+
+    @media (max-width: 1440px) {
+
+        ul.ic-card-list-courses>li:has(span) {
+            flex-flow: column nowrap;
+            gap: .25rem;
+        }
     }
 
     ul.ic-card-list-courses>li+li {
         border-top: 2px solid var(--light);
+    }
+
+    .ic-card:has(.ic-card-list-courses) .ic-card-title {
+        font-weight: var(--semibold);
+    }
+
+    .ic-card:has(.ic-card-list-courses) .ic-card-subtitle {
+        margin-bottom: .25rem !important;
     }
 
     ul:has(.ic-card) {
@@ -1937,6 +1965,10 @@
         font-weight: var(--bold);
     }
 
+    .ic-card:has(.ic-card-list-courses) .ic-card-title {
+        margin-bottom: var(--space-20) !important;
+    }
+
     .ic-card .ic-card-media .ic-card-image {
         width: 100%;
     }
@@ -2348,12 +2380,16 @@
     .ic-section .ic-sublabel::before,
     .ic-section .ic-btn::before,
     .ic-section .ic-card-title::before,
-    .ic-section .ic-menu>li>a::before {
+    .ic-section .ic-menu>li>a::before,
+    .ic-section .ic-card-subtitle::before,
+    .ic-section .ic-card-list>li:has(a)>a::before,
+    .ic-section .ic-card-list>li:not(:has(a))::before,
+    .ic-section .ic-card-list>li>span::before {
         content: var(--name) " ";
     }
 
     .ic-section:first-child {
-        padding-top: 0;
+        /* padding-top: 0; */
     }
 
     main:not(+.row--with-cols-padding) .ic-section:last-child {
@@ -2407,8 +2443,13 @@
     .ic-section:not(.ic-background-light)+.ic-section.ic-background-light,
     .ic-section:not(.ic-background-light)+.ic-section:has(.ic-image-banner, .ic-video-banner),
     .ic-section.ic-background-light+.ic-section:not(.ic-background-light),
-    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) {
+    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout),
+    .ic-section.ic-section-form:first-child {
         margin-top: var(--section-margin);
+    }
+
+    .ic-section.ic-section-form:last-child {
+        margin-bottom: var(--section-margin);
     }
 
     @media (max-width: 768px) {
