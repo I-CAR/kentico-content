@@ -1405,7 +1405,7 @@
     form :is(input, textarea):invalid:not(:focus):not(:placeholder-shown),
     form .form-field .editing-form-control-nested-control .input-validation-error.form-control,
     form .form-field .editing-form-control-nested-control .textarea-validation-error.form-control {
-        border-color: var(--error-color);
+        border-color: var(--negative-color);
     }
 
     form label:has(input:invalid:not(:focus):not(:placeholder-shown)):after,
@@ -1414,7 +1414,7 @@
         display: block;
         margin-top: calc(5rem / 16);
         font-weight: normal;
-        color: var(--error-color);
+        color: var(--negative-color);
         font-style: italic;
     }
 
