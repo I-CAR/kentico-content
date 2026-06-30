@@ -642,6 +642,7 @@
     }
 
     .ic-card:has(.ic-card-list-courses) .ic-card-subtitle {
+        font-size: var(--body-font-size);
         margin-bottom: .25rem !important;
     }
 
