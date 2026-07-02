@@ -47,8 +47,8 @@ form .form-field+.form-field:has(input[name*="Recaptcha"]) {
 form label .label,
 form .form-field>label.control-label {
     display: block;
-    margin-bottom: .25rem;
-    font: normal normal 600 1rem/1.5 var(--primary-font);
+    margin-bottom: var(--space-4);
+    font: normal normal 600 var(--body-font-size)/1.5 var(--primary-font);
     color: inherit;
 }
 
@@ -59,9 +59,9 @@ form label .label .optional {
 form button.btn,
 form>input[type="submit"] {
     width: auto;
-    margin-top: 2rem;
+    margin-top: var(--space-20);
     /* margin-bottom: calc(20rem / 16); */
-    font-size: 1rem;
+    font-size: var(--body-font-size);
 }
 
 form>input[type="submit"]:focus,
@@ -75,7 +75,7 @@ form .form-field .editing-form-control-nested-control textarea.form-control,
 form .form-field .editing-form-control-nested-control select.form-control {
     width: 100%;
     max-width: 100%;
-    padding: .5rem .65rem;
+    padding: var(--space-8) .65rem;
     border-radius: 0;
     border: 1px solid var(--gray);
     box-shadow: none;

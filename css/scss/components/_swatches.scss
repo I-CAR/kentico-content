@@ -104,8 +104,8 @@
     position: absolute;
     transform: translate(-50%, -100%);
     background: rgba(0, 0, 0, 0.85);
-    color: #fff;
-    padding: 0.25rem 0.5rem;
+    color: var(--white);
+    padding: var(--space-4) var(--space-8);
     font-size: 0.75rem;
     border-radius: 3px;
     white-space: nowrap;

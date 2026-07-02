@@ -102,7 +102,7 @@
     }
 
     .ic-milestone-item:hover .ic-milestone-card {
-        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+        box-shadow: var(--card-box-shadow);
     }
 }
 
@@ -118,6 +118,6 @@
     }
 
     .ic-milestone-item .ic-milestone-card {
-        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+        box-shadow: var(--card-box-shadow);
     }
 }

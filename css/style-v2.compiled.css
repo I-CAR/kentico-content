@@ -388,7 +388,7 @@ ul.ic-logo-list {
 }
 
 ul.ic-bullet-list {
-  padding-left: 1.25rem;
+  padding-left: var(--space-20);
 }
 
 ul.ic-check-list {
@@ -454,7 +454,7 @@ ul.ic-check-circle-list li:before {
   top: 0.125em;
   left: -1.25rem;
   border-radius: 50%;
-  background-color: #38A801;
+  background-color: var(--positive-color);
   transition: background-color 0.25s ease-out, border-color 0.25s ease-out;
 }
 
@@ -1237,8 +1237,8 @@ form input[type=submit]:active {
   position: absolute;
   transform: translate(-50%, -100%);
   background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 0.25rem 0.5rem;
+  color: var(--white);
+  padding: var(--space-4) var(--space-8);
   font-size: 0.75rem;
   border-radius: 3px;
   white-space: nowrap;
@@ -1294,8 +1294,8 @@ form .form-field + .form-field:has(input[name*=Recaptcha]) {
 form label .label,
 form .form-field > label.control-label {
   display: block;
-  margin-bottom: 0.25rem;
-  font: normal normal 600 1rem/1.5 var(--primary-font);
+  margin-bottom: var(--space-4);
+  font: normal normal 600 var(--body-font-size)/1.5 var(--primary-font);
   color: inherit;
 }
 
@@ -1306,9 +1306,9 @@ form label .label .optional {
 form button.btn,
 form > input[type=submit] {
   width: auto;
-  margin-top: 2rem;
+  margin-top: var(--space-20);
   /* margin-bottom: calc(20rem / 16); */
-  font-size: 1rem;
+  font-size: var(--body-font-size);
 }
 
 form > input[type=submit]:focus,
@@ -1322,7 +1322,7 @@ form .form-field .editing-form-control-nested-control textarea.form-control,
 form .form-field .editing-form-control-nested-control select.form-control {
   width: 100%;
   max-width: 100%;
-  padding: 0.5rem 0.65rem;
+  padding: var(--space-8) 0.65rem;
   border-radius: 0;
   border: 1px solid var(--gray);
   box-shadow: none;
@@ -2746,14 +2746,14 @@ main:has(section.ic-background-light:last-child) + .row.row--with-cols-padding {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: var(--space-12);
+  padding-right: var(--space-12);
 }
 
 .breadcrumb {
   /* display: none; */
   margin: calc(25rem / var(--rem-base)) auto;
-  padding: 0 0.625rem;
+  padding: 0 var(--space-10);
 }
 
 @media screen and (min-width: 1520px) {
@@ -2882,7 +2882,7 @@ h1:empty {
     background-color: var(--tertiary-color);
   }
   .ic-milestone-item:hover .ic-milestone-card {
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-box-shadow);
   }
 }
 @media (max-width: 767.98px) {
@@ -2894,7 +2894,7 @@ h1:empty {
     border-color: var(--tertiary-color);
   }
   .ic-milestone-item .ic-milestone-card {
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-box-shadow);
   }
 }
 

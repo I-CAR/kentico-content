@@ -257,7 +257,7 @@ ul.ic-logo-list {
 }
 
 ul.ic-bullet-list {
-    padding-left: 1.25rem;
+    padding-left: var(--space-20);
 }
 
 ul.ic-check-list {
@@ -323,7 +323,7 @@ ul.ic-check-circle-list li:before {
     top: .125em;
     left: calc(-20rem / 16);
     border-radius: 50%;
-    background-color: #38A801;
+    background-color: var(--positive-color);
     transition: background-color .25s ease-out, border-color .25s ease-out;
 }
 
