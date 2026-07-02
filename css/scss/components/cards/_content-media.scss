@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 1903-2153 */
-/* CARDS - CONTENT AND MEDIA */
-
 @use "../../abstracts/mixins" as *;
 
 @include mq(lg) {
@@ -70,17 +67,17 @@
 
 @include mq(xs, down) {
 
-    /* .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body, */
+    // .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
         padding-left: 0;
         padding-right: 0;
-        /* padding-bottom: 0; */
+        // padding-bottom: 0;
     }
 }
 
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
-    /* padding: var(--space-20) 0 0; */
+    // padding: var(--space-20) 0 0;
     padding: var(--space-12) 0 0;
 }
 
@@ -110,9 +107,9 @@
         padding: var(--space-30);
     }
 
-    /* .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
-    padding: var(--space-30) 0 var(--space-30) var(--space-30);
-} */
+    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
+        // padding: var(--space-30) 0 var(--space-30) var(--space-30);
+    }
 }
 
 .ic-card .ic-card-title,
@@ -140,7 +137,7 @@
 }
 
 .ic-card:has(h4, ul, ol) .ic-card-title {
-    /* font-size: var(--h3-font-size); */
+    // font-size: var(--h3-font-size);
 }
 
 .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-title {
@@ -200,12 +197,12 @@ blockquote .ic-quote-text p:last-child::after {
     order: -1;
     margin: 0;
     @include radius-split(none);
-    /* border-radius: var(--border-radius); */
+    // border-radius: var(--border-radius);
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) .ic-card-media {
     @include radius-split(none);
-    /* border-radius: var(--border-radius) var(--border-radius) 0 0; */
+    // border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) .ic-card-media {

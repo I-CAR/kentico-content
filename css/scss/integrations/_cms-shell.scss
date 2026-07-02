@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 2887-2973 */
-/* CMS SHELL OVERRIDES */
-
 @use "../abstracts/mixins" as *;
 
 #main,
@@ -61,7 +58,7 @@ main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
 }
 
 .breadcrumb {
-    /* display: none; */
+    // display: none;
     margin: calc(25rem / var(--rem-base)) auto;
     padding: 0 var(--space-10);
 }

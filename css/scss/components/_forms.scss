@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 1326-1563 */
-/* FORMS */
-
 @use "../abstracts/mixins" as *;
 
 form {
@@ -62,7 +59,7 @@ form button.btn,
 form>input[type="submit"] {
     width: auto;
     margin-top: var(--space-20);
-    /* margin-bottom: calc(20rem / 16); */
+    // margin-bottom: var(--space-20);
     font-size: var(--body-font-size);
 }
 

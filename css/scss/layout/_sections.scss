@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 2388-2589 */
-/* SECTIONS */
-
 @use "../abstracts/mixins" as *;
 
 .ic-section {
@@ -33,7 +30,7 @@
 }
 
 .ic-section:first-child {
-    /* padding-top: 0; */
+    // padding-top: 0;
 }
 
 .ic-section:has(.ic-image-banner, .ic-video-banner) {
@@ -120,7 +117,7 @@
     }
 
     .ic-section:has(.ic-video-banner, .ic-image-banner) {
-        /* padding: var(--hero-padding-sm) 0; */
+        // padding: var(--hero-padding-sm) 0;
         margin-top: 0;
     }
 
@@ -128,14 +125,14 @@
         padding: var(--section-padding);
     }
 
-    /* .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
-    padding-bottom: var(--section-padding);
-} */
+    .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
+        // padding-bottom: var(--section-padding);
+    }
 
-    /* .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
-.ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
-    margin-bottom: var(--section-margin) !important;
-} */
+    .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
+    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
+        // margin-bottom: var(--section-margin) !important;
+    }
 
     .ic-section#what-is-adas {
         height: 100%;
@@ -161,14 +158,14 @@
 
     .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
     .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
-        /* margin-top: 2rem; */
+        // margin-top: 2rem;
     }
 
     .ic-section#what-is-adas {
-        /* aspect-ratio: 1 / 1; */
+        // aspect-ratio: 1 / 1;
         width: 100%;
         padding-bottom: calc(130rem / var(--rem-base));
-        /* max-height: calc(100vh - var(--space-30)); */
+        // max-height: calc(100vh - var(--space-30));
     }
 
     .ic-section#what-is-adas .ic-image-banner {
@@ -179,12 +176,12 @@
     }
 }
 
-/* @media (max-width: 420px) {
+@include mq(xs, down) {
 
-.ic-section#what-is-adas {
-    aspect-ratio: 2 / 3;
+    .ic-section#what-is-adas {
+        // aspect-ratio: 2 / 3;
+    }
 }
-} */
 
 @include mq(md, only, $until: xl) {
 

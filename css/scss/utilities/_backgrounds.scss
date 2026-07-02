@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 2717-2868 */
-/* BACKGROUNDS */
-
 @use "../abstracts/mixins" as *;
 
 .ic-background-light {
@@ -83,7 +80,7 @@
 }
 
 .ic-section.ic-background-white.ic-section-border:first-child .container {
-    /* padding-top: 0; */
+    // padding-top: 0;
     border: 0;
 }
 

@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 390-643 */
-/* TYPOGRAPHY - LISTS */
-
 @use "../../abstracts/mixins" as *;
 
 :is(ul, ol):last-of-type:not(:last-child) {
@@ -17,11 +14,9 @@ ol {
     padding-left: var(--space-20);
 }
 
-ul {}
-
-/* :is(h1, h2, h3, h4, h5, h6)+ul {
-margin-top: 0;
-} */
+:is(h1, h2, h3, h4, h5, h6)+ul {
+    // margin-top: 0;
+}
 
 ul.ic-check-list,
 ul.ic-check-circle-list,

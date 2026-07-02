@@ -1,6 +1,3 @@
-/* Source map: css/style-v2.css lines 2288-2387 */
-/* SLIDERS */
-
 @use "../abstracts/mixins" as *;
 
 .swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-horizontal {
@@ -17,12 +14,12 @@
     width: 100%;
 }
 
-/* @media (min-width: 769px) {
+@include mq(md) {
 
-.ic-swiper .swiper-slide {
-    margin-left: .375rem;
+    .ic-swiper .swiper-slide {
+        // margin-left: .375rem;
+    }
 }
-} */
 
 .ic-swiper-courses {
     position: relative;

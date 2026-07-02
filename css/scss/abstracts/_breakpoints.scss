@@ -1,7 +1,6 @@
 @use "sass:map";
 @use "sass:list";
 
-/* Canonical global breakpoint scale */
 $bp-xs: 390px;
 $bp-xs-up: 390.1px;
 $bp-sm: 576px;
@@ -51,11 +50,11 @@ $breakpoint-scale: xs, sm, md, lg, xl, xxl, xxxl;
 @function bp-next($name) {
     $index: list.index($breakpoint-scale, $name);
 
-    @if $index == null {
+    @if $index ==null {
         @error "Unknown canonical breakpoint `#{$name}`.";
     }
 
-    @if $index == list.length($breakpoint-scale) {
+    @if $index ==list.length($breakpoint-scale) {
         @return null;
     }
 
@@ -85,35 +84,43 @@ $breakpoint-scale: xs, sm, md, lg, xl, xxl, xxxl;
         @error "mq() only supports canonical breakpoints: #{$breakpoint-scale}.";
     }
 
-    @if $until != null and not list.index($breakpoint-scale, $until) {
+    @if $until !=null and not list.index($breakpoint-scale, $until) {
         @error "mq() until breakpoint must be one of: #{$breakpoint-scale}.";
     }
 
     $next-name: $until;
 
-    @if $until == null {
+    @if $until ==null {
         $next-name: bp-next($name);
     }
 
-    @if $direction == up {
+    @if $direction ==up {
         @media (min-width: #{bp-up($name)}) {
             @content;
         }
-    } @else if $direction == down {
+    }
+
+    @else if $direction ==down {
         @media (max-width: #{bp($name)}) {
             @content;
         }
-    } @else if $direction == only {
-        @if $next-name == null {
+    }
+
+    @else if $direction ==only {
+        @if $next-name ==null {
             @media (min-width: #{bp-up($name)}) {
                 @content;
             }
-        } @else {
+        }
+
+        @else {
             @media (min-width: #{bp-up($name)}) and (max-width: #{bp($next-name)}) {
                 @content;
             }
         }
-    } @else {
+    }
+
+    @else {
         @error "mq() direction must be `up`, `down`, or `only`.";
     }
 }

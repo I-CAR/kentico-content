@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/* Source map: css/style-v2.css lines 3-129 */
-/* Use for clamp calculations: https://www.marcbacon.com/tools/clamp-calculator/ */
-/* VARIABLES */
 :root {
   --primary-color: #0045FF;
   --secondary-color: #3E72FD;
@@ -92,8 +89,6 @@
   --card-border-radius-lg: var(--space-20);
   --card-border-radius: clamp(var(--card-border-radius-sm), 0.422rem + 0.97vw, var(--card-border-radius-lg));
   --card-border-width: 1px;
-  /* --card-box-shadow: 0px 0px var(--space-20) #0000001A; */
-  /* --card-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20); */
   --card-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
   --box-padding-y: clamp(var(--space-20), 0.357rem + 2.381vw, var(--space-40));
   --box-padding-x: var(--box-padding-y);
@@ -114,9 +109,6 @@
   --tooltip-font-size: 0.75rem;
 }
 
-/* Canonical global breakpoint scale */
-/* Source map: css/style-v2.css lines 131-152 */
-/* KEYFRAMES */
 @keyframes fadeInOut {
   0% {
     opacity: 0;
@@ -134,14 +126,10 @@
     transform: translate(-50%, -100%);
   }
 }
-/* Source map: css/style-v2.css lines 154-159 */
-/* BASE */
 html {
   scroll-behavior: smooth;
 }
 
-/* Source map: css/style-v2.css lines 160-389 */
-/* TYPOGRAPHY - CORE */
 body {
   font-family: var(--primary-font);
   font-weight: normal;
@@ -367,8 +355,6 @@ p:has(small) {
   color: var(--darkest);
 }
 
-/* Source map: css/style-v2.css lines 390-643 */
-/* TYPOGRAPHY - LISTS */
 :is(ul, ol):last-of-type:not(:last-child) {
   margin-bottom: var(--space-10);
 }
@@ -383,9 +369,6 @@ ol {
   padding-left: var(--space-20);
 }
 
-/* :is(h1, h2, h3, h4, h5, h6)+ul {
-margin-top: 0;
-} */
 ul.ic-check-list,
 ul.ic-check-circle-list,
 ul.ic-icon-list,
@@ -650,8 +633,6 @@ ul:has(.ic-card-details) > li.ic-card strong {
   margin-right: var(--space-80);
 }
 
-/* Source map: css/style-v2.css lines 644-709 */
-/* TYPOGRAPHY - LINKS AND FLOW */
 a {
   color: var(--link-color);
   text-decoration: none;
@@ -680,8 +661,6 @@ a.ic-btn:visited {
   margin: 0;
 }
 
-/* Source map: css/style-v2.css lines 710-837 */
-/* IMAGES/VIDEOS */
 img,
 video,
 iframe:not([src*=recaptcha]) {
@@ -797,8 +776,6 @@ html[data-darkreader-scheme=dark] img[src*="placehold.co"] {
   filter: invert(1) hue-rotate(180deg);
 }
 
-/* Source map: css/style-v2.css lines 838-917 */
-/* TABLES */
 .table {
   font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
 }
@@ -873,8 +850,6 @@ html[data-darkreader-scheme=dark] img[src*="placehold.co"] {
     font-size: 1.375rem;
   }
 }
-/* Source map: css/style-v2.css lines 918-1109 */
-/* BUTTONS */
 .ic-btn,
 form input[type=submit] {
   display: inline-block;
@@ -882,7 +857,6 @@ form input[type=submit] {
   z-index: 1;
   font-family: var(--primary-font);
   font-weight: var(--button-font-weight);
-  /* overrides */
   padding: 0;
   background-color: transparent;
   color: var(--link-color);
@@ -1064,8 +1038,6 @@ form input[type=submit]:active {
   transform: rotate(-180deg);
 }
 
-/* Source map: css/style-v2.css lines 1110-1158 */
-/* GRIDS */
 @media (min-width: 768.1px) {
   .ic-grid:has(svg):has(.ic-section-title) {
     display: grid;
@@ -1104,8 +1076,6 @@ form input[type=submit]:active {
     margin-bottom: 0.5rem;
   }
 }
-/* Source map: css/style-v2.css lines 1159-1209 */
-/* MENUS */
 .ic-menu {
   list-style: none;
   padding: 0;
@@ -1152,8 +1122,6 @@ form input[type=submit]:active {
     text-align: center;
   }
 }
-/* Source map: css/style-v2.css lines 1210-1325 */
-/* SWATCHES */
 .ic-swatches {
   display: flex;
   flex-flow: row wrap;
@@ -1254,8 +1222,6 @@ form input[type=submit]:active {
   z-index: 2;
 }
 
-/* Source map: css/style-v2.css lines 1326-1563 */
-/* FORMS */
 form {
   align-items: flex-start;
   max-width: 28.125rem;
@@ -1313,7 +1279,6 @@ form button.btn,
 form > input[type=submit] {
   width: auto;
   margin-top: var(--space-20);
-  /* margin-bottom: calc(20rem / 16); */
   font-size: var(--body-font-size);
 }
 
@@ -1490,8 +1455,6 @@ form.ic-form .ic-required {
   color: var(--negative-color);
 }
 
-/* Source map: css/style-v2.css lines 1564-1573 */
-/* ALERTS */
 .ic-alert {
   margin-bottom: var(--bs-gutter-y);
   padding: var(--card-padding);
@@ -1500,8 +1463,6 @@ form.ic-form .ic-required {
   color: var(--dark);
 }
 
-/* Source map: css/style-v2.css lines 1574-1597 */
-/* MESSAGES */
 .ic-message {
   text-align: center;
 }
@@ -1524,8 +1485,6 @@ form.ic-form .ic-required {
   color: var(--cc-primary-color-hover);
 }
 
-/* Source map: css/style-v2.css lines 1598-1803 */
-/* CARDS - BASE */
 .ic-card {
   display: flex;
   flex-flow: column nowrap;
@@ -1609,9 +1568,6 @@ form.ic-form .ic-required {
   padding: var(--card-padding);
 }
 
-/* .ic-card:has(.ic-card-icon, .ic-card-logo):has(.ic-card-media:first-child:not(:only-child)) {
-padding: var(--space-20) 0;
-} */
 .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo),
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) {
   align-items: center;
@@ -1649,9 +1605,6 @@ padding: var(--space-20) 0;
   }
   .ic-card:has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
     padding: var(--space-10) 0 var(--space-10) var(--space-20) !important;
-  }
-  .ic-card:has(svg):not(.ic-background-white, .ic-background-light) .ic-card-media {
-    /* padding-top: var(--space-10) !important; */
   }
   .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
     padding: var(--space-10) var(--space-20) var(--space-20) !important;
@@ -1691,8 +1644,6 @@ padding: var(--space-20) 0;
     height: calc(60rem / var(--rem-base));
   }
 }
-/* Source map: css/style-v2.css lines 1804-1902 */
-/* CARDS - ACCORDION */
 .accordion {
   padding: 0;
 }
@@ -1727,7 +1678,6 @@ padding: var(--space-20) 0;
   box-shadow: none !important;
   background: none !important;
   color: var(--gray-900) !important;
-  /* font-weight: var(--bold); */
   transition: border-color var(--transition-ui);
 }
 
@@ -1766,8 +1716,6 @@ padding: var(--space-20) 0;
     max-width: calc(616rem / var(--rem-base));
   }
 }
-/* Source map: css/style-v2.css lines 1903-2153 */
-/* CARDS - CONTENT AND MEDIA */
 @media (min-width: 1024.1px) {
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) {
     flex-flow: row nowrap;
@@ -1830,16 +1778,13 @@ padding: var(--space-20) 0;
 }
 
 @media (max-width: 390px) {
-  /* .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body, */
   .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
   .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
     padding-left: 0;
     padding-right: 0;
-    /* padding-bottom: 0; */
   }
 }
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
-  /* padding: var(--space-20) 0 0; */
   padding: var(--space-12) 0 0;
 }
 
@@ -1868,9 +1813,6 @@ padding: var(--space-20) 0;
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
     padding: var(--space-30);
   }
-  /* .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
-      padding: var(--space-30) 0 var(--space-30) var(--space-30);
-  } */
 }
 .ic-card .ic-card-title,
 .ic-card:has(.ic-card-image) .ic-card-title {
@@ -1894,10 +1836,6 @@ padding: var(--space-20) 0;
 
 .ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title {
   font-size: var(--h4-font-size);
-}
-
-.ic-card:has(h4, ul, ol) .ic-card-title {
-  /* font-size: var(--h3-font-size); */
 }
 
 .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-title {
@@ -1953,12 +1891,10 @@ blockquote .ic-quote-text p:last-child::after {
   order: -1;
   margin: 0;
   border-radius: 0;
-  /* border-radius: var(--border-radius); */
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) .ic-card-media {
   border-radius: 0;
-  /* border-radius: var(--border-radius) var(--border-radius) 0 0; */
 }
 
 .ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) .ic-card-media {
@@ -2028,8 +1964,6 @@ blockquote .ic-quote-text p:last-child::after {
   padding: clamp(var(--space-20), 0.84rem + 1.212vw, var(--space-30));
 }
 
-/* Source map: css/style-v2.css lines 2154-2201 */
-/* BOXES - BASE */
 .ic-box {
   padding: var(--box-padding);
   background-color: var(--white);
@@ -2051,8 +1985,6 @@ blockquote .ic-quote-text p:last-child::after {
   border: var(--card-border-width) solid var(--light);
 }
 
-/* Source map: css/style-v2.css lines 2202-2266 */
-/* BOXES - SECTION BOX */
 @media (min-width: 768.1px) {
   .ic-section-box.ic-section-box-padded {
     padding: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
@@ -2129,8 +2061,6 @@ blockquote .ic-quote-text p:last-child::after {
     border-radius: var(--border-radius);
   }
 }
-/* Source map: css/style-v2.css lines 2267-2287 */
-/* DROPDOWNS */
 .ic-dropdown-container {
   position: relative;
   margin-top: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
@@ -2150,8 +2080,6 @@ blockquote .ic-quote-text p:last-child::after {
   box-shadow: 0px 3px var(--space-20) rgba(0, 0, 0, 0.2);
 }
 
-/* Source map: css/style-v2.css lines 2288-2387 */
-/* SLIDERS */
 .swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-horizontal {
   position: static;
   margin-top: 0.3125rem;
@@ -2166,12 +2094,6 @@ blockquote .ic-quote-text p:last-child::after {
   width: 100%;
 }
 
-/* @media (min-width: 769px) {
-
-.ic-swiper .swiper-slide {
-    margin-left: .375rem;
-}
-} */
 .ic-swiper-courses {
   position: relative;
   padding-bottom: 1.5rem;
@@ -2248,8 +2170,6 @@ blockquote .ic-quote-text p:last-child::after {
   outline-offset: 2px;
 }
 
-/* Source map: css/style-v2.css lines 2388-2589 */
-/* SECTIONS */
 .ic-section {
   padding: var(--section-padding) 0;
   border: 0;
@@ -2275,10 +2195,6 @@ blockquote .ic-quote-text p:last-child::after {
 .ic-section .ic-card-list > li:not(:has(a))::before,
 .ic-section .ic-card-list > li > span::before {
   content: var(--name) " ";
-}
-
-.ic-section:first-child {
-  /* padding-top: 0; */
 }
 
 .ic-section:has(.ic-image-banner, .ic-video-banner) {
@@ -2361,19 +2277,11 @@ blockquote .ic-quote-text p:last-child::after {
     padding: 0;
   }
   .ic-section:has(.ic-video-banner, .ic-image-banner) {
-    /* padding: var(--hero-padding-sm) 0; */
     margin-top: 0;
   }
   .ic-section.ic-section-hero:has(.ic-video-banner, .ic-image-banner) {
     padding: var(--section-padding);
   }
-  /* .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
-      padding-bottom: var(--section-padding);
-  } */
-  /* .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
-  .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
-      margin-bottom: var(--section-margin) !important;
-  } */
   .ic-section#what-is-adas {
     height: 100%;
     margin-top: 0;
@@ -2392,15 +2300,9 @@ blockquote .ic-quote-text p:last-child::after {
     transform: none;
     border-radius: var(--border-radius);
   }
-  .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
-  .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
-    /* margin-top: 2rem; */
-  }
   .ic-section#what-is-adas {
-    /* aspect-ratio: 1 / 1; */
     width: 100%;
     padding-bottom: calc(130rem / var(--rem-base));
-    /* max-height: calc(100vh - var(--space-30)); */
   }
   .ic-section#what-is-adas .ic-image-banner {
     position: absolute;
@@ -2409,12 +2311,6 @@ blockquote .ic-quote-text p:last-child::after {
     right: 0;
   }
 }
-/* @media (max-width: 420px) {
-
-.ic-section#what-is-adas {
-    aspect-ratio: 2 / 3;
-}
-} */
 @media (min-width: 768.1px) and (max-width: 1280px) {
   .ic-section.ic-background-light img.ic-image-rounded:not(.ic-card-image) {
     aspect-ratio: 1/1;
@@ -2424,10 +2320,7 @@ blockquote .ic-quote-text p:last-child::after {
   width: 100%;
 }
 
-/* Source map: css/style-v2.css lines 2590-2611 */
-/* ANCHORS */
 .ic-anchor {
-  /* position: absolute !important; */
   width: 1px;
   height: 1px;
   padding: 0;
@@ -2444,8 +2337,6 @@ blockquote .ic-quote-text p:last-child::after {
     transform: translateY(calc(var(--header-height-desktop) * -1));
   }
 }
-/* Source map: css/style-v2.css lines 2612-2655 */
-/* PAGE HEADER */
 .ic-header {
   display: flex;
   align-items: center;
@@ -2475,8 +2366,6 @@ blockquote .ic-quote-text p:last-child::after {
     padding-bottom: 0;
   }
 }
-/* Source map: css/style-v2.css lines 2656-2716 */
-/* UTILITIES */
 .ic-sticky {
   position: sticky;
   top: var(--space-30);
@@ -2530,8 +2419,6 @@ blockquote .ic-quote-text p:last-child::after {
   padding: var(--space-20) 0;
 }
 
-/* Source map: css/style-v2.css lines 2717-2868 */
-/* BACKGROUNDS */
 .ic-background-light {
   background-color: var(--lightest);
 }
@@ -2606,7 +2493,6 @@ blockquote .ic-quote-text p:last-child::after {
   }
 }
 .ic-section.ic-background-white.ic-section-border:first-child .container {
-  /* padding-top: 0; */
   border: 0;
 }
 
@@ -2678,8 +2564,6 @@ blockquote .ic-quote-text p:last-child::after {
   --color-rgb: "rgb(217, 0, 0)";
 }
 
-/* Source map: css/style-v2.css lines 2871-2885 and 3001-3005 */
-/* BOOTSTRAP / FRAMEWORK OVERRIDES */
 .ic-section:before {
   content: none !important;
 }
@@ -2701,8 +2585,6 @@ ul:has(.ic-card) {
   color: var(--darkest);
 }
 
-/* Source map: css/style-v2.css Kentico and formwidget selectors */
-/* KENTICO FORMS / CMS FORM OVERRIDES */
 .formwidget-submit-text,
 .formwidget-error {
   display: block;
@@ -2712,8 +2594,6 @@ ul:has(.ic-card) {
   font-weight: 600;
 }
 
-/* Source map: css/style-v2.css lines 2887-2973 */
-/* CMS SHELL OVERRIDES */
 #main,
 #main > article {
   padding-left: 0;
@@ -2768,7 +2648,6 @@ main:has(section.ic-background-light:last-child) + .row.row--with-cols-padding {
 }
 
 .breadcrumb {
-  /* display: none; */
   margin: calc(25rem / var(--rem-base)) auto;
   padding: 0 var(--space-10);
 }
@@ -2792,8 +2671,6 @@ body > .pageWrap {
     justify-content: center;
   }
 }
-/* Source map: css/style-v2.css lines 2977-3000 */
-/* LATE COMPONENT OVERRIDES */
 :is(input, textarea, select).form-control {
   box-shadow: none !important;
 }
@@ -2807,8 +2684,6 @@ h1:empty {
     width: 100%;
   }
 }
-/* Source map: css/style-v2.css lines 3006-3126 */
-/* BOARD OF DIRECTORS APPLY - KEY DATES AND MILESTONES */
 .ic-milestone-list {
   position: relative;
   margin-left: 36px !important;
