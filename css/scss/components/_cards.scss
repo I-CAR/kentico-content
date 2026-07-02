@@ -4,12 +4,9 @@
 @use "../abstracts/mixins" as *;
 
 .ic-card {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    @include flex-stack(stretch, flex-start);
     position: relative;
-    transition: border-color var(--transition-ui);
+    @include transition-ui(border-color);
 }
 
 .align-items-stretch>*>.ic-card {
@@ -17,8 +14,7 @@
 }
 
 .align-items-stretch>*>.ic-card .ic-card-body {
-    display: flex;
-    flex-flow: column nowrap;
+    @include flex-stack;
     height: 100%;
 }
 
@@ -38,9 +34,7 @@
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) {
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    border: var(--card-border-width) solid var(--light);
+    @include card-surface;
 }
 
 .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
@@ -86,8 +80,7 @@
 }
 
 .ic-card:is(blockquote) {
-    display: flex;
-    flex-flow: row nowrap;
+    @include flex-row;
 }
 
 .ic-card:is(blockquote) .ic-card-media {
@@ -228,16 +221,14 @@ padding: var(--space-20) 0;
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
+    @include flex-row(null, flex-start);
     border-radius: var(--card-border-radius-sm);
     border: var(--card-border-width) solid transparent;
     box-shadow: none !important;
     background: none !important;
     color: var(--gray-900) !important;
     /* font-weight: var(--bold); */
-    transition: border-color var(--transition-ui);
+    @include transition-ui(border-color);
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:hover {
@@ -251,7 +242,7 @@ padding: var(--space-20) 0;
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:after {
     order: -1;
     margin: 0 var(--space-12) 0 0;
-    transition: transform var(--transition-ui);
+    @include transition-ui(transform);
 }
 
 .ic-card.accordion-item .accordion-body {
@@ -321,8 +312,7 @@ padding: var(--space-20) 0;
 }
 
 .col:has(>.ic-card:nth-child(2)) {
-    display: flex;
-    flex-flow: column nowrap;
+    @include flex-stack;
     gap: var(--space-10);
 }
 
@@ -377,8 +367,7 @@ padding: var(--space-20) 0;
 }
 
 .ic-card:has(.ic-card-label) .ic-card-body {
-    display: flex;
-    flex-flow: column nowrap;
+    @include flex-stack;
 }
 
 @include mq(lg) {
@@ -476,17 +465,17 @@ blockquote .ic-quote-text p:last-child::after {
 .ic-card .ic-card-media {
     order: -1;
     margin: 0;
-    border-radius: 0;
+    @include radius-split(none);
     /* border-radius: var(--border-radius); */
 }
 
 .ic-card:is(.ic-background-white, .ic-background-light) .ic-card-media {
-    border-radius: 0;
+    @include radius-split(none);
     /* border-radius: var(--border-radius) var(--border-radius) 0 0; */
 }
 
 .ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) .ic-card-media {
-    border-radius: 0;
+    @include radius-split(none);
 }
 
 .ic-card:has(.ic-card-image) .ic-card-media {
@@ -507,7 +496,7 @@ blockquote .ic-quote-text p:last-child::after {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    transition: transform var(--transition-ui);
+    @include transition-ui(transform);
 }
 
 .ic-card:has(.stretched-link):hover .ic-card-icon,
@@ -535,7 +524,7 @@ blockquote .ic-quote-text p:last-child::after {
 @include mq(lg) {
 
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
-        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        @include radius-split(left);
     }
 
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-media img {
@@ -544,7 +533,7 @@ blockquote .ic-quote-text p:last-child::after {
     }
 
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
-        border-radius: var(--border-radius);
+        @include radius-split(full);
     }
 
     .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {

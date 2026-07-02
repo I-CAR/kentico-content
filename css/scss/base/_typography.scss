@@ -165,8 +165,7 @@ p>cite>strong {
 
 .ic-cite,
 .ic-card-profile {
-    display: flex;
-    align-items: center;
+    @include flex-row(center);
     gap: var(--space-12);
 }
 
@@ -204,9 +203,7 @@ p:has(.ic-btn-primary, .ic-btn-white, .ic-btn-gray) {
 }
 
 p:has(.ic-btn:nth-child(2)) {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+    @include flex-row(null, center, wrap);
     gap: var(--space-20);
 }
 
@@ -336,8 +333,7 @@ ul.ic-check-circle-list>li:after {
 }
 
 ul.ic-icon-list>li {
-    display: flex;
-    flex-flow: row nowrap;
+    @include flex-row;
 }
 
 ul.ic-icon-list>li+li {
@@ -380,9 +376,7 @@ ul.ic-icon-list>li img {
 
 ul.ic-logo-list>li {
     flex: 0 0 calc(100% / 6);
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
+    @include flex-row(center);
 }
 
 @include mq(md) {
@@ -440,9 +434,7 @@ ul.ic-card-list-courses {
 }
 
 ul.ic-card-list-courses>li {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+    @include flex-row(null, space-between);
     gap: var(--space-12);
     padding: var(--space-12) 0;
 }

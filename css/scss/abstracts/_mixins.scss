@@ -1,1 +1,77 @@
+@use "sass:list";
+
 @forward "breakpoints" show bp, bp-up, bp-next, min, max, between, mq;
+
+@mixin flex-stack($align: null, $justify: null) {
+    display: flex;
+    flex-flow: column nowrap;
+
+    @if $align != null {
+        align-items: $align;
+    }
+
+    @if $justify != null {
+        justify-content: $justify;
+    }
+}
+
+@mixin flex-row($align: null, $justify: null, $wrap: nowrap) {
+    display: flex;
+    flex-flow: row $wrap;
+
+    @if $align != null {
+        align-items: $align;
+    }
+
+    @if $justify != null {
+        justify-content: $justify;
+    }
+}
+
+@mixin content-column($align: flex-start, $justify: null) {
+    @include flex-stack($align, $justify);
+    width: 100%;
+}
+
+@mixin inset($position: absolute, $inset: 0) {
+    position: $position;
+    inset: $inset;
+}
+
+@mixin card-surface($shadow: false) {
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    border: var(--card-border-width) solid var(--light);
+
+    @if $shadow {
+        box-shadow: var(--card-box-shadow);
+    }
+}
+
+@mixin radius-split($edge, $radius: var(--border-radius)) {
+    @if $edge == top {
+        border-radius: $radius $radius 0 0;
+    } @else if $edge == right {
+        border-radius: 0 $radius $radius 0;
+    } @else if $edge == bottom {
+        border-radius: 0 0 $radius $radius;
+    } @else if $edge == left {
+        border-radius: $radius 0 0 $radius;
+    } @else if $edge == full {
+        border-radius: $radius;
+    } @else if $edge == none {
+        border-radius: 0;
+    } @else {
+        @error "radius-split() edge must be `top`, `right`, `bottom`, `left`, `full`, or `none`.";
+    }
+}
+
+@mixin transition-ui($properties...) {
+    $transitions: ();
+
+    @each $property in $properties {
+        $transitions: list.append($transitions, #{$property} var(--transition-ui), comma);
+    }
+
+    transition: $transitions;
+}

@@ -38,9 +38,7 @@
 @include mq(md, down) {
 
     .ic-grid:has(svg):has(.ic-section-title) {
-        display: flex;
-        flex-flow: column nowrap;
-        align-items: center;
+        @include flex-stack(center);
         text-align: center;
         width: 100%;
     }

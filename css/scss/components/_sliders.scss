@@ -65,9 +65,7 @@
     border-radius: 50%;
     background: var(--light);
     color: var(--gray-900);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-row(center, center);
     font-size: 1rem;
     line-height: 1;
     cursor: pointer;

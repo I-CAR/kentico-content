@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 918-1109 */
 /* BUTTONS */
 
+@use "../abstracts/mixins" as *;
+
 .ic-btn,
 form input[type="submit"] {
     display: inline-block;
@@ -27,7 +29,7 @@ button.ic-btn[disabled] {
 .ic-btn svg,
 .ic-btn .ic-btn-icon {
     margin-left: .5em;
-    transition: fill var(--transition-ui), transform var(--transition-ui), color var(--transition-ui);
+    @include transition-ui(fill, transform, color);
 }
 
 .ic-btn-primary,
