@@ -23,7 +23,7 @@ button.ic-btn[disabled] {
 
 .ic-btn svg,
 .ic-btn .ic-btn-icon {
-    margin-left: .5em;
+    margin-left: 0.5em;
     @include transition-ui(fill, transform, color);
 }
 

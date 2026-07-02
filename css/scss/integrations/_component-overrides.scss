@@ -9,7 +9,6 @@ h1:empty {
 }
 
 @include mq(md) {
-
     section.ic-section .row .row {
         width: 100%;
     }

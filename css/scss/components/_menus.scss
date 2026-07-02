@@ -10,7 +10,7 @@
     padding: var(--button-padding-y) 0;
 }
 
-.ic-menu>li>a:not(.ic-btn) {
+.ic-menu > li > a:not(.ic-btn) {
     display: block;
     padding: calc(var(--button-padding-y) / 2) 0;
 }
@@ -19,7 +19,7 @@
     display: flex;
     flex-flow: row wrap;
     gap: var(--space-30);
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 }
 
 .ic-menu.ic-menu-horizontal:has(.ic-btn) {
@@ -27,17 +27,16 @@
     gap: var(--space-20);
 }
 
-.ic-menu.ic-menu-horizontal>li>a:not(.ic-btn) {
+.ic-menu.ic-menu-horizontal > li > a:not(.ic-btn) {
     padding: 0;
 }
 
-.ic-dropdown-menu>li>a:not(.ic-btn) {
+.ic-dropdown-menu > li > a:not(.ic-btn) {
     padding: calc(var(--button-padding-y) / 2) var(--button-padding-x);
-    color: var(--gray-900)
+    color: var(--gray-900);
 }
 
 @include mq(xs, down) {
-
     .ic-menu.ic-menu-horizontal:has(.ic-btn) {
         flex-flow: column nowrap;
         align-items: stretch;

@@ -98,29 +98,21 @@ $breakpoint-scale: xs, sm, md, lg, xl, xxl, xxxl;
         @media (min-width: #{bp-up($name)}) {
             @content;
         }
-    }
-
-    @else if $direction ==down {
+    } @else if $direction ==down {
         @media (max-width: #{bp($name)}) {
             @content;
         }
-    }
-
-    @else if $direction ==only {
+    } @else if $direction ==only {
         @if $next-name ==null {
             @media (min-width: #{bp-up($name)}) {
                 @content;
             }
-        }
-
-        @else {
+        } @else {
             @media (min-width: #{bp-up($name)}) and (max-width: #{bp($next-name)}) {
                 @content;
             }
         }
-    }
-
-    @else {
+    } @else {
         @error "mq() direction must be `up`, `down`, or `only`.";
     }
 }

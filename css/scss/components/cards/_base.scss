@@ -6,27 +6,28 @@
     @include transition-ui(border-color);
 }
 
-.align-items-stretch>*>.ic-card {
+.align-items-stretch > * > .ic-card {
     height: 100%;
 }
 
-.align-items-stretch>*>.ic-card .ic-card-body {
+.align-items-stretch > * > .ic-card .ic-card-body {
     @include flex-stack;
     height: 100%;
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image)
+    .ic-card-body.ic-card-body-indented {
     padding: var(--space-12);
 }
 
 @include mq(xs, down) {
-
-    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image)
+        .ic-card-body.ic-card-body-indented {
         padding: var(--space-12) 0;
     }
 }
 
-.align-items-stretch>*>.ic-card .ic-card-cite {
+.align-items-stretch > * > .ic-card .ic-card-cite {
     margin-top: auto;
 }
 
@@ -44,12 +45,12 @@
     gap: var(--space-30);
 }
 
-.ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) :is(.ic-card-body, .ic-card-media) {
+.ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light)
+    :is(.ic-card-body, .ic-card-media) {
     padding: 0;
 }
 
 @include mq(md) {
-
     .ic-card.ic-card-lg .ic-card-cite {
         text-align: center;
     }
@@ -61,7 +62,6 @@
 }
 
 @include mq(md, down) {
-
     .ic-card.ic-card-lg:is(blockquote) {
         flex-flow: column-reverse nowrap;
         padding: var(--space-20);
@@ -94,14 +94,18 @@
     align-items: center;
 }
 
-.ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):not(:has(.ic-card-media:first-child:not(:only-child))),
-.ic-card:has(.stretched-link):has(.ic-card-image):not(.ic-background-white, .ic-background-light):not(:has(.ic-card-media:first-child:not(:only-child))),
+.ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):not(
+        :has(.ic-card-media:first-child:not(:only-child))
+    ),
+.ic-card:has(.stretched-link):has(.ic-card-image):not(
+        .ic-background-white,
+        .ic-background-light
+    ):not(:has(.ic-card-media:first-child:not(:only-child))),
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) {
     text-align: center;
 }
 
 @include mq(md) {
-
     .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
         max-width: calc(565rem / var(--rem-base));
     }
@@ -117,7 +121,6 @@
 }
 
 @include mq(md, down) {
-
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
         flex-flow: row nowrap;
         align-items: flex-start;
@@ -140,7 +143,8 @@
         // padding-top: var(--space-10) !important;
     }
 
-    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
+    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light)
+        .ic-card-body {
         padding: var(--space-10) var(--space-20) var(--space-20) !important;
     }
 
@@ -152,20 +156,18 @@
         text-align: left !important;
     }
 
-    .ic-card.ic-card-horizontal-mobile>figure.ic-card-media {
-        padding: 0
+    .ic-card.ic-card-horizontal-mobile > figure.ic-card-media {
+        padding: 0;
     }
 }
 
 @include mq(md) {
-
-    .ic-card.ic-card-horizontal-mobile>.ic-card-body {
+    .ic-card.ic-card-horizontal-mobile > .ic-card-body {
         text-align: center;
     }
 }
 
 @include mq(md, down) {
-
     .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child).ic-card-row_mobile {
         flex-flow: row nowrap;
         align-items: flex-start;
@@ -182,7 +184,6 @@
 }
 
 @include mq(sm, down) {
-
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) svg {
         width: calc(60rem / var(--rem-base));
         height: calc(60rem / var(--rem-base));

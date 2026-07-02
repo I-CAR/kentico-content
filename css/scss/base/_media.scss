@@ -52,7 +52,6 @@ video.ic-video-banner {
 }
 
 @include mq(md, only) {
-
     video.ic-video-banner {
         width: auto;
         height: 100%;
@@ -60,7 +59,6 @@ video.ic-video-banner {
 }
 
 @include mq(md) {
-
     img.ic-image-banner {
         height: 100%;
     }
@@ -79,14 +77,12 @@ img.ic-graphic.ic-graphic-bottom {
 }
 
 @include mq(md, down) {
-
     img.ic-image-flush {
         border-radius: var(--border-radius);
     }
 }
 
 @include mq(md) {
-
     img.ic-image-flush {
         max-width: none;
     }
@@ -97,14 +93,14 @@ img.ic-graphic.ic-graphic-bottom {
     aspect-ratio: 1 / 1;
     width: 2rem;
     height: 2rem;
-    margin-top: -.35em;
+    margin-top: -0.35em;
     border-radius: 50%;
     background-color: var(--positive-color);
     @include transition-ui(background-color, border-color);
 }
 
 .ic-checkmark:after {
-    content: '';
+    content: "";
     display: block;
     transform: rotate(45deg);
     transform-origin: center;

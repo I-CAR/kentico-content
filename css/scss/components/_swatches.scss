@@ -5,81 +5,74 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: .5rem;
+    gap: 0.5rem;
 }
 
-.ic-swatches>.ic-swatch {
+.ic-swatches > .ic-swatch {
     @include flex-stack(flex-end, flex-end);
     position: relative;
     aspect-ratio: 1 / 1;
-    width: calc(50% - .25rem);
+    width: calc(50% - 0.25rem);
     height: auto;
-    padding: .75rem;
+    padding: 0.75rem;
     text-align: right;
-    font-size: .85rem;
+    font-size: 0.85rem;
     cursor: pointer;
 }
 
-.ic-swatches>.ic-swatch strong {
+.ic-swatches > .ic-swatch strong {
     font-size: 1rem;
 }
 
 @include mq(xs) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: calc((100% / 3) - (1rem / 3));
     }
 }
 
 @include mq(sm) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 7.5rem;
         height: 7.5rem;
     }
 }
 
 @include mq(md) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 8rem;
         height: 8rem;
     }
 }
 
 @include mq(lg) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 9rem;
         height: 9rem;
     }
 }
 
 @include mq(xl) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 10rem;
         height: 10rem;
     }
 }
 
 @include mq(xxl) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 12rem;
         height: 12rem;
     }
 }
 
 @include mq(xxxl) {
-
-    .ic-swatches>.ic-swatch {
+    .ic-swatches > .ic-swatch {
         width: 9rem;
         height: 9rem;
     }
 }
 
-.ic-swatches>.ic-swatch::before {
+.ic-swatches > .ic-swatch::before {
     content: var(--color-hex);
     order: 1;
     display: block;
@@ -87,7 +80,7 @@
     opacity: 0.75;
 }
 
-.ic-swatches>.ic-swatch::after {
+.ic-swatches > .ic-swatch::after {
     content: var(--color-rgb);
     order: 2;
     display: block;

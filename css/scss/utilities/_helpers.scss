@@ -22,7 +22,6 @@
 }
 
 @include mq(md) {
-
     .ic-section .col.text-md-center {
         align-items: center;
     }
@@ -46,11 +45,9 @@
 }
 
 @include mq(xxl) {
-
     .row .col-xxl-5up {
         flex: 0 0 20%;
         max-width: 20%;
-
     }
 }
 

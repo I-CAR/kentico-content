@@ -15,17 +15,16 @@
 }
 
 @include mq(md, down) {
-
     .ic-background-mobile-white {
         background-color: var(--white);
     }
 
-    .ic-section:not(.ic-background-light)+.ic-section.ic-background-mobile-white,
-    .ic-section.ic-background-mobile-white+.ic-section:has(.ic-image-cutout) {
+    .ic-section:not(.ic-background-light) + .ic-section.ic-background-mobile-white,
+    .ic-section.ic-background-mobile-white + .ic-section:has(.ic-image-cutout) {
         padding-top: 0;
     }
 
-    .ic-section.ic-background-mobile-white+.ic-section:has(.ic-image-banner, .ic-video-banner) {
+    .ic-section.ic-background-mobile-white + .ic-section:has(.ic-image-banner, .ic-video-banner) {
         padding-top: calc(var(--section-padding-sm) / 2);
     }
 }
@@ -73,7 +72,6 @@
 }
 
 @include mq(xxxl) {
-
     .ic-section.ic-background-white.ic-section-border .container {
         padding: var(--section-padding) 0;
     }
@@ -84,7 +82,8 @@
     border: 0;
 }
 
-.ic-section.ic-background-white.ic-section-border+.ic-section.ic-background-white.ic-section-border {
+.ic-section.ic-background-white.ic-section-border
+    + .ic-section.ic-background-white.ic-section-border {
     padding-top: 0;
 }
 

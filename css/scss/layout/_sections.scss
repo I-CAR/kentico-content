@@ -10,7 +10,6 @@
 }
 
 @include mq(lg) {
-
     .ic-section.ic-section-padding-bottom-lg {
         padding-bottom: calc(var(--section-margin-lg) * 2 + var(--section-padding-lg));
     }
@@ -21,11 +20,11 @@
 .ic-section .ic-sublabel::before,
 .ic-section .ic-btn::before,
 .ic-section .ic-card-title::before,
-.ic-section .ic-menu>li>a::before,
+.ic-section .ic-menu > li > a::before,
 .ic-section .ic-card-subtitle::before,
-.ic-section .ic-card-list>li:has(a)>a::before,
-.ic-section .ic-card-list>li:not(:has(a))::before,
-.ic-section .ic-card-list>li>span::before {
+.ic-section .ic-card-list > li:has(a) > a::before,
+.ic-section .ic-card-list > li:not(:has(a))::before,
+.ic-section .ic-card-list > li > span::before {
     content: var(--name) " ";
 }
 
@@ -49,17 +48,16 @@
 }
 
 .ic-section:has(h1, h2) .ic-section-title,
-.ic-section:has(h1, h2) .ic-section-title+p {
+.ic-section:has(h1, h2) .ic-section-title + p {
     width: 100%;
 }
 
-.ic-section.ic-background-white+.ic-section.ic-background-white {
+.ic-section.ic-background-white + .ic-section.ic-background-white {
     padding-top: clamp(var(--space-20), 0.433rem + 2.421vw, var(--space-40));
 }
 
 @include mq(md) {
-
-    .ic-section.ic-background-light+.ic-section.ic-background-light {
+    .ic-section.ic-background-light + .ic-section.ic-background-light {
         padding-top: calc(var(--section-padding-lg) + var(--section-margin-lg));
     }
 
@@ -75,10 +73,10 @@
     z-index: 1;
 }
 
-.ic-section:not(.ic-background-light)+.ic-section.ic-background-light,
-.ic-section:not(.ic-background-light)+.ic-section:has(.ic-image-banner, .ic-video-banner),
-.ic-section.ic-background-light+.ic-section:not(.ic-background-light),
-.ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout),
+.ic-section:not(.ic-background-light) + .ic-section.ic-background-light,
+.ic-section:not(.ic-background-light) + .ic-section:has(.ic-image-banner, .ic-video-banner),
+.ic-section.ic-background-light + .ic-section:not(.ic-background-light),
+.ic-section:has(.ic-image-banner, .ic-video-banner) + .ic-section:has(.ic-image-cutout),
 .ic-section.ic-section-form:first-child {
     margin-top: var(--section-margin);
 }
@@ -88,8 +86,7 @@
 }
 
 @include mq(md, down) {
-
-    .ic-section.ic-background-light+.ic-section.ic-background-light {
+    .ic-section.ic-background-light + .ic-section.ic-background-light {
         padding-top: calc(var(--section-padding-sm) + var(--section-margin-sm));
     }
 }
@@ -98,7 +95,7 @@
     padding-bottom: 0;
 }
 
-.ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section.ic-background-light {
+.ic-section:has(.ic-image-banner, .ic-video-banner) + .ic-section.ic-background-light {
     margin-top: 0;
 }
 
@@ -111,7 +108,6 @@
 }
 
 @include mq(md) {
-
     .ic-section-hero.ic-background-light {
         padding: 0;
     }
@@ -125,12 +121,14 @@
         padding: var(--section-padding);
     }
 
-    .ic-section:has(.ic-image-cutout) .col:has(>h1, >h2) {
+    .ic-section:has(.ic-image-cutout) .col:has(> h1, > h2) {
         // padding-bottom: var(--section-padding);
     }
 
-    .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(>h1, >h2),
-    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
+    .ic-section.ic-background-light + .ic-section:has(.ic-image-cutout) .col:has(> h1, > h2),
+    .ic-section:has(.ic-image-banner, .ic-video-banner)
+        + .ic-section:has(.ic-image-cutout)
+        .col:has(h1, h2) {
         // margin-bottom: var(--section-margin) !important;
     }
 
@@ -148,16 +146,11 @@
 }
 
 @include mq(md, down) {
-
     .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
     .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
         position: static;
         transform: none;
         border-radius: var(--border-radius);
-    }
-
-    .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
-    .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
         // margin-top: 2rem;
     }
 
@@ -177,14 +170,12 @@
 }
 
 @include mq(xs, down) {
-
     .ic-section#what-is-adas {
         // aspect-ratio: 2 / 3;
     }
 }
 
 @include mq(md, only, $until: xl) {
-
     .ic-section.ic-background-light img.ic-image-rounded:not(.ic-card-image) {
         aspect-ratio: 1 / 1;
     }

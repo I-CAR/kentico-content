@@ -4,7 +4,7 @@
     margin-bottom: var(--space-10);
 }
 
-:is(ul, ol):last-of-type+p {
+:is(ul, ol):last-of-type + p {
     margin-top: var(--space-20);
 }
 
@@ -14,7 +14,7 @@ ol {
     padding-left: var(--space-20);
 }
 
-:is(h1, h2, h3, h4, h5, h6)+ul {
+:is(h1, h2, h3, h4, h5, h6) + ul {
     // margin-top: 0;
 }
 
@@ -34,7 +34,7 @@ ul.ic-check-list {
     color: inherit;
 }
 
-.ic-h6+ul {
+.ic-h6 + ul {
     margin-top: 0;
 }
 
@@ -52,7 +52,7 @@ ul.ic-check-circle-list li {
     padding-left: var(--space-8);
 }
 
-ul.ic-check-circle-list li+li {
+ul.ic-check-circle-list li + li {
     margin-top: var(--space-8);
 }
 
@@ -70,13 +70,13 @@ ul.ic-check-list li:before {
 }
 
 ul.ic-check-circle-list li:after {
-    content: '';
+    content: "";
     border: solid var(--white);
     border-width: 0 calc(2.5rem / 16) calc(2.5rem / 16) 0;
     height: calc(10rem / 16);
-    left: -.8em;
+    left: -0.8em;
     position: absolute;
-    top: .55em;
+    top: 0.55em;
     z-index: 1;
     transform: rotate(45deg);
     transform-origin: center right;
@@ -85,115 +85,112 @@ ul.ic-check-circle-list li:after {
 }
 
 ul.ic-check-circle-list li:before {
-    content: '';
+    content: "";
     display: block;
     width: 1.25rem;
     height: 1.25rem;
     position: absolute;
-    top: .125em;
+    top: 0.125em;
     left: calc(-20rem / 16);
     border-radius: 50%;
     background-color: var(--positive-color);
-    transition: background-color var(--transition-ui), border-color var(--transition-ui);
+    transition:
+        background-color var(--transition-ui),
+        border-color var(--transition-ui);
 }
 
-ul.ic-check-circle-list>li:after {
-    top: calc(.375em + .125em);
-    left: -.8em;
+ul.ic-check-circle-list > li:after {
+    top: calc(0.375em + 0.125em);
+    left: -0.8em;
     border-color: white;
 }
 
-ul.ic-icon-list>li {
+ul.ic-icon-list > li {
     @include flex-row;
 }
 
-ul.ic-icon-list>li+li {
+ul.ic-icon-list > li + li {
     margin-top: var(--space-20);
 }
 
-ul.ic-icon-list>li a:has(img) {
+ul.ic-icon-list > li a:has(img) {
     flex: 0 0 auto;
     display: block;
-    margin: .25em var(--space-20) 0 0;
+    margin: 0.25em var(--space-20) 0 0;
 }
 
-ul.ic-icon-list>li img {
+ul.ic-icon-list > li img {
     width: var(--space-20);
     height: var(--space-20);
-}
-
-ul.ic-icon-list>li h3 {
-    margin-bottom: var(--space-4);
-}
-
-ul.ic-icon-list>li h3>a {
-    color: inherit;
-}
-
-ul.ic-icon-list>li h3>a:hover,
-ul.ic-icon-list>li h3>a:focus {
-    color: var(--link-color);
-}
-
-ul.ic-icon-list>li p:not(:has(.ic-btn)) {
-    margin-bottom: var(--space-8);
-}
-
-ul.ic-icon-list>li img {
     border-radius: 0;
     background: var(--white);
 }
 
-ul.ic-logo-list>li {
+ul.ic-icon-list > li h3 {
+    margin-bottom: var(--space-4);
+}
+
+ul.ic-icon-list > li h3 > a {
+    color: inherit;
+}
+
+ul.ic-icon-list > li h3 > a:hover,
+ul.ic-icon-list > li h3 > a:focus {
+    color: var(--link-color);
+}
+
+ul.ic-icon-list > li p:not(:has(.ic-btn)) {
+    margin-bottom: var(--space-8);
+}
+
+ul.ic-logo-list > li {
     flex: 0 0 calc(100% / 6);
     @include flex-row(center);
 }
 
 @include mq(md) {
-
-    ul.ic-logo-list>li {
+    ul.ic-logo-list > li {
         flex: 0 0 calc(100% / 7);
     }
 }
 
 @include mq(xxl) {
-
-    ul.ic-logo-list>li {
+    ul.ic-logo-list > li {
         flex: 0 0 calc(100% / 8);
     }
 }
 
-ul.ic-logo-list>li+li {
+ul.ic-logo-list > li + li {
     margin-top: var(--space-30);
 }
 
-ul.ic-logo-list>li a:has(img) {
+ul.ic-logo-list > li a:has(img) {
     flex: 0 0 auto;
     display: block;
     margin-right: var(--space-30);
 }
 
-ul.ic-logo-list>li img {
+ul.ic-logo-list > li img {
     border-radius: 0;
     background: var(--white);
     aspect-ratio: 3 / 2;
     object-fit: contain;
 }
 
-ul.ic-logo-list>li h3 {
+ul.ic-logo-list > li h3 {
     margin-bottom: var(--space-4);
 }
 
-ul.ic-logo-list>li h3>a {
+ul.ic-logo-list > li h3 > a {
     color: inherit;
 }
 
-ul.ic-logo-list>li h3>a:hover,
-ul.ic-logo-list>li h3>a:focus {
+ul.ic-logo-list > li h3 > a:hover,
+ul.ic-logo-list > li h3 > a:focus {
     color: var(--link-color);
 }
 
-ul.ic-logo-list>li p:not(:has(.ic-btn)) {
+ul.ic-logo-list > li p:not(:has(.ic-btn)) {
     margin-bottom: var(--space-8);
 }
 
@@ -203,28 +200,27 @@ ul.ic-card-list-courses {
     padding: 0;
 }
 
-ul.ic-card-list-courses>li {
+ul.ic-card-list-courses > li {
     @include flex-row(null, space-between);
     gap: var(--space-12);
     padding: var(--space-12) 0;
 }
 
-ul.ic-card-list-courses>li:first-child {
+ul.ic-card-list-courses > li:first-child {
     padding-top: 0;
 }
 
-ul.ic-card-list-courses>li:last-child {
+ul.ic-card-list-courses > li:last-child {
     padding-bottom: 0;
 }
 
-ul.ic-card-list-courses>li span {
+ul.ic-card-list-courses > li span {
     flex: 0 0 100%;
     max-width: 100%;
 }
 
 @include mq(xxl) {
-
-    ul.ic-card-list-courses>li span {
+    ul.ic-card-list-courses > li span {
         flex: 0 0 calc(200rem / 16);
         max-width: calc(200rem / 16);
         text-align: right;
@@ -232,37 +228,36 @@ ul.ic-card-list-courses>li span {
 }
 
 @include mq(xxl, down) {
-
-    ul.ic-card-list-courses>li:has(span) {
+    ul.ic-card-list-courses > li:has(span) {
         flex-flow: column nowrap;
-        gap: .25rem;
+        gap: 0.25rem;
     }
 }
 
-ul.ic-card-list-courses>li+li {
+ul.ic-card-list-courses > li + li {
     border-top: 2px solid var(--light);
 }
 
 .ic-card:has(.ic-card-list-courses) .ic-card-title,
-form .form-field>label.control-label[for*="_section"] {
+form .form-field > label.control-label[for*="_section"] {
     font-size: var(--h3-font-size);
     font-weight: var(--semibold);
 }
 
 .ic-card:has(.ic-card-list-courses) .ic-card-subtitle {
     font-size: var(--body-font-size);
-    margin-bottom: .25rem !important;
+    margin-bottom: 0.25rem !important;
 }
 
 ul:has(.ic-card) {
     position: relative;
 }
 
-ul:has(.ic-card:is(li))>.ic-card {
+ul:has(.ic-card:is(li)) > .ic-card {
     padding: var(--card-padding-x);
 }
 
-ul:has(.ic-card:is(li))>.ic-card .ic-card-details {
+ul:has(.ic-card:is(li)) > .ic-card .ic-card-details {
     position: absolute;
     top: var(--card-padding-x);
     right: var(--card-padding-x);
@@ -272,8 +267,8 @@ ol {
     padding-left: 1.75rem;
 }
 
-ol>li {
-    padding-left: .25rem;
+ol > li {
+    padding-left: 0.25rem;
 }
 
 ol.ic-lead {
@@ -281,6 +276,6 @@ ol.ic-lead {
     font-size: var(--h4-font-size);
 }
 
-ul:has(.ic-card-details)>li.ic-card strong {
+ul:has(.ic-card-details) > li.ic-card strong {
     margin-right: var(--space-80);
 }

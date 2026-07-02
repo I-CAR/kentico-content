@@ -14,7 +14,7 @@ ul:has(.ic-card) {
     position: static !important;
 }
 
-.table>:not(caption)>*>* {
+.table > :not(caption) > * > * {
     background: none;
     color: var(--darkest);
 }

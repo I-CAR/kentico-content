@@ -7,14 +7,14 @@
     z-index: 2;
     top: 0;
     height: var(--header-height-mobile);
-    background:
-        linear-gradient(135deg,
-            var(--primary-color) 0%,
-            color-mix(in srgb, var(--primary-color) 60%, black) 25%,
-            var(--secondary-color) 50%,
-            color-mix(in srgb, var(--primary-color) 60%, black) 75%,
-            var(--primary-color) 100%);
-
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        color-mix(in srgb, var(--primary-color) 60%, black) 25%,
+        var(--secondary-color) 50%,
+        color-mix(in srgb, var(--primary-color) 60%, black) 75%,
+        var(--primary-color) 100%
+    );
 }
 
 .ic-header h1 {
@@ -22,21 +22,18 @@
 }
 
 @include mq(lg) {
-
     .ic-header {
         height: var(--header-height-desktop);
     }
 }
 
 @include mq(xxl) {
-
     .ic-header h1 {
         font-size: var(--h1-font-size);
     }
 }
 
 @include mq(md, down) {
-
     .ic-header .nav .nav-link {
         padding-bottom: 0;
     }

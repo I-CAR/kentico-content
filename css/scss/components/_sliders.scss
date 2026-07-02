@@ -1,12 +1,12 @@
 @use "../abstracts/mixins" as *;
 
-.swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-horizontal {
+.swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-horizontal {
     position: static;
     margin-top: calc(5rem / 16);
     margin-left: calc(var(--space-12) * -1);
 }
 
-.ic-section>.container>.row .row:has(.ic-swiper) {
+.ic-section > .container > .row .row:has(.ic-swiper) {
     max-width: calc(100% + 3rem);
 }
 
@@ -15,7 +15,6 @@
 }
 
 @include mq(md) {
-
     .ic-swiper .swiper-slide {
         // margin-left: .375rem;
     }
@@ -34,7 +33,7 @@
 
 .ic-swiper-courses .swiper-slide {
     height: auto;
-    padding: .5rem;
+    padding: 0.5rem;
 }
 
 .ic-swiper-courses .swiper-slide .ic-card-media img {
@@ -42,7 +41,6 @@
 }
 
 @include mq(sm, down) {
-
     .ic-swiper-courses .swiper-slide {
         padding: var(--space-10);
     }
@@ -50,7 +48,6 @@
 
 .ic-swiper-courses .swiper-slide .ic-card {
     height: 100%;
-
 }
 
 .ic-swiper-nav {
@@ -71,7 +68,7 @@
 
 .ic-swiper-nav:is(:hover, :focus) {
     background: var(--gray);
-    color: var(--gray-900)
+    color: var(--gray-900);
 }
 
 .ic-swiper-nav:active {

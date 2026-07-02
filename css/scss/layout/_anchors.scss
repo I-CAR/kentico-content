@@ -14,7 +14,6 @@
 }
 
 @include mq(md) {
-
     .ic-anchor {
         transform: translateY(calc(var(--header-height-desktop) * -1));
     }

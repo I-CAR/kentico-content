@@ -2,9 +2,30 @@
   "name": "icar-content-kentico-info",
   "private": true,
   "scripts": {
-    "build:style-v3-scss": "node scripts/build-style-v3.mjs"
+    "prepare": "simple-git-hooks",
+    "clean": "rm -f css/style-v3.css css/style-v3.css.map",
+    "start": "node scripts/build-style-v3.mjs --watch",
+    "build": "node scripts/build-style-v3.mjs --production",
+    "build:dev": "node scripts/build-style-v3.mjs",
+    "build:style-v3-scss": "npm run build:dev",
+    "build:check": "npm run lint:scss && npm run build",
+    "lint:scss": "stylelint \"css/scss/**/*.scss\"",
+    "format:scss": "prettier --write \"css/scss/**/*.scss\""
   },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint:scss"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
   "devDependencies": {
-    "sass": "^1.101.0"
+    "autoprefixer": "^10.5.2",
+    "cssnano": "^7.1.9",
+    "postcss": "^8.5.16",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.6.2",
+    "sass": "^1.101.0",
+    "simple-git-hooks": "^2.13.1",
+    "stylelint": "^17.14.0"
   }
 }

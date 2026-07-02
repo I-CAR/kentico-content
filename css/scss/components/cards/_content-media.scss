@@ -1,7 +1,6 @@
 @use "../../abstracts/mixins" as *;
 
 @include mq(lg) {
-
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) {
         flex-flow: row nowrap;
     }
@@ -43,13 +42,12 @@
     padding: 0;
 }
 
-.col:has(>.ic-card:nth-child(2)) {
+.col:has(> .ic-card:nth-child(2)) {
     @include flex-stack;
     gap: var(--space-10);
 }
 
 @include mq(md, down) {
-
     .ic-card.ic-card-lg .ic-card-body {
         padding: var(--space-20) 0 0;
     }
@@ -61,22 +59,24 @@
 
 .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
-.ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
+.ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
+    .ic-card-body {
     padding: var(--space-12) var(--space-20);
 }
 
 @include mq(xs, down) {
-
     // .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
-    .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
+    .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
+        .ic-card-body {
         padding-left: 0;
         padding-right: 0;
         // padding-bottom: 0;
     }
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
+    .ic-card-body {
     // padding: var(--space-20) 0 0;
     padding: var(--space-12) 0 0;
 }
@@ -85,11 +85,19 @@
     padding-top: var(--space-12);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(.ic-background-white, .ic-background-light) .ic-card-body {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(
+        .ic-background-white,
+        .ic-background-light
+    )
+    .ic-card-body {
     padding: var(--space-30) var(--space-30) var(--space-30) var(--space-20);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(.ic-background-white, .ic-background-light) .ic-card-body {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(
+        .ic-background-white,
+        .ic-background-light
+    )
+    .ic-card-body {
     padding: 0 0 0 var(--space-20);
 }
 
@@ -102,12 +110,14 @@
 }
 
 @include mq(lg) {
-
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
         padding: var(--space-30);
     }
 
-    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(
+            .ic-card-media:first-child:not(:only-child)
+        )
+        .ic-card-body {
         // padding: var(--space-30) 0 var(--space-30) var(--space-30);
     }
 }
@@ -166,7 +176,6 @@
 }
 
 @include mq(md, down) {
-
     .ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-text {
         font-size: calc(14rem / var(--rem-base));
     }
@@ -187,8 +196,7 @@ blockquote .ic-quote-text p:last-child::after {
 }
 
 @include mq(md) {
-
-    blockquote .ic-quote-text+.ic-cite {
+    blockquote .ic-quote-text + .ic-cite {
         justify-content: center;
     }
 }
@@ -235,7 +243,8 @@ blockquote .ic-quote-text p:last-child::after {
     transform: scale(1.1);
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-media {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
+    .ic-card-media {
     padding: 0;
     border-radius: 0;
 }
@@ -244,16 +253,23 @@ blockquote .ic-quote-text p:last-child::after {
     padding-top: var(--space-24);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(.ic-background-white, .ic-background-light) .ic-card-media {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(
+        .ic-background-white,
+        .ic-background-light
+    )
+    .ic-card-media {
     padding: var(--space-30) 0 0 var(--space-30);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(.ic-background-white, .ic-background-light) .ic-card-media {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(
+        .ic-background-white,
+        .ic-background-light
+    )
+    .ic-card-media {
     padding: 0;
 }
 
 @include mq(lg) {
-
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
         @include radius-split(left);
     }
@@ -263,11 +279,17 @@ blockquote .ic-quote-text p:last-child::after {
         height: 100%;
     }
 
-    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(
+            .ic-card-media:first-child:not(:only-child)
+        )
+        .ic-card-media {
         @include radius-split(full);
     }
 
-    .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
+    .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):has(
+            .ic-card-media:first-child:not(:only-child)
+        )
+        .ic-card-media {
         padding-top: 0;
         padding-right: 0;
     }

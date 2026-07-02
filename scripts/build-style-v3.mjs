@@ -1,20 +1,18 @@
-import { cpSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { basename, dirname, join } from "node:path";
+import { gzipSync } from "node:zlib";
+import autoprefixer from "autoprefixer";
+import cssnano from "cssnano";
+import postcss from "postcss";
 import { compile } from "sass";
 
 const output = "css/style-v3.css";
-const tempRoot = mkdtempSync(join(tmpdir(), "icar-style-v3-"));
-const tempScssRoot = join(tempRoot, "scss");
-const tempEntry = join(tempScssRoot, "style-v3.scss");
-
-cpSync("css/scss", tempScssRoot, { recursive: true });
-
-const result = compile(tempEntry, {
-  style: "expanded",
-  sourceMap: false,
-});
-
+const outputMap = `${output}.map`;
+const watchMode = process.argv.includes("--watch");
+const productionMode = process.argv.includes("--production");
+const sourceRoot = "css/scss";
+const entryFile = "style-v3.scss";
+const entryPath = join(sourceRoot, entryFile);
 const legacySelectors = `
 main:not(+.row--with-cols-padding) .ic-section:last-child {
   padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
@@ -27,5 +25,145 @@ main:has(>section:last-child):has(:not(+.row.row--with-cols-padding:has(form))) 
 ul {}
 `;
 
-mkdirSync(dirname(output), { recursive: true });
-writeFileSync(output, `${result.css}\n${legacySelectors}`);
+let buildQueued = false;
+let buildRunning = false;
+let queuedReason = null;
+let watchDebounce = null;
+let previousSnapshot = "";
+
+function formatBytes(bytes) {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function reportOutputSizes(css) {
+  const rawBytes = Buffer.byteLength(css);
+  const gzipBytes = gzipSync(css).byteLength;
+  console.log(`[style-v3] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
+}
+
+async function build(reason = "manual") {
+  if (buildRunning) {
+    buildQueued = true;
+    queuedReason = reason;
+    return;
+  }
+
+  buildRunning = true;
+
+  try {
+    const result = compile(entryPath, {
+      style: productionMode ? "compressed" : "expanded",
+      sourceMap: !productionMode,
+      sourceMapIncludeSources: !productionMode,
+    });
+
+    mkdirSync(dirname(output), { recursive: true });
+
+    let css = `${result.css}\n${legacySelectors}`;
+
+    if (productionMode) {
+      const processed = await postcss([
+        autoprefixer(),
+        cssnano({
+          preset: [
+            "default",
+            {
+              discardComments: {
+                removeAll: true,
+              },
+            },
+          ],
+        }),
+      ]).process(css, { from: entryPath, to: output, map: false });
+
+      css = processed.css;
+      rmSync(outputMap, { force: true });
+    } else {
+      css = `${css}\n/*# sourceMappingURL=${basename(outputMap)} */\n`;
+      writeFileSync(outputMap, JSON.stringify(result.sourceMap, null, 2));
+    }
+
+    writeFileSync(output, css);
+    console.log(
+      `[style-v3] Built ${output}${productionMode ? " [production]" : ""}${watchMode ? ` (${reason})` : ""}`,
+    );
+    reportOutputSizes(css);
+  } catch (error) {
+    console.error(`[style-v3] Build failed${watchMode ? ` (${reason})` : ""}`);
+    console.error(error instanceof Error ? error.message : error);
+
+    if (!watchMode) {
+      process.exitCode = 1;
+    }
+  } finally {
+    buildRunning = false;
+
+    if (buildQueued) {
+      buildQueued = false;
+      const nextReason = queuedReason ?? "queued change";
+      queuedReason = null;
+      queueMicrotask(() => {
+        void build(nextReason);
+      });
+    }
+  }
+}
+
+function scheduleBuild(reason) {
+  clearTimeout(watchDebounce);
+  watchDebounce = setTimeout(() => build(reason), 75);
+}
+
+function collectScssFiles(root) {
+  const files = [];
+
+  for (const entry of readdirSync(root, { withFileTypes: true })) {
+    const fullPath = join(root, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...collectScssFiles(fullPath));
+      continue;
+    }
+
+    if (entry.isFile() && fullPath.endsWith(".scss")) {
+      files.push(fullPath);
+    }
+  }
+
+  return files.sort();
+}
+
+function createSnapshot() {
+  return collectScssFiles(sourceRoot)
+    .map((file) => {
+      const stats = statSync(file);
+      return `${file}:${stats.mtimeMs}:${stats.size}`;
+    })
+    .join("|");
+}
+
+await build();
+
+if (watchMode) {
+  console.log(`[style-v3] Watching ${sourceRoot}/**/*.scss`);
+  previousSnapshot = createSnapshot();
+
+  setInterval(() => {
+    const nextSnapshot = createSnapshot();
+
+    if (nextSnapshot === previousSnapshot) {
+      return;
+    }
+
+    previousSnapshot = nextSnapshot;
+    scheduleBuild("polling change");
+  }, 250);
+}

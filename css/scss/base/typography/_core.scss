@@ -10,11 +10,11 @@ hr {
     margin: var(--space-20) 0 var(--space-30);
 }
 
-:is(p, ul, ol, img, figure, blockquote, h1, h2, h3, h4, h5)+ :is(h2, h3, h4, h5, h6) {
+:is(p, ul, ol, img, figure, blockquote, h1, h2, h3, h4, h5) + :is(h2, h3, h4, h5, h6) {
     margin-top: var(--space-10);
 }
 
-:is(p, ul, ol, img, figure, blockquote)+ :is(h2, h3, h4, h5, h6) {
+:is(p, ul, ol, img, figure, blockquote) + :is(h2, h3, h4, h5, h6) {
     margin-top: var(--space-30);
 }
 
@@ -25,7 +25,7 @@ hr {
 :is(h1, h2, h3, h4, h5, h6):is(.cc-h1, .cc-h2, .cc-h3, .cc-h4, .cc-h5, .cc-h6) {
     font-family: var(--cc-headline-font);
     text-transform: uppercase;
-    letter-spacing: .025em;
+    letter-spacing: 0.025em;
 }
 
 h1,
@@ -33,7 +33,7 @@ h1,
     margin-bottom: var(--space-20) !important;
     font-size: var(--h1-font-size);
     font-weight: var(--bold);
-    color: var(--gray-900)
+    color: var(--gray-900);
 }
 
 h2,
@@ -41,7 +41,7 @@ h2,
     margin-bottom: var(--space-12) !important;
     font-size: var(--h2-font-size);
     font-weight: var(--bold);
-    color: var(--gray-900)
+    color: var(--gray-900);
 }
 
 h3,
@@ -128,7 +128,7 @@ p.ic-section-label {
     background: var(--black);
     color: var(--white);
     text-transform: uppercase;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
     font-weight: var(--semibold);
 }
 
@@ -142,19 +142,18 @@ p.ic-disclaimer:not(:first-child) {
     margin-top: var(--space-20);
 }
 
-p>cite {
+p > cite {
     font-style: normal;
     line-height: 1.5;
 }
 
-p>cite>strong {
+p > cite > strong {
     font-size: 1rem;
     font-style: normal;
 }
 
 @include mq(md, down) {
-
-    p>cite {
+    p > cite {
         line-height: 1.25;
     }
 }
@@ -171,6 +170,8 @@ p>cite>strong {
 
 .ic-profile-stacked {
     font-size: var(--font-size-sm);
+    flex-flow: column nowrap;
+    text-align: center;
 }
 
 .ic-profile-stacked strong {
@@ -189,11 +190,6 @@ img.ic-cite-photo {
     border: 1px solid var(--gray-100);
 }
 
-.ic-profile-stacked {
-    flex-flow: column nowrap;
-    text-align: center;
-}
-
 p:has(.ic-btn-primary, .ic-btn-white, .ic-btn-gray) {
     margin-top: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
 }
@@ -203,8 +199,8 @@ p:has(.ic-btn:nth-child(2)) {
     gap: var(--space-20);
 }
 
-p+p:has(.ic-btn),
-p:last-of-type+div:has(.ic-btn) {
+p + p:has(.ic-btn),
+p:last-of-type + div:has(.ic-btn) {
     margin-top: clamp(var(--space-10), 0.249rem + 1.112vw, var(--space-20));
 }
 
