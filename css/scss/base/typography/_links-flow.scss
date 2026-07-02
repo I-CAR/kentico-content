@@ -1,0 +1,30 @@
+/* Source map: css/style-v2.css lines 644-709 */
+/* TYPOGRAPHY - LINKS AND FLOW */
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: all var(--transition-ui);
+}
+
+a:hover,
+a:focus {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--link-color);
+}
+
+a.ic-btn:visited {
+    color: var(--white);
+}
+
+:is(h1, h2, h3, h4, h5, h6, p, ol, ul, blockquote, img, figure):last-child {
+    margin-bottom: 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6, p, ol, ul, blockquote, img, figure):only-child {
+    margin: 0;
+}

@@ -1,0 +1,27 @@
+/* Source map: css/style-v2.css lines 2154-2201 */
+/* BOXES - BASE */
+
+@use "../../abstracts/mixins" as *;
+
+.ic-box {
+    padding: var(--box-padding);
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+}
+
+@include mq(md, down) {
+
+    .ic-box-mobile-collapse {
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
+    }
+}
+
+.ic-section-box {
+    border-radius: var(--border-radius);
+}
+
+.ic-section-box.ic-section-box-padded {
+    border: var(--card-border-width) solid var(--light);
+}

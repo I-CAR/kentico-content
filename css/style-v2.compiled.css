@@ -140,8 +140,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Source map: css/style-v2.css lines 160-709 */
-/* TYPOGRAPHY */
+/* Source map: css/style-v2.css lines 160-389 */
+/* TYPOGRAPHY - CORE */
 body {
   font-family: var(--primary-font);
   font-weight: normal;
@@ -367,6 +367,8 @@ p:has(small) {
   color: var(--darkest);
 }
 
+/* Source map: css/style-v2.css lines 390-643 */
+/* TYPOGRAPHY - LISTS */
 :is(ul, ol):last-of-type:not(:last-child) {
   margin-bottom: var(--space-10);
 }
@@ -644,6 +646,12 @@ ol.ic-lead {
   font-size: var(--h4-font-size);
 }
 
+ul:has(.ic-card-details) > li.ic-card strong {
+  margin-right: var(--space-80);
+}
+
+/* Source map: css/style-v2.css lines 644-709 */
+/* TYPOGRAPHY - LINKS AND FLOW */
 a {
   color: var(--link-color);
   text-decoration: none;
@@ -670,10 +678,6 @@ a.ic-btn:visited {
 
 :is(h1, h2, h3, h4, h5, h6, p, ol, ul, blockquote, img, figure):only-child {
   margin: 0;
-}
-
-ul:has(.ic-card-details) > li.ic-card strong {
-  margin-right: var(--space-80);
 }
 
 /* Source map: css/style-v2.css lines 710-837 */
@@ -1520,8 +1524,8 @@ form.ic-form .ic-required {
   color: var(--cc-primary-color-hover);
 }
 
-/* Source map: css/style-v2.css lines 1598-2153 */
-/* CARDS */
+/* Source map: css/style-v2.css lines 1598-1803 */
+/* CARDS - BASE */
 .ic-card {
   display: flex;
   flex-flow: column nowrap;
@@ -1631,10 +1635,6 @@ padding: var(--space-20) 0;
     max-width: 100%;
   }
 }
-.accordion {
-  padding: 0;
-}
-
 @media (max-width: 768px) {
   .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
     flex-flow: row nowrap;
@@ -1690,6 +1690,14 @@ padding: var(--space-20) 0;
     width: calc(60rem / var(--rem-base));
     height: calc(60rem / var(--rem-base));
   }
+}
+/* Source map: css/style-v2.css lines 1804-1902 */
+/* CARDS - ACCORDION */
+.accordion {
+  padding: 0;
+}
+
+@media (max-width: 576px) {
   .accordion {
     margin-left: 0;
     margin-right: 0;
@@ -1758,6 +1766,8 @@ padding: var(--space-20) 0;
     max-width: calc(616rem / var(--rem-base));
   }
 }
+/* Source map: css/style-v2.css lines 1903-2153 */
+/* CARDS - CONTENT AND MEDIA */
 @media (min-width: 1024.1px) {
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) {
     flex-flow: row nowrap;
@@ -2018,8 +2028,8 @@ blockquote .ic-quote-text p:last-child::after {
   padding: clamp(var(--space-20), 0.84rem + 1.212vw, var(--space-30));
 }
 
-/* Source map: css/style-v2.css lines 2154-2266 */
-/* BOXES */
+/* Source map: css/style-v2.css lines 2154-2201 */
+/* BOXES - BASE */
 .ic-box {
   padding: var(--box-padding);
   background-color: var(--white);
@@ -2041,6 +2051,8 @@ blockquote .ic-quote-text p:last-child::after {
   border: var(--card-border-width) solid var(--light);
 }
 
+/* Source map: css/style-v2.css lines 2202-2266 */
+/* BOXES - SECTION BOX */
 @media (min-width: 768.1px) {
   .ic-section-box.ic-section-box-padded {
     padding: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));

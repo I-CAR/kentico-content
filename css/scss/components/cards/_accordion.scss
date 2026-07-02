@@ -1,0 +1,79 @@
+/* Source map: css/style-v2.css lines 1804-1902 */
+/* CARDS - ACCORDION */
+
+@use "../../abstracts/mixins" as *;
+
+.accordion {
+    padding: 0;
+}
+
+@include mq(sm, down) {
+
+    .accordion {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.ic-card.accordion-item {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0;
+    border-radius: var(--card-border-radius-sm);
+}
+
+.ic-card.accordion-item+.ic-card.accordion-item {
+    margin-top: var(--space-10);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header {
+    margin-bottom: 0 !important;
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button {
+    @include flex-row(null, flex-start);
+    border-radius: var(--card-border-radius-sm);
+    border: var(--card-border-width) solid transparent;
+    box-shadow: none !important;
+    background: none !important;
+    color: var(--gray-900) !important;
+    /* font-weight: var(--bold); */
+    @include transition-ui(border-color);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:hover {
+    border-color: var(--primary-color);
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button[aria-expanded="true"] {
+    border-color: transparent;
+}
+
+.ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:after {
+    order: -1;
+    margin: 0 var(--space-12) 0 0;
+    @include transition-ui(transform);
+}
+
+.ic-card.accordion-item .accordion-body {
+    padding-top: 0;
+}
+
+.ic-card.accordion-item .accordion-body p {
+    color: var(--gray-900);
+}
+
+.ic-card.accordion-item .accordion-body>* {
+    margin-left: calc(32.5rem / var(--rem-base));
+}
+
+.ic-card.accordion-item .accordion-body :is(ul, ol) {
+    padding-left: var(--space-20);
+}
+
+@include mq(md) {
+
+    .ic-card.accordion-item {
+        max-width: calc(616rem / var(--rem-base));
+    }
+}

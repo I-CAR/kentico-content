@@ -1,0 +1,90 @@
+/* Source map: css/style-v2.css lines 2202-2266 */
+/* BOXES - SECTION BOX */
+
+@use "../../abstracts/mixins" as *;
+
+@include mq(md) {
+
+    .ic-section-box.ic-section-box-padded {
+        padding: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
+        background-color: var(--lightest);
+
+    }
+
+    .ic-section.ic-background-light .ic-section-box.ic-section-box-padded {
+        background-color: var(--white);
+    }
+
+    .ic-section-box.ic-section-box-padded>.row {
+        width: 100%;
+        margin: 0;
+    }
+
+    .ic-section-box.ic-section-box-padded .col:not(.order-first, .order-md-first) .ic-section-box-copy {
+        padding-right: 0;
+    }
+
+    .ic-section-box.ic-section-box-padded .col.order-md-first .ic-section-box-copy,
+    .ic-section-box.ic-section-box-padded .col.order-first .ic-section-box-copy {
+        padding-left: 0;
+    }
+
+    .ic-section-box.ic-section-box-padded .ic-section-box-copy {
+        padding-top: 0;
+        padding-bottom: 0;
+        background-color: transparent;
+    }
+
+    .ic-section-box.ic-section-box-padded .ic-section-box-image {
+        box-shadow: var(--card-box-shadow);
+    }
+}
+
+.ic-section-box .ic-section-box-copy {
+    @include content-column(null, center);
+    height: 100%;
+    padding: clamp(var(--space-30), 1.123rem + 2.225vw, var(--space-50));
+    @include radius-split(bottom);
+    background-color: var(--lightest);
+}
+
+.ic-section.ic-background-light .ic-section-box-copy {
+    background-color: var(--white);
+}
+
+.ic-section-box .ic-section-box-image {
+    height: 100%;
+    @include radius-split(top);
+}
+
+.ic-section.ic-background-light .ic-section-box-image {
+    background-color: var(--white);
+}
+
+@include mq(md) {
+
+    .ic-section .col.order-first:not(.order-md-last) .ic-section-box-copy,
+    .ic-section .col.order-md-first .ic-section-box-copy,
+    .ic-section .col.order-first:not(.order-md-last) .ic-section-box-image,
+    .ic-section .col.order-md-first .ic-section-box-image {
+        @include radius-split(left);
+    }
+
+    .ic-section .col.order-last:not(.order-md-first) .ic-section-box-copy,
+    .ic-section .col.order-md-last .ic-section-box-copy,
+    .ic-section .col.order-last:not(.order-md-first) .ic-section-box-image,
+    .ic-section .col.order-md-last .ic-section-box-image {
+        @include radius-split(right);
+    }
+
+    .ic-section .ic-section-box-padded .col.order-first:not(.order-md-last) .ic-section-box-copy,
+    .ic-section .ic-section-box-padded .col.order-md-first .ic-section-box-copy,
+    .ic-section .ic-section-box-padded .col.order-first:not(.order-md-last) .ic-section-box-image,
+    .ic-section .ic-section-box-padded .col.order-md-first .ic-section-box-image,
+    .ic-section .ic-section-box-padded .col.order-last:not(.order-md-first) .ic-section-box-copy,
+    .ic-section .ic-section-box-padded .col.order-md-last .ic-section-box-copy,
+    .ic-section .ic-section-box-padded .col.order-last:not(.order-md-first) .ic-section-box-image,
+    .ic-section .ic-section-box-padded .col.order-md-last .ic-section-box-image {
+        @include radius-split(full);
+    }
+}
