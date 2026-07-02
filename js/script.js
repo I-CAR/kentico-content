@@ -253,3 +253,4 @@
   initDefaultSwiper();
   initCoursesSwiper();
 })();
+//# sourceMappingURL=script.js.map
