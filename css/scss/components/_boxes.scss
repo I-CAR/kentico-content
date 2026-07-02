@@ -9,7 +9,7 @@
     border-radius: var(--border-radius);
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-box-mobile-collapse {
         padding: 0;
@@ -26,7 +26,7 @@
     border: var(--card-border-width) solid var(--light);
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-section-box.ic-section-box-padded {
         padding: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
@@ -86,7 +86,7 @@
     background-color: var(--white);
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-section .col.order-first:not(.order-md-last) .ic-section-box-copy,
     .ic-section .col.order-md-first .ic-section-box-copy,

@@ -11,7 +11,7 @@ h1:empty {
     display: none !important;
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     section.ic-section .row .row {
         width: 100%;

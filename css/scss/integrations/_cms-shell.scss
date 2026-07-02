@@ -13,7 +13,7 @@
     padding: 0;
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     #main>article {
         overflow: hidden;
@@ -25,7 +25,7 @@
     padding-bottom: 0;
 }
 
-@include screen-min(bp(md)) {
+@include mq(md) {
 
     #main>article>.row>.content {
         padding-right: 0;
@@ -66,7 +66,7 @@ main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
     padding: 0 var(--space-10);
 }
 
-@include screen-min(bp(xxxl)) {
+@include mq(xxxl) {
 
     .ic-section .container,
     .ic-header .container,
@@ -82,7 +82,7 @@ body>.pageWrap {
     overflow-y: visible !important;
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .c-nav--main {
         justify-content: center;

@@ -58,7 +58,7 @@ video.ic-video-banner {
     width: 100vw;
 }
 
-@include between(bp(md-up), bp(lg)) {
+@include mq(md, only) {
 
     video.ic-video-banner {
         width: auto;
@@ -66,7 +66,7 @@ video.ic-video-banner {
     }
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     img.ic-image-banner {
         height: 100%;
@@ -85,14 +85,14 @@ img.ic-graphic.ic-graphic-bottom {
     margin-bottom: 0;
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     img.ic-image-flush {
         border-radius: var(--border-radius);
     }
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     img.ic-image-flush {
         max-width: none;

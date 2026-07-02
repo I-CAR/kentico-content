@@ -9,7 +9,7 @@ form {
     margin: calc(20rem / 16) auto 0;
 }
 
-@include min(bp(lg-up)) {
+@include mq(lg) {
 
     form {
         max-width: calc(400rem / 16);

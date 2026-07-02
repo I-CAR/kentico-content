@@ -24,21 +24,21 @@
     font-size: var(--h2-font-size);
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .ic-header {
         height: var(--header-height-desktop);
     }
 }
 
-@include min(bp(xxl)) {
+@include mq(xxl) {
 
     .ic-header h1 {
         font-size: var(--h1-font-size);
     }
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-header .nav .nav-link {
         padding-bottom: 0;

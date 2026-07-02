@@ -156,7 +156,7 @@ p>cite>strong {
     font-style: normal;
 }
 
-@include screen-max(bp(md)) {
+@include mq(md, down) {
 
     p>cite {
         line-height: 1.25;
@@ -385,14 +385,14 @@ ul.ic-logo-list>li {
     align-items: center;
 }
 
-@include min(bp(md)) {
+@include mq(md) {
 
     ul.ic-logo-list>li {
         flex: 0 0 calc(100% / 7);
     }
 }
 
-@include min(bp(xxl)) {
+@include mq(xxl) {
 
     ul.ic-logo-list>li {
         flex: 0 0 calc(100% / 8);
@@ -460,7 +460,7 @@ ul.ic-card-list-courses>li span {
     max-width: 100%;
 }
 
-@include min(bp(xxl-up)) {
+@include mq(xxl) {
 
     ul.ic-card-list-courses>li span {
         flex: 0 0 calc(200rem / 16);
@@ -469,7 +469,7 @@ ul.ic-card-list-courses>li span {
     }
 }
 
-@include max(bp(xxl)) {
+@include mq(xxl, down) {
 
     ul.ic-card-list-courses>li:has(span) {
         flex-flow: column nowrap;

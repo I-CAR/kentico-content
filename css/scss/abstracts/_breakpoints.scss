@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:list";
 
 /* Canonical global breakpoint scale */
 $bp-xs: 390px;
@@ -33,12 +34,32 @@ $breakpoints: (
     xxxl-up: $bp-xxxl-up,
 );
 
+$breakpoint-scale: xs, sm, md, lg, xl, xxl, xxxl;
+
 @function bp($name) {
     @if not map.has-key($breakpoints, $name) {
         @error "Unknown breakpoint `#{$name}`.";
     }
 
     @return map.get($breakpoints, $name);
+}
+
+@function bp-up($name) {
+    @return bp(#{$name}-up);
+}
+
+@function bp-next($name) {
+    $index: list.index($breakpoint-scale, $name);
+
+    @if $index == null {
+        @error "Unknown canonical breakpoint `#{$name}`.";
+    }
+
+    @if $index == list.length($breakpoint-scale) {
+        @return null;
+    }
+
+    @return list.nth($breakpoint-scale, $index + 1);
 }
 
 @mixin min($breakpoint) {
@@ -59,14 +80,40 @@ $breakpoints: (
     }
 }
 
-@mixin screen-min($breakpoint) {
-    @media screen and (min-width: $breakpoint) {
-        @content;
+@mixin mq($name, $direction: up, $until: null) {
+    @if not list.index($breakpoint-scale, $name) {
+        @error "mq() only supports canonical breakpoints: #{$breakpoint-scale}.";
     }
-}
 
-@mixin screen-max($breakpoint) {
-    @media screen and (max-width: $breakpoint) {
-        @content;
+    @if $until != null and not list.index($breakpoint-scale, $until) {
+        @error "mq() until breakpoint must be one of: #{$breakpoint-scale}.";
+    }
+
+    $next-name: $until;
+
+    @if $until == null {
+        $next-name: bp-next($name);
+    }
+
+    @if $direction == up {
+        @media (min-width: #{bp-up($name)}) {
+            @content;
+        }
+    } @else if $direction == down {
+        @media (max-width: #{bp($name)}) {
+            @content;
+        }
+    } @else if $direction == only {
+        @if $next-name == null {
+            @media (min-width: #{bp-up($name)}) {
+                @content;
+            }
+        } @else {
+            @media (min-width: #{bp-up($name)}) and (max-width: #{bp($next-name)}) {
+                @content;
+            }
+        }
+    } @else {
+        @error "mq() direction must be `up`, `down`, or `only`.";
     }
 }

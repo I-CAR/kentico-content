@@ -16,7 +16,7 @@
     transform: translateY(calc(var(--header-height-mobile) * -1));
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-anchor {
         transform: translateY(calc(var(--header-height-desktop) * -1));

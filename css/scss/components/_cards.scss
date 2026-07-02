@@ -26,7 +26,7 @@
     padding: var(--space-12);
 }
 
-@include max(bp(xs)) {
+@include mq(xs, down) {
 
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
         padding: var(--space-12) 0;
@@ -57,7 +57,7 @@
     padding: 0;
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-card.ic-card-lg .ic-card-cite {
         text-align: center;
@@ -69,7 +69,7 @@
     }
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-card.ic-card-lg:is(blockquote) {
         flex-flow: column-reverse nowrap;
@@ -112,7 +112,7 @@ padding: var(--space-20) 0;
     text-align: center;
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
         max-width: calc(565rem / var(--rem-base));
@@ -134,7 +134,7 @@ padding: var(--space-20) 0;
 
 
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) {
         flex-flow: row nowrap;
@@ -175,14 +175,14 @@ padding: var(--space-20) 0;
     }
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-card.ic-card-horizontal-mobile>.ic-card-body {
         text-align: center;
     }
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child).ic-card-row_mobile {
         flex-flow: row nowrap;
@@ -199,7 +199,7 @@ padding: var(--space-20) 0;
     }
 }
 
-@include max(bp(sm)) {
+@include mq(sm, down) {
 
     .ic-card:has(svg):not(.ic-background-white, .ic-background-light) svg {
         width: calc(60rem / var(--rem-base));
@@ -270,14 +270,14 @@ padding: var(--space-20) 0;
     padding-left: var(--space-20);
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-card.accordion-item {
         max-width: calc(616rem / var(--rem-base));
     }
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) {
         flex-flow: row nowrap;
@@ -326,7 +326,7 @@ padding: var(--space-20) 0;
     gap: var(--space-10);
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-card.ic-card-lg .ic-card-body {
         padding: var(--space-20) 0 0;
@@ -344,7 +344,7 @@ padding: var(--space-20) 0;
     padding: var(--space-12) var(--space-20);
 }
 
-@include max(bp(xs)) {
+@include mq(xs, down) {
 
     /* .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body, */
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
@@ -381,7 +381,7 @@ padding: var(--space-20) 0;
     flex-flow: column nowrap;
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
         padding: var(--space-30);
@@ -445,7 +445,7 @@ padding: var(--space-20) 0;
     padding: var(--space-20);
 }
 
-@include screen-max(bp(md)) {
+@include mq(md, down) {
 
     .ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-text {
         font-size: calc(14rem / var(--rem-base));
@@ -466,7 +466,7 @@ blockquote .ic-quote-text p:last-child::after {
     font-weight: var(--semibold);
 }
 
-@include screen-min(bp(md-up)) {
+@include mq(md) {
 
     blockquote .ic-quote-text+.ic-cite {
         justify-content: center;
@@ -532,7 +532,7 @@ blockquote .ic-quote-text p:last-child::after {
     padding: 0;
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
         border-radius: var(--border-radius) 0 0 var(--border-radius);

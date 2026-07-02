@@ -31,14 +31,14 @@
     font-size: 1rem;
 }
 
-@include min(bp(xs)) {
+@include mq(xs) {
 
     .ic-swatches>.ic-swatch {
         width: calc((100% / 3) - (1rem / 3));
     }
 }
 
-@include min(bp(sm)) {
+@include mq(sm) {
 
     .ic-swatches>.ic-swatch {
         width: 7.5rem;
@@ -46,7 +46,7 @@
     }
 }
 
-@include min(bp(md)) {
+@include mq(md) {
 
     .ic-swatches>.ic-swatch {
         width: 8rem;
@@ -54,7 +54,7 @@
     }
 }
 
-@include min(bp(lg)) {
+@include mq(lg) {
 
     .ic-swatches>.ic-swatch {
         width: 9rem;
@@ -62,7 +62,7 @@
     }
 }
 
-@include min(bp(xl)) {
+@include mq(xl) {
 
     .ic-swatches>.ic-swatch {
         width: 10rem;
@@ -70,7 +70,7 @@
     }
 }
 
-@include min(bp(xxl)) {
+@include mq(xxl) {
 
     .ic-swatches>.ic-swatch {
         width: 12rem;
@@ -78,7 +78,7 @@
     }
 }
 
-@include min(bp(xxxl)) {
+@include mq(xxxl) {
 
     .ic-swatches>.ic-swatch {
         width: 9rem;

@@ -17,7 +17,7 @@
     text-decoration: underline;
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-background-mobile-white {
         background-color: var(--white);
@@ -75,7 +75,7 @@
     border-top: 1px solid var(--light);
 }
 
-@include min(bp(xxxl-up)) {
+@include mq(xxxl) {
 
     .ic-section.ic-background-white.ic-section-border .container {
         padding: var(--section-padding) 0;

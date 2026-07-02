@@ -3,7 +3,7 @@
 
 @use "../abstracts/mixins" as *;
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-grid:has(svg):has(.ic-section-title) {
         display: grid;
@@ -35,7 +35,7 @@
     }
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-grid:has(svg):has(.ic-section-title) {
         display: flex;

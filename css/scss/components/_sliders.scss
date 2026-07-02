@@ -44,7 +44,7 @@
     aspect-ratio: 16 /9;
 }
 
-@include max(bp(sm)) {
+@include mq(sm, down) {
 
     .ic-swiper-courses .swiper-slide {
         padding: var(--space-10);

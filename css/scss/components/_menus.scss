@@ -39,7 +39,7 @@
     color: var(--gray-900)
 }
 
-@include max(bp(xs)) {
+@include mq(xs, down) {
 
     .ic-menu.ic-menu-horizontal:has(.ic-btn) {
         flex-flow: column nowrap;

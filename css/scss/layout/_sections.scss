@@ -12,7 +12,7 @@
     padding-top: var(--section-padding-sm);
 }
 
-@include min(bp(lg-up)) {
+@include mq(lg) {
 
     .ic-section.ic-section-padding-bottom-lg {
         padding-bottom: calc(var(--section-margin-lg) * 2 + var(--section-padding-lg));
@@ -62,7 +62,7 @@
     padding-top: clamp(var(--space-20), 0.433rem + 2.421vw, var(--space-40));
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-section.ic-background-light+.ic-section.ic-background-light {
         padding-top: calc(var(--section-padding-lg) + var(--section-margin-lg));
@@ -92,7 +92,7 @@
     margin-bottom: var(--section-margin);
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-section.ic-background-light+.ic-section.ic-background-light {
         padding-top: calc(var(--section-padding-sm) + var(--section-margin-sm));
@@ -115,7 +115,7 @@
     padding: var(--space-40) 0 !important;
 }
 
-@include min(bp(md-up)) {
+@include mq(md) {
 
     .ic-section-hero.ic-background-light {
         padding: 0;
@@ -152,7 +152,7 @@
     }
 }
 
-@include max(bp(md)) {
+@include mq(md, down) {
 
     .ic-section:has(.ic-box-mobile-collapse) .ic-image-banner,
     .ic-section:has(.ic-box-mobile-collapse) .ic-video-banner {
@@ -188,7 +188,7 @@
 }
 } */
 
-@include between(bp(md), bp(xl)) {
+@include mq(md, only, $until: xl) {
 
     .ic-section.ic-background-light img.ic-image-rounded:not(.ic-card-image) {
         aspect-ratio: 1 / 1;
