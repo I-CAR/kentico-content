@@ -2,7 +2,7 @@
   "name": "icar-content-kentico-info",
   "private": true,
   "scripts": {
-    "build:style-v2-scss": "node scripts/build-style-v2.mjs"
+    "build:style-v3-scss": "node scripts/build-style-v3.mjs"
   },
   "devDependencies": {
     "sass": "^1.101.0"

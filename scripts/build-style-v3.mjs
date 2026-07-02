@@ -3,10 +3,10 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { compile } from "sass";
 
-const output = "css/style-v2.compiled.css";
-const tempRoot = mkdtempSync(join(tmpdir(), "icar-style-v2-"));
+const output = "css/style-v3.css";
+const tempRoot = mkdtempSync(join(tmpdir(), "icar-style-v3-"));
 const tempScssRoot = join(tempRoot, "scss");
-const tempEntry = join(tempScssRoot, "style-v2.scss");
+const tempEntry = join(tempScssRoot, "style-v3.scss");
 
 cpSync("css/scss", tempScssRoot, { recursive: true });
 
