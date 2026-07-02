@@ -1,4 +1,15 @@
 (function () {
+    window.toggleLinks = function (trigger) {
+        const btn = trigger instanceof Element ? trigger : null;
+        const section = btn?.closest('.section_hero') || document.querySelector('.section_hero');
+        const dropdown = section?.querySelector('.dropdown');
+
+        if (!section || !dropdown) return;
+
+        section.classList.toggle('dropdown-open');
+        dropdown.classList.toggle('-hidden');
+    };
+
     const CONTAINER = '.js-ic-dropdown-container';
     const BTN_SEL = '.js-ic-btn-dropdown';
     const DD_SEL = '.js-ic-dropdown';
