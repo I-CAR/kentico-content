@@ -34,10 +34,6 @@
     /* padding-top: 0; */
 }
 
-main:not(+.row--with-cols-padding) .ic-section:last-child {
-    padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
-}
-
 .ic-section:has(.ic-image-banner, .ic-video-banner) {
     position: relative;
     overflow: hidden;

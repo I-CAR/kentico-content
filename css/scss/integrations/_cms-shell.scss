@@ -45,10 +45,6 @@ main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
     background: none !important;
 }
 
-main:has(>section:last-child):has(:not(+.row.row--with-cols-padding:has(form))) {
-    padding-bottom: clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120));
-}
-
 .header {
     border-bottom: 1px solid #ddd;
 }
