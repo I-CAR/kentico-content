@@ -1,0 +1,49 @@
+/* Source map: css/style-v2.css lines 1110-1158 */
+/* GRIDS */
+
+@media (min-width: 769px) {
+
+    .ic-grid:has(svg):has(.ic-section-title) {
+        display: grid;
+        grid-template-columns: 50px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: var(--space-20);
+        row-gap: .5rem;
+    }
+
+    .ic-grid:has(svg):has(.ic-section-title) h2,
+    .ic-grid:has(svg):has(.ic-section-title) svg {
+        align-self: center;
+    }
+
+    .ic-grid:has(svg):has(.ic-section-title) svg {
+        grid-column: 1;
+        grid-row: 1 / span 1;
+    }
+
+    .ic-grid:has(svg):has(.ic-section-title) h2 {
+        grid-column: 2;
+        grid-row: 1 / span 1;
+        margin-bottom: 0 !important;
+    }
+
+    .ic-grid:has(svg):has(.ic-section-title) p {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .ic-grid:has(svg):has(.ic-section-title) {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .ic-grid:has(svg):has(.ic-section-title) svg {
+        margin-bottom: .5rem;
+    }
+}

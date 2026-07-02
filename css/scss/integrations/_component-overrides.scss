@@ -1,0 +1,17 @@
+/* Source map: css/style-v2.css lines 2977-3000 */
+/* LATE COMPONENT OVERRIDES */
+
+:is(input, textarea, select).form-control {
+    box-shadow: none !important;
+}
+
+h1:empty {
+    display: none !important;
+}
+
+@media (min-width: 769px) {
+
+    section.ic-section .row .row {
+        width: 100%;
+    }
+}

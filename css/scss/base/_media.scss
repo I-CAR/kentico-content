@@ -1,0 +1,128 @@
+/* Source map: css/style-v2.css lines 710-837 */
+/* IMAGES/VIDEOS */
+
+img,
+video,
+iframe:not([src*="recaptcha"]) {
+    max-width: 100%;
+    height: auto;
+}
+
+img,
+video {
+    object-fit: cover;
+}
+
+iframe:not([src*="recaptcha"]) {
+    aspect-ratio: 16 / 9;
+}
+
+iframe[src*="google.com/maps"] {
+    border: 1px solid #778d98;
+}
+
+.ic-playlist {
+    font-size: 0;
+    color: transparent;
+}
+
+img.ic-image-rounded,
+video.ic-rounded,
+iframe.ic-rounded {
+    border-radius: var(--card-border-radius);
+}
+
+img.ic-image-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+section.ic-section:has(.ic-image-banner) .ic-image-logo {
+    position: relative;
+    z-index: 1;
+}
+
+video.ic-video-banner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+}
+
+@media (min-width: 768.1px) and (max-width: 1024px) {
+
+    video.ic-video-banner {
+        width: auto;
+        height: 100%;
+    }
+}
+
+@media (min-width: 768.1px) {
+
+    img.ic-image-banner {
+        height: 100%;
+    }
+}
+
+img.ic-graphic {
+    order: -2;
+    object-fit: contain;
+    margin-bottom: clamp(var(--space-20), 0.874rem + 1.112vw, var(--space-30));
+}
+
+img.ic-graphic.ic-graphic-bottom {
+    order: 1;
+    margin-top: clamp(var(--space-20), 0.874rem + 1.112vw, var(--space-30));
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+
+    img.ic-image-flush {
+        border-radius: var(--border-radius);
+    }
+}
+
+@media (min-width: 768.1px) {
+
+    img.ic-image-flush {
+        max-width: none;
+    }
+}
+
+.ic-checkmark {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    width: 2rem;
+    height: 2rem;
+    margin-top: -.35em;
+    border-radius: 50%;
+    background-color: var(--positive-color);
+    transition: background-color .25s ease-out, border-color .25s ease-out;
+}
+
+.ic-checkmark:after {
+    content: '';
+    display: block;
+    transform: rotate(45deg);
+    transform-origin: center;
+    width: calc(7rem / 16);
+    height: calc(14rem / 16);
+    border: solid var(--white);
+    border-width: 0 calc(3rem / 16) calc(3rem / 16) 0;
+    transition: opacity .25s ease-out;
+}
+
+html[data-darkreader-scheme="dark"] img[src*="placehold.co"] {
+    filter: invert(1) hue-rotate(180deg);
+}

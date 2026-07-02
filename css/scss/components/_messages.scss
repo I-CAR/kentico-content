@@ -1,0 +1,24 @@
+/* Source map: css/style-v2.css lines 1574-1597 */
+/* MESSAGES */
+
+.ic-message {
+    text-align: center;
+}
+
+.ic-message :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--cc-headline-font);
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+
+.ic-message p {
+    font-family: var(--cc-body-font);
+}
+
+.ic-message p a {
+    color: var(--cc-primary-color);
+}
+
+.ic-message p a:is(:hover, :focus, :active) {
+    color: var(--cc-primary-color-hover);
+}

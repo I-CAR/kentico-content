@@ -1,0 +1,21 @@
+/* Source map: css/style-v2.css lines 2267-2287 */
+/* DROPDOWNS */
+
+.ic-dropdown-container {
+    position: relative;
+    margin-top: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
+}
+
+.ic-dropdown {
+    position: absolute;
+    top: calc(100% + var(--space-10));
+    left: 0;
+    width: var(--space-300);
+    max-height: calc(132rem / var(--rem-base));
+    overflow: auto;
+    padding: .35em 0;
+    border-radius: var(--border-radius-sm);
+    text-align: left;
+    background: var(--white);
+    box-shadow: 0px 3px var(--space-20) #00000033;
+}

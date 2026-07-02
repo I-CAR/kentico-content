@@ -1,0 +1,92 @@
+/* Source map: css/style-v2.css lines 2887-2973 */
+/* CMS SHELL OVERRIDES */
+
+#main,
+#main>article {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#main>article {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+
+    #main>article {
+        overflow: hidden;
+    }
+}
+
+#main>article>.row>.content {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+
+    #main>article>.row>.content {
+        padding-right: 0;
+    }
+}
+
+main+.row.row--with-cols-padding {
+    margin-top: var(--section-margin);
+    background: white !important;
+    padding: var(--section-padding) calc(12rem / 16) clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120)) calc(12rem / 16);
+}
+
+main:has(section.ic-background-white:last-child)+.row.row--with-cols-padding {
+    background: var(--lightest) !important;
+}
+
+main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
+    margin-top: 0;
+    background: none !important;
+}
+
+main:has(>section:last-child):has(:not(+.row.row--with-cols-padding:has(form))) {
+    padding-bottom: clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120));
+}
+
+.header {
+    border-bottom: 1px solid #ddd;
+}
+
+.header .header-inner,
+.footer .footer-inner {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+
+.breadcrumb {
+    /* display: none; */
+    margin: calc(25rem / var(--rem-base)) auto;
+    padding: 0 calc(10rem / 16);
+}
+
+@media screen and (min-width: 1520px) {
+
+    .ic-section .container,
+    .ic-header .container,
+    .breadcrumb,
+    .header .header-inner,
+    .footer .footer-inner {
+        max-width: calc(1520rem / 16) !important;
+    }
+}
+
+body>.pageWrap {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
+@media (min-width: 1100px) {
+
+    .c-nav--main {
+        justify-content: center;
+    }
+}

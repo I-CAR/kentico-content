@@ -1,0 +1,44 @@
+/* Source map: css/style-v2.css lines 2612-2655 */
+/* PAGE HEADER */
+
+.ic-header {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    height: calc(137rem / var(--rem-base));
+    background:
+        linear-gradient(135deg,
+            var(--primary-color) 0%,
+            color-mix(in srgb, var(--primary-color) 60%, black) 25%,
+            var(--secondary-color) 50%,
+            color-mix(in srgb, var(--primary-color) 60%, black) 75%,
+            var(--primary-color) 100%);
+
+}
+
+.ic-header h1 {
+    font-size: var(--h2-font-size);
+}
+
+@media (min-width: 992px) {
+
+    .ic-header {
+        height: calc(97rem / var(--rem-base));
+    }
+}
+
+@media (min-width: 1400px) {
+
+    .ic-header h1 {
+        font-size: var(--h1-font-size);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .ic-header .nav .nav-link {
+        padding-bottom: 0;
+    }
+}

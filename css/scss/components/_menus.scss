@@ -1,0 +1,51 @@
+/* Source map: css/style-v2.css lines 1159-1209 */
+/* MENUS */
+
+.ic-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.ic-dropdown-menu {
+    margin: 0;
+    padding: var(--button-padding-y) 0;
+}
+
+.ic-menu>li>a:not(.ic-btn) {
+    display: block;
+    padding: calc(var(--button-padding-y) / 2) 0;
+}
+
+.ic-menu.ic-menu-horizontal {
+    display: flex;
+    flex-flow: row wrap;
+    gap: var(--space-30);
+    margin-top: .5rem;
+}
+
+.ic-menu.ic-menu-horizontal:has(.ic-btn) {
+    justify-content: center;
+    gap: var(--space-20);
+}
+
+.ic-menu.ic-menu-horizontal>li>a:not(.ic-btn) {
+    padding: 0;
+}
+
+.ic-dropdown-menu>li>a:not(.ic-btn) {
+    padding: calc(var(--button-padding-y) / 2) var(--button-padding-x);
+    color: var(--gray-900)
+}
+
+@media (max-width: 420px) {
+
+    .ic-menu.ic-menu-horizontal:has(.ic-btn) {
+        flex-flow: column nowrap;
+        align-items: stretch;
+    }
+
+    .ic-menu.ic-menu-horizontal .ic-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,154 @@
+/* Source map: css/style-v2.css lines 2717-2868 */
+/* BACKGROUNDS */
+
+.ic-background-light {
+    background-color: var(--lightest);
+}
+
+.ic-background-secondary :is(h1, h2, h3, h4, h5, h6, a) {
+    color: var(--white);
+}
+
+.ic-background-secondary a:hover,
+.ic-background-secondary a:focus {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+
+    .ic-background-mobile-white {
+        background-color: var(--white);
+    }
+
+    .ic-section:not(.ic-background-light)+.ic-section.ic-background-mobile-white,
+    .ic-section.ic-background-mobile-white+.ic-section:has(.ic-image-cutout) {
+        padding-top: 0;
+    }
+
+    .ic-section.ic-background-mobile-white+.ic-section:has(.ic-image-banner, .ic-video-banner) {
+        padding-top: calc(var(--section-padding-sm) / 2);
+    }
+}
+
+.ic-background-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    --color-hex: "#0045FF";
+    --color-rgb: "rgb(0, 69, 255)";
+}
+
+.ic-background-secondary {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    --color-hex: "#3E72FD";
+    --color-rgb: "rgb(62, 114, 253)";
+}
+
+.ic-background-tertiary {
+    background-color: var(--tertiary-color);
+    color: var(--white);
+    --color-hex: "#006CB4";
+    --color-rgb: "rgb(0, 108, 180)";
+}
+
+.ic-background-white {
+    background-color: var(--white);
+    border: 1px solid var(--gray-50);
+    --color-hex: "#FFFFFF";
+    --color-rgb: "rgb(255, 255, 255)";
+}
+
+.ic-section.ic-background-white {
+    border: 0;
+}
+
+.ic-section.ic-background-white.ic-section-border {
+    padding: 0;
+}
+
+.ic-section.ic-background-white.ic-section-border .container {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+    border-top: 1px solid var(--light);
+}
+
+@media (min-width: 1551px) {
+
+    .ic-section.ic-background-white.ic-section-border .container {
+        padding: var(--section-padding) 0;
+    }
+}
+
+.ic-section.ic-background-white.ic-section-border:first-child .container {
+    /* padding-top: 0; */
+    border: 0;
+}
+
+.ic-section.ic-background-white.ic-section-border+.ic-section.ic-background-white.ic-section-border {
+    padding-top: 0;
+}
+
+.ic-background-primary-100 {
+    background-color: var(--primary-100);
+}
+
+.ic-background-gray-50 {
+    background-color: var(--gray-50);
+    --color-hex: "#F7F7F7";
+    --color-rgb: "rgb(247, 247, 247)";
+}
+
+.ic-background-gray-100 {
+    background-color: var(--gray-100);
+    --color-hex: "#E6E7E8";
+    --color-rgb: "rgb(230, 231, 232)";
+}
+
+.ic-background-gray-200 {
+    background-color: var(--gray-200);
+    --color-hex: "#DEDEDE";
+    --color-rgb: "rgb(222, 222, 222)";
+}
+
+.ic-background-gray-500 {
+    background-color: var(--gray-500);
+    color: var(--white);
+    --color-hex: "#A0A0A0";
+    --color-rgb: "rgb(160, 160, 160)";
+}
+
+.ic-background-gray-700 {
+    background-color: var(--gray-700);
+    color: var(--white);
+    --color-hex: "#707070";
+    --color-rgb: "rgb(112, 112, 112)";
+}
+
+.ic-background-gray-900 {
+    background-color: var(--gray-900);
+    color: var(--white);
+    --color-hex: "#333538";
+    --color-rgb: "rgb(51, 53, 56)";
+}
+
+.ic-background-black {
+    background-color: var(--gray-900);
+    color: var(--white);
+    --color-hex: "#000000";
+    --color-rgb: "rgb(0, 0, 0)";
+}
+
+.ic-background-positive {
+    background-color: var(--positive-color);
+    color: var(--white);
+    --color-hex: "#209C02";
+    --color-rgb: "rgb(32, 156, 2)";
+}
+
+.ic-background-negative {
+    background-color: var(--negative-color);
+    color: var(--white);
+    --color-hex: "#D90000";
+    --color-rgb: "rgb(217, 0, 0)";
+}

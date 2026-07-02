@@ -1,0 +1,61 @@
+/* Source map: css/style-v2.css lines 2656-2716 */
+/* UTILITIES */
+
+.ic-sticky {
+    position: sticky;
+    top: var(--space-30);
+}
+
+.ic-visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.ic-section .col.text-center {
+    align-items: center;
+}
+
+@media (min-width: 768.1px) {
+
+    .ic-section .col.text-md-center {
+        align-items: center;
+    }
+
+    .ic-section .col.text-md-start {
+        align-items: flex-start;
+    }
+}
+
+.row.row_compact {
+    width: calc(100% + var(--space-10));
+    margin: -5px;
+}
+
+.row.row_compact .col-xxl-5up {
+    padding: 5px !important;
+}
+
+.row.row_compact .col-xxl-5up .ic-card {
+    height: 100%;
+}
+
+@media (min-width: 1440px) {
+
+    .row .col-xxl-5up {
+        flex: 0 0 20%;
+        max-width: 20%;
+
+    }
+}
+
+.ic-section.ic-section-nav {
+    margin-top: 0;
+    padding: var(--space-20) 0;
+}

@@ -1,0 +1,23 @@
+/* Source map: css/style-v2.css lines 2871-2885 and 3001-3005 */
+/* BOOTSTRAP / FRAMEWORK OVERRIDES */
+
+.ic-section:before {
+    content: none !important;
+}
+
+ul.row,
+ul:has(.ic-card) {
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.col {
+    position: static !important;
+}
+
+.table>:not(caption)>*>* {
+    background: none;
+    color: var(--darkest);
+}

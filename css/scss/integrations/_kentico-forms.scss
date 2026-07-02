@@ -1,0 +1,11 @@
+/* Source map: css/style-v2.css Kentico and formwidget selectors */
+/* KENTICO FORMS / CMS FORM OVERRIDES */
+
+.formwidget-submit-text,
+.formwidget-error {
+    display: block;
+    margin-top: calc(20rem / 16);
+    text-align: center;
+    font-size: var(--h4-font-size);
+    font-weight: 600;
+}

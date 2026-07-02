@@ -1,0 +1,23 @@
+/* Source map: css/style-v2.css lines 131-152 */
+/* KEYFRAMES */
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -100%) scale(0.9);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+    }
+}

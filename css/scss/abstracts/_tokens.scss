@@ -1,0 +1,130 @@
+/* Source map: css/style-v2.css lines 3-129 */
+/* Use for clamp calculations: https://www.marcbacon.com/tools/clamp-calculator/ */
+
+/* VARIABLES */
+
+:root {
+    --primary-color: #0045FF;
+    --secondary-color: #3E72FD;
+    --tertiary-color: #006CB4;
+    --deep-color: #003663;
+    --positive-color: #209C02;
+    --negative-color: #D90000;
+
+    --primary-100: #e5f0f7;
+
+    --cc-primary-color-100: #469AE4;
+    --cc-primary-color-200: #2B8CE0;
+    --cc-primary-color-300: #1E7CCF;
+    --cc-primary-color-400: #1A6CB4;
+    --cc-primary-color-500: #165C99;
+    --cc-primary-color-600: #114675;
+    --cc-primary-color-700: #0D365A;
+    --cc-primary-color-800: #09263F;
+    --cc-primary-color-900: #051624;
+
+    --cc-primary-color: var(--cc-primary-color-400);
+    --cc-primary-color-hover: var(--cc-primary-color-500);
+    --cc-primary-color-active: var(--cc-primary-color-800);
+
+    --white: #FFFFFF;
+    --gray-50: #F7F7F7;
+    --gray-100: #E6E7E8;
+    --gray-200: #DEDEDE;
+    --gray-500: #A0A0A0;
+    --gray-600: #989898;
+    --gray-700: #707070;
+    --gray-900: #333538;
+    --black: #000000;
+
+    --lightest: var(--gray-50);
+    --light: var(--gray-100);
+    --gray: var(--gray-500);
+    --dark: var(--gray-700);
+    --darkest: var(--gray-900);
+
+    --link-color: var(--primary-color);
+    --link-hover-color: var(--secondary-color);
+
+    --rem-base: 16;
+    --site-width: calc(1440rem / var(--rem-base));
+
+    --space-4: .25rem;
+    --space-8: .5rem;
+    --space-10: calc(10rem / var(--rem-base));
+    --space-12: calc(12rem / var(--rem-base));
+    --space-15: calc(15rem / var(--rem-base));
+    --space-20: calc(var(--space-10) * 2);
+    --space-24: calc(var(--space-12) * 2);
+    --space-30: calc(var(--space-15) * 2);
+    --space-40: calc(var(--space-20) * 2);
+    --space-50: calc(50rem / var(--rem-base));
+    --space-60: calc(var(--space-30) * 2);
+    --space-80: calc(var(--space-40) * 2);
+    --space-100: calc(100rem / var(--rem-base));
+    --space-120: calc(var(--space-60) * 2);
+    --space-250: calc(var(--space-100) * 2.5);
+    --space-300: calc(var(--space-100) * 3);
+
+    --h1-font-size: calc(36rem / 16);
+    --h2-font-size: calc(28rem / 16);
+    --h3-font-size: calc(22rem / 16);
+    --h4-font-size: calc(18rem / 16);
+    --h5-font-size: 1rem;
+    --h6-font-size: var(--h5-font-size);
+    --body-font-size: var(--h6-font-size);
+
+    --border-radius-xs: var(--space-8);
+    --border-radius-sm: var(--space-12);
+    --border-radius-lg: var(--space-20);
+    --border-radius: clamp(var(--border-radius-sm), calc(0.385rem + 1.013vw), var(--border-radius-lg));
+
+    --fallback-fonts: "Segoe UI", Roboto, "Helvetica Neue", -apple-system, system-ui, "Noto Sans", "Liberation Sans", Arial, sans-serif;
+    --primary-font: 'Source Sans 3', 'Source Sans Pro', var(--fallback-fonts);
+
+    --cc-headline-font: "Changa One", "Arial Black", "Franklin Gothic Heavy", "Segoe UI Black", "Roboto Black", "Helvetica Neue", Arial, sans-serif;
+    --cc-body-font: "Montserrat", var(--fallback-fonts);
+
+    --bold: 700;
+    --semibold: 600;
+
+    --button-padding-y: .6em;
+    --button-padding-x: 1.5em;
+    --button-padding: var(--button-padding-y) var(--button-padding-x);
+    --button-border-radius: var(--border-radius-xs);
+    --button-border-width: 2px;
+    --button-font-weight: var(--semibold);
+
+    --form-field-padding-y: var(--space-12);
+    --form-field-padding-x: var(--form-field-padding-y);
+    --form-field-padding: var(--form-field-padding-y) var(--form-field-padding-x);
+    --form-field-border-width: 1px;
+
+    --card-padding-y: var(--space-30);
+    --card-padding-x: var(--space-20);
+    --card-padding: var(--card-padding-y) var(--card-padding-x);
+    --card-border-radius-sm: var(--space-12);
+    --card-border-radius-lg: var(--space-20);
+    --card-border-radius: clamp(var(--card-border-radius-sm), 0.422rem + 0.97vw, var(--card-border-radius-lg));
+    --card-border-width: 1px;
+    /* --card-box-shadow: 0px 0px var(--space-20) #0000001A; */
+    /* --card-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20); */
+    --card-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+
+    --box-padding-y: clamp(var(--space-20), 0.357rem + 2.381vw, var(--space-40));
+
+    --box-padding-x: var(--box-padding-y);
+    --box-padding: var(--box-padding-x);
+
+    --section-padding-sm: var(--space-40);
+    --section-padding-lg: var(--space-80);
+    --section-padding: clamp(var(--section-padding-sm), 0.996rem + 4.449vw, var(--section-padding-lg));
+
+    --section-margin-sm: var(--space-20);
+    --section-margin-lg: var(--section-margin-sm);
+    --section-margin: var(--section-margin-lg);
+
+    --hero-padding-sm: var(--space-100);
+    --hero-padding-lg: var(--space-250);
+    --hero-padding: clamp(var(--hero-padding-sm), -4.494rem + 22.355vw, var(--hero-padding-lg));
+}
