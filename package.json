@@ -6,6 +6,8 @@
     "clean": "rm -f css/style-v3.css css/style-v3.css.map",
     "start": "node scripts/build-style-v3.mjs --watch",
     "build": "node scripts/build-style-v3.mjs --production",
+    "build:js": "esbuild js/src/index.js --bundle --format=iife --outfile=js/script.js",
+    "build:js:watch": "esbuild js/src/index.js --bundle --format=iife --outfile=js/script.js --watch",
     "build:dev": "node scripts/build-style-v3.mjs",
     "build:style-v3-scss": "npm run build:dev",
     "build:check": "npm run lint:scss && npm run build",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "autoprefixer": "^10.5.2",
     "cssnano": "^7.1.9",
+    "esbuild": "^0.25.9",
     "postcss": "^8.5.16",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",

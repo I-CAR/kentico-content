@@ -1,278 +1,255 @@
-(function () {
-    window.toggleLinks = function (trigger) {
-        const btn = trigger instanceof Element ? trigger : null;
-        const section = btn?.closest('.section_hero') || document.querySelector('.section_hero');
-        const dropdown = section?.querySelector('.dropdown');
+(() => {
+  // js/src/utils/on-dom-ready.js
+  function onDomReady(callback) {
+    if (document.readyState !== "loading") {
+      callback();
+      return;
+    }
+    document.addEventListener("DOMContentLoaded", callback, { once: true });
+  }
 
-        if (!section || !dropdown) return;
-
-        section.classList.toggle('dropdown-open');
-        dropdown.classList.toggle('-hidden');
+  // js/src/features/hero-links-dropdown.js
+  var CONTAINER = ".js-ic-dropdown-container";
+  var BTN_SEL = ".js-ic-btn-dropdown";
+  var DD_SEL = ".js-ic-dropdown";
+  var HIDDEN = "ic-visually-hidden";
+  var HERO_SECTION = ".section_hero";
+  function getDropdown(button) {
+    const id = button.getAttribute("aria-controls") || button.getAttribute("data-target");
+    if (id) {
+      const node = document.getElementById(id.replace(/^#/, ""));
+      if (node) return node;
+    }
+    const container = button.closest(CONTAINER);
+    return container ? container.querySelector(DD_SEL) : null;
+  }
+  function hideDropdown(dropdown, button) {
+    if (!dropdown || dropdown.classList.contains(HIDDEN)) return;
+    if (dropdown.contains(document.activeElement)) {
+      button?.focus({ preventScroll: true });
+    }
+    dropdown.classList.add(HIDDEN);
+    dropdown.setAttribute("aria-hidden", "true");
+    dropdown.setAttribute("inert", "");
+    button?.setAttribute("aria-expanded", "false");
+  }
+  function showDropdown(dropdown, button) {
+    if (!dropdown) return;
+    dropdown.classList.remove(HIDDEN);
+    dropdown.removeAttribute("aria-hidden");
+    dropdown.removeAttribute("inert");
+    button?.setAttribute("aria-expanded", "true");
+  }
+  function closeAllExcept(skip) {
+    document.querySelectorAll(DD_SEL).forEach((dropdown) => {
+      if (dropdown !== skip) hideDropdown(dropdown, dropdown._icOwnerBtn);
+    });
+  }
+  function primeA11y(dropdown, button) {
+    dropdown._icOwnerBtn = button;
+    if (!button.hasAttribute("aria-haspopup")) button.setAttribute("aria-haspopup", "menu");
+    if (!button.hasAttribute("aria-expanded")) button.setAttribute("aria-expanded", "false");
+    if (!dropdown.hasAttribute("role")) dropdown.setAttribute("role", "menu");
+    if (dropdown.classList.contains(HIDDEN)) {
+      dropdown.setAttribute("aria-hidden", "true");
+      dropdown.setAttribute("inert", "");
+    }
+    dropdown.querySelectorAll("a, button").forEach((element) => {
+      if (!element.hasAttribute("role")) element.setAttribute("role", "menuitem");
+      if (!element.hasAttribute("tabindex")) element.tabIndex = 0;
+    });
+  }
+  function initHeroToggleLinks() {
+    window.toggleLinks = function(trigger) {
+      const button = trigger instanceof Element ? trigger : null;
+      const section = button?.closest(HERO_SECTION) || document.querySelector(HERO_SECTION);
+      const dropdown = section?.querySelector(".dropdown");
+      if (!section || !dropdown) return;
+      section.classList.toggle("dropdown-open");
+      dropdown.classList.toggle("-hidden");
     };
-
-    const CONTAINER = '.js-ic-dropdown-container';
-    const BTN_SEL = '.js-ic-btn-dropdown';
-    const DD_SEL = '.js-ic-dropdown';
-    const HIDDEN = 'ic-visually-hidden';
-
-    // Get dropdown associated with a button
-    function getDropdown(btn) {
-        // 1) aria-controls wins
-        const id = btn.getAttribute('aria-controls') || btn.getAttribute('data-target');
-        if (id) {
-            const node = document.getElementById(id.replace(/^#/, ''));
-            if (node) return node;
-        }
-        // 2) fallback: find within the same container
-        const container = btn.closest(CONTAINER);
-        return container ? container.querySelector(DD_SEL) : null;
-    }
-
-    function hideDropdown(dropdown, btn) {
-        if (!dropdown || dropdown.classList.contains(HIDDEN)) return;
-
-        // If focus is inside the dropdown, send it back to the button before hiding
-        if (dropdown.contains(document.activeElement)) {
-            btn?.focus({ preventScroll: true });
-        }
-
-        dropdown.classList.add(HIDDEN);
-        dropdown.setAttribute('aria-hidden', 'true');
-        dropdown.setAttribute('inert', '');
-        btn?.setAttribute('aria-expanded', 'false');
-    }
-
-    function showDropdown(dropdown, btn) {
-        if (!dropdown) return;
-
-        dropdown.classList.remove(HIDDEN);
-        dropdown.removeAttribute('aria-hidden');
-        dropdown.removeAttribute('inert');
-        btn?.setAttribute('aria-expanded', 'true');
-    }
-
-    function closeAllExcept(skip) {
-        document.querySelectorAll(DD_SEL).forEach(d => {
-            if (d !== skip) hideDropdown(d, d._icOwnerBtn);
-        });
-    }
-
-    function primeA11y(dropdown, btn) {
-        dropdown._icOwnerBtn = btn;
-
-        // Button ARIA
-        if (!btn.hasAttribute('aria-haspopup')) btn.setAttribute('aria-haspopup', 'menu');
-        if (!btn.hasAttribute('aria-expanded')) btn.setAttribute('aria-expanded', 'false');
-        // Never set aria-hidden on the button.
-
-        // Dropdown ARIA
-        if (!dropdown.hasAttribute('role')) dropdown.setAttribute('role', 'menu');
-        if (dropdown.classList.contains(HIDDEN)) {
-            dropdown.setAttribute('aria-hidden', 'true');
-            dropdown.setAttribute('inert', '');
-        }
-
-        dropdown.querySelectorAll('a, button').forEach(el => {
-            if (!el.hasAttribute('role')) el.setAttribute('role', 'menuitem');
-            if (!el.hasAttribute('tabindex')) el.tabIndex = 0;
-        });
-    }
-
-    // Delegated click handler (works for any number of containers)
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest(BTN_SEL);
-        if (!btn) return;
-
-        // Ensure click was inside a valid container
-        if (!btn.closest(CONTAINER)) return;
-
-        e.preventDefault();
-
-        const dropdown = getDropdown(btn);
-        if (!dropdown) return;
-
-        primeA11y(dropdown, btn);
-
-        const willOpen = dropdown.classList.contains(HIDDEN);
-        if (willOpen) {
-            closeAllExcept(dropdown);
-
-            // Outside click + Escape to close
-            function onDocClick(ev) {
-                if (dropdown.contains(ev.target) || btn.contains(ev.target)) return;
-                teardown();
-                hideDropdown(dropdown, btn);
-            }
-            function onKey(ev) {
-                if (ev.key === 'Escape') {
-                    teardown();
-                    hideDropdown(dropdown, btn);
-                    btn.focus();
-                }
-            }
-            function teardown() {
-                document.removeEventListener('click', onDocClick);
-                document.removeEventListener('keydown', onKey);
-            }
-            // Defer to avoid immediate close from the opening click
-            setTimeout(() => {
-                document.addEventListener('click', onDocClick);
-                document.addEventListener('keydown', onKey);
-            }, 0);
-
-            showDropdown(dropdown, btn);
-        } else {
-            hideDropdown(dropdown, btn);
-        }
+  }
+  function initDropdownButtons() {
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest(BTN_SEL);
+      if (!button || !button.closest(CONTAINER)) return;
+      event.preventDefault();
+      const dropdown = getDropdown(button);
+      if (!dropdown) return;
+      primeA11y(dropdown, button);
+      const willOpen = dropdown.classList.contains(HIDDEN);
+      if (!willOpen) {
+        hideDropdown(dropdown, button);
+        return;
+      }
+      closeAllExcept(dropdown);
+      function teardown() {
+        document.removeEventListener("click", onDocClick);
+        document.removeEventListener("keydown", onKeydown);
+      }
+      function onDocClick(nextEvent) {
+        if (dropdown.contains(nextEvent.target) || button.contains(nextEvent.target)) return;
+        teardown();
+        hideDropdown(dropdown, button);
+      }
+      function onKeydown(nextEvent) {
+        if (nextEvent.key !== "Escape") return;
+        teardown();
+        hideDropdown(dropdown, button);
+        button.focus();
+      }
+      setTimeout(() => {
+        document.addEventListener("click", onDocClick);
+        document.addEventListener("keydown", onKeydown);
+      }, 0);
+      showDropdown(dropdown, button);
     });
+  }
+  function initDropdownA11yPass() {
+    document.querySelectorAll(CONTAINER).forEach((container) => {
+      const button = container.querySelector(BTN_SEL);
+      const dropdown = container.querySelector(DD_SEL);
+      if (button && dropdown) primeA11y(dropdown, button);
+    });
+  }
+  function initHeroLinksDropdown() {
+    initHeroToggleLinks();
+    initDropdownButtons();
+    onDomReady(initDropdownA11yPass);
+  }
 
-    // Optional: initialize ARIA/inert on load for all instances
-    function initPass() {
-        document.querySelectorAll(CONTAINER).forEach(container => {
-            const btn = container.querySelector(BTN_SEL);
-            const dropdown = container.querySelector(DD_SEL);
-            if (btn && dropdown) primeA11y(dropdown, btn);
-        });
+  // js/src/features/recaptcha.js
+  function loadRecaptcha() {
+    if (window.grecaptcha || document.querySelector('script[src*="google.com/recaptcha/api.js"]')) {
+      return;
     }
-    if (document.readyState !== 'loading') initPass();
-    else document.addEventListener('DOMContentLoaded', initPass);
-})();
-
-// reCAPTCHA loader + timestamp updater
-(function () {
-    // Load the API once (only if not already present on the page)
-    function loadRecaptcha() {
-        if (window.grecaptcha || document.querySelector('script[src*="google.com/recaptcha/api.js"]')) return;
-        var s = document.createElement('script');
-        s.src = 'https://www.google.com/recaptcha/api.js';
-        s.async = true;
-        s.defer = true;
-        document.head.appendChild(s);
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+  function updateCaptchaTimestamp() {
+    const response = document.getElementById("g-recaptcha-response");
+    if (response && response.value && response.value.trim() !== "") return;
+    const settingsElement = document.getElementsByName("captcha_settings")[0];
+    if (!settingsElement || !settingsElement.value) return;
+    try {
+      const data = JSON.parse(settingsElement.value);
+      data.ts = String(Date.now());
+      settingsElement.value = JSON.stringify(data);
+    } catch {
     }
-
-    // Mirror of your timestamp() with safety checks
-    function updateCaptchaTimestamp() {
-        var response = document.getElementById('g-recaptcha-response');
-        if (response && response.value && response.value.trim() !== '') return;
-
-        var settingsEl = document.getElementsByName('captcha_settings')[0];
-        if (!settingsEl || !settingsEl.value) return;
-
-        try {
-            var json = JSON.parse(settingsEl.value);
-            json.ts = String(Date.now());
-            settingsEl.value = JSON.stringify(json);
-        } catch (e) {
-            // If the field isn't valid JSON yet, skip quietly.
-        }
+  }
+  function startRecaptcha() {
+    loadRecaptcha();
+    const hasCaptcha = document.getElementById("g-recaptcha-response") || document.getElementsByName("captcha_settings")[0];
+    if (hasCaptcha) {
+      setInterval(updateCaptchaTimestamp, 500);
     }
+  }
+  function initRecaptcha() {
+    onDomReady(startRecaptcha);
+  }
 
-    function start() {
-        loadRecaptcha();
-        // Only run the interval if the page actually has reCAPTCHA fields
-        var hasCaptcha = document.getElementById('g-recaptcha-response') || document.getElementsByName('captcha_settings')[0];
-        if (hasCaptcha) setInterval(updateCaptchaTimestamp, 500);
-    }
-
-    if (document.readyState !== 'loading') start();
-    else document.addEventListener('DOMContentLoaded', start);
-})();
-
-document.addEventListener("DOMContentLoaded", function () {
+  // js/src/features/swatches.js
+  function initSwatches() {
     const swatches = document.querySelectorAll(".js-ic-swatch");
-
-    swatches.forEach(swatch => {
-        swatch.addEventListener("click", function (e) {
-            const hex = getComputedStyle(swatch)
-                .getPropertyValue("--color-hex")
-                .replace(/"/g, "")
-                .trim();
-
-            if (!hex) return;
-
-            navigator.clipboard.writeText(hex).then(() => {
-                const msg = document.createElement("span");
-                msg.className = "ic-copied-msg";
-                msg.textContent = `Copied ${hex}!`;
-
-                // Position relative to click inside swatch
-                const rect = swatch.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                msg.style.left = `${x}px`;
-                msg.style.top = `${y}px`;
-
-                swatch.appendChild(msg);
-
-                setTimeout(() => msg.remove(), 1500);
-            });
+    swatches.forEach((swatch) => {
+      swatch.addEventListener("click", (event) => {
+        const hex = getComputedStyle(swatch).getPropertyValue("--color-hex").replace(/"/g, "").trim();
+        if (!hex) return;
+        navigator.clipboard.writeText(hex).then(() => {
+          const message = document.createElement("span");
+          message.className = "ic-copied-msg";
+          message.textContent = `Copied ${hex}!`;
+          const rect = swatch.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          message.style.left = `${x}px`;
+          message.style.top = `${y}px`;
+          swatch.appendChild(message);
+          setTimeout(() => message.remove(), 1500);
         });
+      });
     });
-});
+  }
+  function initSwatchCopy() {
+    onDomReady(initSwatches);
+  }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const swiper = new Swiper('.js-ic-swiper', {
-        loop: false,
-        spaceBetween: 0,
-        grabCursor: true,
-        slidesPerView: 1.25,
-
-        breakpoints: {
-            576: {
-                slidesPerView: 2
-            },
-            1024: {
-                slidesPerView: 3
-            },
-            1440: {
-                slidesPerView: 4
-            },
+  // js/src/features/swiper-default.js
+  function initDefaultSwiperInstance() {
+    if (typeof Swiper === "undefined" || !document.querySelector(".js-ic-swiper")) return;
+    new Swiper(".js-ic-swiper", {
+      loop: false,
+      spaceBetween: 0,
+      grabCursor: true,
+      slidesPerView: 1.25,
+      breakpoints: {
+        576: {
+          slidesPerView: 2
         },
-
-        navigation: {
-            nextEl: '.js-ic-swiper-nav-next',
-            prevEl: '.js-ic-swiper-nav-prev',
+        1024: {
+          slidesPerView: 3
         },
-
-        keyboard: {
-            enabled: true,
-        },
+        1440: {
+          slidesPerView: 4
+        }
+      },
+      navigation: {
+        nextEl: ".js-ic-swiper-nav-next",
+        prevEl: ".js-ic-swiper-nav-prev"
+      },
+      keyboard: {
+        enabled: true
+      }
     });
-});
+  }
+  function initDefaultSwiper() {
+    onDomReady(initDefaultSwiperInstance);
+  }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const coursesSwiperEl = document.querySelector('.js-ic-swiper-courses');
-    if (!coursesSwiperEl || typeof Swiper === 'undefined') return;
-
-    new Swiper('.js-ic-swiper-courses', {
-        loop: false,
-        spaceBetween: 0,
-        grabCursor: true,
-        slidesPerView: 1.25,
-
-        breakpoints: {
-            576: {
-                slidesPerView: 2,
-                spaceBetween: 22,
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 22,
-            },
-            1200: {
-                slidesPerView: 4,
-                spaceBetween: 22,
-            },
+  // js/src/features/swiper-courses.js
+  function initCoursesSwiperInstance() {
+    const coursesSwiperElement = document.querySelector(".js-ic-swiper-courses");
+    if (!coursesSwiperElement || typeof Swiper === "undefined") return;
+    new Swiper(".js-ic-swiper-courses", {
+      loop: false,
+      spaceBetween: 0,
+      grabCursor: true,
+      slidesPerView: 1.25,
+      breakpoints: {
+        576: {
+          slidesPerView: 2,
+          spaceBetween: 22
         },
-
-        navigation: {
-            nextEl: '.js-ic-swiper-nav-next',
-            prevEl: '.js-ic-swiper-nav-prev',
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 22
         },
-
-        keyboard: {
-            enabled: true,
-        },
+        1200: {
+          slidesPerView: 4,
+          spaceBetween: 22
+        }
+      },
+      navigation: {
+        nextEl: ".js-ic-swiper-nav-next",
+        prevEl: ".js-ic-swiper-nav-prev"
+      },
+      keyboard: {
+        enabled: true
+      }
     });
-});
+  }
+  function initCoursesSwiper() {
+    onDomReady(initCoursesSwiperInstance);
+  }
+
+  // js/src/index.js
+  initHeroLinksDropdown();
+  initRecaptcha();
+  initSwatchCopy();
+  initDefaultSwiper();
+  initCoursesSwiper();
+})();
