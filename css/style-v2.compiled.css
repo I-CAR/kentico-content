@@ -114,10 +114,7 @@
   --tooltip-font-size: 0.75rem;
 }
 
-/* Shared breakpoint references for future SCSS authoring. */
-/* Keep compiled CSS values aligned with style-v2.css breakpoints. */
-/* Optional mixin layer for future extraction. */
-/* Avoid changing output values or selector structure when introducing mixins. */
+/* Canonical global breakpoint scale */
 /* Source map: css/style-v2.css lines 131-152 */
 /* KEYFRAMES */
 @keyframes fadeInOut {
@@ -859,7 +856,7 @@ html[data-darkreader-scheme=dark] img[src*="placehold.co"] {
   font-size: 1.125rem;
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 390px) {
   .table tr.total ~ tr:not(.total) th {
     padding-left: 1.875rem;
   }
@@ -1067,7 +1064,7 @@ form input[type=submit]:active {
 
 /* Source map: css/style-v2.css lines 1110-1158 */
 /* GRIDS */
-@media (min-width: 769px) {
+@media (min-width: 768.1px) {
   .ic-grid:has(svg):has(.ic-section-title) {
     display: grid;
     grid-template-columns: 50px minmax(0, 1fr);
@@ -1143,7 +1140,7 @@ form input[type=submit]:active {
   color: var(--gray-900);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
   .ic-menu.ic-menu-horizontal:has(.ic-btn) {
     flex-flow: column nowrap;
     align-items: stretch;
@@ -1183,7 +1180,7 @@ form input[type=submit]:active {
   font-size: 1rem;
 }
 
-@media (min-width: 440px) {
+@media (min-width: 390px) {
   .ic-swatches > .ic-swatch {
     width: calc(33.3333333333% - 0.3333333333rem);
   }
@@ -1200,19 +1197,19 @@ form input[type=submit]:active {
     height: 8rem;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .ic-swatches > .ic-swatch {
     width: 9rem;
     height: 9rem;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .ic-swatches > .ic-swatch {
     width: 10rem;
     height: 10rem;
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .ic-swatches > .ic-swatch {
     width: 12rem;
     height: 12rem;
@@ -1263,7 +1260,7 @@ form {
   margin: 1.25rem auto 0;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1024.1px) {
   form {
     max-width: 25rem;
   }
@@ -1550,7 +1547,7 @@ form.ic-form .ic-required {
   padding: var(--space-12);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
   .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
     padding: var(--space-12) 0;
   }
@@ -1624,7 +1621,7 @@ padding: var(--space-20) 0;
   text-align: center;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768.1px) {
   .ic-card:is(.ic-background-white):has(.stretched-link, .accordion-button) {
     max-width: calc(565rem / var(--rem-base));
   }
@@ -1690,7 +1687,7 @@ padding: var(--space-20) 0;
     padding: var(--space-20);
   }
 }
-@media (max-width: 540px) {
+@media (max-width: 576px) {
   .ic-card:has(svg):not(.ic-background-white, .ic-background-light) svg {
     width: calc(60rem / var(--rem-base));
     height: calc(60rem / var(--rem-base));
@@ -1763,7 +1760,7 @@ padding: var(--space-20) 0;
     max-width: calc(616rem / var(--rem-base));
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) {
     flex-flow: row nowrap;
   }
@@ -1824,7 +1821,7 @@ padding: var(--space-20) 0;
   padding: var(--space-12) var(--space-20);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
   /* .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body, */
   .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
   .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
@@ -1859,7 +1856,7 @@ padding: var(--space-20) 0;
   flex-flow: column nowrap;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
     padding: var(--space-30);
   }
@@ -2003,7 +2000,7 @@ blockquote .ic-quote-text p:last-child::after {
   padding: 0;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .ic-card:has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
     border-radius: var(--border-radius) 0 0 var(--border-radius);
   }
@@ -2184,7 +2181,7 @@ blockquote .ic-quote-text p:last-child::after {
   aspect-ratio: 16/9;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 576px) {
   .ic-swiper-courses .swiper-slide {
     padding: var(--space-10);
   }
@@ -2405,7 +2402,7 @@ blockquote .ic-quote-text p:last-child::after {
     aspect-ratio: 2 / 3;
 }
 } */
-@media (min-width: 768px) and (max-width: 1200px) {
+@media (min-width: 768px) and (max-width: 1280px) {
   .ic-section.ic-background-light img.ic-image-rounded:not(.ic-card-image) {
     aspect-ratio: 1/1;
   }
@@ -2450,12 +2447,12 @@ blockquote .ic-quote-text p:last-child::after {
   font-size: var(--h2-font-size);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .ic-header {
     height: var(--header-height-desktop);
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .ic-header h1 {
     font-size: var(--h1-font-size);
   }
@@ -2590,7 +2587,7 @@ blockquote .ic-quote-text p:last-child::after {
   border-top: 1px solid var(--light);
 }
 
-@media (min-width: 1551px) {
+@media (min-width: 1520.1px) {
   .ic-section.ic-background-white.ic-section-border .container {
     padding: var(--section-padding) 0;
   }
@@ -2777,7 +2774,7 @@ body > .pageWrap {
   overflow-y: visible !important;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1024px) {
   .c-nav--main {
     justify-content: center;
   }
@@ -2792,7 +2789,7 @@ h1:empty {
   display: none !important;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768.1px) {
   section.ic-section .row .row {
     width: 100%;
   }
@@ -2817,7 +2814,7 @@ h1:empty {
   margin-bottom: 0 !important;
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 1280px) {
   .ic-milestone-card.ic-card .col-xl-auto {
     min-width: 8.75rem;
   }
@@ -2855,7 +2852,7 @@ h1:empty {
   z-index: 0;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 576px) {
   .ic-milestone-list::before {
     top: 3em;
     bottom: 3em;
@@ -2892,7 +2889,7 @@ h1:empty {
     box-shadow: var(--card-box-shadow);
   }
 }
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
   .ic-milestone-list {
     padding-left: 34px;
   }

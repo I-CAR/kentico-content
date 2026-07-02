@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 1159-1209 */
 /* MENUS */
 
+@use "../abstracts/mixins" as *;
+
 .ic-menu {
     list-style: none;
     padding: 0;
@@ -37,7 +39,7 @@
     color: var(--gray-900)
 }
 
-@media (max-width: 420px) {
+@include max(bp(xs)) {
 
     .ic-menu.ic-menu-horizontal:has(.ic-btn) {
         flex-flow: column nowrap;

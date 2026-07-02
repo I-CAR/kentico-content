@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 2590-2611 */
 /* ANCHORS */
 
+@use "../abstracts/mixins" as *;
+
 .ic-anchor {
     /* position: absolute !important; */
     width: 1px;
@@ -14,7 +16,7 @@
     transform: translateY(calc(var(--header-height-mobile) * -1));
 }
 
-@media (min-width: 768.1px) {
+@include min(bp(md-up)) {
 
     .ic-anchor {
         transform: translateY(calc(var(--header-height-desktop) * -1));

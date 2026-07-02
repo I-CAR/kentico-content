@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 160-709 */
 /* TYPOGRAPHY */
 
+@use "../abstracts/mixins" as *;
+
 body {
     font-family: var(--primary-font);
     font-weight: normal;
@@ -154,7 +156,7 @@ p>cite>strong {
     font-style: normal;
 }
 
-@media screen and (max-width: 768px) {
+@include screen-max(bp(md)) {
 
     p>cite {
         line-height: 1.25;
@@ -383,14 +385,14 @@ ul.ic-logo-list>li {
     align-items: center;
 }
 
-@media (min-width: 768px) {
+@include min(bp(md)) {
 
     ul.ic-logo-list>li {
         flex: 0 0 calc(100% / 7);
     }
 }
 
-@media (min-width: 1440px) {
+@include min(bp(xxl)) {
 
     ul.ic-logo-list>li {
         flex: 0 0 calc(100% / 8);
@@ -458,7 +460,7 @@ ul.ic-card-list-courses>li span {
     max-width: 100%;
 }
 
-@media (min-width: 1440.1px) {
+@include min(bp(xxl-up)) {
 
     ul.ic-card-list-courses>li span {
         flex: 0 0 calc(200rem / 16);
@@ -467,7 +469,7 @@ ul.ic-card-list-courses>li span {
     }
 }
 
-@media (max-width: 1440px) {
+@include max(bp(xxl)) {
 
     ul.ic-card-list-courses>li:has(span) {
         flex-flow: column nowrap;

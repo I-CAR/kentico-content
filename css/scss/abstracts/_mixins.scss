@@ -1,2 +1,1 @@
-/* Optional mixin layer for future extraction. */
-/* Avoid changing output values or selector structure when introducing mixins. */
+@forward "breakpoints" show bp, min, max, between, screen-min, screen-max;

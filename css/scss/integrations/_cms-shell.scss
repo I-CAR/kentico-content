@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 2887-2973 */
 /* CMS SHELL OVERRIDES */
 
+@use "../abstracts/mixins" as *;
+
 #main,
 #main>article {
     padding-left: 0;
@@ -11,7 +13,7 @@
     padding: 0;
 }
 
-@media (max-width: 768px) {
+@include max(bp(md)) {
 
     #main>article {
         overflow: hidden;
@@ -23,7 +25,7 @@
     padding-bottom: 0;
 }
 
-@media screen and (min-width: 768px) {
+@include screen-min(bp(md)) {
 
     #main>article>.row>.content {
         padding-right: 0;
@@ -64,7 +66,7 @@ main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
     padding: 0 var(--space-10);
 }
 
-@media screen and (min-width: 1520px) {
+@include screen-min(bp(xxxl)) {
 
     .ic-section .container,
     .ic-header .container,
@@ -80,7 +82,7 @@ body>.pageWrap {
     overflow-y: visible !important;
 }
 
-@media (min-width: 1100px) {
+@include min(bp(lg)) {
 
     .c-nav--main {
         justify-content: center;

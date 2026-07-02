@@ -1,7 +1,9 @@
 /* Source map: css/style-v2.css lines 1110-1158 */
 /* GRIDS */
 
-@media (min-width: 769px) {
+@use "../abstracts/mixins" as *;
+
+@include min(bp(md-up)) {
 
     .ic-grid:has(svg):has(.ic-section-title) {
         display: grid;
@@ -33,7 +35,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@include max(bp(md)) {
 
     .ic-grid:has(svg):has(.ic-section-title) {
         display: flex;

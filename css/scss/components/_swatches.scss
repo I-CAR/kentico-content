@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 1210-1325 */
 /* SWATCHES */
 
+@use "../abstracts/mixins" as *;
+
 .ic-swatches {
     display: flex;
     flex-flow: row wrap;
@@ -29,14 +31,14 @@
     font-size: 1rem;
 }
 
-@media (min-width: 440px) {
+@include min(bp(xs)) {
 
     .ic-swatches>.ic-swatch {
         width: calc((100% / 3) - (1rem / 3));
     }
 }
 
-@media (min-width: 576px) {
+@include min(bp(sm)) {
 
     .ic-swatches>.ic-swatch {
         width: 7.5rem;
@@ -44,7 +46,7 @@
     }
 }
 
-@media (min-width: 768px) {
+@include min(bp(md)) {
 
     .ic-swatches>.ic-swatch {
         width: 8rem;
@@ -52,7 +54,7 @@
     }
 }
 
-@media (min-width: 992px) {
+@include min(bp(lg)) {
 
     .ic-swatches>.ic-swatch {
         width: 9rem;
@@ -60,7 +62,7 @@
     }
 }
 
-@media (min-width: 1200px) {
+@include min(bp(xl)) {
 
     .ic-swatches>.ic-swatch {
         width: 10rem;
@@ -68,7 +70,7 @@
     }
 }
 
-@media (min-width: 1400px) {
+@include min(bp(xxl)) {
 
     .ic-swatches>.ic-swatch {
         width: 12rem;
@@ -76,7 +78,7 @@
     }
 }
 
-@media (min-width: 1520px) {
+@include min(bp(xxxl)) {
 
     .ic-swatches>.ic-swatch {
         width: 9rem;

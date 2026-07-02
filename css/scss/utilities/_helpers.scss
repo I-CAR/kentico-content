@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 2656-2716 */
 /* UTILITIES */
 
+@use "../abstracts/mixins" as *;
+
 .ic-sticky {
     position: sticky;
     top: var(--space-30);
@@ -22,7 +24,7 @@
     align-items: center;
 }
 
-@media (min-width: 768.1px) {
+@include min(bp(md-up)) {
 
     .ic-section .col.text-md-center {
         align-items: center;
@@ -46,7 +48,7 @@
     height: 100%;
 }
 
-@media (min-width: 1440px) {
+@include min(bp(xxl)) {
 
     .row .col-xxl-5up {
         flex: 0 0 20%;

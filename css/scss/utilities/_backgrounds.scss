@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 2717-2868 */
 /* BACKGROUNDS */
 
+@use "../abstracts/mixins" as *;
+
 .ic-background-light {
     background-color: var(--lightest);
 }
@@ -15,7 +17,7 @@
     text-decoration: underline;
 }
 
-@media (max-width: 768px) {
+@include max(bp(md)) {
 
     .ic-background-mobile-white {
         background-color: var(--white);
@@ -73,7 +75,7 @@
     border-top: 1px solid var(--light);
 }
 
-@media (min-width: 1551px) {
+@include min(bp(xxxl-up)) {
 
     .ic-section.ic-background-white.ic-section-border .container {
         padding: var(--section-padding) 0;

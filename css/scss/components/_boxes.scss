@@ -1,13 +1,15 @@
 /* Source map: css/style-v2.css lines 2154-2266 */
 /* BOXES */
 
+@use "../abstracts/mixins" as *;
+
 .ic-box {
     padding: var(--box-padding);
     background-color: var(--white);
     border-radius: var(--border-radius);
 }
 
-@media (max-width: 768px) {
+@include max(bp(md)) {
 
     .ic-box-mobile-collapse {
         padding: 0;
@@ -24,7 +26,7 @@
     border: var(--card-border-width) solid var(--light);
 }
 
-@media (min-width: 768.1px) {
+@include min(bp(md-up)) {
 
     .ic-section-box.ic-section-box-padded {
         padding: clamp(var(--space-30), 1.499rem + 1.112vw, var(--space-40));
@@ -84,7 +86,7 @@
     background-color: var(--white);
 }
 
-@media (min-width: 768.1px) {
+@include min(bp(md-up)) {
 
     .ic-section .col.order-first:not(.order-md-last) .ic-section-box-copy,
     .ic-section .col.order-md-first .ic-section-box-copy,

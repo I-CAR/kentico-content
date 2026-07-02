@@ -1,2 +1,72 @@
-/* Shared breakpoint references for future SCSS authoring. */
-/* Keep compiled CSS values aligned with style-v2.css breakpoints. */
+@use "sass:map";
+
+/* Canonical global breakpoint scale */
+$bp-xs: 390px;
+$bp-xs-up: 390.1px;
+$bp-sm: 576px;
+$bp-sm-up: 576.1px;
+$bp-md: 768px;
+$bp-md-up: 768.1px;
+$bp-lg: 1024px;
+$bp-lg-up: 1024.1px;
+$bp-xl: 1280px;
+$bp-xl-up: 1280.1px;
+$bp-xxl: 1440px;
+$bp-xxl-up: 1440.1px;
+$bp-xxxl: 1520px;
+$bp-xxxl-up: 1520.1px;
+
+$breakpoints: (
+    xs: $bp-xs,
+    xs-up: $bp-xs-up,
+    sm: $bp-sm,
+    sm-up: $bp-sm-up,
+    md: $bp-md,
+    md-up: $bp-md-up,
+    lg: $bp-lg,
+    lg-up: $bp-lg-up,
+    xl: $bp-xl,
+    xl-up: $bp-xl-up,
+    xxl: $bp-xxl,
+    xxl-up: $bp-xxl-up,
+    xxxl: $bp-xxxl,
+    xxxl-up: $bp-xxxl-up,
+);
+
+@function bp($name) {
+    @if not map.has-key($breakpoints, $name) {
+        @error "Unknown breakpoint `#{$name}`.";
+    }
+
+    @return map.get($breakpoints, $name);
+}
+
+@mixin min($breakpoint) {
+    @media (min-width: $breakpoint) {
+        @content;
+    }
+}
+
+@mixin max($breakpoint) {
+    @media (max-width: $breakpoint) {
+        @content;
+    }
+}
+
+@mixin between($min-breakpoint, $max-breakpoint) {
+    @media (min-width: $min-breakpoint) and (max-width: $max-breakpoint) {
+        @content;
+    }
+}
+
+@mixin screen-min($breakpoint) {
+    @media screen and (min-width: $breakpoint) {
+        @content;
+    }
+}
+
+@mixin screen-max($breakpoint) {
+    @media screen and (max-width: $breakpoint) {
+        @content;
+    }
+}

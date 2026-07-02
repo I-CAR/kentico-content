@@ -1,6 +1,8 @@
 /* Source map: css/style-v2.css lines 2612-2655 */
 /* PAGE HEADER */
 
+@use "../abstracts/mixins" as *;
+
 .ic-header {
     display: flex;
     align-items: center;
@@ -22,21 +24,21 @@
     font-size: var(--h2-font-size);
 }
 
-@media (min-width: 992px) {
+@include min(bp(lg)) {
 
     .ic-header {
         height: var(--header-height-desktop);
     }
 }
 
-@media (min-width: 1400px) {
+@include min(bp(xxl)) {
 
     .ic-header h1 {
         font-size: var(--h1-font-size);
     }
 }
 
-@media (max-width: 768px) {
+@include max(bp(md)) {
 
     .ic-header .nav .nav-link {
         padding-bottom: 0;

@@ -1,13 +1,15 @@
 /* Source map: css/style-v2.css lines 1326-1563 */
 /* FORMS */
 
+@use "../abstracts/mixins" as *;
+
 form {
     align-items: flex-start;
     max-width: calc(450rem / 16);
     margin: calc(20rem / 16) auto 0;
 }
 
-@media (min-width: 1025px) {
+@include min(bp(lg-up)) {
 
     form {
         max-width: calc(400rem / 16);
