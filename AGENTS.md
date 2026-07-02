@@ -51,6 +51,7 @@ Unless explicitly requested:
 ## Typography Rules
 - For non-heading copy longer than 5 words, replace the space between the last two words with `&nbsp;` to prevent widows.
 - Do not apply widow protection to headings unless specifically requested.
+- Do not use HTML entity codes in plain-language HTML attributes such as `alt`, `title`, `aria-label`, and similar human-readable attribute text; write those attribute values as plain readable text.
 - If text is visually uppercased by CSS, write it in title case in the HTML source.
 - Remove literal quotation marks from quote text when quote styling is handled by CSS.
 
