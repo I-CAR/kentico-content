@@ -637,7 +637,9 @@
         border-top: 2px solid var(--light);
     }
 
-    .ic-card:has(.ic-card-list-courses) .ic-card-title {
+    .ic-card:has(.ic-card-list-courses) .ic-card-title,
+    form .form-field>label.control-label[for*="_section"] {
+        font-size: var(--h3-font-size);
         font-weight: var(--semibold);
     }
 
@@ -747,6 +749,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    section.ic-section:has(.ic-image-banner) .ic-image-logo {
+        position: relative;
+        z-index: 1;
     }
 
     video.ic-video-banner {
@@ -1336,6 +1343,7 @@
     }
 
     form .form-field .editing-form-control-nested-control {
+        display: initial;
         max-width: none;
     }
 
@@ -1351,8 +1359,12 @@
         margin-bottom: 0;
     }
 
-    form .form-field+.form-field:has(input[name*="Recaptcha"]),
+    form .form-field+.form-field:has([for*="_section"]),
     form>.ktc-default-section+input[type="submit"] {
+        margin-top: var(--space-40);
+    }
+
+    form .form-field+.form-field:has(input[name*="Recaptcha"]) {
         margin-top: calc(14rem / 16);
     }
 
@@ -1381,8 +1393,8 @@
         border-radius: var(--button-radius);
     }
 
-    form :is(input, textarea),
-    form .form-field .editing-form-control-nested-control input.form-control,
+    form :is(input, textarea):not([type="checkbox"], [type="radio"], [type="submit"]),
+    form .form-field .editing-form-control-nested-control input.form-control:not([type="checkbox"], [type="radio"]),
     form .form-field .editing-form-control-nested-control textarea.form-control,
     form .form-field .editing-form-control-nested-control select.form-control {
         width: 100%;
@@ -1392,6 +1404,21 @@
         border: 1px solid var(--gray);
         box-shadow: none;
         font-weight: 400;
+    }
+
+    form .form-field .editing-form-control-nested-control .ktc-radio-list {
+        display: flex;
+        gap: var(--space-12);
+    }
+
+    form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio {
+        display: inline-flex;
+        flex-flow: row nowrap;
+        gap: var(--space-8);
+    }
+
+    form .form-field .editing-form-control-nested-control .form-control:is(input, textarea):is([type="checkbox"], [type="radio"]) {
+        appearance: auto;
     }
 
     form :is(input, textarea):focus {
@@ -1984,7 +2011,7 @@
     }
 
     .ic-card:has(h4, ul, ol) .ic-card-title {
-        font-size: var(--h3-font-size);
+        /* font-size: var(--h3-font-size); */
     }
 
     .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-title {
@@ -2896,7 +2923,7 @@
         background: var(--lightest) !important;
     }
 
-    main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
+    main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
         margin-top: 0;
         background: none !important;
     }
