@@ -73,6 +73,7 @@
     --h5-font-size: 1rem;
     --h6-font-size: var(--h5-font-size);
     --body-font-size: var(--h6-font-size);
+    --font-size-sm: calc(14rem / 16);
 
     --border-radius-xs: var(--space-8);
     --border-radius-sm: var(--space-12);
@@ -94,6 +95,7 @@
     --button-border-radius: var(--border-radius-xs);
     --button-border-width: 2px;
     --button-font-weight: var(--semibold);
+    --transition-ui: .25s ease-out;
 
     --form-field-padding-y: var(--space-12);
     --form-field-padding-x: var(--form-field-padding-y);
@@ -127,4 +129,11 @@
     --hero-padding-sm: var(--space-100);
     --hero-padding-lg: var(--space-250);
     --hero-padding: clamp(var(--hero-padding-sm), -4.494rem + 22.355vw, var(--hero-padding-lg));
+
+    --header-height-mobile: calc(137rem / var(--rem-base));
+    --header-height-desktop: calc(97rem / var(--rem-base));
+
+    --tooltip-bg: rgba(0, 0, 0, 0.85);
+    --tooltip-radius: 3px;
+    --tooltip-font-size: 0.75rem;
 }

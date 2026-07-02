@@ -7,7 +7,7 @@
     justify-content: flex-start;
     align-items: stretch;
     position: relative;
-    transition: border-color .25s ease-out;
+    transition: border-color var(--transition-ui);
 }
 
 .align-items-stretch>*>.ic-card {
@@ -235,7 +235,7 @@ padding: var(--space-20) 0;
     background: none !important;
     color: var(--gray-900) !important;
     /* font-weight: var(--bold); */
-    transition: border-color .25s ease-out;
+    transition: border-color var(--transition-ui);
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:hover {
@@ -249,7 +249,7 @@ padding: var(--space-20) 0;
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:after {
     order: -1;
     margin: 0 var(--space-12) 0 0;
-    transition: transform .25s ease-out;
+    transition: transform var(--transition-ui);
 }
 
 .ic-card.accordion-item .accordion-body {
@@ -505,7 +505,7 @@ blockquote .ic-quote-text p:last-child::after {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    transition: transform .25s ease-out;
+    transition: transform var(--transition-ui);
 }
 
 .ic-card:has(.stretched-link):hover .ic-card-icon,

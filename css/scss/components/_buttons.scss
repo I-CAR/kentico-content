@@ -27,7 +27,7 @@ button.ic-btn[disabled] {
 .ic-btn svg,
 .ic-btn .ic-btn-icon {
     margin-left: .5em;
-    transition: fill .25s ease-out, transform .25s ease-out, color .25s ease-out;
+    transition: fill var(--transition-ui), transform var(--transition-ui), color var(--transition-ui);
 }
 
 .ic-btn-primary,

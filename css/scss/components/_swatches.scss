@@ -103,11 +103,11 @@
 .ic-copied-msg {
     position: absolute;
     transform: translate(-50%, -100%);
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--tooltip-bg);
     color: var(--white);
     padding: var(--space-4) var(--space-8);
-    font-size: 0.75rem;
-    border-radius: 3px;
+    font-size: var(--tooltip-font-size);
+    border-radius: var(--tooltip-radius);
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;

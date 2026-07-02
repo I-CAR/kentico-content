@@ -7,7 +7,7 @@
     position: sticky;
     z-index: 2;
     top: 0;
-    height: calc(137rem / var(--rem-base));
+    height: var(--header-height-mobile);
     background:
         linear-gradient(135deg,
             var(--primary-color) 0%,
@@ -25,7 +25,7 @@
 @media (min-width: 992px) {
 
     .ic-header {
-        height: calc(97rem / var(--rem-base));
+        height: var(--header-height-desktop);
     }
 }
 

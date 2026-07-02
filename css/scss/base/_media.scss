@@ -108,7 +108,7 @@ img.ic-graphic.ic-graphic-bottom {
     margin-top: -.35em;
     border-radius: 50%;
     background-color: var(--positive-color);
-    transition: background-color .25s ease-out, border-color .25s ease-out;
+    transition: background-color var(--transition-ui), border-color var(--transition-ui);
 }
 
 .ic-checkmark:after {
@@ -120,7 +120,7 @@ img.ic-graphic.ic-graphic-bottom {
     height: calc(14rem / 16);
     border: solid var(--white);
     border-width: 0 calc(3rem / 16) calc(3rem / 16) 0;
-    transition: opacity .25s ease-out;
+    transition: opacity var(--transition-ui);
 }
 
 html[data-darkreader-scheme="dark"] img[src*="placehold.co"] {

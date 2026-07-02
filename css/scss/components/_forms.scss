@@ -222,7 +222,7 @@ form.ic-form.cc-form :is(button) {
     background-color: var(--cc-primary-color) !important;
     box-shadow: none !important;
     border: 0 !important;
-    transition: background-color .25s ease-out;
+    transition: background-color var(--transition-ui);
 }
 
 form.ic-form.cc-form :is(button):is(:hover, :focus) {

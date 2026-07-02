@@ -11,12 +11,12 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-    transform: translateY(calc(-137rem / var(--rem-base)));
+    transform: translateY(calc(var(--header-height-mobile) * -1));
 }
 
 @media (min-width: 768.1px) {
 
     .ic-anchor {
-        transform: translateY(calc(-97rem / var(--rem-base)));
+        transform: translateY(calc(var(--header-height-desktop) * -1));
     }
 }

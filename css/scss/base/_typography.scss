@@ -169,11 +169,11 @@ p>cite>strong {
 }
 
 .ic-cite cite {
-    font-size: calc(14rem / 16);
+    font-size: var(--font-size-sm);
 }
 
 .ic-profile-stacked {
-    font-size: calc(14rem / 16);
+    font-size: var(--font-size-sm);
 }
 
 .ic-profile-stacked strong {
@@ -223,7 +223,7 @@ strong {
 
 p:has(small) {
     margin-bottom: var(--space-12);
-    font-size: calc(14rem / 16);
+    font-size: var(--font-size-sm);
     line-height: 1.34;
     color: var(--darkest);
 }
@@ -310,7 +310,7 @@ ul.ic-check-circle-list li:after {
     z-index: 1;
     transform: rotate(45deg);
     transform-origin: center right;
-    transition: opacity .25s ease-out;
+    transition: opacity var(--transition-ui);
     width: calc(5rem / 16);
 }
 
@@ -324,7 +324,7 @@ ul.ic-check-circle-list li:before {
     left: calc(-20rem / 16);
     border-radius: 50%;
     background-color: var(--positive-color);
-    transition: background-color .25s ease-out, border-color .25s ease-out;
+    transition: background-color var(--transition-ui), border-color var(--transition-ui);
 }
 
 ul.ic-check-circle-list>li:after {
@@ -520,7 +520,7 @@ ol.ic-lead {
 a {
     color: var(--link-color);
     text-decoration: none;
-    transition: all .25s ease-out;
+    transition: all var(--transition-ui);
 }
 
 a:hover,

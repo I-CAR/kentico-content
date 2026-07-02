@@ -63,6 +63,7 @@
   --h5-font-size: 1rem;
   --h6-font-size: var(--h5-font-size);
   --body-font-size: var(--h6-font-size);
+  --font-size-sm: calc(14rem / 16);
   --border-radius-xs: var(--space-8);
   --border-radius-sm: var(--space-12);
   --border-radius-lg: var(--space-20);
@@ -79,6 +80,7 @@
   --button-border-radius: var(--border-radius-xs);
   --button-border-width: 2px;
   --button-font-weight: var(--semibold);
+  --transition-ui: .25s ease-out;
   --form-field-padding-y: var(--space-12);
   --form-field-padding-x: var(--form-field-padding-y);
   --form-field-padding: var(--form-field-padding-y) var(--form-field-padding-x);
@@ -105,6 +107,11 @@
   --hero-padding-sm: var(--space-100);
   --hero-padding-lg: var(--space-250);
   --hero-padding: clamp(var(--hero-padding-sm), -4.494rem + 22.355vw, var(--hero-padding-lg));
+  --header-height-mobile: calc(137rem / var(--rem-base));
+  --header-height-desktop: calc(97rem / var(--rem-base));
+  --tooltip-bg: rgba(0, 0, 0, 0.85);
+  --tooltip-radius: 3px;
+  --tooltip-font-size: 0.75rem;
 }
 
 /* Shared breakpoint references for future SCSS authoring. */
@@ -303,11 +310,11 @@ p > cite > strong {
 }
 
 .ic-cite cite {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
 .ic-profile-stacked {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
 .ic-profile-stacked strong {
@@ -357,7 +364,7 @@ strong {
 
 p:has(small) {
   margin-bottom: var(--space-12);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   line-height: 1.34;
   color: var(--darkest);
 }
@@ -441,7 +448,7 @@ ul.ic-check-circle-list li:after {
   z-index: 1;
   transform: rotate(45deg);
   transform-origin: center right;
-  transition: opacity 0.25s ease-out;
+  transition: opacity var(--transition-ui);
   width: 0.3125rem;
 }
 
@@ -455,7 +462,7 @@ ul.ic-check-circle-list li:before {
   left: -1.25rem;
   border-radius: 50%;
   background-color: var(--positive-color);
-  transition: background-color 0.25s ease-out, border-color 0.25s ease-out;
+  transition: background-color var(--transition-ui), border-color var(--transition-ui);
 }
 
 ul.ic-check-circle-list > li:after {
@@ -642,7 +649,7 @@ ol.ic-lead {
 a {
   color: var(--link-color);
   text-decoration: none;
-  transition: all 0.25s ease-out;
+  transition: all var(--transition-ui);
 }
 
 a:hover,
@@ -772,7 +779,7 @@ img.ic-graphic.ic-graphic-bottom {
   margin-top: -0.35em;
   border-radius: 50%;
   background-color: var(--positive-color);
-  transition: background-color 0.25s ease-out, border-color 0.25s ease-out;
+  transition: background-color var(--transition-ui), border-color var(--transition-ui);
 }
 
 .ic-checkmark:after {
@@ -784,7 +791,7 @@ img.ic-graphic.ic-graphic-bottom {
   height: 0.875rem;
   border: solid var(--white);
   border-width: 0 0.1875rem 0.1875rem 0;
-  transition: opacity 0.25s ease-out;
+  transition: opacity var(--transition-ui);
 }
 
 html[data-darkreader-scheme=dark] img[src*="placehold.co"] {
@@ -894,7 +901,7 @@ button.ic-btn[disabled] {
 .ic-btn svg,
 .ic-btn .ic-btn-icon {
   margin-left: 0.5em;
-  transition: fill 0.25s ease-out, transform 0.25s ease-out, color 0.25s ease-out;
+  transition: fill var(--transition-ui), transform var(--transition-ui), color var(--transition-ui);
 }
 
 .ic-btn-primary,
@@ -1236,11 +1243,11 @@ form input[type=submit]:active {
 .ic-copied-msg {
   position: absolute;
   transform: translate(-50%, -100%);
-  background: rgba(0, 0, 0, 0.85);
+  background: var(--tooltip-bg);
   color: var(--white);
   padding: var(--space-4) var(--space-8);
-  font-size: 0.75rem;
-  border-radius: 3px;
+  font-size: var(--tooltip-font-size);
+  border-radius: var(--tooltip-radius);
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
@@ -1469,7 +1476,7 @@ form.ic-form.cc-form :is(button) {
   background-color: var(--cc-primary-color) !important;
   box-shadow: none !important;
   border: 0 !important;
-  transition: background-color 0.25s ease-out;
+  transition: background-color var(--transition-ui);
 }
 
 form.ic-form.cc-form :is(button):is(:hover, :focus) {
@@ -1526,7 +1533,7 @@ form.ic-form .ic-required {
   justify-content: flex-start;
   align-items: stretch;
   position: relative;
-  transition: border-color 0.25s ease-out;
+  transition: border-color var(--transition-ui);
 }
 
 .align-items-stretch > * > .ic-card {
@@ -1718,7 +1725,7 @@ padding: var(--space-20) 0;
   background: none !important;
   color: var(--gray-900) !important;
   /* font-weight: var(--bold); */
-  transition: border-color 0.25s ease-out;
+  transition: border-color var(--transition-ui);
 }
 
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:hover {
@@ -1732,7 +1739,7 @@ padding: var(--space-20) 0;
 .ic-card.accordion-item .ic-card-title.accordion-header .accordion-button:after {
   order: -1;
   margin: 0 var(--space-12) 0 0;
-  transition: transform 0.25s ease-out;
+  transition: transform var(--transition-ui);
 }
 
 .ic-card.accordion-item .accordion-body {
@@ -1971,7 +1978,7 @@ blockquote .ic-quote-text p:last-child::after {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  transition: transform 0.25s ease-out;
+  transition: transform var(--transition-ui);
 }
 
 .ic-card:has(.stretched-link):hover .ic-card-icon,
@@ -2419,12 +2426,12 @@ blockquote .ic-quote-text p:last-child::after {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-  transform: translateY(calc(-137rem / var(--rem-base)));
+  transform: translateY(calc(var(--header-height-mobile) * -1));
 }
 
 @media (min-width: 768.1px) {
   .ic-anchor {
-    transform: translateY(calc(-97rem / var(--rem-base)));
+    transform: translateY(calc(var(--header-height-desktop) * -1));
   }
 }
 /* Source map: css/style-v2.css lines 2612-2655 */
@@ -2435,7 +2442,7 @@ blockquote .ic-quote-text p:last-child::after {
   position: sticky;
   z-index: 2;
   top: 0;
-  height: calc(137rem / var(--rem-base));
+  height: var(--header-height-mobile);
   background: linear-gradient(135deg, var(--primary-color) 0%, color-mix(in srgb, var(--primary-color) 60%, black) 25%, var(--secondary-color) 50%, color-mix(in srgb, var(--primary-color) 60%, black) 75%, var(--primary-color) 100%);
 }
 
@@ -2445,7 +2452,7 @@ blockquote .ic-quote-text p:last-child::after {
 
 @media (min-width: 992px) {
   .ic-header {
-    height: calc(97rem / var(--rem-base));
+    height: var(--header-height-desktop);
   }
 }
 @media (min-width: 1400px) {
