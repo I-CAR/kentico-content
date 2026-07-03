@@ -6,6 +6,7 @@ import * as esbuild from "esbuild";
 const entry = "js/src/index.js";
 const output = "js/script-v2.js";
 const outputMap = `${output}.map`;
+const legacyOutputFiles = ["js/script.js", "js/script.js.map"];
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 
@@ -54,6 +55,9 @@ function logBuildFailure(error, reason = "manual") {
 async function build(reason = "manual") {
   try {
     mkdirSync(dirname(output), { recursive: true });
+    legacyOutputFiles.forEach((file) => {
+      rmSync(file, { force: true });
+    });
 
     const result = await esbuild.build({
       entryPoints: [entry],
