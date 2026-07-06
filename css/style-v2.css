@@ -1408,7 +1408,7 @@
 
     form .form-field .editing-form-control-nested-control .ktc-radio-list {
         display: flex;
-        gap: var(--space-12);
+        gap: var(--space-40);
     }
 
     form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio {
