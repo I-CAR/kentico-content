@@ -66,6 +66,7 @@ Unless explicitly requested:
 - If a section ID no longer matches the section content, rename it to something accurate and update any related anchor links.
 - Keep existing design system classes unless there is a specific reason to change them.
 - Do not add unnecessary wrapper markup.
+- When editing a file under `html/`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
 
 ## Navigation Rules
 - On-page navigation must point to real section anchors.
