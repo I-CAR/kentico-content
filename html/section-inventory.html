@@ -24,7 +24,10 @@
                 <div class="col col-auto">
                     <nav>
                         <ul class="nav justify-content-center">
-                            <li class="nav-item"><a class="ic-btn nav-link" href="#hero-overview">Hero Sections</a>
+                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-hero">Hero Sections</a>
+                            </li>
+                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-text-media">Text/Media
+                                    Sections</a>
                             </li>
                         </ul>
                     </nav>
@@ -34,7 +37,28 @@
     </header>
     <main>
         <!-- Hero Sections (4 unique sections) -->
-        <section id="hero-overview" class="ic-section ic-section-hero" style="--name:'Overview Hero';">
+        <section id="section-hero" class="ic-section ic-section-nav ic-background-light">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <nav class="col col-12" aria-label="Hero Section Navigation">
+                        <ul class="ic-menu ic-menu-horizontal mt-0">
+                            <li><a href="#hero-overview" class="ic-btn ic-btn-primary ic-btn-outline">Overview Hero</a>
+                            </li>
+                            <li><a href="#hero-50-50" class="ic-btn ic-btn-primary ic-btn-outline">50/50 Hero</a>
+                            </li>
+                            <li><a href="#hero-40-60" class="ic-btn ic-btn-primary ic-btn-outline">40/60 Hero</a>
+                            </li>
+                            <li><a href="#hero-60-40" class="ic-btn ic-btn-primary ic-btn-outline">60/40 Hero</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </section>
+        <section id="hero-overview" class="ic-section ic-section-hero ic-background-light"
+            style="--name:'Overview Hero';">
             <div class="container">
                 <div class="row justify-content-center">
 
@@ -177,21 +201,129 @@
             </div>
         </section>
 
-        <!-- In-Page Navigation (1 unique sections) -->
-        <section id="" class="ic-section ic-section-nav ic-background-light" style="--name:'Careers Page Navigation';">
+        <section id="section-text-media" class="ic-section ic-section-nav ic-background-light">
             <div class="container">
                 <div class="row justify-content-center">
 
-                    <nav class="col col-12" aria-label="On-Page Navigation">
+                    <nav class="col col-12" aria-label="Text and media section navigation">
                         <ul class="ic-menu ic-menu-horizontal mt-0">
-                            <li><a href="#" class="ic-btn ic-btn-primary ic-btn-outline">Hiring
-                                    Process</a></li>
-                            <li><a href="#" class="ic-btn ic-btn-primary ic-btn-outline">Culture</a></li>
-                            <li><a href="#" class="ic-btn ic-btn-primary ic-btn-outline">Benefits</a>
+                            <li><a href="#text-media-50-50" class="ic-btn ic-btn-primary ic-btn-outline">50/50
+                                    Text/Media</a>
+                            </li>
+                            <li><a href="#text-media-40-60" class="ic-btn ic-btn-primary ic-btn-outline">40/60
+                                    Text/Media</a>
+                            </li>
+                            <li><a href="#text-media-60-40" class="ic-btn ic-btn-primary ic-btn-outline">60/40
+                                    Text/Media</a>
                             </li>
                         </ul>
                     </nav>
 
+                </div>
+            </div>
+        </section>
+        <section id="text-media-50-50" class="ic-section" style="--name:'50/50 Text/Media';">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 col-xl-10">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col col-12 col-md mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5">
+                                <h2 class="ic-section-title">Section Headline</h2>
+
+                                <p>Etiam accumsan urna a mauris dapibus, nec aliquet nunc convallis. Phasellus eget
+                                    justo et libero ultrices posuere.
+                                    Cras euismod, arcu nec congue convallis, ipsum nunc cursus nibh, vel condimentum
+                                    sapien orci non libero. Integer ullamcorper felis sit amet felis placerat, eu
+                                    convallis lorem&nbsp;iaculis.</p>
+
+                                <p class="mb-2 pb-1">Praesent placerat, magna in vehicula vestibulum, felis urna cursus
+                                    lorem, sed
+                                    vestibulum quam eros vel libero. Vivamus commodo, odio sed fringilla pretium, sem
+                                    nulla feugiat odio, in cursus elit dolor et&nbsp;ex.</p>
+
+                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#text-media-50-50" target="_self"
+                                        title="">Section Button</a></p>
+
+                            </div>
+
+                            <div class="col col-12 col-md">
+                                <picture>
+                                    <source width="800" height="450" media="(max-width: 768px)" sizes="800px"
+                                        srcset="https://placehold.co/400x450 400w, https://placehold.co/800x450 800w, https://placehold.co/1600x450 1600w">
+                                    <img alt="Collection of award logos that I-CAR has recieved for culture"
+                                        loading="lazy" class="ic-section-image ic-image-rounded" width="800"
+                                        height="550" sizes="800px" src="https://placehold.co/800x550"
+                                        srcset="https://placehold.co/400x550 400w, https://placehold.co/800x550 800w, https://placehold.co/1600x550 1600w">
+                                </picture>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="text-media-40-60" class="ic-section ic-background-light" style="--name:'40/60 Text/Media';">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 col-lg-10 col-xl-8">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col col-12 col-md-6 mb-1 mb-md-0 order-first order-md-first"><a href="#text-media-40-60"
+                                    title="Explore Courses">
+                                    <iframe class="ic-video ic-rounded"
+                                        style="display:block;width:100%;border:none;margin-left:auto;margin-right:auto;pointer-events:none"
+                                        src="https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6389084042112&autoplay=muted&muted&loop&playsinline"
+                                        allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+                                </a></div>
+
+                            <div class="col col-12 col-md-6 mt-3 mt-md-0 order-last order-md-last pl-lg-5">
+                                <h2 class="ic-section-title">Section Headline</h2>
+                                <p class="ic-section-label">Section Label</p>
+
+                                <p class="mb-2 pb-1">Etiam accumsan urna a mauris dapibus, nec aliquet nunc convallis.
+                                    <a href="#text-media-40-60" target="_self" title="">Phasellus eget justo et libero ultrices
+                                        posuere.</a>
+                                    Cras euismod, arcu nec congue convallis, ipsum nunc cursus nibh, vel condimentum
+                                    sapien orci non libero. Integer ullamcorper felis sit amet felis placerat, eu
+                                    convallis lorem&nbsp;iaculis.
+                                </p>
+
+                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#text-media-40-60" target="_self"
+                                        title="">Section Button</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="text-media-60-40" class="ic-section ic-background-white" style="--name:'60/40 Text/Media';">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <article class="col col-12 col-xl-10">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col col-12 col-md-5 mt-3 pt-2 mt-md-0 pt-md-0 pr-md-5">
+                                <h2 class="ic-section-title mt-1 mt-md-0">Section Headline</h2>
+
+                                <p class="mb-2 pb-1">Praesent placerat, magna in vehicula vestibulum, felis urna cursus
+                                    lorem, sed
+                                    vestibulum quam eros vel libero. Vivamus commodo, odio sed fringilla pretium, sem
+                                    nulla feugiat odio, in cursus elit dolor et&nbsp;ex.</p>
+
+                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#text-media-60-40" target="_self"
+                                        title="">Section Button</a></p>
+                            </div>
+
+                            <div class="col col-12 col-md-7 col-lg-5 mt-3 mt-md-0"><a href="#text-media-60-40" target="_self"
+                                    title="Read the Report">
+                                    <picture>
+                                        <source width="800" height="450" media="(max-width: 768px)" sizes="800px"
+                                            srcset="https://placehold.co/400x450 400w, https://placehold.co/800x450 800w, https://placehold.co/1600x450 1600w">
+                                        <img alt="I-CAR 2025 Impact Report featuring key achievements, initiatives, reinvestments and commitment to leading the auto collision repair industry forward."
+                                            loading="lazy" class="ic-section-image ic-image-rounded" width="800"
+                                            height="550" sizes="800px" src="https://placehold.co/800x550"
+                                            srcset="https://placehold.co/400x550 400w, https://placehold.co/800x550 800w, https://placehold.co/1600x550 1600w">
+                                    </picture>
+                                </a></div>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -234,11 +366,11 @@
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
                                                 <picture>
-                                                    <source media="(max-width: 768px)" width="400" height="200"
+                                                    <source width="400" height="200" media="(max-width: 768px)"
                                                         sizes="(max-width: 400px) 400px, 800px"
                                                         srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                                     <img alt="Two employees collaborating over a computer in an office"
-                                                        class="ic-card-image ic-image-rounded" loading="lazy"
+                                                        loading="lazy" class="ic-card-image ic-image-rounded"
                                                         width="400" height="220" sizes="800px"
                                                         src="https://placehold.co/400x220"
                                                         srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
@@ -271,11 +403,11 @@
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
                                                 <picture>
-                                                    <source media="(max-width: 768px)" width="400" height="200"
+                                                    <source width="400" height="200" media="(max-width: 768px)"
                                                         sizes="(max-width: 400px) 400px, 800px"
                                                         srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                                     <img alt="A digital screen on a car's interior dashboard"
-                                                        class="ic-card-image ic-image-rounded" loading="lazy"
+                                                        loading="lazy" class="ic-card-image ic-image-rounded"
                                                         width="400" height="220" sizes="800px"
                                                         src="https://placehold.co/400x220"
                                                         srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
@@ -307,11 +439,11 @@
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
                                                 <picture>
-                                                    <source media="(max-width: 768px)" width="400" height="200"
+                                                    <source width="400" height="200" media="(max-width: 768px)"
                                                         sizes="(max-width: 400px) 400px, 800px"
                                                         srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                                     <img alt="An instructor teaching a student with hands-on materials"
-                                                        class="ic-card-image ic-image-rounded" loading="lazy"
+                                                        loading="lazy" class="ic-card-image ic-image-rounded"
                                                         width="400" height="220" sizes="800px"
                                                         src="https://placehold.co/400x220"
                                                         srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
@@ -344,11 +476,11 @@
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
                                                 <picture>
-                                                    <source media="(max-width: 768px)" width="400" height="200"
+                                                    <source width="400" height="200" media="(max-width: 768px)"
                                                         sizes="(max-width: 400px) 400px, 800px"
                                                         srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                                     <img alt="A woman reviewing reports on a computer screen in an office"
-                                                        class="ic-card-image ic-image-rounded" loading="lazy"
+                                                        loading="lazy" class="ic-card-image ic-image-rounded"
                                                         width="400" height="220" sizes="800px"
                                                         src="https://placehold.co/400x220"
                                                         srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
@@ -376,11 +508,11 @@
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
                                                 <picture>
-                                                    <source media="(max-width: 768px)" width="400" height="200"
+                                                    <source width="400" height="200" media="(max-width: 768px)"
                                                         sizes="(max-width: 400px) 400px, 800px"
                                                         srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                                     <img alt="A collision repair shop employee inspecting a wheel on a lifted car"
-                                                        class="ic-card-image ic-image-rounded" loading="lazy"
+                                                        loading="lazy" class="ic-card-image ic-image-rounded"
                                                         width="400" height="220" sizes="800px"
                                                         src="https://placehold.co/400x220"
                                                         srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
@@ -415,214 +547,6 @@
 
                         <p>To deliver increasingly accessible, on-demand and relevant education, knowledge, services and
                             solutions for collision repair facilities and the related industry value&nbsp;chain.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-light" style="--name:'Industry Reinvestment Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-5 mt-2 pt-1 mt-md-0 pt-md-0 order-last order-md-first">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p>A healthy reserve with Board oversight, funded by ongoing retained earnings, is vital
-                                    to I-CAR&#39;s ongoing operational sustainability while enabling reinvestment in
-                                    strategic initiatives responsive to industry needs. I-CAR reserve levels are
-                                    governed within not-for-profit best practices for organizations with similar scales
-                                    of operations and service levels. Reserves are there to help weather emergencies or
-                                    recessionary pressures, provide for necessary capital reinvestments and to support
-                                    strategic initiatives that directly support industry needs, allowing I-CAR to
-                                    self-fund versus incurring debt. I-CAR has diligently re-invested in strategic
-                                    initiatives that further industry training outcomes, strategically expand services
-                                    driven by industry voice, and annual support for CREF, all geared to create industry
-                                    benefits that align with I-CAR&#39;s vision and mission.</p>
-                            </div>
-
-                            <div class="col col-12 col-md-7 order-first order-md-last pl-md-5"><img
-                                    alt="I-CAR reinvestments supporting the collision repair industry."
-                                    class="ic-image-rounded" height="403" loading="lazy"
-                                    sizes="(max-width: 400px) 362px, 744px" src="https://placehold.co/744x403"
-                                    srcset="https://placehold.co/400x403 400w, https://placehold.co/800x403 800w, https://placehold.co/1600x403 1600w"
-                                    width="744" /></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section" style="--name:'Culture Recognition Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-xl-10">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p>I&#8209;CAR’s culture is consistently recognized by leading workplace organizations.
-                                    We’re honored to be named one of the Top 100 Inspiring Workplaces in North America
-                                    for 2025, ranking #16 overall and #4 among mid-sized&nbsp;companies.</p>
-
-                                <p>We’ve also been recognized as a Top Workplace and a Great Place to Work&reg;, with
-                                    additional honors for remote work, compensation and benefits, leadership, purpose
-                                    and values, and work-life flexibility. These recognitions reflect what our team
-                                    members experience every day, feeling supported, valued, and connected to
-                                    meaningful&nbsp;work.</p>
-
-                            </div>
-
-                            <div class="col col-12 col-md">
-                                <picture>
-                                    <source media="(max-width: 768px)" width="800" height="1076" sizes="800px"
-                                        srcset="https://placehold.co/400x1076 400w, https://placehold.co/800x1076 800w, https://placehold.co/1600x1076 1600w">
-                                    <img alt="Collection of award logos that I-CAR has recieved for culture"
-                                        class="ic-image" loading="lazy" width="800" height="440" sizes="800px"
-                                        src="https://placehold.co/800x440"
-                                        srcset="https://placehold.co/400x440 400w, https://placehold.co/800x440 800w, https://placehold.co/1600x440 1600w">
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-light" style="--name:'ADAS Basics Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-9">
-                        <div class="row justify-content-between align-items-center">
-
-                            <div class="col col-12 col-md-6 col-xl-7 mb-3 mb-md-0">
-                                <h2 class="ic-section-title">Section Headline</h2>
-                                <p>ADAS, or Advanced Driver Assistance Systems, are built-in vehicle technologies that
-                                    help drivers avoid crashes and stay safe. Common features include automatic braking,
-                                    lane keeping, and blind spot alerts. ADAS uses sensors and cameras to monitor
-                                    surroundings and assist the driver. These systems now come standard in most new
-                                    vehicles and must be properly repaired and calibrated after a&nbsp;collision.</p>
-                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#">Learn
-                                        More</a></p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-xl-5">
-                                <picture>
-                                    <source width="800" height="1020" media="(max-width: 767.9px)"
-                                        srcset="https://placehold.co/400x1020 400w, https://placehold.co/800x1020 800w, https://placehold.co/1600x1020 1600w">
-                                    <img width="1200" height="600" loading="lazy" class="ic-image-banner"
-                                        src="https://placehold.co/1200x600"
-                                        srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w, https://placehold.co/3200x600 3200w"
-                                        sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 800px, 1600px"
-                                        alt="" aria-hidden="true">
-                                </picture>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education / Training / Program Sections (18 unique sections) -->
-        <section id="" class="ic-section ic-background-light" style="--name:'ADAS Education CTA';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-9">
-                        <div class="row justify-content-between align-items-center">
-
-                            <div class="col col-12 col-md-6 col-xl-5 mt-3 pt-1 mt-md-0 pt-md-0 pl-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-                                <p>Learn how to diagnose, calibrate, and restore advanced safety systems with confidence
-                                    with online and hands&#8209;on&nbsp;courses.</p>
-                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#">Explore
-                                        ADAS Education</a></p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-xl-7 order-first">
-                                <a href="#" title="Explore ADAS Education">
-                                    <picture>
-                                        <source width="800" height="460" media="(max-width: 767.9px)"
-                                            srcset="https://placehold.co/400x460 400w, https://placehold.co/800x460 800w, https://placehold.co/1600x460 1600w">
-                                        <img width="800" height="576" loading="lazy" class="ic-image-rounded"
-                                            src="https://placehold.co/800x576"
-                                            srcset="https://placehold.co/400x576 400w, https://placehold.co/800x576 800w, https://placehold.co/1600x576 1600w"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            alt="Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after collision or accident repair">
-                                    </picture>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section" style="--name:'ADAS Training Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-9">
-                        <div class="row justify-content-between align-items-center">
-
-                            <div class="col col-12 col-md-6 col-xl-5 mt-3 pt-1 mt-md-0 pt-md-0 pl-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-                                <p>I&#8209;CAR provides industry-recognized ADAS training—online and hands&#8209;on—to
-                                    help collision repair professionals safely repair and calibrate today’s
-                                    advanced&nbsp;vehicles.</p>
-                                <p><a href="#" class="ic-btn ic-btn-primary ic-btn-outline">Explore
-                                        ADAS Education</a></p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-xl-7 order-first">
-                                <a href="#" title="Explore ADAS Education">
-                                    <picture>
-                                        <source width="800" height="460" media="(max-width: 767.9px)"
-                                            srcset="https://placehold.co/400x460 400w, https://placehold.co/800x460 800w, https://placehold.co/1600x460 1600w">
-                                        <img width="800" height="576" loading="lazy" class="ic-image-rounded"
-                                            src="https://placehold.co/800x576"
-                                            srcset="https://placehold.co/400x576 400w, https://placehold.co/800x576 800w, https://placehold.co/1600x576 1600w"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            alt="Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after collision or accident repair">
-                                    </picture>
-
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-light" style="--name:'ADAS Gold Class Update';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-9">
-                        <div class="row justify-content-between align-items-center">
-
-                            <div class="col col-12 col-md-6 col-xl-5 mt-3 mt-md-0 pl-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-                                <p class="ic-section-label">What's New</p>
-                                <p>Gold&nbsp;Class shops now receive enhanced ADAS education across all required roles
-                                    (Estimator, Non-Structural, Structural, and Refinish Technicians) through online
-                                    ProLevel courses. These flexible courses will become part of 2027 <a href="#"
-                                        title="Learn about Gold Class at I-CAR">Gold&nbsp;Class
-                                        achievement</a> and renewal requirements, helping technicians build critical
-                                    ADAS skills
-                                    while staying industry&#8209;ready.</p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-xl-7 mb-1 mb-md-0 order-first">
-                                <a href="#" title="Learn about Gold Class at I-CAR">
-                                    <picture>
-                                        <source width="800" height="1020" media="(max-width: 767.9px)"
-                                            srcset="https://placehold.co/400x1020 400w, https://placehold.co/800x1020 800w, https://placehold.co/1600x1020 1600w">
-                                        <img width="800" height="533" loading="lazy" class="ic-image-rounded"
-                                            src="https://placehold.co/800x533"
-                                            srcset="https://placehold.co/400x533 400w, https://placehold.co/800x533 800w, https://placehold.co/1600x533 1600w"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            alt="Platinum ADAS Technician holding a calibration card to ensure systems function properly after collision repair">
-                                    </picture>
-                                </a>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1133,33 +1057,6 @@
                 </div>
             </div>
         </section>
-        <section id="" class="ic-section ic-background-white" style="--name:'EV Courses Coming Soon';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-9">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 col-xl-5 mt-3 mt-md-0 ps-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p class="mb-2 pb-1">Learn about upcoming and recently launched courses that will help
-                                    you advance your skills and stay current on evolving vehicle technologies.</p>
-
-                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#">See What&#39;s Coming</a>
-                                </p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-xl-7 mb-1 mb-md-0 order-first"><a href="#"
-                                    title="See What's Coming">
-                                    <iframe class="ic-video ic-rounded"
-                                        style="display:block;width:100%;border:none;margin-left:auto;margin-right:auto;pointer-events:none"
-                                        src="https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6389084042112&autoplay=muted&muted&loop&playsinline"
-                                        allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
-                                </a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <section id="" class="ic-section ic-background-light" style="--name:'EV and Hybrid Course Options';">
             <div class="container">
                 <div class="row justify-content-center">
@@ -1254,39 +1151,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-white" style="--name:'EV Safety Education Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-8">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 mt-3 mt-md-0 order-last order-md-first">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p class="mb-3 pb-1">Reinforce EV and hybrid safety knowledge with our courses on
-                                    high-voltage awareness, inspections, diagnostics, and OEM&nbsp;procedures.</p>
-
-                                <p><a class="ic-btn ic-btn-primary" href="#">Explore Courses</a></p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 mb-1 mb-md-0 ps-lg-5 order-first order-md-last"><a href="#"
-                                    title="Explore Courses">
-                                    <picture>
-                                        <source height="460" media="(max-width: 768px)" sizes="100vw"
-                                            srcset="https://placehold.co/400x460 400w, https://placehold.co/800x460 800w, https://placehold.co/1600x460 1600w"
-                                            width="800" /> <img
-                                            alt="An I-CAR EV technician student following best high voltage disconnect safety procedures under an electric car during an EV training course"
-                                            class="ic-image-rounded" height="575" loading="lazy"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            src="https://placehold.co/800x575"
-                                            srcset="https://placehold.co/400x575 400w, https://placehold.co/800x575 800w, https://placehold.co/1600x575 1600w"
-                                            width="800" />
-                                    </picture>
-                                </a></div>
                         </div>
                     </div>
                 </div>
@@ -1470,11 +1334,11 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
-                                            <img alt="Two employees laughing during an office meeting"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
-                                                height="220" sizes="800px" src="https://placehold.co/400x220"
+                                            <img alt="Two employees laughing during an office meeting" loading="lazy"
+                                                class=" ic-card-image ic-image-rounded" width="400" height="220"
+                                                sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
                                     </figure>
@@ -1491,10 +1355,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="Employee contemplating his thoughts during a meeting"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
+                                                loading="lazy" class=" ic-card-image ic-image-rounded" width="400"
                                                 height="220" sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -1513,10 +1377,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="I-CAR instructor teaching students about safety equipment"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
+                                                loading="lazy" class=" ic-card-image ic-image-rounded" width="400"
                                                 height="220" sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -1535,10 +1399,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="Manager pointing to a computer screen while helping an intern"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
+                                                loading="lazy" class=" ic-card-image ic-image-rounded" width="400"
                                                 height="220" sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -1715,40 +1579,6 @@
 
             </div>
         </section>
-        <section id="" class="ic-section ic-background-white" style="--name:'High Voltage Safety Resources Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-8">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 mt-2 pt-1 mt-lg-0 pt-lg-0 ps-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p class="mb-lg-2 pb-lg-1">Explore high-voltage safety training for electric vehicle
-                                    technicians and I-CAR best practices for HV disconnection with our expert-led videos
-                                    and technical&nbsp;articles.</p>
-
-                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#">Learn More</a>
-                                </p>
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-lg-6 order-first"><a href="#" title="Learn More">
-                                    <picture>
-                                        <source height="460" media="(max-width: 768px)" sizes="100vw"
-                                            srcset="https://placehold.co/400x460 400w, https://placehold.co/800x460 800w, https://placehold.co/1600x460 1600w"
-                                            width="800" /> <img
-                                            alt="Electric vehicle repair technician under an electric car performing high voltage safety checks following HV disconnection best practices"
-                                            class="ic-image-rounded" height="575" loading="lazy"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            src="https://placehold.co/800x575"
-                                            srcset="https://placehold.co/400x575 400w, https://placehold.co/800x575 800w, https://placehold.co/1600x575 1600w"
-                                            width="800" />
-                                    </picture>
-                                </a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <section id="" class="ic-section" style="--name:'Impact Fund Active Projects';">
             <div class="container">
                 <div class="row justify-content-center">
@@ -1779,7 +1609,7 @@
 
                                     <figure class="ic-card-media"><img
                                             alt="I-CAR student learning from a collision repair technician instructor in a shop setting through I-CAR’s National Registered Apprenticeship program."
-                                            class="ic-card-image ic-image-rounded" loading="lazy"
+                                            loading="lazy" class="ic-card-image ic-image-rounded"
                                             src="https://placehold.co/800x600" />
                                     </figure>
                                 </div>
@@ -1803,7 +1633,7 @@
 
                                     <figure class="ic-card-media"><img
                                             alt="I-CAR booth at a tradeshow featuring “I Count on I-CAR” message to promote safety and build trust in collision repair training."
-                                            class="ic-card-image ic-image-rounded" loading="lazy"
+                                            loading="lazy" class="ic-card-image ic-image-rounded"
                                             src="https://placehold.co/800x600" />
                                     </figure>
                                 </div>
@@ -1825,7 +1655,7 @@
 
                                     <figure class="ic-card-media"><img
                                             alt="I-CAR student technician with a headset using Mixed Reality learning to prepare for real-world auto collision repair."
-                                            class="ic-card-image ic-image-rounded" loading="lazy"
+                                            loading="lazy" class="ic-card-image ic-image-rounded"
                                             sizes="(max-width: 400px) 362px, (max-width: 768px) 728px, 486px"
                                             src="https://placehold.co/800x600"
                                             srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
@@ -1863,9 +1693,8 @@
                                 <div class="d-flex gap-3 align-items-start">
                                     <figure class="gc-img gc-img--logo m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/140x140"
-                                                alt="Gold Class Collision Repair logo" width="140" height="140"
-                                                loading="lazy">
+                                            <img alt="Gold Class Collision Repair logo" loading="lazy" class="d-block"
+                                                width="140" height="140" src="https://placehold.co/140x140">
                                         </a>
                                     </figure>
 
@@ -1883,9 +1712,8 @@
                                 <div class="d-flex gap-3 align-items-start">
                                     <figure class="gc-img gc-img--logo m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/140x140"
-                                                alt="Platinum Professional logo" width="140" height="140"
-                                                loading="lazy">
+                                            <img alt="Platinum Professional logo" loading="lazy" class="d-block"
+                                                width="140" height="140" src="https://placehold.co/140x140">
                                         </a>
                                     </figure>
 
@@ -2115,8 +1943,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Audi Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Audi's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Audi's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2128,8 +1956,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="BMW Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View BMW's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View BMW's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2141,8 +1969,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="FCA Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View FCA's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View FCA's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2154,8 +1982,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Ford Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Ford's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Ford's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2167,8 +1995,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="GM Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View GM's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View GM's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2180,8 +2008,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Honda Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Honda's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Honda's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2193,8 +2021,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Polestar Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Polestar's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Polestar's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2206,8 +2034,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Subaru Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Subaru's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Subaru's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2219,8 +2047,8 @@
                                     <figure class="ic-card-media">
                                         <a href="#" class="stretched-link">
                                             <img alt="Volvo Logo, I-CAR OEM EV Requirements" class="ic-card-logo"
-                                                height="100" src="https://placehold.co/150x100"
-                                                title="View Volvo's EV Requirements" width="150" />
+                                                width="150" height="100" src="https://placehold.co/150x100"
+                                                title="View Volvo's EV Requirements" />
                                         </a>
                                     </figure>
                                 </div>
@@ -2252,8 +2080,8 @@
                                         </div>
 
                                         <figure class="ic-card-media"><img alt="VinFast Collision Repair Overview"
-                                                class="ic-card-image" height="327" src="https://placehold.co/491x327"
-                                                width="491" /></figure>
+                                                class="ic-card-image" width="491" height="327"
+                                                src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2267,7 +2095,7 @@
 
                                         <figure class="ic-card-media"><img
                                                 alt="VinFast Electromechanical Repair Overview" class="ic-card-image"
-                                                height="327" src="https://placehold.co/491x327" width="491" /></figure>
+                                                width="491" height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2280,8 +2108,8 @@
                                         </div>
 
                                         <figure class="ic-card-media"><img alt="Volvo Cars Collision Repair Overview"
-                                                class="ic-card-image" height="327" src="https://placehold.co/491x327"
-                                                width="491" /></figure>
+                                                class="ic-card-image" width="491" height="327"
+                                                src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2295,7 +2123,7 @@
 
                                         <figure class="ic-card-media"><img
                                                 alt="Volvo Cars Electromechanical Repair Overview" class="ic-card-image"
-                                                height="327" src="https://placehold.co/491x327" width="491" /></figure>
+                                                width="491" height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2307,8 +2135,8 @@
                                             </h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2320,8 +2148,8 @@
                                             </h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2332,8 +2160,8 @@
                                                     title="View course details">FCA Jeep Wagoneer S</a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2344,8 +2172,8 @@
                                                     title="View course details">FCA Dodge Charger LB</a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2356,8 +2184,8 @@
                                                     title="View course details">Audi Collision Repair Overview</a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2369,8 +2197,8 @@
                                                     Overview</a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2382,8 +2210,8 @@
                                                     Overview </a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2395,8 +2223,8 @@
                                                     Electromechanical Repair Overview </a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2408,8 +2236,8 @@
                                             </h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
 
@@ -2421,8 +2249,8 @@
                                                 </a></h3>
                                         </div>
 
-                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" height="327"
-                                                src="https://placehold.co/491x327" width="491" /></figure>
+                                        <figure class="ic-card-media"><img alt="" class="ic-card-image" width="491"
+                                                height="327" src="https://placehold.co/491x327" /></figure>
                                     </div>
                                 </div>
                             </div>
@@ -2437,112 +2265,6 @@
         </section>
 
         <!-- Requirements / Benefits / Process Sections (7 unique sections) -->
-        <section id="" class="ic-section ic-background-light pb-0" style="--name:'Employee Benefits Summary';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-xl-10">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md mt-2 pt-1 mt-md-0 pt-md-0">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p>We invest in our team member through benefits designed to support overall wellbeing,
-                                    financial security and balance—so people can do their best work and thrive both
-                                    professionally and&nbsp;personally.</p>
-
-                                <p>We believe when people are supported, they succeed—and so does our&nbsp;organization.
-                                </p>
-
-                            </div>
-
-                            <div class="col col-12 col-md pl-lg-5 mt-3 pt-1 mt-md-0 pt-md-0">
-                                <picture>
-                                    <source media="(max-width: 768px)" width="800" height="400"
-                                        sizes="(max-width: 400px) 400px, 800px"
-                                        srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w">
-                                    <img alt="A professional woman laughing during an in-person team meeting"
-                                        class="ic-card-image ic-image-rounded" loading="lazy" width="800" height="520"
-                                        sizes="800px" src="https://placehold.co/800x520"
-                                        srcset="https://placehold.co/400x520 400w, https://placehold.co/800x520 800w, https://placehold.co/1600x520 1600w">
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-white" style="--name:'Welding Network Requirements';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-8">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 mt-2 pt-1 mt-md-0 pt-md-0 pl-lg-5 order-last">
-
-                                <h2 class="ic-section-title mb-2 pb-1">Section Headline</h2>
-
-                                <p class="mb-2 pb-1">Many OEM-certified and insurance networks require
-                                    I-CAR welding certification.
-                                    Meeting these standards ensures compliance and customer confidence.</p>
-
-                                <ul class="ic-menu mt-0">
-                                    <li><a href="#">OEM Requirements</a></li>
-                                    <li><a href="#">Insurance
-                                            Requirements</a></li>
-                                </ul>
-
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-lg-6 order-first">
-                                <picture>
-                                    <source media="(max-width: 768px)" sizes="100vw" width="800" height="400"
-                                        srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w" />
-                                    <img alt="Welder in a bodyshop using proper welding techniques during collision repair as mandated by network requirements"
-                                        loading="lazy" width="800" height="600" class="ic-image-rounded"
-                                        src="https://placehold.co/800x600"
-                                        sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                        srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w">
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section" style="--name:'Hiring Process Overview';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-xl-10">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md mt-2 pt-1 mt-md-0 pt-md-0 order-last order-md-first pr-lg-5">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p class="mb-0">Our interview process is a two-way conversation focused on meaningful
-                                    dialogue. While you learn about I&#8209;CAR, we’ll get to know your skills,
-                                    experiences, and accomplishments. We value diverse perspectives and encourage you to
-                                    bring your authentic self to each&nbsp;conversation.</p>
-
-                                <ul class="ic-menu mt-3">
-                                    <li><a href="#" target="_blank">Corporate Interview Process</a></li>
-                                    <li><a href="#" target="_blank">Instructor Interview Process</a></li>
-                                </ul>
-
-                            </div>
-
-                            <div class="col col-12 col-md order-first order-md-last">
-                                <picture>
-                                    <source media="(max-width: 768px)" width="800" height="400"
-                                        sizes="(max-width: 400px) 400px, 800px"
-                                        srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w">
-                                    <img alt="Professional woman answering a question during an interview"
-                                        class="ic-card-image ic-image-rounded" loading="lazy" width="800" height="580"
-                                        sizes="800px" src="https://placehold.co/800x580"
-                                        srcset="https://placehold.co/400x580 400w, https://placehold.co/800x580 800w, https://placehold.co/1600x580 1600w">
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <section id="" class="ic-section ic-background-light" style="--name:'Welding Certification Path';">
             <div class="container">
                 <div class="row justify-content-center">
@@ -3107,10 +2829,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="Digital illustration of car with digital data and sensor overlays"
-                                                class="ic-card-image" loading="lazy" width="400" height="220"
+                                                loading="lazy" class="ic-card-image" width="400" height="220"
                                                 sizes="400px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -3127,10 +2849,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
-                                            <img alt="Electric vehicle at a charging station" class="ic-card-image"
-                                                loading="lazy" width="400" height="220" sizes="400px"
+                                            <img alt="Electric vehicle at a charging station" loading="lazy"
+                                                class="ic-card-image" width="400" height="220" sizes="400px"
                                                 src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -3147,10 +2869,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
-                                            <img alt="I-CAR instructor wearing a virtual headset" class="ic-card-image"
-                                                loading="lazy" width="400" height="220" sizes="400px"
+                                            <img alt="I-CAR instructor wearing a virtual headset" loading="lazy"
+                                                class="ic-card-image" width="400" height="220" sizes="400px"
                                                 src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -3164,41 +2886,6 @@
         </section>
 
         <!-- Resources / Tools Sections (6 unique sections) -->
-        <section id="" class="ic-section ic-background-white" style="--name:'RTS Welding Resources';">
-            <div class="container">
-                <div class="row justify-content-center mb-3 pb-1 mb-md-0 pb-md-0">
-                    <div class="col col-12 col-lg-10 col-xl-8">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 mt-2 pt-1 mt-md-0 pt-md-0 pl-lg-5 order-last">
-
-                                <h2 class="ic-section-title mb-2 pb-1">Section Headline</h2>
-
-                                <p class="mb-2 pb-1">Stay current with Repairability Technical Support (RTS) for welding
-                                    procedures. Access OEM guidelines, step-by-step instructions, and troubleshooting
-                                    tips.</p>
-
-                                <p><a href="#">Visit the RTS Portal</a></p>
-
-                            </div>
-
-                            <div class="col col-12 col-md-6 col-lg-6 order-first">
-                                <a href="#" title="Visit the RTS Portal">
-                                    <picture>
-                                        <source media="(max-width: 768px)" sizes="100vw" width="800" height="400"
-                                            srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w" />
-                                        <img alt="Collision repair technician in a bodyshop viewing the RTS website for welding techniques, tips, and guidelines"
-                                            loading="lazy" width="800" height="600" class="ic-image-rounded"
-                                            src="https://placehold.co/800x600"
-                                            sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                            srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w">
-                                    </picture>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <section id="" class="ic-section" style="--name:'Airport Travel Options';">
             <div class="container">
                 <div class="row justify-content-center">
@@ -3377,11 +3064,11 @@
 
                             <div class="col col-12 col-md-6 mt-3 mt-md-0">
                                 <a href="#" title="Get to Platinum">
-                                    <img width="472" height="472" class="ic-image-cutout px-4" loading="lazy"
-                                        src="https://placehold.co/472x472"
-                                        srcset="https://placehold.co/400x472 400w, https://placehold.co/800x472 800w, https://placehold.co/1600x472 1600w"
+                                    <img alt="Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after collision or accident repair"
+                                        loading="lazy" class="ic-image-cutout px-4" width="472" height="472"
                                         sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                        alt="Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after collision or accident repair">
+                                        src="https://placehold.co/472x472"
+                                        srcset="https://placehold.co/400x472 400w, https://placehold.co/800x472 800w, https://placehold.co/1600x472 1600w">
                                 </a>
                             </div>
 
@@ -3794,38 +3481,6 @@
         </section>
 
         <!-- Media / Quote / Testimonial Sections (13 unique sections) -->
-        <section id="" class="ic-section ic-background-light" style="--name:'Impact Report Feature';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <article class="col col-12 col-xl-10">
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col col-12 col-md-5 mt-3 pt-2 mt-md-0 pt-md-0 order-last">
-                                <h2 class="ic-section-title mt-1 mt-md-0">Section Headline</h2>
-
-                                <p>Explore I-CAR&#39;s key achievements, initiatives, and reinvestments. The report
-                                    demonstrates I-CAR&#39;s continued commitment to leading the industry forward with
-                                    excellence in training, technical information, and collaboration in a dynamic
-                                    environment impacted by increasing repair complexity and challenges recruiting
-                                    technicians.</p>
-
-                                <p><a class="ic-btn ic-btn-primary ic-btn-outline" href="#" target="_blank">Read the
-                                        Report</a>
-                                </p>
-                            </div>
-
-                            <div class="col col-12 col-md-7 col-lg-5 order-first pr-md-5"><a href="#" target="_blank"
-                                    title="Read the Report"><img
-                                        alt="I-CAR 2025 Impact Report featuring key achievements, initiatives, reinvestments and commitment to leading the auto collision repair industry forward."
-                                        class="ic-image-rounded" height="400" loading="lazy"
-                                        sizes="(max-width: 400px) 362px, (max-width: 768px) 728px, 615px"
-                                        src="https://placehold.co/615x400"
-                                        srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w"
-                                        width="615" /> </a></div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
         <section id="" class="ic-section ic-background-light" style="--name:'CEO Culture Message';">
             <div class="container">
                 <div class="row justify-content-center">
@@ -3842,7 +3497,7 @@
                                     our&nbsp;customers.</p>
                             </div>
                             <div class="ic-cite">
-                                <img alt="Kyle Thompson" class="ic-cite-photo" loading="lazy" width="90" height="90"
+                                <img alt="Kyle Thompson" loading="lazy" class="ic-cite-photo" width="90" height="90"
                                     sizes="90px" src="https://placehold.co/90x90"
                                     srcset="https://placehold.co/100x90 100w, https://placehold.co/200x90 200w">
                                 <p>
@@ -3859,11 +3514,8 @@
         </section>
         <section id="" class="ic-section ic-background-light" style="--name:'CEO Culture Video';">
             <!-- <picture>
-                        <source media="(max-width: 768px)" width="800" height="1600" sizes="(max-width: 400px) 400px, 800px"
-                            srcset="https://placehold.co/400x1600 400w, https://placehold.co/800x1600 800w, https://placehold.co/1600x1600 1600w">
-                        <img alt="" class="ic-image-banner" width="1600" height="580" sizes="1600px"
-                            src="https://placehold.co/1600x580"
-                            srcset="https://placehold.co/1600x580 1600w, https://placehold.co/3200x580 3200w">
+                        <source width="800" height="1600" media="(max-width: 768px)" sizes="(max-width: 400px) 400px, 800px" srcset="https://placehold.co/400x1600 400w, https://placehold.co/800x1600 800w, https://placehold.co/1600x1600 1600w">
+                        <img alt="" class="ic-image-banner" width="1600" height="580" sizes="1600px" src="https://placehold.co/1600x580" srcset="https://placehold.co/1600x580 1600w, https://placehold.co/3200x580 3200w">
                     </picture> -->
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3 mb-md-2 pb-md-0">
@@ -3894,7 +3546,7 @@
                             </div>
                             <div class="ic-card-media">
                                 <div class="ic-card-cite ic-cite">
-                                    <img alt="Kyle Thompson" class="ic-cite-photo" loading="lazy" width="100"
+                                    <img alt="Kyle Thompson" loading="lazy" class="ic-cite-photo" width="100"
                                         height="100" sizes="100px" src="https://placehold.co/100x100"
                                         srcset="https://placehold.co/100x100 100w, https://placehold.co/200x100 200w">
                                     <p>
@@ -3940,7 +3592,7 @@
                             <div class="col col-12 col-md order-first pr-lg-5">
                                 <a href="#" title="Explore Open Roles">
                                     <img alt="Two images showing both in-person and virtual work environments"
-                                        class="ic-card-image ic-image-rounded" loading="lazy" width="800" height="320"
+                                        loading="lazy" class="ic-card-image ic-image-rounded" width="800" height="320"
                                         sizes="800px" src="https://placehold.co/800x320"
                                         srcset="https://placehold.co/400x320 400w, https://placehold.co/800x320 800w, https://placehold.co/1600x320 1600w">
                                 </a>
@@ -4304,10 +3956,9 @@
                                                 It’s a culture that empowers you to grow, contribute, and be part of
                                                 something that truly&nbsp;matters.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Olivia Peterson" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Olivia Peterson" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Olivia Peterson</strong><br>
@@ -4331,9 +3982,9 @@
                                                 continuously develop, collaborate, and contribute to meaningful work
                                                 that has a real impact on the&nbsp;industry.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="John Spoto" class="ic-cite-photo" loading="lazy">
+                                                <img alt="John Spoto" loading="lazy" class="ic-cite-photo" sizes="80px"
+                                                    src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>John Spoto</strong><br>
@@ -4357,10 +4008,9 @@
                                                 the kind of environment where you can grow, contribute, and feel truly
                                                 connected to the work you&nbsp;do.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Vathsala Devarjan" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Vathsala Devarjan" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Vathsala Devarjan</strong><br>
@@ -4385,10 +4035,9 @@
                                                 be part of an organization that not only supports its people but also
                                                 helps elevate standards across the entire collision&nbsp;industry.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Carlos Garcia" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Carlos Garcia" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Carlos Garcia</strong><br>
@@ -4436,27 +4085,27 @@
                                 <div class="swiper ic-swiper" aria-label="ADAS lab images slider">
                                     <div class="swiper-wrapper row flex-nowrap">
                                         <div class="swiper-slide col col-12">
-                                            <img width="800" height="604" loading="eager" class="ic-image-rounded"
-                                                src="https://placehold.co/800x604"
-                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w"
+                                            <img alt="Inside I-CAR’s ADAS Lab at the Chicago Technical Center, where technicians participate in hands-on ADAS calibration and repair training."
+                                                loading="eager" class="ic-image-rounded" width="800" height="604"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                                alt="Inside I-CAR’s ADAS Lab at the Chicago Technical Center, where technicians participate in hands-on ADAS calibration and repair training.">
+                                                src="https://placehold.co/800x604"
+                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w">
                                         </div>
 
                                         <div class="swiper-slide col col-12">
-                                            <img width="800" height="604" loading="lazy" class="ic-image-rounded"
-                                                src="https://placehold.co/800x604"
-                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w"
+                                            <img alt="Inside I-CAR’s ADAS Lab at the Chicago Technical Center, showing vehicles and advanced diagnostic equipment used for hands-on ADAS calibration training."
+                                                loading="lazy" class="ic-image-rounded" width="800" height="604"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                                alt="Inside I-CAR’s ADAS Lab at the Chicago Technical Center, showing vehicles and advanced diagnostic equipment used for hands-on ADAS calibration training.">
+                                                src="https://placehold.co/800x604"
+                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w">
                                         </div>
 
                                         <div class="swiper-slide col col-12">
-                                            <img width="800" height="604" loading="lazy" class="ic-image-rounded"
-                                                src="https://placehold.co/800x604"
-                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w"
+                                            <img alt="Classroom and alignment area inside I-CAR’s ADAS Lab at the Chicago Technical Center, designed for hands-on ADAS calibration and technician training sessions."
+                                                loading="lazy" class="ic-image-rounded" width="800" height="604"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                                alt="Classroom and alignment area inside I-CAR’s ADAS Lab at the Chicago Technical Center, designed for hands-on ADAS calibration and technician training sessions.">
+                                                src="https://placehold.co/800x604"
+                                                srcset="https://placehold.co/400x604 400w, https://placehold.co/800x604 800w, https://placehold.co/1600x604 1600w">
                                         </div>
                                     </div>
 
@@ -4488,32 +4137,32 @@
                                 <div aria-label="ADAS lab images slider" class="swiper ic-swiper">
                                     <div class="swiper-wrapper row flex-nowrap">
                                         <div class="swiper-slide col col-12"><img alt="Inside the EV Lab"
-                                                class="ic-image-rounded" height="600" loading="eager"
+                                                loading="eager" class="ic-image-rounded" width="800" height="600"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                                 src="https://placehold.co/800x600"
-                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w"
-                                                width="800" /></div>
+                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
+                                        </div>
 
                                         <div class="swiper-slide col col-12"><img alt="Inside the EV Lab"
-                                                class="ic-image-rounded" height="600" loading="eager"
+                                                loading="eager" class="ic-image-rounded" width="800" height="600"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                                 src="https://placehold.co/800x600"
-                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w"
-                                                width="800" /></div>
+                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
+                                        </div>
 
                                         <div class="swiper-slide col col-12"><img alt="Inside the EV Lab"
-                                                class="ic-image-rounded" height="600" loading="eager"
+                                                loading="eager" class="ic-image-rounded" width="800" height="600"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                                 src="https://placehold.co/800x600"
-                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w"
-                                                width="800" /></div>
+                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
+                                        </div>
 
                                         <div class="swiper-slide col col-12"><img alt="Inside the EV Lab"
-                                                class="ic-image-rounded" height="600" loading="eager"
+                                                loading="eager" class="ic-image-rounded" width="800" height="600"
                                                 sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                                 src="https://placehold.co/800x600"
-                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w"
-                                                width="800" /></div>
+                                                srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
+                                        </div>
                                     </div>
 
                                     <div class="swiper-pagination">&nbsp;</div>
@@ -4567,9 +4216,9 @@
                                                 and quality time at home has been invaluable. It’s a benefit that truly
                                                 supports overall wellbeing in a practical and personalized&nbsp;way.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Tony Guzman" class="ic-cite-photo" loading="lazy">
+                                                <img alt="Tony Guzman" loading="lazy" class="ic-cite-photo" sizes="80px"
+                                                    src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Tony Guzman</strong><br>
@@ -4593,10 +4242,9 @@
                                                 that truly enables growth—both professionally and personally—in a way
                                                 that feels sustainable and&nbsp;supported.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Johnathan Pettinato" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Johnathan Pettinato" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Johnathan Pettinato</strong><br>
@@ -4620,10 +4268,9 @@
                                                 confidence and peace of mind during a challenging time, showing how much
                                                 I&#8209;CAR truly cares about its&nbsp;people.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Sonja Bristow" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Sonja Bristow" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Sonja Bristow</strong><br>
@@ -4646,10 +4293,9 @@
                                                 gives me the flexibility to be present for my three kids and their
                                                 activities, which makes a real difference in my&nbsp;life.</p>
                                             <div class="ic-card-cite ic-cite">
-                                                <img src="https://placehold.co/800x600"
-                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w"
-                                                    sizes="80px" alt="Corine Burns" class="ic-cite-photo"
-                                                    loading="lazy">
+                                                <img alt="Corine Burns" loading="lazy" class="ic-cite-photo"
+                                                    sizes="80px" src="https://placehold.co/800x600"
+                                                    srcset="https://placehold.co/70x600 70w, https://placehold.co/140x600 140w">
                                                 <p>
                                                     <cite>
                                                         <strong>Corine Burns</strong><br>
@@ -4692,12 +4338,11 @@
                                 <picture>
                                     <source media="(max-width: 768px)" sizes="100vw"
                                         srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
-                                    <img alt="Vacant board member chairs in a conference room" class="ic-image-rounded"
-                                        height="600" loading="lazy"
+                                    <img alt="Vacant board member chairs in a conference room" loading="lazy"
+                                        class="ic-image-rounded" width="800" height="600"
                                         sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                         src="https://placehold.co/800x600"
-                                        srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w"
-                                        width="800" />
+                                        srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w" />
                                 </picture>
                             </div>
                         </div>
@@ -4724,448 +4369,448 @@
                         <ul class="ic-logo-list row justify-content-center">
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="3M" class="ic-logo" height="79" loading="lazy"
-                                    src="https://placehold.co/150x79" width="150" />
+                                <img alt="3M" loading="lazy" class="ic-logo" width="150" height="79"
+                                    src="https://placehold.co/150x79" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="AAA" class="ic-logo" height="92" loading="lazy"
-                                    src="https://placehold.co/150x92" width="150" />
+                                <img alt="AAA" loading="lazy" class="ic-logo" width="150" height="92"
+                                    src="https://placehold.co/150x92" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Acura" class="ic-logo" height="36" loading="lazy"
-                                    src="https://placehold.co/150x36" width="150" />
+                                <img alt="Acura" loading="lazy" class="ic-logo" width="150" height="36"
+                                    src="https://placehold.co/150x36" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="AFR" class="ic-logo" height="82" loading="lazy"
-                                    src="https://placehold.co/148x82" width="148" />
+                                <img alt="AFR" loading="lazy" class="ic-logo" width="148" height="82"
+                                    src="https://placehold.co/148x82" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="AkzoNobel" class="ic-logo" height="22" loading="lazy"
-                                    src="https://placehold.co/150x22" width="150" />
+                                <img alt="AkzoNobel" loading="lazy" class="ic-logo" width="150" height="22"
+                                    src="https://placehold.co/150x22" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Alacrity" class="ic-logo" height="36" loading="lazy"
-                                    src="https://placehold.co/150x36" width="150" />
+                                <img alt="Alacrity" loading="lazy" class="ic-logo" width="150" height="36"
+                                    src="https://placehold.co/150x36" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Alfa Romeo" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="Alfa Romeo" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="ALLCAT" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="ALLCAT" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="ALLDATA" class="ic-logo" height="30" loading="lazy"
-                                    src="https://placehold.co/150x30" width="150" />
+                                <img alt="ALLDATA" loading="lazy" class="ic-logo" width="150" height="30"
+                                    src="https://placehold.co/150x30" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Allstate" class="ic-logo" height="90" loading="lazy"
-                                    src="https://placehold.co/150x90" width="150" />
+                                <img alt="Allstate" loading="lazy" class="ic-logo" width="150" height="90"
+                                    src="https://placehold.co/150x90" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Amica" class="ic-logo" height="42" loading="lazy"
-                                    src="https://placehold.co/150x42" width="150" />
+                                <img alt="Amica" loading="lazy" class="ic-logo" width="150" height="42"
+                                    src="https://placehold.co/150x42" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Assured-Performance" class="ic-logo" height="24" loading="lazy"
-                                    src="https://placehold.co/150x24" width="150" />
+                                <img alt="Assured-Performance" loading="lazy" class="ic-logo" width="150" height="24"
+                                    src="https://placehold.co/150x24" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="asTech" class="ic-logo" height="52" loading="lazy"
-                                    src="https://placehold.co/150x52" width="150" />
+                                <img alt="asTech" loading="lazy" class="ic-logo" width="150" height="52"
+                                    src="https://placehold.co/150x52" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Audi" class="ic-logo" height="82" loading="lazy"
-                                    src="https://placehold.co/150x82" width="150" />
+                                <img alt="Audi" loading="lazy" class="ic-logo" width="150" height="82"
+                                    src="https://placehold.co/150x82" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Autel" class="ic-logo" height="26" loading="lazy"
-                                    src="https://placehold.co/150x26" width="150" />
+                                <img alt="Autel" loading="lazy" class="ic-logo" width="150" height="26"
+                                    src="https://placehold.co/150x26" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="asTech" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/134x100" width="134" />
+                                <img alt="asTech" loading="lazy" class="ic-logo" width="134" height="100"
+                                    src="https://placehold.co/134x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="BASF" class="ic-logo" height="56" loading="lazy"
-                                    src="https://placehold.co/150x56" width="150" />
+                                <img alt="BASF" loading="lazy" class="ic-logo" width="150" height="56"
+                                    src="https://placehold.co/150x56" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="BMW" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="BMW" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Buick" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/126x100" width="126" />
+                                <img alt="Buick" loading="lazy" class="ic-logo" width="126" height="100"
+                                    src="https://placehold.co/126x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Cadillac" class="ic-logo" height="98" loading="lazy"
-                                    src="https://placehold.co/148x98" width="148" />
+                                <img alt="Cadillac" loading="lazy" class="ic-logo" width="148" height="98"
+                                    src="https://placehold.co/148x98" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="CARADAS" class="ic-logo" height="50" loading="lazy"
-                                    src="https://placehold.co/160x50" width="160" />
+                                <img alt="CARADAS" loading="lazy" class="ic-logo" width="160" height="50"
+                                    src="https://placehold.co/160x50" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Car-O-Liner" class="ic-logo" height="18" loading="lazy"
-                                    src="https://placehold.co/150x18" width="150" />
+                                <img alt="Car-O-Liner" loading="lazy" class="ic-logo" width="150" height="18"
+                                    src="https://placehold.co/150x18" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="CCC" class="ic-logo" height="56" loading="lazy"
-                                    src="https://placehold.co/150x56" width="150" />
+                                <img alt="CCC" loading="lazy" class="ic-logo" width="150" height="56"
+                                    src="https://placehold.co/150x56" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="CEI" class="ic-logo" height="58" loading="lazy"
-                                    src="https://placehold.co/150x58" width="150" />
+                                <img alt="CEI" loading="lazy" class="ic-logo" width="150" height="58"
+                                    src="https://placehold.co/150x58" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Central-Insurance" class="ic-logo" height="44" loading="lazy"
-                                    src="https://placehold.co/150x44" width="150" />
+                                <img alt="Central-Insurance" loading="lazy" class="ic-logo" width="150" height="44"
+                                    src="https://placehold.co/150x44" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Certified-Collision-Group" class="ic-logo" height="46" loading="lazy"
-                                    src="https://placehold.co/150x46" width="150" />
+                                <img alt="Certified-Collision-Group" loading="lazy" class="ic-logo" width="150"
+                                    height="46" src="https://placehold.co/150x46" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Chevrolet" class="ic-logo" height="75" loading="lazy"
-                                    src="https://placehold.co/150x75" width="150" />
+                                <img alt="Chevrolet" loading="lazy" class="ic-logo" width="150" height="75"
+                                    src="https://placehold.co/150x75" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Chief" class="ic-logo" height="38" loading="lazy"
-                                    src="https://placehold.co/150x38" width="150" />
+                                <img alt="Chief" loading="lazy" class="ic-logo" width="150" height="38"
+                                    src="https://placehold.co/150x38" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Chrysler" class="ic-logo" height="32" loading="lazy"
-                                    src="https://placehold.co/152x32" width="152" />
+                                <img alt="Chrysler" loading="lazy" class="ic-logo" width="152" height="32"
+                                    src="https://placehold.co/152x32" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Craft-Masters-Academy" class="ic-logo" height="82" loading="lazy"
-                                    src="https://placehold.co/150x82" width="150" />
+                                <img alt="Craft-Masters-Academy" loading="lazy" class="ic-logo" width="150" height="82"
+                                    src="https://placehold.co/150x82" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Dent-Fix" class="ic-logo" height="102" loading="lazy"
-                                    src="https://placehold.co/150x102" width="150" />
+                                <img alt="Dent-Fix" loading="lazy" class="ic-logo" width="150" height="102"
+                                    src="https://placehold.co/150x102" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="DeVILBISS" class="ic-logo" height="84" loading="lazy"
-                                    src="https://placehold.co/150x84" width="150" />
+                                <img alt="DeVILBISS" loading="lazy" class="ic-logo" width="150" height="84"
+                                    src="https://placehold.co/150x84" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Dodge" class="ic-logo" height="22" loading="lazy"
-                                    src="https://placehold.co/150x22" width="150" />
+                                <img alt="Dodge" loading="lazy" class="ic-logo" width="150" height="22"
+                                    src="https://placehold.co/150x22" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Enterprise" class="ic-logo" height="32" loading="lazy"
-                                    src="https://placehold.co/150x32" width="150" />
+                                <img alt="Enterprise" loading="lazy" class="ic-logo" width="150" height="32"
+                                    src="https://placehold.co/150x32" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Everlast" class="ic-logo" height="63" loading="lazy"
-                                    src="https://placehold.co/150x63" width="150" />
+                                <img alt="Everlast" loading="lazy" class="ic-logo" width="150" height="63"
+                                    src="https://placehold.co/150x63" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Farmers" class="ic-logo" height="80" loading="lazy"
-                                    src="https://placehold.co/150x80" width="150" />
+                                <img alt="Farmers" loading="lazy" class="ic-logo" width="150" height="80"
+                                    src="https://placehold.co/150x80" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="FCA" class="ic-logo" height="56" loading="lazy"
-                                    src="https://placehold.co/150x56" width="150" />
+                                <img alt="FCA" loading="lazy" class="ic-logo" width="150" height="56"
+                                    src="https://placehold.co/150x56" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="FIAT" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="FIAT" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="FIAT" class="ic-logo" height="58" loading="lazy"
-                                    src="https://placehold.co/150x58" width="150" />
+                                <img alt="FIAT" loading="lazy" class="ic-logo" width="150" height="58"
+                                    src="https://placehold.co/150x58" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="GEICO" class="ic-logo" height="26" loading="lazy"
-                                    src="https://placehold.co/150x26" width="150" />
+                                <img alt="GEICO" loading="lazy" class="ic-logo" width="150" height="26"
+                                    src="https://placehold.co/150x26" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="GM" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="GM" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="GMC" class="ic-logo" height="34" loading="lazy"
-                                    src="https://placehold.co/150x34" width="150" />
+                                <img alt="GMC" loading="lazy" class="ic-logo" width="150" height="34"
+                                    src="https://placehold.co/150x34" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="HeadlightsDotCom" class="ic-logo" height="48" loading="lazy"
-                                    src="https://placehold.co/156x48" width="156" />
+                                <img alt="HeadlightsDotCom" loading="lazy" class="ic-logo" width="156" height="48"
+                                    src="https://placehold.co/156x48" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Honda" class="ic-logo" height="96" loading="lazy"
-                                    src="https://placehold.co/150x96" width="150" />
+                                <img alt="Honda" loading="lazy" class="ic-logo" width="150" height="96"
+                                    src="https://placehold.co/150x96" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Hunter" class="ic-logo" height="34" loading="lazy"
-                                    src="https://placehold.co/152x34" width="152" />
+                                <img alt="Hunter" loading="lazy" class="ic-logo" width="152" height="34"
+                                    src="https://placehold.co/152x34" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Hyundai" class="ic-logo" height="72" loading="lazy"
-                                    src="https://placehold.co/150x72" width="150" />
+                                <img alt="Hyundai" loading="lazy" class="ic-logo" width="150" height="72"
+                                    src="https://placehold.co/150x72" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="IANet" class="ic-logo" height="74" loading="lazy"
-                                    src="https://placehold.co/150x74" width="150" />
+                                <img alt="IANet" loading="lazy" class="ic-logo" width="150" height="74"
+                                    src="https://placehold.co/150x74" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Infiniti" class="ic-logo" height="72" loading="lazy"
-                                    src="https://placehold.co/150x72" width="150" />
+                                <img alt="Infiniti" loading="lazy" class="ic-logo" width="150" height="72"
+                                    src="https://placehold.co/150x72" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Innovation-Group" class="ic-logo" height="34" loading="lazy"
-                                    src="https://placehold.co/150x34" width="150" />
+                                <img alt="Innovation-Group" loading="lazy" class="ic-logo" width="150" height="34"
+                                    src="https://placehold.co/150x34" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Intrepid" class="ic-logo" height="58" loading="lazy"
-                                    src="https://placehold.co/150x58" width="150" />
+                                <img alt="Intrepid" loading="lazy" class="ic-logo" width="150" height="58"
+                                    src="https://placehold.co/150x58" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Jaguar" class="ic-logo" height="68" loading="lazy"
-                                    src="https://placehold.co/150x68" width="150" />
+                                <img alt="Jaguar" loading="lazy" class="ic-logo" width="150" height="68"
+                                    src="https://placehold.co/150x68" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Jeep" class="ic-logo" height="62" loading="lazy"
-                                    src="https://placehold.co/150x62" width="150" />
+                                <img alt="Jeep" loading="lazy" class="ic-logo" width="150" height="62"
+                                    src="https://placehold.co/150x62" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="KECO" class="ic-logo" height="54" loading="lazy"
-                                    src="https://placehold.co/150x54" width="150" />
+                                <img alt="KECO" loading="lazy" class="ic-logo" width="150" height="54"
+                                    src="https://placehold.co/150x54" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Kemper" class="ic-logo" height="26" loading="lazy"
-                                    src="https://placehold.co/150x26" width="150" />
+                                <img alt="Kemper" loading="lazy" class="ic-logo" width="150" height="26"
+                                    src="https://placehold.co/150x26" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="KIA" class="ic-logo" height="36" loading="lazy"
-                                    src="https://placehold.co/150x36" width="150" />
+                                <img alt="KIA" loading="lazy" class="ic-logo" width="150" height="36"
+                                    src="https://placehold.co/150x36" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Land-Rover" class="ic-logo" height="80" loading="lazy"
-                                    src="https://placehold.co/150x80" width="150" />
+                                <img alt="Land-Rover" loading="lazy" class="ic-logo" width="150" height="80"
+                                    src="https://placehold.co/150x80" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Lincoln" class="ic-logo" height="68" loading="lazy"
-                                    src="https://placehold.co/150x68" width="150" />
+                                <img alt="Lincoln" loading="lazy" class="ic-logo" width="150" height="68"
+                                    src="https://placehold.co/150x68" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="LKQ" class="ic-logo" height="40" loading="lazy"
-                                    src="https://placehold.co/150x40" width="150" />
+                                <img alt="LKQ" loading="lazy" class="ic-logo" width="150" height="40"
+                                    src="https://placehold.co/150x40" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="LORD-Fusor" class="ic-logo" height="42" loading="lazy"
-                                    src="https://placehold.co/150x42" width="150" />
+                                <img alt="LORD-Fusor" loading="lazy" class="ic-logo" width="150" height="42"
+                                    src="https://placehold.co/150x42" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Lusid-Technologies" class="ic-logo" height="80" loading="lazy"
-                                    src="https://placehold.co/150x80" width="150" />
+                                <img alt="Lusid-Technologies" loading="lazy" class="ic-logo" width="150" height="80"
+                                    src="https://placehold.co/150x80" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Maserati" class="ic-logo" height="66" loading="lazy"
-                                    src="https://placehold.co/150x66" width="150" />
+                                <img alt="Maserati" loading="lazy" class="ic-logo" width="150" height="66"
+                                    src="https://placehold.co/150x66" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Mazda" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/110x100" width="110" />
+                                <img alt="Mazda" loading="lazy" class="ic-logo" width="110" height="100"
+                                    src="https://placehold.co/110x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Mercedes" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="Mercedes" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Nationwide" class="ic-logo" height="60" loading="lazy"
-                                    src="https://placehold.co/150x60" width="150" />
+                                <img alt="Nationwide" loading="lazy" class="ic-logo" width="150" height="60"
+                                    src="https://placehold.co/150x60" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Nexterra" class="ic-logo" height="30" loading="lazy"
-                                    src="https://placehold.co/150x30" width="150" />
+                                <img alt="Nexterra" loading="lazy" class="ic-logo" width="150" height="30"
+                                    src="https://placehold.co/150x30" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Nissan" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/120x100" width="120" />
+                                <img alt="Nissan" loading="lazy" class="ic-logo" width="120" height="100"
+                                    src="https://placehold.co/120x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="NJM" class="ic-logo" height="42" loading="lazy"
-                                    src="https://placehold.co/150x42" width="150" />
+                                <img alt="NJM" loading="lazy" class="ic-logo" width="150" height="42"
+                                    src="https://placehold.co/150x42" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Norton-RSG" class="ic-logo" height="32" loading="lazy"
-                                    src="https://placehold.co/150x32" width="150" />
+                                <img alt="Norton-RSG" loading="lazy" class="ic-logo" width="150" height="32"
+                                    src="https://placehold.co/150x32" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="OPUS" class="ic-logo" height="56" loading="lazy"
-                                    src="https://placehold.co/150x56" width="150" />
+                                <img alt="OPUS" loading="lazy" class="ic-logo" width="150" height="56"
+                                    src="https://placehold.co/150x56" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Pekin" class="ic-logo" height="46" loading="lazy"
-                                    src="https://placehold.co/150x46" width="150" />
+                                <img alt="Pekin" loading="lazy" class="ic-logo" width="150" height="46"
+                                    src="https://placehold.co/150x46" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Polyvance" class="ic-logo" height="42" loading="lazy"
-                                    src="https://placehold.co/150x42" width="150" />
+                                <img alt="Polyvance" loading="lazy" class="ic-logo" width="150" height="42"
+                                    src="https://placehold.co/150x42" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Porsche" class="ic-logo" height="62" loading="lazy"
-                                    src="https://placehold.co/150x62" width="150" />
+                                <img alt="Porsche" loading="lazy" class="ic-logo" width="150" height="62"
+                                    src="https://placehold.co/150x62" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="PPG" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/130x100" width="130" />
+                                <img alt="PPG" loading="lazy" class="ic-logo" width="130" height="100"
+                                    src="https://placehold.co/130x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Pronto-Insurance" class="ic-logo" height="48" loading="lazy"
-                                    src="https://placehold.co/150x48" width="150" />
+                                <img alt="Pronto-Insurance" loading="lazy" class="ic-logo" width="150" height="48"
+                                    src="https://placehold.co/150x48" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="ProSpot" class="ic-logo" height="24" loading="lazy"
-                                    src="https://placehold.co/150x24" width="150" />
+                                <img alt="ProSpot" loading="lazy" class="ic-logo" width="150" height="24"
+                                    src="https://placehold.co/150x24" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="ProStat" class="ic-logo" height="74" loading="lazy"
-                                    src="https://placehold.co/150x74" width="150" />
+                                <img alt="ProStat" loading="lazy" class="ic-logo" width="150" height="74"
+                                    src="https://placehold.co/150x74" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="PROTECH" class="ic-logo" height="24" loading="lazy"
-                                    src="https://placehold.co/150x24" width="150" />
+                                <img alt="PROTECH" loading="lazy" class="ic-logo" width="150" height="24"
+                                    src="https://placehold.co/150x24" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="RAM" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/92x100" width="92" />
+                                <img alt="RAM" loading="lazy" class="ic-logo" width="92" height="100"
+                                    src="https://placehold.co/92x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="SEM" class="ic-logo" height="92" loading="lazy"
-                                    src="https://placehold.co/150x92" width="150" />
+                                <img alt="SEM" loading="lazy" class="ic-logo" width="150" height="92"
+                                    src="https://placehold.co/150x92" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Sherwin-Williams" class="ic-logo" height="78" loading="lazy"
-                                    src="https://placehold.co/150x78" width="150" />
+                                <img alt="Sherwin-Williams" loading="lazy" class="ic-logo" width="150" height="78"
+                                    src="https://placehold.co/150x78" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Solidus" class="ic-logo" height="28" loading="lazy"
-                                    src="https://placehold.co/150x28" width="150" />
+                                <img alt="Solidus" loading="lazy" class="ic-logo" width="150" height="28"
+                                    src="https://placehold.co/150x28" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Spark" class="ic-logo" height="74" loading="lazy"
-                                    src="https://placehold.co/150x74" width="150" />
+                                <img alt="Spark" loading="lazy" class="ic-logo" width="150" height="74"
+                                    src="https://placehold.co/150x74" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="StateFarm" class="ic-logo" height="92" loading="lazy"
-                                    src="https://placehold.co/150x92" width="150" />
+                                <img alt="StateFarm" loading="lazy" class="ic-logo" width="150" height="92"
+                                    src="https://placehold.co/150x92" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Subaru" class="ic-logo" height="89" loading="lazy"
-                                    src="https://placehold.co/150x89" width="150" />
+                                <img alt="Subaru" loading="lazy" class="ic-logo" width="150" height="89"
+                                    src="https://placehold.co/150x89" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Tesla" class="ic-logo" height="48" loading="lazy"
-                                    src="https://placehold.co/150x48" width="150" />
+                                <img alt="Tesla" loading="lazy" class="ic-logo" width="150" height="48"
+                                    src="https://placehold.co/150x48" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="USAA" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/96x100" width="96" />
+                                <img alt="USAA" loading="lazy" class="ic-logo" width="96" height="100"
+                                    src="https://placehold.co/96x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Vinfast" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="Vinfast" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="Volvo" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="Volvo" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                             <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="VW" class="ic-logo" height="100" loading="lazy"
-                                    src="https://placehold.co/100x100" width="100" />
+                                <img alt="VW" loading="lazy" class="ic-logo" width="100" height="100"
+                                    src="https://placehold.co/100x100" />
                             </li>
 
                         </ul>
@@ -5907,11 +5552,11 @@
                             <div class="col col-12 col-md-6 col-xl-7 mt-3 mt-md-0">
                                 <a href="#" title="Explore Open Roles">
                                     <picture>
-                                        <source media="(max-width: 768px)" width="800" height="400"
+                                        <source width="800" height="400" media="(max-width: 768px)"
                                             sizes="(max-width: 400px) 400px, 800px"
                                             srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w">
-                                        <img alt="In-person and virtual employees" class="ic-image-cutout"
-                                            loading="lazy" width="800" height="650" sizes="800px"
+                                        <img alt="In-person and virtual employees" loading="lazy"
+                                            class="ic-image-cutout" width="800" height="650" sizes="800px"
                                             src="https://placehold.co/800x650"
                                             srcset="https://placehold.co/400x650 400w, https://placehold.co/800x650 800w, https://placehold.co/1600x650 1600w">
                                     </picture>
@@ -5941,7 +5586,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Kyle Thompson" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Kyle Thompson" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -5957,7 +5602,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Lori Barrington" class="ic-profile-photo" loading="lazy"
+                                            <img alt="Lori Barrington" loading="lazy" class="ic-profile-photo"
                                                 width="100" height="100" sizes="100px"
                                                 src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
@@ -5974,7 +5619,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="John Eck" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="John Eck" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -5990,7 +5635,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Dara Goroff" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Dara Goroff" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -6006,7 +5651,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Andy Johnson" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Andy Johnson" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -6022,7 +5667,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Tom Marek" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Tom Marek" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -6038,7 +5683,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Mark Miller" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Mark Miller" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -6054,7 +5699,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Jeff Pevey" class="ic-profile-photo" loading="lazy" width="100"
+                                            <img alt="Jeff Pevey" loading="lazy" class="ic-profile-photo" width="100"
                                                 height="100" sizes="100px" src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
                                             <p>
@@ -6070,7 +5715,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Arianna Sherlock" class="ic-profile-photo" loading="lazy"
+                                            <img alt="Arianna Sherlock" loading="lazy" class="ic-profile-photo"
                                                 width="100" height="100" sizes="100px"
                                                 src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
@@ -6087,7 +5732,7 @@
                                 <div class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
                                         <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="Melissa Snyder" class="ic-profile-photo" loading="lazy"
+                                            <img alt="Melissa Snyder" loading="lazy" class="ic-profile-photo"
                                                 width="100" height="100" sizes="100px"
                                                 src="https://placehold.co/100x100"
                                                 srcset="https://placehold.co/175x100 175w, https://placehold.co/350x100 350w">
@@ -6126,11 +5771,11 @@
                             <div class="col col-12 col-md-6 col-xl-7 mt-3 mt-md-0">
                                 <a href="#" title="Explore Open Roles">
                                     <picture>
-                                        <source media="(max-width: 768px)" width="800" height="400"
+                                        <source width="800" height="400" media="(max-width: 768px)"
                                             sizes="(max-width: 400px) 400px, 800px"
                                             srcset="https://placehold.co/400x400 400w, https://placehold.co/800x400 800w, https://placehold.co/1600x400 1600w">
-                                        <img alt="In-person and virtual employees" class="ic-image-cutout"
-                                            loading="lazy" width="800" height="650" sizes="800px"
+                                        <img alt="In-person and virtual employees" loading="lazy"
+                                            class="ic-image-cutout" width="800" height="650" sizes="800px"
                                             src="https://placehold.co/800x650"
                                             srcset="https://placehold.co/400x650 400w, https://placehold.co/800x650 800w, https://placehold.co/1600x650 1600w">
                                     </picture>
@@ -6222,9 +5867,9 @@
                             <div class="col col-12 col-md-6 mt-3 mt-md-0">
                                 <a href="#" title="Train Today">
                                     <img alt="Student taking welding training to learn proper welding techniques to achieve an I-CAR welding certification"
-                                        loading="lazy" width="800" height="600" class="ic-image-cutout px-3 px-md-0"
-                                        src="https://placehold.co/800x600"
+                                        loading="lazy" class="ic-image-cutout px-3 px-md-0" width="800" height="600"
                                         sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+                                        src="https://placehold.co/800x600"
                                         srcset="https://placehold.co/400x600 400w, https://placehold.co/800x600 800w, https://placehold.co/1600x600 1600w">
                                 </a>
                             </div>
@@ -6450,9 +6095,9 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--display-wide m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/195x155"
-                                                alt="Gold Class repair certificate preview" width="195" height="155"
-                                                loading="lazy">
+                                            <img alt="Gold Class repair certificate preview" loading="lazy"
+                                                class="d-block" width="195" height="155"
+                                                src="https://placehold.co/195x155">
                                         </a>
                                     </figure>
 
@@ -6470,8 +6115,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--display-tall m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/200x300"
-                                                alt="Gold Class poster preview" width="200" height="300" loading="lazy">
+                                            <img alt="Gold Class poster preview" loading="lazy" class="d-block"
+                                                width="200" height="300" src="https://placehold.co/200x300">
                                         </a>
                                     </figure>
 
@@ -6489,8 +6134,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--display-wide m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/200x91"
-                                                alt="Gold Class banner preview" width="200" height="91" loading="lazy">
+                                            <img alt="Gold Class banner preview" loading="lazy" class="d-block"
+                                                width="200" height="91" src="https://placehold.co/200x91">
                                         </a>
                                     </figure>
 
@@ -6508,9 +6153,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--display-tall m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download ZIP">
-                                            <img class="d-block" src="https://placehold.co/200x200"
-                                                alt="Gold Class window cling preview" width="200" height="200"
-                                                loading="lazy">
+                                            <img alt="Gold Class window cling preview" loading="lazy" class="d-block"
+                                                width="200" height="200" src="https://placehold.co/200x200">
                                         </a>
                                     </figure>
 
@@ -6614,8 +6258,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--social m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download JPG">
-                                            <img class="d-block" src="https://placehold.co/200x200"
-                                                alt="ADAS social media image" width="200" height="200" loading="lazy">
+                                            <img alt="ADAS social media image" loading="lazy" class="d-block"
+                                                width="200" height="200" src="https://placehold.co/200x200">
                                         </a>
                                     </figure>
 
@@ -6633,9 +6277,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--social m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download JPG">
-                                            <img class="d-block" src="https://placehold.co/200x200"
-                                                alt="Dent Repair social media image" width="200" height="200"
-                                                loading="lazy">
+                                            <img alt="Dent Repair social media image" loading="lazy" class="d-block"
+                                                width="200" height="200" src="https://placehold.co/200x200">
                                         </a>
                                     </figure>
 
@@ -6653,9 +6296,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--social m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download JPG">
-                                            <img class="d-block" src="https://placehold.co/200x200"
-                                                alt="Refinish social media image" width="200" height="200"
-                                                loading="lazy">
+                                            <img alt="Refinish social media image" loading="lazy" class="d-block"
+                                                width="200" height="200" src="https://placehold.co/200x200">
                                         </a>
                                     </figure>
 
@@ -6673,9 +6315,8 @@
                                 <div class="d-flex gap-3 align-items-start flex-wrap">
                                     <figure class="gc-img gc-img--social m-0 mr-3 flex-shrink-0">
                                         <a class="d-block" href="#" target="_blank" download title="Download JPG">
-                                            <img class="d-block" src="https://placehold.co/200x200"
-                                                alt="Welding social media image" width="200" height="200"
-                                                loading="lazy">
+                                            <img alt="Welding social media image" loading="lazy" class="d-block"
+                                                width="200" height="200" src="https://placehold.co/200x200">
                                         </a>
                                     </figure>
 
@@ -6717,10 +6358,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="Remote employee attending a team meeting on his laptop"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
+                                                loading="lazy" class=" ic-card-image ic-image-rounded" width="400"
                                                 height="220" sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -6738,11 +6379,11 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
-                                            <img alt="Woman securing her child in a carseat"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
-                                                height="220" sizes="800px" src="https://placehold.co/400x220"
+                                            <img alt="Woman securing her child in a carseat" loading="lazy"
+                                                class=" ic-card-image ic-image-rounded" width="400" height="220"
+                                                sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
                                     </figure>
@@ -6761,10 +6402,10 @@
                                     </div>
                                     <figure class="ic-card-media">
                                         <picture>
-                                            <source media="(max-width: 768px)" width="400" height="200" sizes="400px"
+                                            <source width="400" height="200" media="(max-width: 768px)" sizes="400px"
                                                 srcset="https://placehold.co/400x200 400w, https://placehold.co/800x200 800w, https://placehold.co/1600x200 1600w">
                                             <img alt="Woman attending a virtual team meeting on her computer"
-                                                class=" ic-card-image ic-image-rounded" loading="lazy" width="400"
+                                                loading="lazy" class=" ic-card-image ic-image-rounded" width="400"
                                                 height="220" sizes="800px" src="https://placehold.co/400x220"
                                                 srcset="https://placehold.co/400x220 400w, https://placehold.co/800x220 800w, https://placehold.co/1600x220 1600w">
                                         </picture>
@@ -6804,10 +6445,10 @@
                             </div>
                             <figure class="ic-card-media">
                                 <img alt="Welder in a bodyshop learning Steel GMA Welding during an I-CAR welding certification course"
+                                    class="ic-card-image" width="600" height="300"
+                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
                                     src="https://placehold.co/600x300"
-                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w"
-                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px" width="600"
-                                    height="300" class="ic-card-image">
+                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w">
                             </figure>
                         </div>
                     </div>
@@ -6823,10 +6464,10 @@
                             </div>
                             <figure class="ic-card-media">
                                 <img alt="Welder in a bodyshop learning Steel Sectioning during an I-CAR welding certification course"
+                                    class="ic-card-image" width="600" height="300"
+                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
                                     src="https://placehold.co/600x300"
-                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w"
-                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px" width="600"
-                                    height="300" class="ic-card-image">
+                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w">
                             </figure>
                         </div>
                     </div>
@@ -6842,49 +6483,11 @@
                             </div>
                             <figure class="ic-card-media">
                                 <img alt="Welder in a bodyshop learning Aluminum GMA (MIG) Welding during an I-CAR welding certification course"
+                                    class="ic-card-image" width="600" height="300"
+                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
                                     src="https://placehold.co/600x300"
-                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w"
-                                    sizes="(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px" width="600"
-                                    height="300" class="ic-card-image">
+                                    srcset="https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w">
                             </figure>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="" class="ic-section ic-background-white" style="--name:'High Voltage Safety Guides';">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-8">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md-6 mt-3 mt-md-0 ps-lg-5 order-last">
-                                <h2 class="ic-section-title">Section Headline</h2>
-
-                                <p class="mb-1">Access I&#8209;CAR guides for electric and hybrid vehicles,
-                                    including
-                                    high-voltage disconnection and safe handling&nbsp;procedures.</p>
-
-                                <ul class="ic-menu">
-                                    <li><a href="#" target="_blank">Disconnecting/Initialization Procedure</a></li>
-                                    <li><a href="#" target="_blank">Safety
-                                            Protocol</a></li>
-                                    <li><a href="#" target="_blank">Disconnecting Procedure Status Cards</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="col col-12 col-md-6 mb-1 mb-md-0 order-first">
-                                <picture>
-                                    <source height="460" media="(max-width: 768px)" sizes="100vw"
-                                        srcset="https://placehold.co/400x460 400w, https://placehold.co/800x460 800w, https://placehold.co/1600x460 1600w"
-                                        width="800" /> <img
-                                        alt="An I-CAR EV technician instructor following best high voltage safety procedures on an electric car during an I-CAR EV training course"
-                                        class="ic-image-rounded" height="575" loading="lazy"
-                                        sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-                                        src="https://placehold.co/800x575"
-                                        srcset="https://placehold.co/400x575 400w, https://placehold.co/800x575 800w, https://placehold.co/1600x575 1600w"
-                                        width="800" />
-                                </picture>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -7054,15 +6657,13 @@
                             <div class="col col-12 col-md-6 mt-3 mt-md-0 order-first"><a href="#"
                                     title="View Resources">
                                     <picture>
-                                        <source height="258" media="(max-width: 767.9px)"
-                                            srcset="https://placehold.co/400x258 400w, https://placehold.co/800x258 800w, https://placehold.co/1600x258 1600w"
-                                            width="516" /> <img
-                                            alt="Students in a bodyshop learning proper welding techniques during an I-CAR welding course to get welding certified"
-                                            class="ic-image-rounded" height="365" loading="lazy"
+                                        <source width="516" height="258" media="(max-width: 767.9px)"
+                                            srcset="https://placehold.co/400x258 400w, https://placehold.co/800x258 800w, https://placehold.co/1600x258 1600w" />
+                                        <img alt="Students in a bodyshop learning proper welding techniques during an I-CAR welding course to get welding certified"
+                                            loading="lazy" class="ic-image-rounded" width="487" height="365"
                                             sizes="(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
                                             src="https://placehold.co/487x365"
-                                            srcset="https://placehold.co/400x365 400w, https://placehold.co/800x365 800w, https://placehold.co/1600x365 1600w"
-                                            width="487" />
+                                            srcset="https://placehold.co/400x365 400w, https://placehold.co/800x365 800w, https://placehold.co/1600x365 1600w" />
                                     </picture>
                                 </a></div>
                         </div>
