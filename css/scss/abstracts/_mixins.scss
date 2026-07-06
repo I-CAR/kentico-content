@@ -6,11 +6,11 @@
     display: flex;
     flex-flow: column nowrap;
 
-    @if $align != null {
+    @if $align !=null {
         align-items: $align;
     }
 
-    @if $justify != null {
+    @if $justify !=null {
         justify-content: $justify;
     }
 }
@@ -19,18 +19,18 @@
     display: flex;
     flex-flow: row $wrap;
 
-    @if $align != null {
+    @if $align !=null {
         align-items: $align;
     }
 
-    @if $justify != null {
+    @if $justify !=null {
         justify-content: $justify;
     }
 }
 
 @mixin content-column($align: flex-start, $justify: null) {
     @include flex-stack($align, $justify);
-    width: 100%;
+    // width: 100%;
 }
 
 @mixin inset($position: absolute, $inset: 0) {
@@ -49,29 +49,42 @@
 }
 
 @mixin radius-split($edge, $radius: var(--border-radius)) {
-    @if $edge == top {
+    @if $edge ==top {
         border-radius: $radius $radius 0 0;
-    } @else if $edge == right {
+    }
+
+    @else if $edge ==right {
         border-radius: 0 $radius $radius 0;
-    } @else if $edge == bottom {
+    }
+
+    @else if $edge ==bottom {
         border-radius: 0 0 $radius $radius;
-    } @else if $edge == left {
+    }
+
+    @else if $edge ==left {
         border-radius: $radius 0 0 $radius;
-    } @else if $edge == full {
+    }
+
+    @else if $edge ==full {
         border-radius: $radius;
-    } @else if $edge == none {
+    }
+
+    @else if $edge ==none {
         border-radius: 0;
-    } @else {
+    }
+
+    @else {
         @error "radius-split() edge must be `top`, `right`, `bottom`, `left`, `full`, or `none`.";
     }
 }
 
 @mixin transition-ui($properties...) {
-    $transitions: ();
+    $transitions: (
+    );
 
-    @each $property in $properties {
-        $transitions: list.append($transitions, #{$property} var(--transition-ui), comma);
-    }
+@each $property in $properties {
+    $transitions: list.append($transitions, #{$property} var(--transition-ui), comma);
+}
 
-    transition: $transitions;
+transition: $transitions;
 }
