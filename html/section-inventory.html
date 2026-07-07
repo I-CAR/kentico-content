@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://info.i-car.com/dist/styles/main.css?v=202106042">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="../css/style-v3.css">
 </head>
 
@@ -24,13 +25,11 @@
                 <div class="col col-auto">
                     <nav>
                         <ul class="nav justify-content-center">
-                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-hero">Hero Sections</a>
+                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-hero">Hero</a>
                             </li>
-                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-text-media">Text/Media
-                                    Sections</a>
+                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-text-media">Text/Media</a>
                             </li>
-                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-centered-focus">Centered
-                                    Focus</a>
+                            <li class="nav-item"><a class="ic-btn nav-link" href="#section-centered-focus">Centered</a>
                             </li>
                             <li class="nav-item"><a class="ic-btn nav-link" href="#section-content-rail">Content
                                     Rail</a>
@@ -235,7 +234,7 @@
                 <div class="row justify-content-center">
                     <div class="col col-12 col-xl-10">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col col-12 col-md mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5">
+                            <div class="col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5">
                                 <h2 class="ic-section-title">Section Headline</h2>
 
                                 <p>Etiam accumsan urna a mauris dapibus, nec aliquet nunc convallis. Phasellus eget
@@ -254,8 +253,8 @@
 
                             </div>
 
-                            <div class="col col-12 col-md">
-                                <div class="swiper ic-swiper" aria-label="ADAS lab images slider">
+                            <div class="col col-12 col-md-6 mt-3 mt-md-0">
+                                <div class="swiper ic-swiper js-ic-swiper-media" aria-label="ADAS lab images slider">
                                     <div class="swiper-wrapper row flex-nowrap">
                                         <div class="swiper-slide col col-12">
                                             <img alt="Inside I-CAR’s ADAS Lab at the Chicago Technical Center, where technicians participate in hands-on ADAS calibration and repair training."
@@ -439,11 +438,23 @@
                                 <tbody>
                                     <tr class="total">
                                         <th scope="row">Line Item Total</th>
-                                        <td>$100M</td>
+                                        <td>$50M</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Line Item</th>
-                                        <td>$100M</td>
+                                        <td>$25M</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Line Item</th>
+                                        <td>$25M</td>
+                                    </tr>
+                                    <tr class="total">
+                                        <th scope="row">Line Item Total</th>
+                                        <td>$50M</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Line Item</th>
+                                        <td>$50M</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -677,7 +688,8 @@
                                         </ul>
 
                                         <p class="mt-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Integer posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.</p>
+                                            Integer posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.
+                                        </p>
                                     </div>
                                 </div>
 
@@ -800,7 +812,8 @@
                                             aria-labelledby="heading1">
                                             <div class="accordion-body">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                                                    posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.</p>
+                                                    posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -810,14 +823,16 @@
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse2"
                                                 aria-expanded="false" aria-controls="collapse2">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua?
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua?
                                             </button>
                                         </h3>
                                         <div id="collapse2" class="accordion-collapse collapse"
                                             aria-labelledby="heading2">
                                             <div class="accordion-body">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                                                    posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.</p>
+                                                    posuere erat a ante venenatis dapibus posuere velit&nbsp;aliquet.
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -3185,6 +3200,10 @@
             </div>
         </section>
     </main>
+
+    <script src="../js/script-v2.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/swiper/swiper-bundle.min.js"></script>
 </body>
 
 </html>
