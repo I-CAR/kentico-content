@@ -4,7 +4,7 @@ import { gzipSync } from "node:zlib";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import postcss from "postcss";
-import { compile, compileString } from "sass";
+import { compile } from "sass";
 import { buildInlineStyle } from "./cms-inline-utils.mjs";
 
 const output = "css/style.css";
@@ -15,31 +15,11 @@ const sourceRoot = "css/scss";
 const entryFile = "style.scss";
 const entryPath = join(sourceRoot, entryFile);
 const dependencyCssPaths = [
+  "node_modules/bootstrap/dist/css/bootstrap.css",
   "node_modules/swiper/swiper.css",
   "node_modules/swiper/modules/navigation.css",
   "node_modules/swiper/modules/pagination.css",
 ];
-const dependencyScss = `
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/utilities";
-
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/reboot";
-@import "bootstrap/scss/type";
-@import "bootstrap/scss/images";
-@import "bootstrap/scss/containers";
-@import "bootstrap/scss/grid";
-@import "bootstrap/scss/tables";
-@import "bootstrap/scss/transitions";
-@import "bootstrap/scss/accordion";
-@import "bootstrap/scss/nav";
-@import "bootstrap/scss/helpers";
-@import "bootstrap/scss/utilities/api";
-`;
 const legacySelectors = `
 main:not(+.row--with-cols-padding) .ic-section:last-child {
   padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
@@ -91,16 +71,11 @@ async function build(reason = "manual") {
       sourceMap: !productionMode,
       sourceMapIncludeSources: !productionMode,
     });
-    const dependencyResult = compileString(dependencyScss, {
-      loadPaths: ["node_modules"],
-      style: productionMode ? "compressed" : "expanded",
-      sourceMap: false,
-    });
 
     mkdirSync(dirname(output), { recursive: true });
 
     const dependencyCss = dependencyCssPaths.map((filePath) => readFileSync(filePath, "utf8")).join("\n");
-    let css = `${dependencyCss}\n${dependencyResult.css}\n${result.css}\n${legacySelectors}`;
+    let css = `${dependencyCss}\n${result.css}\n${legacySelectors}`;
 
     if (productionMode) {
       const processed = await postcss([

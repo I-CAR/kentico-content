@@ -68,6 +68,10 @@ function wrap(tagName, source) {
   return `<${tagName}>\n${source}\n</${tagName}>\n`;
 }
 
+function normalizeAssetPath(htmlFile, assetPath) {
+  return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
+}
+
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
@@ -106,6 +110,43 @@ function collectFiles(root, extension) {
   }
 
   return files.sort();
+}
+
+function collectDependencyAssets({ tagName, extension }) {
+  if (!existsSync(htmlSourceDir)) {
+    return [];
+  }
+
+  const htmlFiles = collectFiles(htmlSourceDir, ".html");
+  const pattern =
+    tagName === "link"
+      ? /<link\b[^>]*href=["']([^"']+)["'][^>]*>/gi
+      : /<script\b[^>]*src=["']([^"']+)["'][^>]*>\s*<\/script>/gi;
+  const assets = [];
+  const seen = new Set();
+
+  for (const htmlFile of htmlFiles) {
+    const source = readFileSync(htmlFile, "utf8");
+
+    for (const match of source.matchAll(pattern)) {
+      const assetPath = match[1];
+
+      if (!assetPath.includes("node_modules/") || !assetPath.endsWith(extension)) {
+        continue;
+      }
+
+      const normalizedPath = normalizeAssetPath(htmlFile, assetPath);
+
+      if (seen.has(normalizedPath) || !existsSync(normalizedPath)) {
+        continue;
+      }
+
+      seen.add(normalizedPath);
+      assets.push(normalizedPath);
+    }
+  }
+
+  return assets;
 }
 
 function toCmsOutputPath(sourceFile) {
@@ -254,6 +295,18 @@ function extractLinkTags(source) {
   return Array.from(source.matchAll(/<link\b[\s\S]*?>/gi), (match) => match[0]);
 }
 
+function extractHeadFontLinks(source) {
+  const headMatch = source.match(/<head\b[\s\S]*?<\/head>/i);
+
+  if (!headMatch) {
+    return [];
+  }
+
+  return extractLinkTags(headMatch[0]).filter((link) =>
+    /href=["']https:\/\/fonts\.googleapis\.com\//i.test(link),
+  );
+}
+
 function extractCmsFragment(source) {
   const bodyMatch = source.match(/<body\b[\s\S]*?<\/body>/i);
 
@@ -262,7 +315,7 @@ function extractCmsFragment(source) {
   }
 
   const body = bodyMatch[0];
-  const links = extractLinkTags(body);
+  const links = extractHeadFontLinks(source);
   const main = extractSection(body, "main");
 
   return [...links, main].join("\n\n").trim();
@@ -410,7 +463,10 @@ export function buildInlineStyle() {
   }
 
   ensureOutputDir();
-  const css = stripCssComments(readFileSync(cssSource, "utf8"));
+  const dependencyCss = collectDependencyAssets({ tagName: "link", extension: ".css" }).map((filePath) =>
+    stripCssComments(readFileSync(filePath, "utf8")),
+  );
+  const css = [...dependencyCss, stripCssComments(readFileSync(cssSource, "utf8"))].join("\n");
   writeFileSync(cssInlineOutput, wrap("style", css));
   console.log(`[cms] Built ${cssInlineOutput}`);
   return true;
@@ -422,7 +478,10 @@ export function buildInlineScript() {
   }
 
   ensureOutputDir();
-  const js = stripJsComments(readFileSync(jsSource, "utf8"));
+  const dependencyJs = collectDependencyAssets({ tagName: "script", extension: ".js" }).map((filePath) =>
+    stripJsComments(readFileSync(filePath, "utf8")),
+  );
+  const js = [...dependencyJs, stripJsComments(readFileSync(jsSource, "utf8"))].join("\n");
   writeFileSync(jsInlineOutput, wrap("script", js));
   console.log(`[cms] Built ${jsInlineOutput}`);
   return true;
