@@ -675,7 +675,7 @@ def build_document(unique_sections: OrderedDict[str, ExtractedSection], total_se
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://info.i-car.com/dist/styles/main.css?v=202106042">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style-v3.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>

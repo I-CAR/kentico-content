@@ -13,10 +13,10 @@ const outputDir = "cms";
 const pageOutputDir = join(outputDir, "pages");
 const includeOutputDir = join(outputDir, "includes");
 const htmlSourceDir = "html";
-const cssSource = "css/style-v3.css";
-const jsSource = "js/script-v2.js";
-const cssInlineOutput = join(includeOutputDir, "style-v3-inline.html");
-const jsInlineOutput = join(includeOutputDir, "script-v2-inline.html");
+const cssSource = "css/style.css";
+const jsSource = "js/script.js";
+const cssInlineOutput = join(includeOutputDir, "style-inline.html");
+const jsInlineOutput = join(includeOutputDir, "script-inline.html");
 const cmsInlineFiles = new Set([cssInlineOutput, jsInlineOutput]);
 const htmlVoidElements = new Set([
   "area",

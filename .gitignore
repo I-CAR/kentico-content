@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-css/style-v3.css
-js/script-v2.js
+css/style.css
+js/script.js
 *.map
 cms
 __pycache__/

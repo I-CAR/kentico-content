@@ -7,12 +7,12 @@ import postcss from "postcss";
 import { compile, compileString } from "sass";
 import { buildInlineStyle } from "./cms-inline-utils.mjs";
 
-const output = "css/style-v3.css";
+const output = "css/style.css";
 const outputMap = `${output}.map`;
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 const sourceRoot = "css/scss";
-const entryFile = "style-v3.scss";
+const entryFile = "style.scss";
 const entryPath = join(sourceRoot, entryFile);
 const dependencyCssPaths = [
   "node_modules/swiper/swiper.css",
@@ -73,7 +73,7 @@ function formatBytes(bytes) {
 function reportOutputSizes(css) {
   const rawBytes = Buffer.byteLength(css);
   const gzipBytes = gzipSync(css).byteLength;
-  console.log(`[style-v3] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
+  console.log(`[style] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
 }
 
 async function build(reason = "manual") {
@@ -127,11 +127,11 @@ async function build(reason = "manual") {
     writeFileSync(output, css);
     buildInlineStyle();
     console.log(
-      `[style-v3] Built ${output}${productionMode ? " [production]" : ""}${watchMode ? ` (${reason})` : ""}`,
+      `[style] Built ${output}${productionMode ? " [production]" : ""}${watchMode ? ` (${reason})` : ""}`,
     );
     reportOutputSizes(css);
   } catch (error) {
-    console.error(`[style-v3] Build failed${watchMode ? ` (${reason})` : ""}`);
+    console.error(`[style] Build failed${watchMode ? ` (${reason})` : ""}`);
     console.error(error instanceof Error ? error.message : error);
 
     if (!watchMode) {
@@ -187,7 +187,7 @@ function createSnapshot() {
 await build();
 
 if (watchMode) {
-  console.log(`[style-v3] Watching ${sourceRoot}/**/*.scss`);
+  console.log(`[style] Watching ${sourceRoot}/**/*.scss`);
   previousSnapshot = createSnapshot();
 
   setInterval(() => {

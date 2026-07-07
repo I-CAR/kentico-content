@@ -5,9 +5,9 @@ import * as esbuild from "esbuild";
 import { buildInlineScript } from "./cms-inline-utils.mjs";
 
 const entry = "js/src/index.js";
-const output = "js/script-v2.js";
+const output = "js/script.js";
 const outputMap = `${output}.map`;
-const legacyOutputFiles = ["js/script.js", "js/script.js.map"];
+const legacyOutputFiles = ["js/script-v1.js", "js/script-v2.js", "js/script-v2.js.map", "js/script.js.map"];
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 
