@@ -11,8 +11,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 HTML_ROOT = REPO_ROOT / "html"
-OUTPUT_PATH = HTML_ROOT / "section-inventory.html"
-EXCLUDED_FILES = {"_style-guide.html", "_component-library.html", "section-inventory.html"}
+OUTPUT_PATH = HTML_ROOT / "documentation" / "component-library.html"
+EXCLUDED_PATHS = {
+    Path("documentation/component-library.html"),
+    Path("documentation/style-guide.html"),
+}
 
 
 GROUP_ORDER = [
@@ -539,7 +542,7 @@ def collect_unique_sections() -> tuple[OrderedDict[str, ExtractedSection], int]:
     files = sorted(
         path
         for path in HTML_ROOT.rglob("*.html")
-        if path.name not in EXCLUDED_FILES
+        if path.relative_to(HTML_ROOT) not in EXCLUDED_PATHS
     )
 
     for path in files:
