@@ -28,12 +28,11 @@ section.ic-section[id] {
 .ic-section .ic-label:before,
 .ic-section .ic-sublabel::before,
 .ic-section .ic-btn::before,
-.ic-section .ic-card-title::before,
+.ic-section .ic-card-title:not(.accordion-header)::before,
 .ic-section .ic-menu>li>a::before,
 .ic-section .ic-card-subtitle::before,
 .ic-section .ic-card-list>li:has(a)>a::before,
-.ic-section .ic-card-list>li:not(:has(a))::before,
-.ic-section .ic-card-list>li>span::before {
+.ic-section .ic-card-list>li:not(:has(a))::before {
     content: var(--name) " ";
 }
 
