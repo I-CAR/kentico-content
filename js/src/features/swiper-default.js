@@ -1,9 +1,12 @@
+import Swiper from "swiper";
+import { Keyboard, Navigation } from "swiper/modules";
 import { onDomReady } from "../utils/on-dom-ready.js";
 
 function initDefaultSwiperInstance() {
-    if (typeof Swiper === "undefined" || !document.querySelector(".js-ic-swiper")) return;
+    if (!document.querySelector(".js-ic-swiper")) return;
 
     new Swiper(".js-ic-swiper", {
+        modules: [Keyboard, Navigation],
         loop: false,
         spaceBetween: 0,
         grabCursor: true,

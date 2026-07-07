@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { dirname } from "node:path";
 import { gzipSync } from "node:zlib";
 import * as esbuild from "esbuild";
+import { buildInlineScript } from "./cms-inline-utils.mjs";
 
 const entry = "js/src/index.js";
 const output = "js/script-v2.js";
@@ -79,6 +80,7 @@ async function build(reason = "manual") {
     }
 
     writeFileSync(output, outputFile.contents);
+    buildInlineScript();
 
     if (productionMode) {
       rmSync(outputMap, { force: true });
@@ -126,6 +128,7 @@ if (watchMode) {
             }
 
             const source = readFileSync(output, "utf8");
+            buildInlineScript();
             logBuildSuccess(isInitialWatchBuild ? "initial watch build" : "watch change");
             reportOutputSizes(source);
             isInitialWatchBuild = false;

@@ -3,3 +3,5 @@ node_modules
 css/style-v3.css
 js/script-v2.js
 *.map
+cms
+scripts/__pycache__
