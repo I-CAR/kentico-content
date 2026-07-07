@@ -68,6 +68,17 @@ Unless explicitly requested:
 - Do not add unnecessary wrapper markup.
 - When editing a file under `html/`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
 
+## Markup Ordering Rules
+- When a `section` element has an `id`, place the `id` attribute first.
+- For the first major layout column wrappers in a section, order classes as:
+  1. column responsive classes
+  2. order responsive classes
+  3. spacing classes
+- For `img`, order attributes as:
+  `alt`, `loading`, `class`, `width`, `height`, `sizes`, `src`, `srcset`
+- For `source`, order attributes as:
+  `width`, `height`, `media`, `sizes`, `srcset`
+
 ## Navigation Rules
 - On-page navigation must point to real section anchors.
 - Nav labels should match visible section names.
@@ -79,6 +90,9 @@ Unless explicitly requested:
 ## Images and Assets
 - If final assets are not provided, leave image placeholders or existing asset references in place and update only the copy.
 - If assets are provided, map them to the correct section based on the approved reference.
+- When requested to use placeholders on inventory/demo pages, prefer `placehold.co` URLs without `?text`.
+- If replacing one media type with another inside an existing section, preserve the surrounding section layout and markup unless explicitly asked to redesign it.
+- Keep placeholder media structurally compatible with the component they replace so existing JavaScript behaviors can still initialize.
 
 ## Scoped Image Placement Rules
 Apply these rules only when:
@@ -129,6 +143,11 @@ Apply these rules only when:
 ## Legal Copy
 - Replace placeholder legal/disclaimer copy with approved legal copy exactly.
 - Apply text normalization rules to legal copy unless doing so would alter a required official string.
+
+## CMS And Build Rules
+- For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
+- Inline-ready CSS and JavaScript for CMS usage should be unminified in dev/watch workflows and minified only in production builds unless explicitly requested otherwise.
+- Remove comments from generated inline HTML include files in both dev and production output.
 
 ## Final Check For Scoped Page Work
 Before finishing a scoped content-page task, confirm:
