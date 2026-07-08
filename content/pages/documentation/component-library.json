@@ -1,0 +1,282 @@
+{
+  "slug": "component-library",
+  "title": "Component Library",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "I-CAR Component Library",
+      "body": [
+        "Use this page as a content-driven inventory of the major section families used across the I-CAR marketing and information page system.",
+        "The legacy HTML reference remains available under html/documentation/component-library.html, while this page gives us a cleaner JSON-backed catalog that can be rebuilt into CMS-ready output."
+      ],
+      "buttons": [
+        {
+          "label": "View Template Demo",
+          "href": "/template-demo"
+        }
+      ],
+      "image": {
+        "alt": "Component library placeholder reference image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/800x580 800w, https://placehold.co/1600x580 1600w, https://placehold.co/3200x580 3200w",
+        "mobileSrcset": "https://placehold.co/400x300 400w, https://placehold.co/800x300 800w, https://placehold.co/1600x300 1600w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "type": "pageNav",
+      "id": "page-nav",
+      "links": [
+        {
+          "label": "Hero",
+          "href": "#hero-patterns"
+        },
+        {
+          "label": "Text / Media",
+          "href": "#text-media-patterns"
+        },
+        {
+          "label": "Centered",
+          "href": "#centered-patterns"
+        },
+        {
+          "label": "Content Rail",
+          "href": "#content-rail-patterns"
+        },
+        {
+          "label": "Card Grid",
+          "href": "#card-grid-patterns"
+        },
+        {
+          "label": "Resources",
+          "href": "#resources"
+        }
+      ],
+      "__template": {
+        "id": "page-nav",
+        "type": "pageNav",
+        "variant": "default",
+        "signature": "2ead907efbdcfc2fd8a98f2c79f007f3d9cfbbea"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "hero-patterns",
+      "title": "Hero Patterns",
+      "body": [
+        "The hero family covers the top-of-page layouts most often used for landing pages, information hubs, and section intros."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-3 pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Overview Hero",
+          "body": "A headline-first hero with label, sublabel, fuller intro copy, CTA, and linked banner image."
+        },
+        {
+          "title": "50/50 Hero",
+          "body": "Balanced text and media layout with strong flexibility for campaign and landing page intros."
+        },
+        {
+          "title": "40/60 Hero",
+          "body": "Compact content column paired with a larger visual treatment for media-led pages."
+        },
+        {
+          "title": "60/40 Hero",
+          "body": "Wider content column for denser messaging while still preserving a supporting visual."
+        }
+      ],
+      "__template": {
+        "id": "hero-patterns",
+        "type": "cards",
+        "variant": "default",
+        "signature": "d41ac1ae58e6a32688930968edb397faf4668e59"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "text-media-patterns",
+      "title": "Text / Media Patterns",
+      "backgroundLight": true,
+      "body": [
+        "These patterns combine editorial content with imagery, sliders, or supporting media blocks."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "50/50 Text / Media",
+          "body": "Classic side-by-side layout for explanatory content and supporting visual context."
+        },
+        {
+          "title": "40/60 Text / Media",
+          "body": "Content-forward layout with additional room for image-led or slider-based storytelling."
+        },
+        {
+          "title": "60/40 Text / Media",
+          "body": "Useful when the copy needs extra depth but the section still benefits from a supporting image."
+        }
+      ],
+      "__template": {
+        "id": "text-media-patterns",
+        "type": "cards",
+        "variant": "default",
+        "signature": "75875b51101b51b44a0b561303357a342b5b75eb"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "centered-patterns",
+      "title": "Centered Patterns",
+      "body": [
+        "Centered sections are best for single-message storytelling, quotes, short editorials, and table-based reference content."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Centered Editorial",
+          "body": "Headline, supporting copy, and optional subhead in a centered editorial presentation."
+        },
+        {
+          "title": "Centered Media",
+          "body": "Centered intro copy paired with a single supporting image or media block."
+        },
+        {
+          "title": "Centered Table",
+          "body": "Reference-style section for presenting structured comparisons or information tables."
+        },
+        {
+          "title": "Centered Long Quote",
+          "body": "Expanded quote treatment for prominent testimonials or mission-forward statements."
+        },
+        {
+          "title": "Centered Short Quote",
+          "body": "More compact quote pattern for tighter page pacing and shorter testimonials."
+        }
+      ],
+      "__template": {
+        "id": "centered-patterns",
+        "type": "cards",
+        "variant": "default",
+        "signature": "cc4496d3541dd7d097faaee5db6f06931544254b"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "content-rail-patterns",
+      "title": "Content Rail Patterns",
+      "backgroundLight": true,
+      "body": [
+        "Rail layouts pair a sticky intro area with supporting cards, lists, accordions, or timelines."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "List Rail",
+          "body": "Sticky section intro with stacked content cards or list-driven resource blocks."
+        },
+        {
+          "title": "Content Rail",
+          "body": "General-purpose rail for grouped requirements, standards, or multi-card informational sections."
+        },
+        {
+          "title": "Media Rail",
+          "body": "Rail intro with supporting media assets and adjacent supporting copy."
+        },
+        {
+          "title": "Accordion Rail",
+          "body": "Sticky intro plus FAQ or expandable reference content using accordion behavior."
+        },
+        {
+          "title": "Timeline Rail",
+          "body": "Chronological milestone presentation with a left-hand intro and stacked milestone cards."
+        }
+      ],
+      "__template": {
+        "id": "content-rail-patterns",
+        "type": "cards",
+        "variant": "default",
+        "signature": "f1d9e64b203b397b7c3850405cc384ff9b2595bc"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "card-grid-patterns",
+      "title": "Card Grid Patterns",
+      "body": [
+        "Grid layouts cover the largest variety of repeatable content: image grids, icon grids, logos, quotes, profiles, and compact feature cards."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Standard Image Grid",
+          "body": "Multi-card image grid for initiatives, programs, and featured content collections."
+        },
+        {
+          "title": "Card Image Grid",
+          "body": "Slider-style or card-based course/resource grids with strong thumbnail support."
+        },
+        {
+          "title": "Stacked Image Grid",
+          "body": "Tall stacked cards that combine imagery with more editorial-style copy."
+        },
+        {
+          "title": "Compact Card Icon Grid",
+          "body": "Dense icon-driven benefit or feature grids for overviews and value props."
+        },
+        {
+          "title": "Icon Grid and Card Icon Grid",
+          "body": "Icon-led patterns for training formats, tools, features, and grouped directional content."
+        },
+        {
+          "title": "Quote, Logo, and Profile Grids",
+          "body": "Repeatable collections for testimonials, partner trust marks, and leadership headshots."
+        }
+      ],
+      "__template": {
+        "id": "card-grid-patterns",
+        "type": "cards",
+        "variant": "default",
+        "signature": "77fa7883be0035fb7dd3ed433a7130cd2edb382b"
+      }
+    },
+    {
+      "type": "cta",
+      "id": "resources",
+      "title": "Reference Resources",
+      "body": [
+        "Use this documentation page for the high-level pattern inventory, then use the template demo and existing content pages for concrete JSON authoring examples."
+      ],
+      "buttons": [
+        {
+          "label": "Open Template Demo",
+          "href": "/template-demo",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "__template": {
+        "id": "resources",
+        "type": "cta",
+        "variant": "default",
+        "signature": "043a0edff3916f1e7c7cd7678c15de1c8d8fb2cd"
+      }
+    }
+  ],
+  "__template": {
+    "source": "documentation/component-library.json",
+    "signature": "999ea5670a27ec337e7539ec853df9a8771158e7"
+  }
+}

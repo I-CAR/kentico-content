@@ -1,0 +1,30 @@
+{
+  "slug": "supporting-service",
+  "title": "Industries Served - Supporting Service",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "partners",
+      "type": "text"
+    },
+    {
+      "id": "training",
+      "type": "cards"
+    },
+    {
+      "id": "academy",
+      "type": "textMedia"
+    },
+    {
+      "id": "emerging",
+      "type": "iconCardGrid"
+    },
+    {
+      "id": "get-started",
+      "type": "cta"
+    }
+  ]
+}

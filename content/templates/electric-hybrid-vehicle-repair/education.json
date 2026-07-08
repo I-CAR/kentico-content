@@ -1,0 +1,27 @@
+{
+  "slug": "education",
+  "title": "Electric and Hybrid Vehicle Repair - Education",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "courses",
+      "type": "stickyCards"
+    },
+    {
+      "id": "oem",
+      "type": "logoGrid"
+    },
+    {
+      "id": "lab",
+      "type": "mediaSlider"
+    },
+    {
+      "id": "coming-soon",
+      "type": "textMedia",
+      "variant": "reverse"
+    }
+  ]
+}

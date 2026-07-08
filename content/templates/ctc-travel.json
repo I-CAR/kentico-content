@@ -1,0 +1,10 @@
+{
+  "slug": "ctc-travel",
+  "title": "CTC Travel",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "location", "type": "embed" },
+    { "id": "airports", "type": "stickyCards" },
+    { "id": "hotels", "type": "stickyCards" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "slug": "gold-class-marketing-kit",
+  "title": "Gold Class Marketing Kit",
+  "sections": [
+    { "id": "hero", "type": "text" },
+    { "id": "logos", "type": "stickyCards" },
+    { "id": "social-media", "type": "stickyCards" },
+    { "id": "messaging", "type": "stickyCards" },
+    { "id": "in-shop-displays", "type": "stickyCards" }
+  ]
+}

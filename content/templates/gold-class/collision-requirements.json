@@ -1,0 +1,31 @@
+{
+  "slug": "collision-requirements",
+  "title": "Gold Class - Collision Requirements",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "page-nav",
+      "type": "pageNav"
+    },
+    {
+      "id": "shop-structure",
+      "type": "stickyCards"
+    },
+    {
+      "id": "scaling",
+      "type": "textMedia"
+    },
+    {
+      "id": "role-specific-training",
+      "type": "stickyCards"
+    },
+    {
+      "id": "get-started",
+      "type": "textMedia",
+      "variant": "reverse"
+    }
+  ]
+}

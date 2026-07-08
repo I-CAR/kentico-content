@@ -1,0 +1,35 @@
+{
+  "slug": "collision-repair-technician",
+  "title": "Industries Served - Collision Repair Technician",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "paths",
+      "type": "stickyCards"
+    },
+    {
+      "id": "technical-resources",
+      "type": "iconCardGrid"
+    },
+    {
+      "id": "platinum",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "solutions",
+      "type": "cards"
+    },
+    {
+      "id": "playlist",
+      "type": "text"
+    },
+    {
+      "id": "get-started",
+      "type": "cta"
+    }
+  ]
+}

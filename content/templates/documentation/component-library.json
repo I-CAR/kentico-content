@@ -1,0 +1,14 @@
+{
+  "slug": "component-library",
+  "title": "Component Library",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "page-nav", "type": "pageNav" },
+    { "id": "hero-patterns", "type": "cards" },
+    { "id": "text-media-patterns", "type": "cards" },
+    { "id": "centered-patterns", "type": "cards" },
+    { "id": "content-rail-patterns", "type": "cards" },
+    { "id": "card-grid-patterns", "type": "cards" },
+    { "id": "resources", "type": "cta" }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "slug": "gold-class-marketing-kit",
+  "title": "Gold Class Marketing Kit",
+  "sections": [
+    {
+      "type": "text",
+      "id": "hero",
+      "title": "Gold Class Marketing Kit",
+      "body": [
+        "Your Gold Class and Platinum certification sets your business apart. Use the logos and materials below to showcase your achievement, strengthen your brand presence, and communicate your commitment to quality."
+      ],
+      "__template": {
+        "id": "hero",
+        "type": "text",
+        "variant": "default",
+        "signature": "8f8f89bb140f53ad7158bd2ab5e80ba794e379f9"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "logos",
+      "title": "Logos",
+      "body": [
+        "Gold Class and Platinum logos can be used on letterhead, business cards, websites, estimates, and other marketing materials. The EPS format is ideal for embroidery or screen printing on apparel, banners, and signs, offering versatile ways to highlight your certification."
+      ],
+      "buttons": [
+        {
+          "label": "View Brand Guidelines",
+          "href": "https://stage.info.i-car.com/getmedia/5e2a6752-7710-4700-acd2-6613d9491185/I-CAR-Brand-Guide_Gold-Class-and-Platinum.pdf",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "cards": [
+        {
+          "title": "Gold Class Collision Repair",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/863d8221-78e4-447e-a0bb-bf1a5ca5b781/Gold-Class-Collision-Repair-Logo.zip"
+            }
+          ]
+        },
+        {
+          "title": "Platinum Professional",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/9c0144f2-a0a4-4b55-897f-2be1e93230ee/Platinum-Professional-Logo.zip"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "logos",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "87582c9202a63c9b6c95da4b10d9c4170ec0fe56"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "social-media",
+      "title": "Social Media",
+      "body": [
+        "You can play an important role in building the value of Gold Class shops by helping spread the word on social media. Share our posts on Facebook, Instagram, LinkedIn and X, and like and comment to keep conversations active and engaging.",
+        "Add the Gold Class logo to photos of your shop or customers to make them stand out."
+      ],
+      "cards": [
+        {
+          "title": "ADAS",
+          "linkItems": [
+            {
+              "label": "Download JPG",
+              "href": "https://stage.info.i-car.com/getmedia/7d2abf6c-e175-4289-b957-3252a7913180/GCKit_Social_ADAS.jpg"
+            }
+          ]
+        },
+        {
+          "title": "Dent Repair",
+          "linkItems": [
+            {
+              "label": "Download JPG",
+              "href": "https://stage.info.i-car.com/getmedia/4ad069df-eb64-468e-859f-49448c5da5c4/GCKit_Social_Dent_Repair.jpg"
+            }
+          ]
+        },
+        {
+          "title": "Refinish",
+          "linkItems": [
+            {
+              "label": "Download JPG",
+              "href": "https://stage.info.i-car.com/getmedia/b22d7f9a-aa86-4a18-8065-5f9a777b1e9c/GCKit_Social_Refinish.jpg"
+            }
+          ]
+        },
+        {
+          "title": "Welding",
+          "linkItems": [
+            {
+              "label": "Download JPG",
+              "href": "https://stage.info.i-car.com/getmedia/38e212b6-29d8-4e3c-923e-271c1f742128/GCKit_Social_Welding.jpg"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "social-media",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "5cfbeefc88f8e533afb9610b35fcdfb412055708"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "messaging",
+      "title": "Messaging",
+      "body": [
+        "Communicate the value of Gold Class with ready-to-use messaging for your website, social media, advertising, and on-hold scripts."
+      ],
+      "cards": [
+        {
+          "title": "Download Messaging Assets",
+          "linkItems": [
+            {
+              "label": "Download PDF",
+              "href": "https://stage.info.i-car.com/getmedia/89bb0925-2a89-44ee-9fbd-7634ec9d41b7/Gold-Class-Messaging.pdf"
+            },
+            {
+              "label": "Download Word Doc",
+              "href": "https://stage.info.i-car.com/getmedia/3e872ea0-67fc-4990-b4cf-bcc96f326f35/Gold-Class-Messaging.docx"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "messaging",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "2f3ecd68b850f9fbd6112fce168c4a240bd26ddf"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "in-shop-displays",
+      "title": "In-shop Displays",
+      "body": [
+        "Here are digital copies of in-shop promotional materials."
+      ],
+      "cards": [
+        {
+          "title": "Repair Certificate",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/4abbb79a-cb30-40d6-9924-1483799b0aaf/Gold-Class-Repair-Certificate.zip"
+            }
+          ]
+        },
+        {
+          "title": "Poster",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/af0c639c-24b9-4ae1-839b-5bd8169499bf/Gold-Class-Poster.zip"
+            }
+          ]
+        },
+        {
+          "title": "Banner",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/0b4213bc-1991-478d-976e-81116f1c706c/Gold-Class-Banner.zip"
+            }
+          ]
+        },
+        {
+          "title": "Window Cling",
+          "linkItems": [
+            {
+              "label": "Download ZIP",
+              "href": "https://stage.info.i-car.com/getmedia/9456de21-0ac7-4669-9f62-ae1a826f50f4/Gold-Class-Cling.zip"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "in-shop-displays",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "c3178f7ba594b20a9bf5af1e8cb75e44f387e8e9"
+      }
+    }
+  ],
+  "__template": {
+    "source": "gold-class-marketing-kit.json",
+    "signature": "ee9d9c5a51816380f3c7bc1b4904168e4b87b960"
+  }
+}

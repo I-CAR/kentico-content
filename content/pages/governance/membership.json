@@ -3,84 +3,130 @@
   "title": "Governance - Membership",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "I-CAR Membership",
-      "sublabel": "As an I-CAR Member, you are part of a community of over 45,000 collision repair industry professionals united around the common goal of providing complete, safe, and quality repairs for millions of drivers.",
-      "contentClassName": "col col-12 col-md-6",
-      "mediaClassName": "col col-12 col-md-6 mt-4 mt-md-0 ps-lg-5",
-      "rowClassName": "row align-items-center",
-      "imageClassName": "ic-image-rounded",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
       "image": {
-        "alt": "A group of diverse people putting their hands together in a circle",
-        "desktopSrc": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Desktop.jpg",
-        "desktopSrcset": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Desktop.jpg 800w, https://stage.admin.info.i-car.com/I-CAR/media/ICarMain/Governance/Membership/Hero_1600w-D.jpg 1600w",
-        "mobileSrcset": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Mobile.jpg 800w, https://stage.admin.info.i-car.com/I-CAR/media/ICarMain/Governance/Membership/Hero_1600w-M.jpg 1600w",
-        "width": "745",
-        "height": "450",
-        "sizes": "100vw",
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
         "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "pageNav",
       "id": "page-nav",
+      "type": "pageNav",
       "links": [
         {
-          "label": "Who Are Members?",
+          "label": "Who Are Members",
           "href": "#who-are-members"
         },
         {
-          "label": "Membership Pricing",
+          "label": "Pricing",
           "href": "#pricing"
         }
-      ]
+      ],
+      "__template": {
+        "id": "page-nav",
+        "type": "pageNav",
+        "variant": "default",
+        "signature": "2ead907efbdcfc2fd8a98f2c79f007f3d9cfbbea"
+      }
     },
     {
-      "type": "cards",
       "id": "who-are-members",
-      "title": "Who are I-CAR Members?",
-      "backgroundLight": true,
+      "type": "cards",
+      "title": "Who Are Members",
       "body": [
-        "The Membership community includes all facets of the collision industry, such as vehicle manufacturers, repairers, insurers, technicians, equipment manufacturers, and information suppliers."
+        "Add a short introduction for this card group."
       ],
-      "cardColumnClass": "col col-12 col-sm-6 col-lg-4 col-xl pt-3 mt-3",
-      "contentColumnClass": "col col-12 col-xl-10",
-      "cardClassName": "ic-card ic-background-white h-100",
-      "cardBodyClassName": "ic-card-body",
       "cards": [
         {
-          "title": "Gold Class Collision Repair Businesses",
-          "body": "Each Gold Class repair facility has a Designated Membership Representative."
+          "title": "Card One",
+          "body": "Add supporting card copy here.",
+          "image": {
+            "alt": "Card one image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
         },
         {
-          "title": "Platinum Technicians",
-          "body": "Every Platinum technician is an I-CAR Member."
+          "title": "Card Two",
+          "body": "Add supporting card copy here.",
+          "image": {
+            "alt": "Card two image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
         },
         {
-          "title": "Career and Technical Schools",
-          "body": "Each qualifying Career and Technical School has a Designated Membership Representative."
-        },
-        {
-          "title": "I-CAR State or Committee Chairs",
-          "body": "Every volunteer Committee Chair is an I-CAR Member."
-        },
-        {
-          "title": "Sustaining Partners",
-          "body": "Every Sustaining Partner organization has a Designated Membership Representative."
+          "title": "Card Three",
+          "body": "Add supporting card copy here.",
+          "image": {
+            "alt": "Card three image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
         }
-      ]
+      ],
+      "__template": {
+        "id": "who-are-members",
+        "type": "cards",
+        "variant": "default",
+        "signature": "c53ccb8a0907ade85b6a2fcda11a8c365390c46e"
+      }
     },
     {
-      "type": "text",
       "id": "pricing",
-      "title": "Membership Pricing",
-      "backgroundLight": true,
-      "bodyHtml": [
-        "Member dues must be received, or postmarked no later than December&nbsp;31 of the prior year to be eligible to vote in the following membership term. No such member status will be effective until member dues are received.",
-        "<strong>Independent Member –</strong> If you are an independent (single location) collision repair business with annual sales of less than $3 million, a career technical school (without an active licensing subscription), an individual unemployed or retired individual, employee in a business with annual sales less than or equal to $3 million or employed by a business already with Regular Member status.<br><em>Annual Dues: $500.00</em>",
-        "<strong>Organizational Member –</strong> If you are a multi-shop operator with two or more locations, insurer, vehicle manufacturer, tool/equipment/miscellaneous supplier, and related industry organization or association.<br><em>Annual Dues: $1,000.00</em>"
-      ]
+      "type": "text",
+      "title": "Pricing",
+      "body": [
+        "Add body copy for this section."
+      ],
+      "__template": {
+        "id": "pricing",
+        "type": "text",
+        "variant": "default",
+        "signature": "4bd1508af4f2678c0d27d8b43d1456967ec32653"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "governance/membership.json",
+    "signature": "951d34660d062dcc2ec84b427ae4ae5438747b9c"
+  }
 }

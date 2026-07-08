@@ -1,0 +1,18 @@
+{
+  "slug": "facilities-equipment",
+  "title": "Facilities and Equipment",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "why",
+      "type": "iconCardGrid"
+    },
+    {
+      "id": "resources",
+      "type": "stickyCards"
+    }
+  ]
+}

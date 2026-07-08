@@ -1,0 +1,31 @@
+{
+  "slug": "gold-class",
+  "title": "Gold Class",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "page-nav",
+      "type": "pageNav"
+    },
+    {
+      "id": "what-is-gold-class",
+      "type": "logoGrid"
+    },
+    {
+      "id": "program-paths",
+      "type": "stickyCards"
+    },
+    {
+      "id": "find-a-shop",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "get-started",
+      "type": "stickyCards"
+    }
+  ]
+}

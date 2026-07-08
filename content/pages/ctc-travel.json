@@ -1,0 +1,186 @@
+{
+  "slug": "ctc-travel",
+  "title": "CTC Travel",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Travel to the Technical Center",
+      "body": [
+        "The I-CAR Chicago Technical Center in Vernon Hills, Illinois, is about 30 miles north of downtown Chicago and close to O'Hare International Airport.",
+        "The facility expands I-CAR's technical resources with state-of-the-art labs for ADAS, EVs, and Welding, along with modern classrooms and a Learning Design Studio. Built by I-CAR for the industry, it provides an ideal setting for training, collaboration, and advancing collision repair innovation."
+      ],
+      "contentClassName": "col col-12 col-md-6 col-xl-5 mb-3 mb-md-0 pr-md-5",
+      "mediaClassName": "col col-12 col-md-6 col-xl-7 mt-3 mt-md-0",
+      "rowClassName": "row justify-content-between align-items-center",
+      "mediaHtml": "<video width=\"863\" height=\"486\" preload=\"auto\" playsinline webkit-playsinline loop autoplay muted poster=\"/getmedia/7dcd1683-ddcf-49a8-baa6-b7fd0694c449/CTC_Shot_Drone.webp\" class=\"ic-video ic-rounded\"><source type=\"video/webm\" src=\"/getmedia/0e72d3dd-0d8f-4ba1-8e2d-9f8881836f39/CTC_Shot_Drone.webm\"><source type=\"video/mp4\" src=\"/getmedia/ec8ff77a-5230-4ef7-9ae8-9690084bf00e/CTC_Shot_Drone.mp4\">Your browser does not support the video HTML tag.</video>",
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "type": "embed",
+      "id": "location",
+      "title": "Where is the CTC?",
+      "backgroundLight": true,
+      "bodyHtml": [
+        "<a href=\"https://maps.app.goo.gl/hpJK5kFXePak1TVW7\" target=\"_blank\" title=\"View on Google Maps\">I-CAR Chicago Technical Center (CTC)</a><br>800 Corporate Woods Parkway<br>Vernon Hills, IL 60061"
+      ],
+      "embedHtml": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2954.8746892442214!2d-87.9446621!3d42.2171228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fbd0e2f6965a3%3A0xd10423badb4b9aa2!2sI-CAR%20Chicago%20Technical%20Center%20(CTC)!5e0!3m2!1sen!2sus!4v1764671969557!5m2!1sen!2sus\" width=\"616\" height=\"450\" style=\"aspect-ratio:616/450\" allowfullscreen loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" class=\"ic-rounded\"></iframe>",
+      "__template": {
+        "id": "location",
+        "type": "embed",
+        "variant": "default",
+        "signature": "6057d1d16b6b18693f8e3eb98315d182a3f73fa9"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "airports",
+      "title": "Airport Options",
+      "cards": [
+        {
+          "title": "O'Hare International (ORD)",
+          "bodyHtml": "Chicago, IL<br><strong>21.8 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/fWTEj7S8V3ACj9zV6"
+            }
+          ]
+        },
+        {
+          "title": "Midway International (MDW)",
+          "bodyHtml": "Chicago, IL<br><strong>47.3 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/2TnxRbrLqvVceMyF7"
+            }
+          ]
+        },
+        {
+          "title": "Milwaukee Mitchell International (MKE)",
+          "bodyHtml": "Milwaukee, WI<br><strong>56.6 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/7n1NCSk2JodYvSMJA"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "airports",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "00a5d4bdfe19e69f88877ddcc5e7a690c3492cb6"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "hotels",
+      "title": "Hotel Options",
+      "backgroundLight": true,
+      "cards": [
+        {
+          "title": "Hotel Indigo",
+          "bodyHtml": "450 N. Milwaukee Ave.<br>Vernon Hills, IL 60061<br><strong>1.9 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/ytnp2sjSXrhfPtoX8"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.ihg.com/hotelindigo/hotels/us/en/vernon-hills/vhlil/hoteldetail"
+            }
+          ]
+        },
+        {
+          "title": "Courtyard by Marriott Chicago Lincolnshire",
+          "bodyHtml": "505 Milwaukee Ave.<br>Lincolnshire, IL 60069<br><strong>2.0 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/JTM8tfRLwLDxpBP47"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.marriott.com/event-reservations/reservation-link.mi?id=1651084928851&key=CORP&app=resvlink"
+            }
+          ]
+        },
+        {
+          "title": "SpringHill Suites Lincolnshire",
+          "bodyHtml": "300 Marriott Drive,<br>Lincolnshire, IL 60069<br><strong>2.3 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/7Vask67BdjcHfLcW9"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.marriott.com/event-reservations/reservation-link.mi?id=1651007996942&key=CORP&app=resvlink"
+            }
+          ]
+        },
+        {
+          "title": "Home2 Suites by Hilton",
+          "bodyHtml": "350 Knightsbridge Pkwy<br>Lincolnshire, IL 60069<br><strong>2.6 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/Pg3skCq4ykcb9drYA"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.hilton.com/en/hotels/ordwaht-home2-suites-lincolnshire-chicago/"
+            }
+          ]
+        },
+        {
+          "title": "Holiday Inn Express",
+          "bodyHtml": "975 North Lakeview Pkwy<br>Vernon Hills, IL 60061<br><strong>3.1 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/KDnrMz54yYE43Zbs7"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.ihg.com/holidayinnexpress/hotels/us/en/vernon-hills/ordvh/hoteldetail"
+            }
+          ]
+        },
+        {
+          "title": "La Quinta Inn & Suites",
+          "bodyHtml": "2000 Lakeside Drive<br>Bannockburn, IL 60015<br><strong>4.3 miles</strong>",
+          "linkItems": [
+            {
+              "label": "Directions",
+              "href": "https://maps.app.goo.gl/XD24nNksczr8w6bV9"
+            },
+            {
+              "label": "Reservations",
+              "href": "https://www.wyndhamhotels.com/laquinta/bannockburn-illinois/la-quinta-bannockburn-deerfield/overview"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "hotels",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "0df80a17717a65f4bea0298b26d081658c0bf688"
+      }
+    }
+  ],
+  "__template": {
+    "source": "ctc-travel.json",
+    "signature": "e8fb947adb492882bdd21f10ac9275d95546fd0f"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "slug": "oem",
+  "title": "Industries Served - OEM",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "label": "OEM Resources",
+      "title": "Your Collision Repair Network Partner",
+      "body": [
+        "For improved customer satisfaction in your network that you can count on, count on I-CAR to help improve your vehicle brand experience."
+      ],
+      "buttons": [
+        {
+          "label": "Training Program Requirements",
+          "href": "https://info.i-car.com/network-programs/oem"
+        }
+      ],
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "experience",
+      "title": "An Exceptional Repair Experience",
+      "backgroundLight": true,
+      "body": [
+        "Your collision repair network represents your brand after a collision. Leverage I-CAR's technical expertise, industry connections, and leadership to help them deliver exceptional repair experiences for your customers."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-lg-4 py-2",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Vehicle and Technology Specific Training",
+          "body": "Develop customized training around a specific model, repair process, or technology."
+        },
+        {
+          "title": "Technical Resources",
+          "body": "Support collision repairers with industry-developed technical content and resources."
+        },
+        {
+          "title": "Network Training Documentation",
+          "body": "Track and report on network training status to support business decisions."
+        }
+      ],
+      "__template": {
+        "id": "experience",
+        "type": "cards",
+        "variant": "default",
+        "signature": "bd9a6fe793cc1a0299d60224309aca9325da4a53"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "network-strength",
+      "title": "Network Strength",
+      "body": [
+        "With over 9,500 Gold Class facilities nationwide, I-CAR can help you strengthen your network by identifying collision repairers who are committed to maintaining the highest level of industry-recognized technical training."
+      ],
+      "buttons": [
+        {
+          "label": "Get to Gold Class",
+          "href": "https://info.i-car.com/gold-class/gold-class-collision-repair",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "reverse": true,
+      "__template": {
+        "id": "network-strength",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "8d19748276c8d0dff61fec4a037414375bad37d0"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "collaboration",
+      "title": "Collaboration Programs",
+      "body": [
+        "Invest in your network with these industry-recognized programs."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 py-2",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Industry Training Alliance",
+          "body": "Reduce training redundancy and receive credit for approved partner training."
+        },
+        {
+          "title": "Sustaining Partner Program",
+          "body": "Support collision repair training through an industry-wide partnership."
+        }
+      ],
+      "__template": {
+        "id": "collaboration",
+        "type": "cards",
+        "variant": "default",
+        "signature": "0c35be7c3dea64a8fa76bb7dc7d215e37d4bf5e0"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "academy",
+      "title": "I-CAR Academy",
+      "backgroundLight": true,
+      "label": "What's New",
+      "body": [
+        "A new program for shops and schools, I-CAR Academy empowers collision repair professionals through comprehensive education to attract, train, and retain talent in our industry."
+      ],
+      "buttons": [
+        {
+          "label": "Explore I-CAR Academy",
+          "href": "https://www.i-car.com/academy",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "reverse": true,
+      "__template": {
+        "id": "academy",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "858becb08b28c1dfd38a8eb443f46159b25a60c5"
+      }
+    },
+    {
+      "type": "cta",
+      "id": "contact",
+      "title": "Reach Your Collision Repair Network Goals",
+      "body": [
+        "I-CAR's customized solutions extend your team's resources and enhance the effectiveness of your network."
+      ],
+      "buttons": [
+        {
+          "label": "Contact I-CAR",
+          "href": "https://my.i-car.com/s/contactsupport",
+          "className": "ic-btn ic-btn-primary"
+        }
+      ],
+      "__template": {
+        "id": "contact",
+        "type": "cta",
+        "variant": "default",
+        "signature": "e4c973afacfabd990c273adaf73a521198eb45ef"
+      }
+    }
+  ],
+  "__template": {
+    "source": "industries-served/oem.json",
+    "signature": "5a12cf545ce5e1cb987c5112a3767b488743ffb0"
+  }
+}

@@ -3,145 +3,144 @@
   "title": "Electric and Hybrid Vehicle Repair",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "Electric & Hybrid Vehicle Repair",
-      "backgroundLight": true,
-      "contentClassName": "col col-12 col-md col-lg-5",
-      "mediaClassName": "col col-12 col-md col-lg-7",
-      "rowClassName": "row",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
       "body": [
-        "Discover essential training and information that supports complete, safe, and quality repairs for hybrid and electric vehicles. Our resources include high-voltage safety best practices, OEM-specific guidance, and education designed to prepare technicians for modern EV repair work."
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
       ],
       "image": {
-        "alt": "Electric vehicle repair instructor performing high voltage safety procedures while servicing an electric car at an I-CAR training center",
-        "desktopSrc": "/getmedia/18941d94-fca1-49bf-875d-a2fca73bca18/Hero_800w_D.webp",
-        "desktopSrcset": "/getmedia/e75699aa-203f-4906-8d8a-8486e36e31a1/Hero_400w_D.webp 400w, /getmedia/18941d94-fca1-49bf-875d-a2fca73bca18/Hero_800w_D.webp 800w, /getmedia/ec53e04f-6436-49c2-aba8-a00a8aea4925/Hero_1600w_D.webp 1600w, /getmedia/3c2aa13f-5928-4b87-b3d7-6a91844a051d/Hero_3200w_D.webp 3200w",
-        "mobileSrcset": "/getmedia/c936aa0a-d01b-4843-b65f-0c78a4555c5b/Hero_400w_M.webp 400w, /getmedia/ff7a1a51-ccb5-41c7-a5a2-e9582fdd8eba/Hero_800w_M.webp 800w, /getmedia/2f5f25ef-ca70-4be8-8fcf-70f5a2bc6461/Hero_1600w_M.webp 1600w",
-        "width": "800",
-        "height": "290",
-        "sizes": "(max-width: 450px) 400px, (max-width: 1024px) 800px, 1600px",
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
         "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "iconCardGrid",
       "id": "benefits",
-      "title": "EV and Hybrid Education Benefits",
-      "backgroundLight": true,
-      "cardColumnClass": "col col-12 col-md-auto px-md-4 py-1 py-sm-3",
+      "type": "iconCardGrid",
+      "title": "Benefits",
       "body": [
-        "Learn the skills needed to safely and confidently repair EV and hybrid systems, from high-voltage batteries to dual-power components."
+        "Add a short introduction for these icon cards."
       ],
       "cards": [
         {
-          "body": "Strengthen your EV and hybrid repair and safety fundamentals.",
-          "iconSvg": "<svg class=\"ic-card-icon\" fill=\"none\" height=\"70\" viewBox=\"0 0 70 70\" width=\"70\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9.47002 11.48H60.51C62.49 11.48 64.1 13.09 64.1 15.07V51.26H5.89001V15.07C5.89001 13.09 7.50001 11.48 9.48001 11.48H9.47002Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M68.74 51.24V53.27C68.74 56.17 66.82 58.52 64.44 58.52H5.55001C3.18001 58.52 1.26001 56.18 1.26001 53.27V51.24H68.73H68.74Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M11.58 23.87H24.6\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M11.58 29.4301H24.6\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M11.58 35H20.3\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M36.96 41.38V44.07C36.96 44.92 36.33 45.5999 35.54 45.5999H32.22C31.43 45.5999 30.79 44.92 30.79 44.07V39.95\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M56.69 39.95V44.07C56.69 44.92 56.04 45.5999 55.26 45.5999H51.94C51.15 45.5999 50.52 44.92 50.52 44.07V41.38\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M43.75 16.74C46.08 16.74 48.41 16.86 49.69 17.07C51.42 17.38 52.68 17.88 53.32 18.52C54.85 20.04 55.64 25.12 55.93 27.04C56.07 28.01 56.5 28.89 57.13 29.54C57.7 30.13 58.37 31.12 58.37 32.58V38.48C58.26 38.73 56.85 41.26 43.74 41.28C30.63 41.26 29.23 38.73 29.11 38.48V32.58C29.11 31.13 29.78 30.13 30.35 29.54C30.98 28.89 31.4 28.01 31.55 27.04C31.85 25.13 32.63 20.05 34.16 18.52C34.81 17.89 36.05 17.38 37.79 17.07C39.06 16.84 41.4 16.74 43.73 16.74\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M31.53 27.79H55.94\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M52.82 32.13H49.22C48.5517 32.13 48.01 32.6717 48.01 33.34V35.09C48.01 35.7583 48.5517 36.3 49.22 36.3H52.82C53.4883 36.3 54.03 35.7583 54.03 35.09V33.34C54.03 32.6717 53.4883 32.13 52.82 32.13Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M38.24 32.13H34.64C33.9717 32.13 33.43 32.6717 33.43 33.34V35.09C33.43 35.7583 33.9717 36.3 34.64 36.3H38.24C38.9083 36.3 39.45 35.7583 39.45 35.09V33.34C39.45 32.6717 38.9083 32.13 38.24 32.13Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path></svg>"
+          "title": "Icon Card 1",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "body": "Stay aligned with OEM repair standards for quality and safety.",
-          "iconSvg": "<svg class=\"ic-card-icon\" fill=\"none\" height=\"70\" viewBox=\"0 0 70 70\" width=\"70\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M58.05 67.06C56.94 65.6 54.78 62.75 54.28 62.04C53.77 61.31 53.11 59.35 51.58 54.84C50.63 52.08 47.43 44.34 47.43 44.34C47.06 43.1 47.72 41.49 49.67 40.71C50.99 40.19 52.78 40.48 53.69 42.14L59.17 51.2\" stroke=\"#333538\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M56.69 33.37L67.79 46.94C69 48.22 68.79 49.96 68.71 50.99L68.07 64.37\" stroke=\"#333538\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M15.96 7.64001H56.64\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M27.49 46.04H48.12\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M29.16 17.05H49.12\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M15.96 40.28V4.43002C15.96 3.20002 16.95 2.21002 18.18 2.21002H54.43C55.65 2.21002 56.65 3.20002 56.65 4.43002V40.03\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M29.16 26.4399H49.12\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M29.16 35.8199H49.12\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M21.3 16.28L23.22 18.07L25.9 14.4\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M21.3 25.59L23.22 27.3799L25.9 23.7\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M50.46 53.16H34.3\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M19.92 67.7901C21.75 66.1501 23.47 63.9101 25.16 61.0801C28.93 54.7401 32.84 52.8701 32.5 51.7601C32.33 51.1701 31.2 50.0401 29.59 49.7501C28.08 49.4801 25.45 50.5401 23.62 53.5301L26 36.2201C26.21 34.7201 25.15 33.3601 23.65 33.1301C22.16 32.9001 20.78 33.9901 20.55 35.4801L19.02 46.6401C18.98 45.3201 18.01 44.1501 16.65 43.9901C14.76 43.7801 13.76 45.0001 13.48 46.9301C13.17 44.9701 11.44 44.4901 10.53 44.5801C9.28 44.7001 8.21 45.6401 8.03 46.9401L7.81 48.5101C7.38 47.0001 5.97 46.5601 5.04 46.6401C3.82 46.7401 2.78 47.6801 2.61 48.9401L1.34 58.2001C1.19 59.3101 1.16 60.8501 1.43 62.4801\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path></svg>"
+          "title": "Icon Card 2",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "body": "Strengthen your skills with guided, in-person EV training.",
-          "iconSvg": "<svg class=\"ic-card-icon\" fill=\"none\" height=\"70\" viewBox=\"0 0 70 70\" width=\"70\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M29.4 56.51V60.29C29.4 61.56 28.38 62.57 27.12 62.57H25.54\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M64.17 56.51V60.29C64.17 61.56 63.15 62.57 61.89 62.57H54.45C53.19 62.57 52.17 61.55 52.17 60.29V56.51\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M53.41 48.6101L60.16 46.6201C61.07 46.3601 61.81 45.7301 62.24 44.9401\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M31.8301 50.25H49.7401\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M57.87 37.05H34.05\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M27.46 22.54C28.58 21.73 29.94 21.26 31.38 21.26H50.19C52.94 21.26 55.41 22.95 56.4 25.52L58.59 31.16H65.41C66.14 31.16 66.81 31.56 67.16 32.21L67.98 33.7C68.34 34.36 67.99 35.17 67.28 35.38L61.33 37.05L63.83 40C65.11 41.51 65.82 43.43 65.82 45.41V54.57C65.82 55.64 64.96 56.5 63.89 56.5H25.54\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M8.06006 12.36C8.06006 15.54 10.6401 18.12 13.8201 18.12C17.0001 18.12 19.5801 15.54 19.5801 12.36C19.5801 9.17998 17.0001 6.59998 13.8201 6.59998C10.6401 6.59998 8.06006 9.17998 8.06006 12.36Z\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M14.22 40.39H10.88C9.14003 40.39 7.53003 39.5 6.58003 38.05L2.99003 32.49C0.0600305 27.96 3.31003 22 8.71003 22H18C20.15 22 22.21 22.85 23.74 24.37L28.02 28.65\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M7.98999 28.72L11.42 34.3H17.55\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M25.94 36.04L24.77 38.17C24.22 39.17 24.94 40.39 26.08 40.39H27.91C28.82 40.39 29.65 39.89 30.09 39.11L30.64 38.1C31.34 36.83 30.42 35.27 28.97 35.27H27.25C26.71 35.27 26.2 35.57 25.94 36.04Z\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M8.20007 39.7999V48.7599V63.3999\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M22.3601 43.5199V48.7599V63.3999\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M15.4401 49.2V63.4\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path><path d=\"M29.54 35.2599L32.93 29.0499H20.4L12.63 43.2999H25.16L26.75 40.3899\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"></path></svg>"
+          "title": "Icon Card 3",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
+        },
+        {
+          "title": "Icon Card 4",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         }
       ],
-      "footerButtons": [
-        {
-          "label": "Explore Courses",
-          "href": "/electric-and-hybrid-vehicle-repair/education",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ]
+      "__template": {
+        "id": "benefits",
+        "type": "iconCardGrid",
+        "variant": "default",
+        "signature": "f8c76f9f044ce6c920674d0b744c599f80becde1"
+      }
     },
     {
-      "type": "textMedia",
       "id": "requirements",
-      "title": "High-Voltage Safety Resources",
+      "type": "textMedia",
+      "title": "Requirements",
+      "reverse": true,
       "body": [
-        "Explore high-voltage safety training for electric vehicle technicians and I-CAR best practices for HV disconnection with our expert-led videos and technical articles."
+        "Add body copy that pairs with the supporting image."
       ],
       "buttons": [
         {
           "label": "Learn More",
-          "href": "/electric-and-hybrid-vehicle-repair/high-voltage-safety",
+          "href": "#next-step",
           "className": "ic-btn ic-btn-primary ic-btn-outline"
         }
       ],
-      "reverse": true,
-      "textColumnClass": "col col-12 col-md-6 mt-2 pt-1 mt-lg-0 pt-lg-0 ps-lg-5 order-last",
-      "mediaColumnClass": "col col-12 col-md-6 col-lg-6 order-first",
-      "contentColumnClass": "col col-12 col-lg-10 col-xl-8",
-      "imageClassName": "ic-image-rounded",
-      "imageLink": {
-        "href": "/electric-and-hybrid-vehicle-repair/high-voltage-safety",
-        "title": "Learn More"
-      },
       "image": {
-        "alt": "Electric vehicle repair technician under an electric car performing high voltage safety checks following HV disconnection best practices",
-        "desktopSrc": "/getmedia/0ae2ba21-7b5f-47f9-bbb2-5f62eafb147f/Safety-Resources_800w_D.webp",
-        "desktopSrcset": "/getmedia/a32ac828-ba55-46b5-8847-67f61cea1013/Safety-Resources_400w_D.webp 400w, /getmedia/0ae2ba21-7b5f-47f9-bbb2-5f62eafb147f/Safety-Resources_800w_D.webp 800w, /getmedia/94ccfa5b-bf4b-440e-bc24-18e799abc672/Safety-Resources_1600w_D.webp 1600w",
-        "mobileSrcset": "/getmedia/4eae9b8b-9516-4480-af11-927b9537eff4/Safety-Resources_400w_M.webp 400w, /getmedia/2373670c-50af-4e29-b0d2-70b71efd9e62/Safety-Resources_800w_M.webp 800w, /getmedia/fa2eab75-25d7-47c0-82fb-3fa02e178511/Safety-Resources_1600w_M.webp 1600w",
+        "alt": "Requirements image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
         "width": "800",
-        "height": "575",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+        "height": "550",
+        "sizes": "800px"
+      },
+      "__template": {
+        "id": "requirements",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "dfeff1294b3064cf7c45b5b90a971d05fbeef98d"
       }
     },
     {
-      "type": "iconCardGrid",
       "id": "tools",
-      "title": "Professional Tech Tools",
-      "backgroundLight": true,
-      "cardColumnClass": "col col-12 col-md-6 col-xl-3 pt-2 pt-md-3 mt-md-3",
+      "type": "iconCardGrid",
+      "title": "Tools",
       "body": [
-        "These tools support decision-making for electric and hybrid vehicle repairs"
+        "Add a short introduction for these icon cards."
       ],
       "cards": [
         {
-          "title": "EV/Hybrid Insights",
-          "href": "https://rts.i-car.com/crn-1438.html",
-          "target": "_blank",
-          "body": "Find curated safety, OEM-specific, and training resources for hybrid and electric vehicles.",
-          "iconKey": "adasNews"
+          "title": "Icon Card 1",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "OEM Disable Search",
-          "href": "https://rts.i-car.com/hybrid-and-electric-vehicle-disable-search.html",
-          "target": "_blank",
-          "body": "Learn the OEM-approved steps to safely disable EV and hybrid systems.",
-          "iconSvg": "<svg class=\"ic-card-icon\" fill=\"none\" height=\"60\" viewBox=\"0 0 60 60\" width=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M13.21 43.58V46.64C13.21 47.6 12.44 48.37 11.49 48.37H7.45998C6.50998 48.37 5.72998 47.6 5.72998 46.64V41.96\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M42.09 41.9399V46.6499C42.09 47.6099 41.32 48.3799 40.37 48.3799H36.34C35.39 48.3799 34.61 47.6099 34.61 46.6499V43.5799\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M6.62 22.7H3.05C2.16 22.7 1.44 23.4899 1.44 24.4699V26.83C1.44 27.8 2.16 28.58 3.03 28.58H4.72\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M42.99 28.5799H44.77C45.66 28.5799 46.38 27.7899 46.38 26.8099V24.4599C46.38 23.4799 45.66 22.6899 44.77 22.6899H41.1\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M23.88 13.32C27.06 13.32 30.25 13.46 31.99 13.74C34.35 14.12 36.07 14.72 36.95 15.49C39.05 17.33 40.12 23.48 40.52 25.79C40.72 26.96 41.31 28.03 42.17 28.81C42.94 29.52 43.87 30.72 43.87 32.48V39.62C43.72 39.93 41.81 42.99 23.89 43.01C5.97001 42.99 4.06001 39.93 3.91001 39.62V32.48C3.91001 30.73 4.83001 29.52 5.61001 28.81C6.47001 28.03 7.05001 26.95 7.26001 25.79C7.66001 23.48 8.73001 17.33 10.83 15.49C11.71 14.72 13.42 14.11 15.79 13.74C17.54 13.46 20.72 13.32 23.91 13.32M23.88 11.63C20.35 11.63 17.22 11.79 15.5 12.07C12.78 12.5 10.83 13.23 9.69001 14.22C7.44001 16.19 6.35001 21.03 5.57001 25.5C5.43001 26.3 5.03001 27.03 4.45001 27.56C3.42001 28.49 2.20001 30.1 2.20001 32.48V40L2.36001 40.35C3.69001 43.14 11.33 44.69 23.86 44.7C36.4 44.69 44.03 43.14 45.37 40.35L45.53 40V32.48C45.53 30.11 44.31 28.5 43.28 27.56C42.7 27.03 42.3 26.29 42.16 25.5C41.39 21.03 40.29 16.19 38.04 14.22C36.91 13.23 34.96 12.5 32.24 12.07C30.52 11.8 27.38 11.63 23.86 11.63H23.88Z\" fill=\"#333538\"></path><path d=\"M11.88 26.44C11.88 26.44 11.96 26.44 12 26.44C14.23 26.31 18.73 26.1 23.88 26.1C29.03 26.1 33.53 26.31 35.76 26.44C36.37 26.48 36.94 26.25 37.33 25.82C37.72 25.39 37.87 24.83 37.74 24.29C36.29 18.28 35.52 17.65 35.23 17.41C34.75 17.02 33.82 16.69 32.4 16.43C31.21 16.21 27.57 15.75 23.89 15.75C20.21 15.75 16.57 16.21 15.38 16.43C13.96 16.7 13.03 17.02 12.55 17.41C12.26 17.65 11.49 18.28 10.04 24.29C9.90998 24.84 10.06 25.39 10.45 25.82C10.82 26.22 11.34 26.45 11.9 26.45L11.88 26.44Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M37.49 37.6799C39.1468 37.6799 40.49 36.3368 40.49 34.6799C40.49 33.0231 39.1468 31.6799 37.49 31.6799C35.8331 31.6799 34.49 33.0231 34.49 34.6799C34.49 36.3368 35.8331 37.6799 37.49 37.6799Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M10.33 37.6799C11.9869 37.6799 13.33 36.3368 13.33 34.6799C13.33 33.0231 11.9869 31.6799 10.33 31.6799C8.67316 31.6799 7.33002 33.0231 7.33002 34.6799C7.33002 36.3368 8.67316 37.6799 10.33 37.6799Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M50.81 18.96H57.76C58.21 18.96 58.57 19.32 58.57 19.77V22.71C58.57 25.07 56.65 26.99 54.29 26.99C51.93 26.99 50.01 25.07 50.01 22.71V19.77C50.01 19.32 50.37 18.96 50.82 18.96H50.81Z\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M51.87 14.41V18.69\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M56.69 14.41V18.69\" stroke=\"#333538\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path><path d=\"M44.89 33.4H45.9C47.65 33.4 49.07 34.81 49.07 36.57V45.71C49.07 47.19 50.27 48.38 51.74 48.38C53.21 48.38 54.41 47.18 54.41 45.71V27.52\" stroke=\"#333538\" stroke-miterlimit=\"10\" stroke-width=\"2\"></path></svg>"
+          "title": "Icon Card 2",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "Repairer's Realm",
-          "href": "/repairers-realm",
-          "body": "Watch live web sessions featuring repair demos, practical tips, and real-time Q&A.",
-          "iconKey": "repairersRealm"
+          "title": "Icon Card 3",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "Ask I-CAR",
-          "href": "https://rts.i-car.com/ask-i-car.html",
-          "target": "_blank",
-          "body": "Get quick answers to common collision repair questions.",
+          "title": "Icon Card 4",
+          "body": "Add supporting body copy for this icon card.",
           "iconKey": "askICar"
         }
       ],
-      "footerTitle": "RTS App for Smarter EV/Hybrid Repair",
-      "footerBody": [
-        "Access OEM procedures and safety resources from your mobile device."
-      ],
-      "footerButtons": [
-        {
-          "label": "Apple App Store",
-          "href": "https://apps.apple.com/us/app/i-car-rts/id6480322884",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        },
-        {
-          "label": "Google Play Store",
-          "href": "https://play.google.com/store/apps/details?id=com.rtsicar.app",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ]
+      "__template": {
+        "id": "tools",
+        "type": "iconCardGrid",
+        "variant": "default",
+        "signature": "76aa2f38fab943fcf1a4ef3f38d949d66e4e43d6"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "electric-hybrid-vehicle-repair.json",
+    "signature": "e5b0cb03525aac34e7721bfff01ff1d0c7757a0b"
+  }
 }

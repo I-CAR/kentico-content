@@ -1,0 +1,22 @@
+{
+  "slug": "insurance-requirements",
+  "title": "Gold Class - Insurance Requirements",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "page-nav",
+      "type": "pageNav"
+    },
+    {
+      "id": "standards",
+      "type": "stickyCards"
+    },
+    {
+      "id": "questions",
+      "type": "cta"
+    }
+  ]
+}

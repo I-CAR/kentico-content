@@ -1,0 +1,30 @@
+{
+  "slug": "collision-repair-manager",
+  "title": "Industries Served - Collision Repair Manager",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "resources",
+      "type": "cards"
+    },
+    {
+      "id": "emerging",
+      "type": "textMedia"
+    },
+    {
+      "id": "value",
+      "type": "cards"
+    },
+    {
+      "id": "in-shop-training",
+      "type": "embed"
+    },
+    {
+      "id": "get-started",
+      "type": "cta"
+    }
+  ]
+}

@@ -1,82 +1,87 @@
 {
   "slug": "russ-verona-gold-class-shop-award",
   "title": "About Us - Awards - Russ Verona Gold Class Shop Award",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
+      "image": {
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "id": "nomination-overview",
+      "type": "stickyCards",
+      "title": "Nomination Overview",
+      "body": [
+        "Add introductory copy for this sticky card section."
+      ],
+      "cards": [
+        {
+          "title": "Sticky Card 1",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 2",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 3",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        }
+      ],
+      "__template": {
+        "id": "nomination-overview",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "49a9acb370ea8466dc5127bcb0bda1a2ee66ebe8"
+      }
+    }
+  ],
   "cms": {
     "scriptOutput": "separateHtmlFile",
     "scriptHtml": []
   },
-  "sections": [
-    {
-      "type": "hero",
-      "id": "hero",
-      "title": "Russ Verona Gold Class Shop Award",
-      "sublabel": "Recognizing Achievement in the Collision Repair Industry",
-      "body": [
-        "First given in 2006, the Russ Verona Memorial Award honors the legacy of Russ Verona, owner of the first Gold Class shop and respected leader in the collision repair industry."
-      ],
-      "backgroundLight": true,
-      "rowClassName": "row justify-content-center align-items-center",
-      "contentClassName": "col col-12 col-md col-lg-6 col-xl-5 order-last order-md-first py-0 pr-lg-4",
-      "mediaClassName": "col col-12 col-md col-lg-7 order-first order-md-last",
-      "imageLink": {
-        "href": "#nomination-overview",
-        "title": "Collision Repair Shop Nomination Form for 2025 Performance Year"
-      },
-      "badgeColumnClass": "col col-auto order-first order-md-last mb-3 pb-3 mb-md-0 pb-md-0",
-      "badgeImage": {
-        "alt": "I-CAR Gold Class Collision Repair badge",
-        "className": "ic-image-logo",
-        "desktopSrc": "/getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp",
-        "desktopSrcset": "/getmedia/b0f61512-f9fa-486e-9927-cd771b80beea/Collision_Badge_220w.webp 220w, /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp 440w",
-        "width": "170",
-        "height": "157",
-        "sizes": "220px"
-      },
-      "image": {
-        "alt": "",
-        "desktopSrc": "/getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp",
-        "desktopSrcset": "/getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp 1400w, /getmedia/0325465f-aeb6-4044-bf81-39ddb815afa0/What-Is-Platinum_2800w.webp 2800w",
-        "mobileSrcset": "/getmedia/57dcef79-4a56-4d88-bf45-f0c593bb4c96/What-Is-Platinum_400w.webp 400w, /getmedia/700a3cb4-3d04-4136-8521-bc2e3aebce0a/What-Is-Platinum_800w.webp 800w, /getmedia/ee70a449-b3c6-4636-bedf-459c48d89cae/What-Is-Platinum_1600w.webp 1600w",
-        "width": "1400",
-        "height": "400",
-        "sizes": "1400px"
-      }
-    },
-    {
-      "type": "stickyCards",
-      "id": "nomination-overview",
-      "title": "Collision Repair Shop Nomination Form for 2025 Performance Year",
-      "buttons": [
-        {
-          "label": "View Previous I-CAR Award Recipients",
-          "href": "https://info.i-car.com/about-us/awards",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "cards": [
-        {
-          "title": "Purpose",
-          "body": "Given annually, this award recognizes Gold Class shops that demonstrate a commitment to training, repair quality, and safety in alignment with industry standards."
-        },
-        {
-          "title": "Eligibility",
-          "titleClassName": "ic-h4",
-          "body": "This award will be bestowed upon a select collision repair shop that meets the following requirements:",
-          "listItems": [
-            "Holds a long term (defined as at least five consecutive years) I-CAR Gold Class designation",
-            "Actively promotes the Gold Class designation, training, and a positive image of the collision industry (locally or on a broader scale)"
-          ],
-          "footer": "Please note all current I-CAR employees are not eligible to earn this award. This includes I-CAR full-time and part-time instructors."
-        },
-        {
-          "title": "Nominating Procedure",
-          "bodyHtml": "Complete this form and submit it prior to <time datetime=\"2026-07-31\">July 31,&nbsp;2026</time>. For questions, email&nbsp;<a href=\"mailto:i-car.events.dept@i-car.com\">i&#8209;car.events.dept@i-car.com</a>."
-        },
-        {
-          "title": "Presentation of Award",
-          "bodyHtml": "The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime=\"2026-11-03\">Tuesday, November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards."
-        }
-      ]
-    }
-  ]
+  "__template": {
+    "source": "about-us/awards/russ-verona-gold-class-shop-award.json",
+    "signature": "f12596236b2e844b960d2188fdebc27613ab16ca"
+  }
 }

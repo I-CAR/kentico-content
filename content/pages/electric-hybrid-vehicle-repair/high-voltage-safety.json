@@ -1,124 +1,158 @@
 {
   "slug": "high-voltage-safety",
   "title": "Electric and Hybrid Vehicle Repair - High Voltage Safety",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
+      "image": {
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "id": "faq",
+      "type": "accordion",
+      "title": "Faq",
+      "body": [
+        "Add introductory copy for this accordion."
+      ],
+      "items": [
+        {
+          "title": "Accordion Item 1",
+          "body": [
+            "Add supporting copy for this accordion item."
+          ]
+        },
+        {
+          "title": "Accordion Item 2",
+          "body": [
+            "Add supporting copy for this accordion item."
+          ]
+        },
+        {
+          "title": "Accordion Item 3",
+          "body": [
+            "Add supporting copy for this accordion item."
+          ]
+        }
+      ],
+      "__template": {
+        "id": "faq",
+        "type": "accordion",
+        "variant": "default",
+        "signature": "b3f7752995a391fd14163c1072798a8d759a43d2"
+      }
+    },
+    {
+      "id": "guides",
+      "type": "textMedia",
+      "title": "Guides",
+      "reverse": true,
+      "body": [
+        "Add body copy that pairs with the supporting image."
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "#next-step",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "image": {
+        "alt": "Guides image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
+        "width": "800",
+        "height": "550",
+        "sizes": "800px"
+      },
+      "__template": {
+        "id": "guides",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "db87fe3215f93a187ff1d3eee76714ccad9fa055"
+      }
+    },
+    {
+      "id": "videos",
+      "type": "embed",
+      "title": "Videos",
+      "body": [
+        "Add introductory copy for this embedded content."
+      ],
+      "embedHtml": "<div class=\"ratio ratio-16x9\"><div class=\"d-flex align-items-center justify-content-center border rounded\">Replace this placeholder with approved embed HTML.</div></div>",
+      "__template": {
+        "id": "videos",
+        "type": "embed",
+        "variant": "default",
+        "signature": "4b18ae4e7a95e8ca15b02d20a358406cdbb0e183"
+      }
+    },
+    {
+      "id": "coming-soon",
+      "type": "textMedia",
+      "title": "Coming Soon",
+      "body": [
+        "Add body copy that pairs with the supporting image."
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "#next-step",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "image": {
+        "alt": "Coming Soon image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
+        "width": "800",
+        "height": "550",
+        "sizes": "800px"
+      },
+      "__template": {
+        "id": "coming-soon",
+        "type": "textMedia",
+        "variant": "default",
+        "signature": "f7a32f223947c8930e6a95fe1446805a91b0ccf0"
+      }
+    }
+  ],
   "cms": {
     "scriptHtml": [
       "<script src=\"https://players.brightcove.net/1862663934001/experience_698ba27579abd02d2213bf16/live.js\"></script>"
     ]
   },
-  "sections": [
-    {
-      "type": "hero",
-      "id": "hero",
-      "title": "High-Voltage Safety",
-      "rowClassName": "row justify-content-between align-items-center",
-      "contentClassName": "col col-12 col-md-6 col-xl-5 mb-3 mb-md-0 pr-md-5",
-      "mediaClassName": "col col-12 col-md-6 col-xl-7 mt-3 mt-md-0",
-      "body": [
-        "Electric and hybrid vehicles introduce unique safety risks due to high-voltage systems. Use these resources to learn about proper safety procedures before starting repairs."
-      ],
-      "imageClassName": "ic-image-rounded",
-      "image": {
-        "alt": "A student inside an electric car performing high-voltage HV safety procedures during an I-CAR EV training course to become an ev technician",
-        "desktopSrc": "/getmedia/bf0fe200-c939-44f8-8c92-1d8ef3f8f27d/Hero_800w_D.webp",
-        "desktopSrcset": "/getmedia/bf0fe200-c939-44f8-8c92-1d8ef3f8f27d/Hero_800w_D.webp 400w, /getmedia/bf0fe200-c939-44f8-8c92-1d8ef3f8f27d/Hero_800w_D.webp 800w, /getmedia/327f008d-dc2a-40d8-ba1e-953c7cef94b5/Hero_1600w_D.webp 1600w",
-        "mobileSrcset": "/getmedia/cd26e7ad-6556-4a62-80fb-aaaa28fb1195/Hero_400w_M.webp 400w, /getmedia/67c6768e-ff45-4595-bf81-1d3c7466d1fa/Hero_800w_M.webp 800w, /getmedia/dba7bc0f-c751-4389-9303-54f18b6bddb1/Hero_1600w_M.webp 1600w",
-        "width": "862",
-        "height": "539",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
-        "loading": "eager"
-      }
-    },
-    {
-      "type": "accordion",
-      "id": "faq",
-      "title": "Common EV and Hybrid Safety Questions",
-      "backgroundLight": true,
-      "accordionId": "faqAccordion",
-      "items": [
-        { "title": "What is a PHEV?", "body": [ "A Plug-In Hybrid Electric Vehicle (PHEV) uses both an electric motor and a gas engine, and you can recharge the battery by plugging it in." ] },
-        { "title": "What is an HEV?", "body": [ "A Hybrid Electric Vehicle (HEV) also combines electric and gas power, but it recharges through driving, no plug-in required." ] },
-        { "title": "What is a BEV?", "body": [ "A Battery Electric Vehicle (BEV) runs fully on electricity and uses a high-voltage battery as its only power source." ] },
-        { "title": "What is an EREV?", "body": [ "An Extended-Range Electric Vehicle (EREV) drives mainly on electric power but includes a small gas engine that generates electricity when needed." ] },
-        { "title": "How do I become an EV technician?", "body": [ "Becoming an EV technician requires OEM-specific training and certifications based on the vehicles you plan to service. Many technicians also complete post-secondary automotive or EV training programs." ] },
-        { "title": "How is EV collision repair different from repairing hybrid or gas vehicles?", "body": [ "EV collision repair involves unique intake steps, safety requirements, and repair procedures. Technicians must complete proper training and follow OEM-specified service information." ] },
-        { "title": "How is hybrid collision repair different from repairing EVs or gas vehicles?", "body": [ "Hybrid collision repair involves unique intake steps, safety requirements, and repair procedures. Technicians must complete proper training and follow OEM-specified service information." ] },
-        { "title": "Can any body shop fix a hybrid or electric vehicle?", "body": [ "Yes, as long as the shop has the required OEM training and follows all OEM-outlined repair procedures." ] },
-        { "title": "What certifications should a shop have to safely repair hybrid or electric vehicles?", "body": [ "Certification requirements vary by OEM. I-CAR offers hybrid and EV-specific training and certifications developed with individual manufacturers." ] },
-        { "title": "What are the most common issues in EV repair?", "body": [ "Most issues occur when proper procedures or required safety steps are not followed." ] },
-        { "title": "What are the main risks involved in hybrid or electric vehicle repairs?", "body": [ "Hybrid and electric vehicles contain high voltage components and architecture that have special repair and maintenance considerations. Only trained, certified technicians and shops should perform these repairs." ] },
-        { "title": "What safety precautions are needed after a hybrid or electric vehicle collision?", "body": [ "Shops must follow OEM-specified post-collision requirements, which may include high-voltage disablement, battery assessments, and other safety steps." ] }
-      ]
-    },
-    {
-      "type": "textMedia",
-      "id": "guides",
-      "title": "I-CAR High-Voltage Safety Guides",
-      "body": [
-        "Access I-CAR guides for electric and hybrid vehicles, including high-voltage disconnection and safe handling procedures."
-      ],
-      "links": [
-        { "label": "Disconnecting/Initialization Procedure", "href": "https://rts.i-car.com/images/pdf/crn/44773.pdf", "target": "_blank" },
-        { "label": "Safety Protocol", "href": "https://rts.i-car.com/images/pdf/crn/44775.pdf", "target": "_blank" },
-        { "label": "Disconnecting Procedure Status Cards", "href": "https://rts.i-car.com/images/pdf/crn/44777.pdf", "target": "_blank" }
-      ],
-      "reverse": true,
-      "textColumnClass": "col col-12 col-md-6 mt-3 mt-md-0 ps-lg-5 order-last",
-      "mediaColumnClass": "col col-12 col-md-6 mb-1 mb-md-0 order-first",
-      "contentColumnClass": "col col-12 col-lg-10 col-xl-8",
-      "imageClassName": "ic-image-rounded",
-      "image": {
-        "alt": "An I-CAR EV technician instructor following best high voltage safety procedures on an electric car during an I-CAR EV training course",
-        "desktopSrc": "/getmedia/2e1b4f1d-9573-41a8-a15d-e0acac8f8331/Safety-Guides_800w_D.webp",
-        "desktopSrcset": "/getmedia/ba1ecf03-cf42-4019-b0b8-868bd1262b60/Safety-Guides_400w_D.webp 400w, /getmedia/2e1b4f1d-9573-41a8-a15d-e0acac8f8331/Safety-Guides_800w_D.webp 800w, /getmedia/e9a04b4f-38f2-4d05-985e-e643880085e3/Safety-Guides_1600w_D.webp 1600w",
-        "mobileSrcset": "/getmedia/7d86f177-686b-4e24-ac27-130033ff5d4a/Safety-Guides_400w_M.webp 400w, /getmedia/8ce417c0-1439-4377-95aa-81faafd3897a/Safety-Guides_800w_M.webp 800w, /getmedia/5f0cde67-9579-4da5-87f2-f378b25109d3/Safety-Guides_1600w_M.webp 1600w",
-        "width": "800",
-        "height": "575",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-      }
-    },
-    {
-      "type": "embed",
-      "id": "videos",
-      "title": "Video Playlist",
-      "backgroundLight": true,
-      "body": [
-        "These videos reinforce high-voltage safety training and best practices for EV and hybrid repair scenarios."
-      ],
-      "introRowClassName": "mb-3 pb-3 mb-md-2 pb-md-0",
-      "embedRowClassName": "pt-2 pt-md-3 mt-md-3",
-      "embedHtml": "<div data-experience=\"698ba27579abd02d2213bf16\" class=\"ic-playlist ic-background-white\"></div>"
-    },
-    {
-      "type": "textMedia",
-      "id": "coming-soon",
-      "title": "EV and Hybrid Education",
-      "body": [
-        "Reinforce EV and hybrid safety knowledge with our courses on high-voltage awareness, inspections, diagnostics, and OEM procedures."
-      ],
-      "buttons": [
-        {
-          "label": "Explore Courses",
-          "href": "/electric-and-hybrid-vehicle-repair/education"
-        }
-      ],
-      "textColumnClass": "col col-12 col-md-6 mt-3 mt-md-0 order-last order-md-first",
-      "mediaColumnClass": "col col-12 col-md-6 mb-1 mb-md-0 ps-lg-5 order-first order-md-last",
-      "contentColumnClass": "col col-12 col-lg-10 col-xl-8",
-      "imageClassName": "ic-image-rounded",
-      "imageLink": {
-        "href": "/electric-and-hybrid-vehicle-repair/education",
-        "title": "Explore Courses"
-      },
-      "image": {
-        "alt": "An I-CAR EV technician student following best high voltage disconnect safety procedures under an electric car during an EV training course",
-        "desktopSrc": "/getmedia/c713e1a0-3bce-437c-ab6a-c44f3feb854c/EV-Hybrid-Education_800w_D.webp",
-        "desktopSrcset": "/getmedia/be99c420-85b3-4a37-98d3-4f170d1366a2/EV-Hybrid-Education_400w_D.webp 400w, /getmedia/c713e1a0-3bce-437c-ab6a-c44f3feb854c/EV-Hybrid-Education_800w_D.webp 800w, /getmedia/f454dab6-b0cc-402b-8211-a218183c0a77/EV-Hybrid-Education_1600w_D.webp 1600w",
-        "mobileSrcset": "/getmedia/8425740e-386f-463c-ad0e-e7a43699b403/EV-Hybrid-Education_400w_M.webp 400w, /getmedia/45988f07-7650-4f87-97bb-05dad22f4aeb/EV-Hybrid-Education_800w_M.webp 800w, /getmedia/3cd74684-094c-4e9c-9c53-571b708a7e4e/EV-Hybrid-Education_1600w_M.webp 1600w",
-        "width": "800",
-        "height": "575",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
-      }
-    }
-  ]
+  "__template": {
+    "source": "electric-hybrid-vehicle-repair/high-voltage-safety.json",
+    "signature": "586807f2f2dd302b4a64315af9f8df7f192a4f9a"
+  }
 }

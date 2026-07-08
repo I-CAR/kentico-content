@@ -1,0 +1,38 @@
+{
+  "slug": "authoring-demo",
+  "title": "Content Authoring Demo",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "page-nav",
+      "type": "pageNav"
+    },
+    {
+      "id": "benefits",
+      "type": "cards"
+    },
+    {
+      "id": "workflow",
+      "type": "text"
+    },
+    {
+      "id": "patterns",
+      "type": "textMedia"
+    },
+    {
+      "id": "team-quotes",
+      "type": "quoteGrid"
+    },
+    {
+      "id": "owners",
+      "type": "profileGrid"
+    },
+    {
+      "id": "next-step",
+      "type": "cta"
+    }
+  ]
+}

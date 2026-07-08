@@ -3,143 +3,105 @@
   "title": "Governance - Leadership",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "I-CAR Leadership",
-      "sublabel": "I-CAR's Leadership Team advances initiatives that bring our mission to life by delivering the education, knowledge, and solutions needed for complete, safe, quality repairs that protect consumers.",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
       "body": [
-        "With a deep understanding of the collision repair ecosystem, our leaders collaborate to guide strategy, partnerships, and innovation across the inter-industry. Focused on talent development, training accessibility, and technological readiness, they ensure I-CAR remains responsive to the evolving needs of repairers, insurers, OEMs, educators, and suppliers. This work strengthens both the industry and the communities it serves."
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
       ],
-      "contentClassName": "col col-12 col-md-6",
-      "mediaClassName": "col col-12 col-md-6 mt-4 mt-md-0 ps-lg-5",
-      "rowClassName": "row align-items-center",
-      "imageClassName": "ic-image-rounded",
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
       "image": {
-        "alt": "A group of diverse people putting their hands together in a circle",
-        "desktopSrc": "/I-CAR/media/ICarMain/Governance/Leadership/Hero_800w_Desktop.jpg",
-        "desktopSrcset": "/I-CAR/media/ICarMain/Governance/Leadership/Hero_800w_Desktop.jpg 800w, /I-CAR/media/ICarMain/Governance/Leadership/Hero_1600w_Desktop.jpg 1600w",
-        "mobileSrcset": "/I-CAR/media/ICarMain/Governance/Leadership/Hero_800w_Mobile.jpg 800w, /I-CAR/media/ICarMain/Governance/Leadership/Hero_1600w_Mobile.jpg 1600w",
-        "width": "745",
-        "height": "450",
-        "sizes": "100vw",
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
         "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "profileGrid",
       "id": "leaders",
-      "title": "Leadership Committed to Industry Excellence",
-      "backgroundLight": true,
+      "type": "profileGrid",
+      "title": "Leaders",
+      "body": [
+        "Add a short introduction for this profile grid."
+      ],
       "profiles": [
         {
-          "name": "Kyle Thompson",
-          "title": "CEO & President",
+          "name": "Person 1",
+          "title": "Person Title",
           "image": {
-            "alt": "Kyle Thompson",
-            "desktopSrc": "/getmedia/8d1e692b-9788-4747-9553-193aae3c892b/Leadership_KyleThompson.webp",
-            "desktopSrcset": "/getmedia/8d1e692b-9788-4747-9553-193aae3c892b/Leadership_KyleThompson.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
+            "alt": "Person 1",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
           }
         },
         {
-          "name": "Lori Barrington",
-          "title": "Vice President, Delivery",
+          "name": "Person 2",
+          "title": "Person Title",
           "image": {
-            "alt": "Lori Barrington",
-            "desktopSrc": "/getmedia/3521ecea-af5f-4866-806e-4156b7e6cc81/Leadership_LoriBarrington.webp",
-            "desktopSrcset": "/getmedia/3521ecea-af5f-4866-806e-4156b7e6cc81/Leadership_LoriBarrington.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
+            "alt": "Person 2",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
           }
         },
         {
-          "name": "Dara Goroff",
-          "title": "Vice President, Planning & Industry Talent Programming",
+          "name": "Person 3",
+          "title": "Person Title",
           "image": {
-            "alt": "Dara Goroff",
-            "desktopSrc": "/getmedia/1d875f66-3820-4672-bee1-dcc82b13bcb6/Leadership_DaraGoroff.webp",
-            "desktopSrcset": "/getmedia/1d875f66-3820-4672-bee1-dcc82b13bcb6/Leadership_DaraGoroff.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
+            "alt": "Person 3",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
           }
         },
         {
-          "name": "Andy Johnson",
-          "title": "Vice President, IT & Digital Innovation",
+          "name": "Person 4",
+          "title": "Person Title",
           "image": {
-            "alt": "Andy Johnson",
-            "desktopSrc": "/getmedia/366b9c30-351e-45b1-991c-cf2ed487f513/Leadership_AndyJohnson.webp",
-            "desktopSrcset": "/getmedia/366b9c30-351e-45b1-991c-cf2ed487f513/Leadership_AndyJohnson.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
-          }
-        },
-        {
-          "name": "Tom Marek",
-          "title": "Vice President, Finance & Operations",
-          "image": {
-            "alt": "Tom Marek",
-            "desktopSrc": "/getmedia/aff60a84-35e2-4d1f-be7e-89482435b5d5/Leadership_TomMarek.webp",
-            "desktopSrcset": "/getmedia/aff60a84-35e2-4d1f-be7e-89482435b5d5/Leadership_TomMarek.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
-          }
-        },
-        {
-          "name": "Mark Miller",
-          "title": "Vice President, Technical Operations",
-          "image": {
-            "alt": "Mark Miller",
-            "desktopSrc": "/getmedia/20b8b3a1-28ba-407f-9df4-3fac20c15554/Leadership_MarkMiller.webp",
-            "desktopSrcset": "/getmedia/20b8b3a1-28ba-407f-9df4-3fac20c15554/Leadership_MarkMiller.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
-          }
-        },
-        {
-          "name": "Jeff Peevy",
-          "title": "Vice President, Industry Relations",
-          "image": {
-            "alt": "Jeff Peevy",
-            "desktopSrc": "/getmedia/37a9771d-301d-4e64-8383-0c99e9e07117/Leadership_JeffPeevy.webp",
-            "desktopSrcset": "/getmedia/37a9771d-301d-4e64-8383-0c99e9e07117/Leadership_JeffPeevy.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
-          }
-        },
-        {
-          "name": "Arianna Sherlock",
-          "title": "Vice President, Marketing",
-          "image": {
-            "alt": "Arianna Sherlock",
-            "desktopSrc": "/getmedia/ab48c0c7-40bd-4ec8-b667-22f9e642a01b/Leadership_AriannaSherlock.webp",
-            "desktopSrcset": "/getmedia/ab48c0c7-40bd-4ec8-b667-22f9e642a01b/Leadership_AriannaSherlock.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
-          }
-        },
-        {
-          "name": "Melissa Snyder",
-          "title": "Vice President, People & Culture",
-          "image": {
-            "alt": "Melissa Snyder",
-            "desktopSrc": "/getmedia/da3a91fa-b7b3-4754-8c03-99e74f9c7640/Leadership_MelissaSnyder.webp",
-            "desktopSrcset": "/getmedia/da3a91fa-b7b3-4754-8c03-99e74f9c7640/Leadership_MelissaSnyder.webp",
-            "width": "175",
-            "height": "175",
-            "sizes": "175px"
+            "alt": "Person 4",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
           }
         }
-      ]
+      ],
+      "__template": {
+        "id": "leaders",
+        "type": "profileGrid",
+        "variant": "default",
+        "signature": "77d17068350556be5e30c73ee903316d17ba8574"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "governance/leadership.json",
+    "signature": "2da575f4357c257409d9a71dd4d44893905a60cc"
+  }
 }

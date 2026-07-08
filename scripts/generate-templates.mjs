@@ -76,6 +76,13 @@ function parseTemplateFile(sourceFile) {
     throw new Error(`Expected an object in ${sourceFile}`);
   }
 
+  const allowedTemplateKeys = new Set(["slug", "title", "sections"]);
+  const unexpectedTemplateKeys = Object.keys(template).filter((key) => !allowedTemplateKeys.has(key));
+
+  if (unexpectedTemplateKeys.length > 0) {
+    throw new Error(`Unexpected top-level key(s) in ${sourceFile}: ${unexpectedTemplateKeys.join(", ")}`);
+  }
+
   if (!Array.isArray(template.sections)) {
     throw new Error(`Expected "sections" array in ${sourceFile}`);
   }
@@ -102,35 +109,21 @@ function createSignature(value) {
   return createHash("sha1").update(stableSerialize(value)).digest("hex");
 }
 
-function deepMerge(baseValue, overrideValue) {
-  if (Array.isArray(baseValue) || Array.isArray(overrideValue)) {
-    return overrideValue;
-  }
-
-  if (
-    baseValue &&
-    typeof baseValue === "object" &&
-    overrideValue &&
-    typeof overrideValue === "object"
-  ) {
-    const merged = { ...baseValue };
-
-    for (const [key, value] of Object.entries(overrideValue)) {
-      merged[key] = key in baseValue ? deepMerge(baseValue[key], value) : value;
-    }
-
-    return merged;
-  }
-
-  return overrideValue;
-}
-
 function normalizeSectionEntry(entry, sourceFile, index) {
   if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
     throw new Error(`Expected section ${index + 1} in ${sourceFile} to be an object`);
   }
 
-  const { id, type, variant = "default", ...overrides } = entry;
+  const allowedSectionKeys = new Set(["id", "type", "variant"]);
+  const unexpectedSectionKeys = Object.keys(entry).filter((key) => !allowedSectionKeys.has(key));
+
+  if (unexpectedSectionKeys.length > 0) {
+    throw new Error(
+      `Unexpected key(s) on section ${index + 1} in ${sourceFile}: ${unexpectedSectionKeys.join(", ")}`,
+    );
+  }
+
+  const { id, type, variant = "default" } = entry;
 
   if (typeof id !== "string" || !id.trim()) {
     throw new Error(`Expected section ${index + 1} in ${sourceFile} to include a non-empty "id"`);
@@ -148,32 +141,27 @@ function normalizeSectionEntry(entry, sourceFile, index) {
     id: id.trim(),
     type: type.trim(),
     variant: variant.trim(),
-    overrides,
   };
 }
 
 function createSectionFromTemplate(entry, sourceFile, index) {
   const normalized = normalizeSectionEntry(entry, sourceFile, index);
-  const baseSection = createTemplateSection(normalized.type, normalized.variant, normalized.id);
-  const mergedSection = deepMerge(baseSection, normalized.overrides);
-  const templateSource = {
+  const generatedSection = createTemplateSection(normalized.type, normalized.variant, normalized.id);
+  const templateEntry = {
     id: normalized.id,
     type: normalized.type,
     variant: normalized.variant,
-    section: mergedSection,
   };
-  const signature = createSignature(templateSource);
+  const signature = createSignature(templateEntry);
 
   return {
     section: {
-      ...mergedSection,
+      ...generatedSection,
       id: normalized.id,
       type: normalized.type,
     },
     metadata: {
-      id: normalized.id,
-      type: normalized.type,
-      variant: normalized.variant,
+      ...templateEntry,
       signature,
     },
   };
@@ -292,7 +280,6 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null) {
     slug,
     title,
     sections: generatedSections.map((entry) => entry.metadata),
-    cms: template.cms || null,
   });
 
   return {
@@ -300,7 +287,7 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null) {
       slug,
       title,
       sections: mergedSections.map((entry) => entry.section),
-      ...(template.cms && typeof template.cms === "object" ? { cms: template.cms } : existingPage?.cms ? { cms: existingPage.cms } : {}),
+      ...(existingPage?.cms ? { cms: existingPage.cms } : {}),
       __template: {
         source: relative(templateSourceDir, sourceFile),
         signature: templateSignature,

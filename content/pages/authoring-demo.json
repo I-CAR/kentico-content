@@ -3,35 +3,41 @@
   "title": "Content Authoring Demo",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "Build Pages Without Hand Writing Every Template",
-      "label": "Content-Driven Authoring",
-      "sublabel": "A lightweight authoring path for this repo.",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
       "body": [
-        "This demo page is generated from JSON content instead of being hand-authored line by line in HTML.",
-        "The output still uses the same page structure and classes already expected by the Kentico export workflow."
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
       ],
       "buttons": [
         {
-          "label": "Jump To Benefits",
-          "href": "#benefits"
+          "label": "Primary Action",
+          "href": "#next-step"
         }
       ],
       "image": {
-        "alt": "Placeholder illustration for generated page content",
-        "desktopSrc": "https://placehold.co/1600x580?text=Generated+Page",
-        "desktopSrcset": "https://placehold.co/800x290?text=Generated+Page 800w, https://placehold.co/1600x580?text=Generated+Page 1600w, https://placehold.co/3200x1160?text=Generated+Page 3200w",
-        "mobileSrcset": "https://placehold.co/400x300?text=Generated+Page 400w, https://placehold.co/800x600?text=Generated+Page 800w, https://placehold.co/1600x1200?text=Generated+Page 1600w",
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
         "width": "1600",
         "height": "580",
         "sizes": "(max-width: 1024px) 800px, 1600px",
         "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "pageNav",
       "id": "page-nav",
+      "type": "pageNav",
       "links": [
         {
           "label": "Benefits",
@@ -50,237 +56,276 @@
           "href": "#team-quotes"
         },
         {
+          "label": "Owners",
+          "href": "#owners"
+        },
+        {
           "label": "Next Step",
           "href": "#next-step"
         }
-      ]
+      ],
+      "__template": {
+        "id": "page-nav",
+        "type": "pageNav",
+        "variant": "default",
+        "signature": "2ead907efbdcfc2fd8a98f2c79f007f3d9cfbbea"
+      }
     },
     {
-      "type": "cards",
       "id": "benefits",
-      "title": "What This Unlocks",
+      "type": "cards",
+      "title": "Benefits",
       "body": [
-        "You can author page content in a smaller, safer format while still shipping production-ready HTML into the existing pipeline."
-      ],
-      "buttons": [
-        {
-          "label": "Keep Using Existing Components",
-          "href": "#workflow"
-        }
+        "Add a short introduction for this card group."
       ],
       "cards": [
         {
-          "title": "Less Repetition",
-          "body": "Reusable section patterns keep repeated layout markup out of everyday content work.",
+          "title": "Card One",
+          "body": "Add supporting card copy here.",
           "image": {
-            "alt": "Placeholder card image for less repetition",
-            "desktopSrc": "https://placehold.co/400x220?text=Less+Repetition",
-            "desktopSrcset": "https://placehold.co/400x220?text=Less+Repetition 400w, https://placehold.co/800x440?text=Less+Repetition 800w, https://placehold.co/1600x880?text=Less+Repetition 1600w",
-            "mobileSrcset": "https://placehold.co/400x200?text=Less+Repetition 400w, https://placehold.co/800x400?text=Less+Repetition 800w, https://placehold.co/1600x800?text=Less+Repetition 1600w",
+            "alt": "Card one image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
             "width": "400",
             "height": "220",
             "sizes": "800px"
           }
         },
         {
-          "title": "Fewer Broken Tags",
-          "body": "Content edits happen in structured fields, which makes common HTML mistakes much less likely.",
+          "title": "Card Two",
+          "body": "Add supporting card copy here.",
           "image": {
-            "alt": "Placeholder card image for fewer broken tags",
-            "desktopSrc": "https://placehold.co/400x220?text=Fewer+Broken+Tags",
-            "desktopSrcset": "https://placehold.co/400x220?text=Fewer+Broken+Tags 400w, https://placehold.co/800x440?text=Fewer+Broken+Tags 800w, https://placehold.co/1600x880?text=Fewer+Broken+Tags 1600w",
-            "mobileSrcset": "https://placehold.co/400x200?text=Fewer+Broken+Tags 400w, https://placehold.co/800x400?text=Fewer+Broken+Tags 800w, https://placehold.co/1600x800?text=Fewer+Broken+Tags 1600w",
+            "alt": "Card two image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
             "width": "400",
             "height": "220",
             "sizes": "800px"
           }
         },
         {
-          "title": "Same Output Pipeline",
-          "body": "Generated pages still land under html and continue through the existing CMS export build.",
+          "title": "Card Three",
+          "body": "Add supporting card copy here.",
           "image": {
-            "alt": "Placeholder card image for same output pipeline",
-            "desktopSrc": "https://placehold.co/400x220?text=Same+Output+Pipeline",
-            "desktopSrcset": "https://placehold.co/400x220?text=Same+Output+Pipeline 400w, https://placehold.co/800x440?text=Same+Output+Pipeline 800w, https://placehold.co/1600x880?text=Same+Output+Pipeline 1600w",
-            "mobileSrcset": "https://placehold.co/400x200?text=Same+Output+Pipeline 400w, https://placehold.co/800x400?text=Same+Output+Pipeline 800w, https://placehold.co/1600x800?text=Same+Output+Pipeline 1600w",
+            "alt": "Card three image",
+            "desktopSrc": "https://placehold.co/400x220",
+            "desktopSrcset": "https://placehold.co/400x220 400w",
+            "mobileSrcset": "https://placehold.co/400x200 400w",
             "width": "400",
             "height": "220",
             "sizes": "800px"
           }
         }
-      ]
+      ],
+      "__template": {
+        "id": "benefits",
+        "type": "cards",
+        "variant": "default",
+        "signature": "85f3a95dad122b252c83aab18b4b19b78e461c9b"
+      }
     },
     {
-      "type": "text",
       "id": "workflow",
-      "title": "How The Workflow Works",
-      "backgroundLight": true,
+      "type": "text",
+      "title": "Workflow",
       "body": [
-        "You add a JSON file in content/pages, define the sections you need, and run npm run build:pages.",
-        "The script validates the page structure and content, and the existing CMS build keeps the Kentico-ready output aligned with the hand-authored HTML pages."
-      ]
+        "Add body copy for this section."
+      ],
+      "__template": {
+        "id": "workflow",
+        "type": "text",
+        "variant": "default",
+        "signature": "a7630ba9e342a1a6646a43103a21dbd956d248aa"
+      }
     },
     {
-      "type": "textMedia",
       "id": "patterns",
-      "title": "Pattern-Based Sections Keep Things Moving",
-      "sublabel": "Authors fill fields while the template keeps the structure steady.",
+      "type": "textMedia",
+      "title": "Patterns",
       "body": [
-        "This type is a good fit for standard marketing sections that pair a headline, a few paragraphs, a button, and an image.",
-        "Because the markup is generated, the same content can be reapplied consistently on every build without hand-editing wrappers."
+        "Add body copy that pairs with the supporting image."
       ],
       "buttons": [
         {
-          "label": "See Team Quotes",
-          "href": "#team-quotes",
+          "label": "Learn More",
+          "href": "#next-step",
           "className": "ic-btn ic-btn-primary ic-btn-outline"
         }
       ],
       "image": {
-        "alt": "Placeholder image representing reusable page patterns",
-        "desktopSrc": "https://placehold.co/800x550?text=Pattern+Section",
-        "desktopSrcset": "https://placehold.co/400x550?text=Pattern+Section 400w, https://placehold.co/800x550?text=Pattern+Section 800w, https://placehold.co/1600x550?text=Pattern+Section 1600w",
-        "mobileSrcset": "https://placehold.co/400x450?text=Pattern+Section 400w, https://placehold.co/800x450?text=Pattern+Section 800w, https://placehold.co/1600x450?text=Pattern+Section 1600w",
+        "alt": "Patterns image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
         "width": "800",
         "height": "550",
         "sizes": "800px"
+      },
+      "__template": {
+        "id": "patterns",
+        "type": "textMedia",
+        "variant": "default",
+        "signature": "74506de8d43f2101978194ab08d2d98e60aa0d83"
       }
     },
     {
-      "type": "quoteGrid",
       "id": "team-quotes",
-      "title": "Content Can Still Feel Human",
+      "type": "quoteGrid",
+      "title": "Team Quotes",
       "body": [
-        "Structured authoring does not mean flat pages. We can still support testimonials and richer supporting content blocks."
+        "Add a short introduction for this quote collection."
       ],
       "quotes": [
         {
-          "quote": "Updating content is much faster when the page structure is already taken care of for me.",
-          "name": "Alex Morgan",
-          "title": "Content Strategist",
+          "quote": "Add approved quote copy for testimonial 1.",
+          "name": "Person 1",
+          "title": "Person Title",
           "image": {
-            "alt": "Alex Morgan",
-            "desktopSrc": "https://placehold.co/70x70?text=A",
-            "desktopSrcset": "https://placehold.co/70x70?text=A 70w, https://placehold.co/140x140?text=A 140w",
+            "alt": "Person 1",
+            "desktopSrc": "https://placehold.co/70x70",
+            "desktopSrcset": "https://placehold.co/70x70 70w, https://placehold.co/140x140 140w",
             "width": "70",
             "height": "70",
             "sizes": "80px"
           }
         },
         {
-          "quote": "I can focus on the message instead of worrying about breaking the layout.",
-          "name": "Jordan Lee",
-          "title": "Marketing Manager",
+          "quote": "Add approved quote copy for testimonial 2.",
+          "name": "Person 2",
+          "title": "Person Title",
           "image": {
-            "alt": "Jordan Lee",
-            "desktopSrc": "https://placehold.co/70x70?text=J",
-            "desktopSrcset": "https://placehold.co/70x70?text=J 70w, https://placehold.co/140x140?text=J 140w",
+            "alt": "Person 2",
+            "desktopSrc": "https://placehold.co/70x70",
+            "desktopSrcset": "https://placehold.co/70x70 70w, https://placehold.co/140x140 140w",
             "width": "70",
             "height": "70",
             "sizes": "80px"
           }
         },
         {
-          "quote": "Reusable section types make repeatable campaign pages much easier to maintain over time.",
-          "name": "Taylor Brooks",
-          "title": "Digital Content Lead",
+          "quote": "Add approved quote copy for testimonial 3.",
+          "name": "Person 3",
+          "title": "Person Title",
           "image": {
-            "alt": "Taylor Brooks",
-            "desktopSrc": "https://placehold.co/70x70?text=T",
-            "desktopSrcset": "https://placehold.co/70x70?text=T 70w, https://placehold.co/140x140?text=T 140w",
+            "alt": "Person 3",
+            "desktopSrc": "https://placehold.co/70x70",
+            "desktopSrcset": "https://placehold.co/70x70 70w, https://placehold.co/140x140 140w",
             "width": "70",
             "height": "70",
             "sizes": "80px"
           }
         },
         {
-          "quote": "Running npm start and seeing the page update from JSON feels a lot better than editing raw HTML all day.",
-          "name": "Casey Nguyen",
-          "title": "Web Producer",
+          "quote": "Add approved quote copy for testimonial 4.",
+          "name": "Person 4",
+          "title": "Person Title",
           "image": {
-            "alt": "Casey Nguyen",
-            "desktopSrc": "https://placehold.co/70x70?text=C",
-            "desktopSrcset": "https://placehold.co/70x70?text=C 70w, https://placehold.co/140x140?text=C 140w",
+            "alt": "Person 4",
+            "desktopSrc": "https://placehold.co/70x70",
+            "desktopSrcset": "https://placehold.co/70x70 70w, https://placehold.co/140x140 140w",
             "width": "70",
             "height": "70",
             "sizes": "80px"
           }
         }
-      ]
+      ],
+      "__template": {
+        "id": "team-quotes",
+        "type": "quoteGrid",
+        "variant": "default",
+        "signature": "7bb051dbe1c62f29535f785370240732206f08a4"
+      }
     },
     {
-      "type": "profileGrid",
       "id": "owners",
-      "title": "A Few Reusable People Patterns",
-      "backgroundLight": true,
+      "type": "profileGrid",
+      "title": "Owners",
       "body": [
-        "Profile grids are useful for leadership, speakers, reviewers, or partner spotlights."
+        "Add a short introduction for this profile grid."
       ],
       "profiles": [
         {
-          "name": "Morgan Ellis",
-          "title": "Senior Content Designer",
+          "name": "Person 1",
+          "title": "Person Title",
           "image": {
-            "alt": "Morgan Ellis",
-            "desktopSrc": "https://placehold.co/100x100?text=M",
-            "desktopSrcset": "https://placehold.co/100x100?text=M 100w, https://placehold.co/200x200?text=M 200w",
+            "alt": "Person 1",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
             "width": "100",
             "height": "100",
             "sizes": "100px"
           }
         },
         {
-          "name": "Riley Chen",
-          "title": "Marketing Operations Lead",
+          "name": "Person 2",
+          "title": "Person Title",
           "image": {
-            "alt": "Riley Chen",
-            "desktopSrc": "https://placehold.co/100x100?text=R",
-            "desktopSrcset": "https://placehold.co/100x100?text=R 100w, https://placehold.co/200x200?text=R 200w",
+            "alt": "Person 2",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
             "width": "100",
             "height": "100",
             "sizes": "100px"
           }
         },
         {
-          "name": "Avery Patel",
-          "title": "Web Content Manager",
+          "name": "Person 3",
+          "title": "Person Title",
           "image": {
-            "alt": "Avery Patel",
-            "desktopSrc": "https://placehold.co/100x100?text=A",
-            "desktopSrcset": "https://placehold.co/100x100?text=A 100w, https://placehold.co/200x200?text=A 200w",
+            "alt": "Person 3",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
             "width": "100",
             "height": "100",
             "sizes": "100px"
           }
         },
         {
-          "name": "Sam Rivera",
-          "title": "Digital Experience Strategist",
+          "name": "Person 4",
+          "title": "Person Title",
           "image": {
-            "alt": "Sam Rivera",
-            "desktopSrc": "https://placehold.co/100x100?text=S",
-            "desktopSrcset": "https://placehold.co/100x100?text=S 100w, https://placehold.co/200x200?text=S 200w",
+            "alt": "Person 4",
+            "desktopSrc": "https://placehold.co/100x100",
+            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
             "width": "100",
             "height": "100",
             "sizes": "100px"
           }
         }
-      ]
+      ],
+      "__template": {
+        "id": "owners",
+        "type": "profileGrid",
+        "variant": "default",
+        "signature": "a7150b6484888cc878dc23d34864117f521c4f5c"
+      }
     },
     {
-      "type": "cta",
       "id": "next-step",
-      "title": "Ready To Expand It",
+      "type": "cta",
+      "title": "Next Step",
       "body": [
-        "The scaffold is intentionally small, but it gives us a clean place to add more reusable section types as your content patterns repeat."
+        "Add closing copy that supports the final call to action."
       ],
       "buttons": [
         {
-          "label": "Add More Section Types",
+          "label": "Primary Action",
           "href": "#hero",
           "className": "ic-btn ic-btn-primary ic-btn-outline"
         }
-      ]
+      ],
+      "__template": {
+        "id": "next-step",
+        "type": "cta",
+        "variant": "default",
+        "signature": "2ffeb04fe227130c9f7fb900e059761727c418d8"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "authoring-demo.json",
+    "signature": "888fefc65f1f6945f35db1fc76298daf6006c5af"
+  }
 }

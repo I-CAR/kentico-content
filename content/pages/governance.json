@@ -3,89 +3,121 @@
   "title": "Governance",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "I-CAR Governance",
-      "sublabel": "Our Governance Model ensures that I-CAR remains committed to our vision and mission, serving every person in the collision repair Inter-Industry.",
-      "contentClassName": "col col-12 col-lg-5 order-last order-lg-first mt-2 pt-1 mt-lg-0 pt-lg-0",
-      "mediaClassName": "col col-12 col-lg-7 order-first order-lg-last mb-3 pb-1 mb-lg-0 pb-lg-0",
-      "rowClassName": "row align-items-center",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
       "image": {
-        "alt": "A compass on the road pointing North to show direction",
-        "desktopSrc": "/getmedia/1f02d2b8-cb9c-4f13-89d1-d7e84de06747/Hero_1400w.webp",
-        "desktopSrcset": "/getmedia/e6a503dd-8781-4be5-9686-8f0b9f0a06b8/Hero_728w.webp 728w, /getmedia/5c895d34-5797-49f9-8729-b55d5777e6c8/Hero_1008w.webp 1008w, /getmedia/35026ddb-f5a9-4241-8e55-7a27463711c2/Hero_1180w.webp 1180w, /getmedia/1f02d2b8-cb9c-4f13-89d1-d7e84de06747/Hero_1400w.webp 1400w, /getmedia/08d0fc0e-d8de-42a4-b681-8d309982c0dc/Hero_2800w.webp 2800w",
-        "mobileSrcset": "/getmedia/e6a503dd-8781-4be5-9686-8f0b9f0a06b8/Hero_728w.webp 728w, /getmedia/89b546a4-0027-40fb-8967-1b3d8782a198/Hero_1456w.webp 1456w",
-        "width": "1400",
-        "height": "500",
-        "sizes": "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px",
-        "loading": "eager",
-        "className": "ic-image-banner"
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "pageNav",
       "id": "page-nav",
+      "type": "pageNav",
       "links": [
         {
-          "label": "Vision and Mission",
+          "label": "Vision And Mission",
           "href": "#vision-and-mission"
         },
         {
           "label": "Governance Composition",
           "href": "#governance-composition"
         }
-      ]
+      ],
+      "__template": {
+        "id": "page-nav",
+        "type": "pageNav",
+        "variant": "default",
+        "signature": "2ead907efbdcfc2fd8a98f2c79f007f3d9cfbbea"
+      }
     },
     {
-      "type": "statementList",
       "id": "vision-and-mission",
-      "title": "Vision and Mission",
-      "backgroundLight": true,
+      "type": "statementList",
+      "title": "Vision And Mission",
+      "body": [
+        "Add a short introduction for these statements."
+      ],
       "statements": [
         {
-          "title": "The I-CAR Vision",
-          "body": "That every person in the collision repair industry has the information, knowledge and skills required to perform complete, safe and quality repairs for the ultimate benefit of the consumer."
+          "title": "Statement One",
+          "body": "Add supporting copy for the first statement."
         },
         {
-          "title": "The I-CAR Mission",
-          "body": "To deliver increasingly accessible, on-demand and relevant education, knowledge, services and solutions for collision repair facilities and the related industry value chain."
+          "title": "Statement Two",
+          "body": "Add supporting copy for the second statement."
         }
-      ]
+      ],
+      "__template": {
+        "id": "vision-and-mission",
+        "type": "statementList",
+        "variant": "default",
+        "signature": "aee70c7d9513cda0b387e8fbe36fe41f1184e74d"
+      }
     },
     {
-      "type": "iconCardGrid",
       "id": "governance-composition",
+      "type": "iconCardGrid",
       "title": "Governance Composition",
       "body": [
-        "Explore I-CAR's governance through its Board of Directors, Leadership Team, Membership, and Industry Councils."
+        "Add a short introduction for these icon cards."
       ],
-      "cardColumnClass": "col col-12 col-sm-6 col-lg-3 py-1 px-3",
       "cards": [
         {
-          "title": "Board of Directors",
-          "href": "/governance/board-of-directors",
-          "body": "Explore the board members, structure, committees, and selection process.",
-          "iconSvg": "<img alt=\"Simple line icon of a boardroom meeting table and chairs\" class=\"ic-card-icon\" height=\"100\" loading=\"lazy\" src=\"/getmedia/cf4dd932-b896-499e-9aef-b56562cb3141/Governance_Board.svg\" width=\"100\">"
+          "title": "Icon Card 1",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "I-CAR Leadership Team",
-          "href": "/governance/leadership",
-          "body": "Meet the leaders advancing I-CAR's mission across the inter-industry.",
-          "iconSvg": "<img alt=\"Simple line icon of a person at a podium speaking to an audience\" class=\"ic-card-icon\" height=\"100\" loading=\"lazy\" src=\"/getmedia/23c2e619-a812-4bb0-b0df-b02b700a0c24/Governance_Leadership.svg\" width=\"100\">"
+          "title": "Icon Card 2",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "Membership",
-          "href": "/governance/membership",
-          "body": "Learn who I-CAR members are and how membership works.",
-          "iconSvg": "<img alt=\"Simple line icon of a handshake\" class=\"ic-card-icon\" height=\"100\" loading=\"lazy\" src=\"/getmedia/27e6f392-6765-4ffb-bef8-906ddf5c3c6c/Governance_Membership.svg\" width=\"100\">"
+          "title": "Icon Card 3",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         },
         {
-          "title": "Industry Councils",
-          "href": "/governance/industry-councils",
-          "body": "See how advisory groups help shape programs, resources, and strategy.",
-          "iconSvg": "<img alt=\"Simple line icon of a person speaking through a megaphone\" class=\"ic-card-icon\" height=\"100\" loading=\"lazy\" src=\"/getmedia/c4e6c113-e555-4370-a669-75afb96a4fc7/Governance_VOC.svg\" width=\"100\">"
+          "title": "Icon Card 4",
+          "body": "Add supporting body copy for this icon card.",
+          "iconKey": "askICar"
         }
-      ]
+      ],
+      "__template": {
+        "id": "governance-composition",
+        "type": "iconCardGrid",
+        "variant": "default",
+        "signature": "5f06b27cfaabd6d99394fa0f1900002889769d50"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "governance.json",
+    "signature": "274f9f4f7906cd0f3fbacaf5b05e3a135c841f31"
+  }
 }

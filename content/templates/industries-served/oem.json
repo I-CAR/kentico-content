@@ -1,0 +1,32 @@
+{
+  "slug": "oem",
+  "title": "Industries Served - OEM",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "experience",
+      "type": "cards"
+    },
+    {
+      "id": "network-strength",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "collaboration",
+      "type": "cards"
+    },
+    {
+      "id": "academy",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "contact",
+      "type": "cta"
+    }
+  ]
+}

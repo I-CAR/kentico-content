@@ -1,0 +1,27 @@
+{
+  "slug": "what-is-adas",
+  "title": "ADAS - What is ADAS?",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "faq",
+      "type": "accordion"
+    },
+    {
+      "id": "videos",
+      "type": "embed"
+    },
+    {
+      "id": "education",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "platinum",
+      "type": "textMedia"
+    }
+  ]
+}

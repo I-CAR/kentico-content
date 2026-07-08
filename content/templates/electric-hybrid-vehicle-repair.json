@@ -1,0 +1,23 @@
+{
+  "slug": "electric-hybrid-vehicle-repair",
+  "title": "Electric and Hybrid Vehicle Repair",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "benefits",
+      "type": "iconCardGrid"
+    },
+    {
+      "id": "requirements",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "tools",
+      "type": "iconCardGrid"
+    }
+  ]
+}

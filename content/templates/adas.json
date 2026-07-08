@@ -1,0 +1,23 @@
+{
+  "slug": "adas",
+  "title": "ADAS",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "what-is-adas",
+      "type": "textMedia"
+    },
+    {
+      "id": "education",
+      "type": "textMedia",
+      "variant": "reverse"
+    },
+    {
+      "id": "tools",
+      "type": "iconCardGrid"
+    }
+  ]
+}

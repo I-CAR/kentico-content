@@ -1,0 +1,194 @@
+{
+  "slug": "supplier",
+  "title": "Industries Served - Supplier",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "label": "Supplier Resources",
+      "title": "Support Safer, Stronger Repairs",
+      "body": [
+        "For reliable customer satisfaction and industry collaboration, count on I-CAR for education, technical information, and market-facing resources."
+      ],
+      "buttons": [
+        {
+          "label": "Discover I-CAR",
+          "href": "https://info.i-car.com/about-us"
+        }
+      ],
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "type": "iconCardGrid",
+      "id": "technical-resources",
+      "title": "Training and Technical Resources",
+      "backgroundLight": true,
+      "body": [
+        "Access comprehensive education and technical resources that support collision repair professionals across the industry."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-lg-3 py-2",
+      "cards": [
+        {
+          "title": "Repairability Technical Support",
+          "href": "https://rts.i-car.com/",
+          "target": "_blank",
+          "body": "Find repairability and OEM information faster.",
+          "iconKey": "repairersRealm"
+        },
+        {
+          "title": "Ask I-CAR",
+          "href": "https://rts.i-car.com/ask-i-car.html",
+          "target": "_blank",
+          "body": "Get quick answers to common technical questions.",
+          "iconKey": "askICar"
+        },
+        {
+          "title": "Repairers Realm",
+          "href": "https://info.i-car.com/repairers-realm",
+          "target": "_blank",
+          "body": "Watch experts talk through real repair topics.",
+          "iconKey": "repairersRealm"
+        },
+        {
+          "title": "Just In Time",
+          "href": "https://rts.i-car.com/just-in-time.html",
+          "target": "_blank",
+          "body": "Access short, practical repair guidance.",
+          "iconKey": "justInTime"
+        }
+      ],
+      "__template": {
+        "id": "technical-resources",
+        "type": "iconCardGrid",
+        "variant": "default",
+        "signature": "c500d25c22df7ff49059a1e6848137e2d9fc712a"
+      }
+    },
+    {
+      "type": "text",
+      "id": "partners",
+      "title": "Together, We All Win",
+      "body": [
+        "Explore the benefits the I-CAR Sustaining Partner Program provides, including access to information, course content and marketing opportunities."
+      ],
+      "buttons": [
+        {
+          "label": "See Sustaining Partners",
+          "href": "https://info.i-car.com/sustaining-partners",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "__template": {
+        "id": "partners",
+        "type": "text",
+        "variant": "default",
+        "signature": "cdb1a9d58c271c1f7ac3afdc5a357684b68ee63f"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "academy",
+      "title": "I-CAR Academy",
+      "backgroundLight": true,
+      "label": "What's New",
+      "body": [
+        "A new program for shops and schools, I-CAR Academy empowers collision repair professionals through comprehensive education to attract, train, and retain talent in our industry."
+      ],
+      "buttons": [
+        {
+          "label": "Explore I-CAR Academy",
+          "href": "https://www.i-car.com/browse/academy",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "__template": {
+        "id": "academy",
+        "type": "textMedia",
+        "variant": "default",
+        "signature": "42436fbe6cee6e3b2366d380eb46fbbd30489413"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "training",
+      "title": "Training Your Way",
+      "body": [
+        "It's easier than ever to get the training that's right for your career and business."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 py-2",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Explore I-CAR Learning",
+          "body": "Discover the course catalog available across roles and interests."
+        },
+        {
+          "title": "Industry Training Alliance",
+          "body": "Receive I-CAR credit for approved training already completed."
+        }
+      ],
+      "__template": {
+        "id": "training",
+        "type": "cards",
+        "variant": "default",
+        "signature": "6f49838257d94be4c95f2b11b1fe00a0488b80db"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "emerging",
+      "title": "Prepare for Emerging Technologies",
+      "body": [
+        "As vehicle technology continues to accelerate, we're here to support you with courses, resources, and information to help your team stay current."
+      ],
+      "buttons": [
+        {
+          "label": "Keep up with ADAS",
+          "href": "https://info.i-car.com/adas",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        },
+        {
+          "label": "Get EV Ready",
+          "href": "https://info.i-car.com/electric-vehicles",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "__template": {
+        "id": "emerging",
+        "type": "textMedia",
+        "variant": "default",
+        "signature": "06eb0f393f83f7338a2793c2f28bd9da86fe6f55"
+      }
+    },
+    {
+      "type": "cta",
+      "id": "get-started",
+      "title": "Get Started with I-CAR",
+      "body": [
+        "Don't wait! Contact us today to unlock the power of training and technical insight for your organization."
+      ],
+      "buttons": [
+        {
+          "label": "Contact I-CAR",
+          "href": "https://my.i-car.com/s/contactsupport",
+          "className": "ic-btn ic-btn-primary"
+        }
+      ],
+      "__template": {
+        "id": "get-started",
+        "type": "cta",
+        "variant": "default",
+        "signature": "fdb2b01bd0e460c676856dfc092f86781a5fc1bc"
+      }
+    }
+  ],
+  "__template": {
+    "source": "industries-served/supplier.json",
+    "signature": "69a8ebb68a0ca0d8d1930e1a4d0811dcd22134d1"
+  }
+}

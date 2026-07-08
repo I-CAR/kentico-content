@@ -1,0 +1,22 @@
+{
+  "slug": "membership",
+  "title": "Governance - Membership",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "page-nav",
+      "type": "pageNav"
+    },
+    {
+      "id": "who-are-members",
+      "type": "cards"
+    },
+    {
+      "id": "pricing",
+      "type": "text"
+    }
+  ]
+}

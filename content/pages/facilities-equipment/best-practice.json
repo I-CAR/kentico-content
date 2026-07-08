@@ -3,37 +3,41 @@
   "title": "Facility and Equipment - Best Practice",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "Success! You now have access to the Facility and Equipment Best Practice",
-      "rowClassName": "row justify-content-between align-items-center",
-      "contentClassName": "col col-12 col-md-6 col-xl-5 mb-3 pb-3 mb-md-0 pb-md-0",
-      "mediaClassName": "col col-12 col-md-6 col-xl-7 pl-lg-5",
-      "bodyHtml": [
-        "Please visit <a href=\"https://rts.i-car.com/\" target=\"_blank\">RTS I&#8209;CAR.com</a> for articles and technical resources that support facility and equipment readiness in collision repair&nbsp;shops."
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
       ],
       "buttons": [
         {
-          "label": "Access the PDF",
-          "href": "https://info.i-car.com/getmedia/3d88ddbf-7d88-4361-9c46-9e3caf32ab03/i-car-automotive-collision-repair-facility-and-equipment-best-practice.pdf",
-          "className": "ic-btn ic-btn-primary"
+          "label": "Primary Action",
+          "href": "#next-step"
         }
       ],
-      "imageLink": {
-        "href": "https://info.i-car.com/getmedia/3d88ddbf-7d88-4361-9c46-9e3caf32ab03/i-car-automotive-collision-repair-facility-and-equipment-best-practice.pdf",
-        "title": "Access the PDF"
-      },
-      "imageClassName": "ic-section-image ic-image-rounded",
       "image": {
-        "alt": "I-CAR's Collision Repair Facility & Equipment Best Practice Guide",
-        "desktopSrc": "https://stage.info.i-car.com/getmedia/a0af9ffc-8032-4d75-9be0-f3ac172c501b/Hero_800w-D.webp",
-        "desktopSrcset": "https://stage.info.i-car.com/getmedia/88fe2e2d-b021-478a-9a2c-4b3151187662/Hero_400w-D.webp 400w, https://stage.info.i-car.com/getmedia/a0af9ffc-8032-4d75-9be0-f3ac172c501b/Hero_800w-D.webp 800w, https://stage.info.i-car.com/getmedia/4b1cc49d-593a-4d1c-8844-1023d16d36fa/Hero_1600w-D.webp 1600w",
-        "mobileSrcset": "https://stage.info.i-car.com/getmedia/7b62df8c-82b2-4b9c-9844-f31241328e68/Hero_400w-M.webp 400w, https://stage.info.i-car.com/getmedia/532fbfdd-cb6a-42bc-a87c-514820376522/Hero_800w-M.webp 800w, https://stage.info.i-car.com/getmedia/e8d6ee18-2385-4d08-97d7-af2fe115b008/Hero_1600w-M.webp 1600w",
-        "width": "800",
-        "height": "550",
-        "sizes": "800px",
-        "loading": "lazy"
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     }
-  ]
+  ],
+  "__template": {
+    "source": "facilities-equipment/best-practice.json",
+    "signature": "eb11d2eaa9a8cce60f8dd49a4db2ef420db48612"
+  }
 }

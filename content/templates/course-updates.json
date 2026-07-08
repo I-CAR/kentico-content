@@ -1,0 +1,11 @@
+{
+  "slug": "course-updates",
+  "title": "Course Updates",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "new-courses", "type": "stickyCards" },
+    { "id": "formats", "type": "iconCardGrid" },
+    { "id": "recently-launched", "type": "embed" },
+    { "id": "faq", "type": "accordion" }
+  ]
+}

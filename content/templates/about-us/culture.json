@@ -1,0 +1,38 @@
+{
+  "slug": "culture",
+  "title": "About Us - Culture",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "ceo",
+      "type": "quote"
+    },
+    {
+      "id": "purpose",
+      "type": "statementList"
+    },
+    {
+      "id": "values",
+      "type": "mediaFeatureList"
+    },
+    {
+      "id": "leadership",
+      "type": "profileGrid"
+    },
+    {
+      "id": "trusted",
+      "type": "logoGrid"
+    },
+    {
+      "id": "future",
+      "type": "cards"
+    },
+    {
+      "id": "join",
+      "type": "textMedia"
+    }
+  ]
+}

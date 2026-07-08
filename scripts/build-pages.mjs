@@ -1109,6 +1109,7 @@ function renderDocument(page, outputFile) {
   const jqueryHref = toPosixPath(relative(dirname(outputFile), "node_modules/jquery/dist/jquery.min.js"));
   const scriptHref = toPosixPath(relative(dirname(outputFile), "js/script.js"));
   const sectionMarkup = (page.sections || []).map((section) => renderSection(section)).join("\n\n");
+  const headHtml = renderPageHeadHtml(page);
   const inlineCmsScriptHtml = renderPageCmsScriptHtml(page);
 
   return `<!DOCTYPE html>
@@ -1120,7 +1121,7 @@ function renderDocument(page, outputFile) {
     <title>${pageTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="${stylesheetHref}">
+    ${headHtml ? `${headHtml}\n    ` : ""}<link rel="stylesheet" href="${stylesheetHref}">
     <link rel="stylesheet" href="${bootstrapCssHref}">
     <link rel="stylesheet" href="${swiperCssHref}">
     <link rel="stylesheet" href="${mainCssHref}">
@@ -1148,6 +1149,13 @@ function renderPageCmsScriptHtml(page) {
     .map((block) => renderTrustedHtml(block).trim())
     .filter(Boolean)
     .join("\n\n");
+}
+
+function renderPageHeadHtml(page) {
+  return normalizeHtmlBlocks(page.cms?.headHtml)
+    .map((block) => renderTrustedHtml(block).trim())
+    .filter(Boolean)
+    .join("\n    ");
 }
 
 function parseAuthoringFile(sourceFile) {

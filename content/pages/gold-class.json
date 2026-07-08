@@ -3,37 +3,44 @@
   "title": "Gold Class",
   "sections": [
     {
-      "type": "hero",
       "id": "hero",
-      "title": "I-CAR Gold Class",
-      "sublabel": "Gold Class is the industry-leading recognition for body shops and businesses that invest in continuous collision repair training on the latest procedures and technologies.",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
       "buttons": [
         {
-          "label": "Get to Gold Class",
-          "href": "#get-started"
+          "label": "Primary Action",
+          "href": "#next-step"
         }
       ],
-      "contentClassName": "col col-12 col-lg-5 order-last order-lg-first mt-2 pt-1 mt-lg-0 pt-lg-0",
-      "mediaClassName": "col col-12 col-lg-7 order-first order-lg-last mb-3 pb-1 mb-lg-0 pb-lg-0",
-      "rowClassName": "row align-items-center",
       "image": {
-        "alt": "Collision repair shop team members working together in a shop with a vehicle in the background",
-        "desktopSrc": "https://info.i-car.com/getmedia/2c1d6ac2-c292-4b3b-9f9c-457513e97263/Hero_1400w.webp",
-        "desktopSrcset": "https://info.i-car.com/getmedia/09e95f06-a46b-4de7-84ec-f7aa509a41bc/Hero_364w.webp 364w, https://info.i-car.com/getmedia/5e7e6d3f-ca78-4d0f-8fa5-993ad703a426/Hero_728w.webp 728w, https://info.i-car.com/getmedia/7ae5957a-56cc-41ed-8624-2dd57fd57778/Hero_1008w.webp 1008w, https://info.i-car.com/getmedia/c264bf98-0096-4bfd-a88c-baccc5f9ba67/Hero_1180w.webp 1180w, https://info.i-car.com/getmedia/2c1d6ac2-c292-4b3b-9f9c-457513e97263/Hero_1400w.webp 1400w, https://info.i-car.com/getmedia/3f3c2e43-cd28-47ef-9e2a-e5d4f107cc63/Hero_2800w.webp 2800w",
-        "mobileSrcset": "https://info.i-car.com/getmedia/09e95f06-a46b-4de7-84ec-f7aa509a41bc/Hero_364w.webp 364w, https://info.i-car.com/getmedia/5e7e6d3f-ca78-4d0f-8fa5-993ad703a426/Hero_728w.webp 728w, https://info.i-car.com/getmedia/db80e1b1-5e8f-4cbe-967a-96903f8e30ac/Hero_1456w.webp 1456w",
-        "width": "1400",
-        "height": "500",
-        "sizes": "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px",
-        "loading": "eager",
-        "className": "ic-image-banner"
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
       }
     },
     {
-      "type": "pageNav",
       "id": "page-nav",
+      "type": "pageNav",
       "links": [
         {
-          "label": "What Is Gold Class?",
+          "label": "What Is Gold Class",
           "href": "#what-is-gold-class"
         },
         {
@@ -41,133 +48,175 @@
           "href": "#program-paths"
         },
         {
-          "label": "Find a Shop",
+          "label": "Find A Shop",
           "href": "#find-a-shop"
         },
         {
           "label": "Get Started",
           "href": "#get-started"
         }
-      ]
-    },
-    {
-      "type": "logoGrid",
-      "id": "what-is-gold-class",
-      "title": "What Is Gold Class?",
-      "backgroundLight": true,
-      "body": [
-        "The I-CAR Gold Class program helps auto body repairers and insurers stay ahead with role-relevant education on evolving vehicle systems. More than 10,000 businesses have earned this recognition, setting the benchmark for industry excellence. When you commit to being Gold Class, you prioritize complete, safe, and quality repairs while supporting original equipment manufacturer standards that improve operational efficiency and build customer confidence."
       ],
-      "logos": [
-        {
-          "alt": "I-CAR Gold Class Collision Repair badge",
-          "href": "/gold-class/collision-requirements",
-          "title": "Learn more about Gold Class Collision Repair",
-          "src": "https://info.i-car.com/getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp",
-          "width": "200",
-          "height": "185",
-          "className": "ic-logo"
-        },
-        {
-          "alt": "I-CAR Gold Class Automotive Insurance badge",
-          "href": "/gold-class/insurance-requirements",
-          "title": "Learn more about Gold Class Insurance",
-          "src": "https://info.i-car.com/getmedia/862b5768-c281-416f-8558-6ce8f5537354/Insurance_Badge_440w.webp",
-          "width": "200",
-          "height": "185",
-          "className": "ic-logo"
-        }
-      ]
-    },
-    {
-      "type": "stickyCards",
-      "id": "program-paths",
-      "title": "Program Paths",
-      "body": [
-        "Gold Class supports collision repair facilities and insurance organizations with role-specific training paths tailored to how each business serves the repair process."
-      ],
-      "cards": [
-        {
-          "title": "Gold Class for Collision Repair",
-          "body": "Collision repair facilities earn Gold Class recognition through I-CAR's Professional Development Program. It includes specialized body shop training and certification that equips your team with the knowledge and skills needed to work on today's vehicles.",
-          "listItems": [
-            "Enjoy a 20% discount on I-CAR training courses",
-            "Stand out as a top-tier collision repair provider",
-            "Enhance your team with specialized collision training",
-            "Able to enroll in collision repair and I-CAR Academy subscription programs"
-          ],
-          "footerHtml": "<a href=\"/gold-class/collision-requirements\">View Requirements</a>"
-        },
-        {
-          "title": "Gold Class for Insurance",
-          "body": "Insurance companies achieve Gold Class status through I-CAR's Professional Development Program for Auto Physical Damage Appraisers (APDAs). This specialized insurance training helps to ensure accurate estimates and proper repair procedures.",
-          "listItems": [
-            "Enjoy a 20% discount on professional development courses",
-            "Stand out as a premier vehicle insurance provider",
-            "Access specialized training for your team"
-          ],
-          "footerHtml": "<a href=\"/gold-class/insurance-requirements\">View Requirements</a>"
-        }
-      ]
-    },
-    {
-      "type": "textMedia",
-      "id": "find-a-shop",
-      "title": "Find a Gold Class Shop",
-      "backgroundLight": true,
-      "label": "What's New",
-      "body": [
-        "Reviewing credentials helps customers choose a body shop they feel confident in to perform vehicle repairs. Achieving Gold Class adds your shop to our Gold Class locator, giving you visibility and setting you apart in your market."
-      ],
-      "buttons": [
-        {
-          "label": "Search Gold Class Shops",
-          "href": "http://goldclass.i-car.com",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "reverse": true,
-      "textColumnClass": "col col-12 col-md-6 mt-2 pt-1 mt-lg-0 pt-lg-0 ps-lg-5 order-last",
-      "mediaColumnClass": "col col-12 col-md-6 col-lg-6 order-first",
-      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
-      "imageClassName": "ic-image-rounded",
-      "image": {
-        "alt": "Customer reviewing a Gold Class body shop on a mobile device",
-        "desktopSrc": "https://info.i-car.com/getmedia/23d1457f-e0ba-4425-966a-0b105372f404/GC-Search_650w.webp",
-        "desktopSrcset": "https://info.i-car.com/getmedia/88c54a91-58fb-453d-91c4-ab9f72e14c36/GC-Search_400w.webp 400w, https://info.i-car.com/getmedia/eac80c5d-7c12-460c-8465-f504c5c09adc/GC-Search_800w.webp 800w, https://info.i-car.com/getmedia/4d46f9fa-0eca-4885-bc46-1a552a00748c/GC-Search_1600w.webp 1600w, https://info.i-car.com/getmedia/23d1457f-e0ba-4425-966a-0b105372f404/GC-Search_650w.webp 650w, https://info.i-car.com/getmedia/30c0e899-9cc0-4113-b7c0-fcb8435cd9df/GC-Search_1300w.webp 1300w",
-        "mobileSrcset": "https://info.i-car.com/getmedia/88c54a91-58fb-453d-91c4-ab9f72e14c36/GC-Search_400w.webp 400w, https://info.i-car.com/getmedia/eac80c5d-7c12-460c-8465-f504c5c09adc/GC-Search_800w.webp 800w, https://info.i-car.com/getmedia/4d46f9fa-0eca-4885-bc46-1a552a00748c/GC-Search_1600w.webp 1600w",
-        "width": "615",
-        "height": "400",
-        "sizes": "615px",
-        "loading": "lazy"
+      "__template": {
+        "id": "page-nav",
+        "type": "pageNav",
+        "variant": "default",
+        "signature": "2ead907efbdcfc2fd8a98f2c79f007f3d9cfbbea"
       }
     },
     {
-      "type": "stickyCards",
-      "id": "get-started",
-      "title": "Get Your Shop to Gold Class",
+      "id": "what-is-gold-class",
+      "type": "logoGrid",
+      "title": "What Is Gold Class",
       "body": [
-        "Start your body shop's journey to success with our comprehensive Get to Gold Class package."
+        "Add a short introduction for this logo group."
+      ],
+      "logos": [
+        {
+          "alt": "Logo 1",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 2",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 3",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 4",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        }
+      ],
+      "__template": {
+        "id": "what-is-gold-class",
+        "type": "logoGrid",
+        "variant": "default",
+        "signature": "083d668a3b574a12ebedc2fca90967836986adc0"
+      }
+    },
+    {
+      "id": "program-paths",
+      "type": "stickyCards",
+      "title": "Program Paths",
+      "body": [
+        "Add introductory copy for this sticky card section."
+      ],
+      "cards": [
+        {
+          "title": "Sticky Card 1",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 2",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 3",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        }
+      ],
+      "__template": {
+        "id": "program-paths",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "27b711fe9cf397459ec2e289eca230912c9ca76f"
+      }
+    },
+    {
+      "id": "find-a-shop",
+      "type": "textMedia",
+      "title": "Find A Shop",
+      "reverse": true,
+      "body": [
+        "Add body copy that pairs with the supporting image."
       ],
       "buttons": [
         {
           "label": "Learn More",
-          "href": "https://info.i-car.com/gold-class/achieving",
+          "href": "#next-step",
           "className": "ic-btn ic-btn-primary ic-btn-outline"
         }
       ],
+      "image": {
+        "alt": "Find A Shop image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
+        "width": "800",
+        "height": "550",
+        "sizes": "800px"
+      },
+      "__template": {
+        "id": "find-a-shop",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "3bd94a7869adf913562ce2bf0a992497038c4c75"
+      }
+    },
+    {
+      "id": "get-started",
+      "type": "stickyCards",
+      "title": "Get Started",
+      "body": [
+        "Add introductory copy for this sticky card section."
+      ],
       "cards": [
         {
-          "title": "Package Includes",
+          "title": "Sticky Card 1",
+          "body": "Add supporting body copy here.",
           "listItems": [
-            "Custom training plan for your team Includes all live, online, and virtual training",
-            "In-Shop Knowledge Assessment to recognize existing experience",
-            "Monthly or annual flexible payment plans",
-            "Dedicated Customer Care Representative",
-            "10% discount on training needed to achieve Gold Class"
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 2",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 3",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
           ]
         }
-      ]
+      ],
+      "__template": {
+        "id": "get-started",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "97ee004ee5a85a2a706eba80aa64a5b2c5a25b7f"
+      }
     }
-  ]
+  ],
+  "__template": {
+    "source": "gold-class.json",
+    "signature": "b401846b4d4f21587909ed0f0392221d7aa92a2d"
+  }
 }

@@ -7,6 +7,7 @@
     "start": "concurrently -n pages,css,js,cms \"npm:watch:pages\" \"npm:watch:css\" \"npm:watch:js\" \"npm:watch:cms\"",
     "watch:pages": "node scripts/build-pages.mjs --watch",
     "generate:templates": "node scripts/generate-templates.mjs",
+    "backfill:templates": "node scripts/backfill-templates.mjs",
     "watch:css": "node scripts/build-style-v3.mjs --watch",
     "watch:js": "node scripts/build-js.mjs --watch",
     "watch:cms": "node scripts/build-cms-inline.mjs --watch",

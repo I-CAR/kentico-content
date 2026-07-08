@@ -16,7 +16,7 @@ If you are a content author with basic HTML and CSS skills, the main thing to kn
 - `content/pages/`
   Structured JSON source of truth for CMS-ready page generation.
 - `content/templates/`
-  Lightweight template JSON source used to scaffold new files into `content/pages/`.
+  Lightweight template JSON source used to define page structure for `content/pages/`.
   See `content/templates/template-demo.json` for a catalog demo.
 - `cms/`
   Generated CMS-ready HTML output that mirrors the rendered `content/pages/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
@@ -168,6 +168,12 @@ npm run generate:templates
 
 Syncs `content/templates/**/*.json` into matching page JSON files under `content/pages/`.
 
+```bash
+npm run backfill:templates
+```
+
+Rewrites template files under `content/templates/` from the current `content/pages/` library using the canonical minimal template format.
+
 If you want a real example, compare `content/templates/template-demo.json` with `content/pages/template-demo.json`.
 
 Page JSON can also include optional CMS handoff metadata:
@@ -227,6 +233,8 @@ Template rules:
 - Every section requires `id`
 - Every section requires `type`
 - `variant` is optional and defaults to `default`
+- no additional top-level keys are allowed beyond `slug`, `title`, and `sections`
+- no additional section keys are allowed beyond `id`, `type`, and optional `variant`
 - templates are the source of truth for page structure
 - `generate:templates` and `build:pages` both sync template structure into `content/pages/`
 - `pageNav` links are auto-generated when not explicitly provided

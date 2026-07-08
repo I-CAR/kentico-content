@@ -1,138 +1,218 @@
 {
   "slug": "education",
   "title": "Electric and Hybrid Vehicle Repair - Education",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "title": "Hero",
+      "label": "Section label",
+      "sublabel": "Section sublabel goes here.",
+      "body": [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one."
+      ],
+      "buttons": [
+        {
+          "label": "Primary Action",
+          "href": "#next-step"
+        }
+      ],
+      "image": {
+        "alt": "Hero image",
+        "desktopSrc": "https://placehold.co/1600x580",
+        "desktopSrcset": "https://placehold.co/1600x580 1600w",
+        "mobileSrcset": "https://placehold.co/400x300 400w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      },
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "id": "courses",
+      "type": "stickyCards",
+      "title": "Courses",
+      "body": [
+        "Add introductory copy for this sticky card section."
+      ],
+      "cards": [
+        {
+          "title": "Sticky Card 1",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 2",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        },
+        {
+          "title": "Sticky Card 3",
+          "body": "Add supporting body copy here.",
+          "listItems": [
+            "First supporting point",
+            "Second supporting point"
+          ]
+        }
+      ],
+      "__template": {
+        "id": "courses",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "2e5a67476109dae4ec2c256a1bf9a22143bfa0ae"
+      }
+    },
+    {
+      "id": "oem",
+      "type": "logoGrid",
+      "title": "Oem",
+      "body": [
+        "Add a short introduction for this logo group."
+      ],
+      "logos": [
+        {
+          "alt": "Logo 1",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 2",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 3",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        },
+        {
+          "alt": "Logo 4",
+          "src": "https://placehold.co/180x60",
+          "width": "180",
+          "height": "60"
+        }
+      ],
+      "__template": {
+        "id": "oem",
+        "type": "logoGrid",
+        "variant": "default",
+        "signature": "2ad32ac4d7d8453b1db8014d0dee1972873fa38f"
+      }
+    },
+    {
+      "id": "lab",
+      "type": "mediaSlider",
+      "title": "Lab",
+      "body": [
+        "Add introductory copy for this media slider."
+      ],
+      "slides": [
+        {
+          "image": {
+            "alt": "Slide 1",
+            "desktopSrc": "https://placehold.co/800x604",
+            "desktopSrcset": "https://placehold.co/800x604 800w",
+            "mobileSrcset": "https://placehold.co/400x302 400w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
+            "loading": "eager"
+          }
+        },
+        {
+          "image": {
+            "alt": "Slide 2",
+            "desktopSrc": "https://placehold.co/800x604",
+            "desktopSrcset": "https://placehold.co/800x604 800w",
+            "mobileSrcset": "https://placehold.co/400x302 400w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
+            "loading": "lazy"
+          }
+        },
+        {
+          "image": {
+            "alt": "Slide 3",
+            "desktopSrc": "https://placehold.co/800x604",
+            "desktopSrcset": "https://placehold.co/800x604 800w",
+            "mobileSrcset": "https://placehold.co/400x302 400w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
+            "loading": "lazy"
+          }
+        }
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "#next-step",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "__template": {
+        "id": "lab",
+        "type": "mediaSlider",
+        "variant": "default",
+        "signature": "c640f68572cfdf8bb599f4db146fce6a461533b4"
+      }
+    },
+    {
+      "id": "coming-soon",
+      "type": "textMedia",
+      "title": "Coming Soon",
+      "reverse": true,
+      "body": [
+        "Add body copy that pairs with the supporting image."
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "#next-step",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "image": {
+        "alt": "Coming Soon image",
+        "desktopSrc": "https://placehold.co/800x550",
+        "desktopSrcset": "https://placehold.co/800x550 800w",
+        "mobileSrcset": "https://placehold.co/400x450 400w",
+        "width": "800",
+        "height": "550",
+        "sizes": "800px"
+      },
+      "__template": {
+        "id": "coming-soon",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "11a8d98ce83f73cfc46e56fa34b8c8ac11ab53ae"
+      }
+    }
+  ],
   "cms": {
     "scriptHtml": [
       "<script src=\"https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js\"></script>"
     ]
   },
-  "sections": [
-    {
-      "type": "hero",
-      "id": "hero",
-      "title": "EV and Hybrid Education",
-      "rowClassName": "row justify-content-between align-items-center",
-      "contentClassName": "col col-12 col-md-6 col-xl-5 mb-3 mb-md-0 pr-md-5",
-      "mediaClassName": "col col-12 col-md-6 col-xl-7 mt-3 mt-md-0",
-      "body": [
-        "Build electric and hybrid repair knowledge with courses designed for EV technicians and shop teams. This training portfolio helps support proper EV repair work."
-      ],
-      "imageClassName": "ic-image-rounded",
-      "image": {
-        "alt": "EV technicians under an electric car during an I-CAR EV training course",
-        "desktopSrc": "/getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp",
-        "desktopSrcset": "/getmedia/c6f4cfc6-2eed-423f-9416-51e760129446/Hero_400w_D.webp 400w, /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp 800w, /getmedia/9514cca9-d102-40f3-bb60-f30bff012854/Hero_1600w_D.webp 1600w",
-        "mobileSrcset": "/getmedia/c4254e5d-33df-4d82-a0bf-e6e7f35da2fb/Hero_400w_M.webp 400w, /getmedia/aebaaa3d-f736-4279-88fd-1dd8b6ed4c7c/Hero_800w_M.webp 800w, /getmedia/359cfd1e-eb09-43ae-b1c4-e3b89f06fdab/Hero_1600w_M.webp 1600w",
-        "width": "862",
-        "height": "539",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
-        "loading": "eager"
-      }
-    },
-    {
-      "type": "stickyCards",
-      "id": "courses",
-      "title": "EV and Hybrid Courses",
-      "backgroundLight": true,
-      "body": [
-        "We offer online, hands-on, and packaged courses that support different roles and experience levels."
-      ],
-      "cards": [
-        {
-          "title": "Online Courses",
-          "linkItems": [
-            { "label": "Electric Vehicle (EV) Damage Analysis", "href": "https://www.i-car.com/product/electric-vehicle-ev-damage-analysis", "target": "_blank", "meta": "30m" },
-            { "label": "Electric Vehicle (EV) Initial Inspection and Handling", "href": "https://www.i-car.com/product/electric-vehicle-ev-initial-inspection-and-handling", "target": "_blank", "meta": "30m" },
-            { "label": "Ford Battery Electric Vehicle (BEV) Components and Operation", "href": "https://www.i-car.com/product/ford-battery-electric-vehicle-bev-components-and-operation", "target": "_blank", "meta": "1h 15m" },
-            { "label": "Ford High Voltage Systems Safety", "href": "https://www.i-car.com/product/ford-high-voltage-systems-safety", "target": "_blank", "meta": "1h" },
-            { "label": "Ford Intro to HV Battery Service for Collision Repair", "href": "https://www.i-car.com/product/ford-intro-to-hv-battery-service-for-collision-repair", "target": "_blank", "meta": "1h" },
-            { "label": "Ford 2021 Mach-E and New Model Training Overview", "href": "https://www.i-car.com/product/ford-2021-mache-and-new-model-training-overview", "target": "_blank", "meta": "1h 30m" },
-            { "label": "General Motors Company (GMC) Hummer Electric Vehicle (EV)", "href": "https://www.i-car.com/product/general-motors-company-gmc-hummer-electric-vehicle-ev", "target": "_blank", "meta": "1h" },
-            { "label": "Hybrid, Electric, and Alternative Fuel Vehicle Service", "href": "https://www.i-car.com/product/hybrid-electric-and-alternative-fuel-vehicle-service", "target": "_blank", "meta": "45m" },
-            { "label": "Hybrid Vehicle Identification and Damage Analysis", "href": "https://www.i-car.com/product/hybrid-electric-and-alternative-fuel-vehicle-service", "target": "_blank", "meta": "1h" },
-            { "label": "Introduction to Electric Vehicles", "href": "https://www.i-car.com/product/introduction-to-electric-vehicles", "target": "_blank", "meta": "30m" },
-            { "label": "Introduction to Electric Vehicle (EV) Service Considerations", "href": "https://www.i-car.com/product/introduction-to-electric-vehicle-ev-service-considerations", "target": "_blank", "meta": "30m" },
-            { "label": "Understanding High Voltage Safety", "href": "https://www.i-car.com/product/understanding-high-voltage-safety", "target": "_blank", "meta": "45m" }
-          ]
-        },
-        {
-          "title": "Hands-On Courses",
-          "linkItems": [
-            { "label": "5-Day EV Hands-On Skills Development", "href": "https://www.i-car.com/product/5day-ev-handson-skills-development", "target": "_blank", "meta": "40h" }
-          ]
-        },
-        {
-          "title": "Packaged Courses",
-          "linkItems": [
-            { "label": "5-Day EV Hands-On Skills Development Course Prerequisite Package", "href": "https://www.i-car.com/product/5day-ev-handson-skills-development-course-prerequisite-package", "target": "_blank", "meta": "5h 30m" },
-            { "label": "Electric Vehicle Safety for All Shop Employees", "href": "https://www.i-car.com/product/electric-vehicle-safety-for-all-shop-employees/01tRm0000099KK5IAM", "target": "_blank", "meta": "1h 45m" },
-            { "label": "Electric Vehicle Safety for Estimators, Repair Planners, and Auto Physical Damage Appraisers", "href": "https://www.i-car.com/product/electric-vehicle-safety-for-estimators-repair-planners-and-auto-physical-damage-appraisers/01tRm00000A5CArIAN", "target": "_blank", "meta": "5h" },
-            { "label": "Electric Vehicle Safety for Structural and Non-Structural Technicians", "href": "https://www.i-car.com/product/electric-vehicle-safety-for-structural-and-nonstructural-technicians/01tRm000008JNfRIAW", "target": "_blank", "meta": "6h 15m" },
-            { "label": "Ford Electric Vehicle (EV) Course Package", "href": "https://www.i-car.com/product/ford-electric-vehicle-ev-course-package", "target": "_blank", "meta": "8h" }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "logoGrid",
-      "id": "oem",
-      "title": "OEM Required EV/Hybrid Training",
-      "body": [
-        "I-CAR partners with OEMs to deliver industry-recognized collision repair training. Select an OEM to view their required and recommended EV courses."
-      ],
-      "logoColumnClass": "col col-6 col-lg-3 col-xl-4 pt-2 pt-md-3 mt-md-3",
-      "logos": [
-        { "alt": "Audi Logo, I-CAR OEM EV Requirements", "src": "/getmedia/7cc073e0-df14-4505-ae3d-b3a4d8a214ca/Audi_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/audi", "title": "View Audi's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "BMW Logo, I-CAR OEM EV Requirements", "src": "/getmedia/b7645f6a-d511-4d7b-8436-e94ffef9fa69/BMW_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/bmw", "title": "View BMW's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "FCA Logo, I-CAR OEM EV Requirements", "src": "/getmedia/18e36d2c-02a5-419f-801b-bf8c9566c756/FCA_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/fca", "title": "View FCA's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "Ford Logo, I-CAR OEM EV Requirements", "src": "/getmedia/4d4d44a6-4175-474a-9263-a355bca43a9c/Ford_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/ford", "title": "View Ford's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "GM Logo, I-CAR OEM EV Requirements", "src": "/getmedia/5c7b85cb-28d0-4cf3-97ce-2bcb023ef447/GM_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/gm", "title": "View GM's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "Honda Logo, I-CAR OEM EV Requirements", "src": "/getmedia/c2527923-13d0-44d0-ab1e-42ec315fbc5c/Honda_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/honda", "title": "View Honda's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "Polestar Logo, I-CAR OEM EV Requirements", "src": "/getmedia/46ae6682-29f5-4fd1-b963-036d63d7221f/Polestar_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/polestar", "title": "View Polestar's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "Subaru Logo, I-CAR OEM EV Requirements", "src": "/getmedia/bfa3ea37-5a59-493a-a2be-a85e30fb0146/Subaru_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/subaru", "title": "View Subaru's EV Requirements", "className": "ic-card-logo" },
-        { "alt": "Volvo Logo, I-CAR OEM EV Requirements", "src": "/getmedia/76aaaf6b-7395-453e-bea1-42f3010397df/Volvo_178w.webp", "width": "150", "height": "100", "href": "https://info.i-car.com/network-programs/oem/volvo", "title": "View Volvo's EV Requirements", "className": "ic-card-logo" }
-      ]
-    },
-    {
-      "type": "mediaSlider",
-      "id": "lab",
-      "title": "Inside the EV Lab",
-      "body": [
-        "Take a look inside I-CAR's EV Lab at the Chicago Technical Center. Hands-on training and advanced technology come together here to help technicians build confidence in EV and hybrid repair."
-      ],
-      "buttons": [
-        {
-          "label": "Travel to the I-CAR CTC",
-          "href": "https://info.i-car.com/ctc-travel",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "slides": [
-        { "image": { "alt": "Inside the EV Lab", "desktopSrc": "/getmedia/e9ab3ffa-aff0-41c4-a9cc-d25d33ebbfb9/EV-Lab-1_800w.webp", "desktopSrcset": "/getmedia/aa397b6b-a63e-4277-9dd5-9effd7cef135/EV-Lab-1_400w.webp 400w, /getmedia/e9ab3ffa-aff0-41c4-a9cc-d25d33ebbfb9/EV-Lab-1_800w.webp 800w, /getmedia/70fdad07-52b5-452e-9d7a-675ba14565e1/EV-Lab-1_1600w.webp 1600w", "width": "800", "height": "600", "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px" } },
-        { "image": { "alt": "Inside the EV Lab", "desktopSrc": "/getmedia/68cec205-5100-4bb1-b52c-3c5bacde195f/EV-Lab-2_800w.webp", "desktopSrcset": "/getmedia/428d248d-e0f3-4c94-89b7-996e08cbbd39/EV-Lab-2_400w.webp 400w, /getmedia/68cec205-5100-4bb1-b52c-3c5bacde195f/EV-Lab-2_800w.webp 800w, /getmedia/e33be536-9353-4da1-b505-9204d1739d35/EV-Lab-2_1600w.webp 1600w", "width": "800", "height": "600", "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px" } },
-        { "image": { "alt": "Inside the EV Lab", "desktopSrc": "/getmedia/05d618b5-23b0-4975-a813-64f89b1f791a/EV-Lab-3_800w.webp", "desktopSrcset": "/getmedia/b7f33ce6-3cf8-4b1b-863e-67475dcbffbf/EV-Lab-3_400w.webp 400w, /getmedia/05d618b5-23b0-4975-a813-64f89b1f791a/EV-Lab-3_800w.webp 800w, /getmedia/7a1e7e75-6bfe-4545-98cf-14dfe9b556b3/EV-Lab-3_1600w.webp 1600w", "width": "800", "height": "600", "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px" } },
-        { "image": { "alt": "Inside the EV Lab", "desktopSrc": "/getmedia/75b6c24d-c1ea-4f24-b2ca-0277fb7ae3cd/EV-Lab-4_800w.webp", "desktopSrcset": "/getmedia/fbdcce68-5435-456c-9105-4ff09275b685/EV-Lab-4_400w.webp 400w, /getmedia/75b6c24d-c1ea-4f24-b2ca-0277fb7ae3cd/EV-Lab-4_800w.webp 800w, /getmedia/f19f5f3a-1bf7-4b77-8172-aa608c94d6d5/EV-Lab-4_1600w.webp 1600w", "width": "800", "height": "600", "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px" } }
-      ]
-    },
-    {
-      "type": "textMedia",
-      "id": "coming-soon",
-      "title": "Courses Coming Soon",
-      "body": [
-        "Learn about upcoming and recently launched courses that will help you advance your skills and stay current on evolving vehicle technologies."
-      ],
-      "buttons": [
-        {
-          "label": "See What's Coming",
-          "href": "https://info.i-car.com/course-updates",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "reverse": true,
-      "textColumnClass": "col col-12 col-md-6 col-xl-5 mt-3 mt-md-0 ps-lg-5 order-last",
-      "mediaColumnClass": "col col-12 col-md-6 col-xl-7 mb-1 mb-md-0 order-first",
-      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
-      "mediaHtml": "<a href=\"https://info.i-car.com/course-updates\" title=\"See What's Coming\"><iframe class=\"ic-video ic-rounded\" style=\"display:block;width:100%;border:none;margin-left:auto;margin-right:auto;pointer-events:none\" src=\"https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6389084042112&amp;autoplay=muted&amp;muted&amp;loop&amp;playsinline\" allow=\"autoplay; fullscreen; encrypted-media\" allowfullscreen></iframe></a>"
-    }
-  ]
+  "__template": {
+    "source": "electric-hybrid-vehicle-repair/education.json",
+    "signature": "f66b263d2c81a51eba6948e7879fd2fb2cca84af"
+  }
 }

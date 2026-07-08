@@ -1,0 +1,14 @@
+{
+  "slug": "industry-councils",
+  "title": "Governance - Industry Councils",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "feedback-forums",
+      "type": "cards"
+    }
+  ]
+}

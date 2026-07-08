@@ -32,7 +32,7 @@
         "id": "hero-default",
         "type": "hero",
         "variant": "default",
-        "signature": "493ec0cf5e96862de581e1017c52a0b810881355"
+        "signature": "b7aa5ec3db2b29749044a27635010f0565b5511f"
       }
     },
     {
@@ -108,7 +108,7 @@
           "href": "#media-slider-default"
         },
         {
-          "label": "CTA Default",
+          "label": "Cta Default",
           "href": "#cta-default"
         }
       ],
@@ -116,7 +116,7 @@
         "id": "page-nav-default",
         "type": "pageNav",
         "variant": "default",
-        "signature": "c9a2e7b26b45768115d18efb6ded456a5bf30a12"
+        "signature": "c9264952583c029a4ad367f56febd165ddb7777f"
       }
     },
     {
@@ -130,7 +130,7 @@
         "id": "text-default",
         "type": "text",
         "variant": "default",
-        "signature": "d1f5e8ef2333c660c029431714533d2c4625afa6"
+        "signature": "c0b25206ddd88b3fc56b36e9e46c135c254b1619"
       }
     },
     {
@@ -154,7 +154,7 @@
         "id": "statement-list-default",
         "type": "statementList",
         "variant": "default",
-        "signature": "f111bd41a99e664bfef0a0a65d932faa3db68f22"
+        "signature": "3c8bc2a97137e27765e1674811054c61815a7787"
       }
     },
     {
@@ -209,7 +209,7 @@
         "id": "cards-default",
         "type": "cards",
         "variant": "default",
-        "signature": "71d7b4ee172fbee94f001581e89b75613647c168"
+        "signature": "b00d82761e8538f39a09d74358f2c0adbfa4c1b5"
       }
     },
     {
@@ -239,7 +239,7 @@
         "id": "text-media-default",
         "type": "textMedia",
         "variant": "default",
-        "signature": "2737087115b624188bee18b0811849190338776d"
+        "signature": "4f7814cc70aed0a097e98027da26c52d59c7e010"
       }
     },
     {
@@ -270,7 +270,7 @@
         "id": "text-media-reverse",
         "type": "textMedia",
         "variant": "reverse",
-        "signature": "ce078576c173bed2e30fad5b4d3278d44ad82613"
+        "signature": "093d5b63ac2dd2d0a9e643aa11120693ddb41ce8"
       }
     },
     {
@@ -299,7 +299,7 @@
         "id": "quote-default",
         "type": "quote",
         "variant": "default",
-        "signature": "d240c8b226b8ee0576da93d187a8517349c251db"
+        "signature": "3f98ebe979e77cfc3815e0b984910825b6007bae"
       }
     },
     {
@@ -326,7 +326,7 @@
         "id": "quote-compact",
         "type": "quote",
         "variant": "compact",
-        "signature": "9c3bf3c32b0f22b7c13390c83f25b59b136627d4"
+        "signature": "e0da541f3f3e350830cb47c5e614f8e7cbfbd191"
       }
     },
     {
@@ -394,7 +394,7 @@
         "id": "quote-grid-default",
         "type": "quoteGrid",
         "variant": "default",
-        "signature": "62e9d9b4838a1d459cb53898525ce16031b5d1b2"
+        "signature": "f72d4253b4d6683fbe38a6916dc5a49084a4ff79"
       }
     },
     {
@@ -463,7 +463,7 @@
         "id": "quote-grid-static",
         "type": "quoteGrid",
         "variant": "static",
-        "signature": "67ea648d912a85d6de3a7864a69c0163a70df238"
+        "signature": "ae8fd5155fd591dcfd673fc5b00082140c4b2435"
       }
     },
     {
@@ -527,7 +527,7 @@
         "id": "profile-grid-default",
         "type": "profileGrid",
         "variant": "default",
-        "signature": "7fc78fee386bfb893ef7b1dfa93904d4cc4254f9"
+        "signature": "e2cdfa96df921069ca129f47c1b95558486e7446"
       }
     },
     {
@@ -585,7 +585,7 @@
         "id": "media-feature-list-default",
         "type": "mediaFeatureList",
         "variant": "default",
-        "signature": "301eb59a80cfa6492b8a72eb253551e3ac809d58"
+        "signature": "175192a52ff19f98a287e859d8da0720bcd6db1d"
       }
     },
     {
@@ -621,7 +621,7 @@
         "id": "icon-card-grid-default",
         "type": "iconCardGrid",
         "variant": "default",
-        "signature": "843184aa3e45dd627e053657896b3ddf4549e1d4"
+        "signature": "187b7aa2f3d6da9d01551fdbc7fc38ca6f4841b5"
       }
     },
     {
@@ -661,7 +661,7 @@
         "id": "logo-grid-default",
         "type": "logoGrid",
         "variant": "default",
-        "signature": "0fcb74e91214f29870fefd2d4063f9c486d1b70f"
+        "signature": "8d02e4fc0306bfb50b0523df330c5d73eb3f1a7b"
       }
     },
     {
@@ -701,7 +701,7 @@
         "id": "sticky-cards-default",
         "type": "stickyCards",
         "variant": "default",
-        "signature": "2948e1d6f5863a7a60e6c4d150346c3c7c863e5f"
+        "signature": "5b0783e1b6e3e65161b8cfc2e98009787c8550a9"
       }
     },
     {
@@ -735,7 +735,7 @@
         "id": "accordion-default",
         "type": "accordion",
         "variant": "default",
-        "signature": "dee253c8810281da985e18b0f236a8d1d59fe0ad"
+        "signature": "f9b4c0a0db37219954030104419f134c6ec1b893"
       }
     },
     {
@@ -750,7 +750,7 @@
         "id": "embed-default",
         "type": "embed",
         "variant": "default",
-        "signature": "9f3176023e71582d7c0ed87c740797a8cadfd80b"
+        "signature": "0c7b4c9b8614bffe4952b14daa3401300bfa5554"
       }
     },
     {
@@ -809,7 +809,7 @@
         "id": "media-slider-default",
         "type": "mediaSlider",
         "variant": "default",
-        "signature": "87e03ff71636bdc4d000770f752d47b9364cbd4c"
+        "signature": "84263ecd7ea30603461288bfd13cb247fea971f7"
       }
     },
     {
@@ -822,13 +822,13 @@
         "id": "legal-default",
         "type": "legal",
         "variant": "default",
-        "signature": "e6ff71dc7011943cf231cc01fb14e8fe9749332f"
+        "signature": "c744d9825fa4227366e433745fcdcecaa6ee15ee"
       }
     },
     {
       "id": "cta-default",
       "type": "cta",
-      "title": "CTA Default",
+      "title": "Cta Default",
       "body": [
         "Add closing copy that supports the final call to action."
       ],
@@ -843,12 +843,12 @@
         "id": "cta-default",
         "type": "cta",
         "variant": "default",
-        "signature": "91f7d68ba8d3f321435e09ae2567dea2542e5ce3"
+        "signature": "326396c0b6467c2960b0649f3f6907cbad1951b7"
       }
     }
   ],
   "__template": {
     "source": "template-demo.json",
-    "signature": "fc2b4fc1c5a40ff74e101203c506263c2a836002"
+    "signature": "ad4d325defc1272d09021e5f3ec1e1e1e77d0f4e"
   }
 }

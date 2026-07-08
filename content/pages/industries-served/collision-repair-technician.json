@@ -1,0 +1,217 @@
+{
+  "slug": "collision-repair-technician",
+  "title": "Industries Served - Collision Repair Technician",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "label": "Collision Repair Technician Resources",
+      "title": "Take Control of Your Future",
+      "body": [
+        "For entry-level or advanced learning you can count on, count on I-CAR to provide you with a training path that sets you up for success."
+      ],
+      "__template": {
+        "id": "hero",
+        "type": "hero",
+        "variant": "default",
+        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "paths",
+      "title": "Choose Your Path",
+      "cards": [
+        {
+          "title": "Career Paths",
+          "linkListClassName": "ic-card-list ic-card-list-courses mt-0",
+          "linkItems": [
+            {
+              "label": "ADAS Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A8W000000FGldUAG/adas-technician-platinum-path"
+            },
+            {
+              "label": "Auto Physical Damage Appraiser",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdrUAE/auto-physical-damage-appraiser-platinum-path"
+            },
+            {
+              "label": "Electrical/Diagnostics Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdpUAE/electrical-diagnostics-technician-platinum-path"
+            },
+            {
+              "label": "Entry-Level Technician",
+              "href": "https://info.i-car.com/entry-level"
+            },
+            {
+              "label": "Estimator",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdoUAE/estimator-platinum-path"
+            },
+            {
+              "label": "Mechanical Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdqUAE/mechanical-technician-platinum-path"
+            },
+            {
+              "label": "Non-Structural Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdkUAE/nonstructural-technician-platinum-path"
+            },
+            {
+              "label": "Production Manager",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdlUAE/production-management-platinum-path"
+            },
+            {
+              "label": "Refinish Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdnUAE/refinish-technician-platinum-path"
+            },
+            {
+              "label": "Structural Technician",
+              "href": "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdmUAE/structural-technician-platinum-path"
+            }
+          ]
+        }
+      ],
+      "__template": {
+        "id": "paths",
+        "type": "stickyCards",
+        "variant": "default",
+        "signature": "f8d54976f279594904504a8a405ab047ddd5c199"
+      }
+    },
+    {
+      "type": "iconCardGrid",
+      "id": "technical-resources",
+      "title": "Training and Technical Resources",
+      "backgroundLight": true,
+      "body": [
+        "Comprehensive education and technical resources are available to drive your performance and professional development."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-lg-3 py-2",
+      "cards": [
+        {
+          "title": "Repairability Technical Support",
+          "href": "https://rts.i-car.com/",
+          "target": "_blank",
+          "body": "Find repair info at your fingertips.",
+          "iconKey": "repairersRealm"
+        },
+        {
+          "title": "Ask I-CAR",
+          "href": "https://rts.i-car.com/ask-i-car.html",
+          "target": "_blank",
+          "body": "Get real-time technical support.",
+          "iconKey": "askICar"
+        },
+        {
+          "title": "Repairers Realm",
+          "href": "https://info.i-car.com/repairers-realm",
+          "target": "_blank",
+          "body": "Watch technical experts talking shop.",
+          "iconKey": "repairersRealm"
+        },
+        {
+          "title": "Just In Time",
+          "href": "https://rts.i-car.com/just-in-time.html",
+          "target": "_blank",
+          "body": "Get quick tips on repair topics.",
+          "iconKey": "justInTime"
+        }
+      ],
+      "__template": {
+        "id": "technical-resources",
+        "type": "iconCardGrid",
+        "variant": "default",
+        "signature": "c500d25c22df7ff49059a1e6848137e2d9fc712a"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "platinum",
+      "title": "Stand Out with Platinum",
+      "body": [
+        "Achieving Platinum means you join thousands of technicians in ongoing learning. It shows customers you're focused on safe, top-quality repairs and demonstrates your commitment to long-term career growth."
+      ],
+      "buttons": [
+        {
+          "label": "Get to Platinum",
+          "href": "https://info.i-car.com/platinum/platinum-collision-repair",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "reverse": true,
+      "__template": {
+        "id": "platinum",
+        "type": "textMedia",
+        "variant": "reverse",
+        "signature": "c64b13340af0df1a906dbaf3df80a3a4e456beff"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "solutions",
+      "title": "Integrated Solutions",
+      "body": [
+        "It's easier than ever to get the training that's right for your career and business."
+      ],
+      "cardColumnClass": "col col-12 col-md-6 col-xl-4 py-2",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cards": [
+        {
+          "title": "Explore I-CAR Learning",
+          "body": "Discover the 360+ courses available to support career paths and interests."
+        },
+        {
+          "title": "Welding",
+          "body": "Explore training and certification that supports structural repair skill development."
+        },
+        {
+          "title": "Industry Training Alliance",
+          "body": "Earn I-CAR training credits through approved partner courses."
+        }
+      ],
+      "__template": {
+        "id": "solutions",
+        "type": "cards",
+        "variant": "default",
+        "signature": "49c8b32e6e366b82e74e66d23f6d388a19334704"
+      }
+    },
+    {
+      "type": "text",
+      "id": "playlist",
+      "title": "Essential Playlist for Technicians Like You",
+      "body": [
+        "Stay ready with these helpful tech-focused videos."
+      ],
+      "__template": {
+        "id": "playlist",
+        "type": "text",
+        "variant": "default",
+        "signature": "204e2556b1e81e71d7aa5fb1d70cd027ab8fa035"
+      }
+    },
+    {
+      "type": "cta",
+      "id": "get-started",
+      "title": "Get Started with I-CAR",
+      "body": [
+        "Register for an account to start learning and tracking your progress with I-CAR."
+      ],
+      "buttons": [
+        {
+          "label": "Create an Account",
+          "href": "https://my.i-car.com/s/self-register",
+          "className": "ic-btn ic-btn-primary"
+        }
+      ],
+      "__template": {
+        "id": "get-started",
+        "type": "cta",
+        "variant": "default",
+        "signature": "fdb2b01bd0e460c676856dfc092f86781a5fc1bc"
+      }
+    }
+  ],
+  "__template": {
+    "source": "industries-served/collision-repair-technician.json",
+    "signature": "68351d86eb29f48db4beee3498b1ad2914036416"
+  }
+}
