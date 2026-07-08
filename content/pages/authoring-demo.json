@@ -117,7 +117,7 @@
       "backgroundLight": true,
       "body": [
         "You add a JSON file in content/pages, define the sections you need, and run npm run build:pages.",
-        "The script prepares the page for CMS output under cms/generated, and the existing build:cms step exports that page in the same Kentico-ready format."
+        "The script validates the page structure and content, and the existing CMS build keeps the Kentico-ready output aligned with the hand-authored HTML pages."
       ]
     },
     {

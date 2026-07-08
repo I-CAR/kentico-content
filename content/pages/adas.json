@@ -1,0 +1,141 @@
+{
+  "slug": "adas",
+  "title": "ADAS",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "ADAS",
+      "body": [
+        "ADAS is now standard in nearly every new make and model, transforming how repairs must be performed. These technologies are critical to vehicle safety and demand precise calibration and repair procedures. Count on I-CAR to understand ADAS components, stay current with OEM requirements, to perform complete, safe, and quality repairs every time."
+      ],
+      "contentClassName": "col col-12 col-md col-lg-5",
+      "mediaClassName": "col col-12 col-md col-lg-7",
+      "rowClassName": "row",
+      "image": {
+        "alt": "Technicians performing a rear camera ADAS calibration on a truck to ensure systems function properly after collision repair at a body shop",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/c42db362-9faa-4c94-86ef-82138c442210/Hero_1600w_D.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/c3fa0fc1-8955-4913-b572-d7ee1c8256f7/Hero_400w_D.webp 400w, https://stage.info.i-car.com/getmedia/ce6effa9-0bb3-4969-83a5-e3fb4501697d/Hero_800w_D.webp 800w, https://stage.info.i-car.com/getmedia/c42db362-9faa-4c94-86ef-82138c442210/Hero_1600w_D.webp 1600w, https://stage.info.i-car.com/getmedia/3f02144a-b753-4a6d-bef9-e4c45f99c729/Hero_3200w_D.webp 3200w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/38e86a2c-2d32-4d97-9739-024361da54bb/Hero_400w_M.webp 400w, https://stage.info.i-car.com/getmedia/5f594aac-c0e1-470f-912b-91ce46d0982b/Hero_800w_M.webp 800w, https://stage.info.i-car.com/getmedia/ece35f64-c6ce-4ff6-a23d-fc95aa326faa/Hero_1600w_M.webp 1600w",
+        "width": "1600",
+        "height": "1200",
+        "sizes": "(max-width: 450px) 400px, (max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "what-is-adas",
+      "title": "What Is ADAS?",
+      "backgroundLight": true,
+      "body": [
+        "ADAS, or Advanced Driver Assistance Systems, are built-in vehicle technologies that help drivers avoid crashes and stay safe. Common features include automatic braking, lane keeping, and blind spot alerts. ADAS uses sensors and cameras to monitor surroundings and assist the driver. These systems now come standard in most new vehicles and must be properly repaired and calibrated after a collision."
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "/adas/what-is-adas",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "textColumnClass": "col col-12 col-md-6 col-xl-7 mb-3 mb-md-0",
+      "mediaColumnClass": "col col-12 col-md-6 col-xl-5",
+      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
+      "imageClassName": "ic-image-banner",
+      "image": {
+        "alt": "",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/fb955667-72c8-4b24-bc0a-51bbe7978e46/What-Is-ADAS_1600w_D.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/af511b6f-275c-4c42-8fd0-851381b68165/What-Is-ADAS_400w_D.webp 400w, https://stage.info.i-car.com/getmedia/f2ddadc7-54c1-429c-8b38-46f7a50a495c/What-Is-ADAS_800w_D.webp 800w, https://stage.info.i-car.com/getmedia/fb955667-72c8-4b24-bc0a-51bbe7978e46/What-Is-ADAS_1600w_D.webp 1600w, https://stage.info.i-car.com/getmedia/875b1f7c-f3c3-43c4-91fb-fc744fbbe537/What-Is-ADAS_3200w_D.webp 3200w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/3e246fe4-a105-47bd-b355-5a9927d6d10a/What-Is-ADAS_400w_M.webp 400w, https://stage.info.i-car.com/getmedia/f9a7faf1-b765-4d23-87bf-ce0569ebfc69/What-Is-ADAS_800w_M.webp 800w, https://stage.info.i-car.com/getmedia/6f00eb72-d92c-453e-b873-7e96318a9297/What-Is-ADAS_1600w_M.webp 1600w",
+        "width": "1200",
+        "height": "600",
+        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 800px, 1600px"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "education",
+      "title": "ADAS Education",
+      "body": [
+        "I-CAR provides industry-recognized ADAS training online and hands-on to help collision repair professionals safely repair and calibrate today’s advanced vehicles."
+      ],
+      "buttons": [
+        {
+          "label": "Explore ADAS Education",
+          "href": "/adas/adas-courses",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "reverse": true,
+      "textColumnClass": "col col-12 col-md-6 col-xl-5 mt-3 pt-1 mt-md-0 pt-md-0 pl-lg-5 order-last",
+      "mediaColumnClass": "col col-12 col-md-6 col-xl-7 order-first",
+      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
+      "imageClassName": "ic-image-rounded",
+      "imageLink": {
+        "href": "/adas/adas-courses",
+        "title": "Explore ADAS Education"
+      },
+      "image": {
+        "alt": "Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after collision or accident repair",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/fd5eed09-cdbc-4a7d-bc03-7f8107dfb928/ADAS-Education_800w_D.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/6b9c1a8d-a6aa-4aa4-b6bb-4644b8533c7a/ADAS-Education_400w_D.webp 400w, https://stage.info.i-car.com/getmedia/fd5eed09-cdbc-4a7d-bc03-7f8107dfb928/ADAS-Education_800w_D.webp 800w, https://stage.info.i-car.com/getmedia/645cb925-4d38-418e-8916-6ae6d361ebc0/ADAS-Education_1600w_D.webp 1600w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/d68d05c4-879a-42bf-a901-d8ae6ae1e70a/ADAS-Education_400w_M.webp 400w, https://stage.info.i-car.com/getmedia/b88ff160-856a-4297-a5e1-a9e43b119a49/ADAS-Education_800w_M.webp 800w, https://stage.info.i-car.com/getmedia/83bc3099-b04f-41fa-a95f-0f909e0e3a45/ADAS-Education_1600w_M.webp 1600w",
+        "width": "800",
+        "height": "576",
+        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+      }
+    },
+    {
+      "type": "iconCardGrid",
+      "id": "tools",
+      "title": "Professional Tech Tools",
+      "backgroundLight": true,
+      "cardColumnClass": "col col-12 col-md-6 col-xl-3 pt-2 pt-md-3 mt-md-3",
+      "body": [
+        "I-CAR offers free, professional resources to support technicians. These tools help identify ADAS features, locate calibration requirements, and follow OEM procedures to make it easier to perform proper repairs."
+      ],
+      "cards": [
+        {
+          "title": "Ask I-CAR",
+          "href": "https://rts.i-car.com/ask-i-car.html",
+          "body": "Get fast, expert answers to ADAS repair and calibration questions right when you need them",
+          "iconKey": "askICar"
+        },
+        {
+          "title": "Repairers Realm",
+          "href": "https://info.i-car.com/repairers-realm",
+          "body": "Watch repair discussions that include real-world ADAS procedures and troubleshooting tips",
+          "iconKey": "repairersRealm"
+        },
+        {
+          "title": "Just in Time",
+          "href": "https://rts.i-car.com/just-in-time.html",
+          "body": "Access quick, helpful videos that guide you through common ADAS calibration challenges",
+          "iconKey": "justInTime"
+        },
+        {
+          "title": "ADAS News",
+          "href": "https://rts.i-car.com/crn-1022.html",
+          "body": "Stay current with the latest ADAS articles, OEM updates, and calibration insights",
+          "iconKey": "adasNews"
+        }
+      ],
+      "footerTitle": "RTS App for Smarter ADAS",
+      "footerBody": [
+        "The RTS app enhances Advanced Driver Assistance Systems by delivering real-time diagnostics and sensor data visibility, enabling faster, smarter decision-making for safer driving."
+      ],
+      "footerButtons": [
+        {
+          "label": "Apple App Store",
+          "href": "https://apps.apple.com/us/app/i-car-rts/id6480322884",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        },
+        {
+          "label": "Google Play Store",
+          "href": "https://play.google.com/store/apps/details?id=com.rtsicar.app",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ]
+    }
+  ]
+}

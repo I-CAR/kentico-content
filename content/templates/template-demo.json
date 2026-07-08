@@ -1,0 +1,27 @@
+{
+  "slug": "template-demo",
+  "title": "Template Catalog Demo",
+  "sections": [
+    { "id": "hero-default", "type": "hero", "title": "Hero Default" },
+    { "id": "page-nav-default", "type": "pageNav" },
+    { "id": "text-default", "type": "text", "title": "Text Default" },
+    { "id": "statement-list-default", "type": "statementList", "title": "Statement List Default" },
+    { "id": "cards-default", "type": "cards", "title": "Cards Default" },
+    { "id": "text-media-default", "type": "textMedia", "title": "Text Media Default" },
+    { "id": "text-media-reverse", "type": "textMedia", "variant": "reverse", "title": "Text Media Reverse" },
+    { "id": "quote-default", "type": "quote", "title": "Quote Default" },
+    { "id": "quote-compact", "type": "quote", "variant": "compact", "title": "Quote Compact" },
+    { "id": "quote-grid-default", "type": "quoteGrid", "title": "Quote Grid Default" },
+    { "id": "quote-grid-static", "type": "quoteGrid", "variant": "static", "title": "Quote Grid Static" },
+    { "id": "profile-grid-default", "type": "profileGrid", "title": "Profile Grid Default" },
+    { "id": "media-feature-list-default", "type": "mediaFeatureList", "title": "Media Feature List Default" },
+    { "id": "icon-card-grid-default", "type": "iconCardGrid", "title": "Icon Card Grid Default" },
+    { "id": "logo-grid-default", "type": "logoGrid", "title": "Logo Grid Default" },
+    { "id": "sticky-cards-default", "type": "stickyCards", "title": "Sticky Cards Default" },
+    { "id": "accordion-default", "type": "accordion", "title": "Accordion Default" },
+    { "id": "embed-default", "type": "embed", "title": "Embed Default" },
+    { "id": "media-slider-default", "type": "mediaSlider", "title": "Media Slider Default" },
+    { "id": "legal-default", "type": "legal" },
+    { "id": "cta-default", "type": "cta", "title": "CTA Default" }
+  ]
+}

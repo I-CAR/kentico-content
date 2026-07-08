@@ -1,22 +1,25 @@
 # I-CAR Kentico Info Pages
 
-This repo is set up for building and maintaining HTML pages that are later prepared for Kentico CMS.
+This repo is set up for building and maintaining structured content pages that are later prepared for Kentico CMS.
 
 If you are a content author with basic HTML and CSS skills, the main thing to know is:
 
-- Edit files in `html/`
-- Preview the page from `html/`
+- Edit files in `content/pages/`
+- Use `html/` as a reference library for legacy/source markup
 - Do not hand-edit files in `cms/`
-- Use the existing page structure and swap in approved copy, links, and image URLs
+- Use the existing content structure and swap in approved copy, links, and image URLs
 
 ## What Lives Where
 
 - `html/`
-  Source pages. This is where you will do most of your work.
+  Preserved reference pages and component examples. These are kept for source comparison and pattern lookup.
 - `content/pages/`
-  Structured JSON source for generated authoring pages.
+  Structured JSON source of truth for CMS-ready page generation.
+- `content/templates/`
+  Lightweight template JSON source used to scaffold new files into `content/pages/`.
+  See `content/templates/template-demo.json` for a catalog demo.
 - `cms/`
-  Generated CMS-ready HTML output that mirrors the `html/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
+  Generated CMS-ready HTML output that mirrors the rendered `content/pages/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
 - `css/scss/`
   Source styles for the newer page system.
 - `css/legacy/style-legacy.css`
@@ -69,11 +72,11 @@ For legacy pages, the safest workflow is to copy nearby patterns from an existin
 
 ### If you are updating page copy or links
 
-1. Open the matching file in `html/`.
-2. Replace the existing content inside the current structure.
-3. Keep the section order and major wrappers unless there is a clear reason to change them.
-4. Save the file and preview it.
-5. If the CMS output is needed, run the build so the matching `cms/.../index.*` files refresh.
+1. Open the matching file in `content/pages/`.
+2. Replace the existing content inside the current section structure.
+3. Keep the section order and major content blocks unless there is a clear reason to change them.
+4. Save the file and preview the resulting output as needed.
+5. Run the build so the matching `cms/...` files refresh.
 
 ### If you are updating images
 
@@ -87,7 +90,7 @@ Do not remove the existing `<picture>` pattern unless there is a clear reason.
 
 ### If you are creating a new page from an existing pattern
 
-Start from the closest matching page in `html/`, not from scratch.
+Start from the closest matching page JSON or template, not from scratch.
 
 That usually gives you:
 
@@ -120,7 +123,7 @@ These matter a lot on this project.
 
 ## What Gets Published To CMS
 
-The build process turns each file in `html/` into a mirrored CMS-ready folder under `cms/`.
+The build process renders `content/pages/**/*.json` into CMS-ready HTML under `cms/`.
 
 In general:
 
@@ -130,7 +133,7 @@ In general:
 - page-level `.css` and `.js` files are not emitted under `cms/`
 - if a page opts into separate script handoff, those tags are emitted to a matching `.scripts.html` file
 
-That means the `html/` files are your working source, and `cms/` is output.
+That means `content/pages/` is your working source of truth, `html/` is preserved for reference, and `cms/` is output.
 
 ## Local Commands
 
@@ -151,13 +154,21 @@ Runs the watchers for:
 npm run build
 ```
 
-Creates generated authoring pages plus production-style output for CSS, JS, and CMS files.
+Syncs templates, validates page JSON, and creates production-style CSS, JS, and CMS output from `content/pages/`.
 
 ```bash
 npm run build:pages
 ```
 
-Prepares `content/pages/*.json` for CMS output under `cms/generated/*.html`.
+Syncs `content/templates/*.json` into `content/pages/*.json`, then validates the resulting page authoring files.
+
+```bash
+npm run generate:templates
+```
+
+Syncs `content/templates/**/*.json` into matching page JSON files under `content/pages/`.
+
+If you want a real example, compare `content/templates/template-demo.json` with `content/pages/template-demo.json`.
 
 Page JSON can also include optional CMS handoff metadata:
 
@@ -191,14 +202,94 @@ Current supported section types:
 - `stickyCards`
 - `legal`
 - `cta`
+- `accordion`
+- `embed`
+- `mediaSlider`
+
+Template files use this section format:
+
+```json
+{
+  "slug": "about-demo",
+  "title": "About Demo",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "page-nav", "type": "pageNav" },
+    { "id": "overview", "type": "textMedia", "variant": "reverse" },
+    { "id": "testimonials", "type": "quoteGrid", "variant": "static" },
+    { "id": "next-step", "type": "cta" }
+  ]
+}
+```
+
+Template rules:
+
+- Every section requires `id`
+- Every section requires `type`
+- `variant` is optional and defaults to `default`
+- templates are the source of truth for page structure
+- `generate:templates` and `build:pages` both sync template structure into `content/pages/`
+- `pageNav` links are auto-generated when not explicitly provided
+
+Template authoring template:
+
+```json
+{
+  "slug": "page-slug",
+  "title": "Page Title",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "page-nav", "type": "pageNav" },
+    { "id": "overview", "type": "textMedia" },
+    { "id": "highlights", "type": "cards" },
+    { "id": "quote", "type": "quote", "variant": "compact" },
+    { "id": "next-step", "type": "cta" }
+  ]
+}
+```
+
+Template notes:
+
+- Use `content/templates/template-demo.json` as the catalog example for every supported section type and current variant.
+- Compare `content/templates/template-demo.json` with `content/pages/template-demo.json` to see the template input and generated output side by side.
+- If a section is retained and its template signature has not changed, content edits in `content/pages/` stay intact.
+- If a section is new or its template signature changes, the page section is reset to the generated placeholder content for that section.
+- After sync, continue editing the resulting page JSON in `content/pages/`.
+
+Current template variants:
+
+- `hero`: `default`
+- `pageNav`: `default`
+- `cards`: `default`
+- `text`: `default`
+- `statementList`: `default`
+- `textMedia`: `default`, `reverse`
+- `quote`: `default`, `compact`
+- `quoteGrid`: `default`, `static`
+- `profileGrid`: `default`
+- `mediaFeatureList`: `default`
+- `iconCardGrid`: `default`
+- `logoGrid`: `default`
+- `stickyCards`: `default`
+- `legal`: `default`
+- `cta`: `default`
+- `accordion`: `default`
+- `embed`: `default`
+- `mediaSlider`: `default`
+
+Useful authoring notes:
+
+- `stickyCards` can also render linked course/resource lists through `linkItems`
+- `iconCardGrid` can render linked cards plus an optional centered footer block
+- `embed` is the lightweight option for iframe, playlist, or other trusted embed markup
 
 ```bash
 npm run build:cms:dev
 ```
 
-Refreshes the CMS output without doing a full production build.
+Refreshes the CMS output from `content/pages/` without doing a full production build.
 
-If you only changed HTML content and need updated CMS output, `npm run build:cms:dev` is often enough.
+If you only changed page JSON content and need updated CMS output, `npm run build:cms:dev` is often enough.
 
 ## Good Files To Learn From
 
@@ -216,7 +307,7 @@ Together, those examples show both the newer and legacy page styles used in this
 
 ### Do
 
-- Work in `html/`
+- Work in `content/pages/`
 - Reuse existing page patterns
 - Keep classes that are already in place
 - Update links, copy, IDs, and image URLs carefully
@@ -243,8 +334,8 @@ Ask before making a bigger structural change if you are unsure about:
 
 If you remember only five things, remember these:
 
-1. Edit `html/`, not `cms/`.
+1. Edit `content/pages/`, not `cms/`.
 2. Reuse the existing layout before inventing a new one.
 3. Use `html/documentation/` as your visual reference.
 4. Preserve project-specific copy conventions like `I&#8209;CAR` and `Gold&nbsp;Class`.
-5. Rebuild CMS output after HTML changes when the handoff requires it.
+5. Rebuild CMS output after content changes when the handoff requires it.

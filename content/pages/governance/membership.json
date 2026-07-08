@@ -1,0 +1,86 @@
+{
+  "slug": "membership",
+  "title": "Governance - Membership",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "I-CAR Membership",
+      "sublabel": "As an I-CAR Member, you are part of a community of over 45,000 collision repair industry professionals united around the common goal of providing complete, safe, and quality repairs for millions of drivers.",
+      "contentClassName": "col col-12 col-md-6",
+      "mediaClassName": "col col-12 col-md-6 mt-4 mt-md-0 ps-lg-5",
+      "rowClassName": "row align-items-center",
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "A group of diverse people putting their hands together in a circle",
+        "desktopSrc": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Desktop.jpg",
+        "desktopSrcset": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Desktop.jpg 800w, https://stage.admin.info.i-car.com/I-CAR/media/ICarMain/Governance/Membership/Hero_1600w-D.jpg 1600w",
+        "mobileSrcset": "/I-CAR/media/ICarMain/Governance/Membership/Hero_800w-Mobile.jpg 800w, https://stage.admin.info.i-car.com/I-CAR/media/ICarMain/Governance/Membership/Hero_1600w-M.jpg 1600w",
+        "width": "745",
+        "height": "450",
+        "sizes": "100vw",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "pageNav",
+      "id": "page-nav",
+      "links": [
+        {
+          "label": "Who Are Members?",
+          "href": "#who-are-members"
+        },
+        {
+          "label": "Membership Pricing",
+          "href": "#pricing"
+        }
+      ]
+    },
+    {
+      "type": "cards",
+      "id": "who-are-members",
+      "title": "Who are I-CAR Members?",
+      "backgroundLight": true,
+      "body": [
+        "The Membership community includes all facets of the collision industry, such as vehicle manufacturers, repairers, insurers, technicians, equipment manufacturers, and information suppliers."
+      ],
+      "cardColumnClass": "col col-12 col-sm-6 col-lg-4 col-xl pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cardClassName": "ic-card ic-background-white h-100",
+      "cardBodyClassName": "ic-card-body",
+      "cards": [
+        {
+          "title": "Gold Class Collision Repair Businesses",
+          "body": "Each Gold Class repair facility has a Designated Membership Representative."
+        },
+        {
+          "title": "Platinum Technicians",
+          "body": "Every Platinum technician is an I-CAR Member."
+        },
+        {
+          "title": "Career and Technical Schools",
+          "body": "Each qualifying Career and Technical School has a Designated Membership Representative."
+        },
+        {
+          "title": "I-CAR State or Committee Chairs",
+          "body": "Every volunteer Committee Chair is an I-CAR Member."
+        },
+        {
+          "title": "Sustaining Partners",
+          "body": "Every Sustaining Partner organization has a Designated Membership Representative."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pricing",
+      "title": "Membership Pricing",
+      "backgroundLight": true,
+      "bodyHtml": [
+        "Member dues must be received, or postmarked no later than December&nbsp;31 of the prior year to be eligible to vote in the following membership term. No such member status will be effective until member dues are received.",
+        "<strong>Independent Member –</strong> If you are an independent (single location) collision repair business with annual sales of less than $3 million, a career technical school (without an active licensing subscription), an individual unemployed or retired individual, employee in a business with annual sales less than or equal to $3 million or employed by a business already with Regular Member status.<br><em>Annual Dues: $500.00</em>",
+        "<strong>Organizational Member –</strong> If you are a multi-shop operator with two or more locations, insurer, vehicle manufacturer, tool/equipment/miscellaneous supplier, and related industry organization or association.<br><em>Annual Dues: $1,000.00</em>"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "slug": "insurance-requirements",
+  "title": "Gold Class - Insurance Requirements",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Gold Class Standards for Insurance",
+      "body": [
+        "Gold Class for Insurance recognizes companies that have completed I-CAR's Professional Development Program for Auto Physical Damage Appraisers (APDAs). This ProLevel achievement contributes to customer satisfaction, efficiency, and repair quality.",
+        "As vehicles continue to evolve, adjusters can build their expertise through the APDA Platinum path, which includes ADAS training to improve appraisal accuracy and ensure calibrations align with OEM requirements."
+      ],
+      "contentClassName": "col col-12 col-md-5 mb-3 pb-3 mb-md-0 pb-md-0",
+      "mediaClassName": "col col-12 col-md-7",
+      "rowClassName": "row align-items-center",
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "Insurance professional reviewing a collision repair estimate with a vehicle in the background",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/72cbffc5-bdbd-4f41-bc8e-b44fdfe7ab6e/Hero_862w.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/186bab65-ea6d-4597-9525-75c8ceba1987/Hero_400w.webp 400w, https://stage.info.i-car.com/getmedia/22489376-8cee-42ee-9417-e0fc36b94669/Hero_800w.webp 800w, https://stage.info.i-car.com/getmedia/72cbffc5-bdbd-4f41-bc8e-b44fdfe7ab6e/Hero_862w.webp 862w, https://stage.info.i-car.com/getmedia/e042905e-ae7a-4f27-a331-b2a69903509f/Hero_1456w.webp 1456w, https://stage.info.i-car.com/getmedia/5489e0b8-efa4-4b95-821a-7b613bf8edad/Hero_1600w.webp 1600w, https://stage.info.i-car.com/getmedia/166b68ba-8f58-45f7-b468-63c92f2f6081/Hero_1724w.webp 1724w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/186bab65-ea6d-4597-9525-75c8ceba1987/Hero_400w.webp 400w, https://stage.info.i-car.com/getmedia/22489376-8cee-42ee-9417-e0fc36b94669/Hero_800w.webp 800w",
+        "width": "862",
+        "height": "494",
+        "sizes": "(max-width: 400px) 400px, (max-width: 1024px) 800px, 862px",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "pageNav",
+      "id": "page-nav",
+      "links": [
+        {
+          "label": "Standards",
+          "href": "#standards"
+        },
+        {
+          "label": "Questions",
+          "href": "#questions"
+        }
+      ]
+    },
+    {
+      "type": "stickyCards",
+      "id": "standards",
+      "title": "Standards for Gold Class",
+      "backgroundLight": true,
+      "body": [
+        "Gold Class signifies a company's progression through I-CAR's professional development for appraisers, with an annual renewal date that updates once the training is complete."
+      ],
+      "cards": [
+        {
+          "title": "Year 1 Training Standards",
+          "body": "When you enroll in the Gold Class program, I-CAR will assess your company's APDA community at the start of the first year. To achieve Gold Class status, at least 60% of your APDAs must complete ProLevel 1 training by the end of this period.",
+          "listItems": [
+            "ProLevel 1: 60%",
+            "ProLevel 2: N/A",
+            "ProLevel 3: N/A",
+            "Annual Training: N/A"
+          ]
+        },
+        {
+          "title": "Year 2 Training Standards",
+          "body": "To maintain your Gold Class status for a second year, 80% of your APDA community must complete ProLevel 1, and at least 50% must complete ProLevel 2.",
+          "listItems": [
+            "ProLevel 1: 80%",
+            "ProLevel 2: 50%",
+            "ProLevel 3: N/A",
+            "Annual Training: N/A"
+          ]
+        },
+        {
+          "title": "Year 3 Training Standards",
+          "body": "For your third-year Gold Class renewal, 80% of your appraisers must complete ProLevel 1, 50% must complete ProLevel 2, and at least 40% must complete ProLevel 3.",
+          "listItems": [
+            "ProLevel 1: 80%",
+            "ProLevel 2: 50%",
+            "ProLevel 3: 40%",
+            "Annual Training: N/A"
+          ]
+        },
+        {
+          "title": "Year 3+ Training Standards",
+          "body": "Maintaining Gold Class after year three requires 80% of appraisers to complete ProLevel 1, 50% must complete ProLevel 2, and 40% must complete ProLevel 3. Additionally, at least 80% of the team must complete six course credits of vehicle-specific and technology-specific curriculum before the annual renewal date.",
+          "listItems": [
+            "ProLevel 1: 80%",
+            "ProLevel 2: 50%",
+            "ProLevel 3: 40%",
+            "Annual Training: 80% of APDAs to complete 6 course credits"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "questions",
+      "title": "Questions?",
+      "bodyHtml": [
+        "Contact <a href=\"mailto:insurance@i-car.com\" target=\"_blank\">insurance@i-car.com</a> for more information on achieving Gold Class Insurance recognition."
+      ]
+    }
+  ]
+}

@@ -55,7 +55,7 @@ function scheduleBuild(reason) {
 await build();
 
 if (watchMode) {
-  console.log("[cms] Watching html/**/*.html");
+  console.log("[cms] Watching content/pages/**/*.json");
   previousSnapshot = createHtmlSnapshot();
 
   setInterval(() => {

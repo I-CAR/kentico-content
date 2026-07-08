@@ -1,0 +1,186 @@
+{
+  "slug": "collision-requirements",
+  "title": "Gold Class - Collision Requirements",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Gold Class Standards for Collision Repair",
+      "body": [
+        "Gold Class recognition follows I-CAR's Industry Protocol, with role-specific collision repair training for your shop. These standards prepare technicians with the knowledge and skills needed to perform complete, safe, and quality vehicle repairs.",
+        "To achieve Gold Class, all required role representatives must complete ProLevel 2 or higher. The ProLevel system is I-CAR's training path where technicians build their skills step by step, advancing through three levels as they develop more comprehensive repair knowledge."
+      ],
+      "contentClassName": "col col-12 col-md-5 mb-3 pb-3 mb-md-0 pb-md-0",
+      "mediaClassName": "col col-12 col-md-7",
+      "rowClassName": "row align-items-center",
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "Collision repair technician working on a vehicle in a repair shop",
+        "desktopSrc": "/getmedia/818c2949-2d9d-4a40-8677-03daf4cf417c/Hero_1600w.webp",
+        "desktopSrcset": "/getmedia/93962254-3111-400b-acca-e8e83bf00867/Hero_400w.webp 400w, /getmedia/b714c70f-6b77-4250-8c65-5020b88ec51b/Hero_800w.webp 800w, /getmedia/df266309-03f4-49ca-9a08-c802f1e2e72b/Hero_862w.webp 862w, /getmedia/818c2949-2d9d-4a40-8677-03daf4cf417c/Hero_1600w.webp 1600w, /getmedia/4e1975ea-03a8-4404-9879-ef713007d585/Hero_1724w.webp 1724w",
+        "mobileSrcset": "/getmedia/93962254-3111-400b-acca-e8e83bf00867/Hero_400w.webp 400w, /getmedia/b714c70f-6b77-4250-8c65-5020b88ec51b/Hero_800w.webp 800w",
+        "width": "800",
+        "height": "460",
+        "sizes": "(max-width: 400px) 400px, (max-width: 1024px) 862px, 1600px",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "pageNav",
+      "id": "page-nav",
+      "links": [
+        {
+          "label": "Shop Structure",
+          "href": "#shop-structure"
+        },
+        {
+          "label": "Role-Specific Training",
+          "href": "#role-specific-training"
+        },
+        {
+          "label": "Get to Gold Class",
+          "href": "#get-started"
+        }
+      ]
+    },
+    {
+      "type": "stickyCards",
+      "id": "shop-structure",
+      "title": "Shop Structure",
+      "backgroundLight": true,
+      "body": [
+        "To earn Gold Class recognition, shops must achieve and maintain a high level of role-relevant training across each of the major collision repair roles. Role representatives progress from ProLevel 1 through ProLevel 3, with ongoing annual training."
+      ],
+      "cards": [
+        {
+          "title": "ProLevel",
+          "listItems": [
+            "Progressive learning stages for collision repair professionals",
+            "Builds on prior knowledge and skill development",
+            "Platinum status is achieved at ProLevel 3",
+            "Annual training needed to maintain advanced knowledge",
+            "Knowledge areas may be required if there is a lapse in training"
+          ]
+        },
+        {
+          "title": "Role Representatives",
+          "bodyHtml": "Four required roles: <a href=\"https://www.i-car.com/estimator-platinum-path\">Estimator</a>, <a href=\"https://www.i-car.com/refinish-technician-platinum-path\">Refinish</a>, <a href=\"https://www.i-car.com/structural-technician-platinum-path\">Structural</a>, and <a href=\"https://www.i-car.com/nonstructural-technician-platinum-path\">Non-Structural technicians</a>.",
+          "listItems": [
+            "Each technician must reach ProLevel 2",
+            "Technicians may hold up to two roles"
+          ],
+          "footer": "Turnover Rule - Training requirements for new hires apply in the next Gold Class renewal cycle."
+        },
+        {
+          "title": "Location Level Training",
+          "bodyHtml": "Includes <a href=\"https://info.i-car.com/I-CAR/media/ICarMain/PDF/Location-Level-Courses.pdf\" target=\"_blank\">foundational courses</a> in ADAS, electrical diagnostics, and mechanical repair.",
+          "listItems": [
+            "May be completed by one or more technicians on a shop's roster",
+            "Equips shop technicians with the knowledge required to understand modern vehicles",
+            "Provides a general understanding of crucial work involved, even when repairs are outsourced"
+          ]
+        },
+        {
+          "title": "Annual Training",
+          "listItems": [
+            "When Role Representatives have achieved ProLevel 3, they must complete six training course credits annually",
+            "Non-Role Representatives must also complete six training course credits annually",
+            "These credits can include core role curriculum, Vehicle and Technology Specific Training, or Industry Training Alliance courses"
+          ],
+          "footerHtml": "<a href=\"https://www.i-car.com/vehicle-technology-specific-training\">Vehicle and Technology Specific Training</a><br><a href=\"https://info.i-car.com/training/industry-training-alliance\">Industry Training Alliance</a>"
+        }
+      ]
+    },
+    {
+      "type": "textMedia",
+      "id": "scaling",
+      "title": "Scaling",
+      "body": [
+        "Gold Class requirements for the assigned role representatives are scaled based on your shop size. That means whether you have a small or large operation, you need a proportional number of qualified role representatives in key positions to maintain designation.",
+        "In the example pictured, a shop employs two estimators, three non-structural technicians, four structural technicians, and four refinish technicians."
+      ],
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "Gold Class shop size scaling example showing representative training requirements by role",
+        "desktopSrc": "/getmedia/3e4e2ca7-8715-4484-bde1-e111b8cd82e9/Scaling_600w.webp",
+        "desktopSrcset": "/getmedia/ffeab7f3-c2b0-4d3b-a80c-09ea12f0356c/Scaling_400w.webp 400w, /getmedia/b1888e47-18c8-4078-8d48-5d728abd3049/Scaling_800w.webp 800w, /getmedia/917d5fe7-4d98-4d65-9274-6863cc08fce0/Scaling_1600w.webp 1600w, /getmedia/3e4e2ca7-8715-4484-bde1-e111b8cd82e9/Scaling_600w.webp 600w, /getmedia/762de259-bb9e-46dd-93c5-0c3a59e9c2cb/Scaling_1200w.webp 1200w",
+        "mobileSrcset": "/getmedia/ffeab7f3-c2b0-4d3b-a80c-09ea12f0356c/Scaling_400w.webp 400w, /getmedia/b1888e47-18c8-4078-8d48-5d728abd3049/Scaling_800w.webp 800w, /getmedia/917d5fe7-4d98-4d65-9274-6863cc08fce0/Scaling_1600w.webp 1600w",
+        "width": "600",
+        "height": "315",
+        "sizes": "600px",
+        "loading": "lazy"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "role-specific-training",
+      "title": "Role-Specific Training",
+      "body": [
+        "Every role in collision repair requires specialized knowledge. Our collision repair training builds these skills while showing team members how their work connects to the entire repair process."
+      ],
+      "cards": [
+        {
+          "title": "Hands-On Skills Development",
+          "body": "Hands-On Skills Development courses give technicians real-world experience in actual shop settings. Your team receives personalized coaching while working directly with industry-standard tools and equipment. This specialized collision repair training keeps your business at the forefront of the automotive landscape.",
+          "footerHtml": "<a href=\"https://www.i-car.com/handson-skills-development\">View Required Courses</a>"
+        },
+        {
+          "title": "Advanced Driver Assist Systems (ADAS)",
+          "body": "We've integrated ADAS training into Gold Class requirements across all required roles to strengthen overall repair knowledge.",
+          "listItems": [
+            "Refinish Technicians learn how paint and coatings affect ADAS sensors",
+            "Structural and Non-Structural Technicians develop precision repair techniques for ADAS-integrated components",
+            "Estimators/Repair Planners master identification and management of ADAS systems and repair procedures"
+          ],
+          "footer": "For 2026 renewals, Gold Class shops performing in-house ADAS calibrations must have an ADAS Technician listed on their roster. That technician must complete ProLevel 1 and 2 training to meet 2026 requirements and continue progressing toward Platinum status by 2027.",
+          "footerHtml": "<a href=\"https://info.i-car.com/adas\">Discover ADAS Education</a>"
+        },
+        {
+          "title": "Welding Training & Certification",
+          "body": "Welding certification may be renewed every 3 years as part of ongoing body shop training.",
+          "listItems": [
+            "All Structural Technicians MUST be trained on welding",
+            "Welding training is optional for Non-Structural Technicians"
+          ],
+          "footer": "Welding recertification courses are available. If you pass the skills test, you can skip the full training course when renewing your certification.",
+          "footerHtml": "<a href=\"https://www.i-car.com/welding-training-certification\">View Welding Courses</a>"
+        }
+      ]
+    },
+    {
+      "type": "textMedia",
+      "id": "get-started",
+      "title": "Get to Gold Class",
+      "backgroundLight": true,
+      "body": [
+        "I-CAR's Get to Gold Class package includes everything your team needs to achieve Gold Class recognition at a discounted rate."
+      ],
+      "buttons": [
+        {
+          "label": "Learn More",
+          "href": "https://info.i-car.com/gold-class#get-started",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "reverse": true,
+      "textColumnClass": "col col-12 col-md-6 mt-2 pt-1 mt-lg-0 pt-lg-0 ps-lg-5 order-last",
+      "mediaColumnClass": "col col-12 col-md-6 col-lg-6 order-first",
+      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
+      "imageClassName": "ic-image-rounded",
+      "imageLink": {
+        "href": "https://info.i-car.com/gold-class#get-started",
+        "title": "Learn More"
+      },
+      "image": {
+        "alt": "Collision repair team members reviewing Gold Class training materials together",
+        "desktopSrc": "/getmedia/1d669830-308a-4dc1-b272-571253b66a0a/GetToGC_650w.webp",
+        "desktopSrcset": "/getmedia/8a07b4eb-38fb-4efe-bdc3-b1a5546f4b2c/GetToGC_400w.webp 400w, /getmedia/9cf283b7-29bb-4ffd-9052-e7dda01fc35c/GetToGC_800w.webp 800w, /getmedia/f58a5402-158c-4ae1-945a-d5bc66b7eafe/GetToGC_1600w.webp 1600w, /getmedia/1d669830-308a-4dc1-b272-571253b66a0a/GetToGC_650w.webp 650w, /getmedia/db795df7-e676-4540-827d-d46601f3ab65/GetToGC_1300w.webp 1300w",
+        "mobileSrcset": "/getmedia/8a07b4eb-38fb-4efe-bdc3-b1a5546f4b2c/GetToGC_400w.webp 400w, /getmedia/9cf283b7-29bb-4ffd-9052-e7dda01fc35c/GetToGC_800w.webp 800w, /getmedia/f58a5402-158c-4ae1-945a-d5bc66b7eafe/GetToGC_1600w.webp 1600w",
+        "width": "650",
+        "height": "520",
+        "sizes": "650px",
+        "loading": "lazy"
+      }
+    }
+  ]
+}

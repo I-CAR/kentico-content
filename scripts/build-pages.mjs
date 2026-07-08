@@ -1,18 +1,20 @@
 import {
   existsSync,
-  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
   statSync,
-  writeFileSync,
 } from "node:fs";
-import { basename, dirname, extname, join, relative } from "node:path";
+import { dirname, join, relative } from "node:path";
+import { pathToFileURL } from "node:url";
+import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
 
 const watchMode = process.argv.includes("--watch");
 const contentSourceDir = join("content", "pages");
-const generatedHtmlDir = join(".cache", "generated-html");
 const legacyGeneratedHtmlDir = join("html", "generated");
+const isDirectRun = process.argv[1]
+  ? pathToFileURL(process.argv[1]).href === import.meta.url
+  : false;
 
 let buildQueued = false;
 let buildRunning = false;
@@ -45,10 +47,6 @@ function collectFiles(root, extension) {
   }
 
   return files.sort();
-}
-
-function ensureOutputDir() {
-  mkdirSync(generatedHtmlDir, { recursive: true });
 }
 
 function toPosixPath(filePath) {
@@ -173,6 +171,46 @@ function renderPicture(image, imageClassName = "", defaultLoading = "lazy") {
 }
 
 const iconSvgMap = {
+  askICar: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="ic-card-icon" viewBox="0 0 60 60" fill="none">
+    <path d="M10.5 7.84668H49.5C53.075 7.84668 56 10.7717 56 14.3467V40.3467C56 43.9217 53.075 46.8467 49.5 46.8467H24.8L14.9506 53.882C13.9947 54.5648 12.6667 53.8814 12.6667 52.7065V46.8467H10.5C6.925 46.8467 4 43.9217 4 40.3467V14.3467C4 10.7717 6.925 7.84668 10.5 7.84668Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M27.0248 32.2439C27.0248 28.5051 29.156 27.1378 31.1257 25.8518C32.8145 24.7256 34.3823 23.7214 34.3823 21.349C34.3823 18.6559 32.5327 17.0873 29.8794 17.0873C27.3472 17.0873 25.3369 18.6559 25.3369 21.4293V21.7508H21.7588V21.3092C21.7588 16.5652 25.2565 13.5498 30.0004 13.5498C34.7842 13.5498 38.2412 16.4849 38.2412 21.3092C38.2412 25.5303 35.8697 26.8967 33.779 28.1429C32.0902 29.1481 30.5631 30.0729 30.5631 32.2439V32.7262H27.0248V32.2439ZM26.221 38.2341C26.221 36.7061 27.3471 35.5808 28.8743 35.5808C30.4023 35.5808 31.5276 36.7061 31.5276 38.2341C31.5276 39.7613 30.4023 40.8874 28.8743 40.8874C27.3471 40.8874 26.221 39.7613 26.221 38.2341Z" fill="#333538" />
+  </svg>`,
+  repairersRealm: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="ic-card-icon" viewBox="0 0 60 60" fill="none">
+    <path d="M24.7234 42.3714C24.4098 42.3714 24.0963 42.2884 23.8192 42.1253C23.275 41.8033 22.9417 41.2196 22.9417 40.5882V27.2436C22.9417 26.6136 23.275 26.0286 23.8192 25.7108C24.3578 25.3957 25.0342 25.3803 25.5842 25.684L37.7052 32.357C38.2762 32.6692 38.6292 33.2654 38.6292 33.918C38.6292 34.5676 38.2762 35.164 37.7052 35.4747L25.5842 42.1492C25.3142 42.2982 25.0188 42.3714 24.7234 42.3714Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M42.585 8.42432H51.7754C54.1099 8.42432 56 10.3173 56 12.6476V47.3527C56 49.6857 54.1099 51.5758 51.7754 51.5758H8.22458C5.89009 51.5758 4 49.6857 4 47.3527V12.6476C4 10.3173 5.89009 8.42432 8.22458 8.42432H42.585Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M4 18.2278H56" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="49.597" cy="13.5293" r="1.5" fill="#333538" />
+    <circle cx="42.7637" cy="13.5293" r="1.5" fill="#333538" />
+  </svg>`,
+  justInTime: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="ic-card-icon" viewBox="0 0 60 60" fill="none">
+    <path d="M30 57C42.4264 57 52.5 46.9264 52.5 34.5C52.5 22.0736 42.4264 12 30 12C17.5736 12 7.5 22.0736 7.5 34.5C7.5 46.9264 17.5736 57 30 57Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M30 51.8571C39.586 51.8571 47.3571 44.086 47.3571 34.5C47.3571 24.9139 39.586 17.1428 30 17.1428C20.4139 17.1428 12.6428 24.9139 12.6428 34.5C12.6428 44.086 20.4139 51.8571 30 51.8571Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M47.2803 12.4153C47.2764 12.4114 47.2705 12.4114 47.2666 12.4153C47.2627 12.4192 48.3012 13.4635 48.3051 13.4674L49.662 14.8243L45.9028 18.5835C45.8989 18.5874 45.8989 18.5933 45.9028 18.5972C45.9048 18.5991 45.9072 18.6001 45.9097 18.6001C45.9121 18.6001 45.9146 18.5991 45.9165 18.5972L49.6757 14.838L52.0711 17.2334C52.073 17.2354 52.0755 17.2363 52.0779 17.2363C52.0803 17.2363 52.0828 17.2354 52.0847 17.2334C52.0887 17.2295 52.0887 17.2237 52.0847 17.2197L47.2803 12.4153Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M12.7334 12.429C12.7373 12.425 12.7373 12.4192 12.7334 12.4153C12.7295 12.4114 12.7237 12.4114 12.7198 12.4153L7.91529 17.2198C7.91138 17.2237 7.91138 17.2295 7.91529 17.2334C7.91725 17.2354 7.91969 17.2364 7.92213 17.2364C7.92457 17.2364 7.92701 17.2354 7.92897 17.2334L10.3244 14.838L14.0835 18.5972C14.0855 18.5992 14.0879 18.6001 14.0904 18.6001C14.0928 18.6001 14.0952 18.5992 14.0972 18.5972C14.1011 18.5933 14.1011 18.5874 14.0972 18.5835L10.338 14.8244L12.7334 12.429Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M32.5714 8.14282H27.4286V12H32.5714V8.14282Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M34.5 3H25.5C25.145 3 24.8572 3.28781 24.8572 3.64285V7.5C24.8572 7.85504 25.145 8.14285 25.5 8.14285H34.5C34.8551 8.14285 35.1429 7.85504 35.1429 7.5V3.64285C35.1429 3.28781 34.8551 3 34.5 3Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M28.1816 36.3281C28.1792 36.3281 28.1768 36.3272 28.1748 36.3252C28.1709 36.3213 28.1709 36.3154 28.1748 36.3115L37.7207 26.7656C37.7246 26.7617 37.7305 26.7617 37.7344 26.7656C37.7383 26.7695 37.7383 26.7754 37.7344 26.7793L28.1885 36.3252C28.1865 36.3272 28.1841 36.3281 28.1816 36.3281Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M31.8184 36.3281C31.8159 36.3281 31.8135 36.3272 31.8115 36.3252L24.9927 29.5063C24.9888 29.5025 24.9888 29.4966 24.9927 29.4927C24.9966 29.4888 25.0024 29.4888 25.0063 29.4927L31.8252 36.3115C31.8291 36.3154 31.8291 36.3213 31.8252 36.3252C31.8232 36.3272 31.8208 36.3281 31.8184 36.3281Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>`,
+  adasNews: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="ic-card-icon" viewBox="0 0 60 60" fill="none">
+    <path d="M57.5 45.5564V50.3767C57.5 51.5767 56.483 52.5568 55.2377 52.5568H4.77264C3.51696 52.5568 2.5 51.5767 2.5 50.3667V45.5564H20.7019C20.9198 46.6965 21.9472 47.5565 23.1924 47.5565H36.8075C38.0528 47.5565 39.0802 46.6965 39.2981 45.5564H57.5Z" stroke="#333538" stroke-width="2.25" stroke-linejoin="round" />
+    <path d="M14.5519 10.0098H5.05188V44.5564" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M45.4481 10.0098H54.9481V44.5565" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M32.75 36.9312V39.9117C32.75 40.4417 32.3164 40.8753 31.7864 40.8753H28.2136C27.6837 40.8753 27.25 40.4417 27.25 39.9117V36.9312" stroke="#333538" stroke-width="2.25" stroke-linejoin="round" />
+    <path d="M36.8762 27.8914C38.2257 26.2905 39.0263 24.2117 38.9878 21.9452C38.9082 17.2459 35.0645 13.3069 30.3682 13.1194C25.236 12.9145 21.0109 17.0144 21.0109 22.1012C21.0109 24.3058 21.8046 26.3251 23.1217 27.8888C23.92 28.8366 24.4255 29.9947 24.5358 31.2289L24.8839 35.1245C24.9752 36.1473 25.8322 36.9311 26.8591 36.9311H33.141C34.1679 36.9311 35.0249 36.1472 35.1162 35.1245L35.4748 31.1111C35.5817 29.9146 36.102 28.8098 36.8762 27.8914Z" stroke="#333538" stroke-width="2.25" stroke-linejoin="round" />
+    <path d="M24.3448 32.2505H34.9554" stroke="#333538" stroke-width="2.25" stroke-linejoin="round" />
+    <path d="M39.6624 13.2808L41.3467 11.5964" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M33.5367 9.74397L34.1533 7.44312" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M26.4633 9.74397L25.8468 7.44312" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M20.3375 13.2808L18.6532 11.5964" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M16.8008 19.4066L14.5 18.79" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M16.8008 26.4797L14.5 27.0962" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M20.3375 32.6055L18.6532 34.2898" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M39.6624 32.6055L41.3467 34.2898" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M43.1991 26.4797L45.5 27.0962" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M43.1991 19.4066L45.5 18.79" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M28.2184 17.1428C28.2184 17.1428 24.8302 18.1128 24.8302 22.5564" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>`,
   totalCompensation: `<svg class="ic-card-icon" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
     <path d="M56.6399 16.3301H3.35986V23.0401H56.6399V16.3301Z" stroke="#3B383F" stroke-width="2" stroke-linejoin="round" />
     <path d="M55.49 9.62012H4.52002V16.3301H55.49V9.62012Z" stroke="#3B383F" stroke-width="2" stroke-linejoin="round" />
@@ -369,8 +407,7 @@ function renderCardsSection(section) {
       (card) => `                            <div class="${escapeHtml(cardColumnClass)}">
                                 <div class="${escapeHtml(card.className || cardClassName)}">
                                     <div class="${escapeHtml(card.bodyClassName || cardBodyClassName)}">
-                                        <h3 class="ic-card-title">${renderText(card.title)}</h3>
-                                        <p class="ic-card-text">${renderText(card.body, { widowProtection: true })}</p>
+${card.title ? `                                        <h3 class="ic-card-title">${renderText(card.title)}</h3>\n` : ""}                                        <p class="ic-card-text">${renderText(card.body, { widowProtection: true })}</p>
                                     </div>
 ${card.image ? `                                    <figure class="ic-card-media">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName)}
@@ -488,12 +525,16 @@ function renderTextMediaSection(section) {
   const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
                                 <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(section.title)}</h2>
 ${section.label ? `                                <p class="ic-label">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
-  const pictureMarkup = renderPicture(section.image, section.imageClassName || "ic-section-image ic-image-rounded");
-  const linkedPictureMarkup = section.imageLink
-    ? `                                <a href="${escapeHtml(section.imageLink.href)}" title="${escapeHtml(section.imageLink.title || section.title)}">
+  const pictureMarkup = section.mediaHtml
+    ? renderTrustedHtml(section.mediaHtml)
+    : renderPicture(section.image, section.imageClassName || "ic-section-image ic-image-rounded");
+  const linkedPictureMarkup = section.mediaHtml
+    ? `                                ${pictureMarkup}`
+    : section.imageLink
+      ? `                                <a href="${escapeHtml(section.imageLink.href)}" title="${escapeHtml(section.imageLink.title || section.title)}">
 ${indentBlock(pictureMarkup, 36)}
                                 </a>`
-    : `                                ${pictureMarkup}`;
+      : `                                ${pictureMarkup}`;
   const mediaColumn = `                            <div class="${escapeHtml(mediaColumnClasses)}">
 ${linkedPictureMarkup}
                             </div>`;
@@ -731,12 +772,17 @@ ${featureMarkup}
 function renderIconCardGridSection(section) {
   const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
   const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const footerBodyMarkup = indentBlock(
+    renderContentParagraphs(section.footerBody || [], section.footerBodyHtml || []),
+    8,
+  );
+  const footerButtonsMarkup = renderButtons(section.footerButtons, "ic-btn ic-btn-primary ic-btn-outline");
   const cardMarkup = (section.cards || [])
     .map(
-      (card) => `                    <div class="col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up">
+      (card) => `                    <div class="${escapeHtml(section.cardColumnClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
                         <div class="ic-card ic-card-horizontal-mobile ic-background-white">
                             <div class="ic-card-body">
-                                <h3 class="ic-card-title">${renderText(card.title)}</h3>
+${card.title ? `                                <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""} title="${escapeHtml(card.linkTitle || card.title)}">${renderText(card.title)}</a>` : renderText(card.title)}</h3>\n` : ""}
                                 <p class="ic-card-text">${renderText(card.body, { widowProtection: true })}</p>
                             </div>
                             <figure class="ic-card-media">
@@ -759,6 +805,15 @@ ${bodyMarkup ? `\n${bodyMarkup}` : ""}
                 <div class="row row_compact justify-content-center">
 ${cardMarkup}
                 </div>
+${section.footerTitle || footerBodyMarkup || footerButtonsMarkup ? `\n\n                <div class="row justify-content-center pt-4 mt-3 pt-md-5 mt-md-2">
+                    <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
+${section.footerTitle ? `                        <h3>${renderText(section.footerTitle)}</h3>\n` : ""}${footerBodyMarkup ? `${footerBodyMarkup}\n` : ""}                    </div>
+                </div>
+${footerButtonsMarkup ? `\n                <div class="row justify-content-center mt-3 pt-3">
+                    <div class="col col-auto">
+${indentBlock(footerButtonsMarkup, 24)}
+                    </div>
+                </div>` : ""}` : ""}
             </div>
         </section>`;
 }
@@ -768,8 +823,8 @@ function renderLogoGridSection(section) {
   const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
   const logoMarkup = (section.logos || [])
     .map(
-      (logo) => `                            <li class="col-auto mt-3 pt-3 px-md-4">
-                                <img alt="${escapeHtml(logo.alt)}" class="ic-logo" height="${escapeHtml(logo.height)}" loading="lazy" src="${escapeHtml(logo.src)}" width="${escapeHtml(logo.width)}">
+      (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || "col-auto mt-3 pt-3 px-md-4")}">
+                                ${logo.href ? `<a href="${escapeHtml(logo.href)}" class="stretched-link"${logo.title ? ` title="${escapeHtml(logo.title)}"` : ""}>` : ""}<img alt="${escapeHtml(logo.alt)}" class="${escapeHtml(logo.className || "ic-logo")}" height="${escapeHtml(logo.height)}" loading="lazy" src="${escapeHtml(logo.src)}" width="${escapeHtml(logo.width)}">${logo.href ? "</a>" : ""}
                             </li>`,
     )
     .join("\n\n");
@@ -805,12 +860,20 @@ function renderStickyCardsSection(section) {
       const listMarkupInner = (card.listItems || [])
         .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
         .join("\n");
+      const linkListMarkupInner = (card.linkItems || [])
+        .map(
+          (item) => `                                            <li><a href="${escapeHtml(item.href)}"${item.target ? ` target="${escapeHtml(item.target)}"` : ""}>${renderText(item.label)}</a>${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
+        )
+        .join("\n");
 
       return `                                <div class="ic-card ic-background-white">
                                     <div class="ic-card-body">
                                         <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${renderText(card.title)}</h3>
 ${card.body ? `                                        <p>${renderText(card.body, { widowProtection: true })}</p>\n` : ""}${card.bodyHtml ? `                                        <p>${renderTrustedHtml(card.bodyHtml)}</p>\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
 ${listMarkupInner}
+                                        </ul>
+` : ""}${linkListMarkupInner ? `                                        <ul class="${escapeHtml(card.linkListClassName || "ic-card-list ic-card-list-courses")}">
+${linkListMarkupInner}
                                         </ul>
 ` : ""}${card.footer ? `                                        <p>${renderText(card.footer, { widowProtection: true })}</p>` : ""}${card.footerHtml ? `                                        <p>${renderTrustedHtml(card.footerHtml)}</p>` : ""}
                                     </div>
@@ -856,6 +919,144 @@ ${bodyMarkup}
         </section>`;
 }
 
+function renderAccordionItemBody(item) {
+  const paragraphs = (item.body || [])
+    .map((paragraph) => `                                                <p>${renderText(paragraph, { widowProtection: true })}</p>`)
+    .join("\n");
+  const htmlParagraphs = (item.bodyHtml || [])
+    .map((paragraph) => `                                                <p>${renderTrustedHtml(paragraph)}</p>`)
+    .join("\n");
+  const listIntro = item.listIntro
+    ? `                                                <p class="my-0">${renderText(item.listIntro, { widowProtection: true })}</p>\n`
+    : "";
+  const listMarkup = item.listItems?.length
+    ? `                                                <ul class="${escapeHtml(item.listClassName || "my-1 pl-3 ml-5")}">
+${item.listItems
+  .map((listItem) => `                                                    <li>${renderTrustedHtml(listItem)}</li>`)
+  .join("\n")}
+                                                </ul>\n`
+    : "";
+  const closingText = item.closingText
+    ? `                                                <p class="my-0">${renderText(item.closingText, { widowProtection: true })}</p>`
+    : "";
+
+  return [paragraphs, htmlParagraphs, listIntro, listMarkup, closingText].filter(Boolean).join("\n");
+}
+
+function renderAccordionSection(section) {
+  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const introBodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 32);
+  const accordionId = escapeHtml(section.accordionId || `${section.id}Accordion`);
+  const itemsMarkup = (section.items || [])
+    .map((item, index) => {
+      const itemNumber = index + 1;
+      const headingId = `${section.id}-heading-${itemNumber}`;
+      const collapseId = `${section.id}-collapse-${itemNumber}`;
+
+      return `                                <div class="ic-card ic-background-white accordion-item mb-2">
+                                    <h3 class="ic-card-title accordion-header" id="${escapeHtml(headingId)}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${escapeHtml(collapseId)}" aria-expanded="false" aria-controls="${escapeHtml(collapseId)}">
+                                            ${renderText(item.title)}
+                                        </button>
+                                    </h3>
+                                    <div id="${escapeHtml(collapseId)}" class="accordion-collapse collapse" aria-labelledby="${escapeHtml(headingId)}"${section.accordionId ? ` data-bs-parent="#${accordionId}"` : ""}>
+                                        <div class="accordion-body">
+${renderAccordionItemBody(item)}
+                                        </div>
+                                    </div>
+                                </div>`;
+    })
+    .join("\n\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 col-lg-10 col-xl-8">
+                        <div class="row justify-content-center">
+
+                            <div class="${escapeHtml(section.introColumnClass || "col col-12 col-md-6 col-xl")}">
+                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title ic-sticky")}">${renderText(section.title)}</h2>
+${introBodyMarkup ? `${introBodyMarkup}\n` : ""}                            </div>
+
+                            <div class="${escapeHtml(section.accordionColumnClass || "col col-12 col-md-6 col-xl-auto pt-2 pt-md-0 pl-md-4")}">
+                                <div class="${escapeHtml(section.accordionClassName || "accordion py-0")}" id="${accordionId}">
+${itemsMarkup}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderEmbedSection(section) {
+  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+            <div class="container">
+
+                <div class="row justify-content-center${section.introRowClassName ? ` ${escapeHtml(section.introRowClassName)}` : " mb-3 pb-3"}">
+                    <div class="${escapeHtml(section.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center")}">
+                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+${bodyMarkup ? `\n${bodyMarkup}` : ""}
+                    </div>
+                </div>
+
+                <div class="row justify-content-center${section.embedRowClassName ? ` ${escapeHtml(section.embedRowClassName)}` : " pt-2"}">
+                    <div class="${escapeHtml(section.embedColumnClass || "col col-12 col-lg-10 col-xl-8")}">
+${indentBlock(renderTrustedHtml(section.embedHtml || ""), 24)}
+                    </div>
+                </div>
+
+            </div>
+        </section>`;
+}
+
+function renderMediaSliderSection(section) {
+  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const introBodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 32);
+  const slidesMarkup = (section.slides || [])
+    .map(
+      (slide, index) => `                                        <div class="${escapeHtml(section.slideClassName || "swiper-slide col col-12")}">
+                                            ${slide.link?.href ? `<a href="${escapeHtml(slide.link.href)}"${slide.link.title ? ` title="${escapeHtml(slide.link.title)}"` : ""}>` : ""}<img alt="${escapeHtml(slide.image.alt || "")}" loading="${escapeHtml(slide.image.loading || (index === 0 ? "eager" : "lazy"))}" class="${escapeHtml(slide.image.className || "ic-image-rounded")}" width="${escapeHtml(slide.image.width || "")}" height="${escapeHtml(slide.image.height || "")}" sizes="${escapeHtml(slide.image.sizes || "")}" src="${escapeHtml(slide.image.desktopSrc || "")}" srcset="${escapeHtml(slide.image.desktopSrcset || slide.image.desktopSrc || "")}">${slide.link?.href ? "</a>" : ""}
+                                        </div>`,
+    )
+    .join("\n\n");
+  const buttonsMarkup = section.buttons?.length
+    ? `\n                                ${renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline").trim()}`
+    : "";
+
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 col-lg-10 col-xl-9">
+                        <div class="row justify-content-between align-items-center">
+
+                            <div class="${escapeHtml(section.introColumnClass || "col col-11 col-md-5 col-lg-4 mb-3 mb-md-0")}">
+                                <h2 class="ic-section-title">${renderText(section.title)}</h2>
+${introBodyMarkup ? `${introBodyMarkup}\n` : ""}${buttonsMarkup}
+                            </div>
+
+                            <div class="${escapeHtml(section.sliderColumnClass || "col col-12 col-md-7 col-lg-8 mt-3 mt-md-0")}">
+                                <div class="${escapeHtml(section.sliderClassName || "swiper ic-swiper js-ic-swiper")}" aria-label="${escapeHtml(section.ariaLabel || `${section.title} slider`)}">
+                                    <div class="${escapeHtml(section.wrapperClassName || "swiper-wrapper row flex-nowrap")}">
+${slidesMarkup}
+                                    </div>
+
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
 function renderSection(section) {
   switch (section.type) {
     case "hero":
@@ -888,6 +1089,12 @@ function renderSection(section) {
       return renderLegalSection(section);
     case "cta":
       return renderCtaSection(section);
+    case "accordion":
+      return renderAccordionSection(section);
+    case "embed":
+      return renderEmbedSection(section);
+    case "mediaSlider":
+      return renderMediaSliderSection(section);
     default:
       throw new Error(`Unsupported section type "${section.type}" in "${section.id || "unknown"}"`);
   }
@@ -902,7 +1109,7 @@ function renderDocument(page, outputFile) {
   const jqueryHref = toPosixPath(relative(dirname(outputFile), "node_modules/jquery/dist/jquery.min.js"));
   const scriptHref = toPosixPath(relative(dirname(outputFile), "js/script.js"));
   const sectionMarkup = (page.sections || []).map((section) => renderSection(section)).join("\n\n");
-  const inlineCmsScriptHtml = page.cms?.scriptOutput === "separateHtmlFile" ? "" : renderPageCmsScriptHtml(page);
+  const inlineCmsScriptHtml = renderPageCmsScriptHtml(page);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -957,79 +1164,67 @@ function parseAuthoringFile(sourceFile) {
   return page;
 }
 
-function toGeneratedHtmlPath(sourceFile, page) {
-  const sourceRelativePath = relative(contentSourceDir, sourceFile);
-  const sourceDirectory = dirname(sourceRelativePath);
-  const fallbackName = basename(sourceRelativePath, extname(sourceRelativePath));
+function toContentHtmlRelativePath(sourceFile, page) {
+  const sourceRelativePath = relative(contentSourceDir, sourceFile).replace(/\\/g, "/");
+  const sourceDirectory = dirname(sourceRelativePath).replace(/\\/g, "/");
+  const fallbackName = sourceRelativePath.split("/").pop().replace(/\.json$/i, "");
   const outputBaseName = page.slug || fallbackName;
-  return join(generatedHtmlDir, sourceDirectory, `${outputBaseName}.html`);
+  return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
 }
 
-function toGeneratedCmsOutputPath(sourceFile, page) {
-  const sourceRelativePath = relative(contentSourceDir, sourceFile);
-  const sourceDirectory = dirname(sourceRelativePath);
-  const fallbackName = basename(sourceRelativePath, extname(sourceRelativePath));
-  const outputBaseName = page.slug || fallbackName;
-  return join("cms", "generated", sourceDirectory, `${outputBaseName}.html`);
+function toVirtualHtmlSourcePath(sourceFile, page) {
+  return join("html", toContentHtmlRelativePath(sourceFile, page)).replace(/\\/g, "/");
 }
 
-function cleanupRemovedGeneratedPages(expectedOutputs) {
-  if (!existsSync(generatedHtmlDir)) {
-    return;
+export function collectRenderedPageDocuments() {
+  const templateSyncResult = syncTemplates();
+
+  if (templateSyncResult.failures.length > 0) {
+    throw new Error("Template sync failed");
   }
 
-  const existingOutputs = collectFiles(generatedHtmlDir, ".html");
-
-  for (const filePath of existingOutputs) {
-    if (!expectedOutputs.has(filePath)) {
-      rmSync(filePath, { force: true });
-    }
+  if (!existsSync(contentSourceDir)) {
+    return [];
   }
+
+  return collectFiles(contentSourceDir, ".json").map((sourceFile) => {
+    const page = parseAuthoringFile(sourceFile);
+    const relativeOutputPath = toContentHtmlRelativePath(sourceFile, page);
+    const virtualSourcePath = toVirtualHtmlSourcePath(sourceFile, page);
+
+    return {
+      sourceFile,
+      page,
+      relativeOutputPath,
+      virtualSourcePath,
+      html: renderDocument(page, virtualSourcePath),
+    };
+  });
 }
 
 async function buildPages() {
-  ensureOutputDir();
-
-  if (!existsSync(contentSourceDir)) {
-    return false;
-  }
-
-  const jsonFiles = collectFiles(contentSourceDir, ".json");
-  const outputMap = new Map();
-
-  for (const sourceFile of jsonFiles) {
-    const page = parseAuthoringFile(sourceFile);
-    const outputFile = toGeneratedHtmlPath(sourceFile, page);
-    outputMap.set(sourceFile, { outputFile, page });
-  }
-
-  cleanupRemovedGeneratedPages(
-    new Set(outputMap.values().map(({ outputFile }) => outputFile)),
-  );
-
+  const renderedPages = collectRenderedPageDocuments();
   rmSync(legacyGeneratedHtmlDir, { recursive: true, force: true });
 
-  for (const [sourceFile, { outputFile, page }] of outputMap.entries()) {
-    mkdirSync(dirname(outputFile), { recursive: true });
-    writeFileSync(outputFile, renderDocument(page, outputFile));
-
-    console.log(`[pages] Prepared ${toGeneratedCmsOutputPath(sourceFile, page)}`);
+  for (const renderedPage of renderedPages) {
+    console.log(`[pages] Validated ${renderedPage.sourceFile}`);
   }
 
-  return jsonFiles.length > 0;
+  return renderedPages.length > 0;
 }
 
-function createContentSnapshot() {
-  if (!existsSync(contentSourceDir)) {
-    return "";
-  }
-
-  return collectFiles(contentSourceDir, ".json")
+export function createContentSnapshot() {
+  const pageSnapshot = existsSync(contentSourceDir)
+    ? collectFiles(contentSourceDir, ".json")
     .map((file) => {
       const stats = statSync(file);
       return `${file}:${stats.mtimeMs}:${stats.size}`;
     })
-    .join("|");
+    .join("|")
+    : "";
+  const templateSnapshot = createTemplateSnapshot();
+
+  return [pageSnapshot, templateSnapshot].filter(Boolean).join("|");
 }
 
 async function build(reason = "manual") {
@@ -1075,20 +1270,22 @@ function scheduleBuild(reason) {
   }, 75);
 }
 
-await build();
+if (isDirectRun) {
+  await build();
 
-if (watchMode) {
-  console.log("[pages] Watching content/pages/**/*.json");
-  previousSnapshot = createContentSnapshot();
+  if (watchMode) {
+    console.log("[pages] Watching content/pages/**/*.json");
+    previousSnapshot = createContentSnapshot();
 
-  setInterval(() => {
-    const nextSnapshot = createContentSnapshot();
+    setInterval(() => {
+      const nextSnapshot = createContentSnapshot();
 
-    if (nextSnapshot === previousSnapshot) {
-      return;
-    }
+      if (nextSnapshot === previousSnapshot) {
+        return;
+      }
 
-    previousSnapshot = nextSnapshot;
-    scheduleBuild("polling change");
-  }, 250);
+      previousSnapshot = nextSnapshot;
+      scheduleBuild("polling change");
+    }, 250);
+  }
 }

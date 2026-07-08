@@ -1,0 +1,288 @@
+{
+  "slug": "adas-courses",
+  "title": "ADAS - ADAS Courses",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "ADAS Education",
+      "body": [
+        "As vehicles become more advanced, collision repair professionals face new challenges, especially with ADAS now standard in many models. Understanding how these systems work and how to properly diagnose, repair, and calibrate them is no longer optional.",
+        "I-CAR’s ADAS training equips technicians with the knowledge and hands-on skills needed for safe, complete, and OEM-compliant repairs. Explore our courses to stay ahead of evolving technology and ensure every vehicle you touch is road-ready."
+      ],
+      "rowClassName": "row justify-content-between align-items-center",
+      "contentClassName": "col col-12 col-md-6 col-xl-5 mb-3 mb-md-0 pr-md-5",
+      "mediaClassName": "col col-12 col-md-6 col-xl-7 mt-3 mt-md-0",
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "ADAS Technicians using a calibration card to ensure systems function properly after collision repair",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/ddac3e2b-3a77-4087-9ad0-b24e551e9951/Hero_800w.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/a35657e2-7dee-4777-9157-a5181c007fbe/Hero_400w.webp 400w, https://stage.info.i-car.com/getmedia/ddac3e2b-3a77-4087-9ad0-b24e551e9951/Hero_800w.webp 800w, https://stage.info.i-car.com/getmedia/cd9d5622-a2be-4c34-9580-039d8f76fe8d/Hero_1600w.webp 1600w",
+        "width": "873",
+        "height": "550",
+        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "courses",
+      "title": "ADAS Courses",
+      "backgroundLight": true,
+      "body": [
+        "From online to hands-on, ADAS courses are available for every skill level from entry-level to expert."
+      ],
+      "cards": [
+        {
+          "title": "Online Courses",
+          "linkItems": [
+            {
+              "label": "ADAS Operation and Service",
+              "href": "https://www.i-car.com/product/adas-operation-and-service",
+              "target": "_blank",
+              "meta": "1h 20m"
+            },
+            {
+              "label": "AUTEL® MaxiSys® DiagnosticTablet and Calibration Kit",
+              "href": "https://www.i-car.com/product/autel-maxisys-diagnostic-tablet-and-calibration-kit",
+              "target": "_blank",
+              "meta": "45m"
+            },
+            {
+              "label": "Bosch Scan Tool and Advanced Driver Assistance Systems (ADAS) Calibration Kit",
+              "href": "https://www.i-car.com/product/bosch-scan-tool-and-advanced-driver-assistance-systems-adas-calibration-kit",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Calibration Requirements for Blind Spot and Parking Assist Systems",
+              "href": "https://www.i-car.com/product/calibration-requirements-for-blind-spot-and-parking-assist-systems",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Calibration of Front Facing Cameras and Front Radar",
+              "href": "https://www.i-car.com/product/calibration-of-front-facing-cameras-and-front-radars",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Camera Calibration, Inspection, and Initialization Requirements",
+              "href": "https://www.i-car.com/product/camera-calibration-inspection-and-initialization-requirements",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Incorporating ADAS in Your Business",
+              "href": "https://www.i-car.com/product/incorporating-adas-in-your-business",
+              "target": "_blank",
+              "meta": "30m"
+            },
+            {
+              "label": "Nissan LEAF Technologies and Repair Considerations",
+              "href": "https://www.i-car.com/product/nissan-leaf-technologies-and-repair-considerations",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Post Repair Advanced Driver Assistance Systems (ADAS) Testing",
+              "href": "https://www.i-car.com/product/post-repair-advanced-driver-assistance-systems-adas-testing",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Requirements and Considerations for Achieving an Accurate ADAS",
+              "href": "https://www.i-car.com/product/requirements-and-considerations-for-achieving-an-accurate-advanced-driver-assis",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Windshields and Advanced Driver Assistance Systems (ADAS)",
+              "href": "https://www.i-car.com/product/windshields-and-advanced-driver-assist-systems-adas",
+              "target": "_blank",
+              "meta": "30m"
+            },
+            {
+              "label": "ADAS Diagnostics – When the Calibration Fails",
+              "href": "https://www.i-car.com/product/adas-diagnostics-when-the-calibration-fails",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Understanding OEM Calibration Procedures and How to Locate Them",
+              "href": "https://www.i-car.com/product/understanding-oem-calibration-procedures-and-how-to-locate-them",
+              "target": "_blank",
+              "meta": "1h"
+            },
+            {
+              "label": "Damage Discovery for ADAS Sensor Mounting Locations",
+              "href": "https://www.i-car.com/product/damage-discovery-for-adas-sensor-mounting-locations",
+              "target": "_blank",
+              "meta": "1h"
+            }
+          ]
+        },
+        {
+          "title": "Hands-On Courses",
+          "linkItems": [
+            {
+              "label": "Ford ADAS Calibration 2-Day Hands-On Skills Development",
+              "href": "https://www.i-car.com/product/ford-adas-calibration-2day-handson-skills-development",
+              "target": "_blank",
+              "meta": "16h"
+            },
+            {
+              "label": "Static ADAS Calibration 3-Day Hands-On Skills Development",
+              "href": "https://www.i-car.com/product/static-adas-calibration-3day-handson-skills-development",
+              "target": "_blank",
+              "meta": "24h"
+            }
+          ]
+        },
+        {
+          "title": "Packaged Courses",
+          "linkItems": [
+            {
+              "label": "ADAS Essentials for APDA, Estimators and Repair Planners",
+              "href": "https://www.i-car.com/product/adas-essentials-for-apda-estimators-and-repair-planners/01tRm000008JLgtIAG",
+              "target": "_blank",
+              "meta": "7h"
+            },
+            {
+              "label": "Static ADAS Calibration 3-Day Hands-On Prerequisites",
+              "href": "https://www.i-car.com/product/static-adas-calibration-3day-handson-skills-development-prerequisites",
+              "target": "_blank",
+              "meta": "9h 15m"
+            },
+            {
+              "label": "Ford ADAS 2-Day HOSD Prerequisites",
+              "href": "https://www.i-car.com/product/ford-adas-2day-handson-skills-development-prerequisites",
+              "target": "_blank",
+              "meta": "17h 20m"
+            },
+            {
+              "label": "Ford ADAS 5 Course Package",
+              "href": "https://www.i-car.com/product/ford-adas-5-course-package",
+              "target": "_blank",
+              "meta": "5h 45m"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "mediaSlider",
+      "id": "lab",
+      "title": "Inside the ADAS Lab",
+      "body": [
+        "Step into I-CAR’s state-of-the-art ADAS Lab at the Chicago Technical Center, where hands-on learning meets cutting-edge technology. These photos offer a behind-the-scenes look at how technicians engage with real-world scenarios to build confidence in advanced driver assistance systems. From calibration bays to interactive training, this is where ADAS education comes to life."
+      ],
+      "buttons": [
+        {
+          "label": "Travel to the I-CAR CTC",
+          "href": "/ctc-travel",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "slides": [
+        {
+          "image": {
+            "alt": "Inside I-CAR’s ADAS Lab at the Chicago Technical Center, where technicians participate in hands-on ADAS calibration and repair training.",
+            "desktopSrc": "https://stage.info.i-car.com/getmedia/64ef2ec9-b52e-4a26-9c0c-35da6a222ce7/ADAS-Lab-1_800w.webp",
+            "desktopSrcset": "https://stage.info.i-car.com/getmedia/08dbd9eb-f439-4454-b0e4-2000f4b04004/ADAS-Lab-1_400w.webp 400w, https://stage.info.i-car.com/getmedia/64ef2ec9-b52e-4a26-9c0c-35da6a222ce7/ADAS-Lab-1_800w.webp 800w, https://stage.info.i-car.com/getmedia/7ac9a18e-731c-447a-a5ad-e6af09b35874/ADAS-Lab-1_1600w.webp 1600w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+          }
+        },
+        {
+          "image": {
+            "alt": "Inside I-CAR’s ADAS Lab at the Chicago Technical Center, showing vehicles and advanced diagnostic equipment used for hands-on ADAS calibration training.",
+            "desktopSrc": "https://stage.info.i-car.com/getmedia/9c3cdb11-26bf-424d-9439-9f0579fdf643/ADAS-Lab-2_800w.webp",
+            "desktopSrcset": "https://stage.info.i-car.com/getmedia/fc4935f0-8571-4560-ade1-2675d50e9d12/ADAS-Lab-2_400w.webp 400w, https://stage.info.i-car.com/getmedia/9c3cdb11-26bf-424d-9439-9f0579fdf643/ADAS-Lab-2_800w.webp 800w, https://stage.info.i-car.com/getmedia/90eca112-3a94-41fc-9dec-290cfb65cc6a/ADAS-Lab-2_1600w.webp 1600w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+          }
+        },
+        {
+          "image": {
+            "alt": "Classroom and alignment area inside I-CAR’s ADAS Lab at the Chicago Technical Center, designed for hands-on ADAS calibration and technician training sessions.",
+            "desktopSrc": "https://stage.info.i-car.com/getmedia/dcc2c869-58e2-4c19-8726-4422799fc76c/ADAS-Lab-3_800w.webp",
+            "desktopSrcset": "https://stage.info.i-car.com/getmedia/99864899-a3c3-4909-adb4-e72db221555c/ADAS-Lab-3_400w.webp 400w, https://stage.info.i-car.com/getmedia/dcc2c869-58e2-4c19-8726-4422799fc76c/ADAS-Lab-3_800w.webp 800w, https://stage.info.i-car.com/getmedia/2c3d5865-b43b-444f-813c-2ad0e0b6001c/ADAS-Lab-3_1600w.webp 1600w",
+            "width": "800",
+            "height": "604",
+            "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "embed",
+      "id": "videos",
+      "title": "ADAS Learner Experiences",
+      "body": [
+        "Discover how hands-on ADAS courses at the Chicago Technical Center prepare technicians with real-world skills and experience."
+      ],
+      "embedHtml": "<div style=\"position: relative; padding-top: 56.25%;\"><iframe src=\"https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112\" allowfullscreen=\"\" allow=\"encrypted-media\" style=\"position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;\"></iframe></div>"
+    },
+    {
+      "type": "textMedia",
+      "id": "gold-class",
+      "title": "ADAS is Part of Gold Class",
+      "label": "What's New",
+      "backgroundLight": true,
+      "bodyHtml": [
+        "Gold&nbsp;Class shops now receive enhanced ADAS education across all required roles (Estimator, Non-Structural, Structural, and Refinish Technicians) through online ProLevel courses. These flexible courses will become part of 2027 <a href=\"/gold-class\" title=\"Learn about Gold Class at I-CAR\">Gold&nbsp;Class achievement</a> and renewal requirements, helping technicians build critical ADAS skills while staying industry&#8209;ready."
+      ],
+      "reverse": true,
+      "textColumnClass": "col col-12 col-md-6 col-xl-5 mt-3 mt-md-0 pl-lg-5 order-last",
+      "mediaColumnClass": "col col-12 col-md-6 col-xl-7 mb-1 mb-md-0 order-first",
+      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
+      "imageClassName": "ic-image-rounded",
+      "imageLink": {
+        "href": "/gold-class",
+        "title": "Learn about Gold Class at I-CAR"
+      },
+      "image": {
+        "alt": "Platinum ADAS Technician holding a calibration card to ensure systems function properly after collision repair",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/9dc9bf90-c37a-43c2-9641-8560af286180/Whats-New_800w_D.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/4e0790e8-c24c-4b01-a90a-ae0ea58be550/Whats-New_400w_D.webp 400w, https://stage.info.i-car.com/getmedia/9dc9bf90-c37a-43c2-9641-8560af286180/Whats-New_800w_D.webp 800w, https://stage.info.i-car.com/getmedia/5a01f235-b600-4e10-ac09-8395f2de06a1/Whats-New_1600w_D.webp 1600w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/cfdd014e-37d4-41e0-a4f5-a44579c9589f/Whats-New_400w_M.webp 400w, https://stage.info.i-car.com/getmedia/dcde564d-ad8f-48ce-9c60-45d4b832a067/Whats-New_800w_M.webp 800w, https://stage.info.i-car.com/getmedia/c418454e-14d5-4017-becd-cd36745ff5f0/Whats-New_1600w_M.webp 1600w",
+        "width": "800",
+        "height": "533",
+        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+      }
+    },
+    {
+      "type": "textMedia",
+      "id": "platinum",
+      "title": "Platinum Path",
+      "body": [
+        "ADAS is one of the fastest-growing specialties in collision repair. As vehicles become more complex, shops need experts who can restore advanced safety systems with precision. Whether you're building your career or future-proofing your business, ADAS expertise ensures safer, OEM-compliant repairs and sets you apart in a rapidly evolving industry."
+      ],
+      "buttons": [
+        {
+          "label": "Get to Platinum",
+          "href": "https://www.i-car.com/adas-technician-platinum-path"
+        }
+      ],
+      "textColumnClass": "col col-12 col-md-6 mb-3 mb-md-0 pr-lg-5 align-self-center",
+      "mediaColumnClass": "col col-12 col-md-6 mt-3 mt-md-0",
+      "contentColumnClass": "col col-12 col-lg-10 col-xl-9",
+      "imageClassName": "ic-image-cutout px-4",
+      "imageLink": {
+        "href": "https://www.i-car.com/adas-technician-platinum-path",
+        "title": "Get to Platinum"
+      },
+      "image": {
+        "alt": "Platinum Path illustration for ADAS training",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/e620dec7-de5a-4289-9e5e-2e350afc229f/Platinum-Path_800w.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/74952b82-741e-44d9-8225-a411ec5171e4/Platinum-Path_400w.webp 400w, https://stage.info.i-car.com/getmedia/e620dec7-de5a-4289-9e5e-2e350afc229f/Platinum-Path_800w.webp 800w, https://stage.info.i-car.com/getmedia/dfe31a50-6968-401c-8a1d-6e9c90f1f66d/Platinum-Path_1600w.webp 1600w",
+        "width": "472",
+        "height": "472",
+        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+      }
+    }
+  ]
+}

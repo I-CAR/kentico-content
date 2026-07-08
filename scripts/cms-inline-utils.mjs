@@ -9,12 +9,12 @@ import {
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import * as esbuild from "esbuild";
+import { collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
 
 const outputDir = "cms";
 const htmlSourceDir = "html";
 const contentSourceDir = join("content", "pages");
-const generatedHtmlSourceDir = join(".cache", "generated-html");
-const legacyOutputDirs = ["pages", "content", "css", "js", "includes", "_shared"].map((directory) =>
+const legacyOutputDirs = ["pages", "content", "css", "js", "includes", "_shared", "generated"].map((directory) =>
   join(outputDir, directory),
 );
 const htmlVoidElements = new Set([
@@ -113,28 +113,13 @@ function collectFiles(root, extension) {
   return files.sort();
 }
 
-function collectCmsSourceFiles() {
-  return [
-    ...collectFiles(htmlSourceDir, ".html"),
-    ...collectFiles(generatedHtmlSourceDir, ".html"),
-  ].sort();
-}
-
-function isGeneratedSourceFile(sourceFile) {
-  return sourceFile.startsWith(`${generatedHtmlSourceDir}/`) || sourceFile === generatedHtmlSourceDir;
-}
-
 function toCmsHtmlOutputPath(sourceFile) {
-  const sourceRoot = isGeneratedSourceFile(sourceFile) ? generatedHtmlSourceDir : htmlSourceDir;
-  const relativePath = relative(sourceRoot, sourceFile).replace(/\\/g, "/");
-  const outputBaseDir = isGeneratedSourceFile(sourceFile) ? join(outputDir, "generated") : outputDir;
-  return join(outputBaseDir, relativePath);
+  const relativePath = relative(htmlSourceDir, sourceFile).replace(/\\/g, "/");
+  return join(outputDir, relativePath);
 }
 
 function toSourceRelativeHtmlPath(sourceFile) {
-  const sourceRoot = isGeneratedSourceFile(sourceFile) ? generatedHtmlSourceDir : htmlSourceDir;
-  const relativePath = relative(sourceRoot, sourceFile).replace(/\\/g, "/");
-  return relativePath;
+  return relative(htmlSourceDir, sourceFile).replace(/\\/g, "/");
 }
 
 function toCmsScriptHtmlOutputPath(sourceFile) {
@@ -613,7 +598,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
   return blocks;
 }
 
-async function renderCmsHtmlParts(sourceFile, outputFile, source, { minify = false } = {}) {
+export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minify = false } = {}) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
   const mainSource = extractCmsMain(source);
   const rewrittenMain = rewriteLocalAssetPaths(sourceFile, outputFile, mainSource);
@@ -816,7 +801,8 @@ async function minifyCss(source) {
 }
 
 export async function buildCmsPages({ minify = false } = {}) {
-  const htmlFiles = collectCmsSourceFiles();
+  const renderedPages = collectRenderedPageDocuments();
+  const htmlFiles = renderedPages.map((page) => page.virtualSourcePath);
 
   if (htmlFiles.length === 0) {
     return false;
@@ -826,11 +812,11 @@ export async function buildCmsPages({ minify = false } = {}) {
   const splitPaths = loadCmsScriptSplitPaths();
   cleanupRemovedCmsPages(htmlFiles, splitPaths);
 
-  for (const sourceFile of htmlFiles) {
-    const source = readFileSync(sourceFile, "utf8");
-    const outputFile = toCmsHtmlOutputPath(sourceFile);
+  for (const renderedPage of renderedPages) {
+    const sourceFile = renderedPage.virtualSourcePath;
+    const outputFile = join(outputDir, renderedPage.relativeOutputPath);
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
-    const output = await renderCmsHtmlParts(sourceFile, outputFile, source, { minify });
+    const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, { minify });
 
     mkdirSync(dirname(outputFile), { recursive: true });
     writeFileSync(outputFile, `${output.html}\n`);
@@ -856,16 +842,15 @@ export async function buildCmsAssets({ minify = false } = {}) {
 }
 
 export function createHtmlSnapshot() {
-  const snapshotFiles = [
-    ...collectCmsSourceFiles(),
+  const assetSnapshot = [
     ...(existsSync("css") ? collectFiles("css", ".css") : []),
     ...(existsSync("js") ? collectFiles("js", ".js") : []),
-  ];
-
-  return snapshotFiles
+  ]
     .map((file) => {
       const stats = statSync(file);
       return `${file}:${stats.mtimeMs}:${stats.size}`;
     })
     .join("|");
+
+  return [createContentSnapshot(), assetSnapshot].filter(Boolean).join("|");
 }

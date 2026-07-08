@@ -1,0 +1,54 @@
+{
+  "slug": "industry-councils",
+  "title": "Governance - Industry Councils",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Industry Councils",
+      "sublabel": "I-CAR's industry councils provide specialized expertise and perspectives to inform decision-making, ensuring that our programs, services, and initiatives meet the evolving needs of the collision repair industry. Through these collaborative groups, I-CAR gathers insights, feedback, and guidance from industry leaders and professionals to drive innovation, strengthen resources, and support the adoption of best practices.",
+      "contentClassName": "col col-12 col-md-6",
+      "mediaClassName": "col col-12 col-md-6 mt-4 mt-md-0 ps-lg-5",
+      "rowClassName": "row align-items-center",
+      "imageClassName": "ic-image-rounded",
+      "image": {
+        "alt": "A group of diverse people putting their hands together in a circle",
+        "desktopSrc": "https://stage.info.i-car.com/getmedia/fad547a3-076a-4eb5-8d99-2e922c26e50e/Hero_800w-Desktop.webp",
+        "desktopSrcset": "https://stage.info.i-car.com/getmedia/fad547a3-076a-4eb5-8d99-2e922c26e50e/Hero_800w-Desktop.webp 800w, https://stage.info.i-car.com/getmedia/3c13b643-fc6b-4ded-bfbb-476e9f581710/Hero_1600w-Desktop.webp 1600w",
+        "mobileSrcset": "https://stage.info.i-car.com/getmedia/d1530d39-f657-4134-94ea-d1c6f5ad12fd/Hero_800w-Mobile.webp 800w, https://stage.info.i-car.com/getmedia/a11f84d1-176c-49b0-bf22-10abf179f8ac/Hero_1600w-Mobile.webp 1600w",
+        "width": "745",
+        "height": "450",
+        "sizes": "100vw",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "cards",
+      "id": "feedback-forums",
+      "title": "Feedback Forums",
+      "backgroundLight": true,
+      "cardColumnClass": "col col-12 col-sm-6 col-lg-4 col-xl pt-3 mt-3",
+      "contentColumnClass": "col col-12 col-xl-10",
+      "cardClassName": "ic-card ic-background-white h-100",
+      "cardBodyClassName": "ic-card-body",
+      "cards": [
+        {
+          "title": "Member Council",
+          "body": "Serves as the voice of the customer, offering feedback on current and future I-CAR services and programs. Members act as a sounding board for planning and a champion of industry adoption, goodwill, and advocacy, helping I-CAR align its offerings with the needs of repairers, insurers, educators, and suppliers."
+        },
+        {
+          "title": "Segment Advisory",
+          "body": "Provides segment-specific guidance, insight, and feedback. This council ensures that I-CAR's initiatives address the unique needs and challenges of different sectors within the collision repair industry."
+        },
+        {
+          "title": "Product Development Advisory Council",
+          "body": "Informs decisions around product and resource development. Its guidance helps I-CAR create tools, solutions, and learning materials that better serve collision repair professionals and the industry at large."
+        },
+        {
+          "title": "OEM Technical Advisory",
+          "body": "Identifies innovations and updates from equipment manufacturers that impact repair complexity and training requirements. This council helps I-CAR anticipate industry changes and ensure collision repair professionals have the knowledge and skills needed to address emerging vehicle technologies."
+        }
+      ]
+    }
+  ]
+}
