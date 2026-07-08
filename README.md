@@ -15,14 +15,8 @@ If you are a content author with basic HTML and CSS skills, the main thing to kn
   Source pages. This is where you will do most of your work.
 - `content/pages/`
   Structured JSON source for generated authoring pages.
-- `html/generated/`
-  Generated HTML pages built from `content/pages/`.
 - `cms/`
-  Generated CMS-ready page folders. Each source page gets a mirrored folder containing `index.html`, `index.css`, and `index.js`.
-- `cms/_shared/css/`
-  Generated shared CSS dependencies referenced by page-level `index.css` files.
-- `cms/_shared/js/`
-  Generated shared JavaScript dependencies loaded by page-level `index.js` files.
+  Generated CMS-ready HTML output that mirrors the `html/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
 - `css/scss/`
   Source styles for the newer page system.
 - `css/legacy/style-legacy.css`
@@ -130,12 +124,11 @@ The build process turns each file in `html/` into a mirrored CMS-ready folder un
 
 In general:
 
-- the `<main>` content is what matters most
+- CMS output is emitted as a paste-ready fragment in this order: inline `<style>`, external `<link>` tags, `<main>`, then `<script>`
 - comments are stripped out
 - attributes are normalized/sorted
-- each page folder also gets `index.css` and `index.js`
-- shared CSS dependencies are emitted once in `cms/_shared/css/` and imported by page CSS as needed
-- shared JavaScript dependencies are emitted once in `cms/_shared/js/` and loaded by page JS as needed
+- page-level `.css` and `.js` files are not emitted under `cms/`
+- if a page opts into separate script handoff, those tags are emitted to a matching `.scripts.html` file
 
 That means the `html/` files are your working source, and `cms/` is output.
 
@@ -164,7 +157,22 @@ Creates generated authoring pages plus production-style output for CSS, JS, and 
 npm run build:pages
 ```
 
-Builds `content/pages/*.json` into `html/generated/*.html`.
+Prepares `content/pages/*.json` for CMS output under `cms/generated/*.html`.
+
+Page JSON can also include optional CMS handoff metadata:
+
+```json
+{
+  "cms": {
+    "scriptOutput": "separateHtmlFile",
+    "scriptHtml": [
+      "<script>window.kentico...</script>"
+    ]
+  }
+}
+```
+
+Use that when a page needs Kentico-managed script markup delivered as a separate HTML fragment instead of being kept with the main authoring content.
 
 Current supported section types:
 
@@ -172,11 +180,15 @@ Current supported section types:
 - `pageNav`
 - `cards`
 - `text`
+- `statementList`
 - `textMedia`
 - `quote`
 - `quoteGrid`
 - `profileGrid`
+- `mediaFeatureList`
 - `iconCardGrid`
+- `logoGrid`
+- `stickyCards`
 - `legal`
 - `cta`
 

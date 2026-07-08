@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+.cache/
 css/style.css
 js/script.js
 *.map

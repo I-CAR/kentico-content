@@ -5,15 +5,10 @@ import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import postcss from "postcss";
 import { compile } from "sass";
-import { buildCmsPageStyles } from "./cms-inline-utils.mjs";
 
-const output = "css/style.css";
-const outputMap = `${output}.map`;
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 const sourceRoot = "css/scss";
-const entryFile = "style.scss";
-const entryPath = join(sourceRoot, entryFile);
 const legacySelectors = `
 main:not(+.row--with-cols-padding) .ic-section:last-child {
   padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
@@ -25,6 +20,21 @@ main:has(>section:last-child):has(:not(+.row.row--with-cols-padding:has(form))) 
 
 ul {}
 `;
+const buildTargets = [
+  {
+    entryPath: join(sourceRoot, "style.scss"),
+    output: "css/style.css",
+    appendCss: legacySelectors,
+  },
+  {
+    entryPath: join(sourceRoot, "style-cms.scss"),
+    output: "css/style-cms.css",
+  },
+  {
+    entryPath: join(sourceRoot, "style-cms-swiper.scss"),
+    output: "css/style-cms-swiper.css",
+  },
+];
 
 let buildQueued = false;
 let buildRunning = false;
@@ -50,6 +60,45 @@ function reportOutputSizes(css) {
   console.log(`[style] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
 }
 
+async function buildTarget({ entryPath, output, appendCss = "" }, reason = "manual") {
+  const outputMap = `${output}.map`;
+
+  const result = compile(entryPath, {
+    style: productionMode ? "compressed" : "expanded",
+    sourceMap: !productionMode,
+    sourceMapIncludeSources: !productionMode,
+  });
+
+  mkdirSync(dirname(output), { recursive: true });
+  let css = `${result.css}${appendCss ? `\n${appendCss}` : ""}`;
+
+  if (productionMode) {
+    const processed = await postcss([
+      autoprefixer(),
+      cssnano({
+        preset: [
+          "default",
+          {
+            discardComments: {
+              removeAll: true,
+            },
+          },
+        ],
+      }),
+    ]).process(css, { from: entryPath, to: output, map: false });
+
+    css = processed.css;
+    rmSync(outputMap, { force: true });
+  } else {
+    css = `${css}\n/*# sourceMappingURL=${basename(outputMap)} */\n`;
+    writeFileSync(outputMap, JSON.stringify(result.sourceMap, null, 2));
+  }
+
+  writeFileSync(output, css);
+  console.log(`[style] Built ${output}${productionMode ? " [production]" : ""}${watchMode ? ` (${reason})` : ""}`);
+  reportOutputSizes(css);
+}
+
 async function build(reason = "manual") {
   if (buildRunning) {
     buildQueued = true;
@@ -60,43 +109,9 @@ async function build(reason = "manual") {
   buildRunning = true;
 
   try {
-    const result = compile(entryPath, {
-      style: productionMode ? "compressed" : "expanded",
-      sourceMap: !productionMode,
-      sourceMapIncludeSources: !productionMode,
-    });
-
-    mkdirSync(dirname(output), { recursive: true });
-    let css = `${result.css}\n${legacySelectors}`;
-
-    if (productionMode) {
-      const processed = await postcss([
-        autoprefixer(),
-        cssnano({
-          preset: [
-            "default",
-            {
-              discardComments: {
-                removeAll: true,
-              },
-            },
-          ],
-        }),
-      ]).process(css, { from: entryPath, to: output, map: false });
-
-      css = processed.css;
-      rmSync(outputMap, { force: true });
-    } else {
-      css = `${css}\n/*# sourceMappingURL=${basename(outputMap)} */\n`;
-      writeFileSync(outputMap, JSON.stringify(result.sourceMap, null, 2));
+    for (const target of buildTargets) {
+      await buildTarget(target, reason);
     }
-
-    writeFileSync(output, css);
-    buildCmsPageStyles();
-    console.log(
-      `[style] Built ${output}${productionMode ? " [production]" : ""}${watchMode ? ` (${reason})` : ""}`,
-    );
-    reportOutputSizes(css);
   } catch (error) {
     console.error(`[style] Build failed${watchMode ? ` (${reason})` : ""}`);
     console.error(error instanceof Error ? error.message : error);

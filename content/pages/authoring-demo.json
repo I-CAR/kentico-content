@@ -1,0 +1,286 @@
+{
+  "slug": "authoring-demo",
+  "title": "Content Authoring Demo",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Build Pages Without Hand Writing Every Template",
+      "label": "Content-Driven Authoring",
+      "sublabel": "A lightweight authoring path for this repo.",
+      "body": [
+        "This demo page is generated from JSON content instead of being hand-authored line by line in HTML.",
+        "The output still uses the same page structure and classes already expected by the Kentico export workflow."
+      ],
+      "buttons": [
+        {
+          "label": "Jump To Benefits",
+          "href": "#benefits"
+        }
+      ],
+      "image": {
+        "alt": "Placeholder illustration for generated page content",
+        "desktopSrc": "https://placehold.co/1600x580?text=Generated+Page",
+        "desktopSrcset": "https://placehold.co/800x290?text=Generated+Page 800w, https://placehold.co/1600x580?text=Generated+Page 1600w, https://placehold.co/3200x1160?text=Generated+Page 3200w",
+        "mobileSrcset": "https://placehold.co/400x300?text=Generated+Page 400w, https://placehold.co/800x600?text=Generated+Page 800w, https://placehold.co/1600x1200?text=Generated+Page 1600w",
+        "width": "1600",
+        "height": "580",
+        "sizes": "(max-width: 1024px) 800px, 1600px",
+        "loading": "eager"
+      }
+    },
+    {
+      "type": "pageNav",
+      "id": "page-nav",
+      "links": [
+        {
+          "label": "Benefits",
+          "href": "#benefits"
+        },
+        {
+          "label": "Workflow",
+          "href": "#workflow"
+        },
+        {
+          "label": "Patterns",
+          "href": "#patterns"
+        },
+        {
+          "label": "Team Quotes",
+          "href": "#team-quotes"
+        },
+        {
+          "label": "Next Step",
+          "href": "#next-step"
+        }
+      ]
+    },
+    {
+      "type": "cards",
+      "id": "benefits",
+      "title": "What This Unlocks",
+      "body": [
+        "You can author page content in a smaller, safer format while still shipping production-ready HTML into the existing pipeline."
+      ],
+      "buttons": [
+        {
+          "label": "Keep Using Existing Components",
+          "href": "#workflow"
+        }
+      ],
+      "cards": [
+        {
+          "title": "Less Repetition",
+          "body": "Reusable section patterns keep repeated layout markup out of everyday content work.",
+          "image": {
+            "alt": "Placeholder card image for less repetition",
+            "desktopSrc": "https://placehold.co/400x220?text=Less+Repetition",
+            "desktopSrcset": "https://placehold.co/400x220?text=Less+Repetition 400w, https://placehold.co/800x440?text=Less+Repetition 800w, https://placehold.co/1600x880?text=Less+Repetition 1600w",
+            "mobileSrcset": "https://placehold.co/400x200?text=Less+Repetition 400w, https://placehold.co/800x400?text=Less+Repetition 800w, https://placehold.co/1600x800?text=Less+Repetition 1600w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
+        },
+        {
+          "title": "Fewer Broken Tags",
+          "body": "Content edits happen in structured fields, which makes common HTML mistakes much less likely.",
+          "image": {
+            "alt": "Placeholder card image for fewer broken tags",
+            "desktopSrc": "https://placehold.co/400x220?text=Fewer+Broken+Tags",
+            "desktopSrcset": "https://placehold.co/400x220?text=Fewer+Broken+Tags 400w, https://placehold.co/800x440?text=Fewer+Broken+Tags 800w, https://placehold.co/1600x880?text=Fewer+Broken+Tags 1600w",
+            "mobileSrcset": "https://placehold.co/400x200?text=Fewer+Broken+Tags 400w, https://placehold.co/800x400?text=Fewer+Broken+Tags 800w, https://placehold.co/1600x800?text=Fewer+Broken+Tags 1600w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
+        },
+        {
+          "title": "Same Output Pipeline",
+          "body": "Generated pages still land under html and continue through the existing CMS export build.",
+          "image": {
+            "alt": "Placeholder card image for same output pipeline",
+            "desktopSrc": "https://placehold.co/400x220?text=Same+Output+Pipeline",
+            "desktopSrcset": "https://placehold.co/400x220?text=Same+Output+Pipeline 400w, https://placehold.co/800x440?text=Same+Output+Pipeline 800w, https://placehold.co/1600x880?text=Same+Output+Pipeline 1600w",
+            "mobileSrcset": "https://placehold.co/400x200?text=Same+Output+Pipeline 400w, https://placehold.co/800x400?text=Same+Output+Pipeline 800w, https://placehold.co/1600x800?text=Same+Output+Pipeline 1600w",
+            "width": "400",
+            "height": "220",
+            "sizes": "800px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "workflow",
+      "title": "How The Workflow Works",
+      "backgroundLight": true,
+      "body": [
+        "You add a JSON file in content/pages, define the sections you need, and run npm run build:pages.",
+        "The script prepares the page for CMS output under cms/generated, and the existing build:cms step exports that page in the same Kentico-ready format."
+      ]
+    },
+    {
+      "type": "textMedia",
+      "id": "patterns",
+      "title": "Pattern-Based Sections Keep Things Moving",
+      "sublabel": "Authors fill fields while the template keeps the structure steady.",
+      "body": [
+        "This type is a good fit for standard marketing sections that pair a headline, a few paragraphs, a button, and an image.",
+        "Because the markup is generated, the same content can be reapplied consistently on every build without hand-editing wrappers."
+      ],
+      "buttons": [
+        {
+          "label": "See Team Quotes",
+          "href": "#team-quotes",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "image": {
+        "alt": "Placeholder image representing reusable page patterns",
+        "desktopSrc": "https://placehold.co/800x550?text=Pattern+Section",
+        "desktopSrcset": "https://placehold.co/400x550?text=Pattern+Section 400w, https://placehold.co/800x550?text=Pattern+Section 800w, https://placehold.co/1600x550?text=Pattern+Section 1600w",
+        "mobileSrcset": "https://placehold.co/400x450?text=Pattern+Section 400w, https://placehold.co/800x450?text=Pattern+Section 800w, https://placehold.co/1600x450?text=Pattern+Section 1600w",
+        "width": "800",
+        "height": "550",
+        "sizes": "800px"
+      }
+    },
+    {
+      "type": "quoteGrid",
+      "id": "team-quotes",
+      "title": "Content Can Still Feel Human",
+      "body": [
+        "Structured authoring does not mean flat pages. We can still support testimonials and richer supporting content blocks."
+      ],
+      "quotes": [
+        {
+          "quote": "Updating content is much faster when the page structure is already taken care of for me.",
+          "name": "Alex Morgan",
+          "title": "Content Strategist",
+          "image": {
+            "alt": "Alex Morgan",
+            "desktopSrc": "https://placehold.co/70x70?text=A",
+            "desktopSrcset": "https://placehold.co/70x70?text=A 70w, https://placehold.co/140x140?text=A 140w",
+            "width": "70",
+            "height": "70",
+            "sizes": "80px"
+          }
+        },
+        {
+          "quote": "I can focus on the message instead of worrying about breaking the layout.",
+          "name": "Jordan Lee",
+          "title": "Marketing Manager",
+          "image": {
+            "alt": "Jordan Lee",
+            "desktopSrc": "https://placehold.co/70x70?text=J",
+            "desktopSrcset": "https://placehold.co/70x70?text=J 70w, https://placehold.co/140x140?text=J 140w",
+            "width": "70",
+            "height": "70",
+            "sizes": "80px"
+          }
+        },
+        {
+          "quote": "Reusable section types make repeatable campaign pages much easier to maintain over time.",
+          "name": "Taylor Brooks",
+          "title": "Digital Content Lead",
+          "image": {
+            "alt": "Taylor Brooks",
+            "desktopSrc": "https://placehold.co/70x70?text=T",
+            "desktopSrcset": "https://placehold.co/70x70?text=T 70w, https://placehold.co/140x140?text=T 140w",
+            "width": "70",
+            "height": "70",
+            "sizes": "80px"
+          }
+        },
+        {
+          "quote": "Running npm start and seeing the page update from JSON feels a lot better than editing raw HTML all day.",
+          "name": "Casey Nguyen",
+          "title": "Web Producer",
+          "image": {
+            "alt": "Casey Nguyen",
+            "desktopSrc": "https://placehold.co/70x70?text=C",
+            "desktopSrcset": "https://placehold.co/70x70?text=C 70w, https://placehold.co/140x140?text=C 140w",
+            "width": "70",
+            "height": "70",
+            "sizes": "80px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "profileGrid",
+      "id": "owners",
+      "title": "A Few Reusable People Patterns",
+      "backgroundLight": true,
+      "body": [
+        "Profile grids are useful for leadership, speakers, reviewers, or partner spotlights."
+      ],
+      "profiles": [
+        {
+          "name": "Morgan Ellis",
+          "title": "Senior Content Designer",
+          "image": {
+            "alt": "Morgan Ellis",
+            "desktopSrc": "https://placehold.co/100x100?text=M",
+            "desktopSrcset": "https://placehold.co/100x100?text=M 100w, https://placehold.co/200x200?text=M 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
+          }
+        },
+        {
+          "name": "Riley Chen",
+          "title": "Marketing Operations Lead",
+          "image": {
+            "alt": "Riley Chen",
+            "desktopSrc": "https://placehold.co/100x100?text=R",
+            "desktopSrcset": "https://placehold.co/100x100?text=R 100w, https://placehold.co/200x200?text=R 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
+          }
+        },
+        {
+          "name": "Avery Patel",
+          "title": "Web Content Manager",
+          "image": {
+            "alt": "Avery Patel",
+            "desktopSrc": "https://placehold.co/100x100?text=A",
+            "desktopSrcset": "https://placehold.co/100x100?text=A 100w, https://placehold.co/200x200?text=A 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
+          }
+        },
+        {
+          "name": "Sam Rivera",
+          "title": "Digital Experience Strategist",
+          "image": {
+            "alt": "Sam Rivera",
+            "desktopSrc": "https://placehold.co/100x100?text=S",
+            "desktopSrcset": "https://placehold.co/100x100?text=S 100w, https://placehold.co/200x200?text=S 200w",
+            "width": "100",
+            "height": "100",
+            "sizes": "100px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "next-step",
+      "title": "Ready To Expand It",
+      "body": [
+        "The scaffold is intentionally small, but it gives us a clean place to add more reusable section types as your content patterns repeat."
+      ],
+      "buttons": [
+        {
+          "label": "Add More Section Types",
+          "href": "#hero",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "slug": "jeff-silver-platinum-award",
+  "title": "About Us - Awards - Jeff Silver Platinum Award",
+  "cms": {
+    "scriptOutput": "separateHtmlFile",
+    "scriptHtml": []
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero",
+      "title": "Jeff Silver Platinum Award",
+      "sublabel": "Recognizing Achievement in the Collision Repair Industry",
+      "body": [
+        "First presented in 2009, the Jeff Silver Platinum Individual Award honors Jeff Silver, a visionary leader known for his commitment to technical training and excellence within the collision repair industry."
+      ],
+      "backgroundLight": true,
+      "rowClassName": "row justify-content-center align-items-center",
+      "contentClassName": "col col-12 col-md col-lg-6 col-xl-5 order-last order-md-first py-0 pr-lg-4",
+      "mediaClassName": "col col-12 col-md col-lg-7 order-first order-md-last",
+      "imageLink": {
+        "href": "#nomination-overview",
+        "title": "Platinum Individual Nomination Form for 2025 Performance Year"
+      },
+      "badgeColumnClass": "col col-auto order-first order-md-last mb-3 pb-3 mb-md-0 pb-md-0",
+      "badgeImage": {
+        "alt": "I-CAR Platinum Professional badge logo",
+        "className": "ic-image-logo",
+        "desktopSrc": "https://info.i-car.com/getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp",
+        "desktopSrcset": "https://info.i-car.com/getmedia/06ab284e-6251-4554-8a54-1c5e174b5b11/Platinum_Professional_170w.webp 170w, https://info.i-car.com/getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp 340w",
+        "width": "170",
+        "height": "157",
+        "sizes": "170px"
+      },
+      "image": {
+        "alt": "",
+        "desktopSrc": "https://info.i-car.com/getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp",
+        "desktopSrcset": "https://info.i-car.com/getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp 1400w, https://info.i-car.com/getmedia/0325465f-aeb6-4044-bf81-39ddb815afa0/What-Is-Platinum_2800w.webp 2800w",
+        "mobileSrcset": "https://info.i-car.com/getmedia/57dcef79-4a56-4d88-bf45-f0c593bb4c96/What-Is-Platinum_400w.webp 400w, https://info.i-car.com/getmedia/700a3cb4-3d04-4136-8521-bc2e3aebce0a/What-Is-Platinum_800w.webp 800w, https://info.i-car.com/getmedia/ee70a449-b3c6-4636-bedf-459c48d89cae/What-Is-Platinum_1600w.webp 1600w",
+        "width": "1400",
+        "height": "400",
+        "sizes": "1400px"
+      }
+    },
+    {
+      "type": "stickyCards",
+      "id": "nomination-overview",
+      "title": "Platinum Individual Nomination Form for 2025 Performance Year",
+      "buttons": [
+        {
+          "label": "View Previous I-CAR Award Recipients",
+          "href": "https://info.i-car.com/about-us/awards",
+          "className": "ic-btn ic-btn-primary ic-btn-outline"
+        }
+      ],
+      "cards": [
+        {
+          "title": "Purpose",
+          "body": "This award recognizes individuals who demonstrate a commitment to continuous learning, professional growth, and advancing industry standards through ongoing training and development."
+        },
+        {
+          "title": "Eligibility",
+          "titleClassName": "ic-h4",
+          "body": "This award will be bestowed upon a select individual that meets the following requirements:",
+          "listItems": [
+            "Holds a long term (defined as at least five consecutive years) I-CAR Platinum Individual designation",
+            "Trains beyond the minimum requirement to maintain the designation",
+            "Available for a member of any industry segment that meets criteria"
+          ],
+          "footer": "Please note all current I-CAR employees are not eligible to earn this award. This includes I-CAR full-time and part-time instructors."
+        },
+        {
+          "title": "Nominating Procedure",
+          "bodyHtml": "Complete this form and submit it prior to <time datetime=\"2026-07-31\">July 31,&nbsp;2026</time>. For questions, email&nbsp;<a href=\"mailto:i-car.events.dept@i-car.com\">i&#8209;car.events.dept@i-car.com</a>."
+        },
+        {
+          "title": "Presentation of Award",
+          "bodyHtml": "The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime=\"2026-11-03\">Tuesday, November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards."
+        }
+      ]
+    }
+  ]
+}

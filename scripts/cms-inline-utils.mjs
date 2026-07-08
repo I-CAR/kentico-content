@@ -8,13 +8,13 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
+import * as esbuild from "esbuild";
 
 const outputDir = "cms";
 const htmlSourceDir = "html";
-const sharedOutputDir = join(outputDir, "_shared");
-const sharedCssOutputDir = join(sharedOutputDir, "css");
-const sharedJsOutputDir = join(sharedOutputDir, "js");
-const legacyOutputDirs = ["pages", "content", "css", "js", "includes"].map((directory) =>
+const contentSourceDir = join("content", "pages");
+const generatedHtmlSourceDir = join(".cache", "generated-html");
+const legacyOutputDirs = ["pages", "content", "css", "js", "includes", "_shared"].map((directory) =>
   join(outputDir, directory),
 );
 const htmlVoidElements = new Set([
@@ -67,6 +67,14 @@ function normalizeAssetPath(htmlFile, assetPath) {
   return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
 }
 
+function isBootstrapAsset(assetPath) {
+  return /(^|\/)node_modules\/bootstrap\//i.test(assetPath.replace(/\\/g, "/"));
+}
+
+function isSwiperAsset(assetPath) {
+  return /(^|\/)node_modules\/swiper\//i.test(assetPath.replace(/\\/g, "/"));
+}
+
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
@@ -80,8 +88,6 @@ function stripJsComments(source) {
 
 function ensureOutputDir() {
   mkdirSync(outputDir, { recursive: true });
-  mkdirSync(sharedCssOutputDir, { recursive: true });
-  mkdirSync(sharedJsOutputDir, { recursive: true });
 }
 
 function collectFiles(root, extension) {
@@ -107,33 +113,66 @@ function collectFiles(root, extension) {
   return files.sort();
 }
 
-function toCmsPageDirectory(sourceFile) {
-  const relativePath = relative(htmlSourceDir, sourceFile).replace(/\\/g, "/");
-  return join(outputDir, relativePath.replace(/\.html$/i, ""));
+function collectCmsSourceFiles() {
+  return [
+    ...collectFiles(htmlSourceDir, ".html"),
+    ...collectFiles(generatedHtmlSourceDir, ".html"),
+  ].sort();
 }
 
-function toCmsOutputPath(sourceFile, extension) {
-  return join(toCmsPageDirectory(sourceFile), `index.${extension}`);
+function isGeneratedSourceFile(sourceFile) {
+  return sourceFile.startsWith(`${generatedHtmlSourceDir}/`) || sourceFile === generatedHtmlSourceDir;
 }
 
 function toCmsHtmlOutputPath(sourceFile) {
-  return toCmsOutputPath(sourceFile, "html");
+  const sourceRoot = isGeneratedSourceFile(sourceFile) ? generatedHtmlSourceDir : htmlSourceDir;
+  const relativePath = relative(sourceRoot, sourceFile).replace(/\\/g, "/");
+  const outputBaseDir = isGeneratedSourceFile(sourceFile) ? join(outputDir, "generated") : outputDir;
+  return join(outputBaseDir, relativePath);
 }
 
-function toCmsCssOutputPath(sourceFile) {
-  return toCmsOutputPath(sourceFile, "css");
+function toSourceRelativeHtmlPath(sourceFile) {
+  const sourceRoot = isGeneratedSourceFile(sourceFile) ? generatedHtmlSourceDir : htmlSourceDir;
+  const relativePath = relative(sourceRoot, sourceFile).replace(/\\/g, "/");
+  return relativePath;
 }
 
-function toCmsJsOutputPath(sourceFile) {
-  return toCmsOutputPath(sourceFile, "js");
+function toCmsScriptHtmlOutputPath(sourceFile) {
+  return toCmsHtmlOutputPath(sourceFile).replace(/\.html$/i, ".scripts.html");
 }
 
-function toSharedCssOutputPath(assetPath) {
-  return join(sharedCssOutputDir, assetPath.replace(/\\/g, "/"));
+function toCompanionScriptSourcePath(sourceFile) {
+  return sourceFile.replace(/\.html$/i, ".scripts.html");
 }
 
-function toSharedJsOutputPath(assetPath) {
-  return join(sharedJsOutputDir, assetPath.replace(/\\/g, "/"));
+function toContentHtmlRelativePath(sourceFile, page) {
+  const sourceRelativePath = relative(contentSourceDir, sourceFile).replace(/\\/g, "/");
+  const sourceDirectory = dirname(sourceRelativePath).replace(/\\/g, "/");
+  const fallbackName = sourceRelativePath.split("/").pop().replace(/\.json$/i, "");
+  const outputBaseName = page.slug || fallbackName;
+  return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
+}
+
+function loadCmsScriptSplitPaths() {
+  if (!existsSync(contentSourceDir)) {
+    return new Set();
+  }
+
+  const splitPaths = new Set();
+
+  for (const sourceFile of collectFiles(contentSourceDir, ".json")) {
+    const page = JSON.parse(readFileSync(sourceFile, "utf8"));
+
+    if (page?.cms?.scriptOutput === "separateHtmlFile") {
+      splitPaths.add(toContentHtmlRelativePath(sourceFile, page));
+    }
+  }
+
+  return splitPaths;
+}
+
+function shouldSplitCmsScripts(sourceFile, splitPaths = loadCmsScriptSplitPaths()) {
+  return splitPaths.has(toSourceRelativeHtmlPath(sourceFile));
 }
 
 function removeEmptyDirectories(root) {
@@ -155,14 +194,18 @@ function removeEmptyDirectories(root) {
   }
 }
 
-function cleanupRemovedCmsPages(sourceFiles) {
+function cleanupRemovedCmsPages(sourceFiles, splitPaths = loadCmsScriptSplitPaths()) {
   if (!existsSync(outputDir)) {
     return;
   }
 
-  const expectedOutputs = new Set(sourceFiles.map((sourceFile) => toCmsHtmlOutputPath(sourceFile)));
-  const expectedCssOutputs = new Set(sourceFiles.map((sourceFile) => toCmsCssOutputPath(sourceFile)));
-  const expectedJsOutputs = new Set(sourceFiles.map((sourceFile) => toCmsJsOutputPath(sourceFile)));
+  const expectedOutputs = new Set(
+    sourceFiles.flatMap((sourceFile) =>
+      shouldSplitCmsScripts(sourceFile, splitPaths)
+        ? [toCmsHtmlOutputPath(sourceFile), toCmsScriptHtmlOutputPath(sourceFile)]
+        : [toCmsHtmlOutputPath(sourceFile)],
+    ),
+  );
   const existingOutputs = collectFiles(outputDir, ".html");
   const existingJsonOutputs = collectFiles(outputDir, ".json");
   const existingCssOutputs = collectFiles(outputDir, ".css");
@@ -175,13 +218,7 @@ function cleanupRemovedCmsPages(sourceFiles) {
   }
 
   for (const filePath of existingCssOutputs) {
-    if (filePath.startsWith(`${sharedCssOutputDir}/`) || filePath === sharedCssOutputDir) {
-      continue;
-    }
-
-    if (!expectedCssOutputs.has(filePath)) {
-      rmSync(filePath, { force: true });
-    }
+    rmSync(filePath, { force: true });
   }
 
   for (const filePath of existingJsonOutputs) {
@@ -189,13 +226,7 @@ function cleanupRemovedCmsPages(sourceFiles) {
   }
 
   for (const filePath of existingJsOutputs) {
-    if (filePath.startsWith(`${sharedJsOutputDir}/`) || filePath === sharedJsOutputDir) {
-      continue;
-    }
-
-    if (!expectedJsOutputs.has(filePath)) {
-      rmSync(filePath, { force: true });
-    }
+    rmSync(filePath, { force: true });
   }
 
   legacyOutputDirs.forEach((directory) => {
@@ -327,6 +358,49 @@ function extractLinkTags(source) {
   return Array.from(source.matchAll(/<link\b[\s\S]*?>/gi), (match) => match[0]);
 }
 
+function toOutputAssetPath(sourceFile, outputFile, assetPath) {
+  if (
+    !assetPath ||
+    /^[a-z]+:/i.test(assetPath) ||
+    assetPath.startsWith("//") ||
+    assetPath.startsWith("/") ||
+    assetPath.startsWith("#")
+  ) {
+    return assetPath;
+  }
+
+  return relative(dirname(outputFile), normalizeAssetPath(sourceFile, assetPath)).replace(/\\/g, "/");
+}
+
+function rewriteSrcsetValue(sourceFile, outputFile, srcsetValue) {
+  return srcsetValue
+    .split(",")
+    .map((entry) => {
+      const trimmed = entry.trim();
+
+      if (!trimmed) {
+        return trimmed;
+      }
+
+      const [url, ...descriptorParts] = trimmed.split(/\s+/);
+      const rewrittenUrl = toOutputAssetPath(sourceFile, outputFile, url);
+      return [rewrittenUrl, ...descriptorParts].filter(Boolean).join(" ");
+    })
+    .join(", ");
+}
+
+function rewriteLocalAssetPaths(sourceFile, outputFile, source) {
+  return source
+    .replace(/\b(href|src)=["']([^"']+)["']/gi, (match, attributeName, assetPath) => {
+      const rewrittenPath = toOutputAssetPath(sourceFile, outputFile, assetPath);
+      return `${attributeName}="${escapeAttribute(rewrittenPath)}"`;
+    })
+    .replace(/\bsrcset=["']([^"']+)["']/gi, (match, srcsetValue) => {
+      const rewrittenValue = rewriteSrcsetValue(sourceFile, outputFile, srcsetValue);
+      return `srcset="${escapeAttribute(rewrittenValue)}"`;
+    });
+}
+
 function extractLocalAssetPaths(sourceFile, source, { tagName, extension }) {
   const pattern =
     tagName === "link"
@@ -367,7 +441,17 @@ function extractHeadFontLinks(source) {
   );
 }
 
-function extractCmsFragment(source) {
+function extractHeadExternalLinks(source) {
+  const headMatch = source.match(/<head\b[\s\S]*?<\/head>/i);
+
+  if (!headMatch) {
+    return [];
+  }
+
+  return extractLinkTags(headMatch[0]).filter((link) => /href=["'](?:[a-z]+:)?\/\//i.test(link));
+}
+
+function extractCmsMain(source) {
   const bodyMatch = source.match(/<body\b[\s\S]*?<\/body>/i);
 
   if (!bodyMatch) {
@@ -375,20 +459,196 @@ function extractCmsFragment(source) {
   }
 
   const body = bodyMatch[0];
-  const links = extractHeadFontLinks(source);
   const main = extractSection(body, "main");
-
-  return [...links, main].join("\n\n").trim();
+  return main;
 }
 
-function extractCmsCss(sourceFile, source) {
-  const cssPaths = extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" });
-  return cssPaths;
+function extractInlineScriptSource(source) {
+  return Array.from(
+    source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi),
+    (match) => {
+      const attributeSource = match[1] ?? "";
+
+      if (/\bsrc=["']/i.test(attributeSource)) {
+        return "";
+      }
+
+      return stripJsComments(match[2] ?? "");
+    },
+  )
+    .filter(Boolean)
+    .join("\n");
 }
 
-function extractCmsJs(sourceFile, source) {
-  const jsPaths = extractLocalAssetPaths(sourceFile, source, { tagName: "script", extension: ".js" });
-  return jsPaths;
+function pageUsesSwiper(source) {
+  return (
+    /\bSwiper\s*\(/.test(source) ||
+    /\bjs-ic-swiper(?:-[\w-]+)?\b/.test(source) ||
+    /\bic-swiper(?:-[\w-]+)?\b/.test(source) ||
+    /\bswiper(?:-wrapper|-slide|-pagination|-button-next|-button-prev)?\b/.test(source)
+  );
+}
+
+function pageUsesBootstrap(source) {
+  const bootstrapClassPattern =
+    /\b(?:container(?:-fluid)?|row|col(?:-(?:auto|\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+))?|g[xy]?-\d+|gap-\d+|d-(?:none|block|inline|inline-block|flex|grid)|d-(?:sm|md|lg|xl|xxl)-(?:none|block|inline|inline-block|flex|grid)|justify-content-(?:start|end|center|between|around|evenly)|align-items-(?:start|end|center|baseline|stretch)|align-self-(?:start|end|center|baseline|stretch)|flex-(?:row|column|wrap|nowrap|fill|grow-\d|shrink-\d)|order-(?:first|last|\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+)|offset-(?:\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+)|m[trblxyse]?-(?:auto|\d+)|p[trblxyse]?-\d+|text-(?:start|end|center|uppercase|lowercase|capitalize)|fw-(?:normal|bold|semibold|light)|w-\d+|h-\d+|btn(?:-[\w-]+)?|accordion(?:-[\w-]+)?|collapse|show|card(?:-[\w-]+)?|ratio(?:-\d+x\d+)?|img-fluid)\b/;
+
+  return (
+    /\bdata-bs-[\w-]+=/i.test(source) ||
+    /\bbootstrap\./.test(source) ||
+    bootstrapClassPattern.test(source)
+  );
+}
+
+function detectPageDependencies(source) {
+  const dependencySource = [extractCmsMain(source), extractInlineScriptSource(source)].filter(Boolean).join("\n");
+
+  return {
+    bootstrap: pageUsesBootstrap(dependencySource),
+    swiper: pageUsesSwiper(dependencySource),
+  };
+}
+
+function filterCmsAssetPaths(assetPaths, dependencies) {
+  return assetPaths.filter((assetPath) => {
+    if (isBootstrapAsset(assetPath)) {
+      return dependencies.bootstrap;
+    }
+
+    if (isSwiperAsset(assetPath)) {
+      return dependencies.swiper;
+    }
+
+    return true;
+  });
+}
+
+function extractCmsCssPaths(sourceFile, source) {
+  return filterCmsAssetPaths(extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" }), detectPageDependencies(source));
+}
+
+async function renderCmsStyleTag(sourceFile, source) {
+  const cssParts = extractCmsCssPaths(sourceFile, source)
+    .map((assetPath) => stripCssComments(readFileSync(assetPath, "utf8")))
+    .filter(Boolean);
+
+  if (cssParts.length === 0) {
+    return "";
+  }
+
+  const css = await minifyCss(cssParts.join("\n\n"));
+  return css ? `<style>\n${css}\n</style>` : "";
+}
+
+function renderCmsLinkTags(source) {
+  return [...extractHeadExternalLinks(source), ...extractHeadFontLinks(source)]
+    .filter((link, index, links) => links.indexOf(link) === index)
+    .map((link) => rebuildTag(link))
+    .join("\n");
+}
+
+function removeScriptTags(source) {
+  return source.replace(/<script\b[\s\S]*?<\/script>\s*/gi, "");
+}
+
+function extractCmsScriptBlocks(sourceFile, source) {
+  const companionSourceFile = toCompanionScriptSourcePath(sourceFile);
+  const companionSource = existsSync(companionSourceFile) ? readFileSync(companionSourceFile, "utf8") : "";
+  const dependencies = detectPageDependencies([source, companionSource].filter(Boolean).join("\n"));
+  const blocks = [];
+  const pattern = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  const sources = [source, companionSource].filter(Boolean);
+
+  for (const currentSource of sources) {
+    for (const match of currentSource.matchAll(pattern)) {
+      const attributeSource = match[1] ?? "";
+      const inlineSource = match[2] ?? "";
+      const srcMatch = attributeSource.match(/\bsrc=["']([^"']+)["']/i);
+      const src = srcMatch?.[1] ?? null;
+
+      if (src) {
+        if (/^[a-z]+:/i.test(src) || src.startsWith("//")) {
+          blocks.push({ type: "external", tag: rebuildTag(match[0].replace(/\s*<\/script>\s*$/i, ">")) });
+          continue;
+        }
+
+        const assetPath = normalizeAssetPath(sourceFile, src);
+        const assetPaths = [assetPath];
+
+        for (const currentAssetPath of assetPaths) {
+          if (!existsSync(currentAssetPath)) {
+            continue;
+          }
+
+          if (isBootstrapAsset(currentAssetPath) && !dependencies.bootstrap) {
+            continue;
+          }
+
+          if (isSwiperAsset(currentAssetPath) && !dependencies.swiper) {
+            continue;
+          }
+
+          blocks.push({
+            type: "inline",
+            source: stripJsComments(readFileSync(currentAssetPath, "utf8")),
+          });
+        }
+
+        continue;
+      }
+
+      const inlineJs = stripJsComments(inlineSource);
+
+      if (!inlineJs) {
+        continue;
+      }
+
+      blocks.push({
+        type: "inline",
+        source: inlineJs,
+      });
+    }
+  }
+
+  return blocks;
+}
+
+async function renderCmsHtmlParts(sourceFile, outputFile, source, { minify = false } = {}) {
+  const splitScripts = shouldSplitCmsScripts(sourceFile);
+  const mainSource = extractCmsMain(source);
+  const rewrittenMain = rewriteLocalAssetPaths(sourceFile, outputFile, mainSource);
+  const mainOutput = minify ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
+  const styleTag = await renderCmsStyleTag(sourceFile, source);
+  const linkTags = renderCmsLinkTags(source);
+  const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
+  const scriptParts = [];
+
+  for (const block of scriptBlocks) {
+    if (block.type === "external") {
+      scriptParts.push(block.tag);
+      continue;
+    }
+
+    const minifiedJs = await minifyJs(block.source);
+
+    if (!minifiedJs) {
+      continue;
+    }
+
+    scriptParts.push(`<script>\n${minifiedJs}\n</script>`);
+  }
+
+  const inlineScripts = scriptParts.join("\n\n").trim();
+  const htmlParts = [styleTag, linkTags, mainOutput.trim()];
+
+  if (!splitScripts && inlineScripts) {
+    htmlParts.push(inlineScripts);
+  }
+
+  return {
+    html: htmlParts.filter(Boolean).join("\n\n").trim(),
+    scripts: splitScripts ? inlineScripts : "",
+  };
 }
 
 function sortAttributes(tagName, attributes) {
@@ -527,208 +787,82 @@ function minifyFragment(fragment) {
   return transformFragment(fragment, minifyText);
 }
 
-export function buildCmsPageStyles() {
-  if (!existsSync(htmlSourceDir)) {
-    return false;
+async function minifyJs(source) {
+  if (!source) {
+    return "";
   }
 
-  ensureOutputDir();
-  const htmlFiles = collectFiles(htmlSourceDir, ".html");
-  const pageCssAssets = new Map();
-  const assetUsageCounts = new Map();
+  const result = await esbuild.transform(source, {
+    loader: "js",
+    minify: true,
+    legalComments: "none",
+  });
 
-  rmSync(sharedCssOutputDir, { recursive: true, force: true });
-  mkdirSync(sharedCssOutputDir, { recursive: true });
-
-  for (const sourceFile of htmlFiles) {
-    const source = readFileSync(sourceFile, "utf8");
-    const cssAssets = extractCmsCss(sourceFile, source);
-    pageCssAssets.set(sourceFile, cssAssets);
-
-    for (const assetPath of cssAssets) {
-      assetUsageCounts.set(assetPath, (assetUsageCounts.get(assetPath) ?? 0) + 1);
-    }
-  }
-
-  for (const [assetPath, count] of assetUsageCounts.entries()) {
-    if (count < 2) {
-      continue;
-    }
-
-    const sharedOutputFile = toSharedCssOutputPath(relative(".", assetPath));
-    const css = stripCssComments(readFileSync(assetPath, "utf8"));
-    mkdirSync(dirname(sharedOutputFile), { recursive: true });
-    writeFileSync(sharedOutputFile, css ? `${css}\n` : "");
-    console.log(`[cms] Built ${sharedOutputFile}`);
-  }
-
-  for (const sourceFile of htmlFiles) {
-    const outputFile = toCmsCssOutputPath(sourceFile);
-    const cssAssets = pageCssAssets.get(sourceFile) ?? [];
-    const pageCssParts = [];
-
-    for (const assetPath of cssAssets) {
-      const usageCount = assetUsageCounts.get(assetPath) ?? 0;
-
-      if (usageCount >= 2) {
-        const sharedOutputFile = toSharedCssOutputPath(relative(".", assetPath));
-        const relativeImportPath = relative(dirname(outputFile), sharedOutputFile).replace(/\\/g, "/");
-        pageCssParts.push(`@import "${relativeImportPath}";`);
-        continue;
-      }
-
-      const css = stripCssComments(readFileSync(assetPath, "utf8"));
-      if (css) {
-        pageCssParts.push(css);
-      }
-    }
-
-    mkdirSync(dirname(outputFile), { recursive: true });
-    writeFileSync(outputFile, pageCssParts.length > 0 ? `${pageCssParts.join("\n")}\n` : "");
-    console.log(`[cms] Built ${outputFile}`);
-  }
-
-  return htmlFiles.length > 0;
+  return result.code.trim();
 }
 
-export function buildCmsPageScripts() {
-  if (!existsSync(htmlSourceDir)) {
-    return false;
+async function minifyCss(source) {
+  if (!source) {
+    return "";
   }
 
-  ensureOutputDir();
-  const htmlFiles = collectFiles(htmlSourceDir, ".html");
-  const pageJsAssets = new Map();
-  const assetUsageCounts = new Map();
+  const result = await esbuild.transform(source, {
+    loader: "css",
+    minify: true,
+    legalComments: "none",
+  });
 
-  rmSync(sharedJsOutputDir, { recursive: true, force: true });
-  mkdirSync(sharedJsOutputDir, { recursive: true });
-
-  for (const sourceFile of htmlFiles) {
-    const source = readFileSync(sourceFile, "utf8");
-    const jsAssets = extractCmsJs(sourceFile, source);
-    pageJsAssets.set(sourceFile, jsAssets);
-
-    for (const assetPath of jsAssets) {
-      assetUsageCounts.set(assetPath, (assetUsageCounts.get(assetPath) ?? 0) + 1);
-    }
-  }
-
-  for (const [assetPath, count] of assetUsageCounts.entries()) {
-    if (count < 2) {
-      continue;
-    }
-
-    const sharedOutputFile = toSharedJsOutputPath(relative(".", assetPath));
-    const js = stripJsComments(readFileSync(assetPath, "utf8"));
-    mkdirSync(dirname(sharedOutputFile), { recursive: true });
-    writeFileSync(sharedOutputFile, js ? `${js}\n` : "");
-    console.log(`[cms] Built ${sharedOutputFile}`);
-  }
-
-  for (const sourceFile of htmlFiles) {
-    const outputFile = toCmsJsOutputPath(sourceFile);
-    const jsAssets = pageJsAssets.get(sourceFile) ?? [];
-    const sharedScriptPaths = [];
-    const uniqueScriptBlocks = [];
-
-    for (const assetPath of jsAssets) {
-      const usageCount = assetUsageCounts.get(assetPath) ?? 0;
-
-      if (usageCount >= 2) {
-        const sharedOutputFile = toSharedJsOutputPath(relative(".", assetPath));
-        const relativeScriptPath = relative(dirname(outputFile), sharedOutputFile).replace(/\\/g, "/");
-        sharedScriptPaths.push(relativeScriptPath);
-        continue;
-      }
-
-      const js = stripJsComments(readFileSync(assetPath, "utf8"));
-      if (js) {
-        uniqueScriptBlocks.push(js);
-      }
-    }
-
-    let js = "";
-
-    if (sharedScriptPaths.length > 0) {
-      const sharedPathsLiteral = JSON.stringify(sharedScriptPaths);
-      const inlineCode =
-        uniqueScriptBlocks.length > 0
-          ? `\n${uniqueScriptBlocks.join("\n")}\n`
-          : "";
-
-      js = [
-        "(function(){",
-        `  const scriptPaths = ${sharedPathsLiteral};`,
-        "  const currentScript = document.currentScript;",
-        "  const baseUrl = currentScript?.src ? new URL('.', currentScript.src) : new URL('.', window.location.href);",
-        "  const runInline = function(){",
-        inlineCode ? inlineCode.trimEnd() : "",
-        "  };",
-        "  const loadScript = function(index){",
-        "    if (index >= scriptPaths.length) {",
-        "      runInline();",
-        "      return;",
-        "    }",
-        "    const script = document.createElement('script');",
-        "    script.src = new URL(scriptPaths[index], baseUrl).href;",
-        "    script.async = false;",
-        "    script.onload = function(){ loadScript(index + 1); };",
-        "    document.head.appendChild(script);",
-        "  };",
-        "  loadScript(0);",
-        "})();",
-      ]
-        .filter(Boolean)
-        .join("\n");
-    } else if (uniqueScriptBlocks.length > 0) {
-      js = uniqueScriptBlocks.join("\n");
-    }
-
-    mkdirSync(dirname(outputFile), { recursive: true });
-    writeFileSync(outputFile, js ? `${js}\n` : "");
-    console.log(`[cms] Built ${outputFile}`);
-  }
-
-  return htmlFiles.length > 0;
+  return result.code.trim();
 }
 
 export async function buildCmsPages({ minify = false } = {}) {
-  if (!existsSync(htmlSourceDir)) {
+  const htmlFiles = collectCmsSourceFiles();
+
+  if (htmlFiles.length === 0) {
     return false;
   }
 
   ensureOutputDir();
-  const htmlFiles = collectFiles(htmlSourceDir, ".html");
-  cleanupRemovedCmsPages(htmlFiles);
+  const splitPaths = loadCmsScriptSplitPaths();
+  cleanupRemovedCmsPages(htmlFiles, splitPaths);
 
   for (const sourceFile of htmlFiles) {
     const source = readFileSync(sourceFile, "utf8");
-    const fragment = extractCmsFragment(source);
-    const output = minify ? minifyFragment(fragment) : removeCommentsAndSortAttributes(fragment);
     const outputFile = toCmsHtmlOutputPath(sourceFile);
+    const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
+    const output = await renderCmsHtmlParts(sourceFile, outputFile, source, { minify });
 
     mkdirSync(dirname(outputFile), { recursive: true });
-    writeFileSync(outputFile, `${output}\n`);
+    writeFileSync(outputFile, `${output.html}\n`);
+    if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
+      writeFileSync(scriptOutputFile, `${output.scripts}\n`);
+    } else {
+      rmSync(scriptOutputFile, { force: true });
+    }
     console.log(`[cms] Built ${outputFile}${minify ? " [minified]" : ""}`);
+    if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
+      console.log(`[cms] Built ${scriptOutputFile}${minify ? " [minified]" : ""}`);
+    }
   }
+
+  cleanupRemovedCmsPages(htmlFiles, splitPaths);
 
   return htmlFiles.length > 0;
 }
 
 export async function buildCmsAssets({ minify = false } = {}) {
-  const builtStyle = buildCmsPageStyles();
-  const builtScript = buildCmsPageScripts();
   const builtPages = await buildCmsPages({ minify });
-  return builtStyle || builtScript || builtPages;
+  return builtPages;
 }
 
 export function createHtmlSnapshot() {
-  if (!existsSync(htmlSourceDir)) {
-    return "";
-  }
+  const snapshotFiles = [
+    ...collectCmsSourceFiles(),
+    ...(existsSync("css") ? collectFiles("css", ".css") : []),
+    ...(existsSync("js") ? collectFiles("js", ".js") : []),
+  ];
 
-  return collectFiles(htmlSourceDir, ".html")
+  return snapshotFiles
     .map((file) => {
       const stats = statSync(file);
       return `${file}:${stats.mtimeMs}:${stats.size}`;

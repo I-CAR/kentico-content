@@ -2,16 +2,30 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { dirname } from "node:path";
 import { gzipSync } from "node:zlib";
 import * as esbuild from "esbuild";
-import { buildCmsPageScripts } from "./cms-inline-utils.mjs";
 
-const entry = "js/src/index.js";
-const output = "js/script.js";
-const outputMap = `${output}.map`;
-const legacyOutputFiles = ["js/script-v1.js", "js/script-v2.js", "js/script-v2.js.map", "js/script.js.map"];
+const buildTargets = [
+  {
+    entry: "js/src/index.js",
+    output: "js/script.js",
+  },
+  {
+    entry: "js/src/index-cms.js",
+    output: "js/script-cms.js",
+  },
+  {
+    entry: "js/src/index-cms-bootstrap.js",
+    output: "js/script-cms-bootstrap.js",
+  },
+  {
+    entry: "js/src/index-cms-swiper.js",
+    output: "js/script-cms-swiper.js",
+  },
+];
+const legacyOutputFiles = ["js/script-v1.js", "js/script-v2.js", "js/script-v2.js.map"];
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 
-function getEsbuildOptions() {
+function getEsbuildOptions(entry, output) {
   return {
     entryPoints: [entry],
     outfile: output,
@@ -49,6 +63,10 @@ function stripSourceMapComment(source) {
 }
 
 function logBuildSuccess(reason = "manual") {
+  logTargetBuildSuccess("js/script.js", reason);
+}
+
+function logTargetBuildSuccess(output, reason = "manual") {
   const details = [
     `[script] Built ${output}`,
     productionMode ? "[production]" : "[development]",
@@ -72,38 +90,47 @@ function logBuildFailure(error, reason = "manual") {
   console.error(error);
 }
 
+async function buildTarget({ entry, output }) {
+  const outputMap = `${output}.map`;
+
+  mkdirSync(dirname(output), { recursive: true });
+  rmSync(outputMap, { force: true });
+
+  const result = await esbuild.build({
+    ...getEsbuildOptions(entry, output),
+    metafile: true,
+    write: false,
+  });
+
+  const outputFile = result.outputFiles.find((file) => file.path.endsWith(output));
+  const outputSourceMap = result.outputFiles.find((file) => file.path.endsWith(outputMap));
+
+  if (!outputFile) {
+    throw new Error(`Missing bundled output for ${output}`);
+  }
+
+  const bundledSource = stripSourceMapComment(outputFile.text);
+  writeFileSync(output, `${bundledSource}\n`);
+
+  if (productionMode) {
+    rmSync(outputMap, { force: true });
+  } else if (outputSourceMap) {
+    writeFileSync(outputMap, outputSourceMap.contents);
+  }
+
+  logTargetBuildSuccess(output);
+  reportOutputSizes(bundledSource);
+}
+
 async function build(reason = "manual") {
   try {
-    mkdirSync(dirname(output), { recursive: true });
     legacyOutputFiles.forEach((file) => {
       rmSync(file, { force: true });
     });
 
-    const result = await esbuild.build({
-      ...getEsbuildOptions(),
-      metafile: true,
-      write: false,
-    });
-
-    const outputFile = result.outputFiles.find((file) => file.path.endsWith(output));
-    const outputSourceMap = result.outputFiles.find((file) => file.path.endsWith(outputMap));
-
-    if (!outputFile) {
-      throw new Error(`Missing bundled output for ${output}`);
+    for (const target of buildTargets) {
+      await buildTarget(target, reason);
     }
-
-    const bundledSource = stripSourceMapComment(outputFile.text);
-    writeFileSync(output, `${bundledSource}\n`);
-    buildCmsPageScripts();
-
-    if (productionMode) {
-      rmSync(outputMap, { force: true });
-    } else if (outputSourceMap) {
-      writeFileSync(outputMap, outputSourceMap.contents);
-    }
-
-    logBuildSuccess(reason);
-    reportOutputSizes(bundledSource);
   } catch (error) {
     logBuildFailure(error, reason);
 
@@ -119,37 +146,47 @@ if (!watchMode) {
 
 if (watchMode) {
   let isInitialWatchBuild = true;
-  const context = await esbuild.context({
-    ...getEsbuildOptions(),
-    plugins: [
-      {
-        name: "script-build-logger",
-        setup(buildContext) {
-          buildContext.onEnd(async (result) => {
-            if (result.errors.length > 0) {
-              logBuildFailure(result.errors[0], "watch change");
-              return;
-            }
+  const contexts = [];
 
-            if (!existsSync(output)) {
-              return;
-            }
+  for (const target of buildTargets) {
+    const context = await esbuild.context({
+      ...getEsbuildOptions(target.entry, target.output),
+      plugins: [
+        {
+          name: `script-build-logger:${target.output}`,
+          setup(buildContext) {
+            buildContext.onEnd(async (result) => {
+              if (result.errors.length > 0) {
+                logBuildFailure(result.errors[0], "watch change");
+                return;
+              }
 
-            const source = readFileSync(output, "utf8");
-            const normalizedSource = stripSourceMapComment(source);
-            if (normalizedSource !== source) {
-              writeFileSync(output, `${normalizedSource}\n`);
-            }
-            buildCmsPageScripts();
-            logBuildSuccess(isInitialWatchBuild ? "initial watch build" : "watch change");
-            reportOutputSizes(normalizedSource);
-            isInitialWatchBuild = false;
-          });
+              if (!existsSync(target.output)) {
+                return;
+              }
+
+              const source = readFileSync(target.output, "utf8");
+              const normalizedSource = stripSourceMapComment(source);
+              if (normalizedSource !== source) {
+                writeFileSync(target.output, `${normalizedSource}\n`);
+              }
+              logTargetBuildSuccess(
+                target.output,
+                isInitialWatchBuild ? "initial watch build" : "watch change",
+              );
+              reportOutputSizes(normalizedSource);
+              isInitialWatchBuild = false;
+            });
+          },
         },
-      },
-    ],
-  });
+      ],
+    });
 
-  console.log(`[script] Watching ${entry}`);
-  await context.watch();
+    contexts.push(context);
+  }
+
+  console.log("[script] Watching js/src/**/*.js");
+  for (const context of contexts) {
+    await context.watch();
+  }
 }
