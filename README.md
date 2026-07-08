@@ -21,6 +21,8 @@ If you are a content author with basic HTML and CSS skills, the main thing to kn
   Generated CMS-ready page folders. Each source page gets a mirrored folder containing `index.html`, `index.css`, and `index.js`.
 - `cms/_shared/css/`
   Generated shared CSS dependencies referenced by page-level `index.css` files.
+- `cms/_shared/js/`
+  Generated shared JavaScript dependencies loaded by page-level `index.js` files.
 - `css/scss/`
   Source styles for the newer page system.
 - `css/legacy/style-legacy.css`
@@ -133,6 +135,7 @@ In general:
 - attributes are normalized/sorted
 - each page folder also gets `index.css` and `index.js`
 - shared CSS dependencies are emitted once in `cms/_shared/css/` and imported by page CSS as needed
+- shared JavaScript dependencies are emitted once in `cms/_shared/js/` and loaded by page JS as needed
 
 That means the `html/` files are your working source, and `cms/` is output.
 
@@ -209,7 +212,7 @@ Together, those examples show both the newer and legacy page styles used in this
 
 ### Don't
 
-- Edit `cms/pages/` by hand
+- Edit generated files in `cms/` by hand
 - Remove wrappers just because they seem repetitive
 - Mix legacy classes and new `ic-*` components casually
 - Rewrite approved copy without being asked
