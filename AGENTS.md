@@ -146,12 +146,23 @@ Apply these rules only when:
 
 ## CMS And Build Rules
 - For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
-- Inline-ready CSS and JavaScript for CMS usage should be unminified in dev/watch workflows and minified only in production builds unless explicitly requested otherwise.
-- For dev/watch workflows started by `npm start`, generated output in `js/` and `cms/includes/` should not retain build comments.
+- `cms/` output should mirror the `html/` tree directly.
+- Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
+- Prefer CMS output that a content author can copy and paste directly from a single HTML file.
+- Preferred CMS fragment order is:
+  1. inline `<style>`
+  2. external `<link>` tags such as Google Fonts
+  3. `<main>`
+  4. inline `<script>`
+- CSS and JavaScript emitted for CMS usage should be minified in both dev/watch and production builds.
+- Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
+- When a page does not use a dependency, do not emit that dependency into the CMS output.
+- Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
+- For dev/watch workflows started by `npm start`, generated output in `js/` and CMS HTML fragments should not retain build comments.
 - Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
-- Keep development output readable when possible, but comment-free output takes priority for generated JS used by CMS includes.
+- Keep development output readable when possible, but minified and comment-free CMS output takes priority.
 - Production builds may still apply stronger minification, but comment removal is required in both dev and production generated JS output.
-- Remove comments from generated inline HTML include files in both dev and production output.
+- Remove comments from generated CMS HTML fragments in both dev and production output.
 
 ## Final Check For Scoped Page Work
 Before finishing a scoped content-page task, confirm:
