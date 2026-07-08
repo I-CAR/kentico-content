@@ -25,14 +25,17 @@ const buildTargets = [
     entryPath: join(sourceRoot, "style.scss"),
     output: "css/style.css",
     appendCss: legacySelectors,
+    sourceMap: true,
   },
   {
     entryPath: join(sourceRoot, "style-cms.scss"),
     output: "css/style-cms.css",
+    sourceMap: false,
   },
   {
     entryPath: join(sourceRoot, "style-cms-swiper.scss"),
     output: "css/style-cms-swiper.css",
+    sourceMap: false,
   },
 ];
 
@@ -60,13 +63,14 @@ function reportOutputSizes(css) {
   console.log(`[style] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
 }
 
-async function buildTarget({ entryPath, output, appendCss = "" }, reason = "manual") {
+async function buildTarget({ entryPath, output, appendCss = "", sourceMap = true }, reason = "manual") {
   const outputMap = `${output}.map`;
+  const shouldWriteSourceMap = !productionMode && sourceMap;
 
   const result = compile(entryPath, {
     style: productionMode ? "compressed" : "expanded",
-    sourceMap: !productionMode,
-    sourceMapIncludeSources: !productionMode,
+    sourceMap: shouldWriteSourceMap,
+    sourceMapIncludeSources: shouldWriteSourceMap,
   });
 
   mkdirSync(dirname(output), { recursive: true });
@@ -89,9 +93,11 @@ async function buildTarget({ entryPath, output, appendCss = "" }, reason = "manu
 
     css = processed.css;
     rmSync(outputMap, { force: true });
-  } else {
+  } else if (shouldWriteSourceMap) {
     css = `${css}\n/*# sourceMappingURL=${basename(outputMap)} */\n`;
     writeFileSync(outputMap, JSON.stringify(result.sourceMap, null, 2));
+  } else {
+    rmSync(outputMap, { force: true });
   }
 
   writeFileSync(output, css);

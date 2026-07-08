@@ -7,25 +7,29 @@ const buildTargets = [
   {
     entry: "js/src/index.js",
     output: "js/script.js",
+    sourceMap: true,
   },
   {
     entry: "js/src/index-cms.js",
     output: "js/script-cms.js",
+    sourceMap: false,
   },
   {
     entry: "js/src/index-cms-bootstrap.js",
     output: "js/script-cms-bootstrap.js",
+    sourceMap: false,
   },
   {
     entry: "js/src/index-cms-swiper.js",
     output: "js/script-cms-swiper.js",
+    sourceMap: false,
   },
 ];
 const legacyOutputFiles = ["js/script-v1.js", "js/script-v2.js", "js/script-v2.js.map"];
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 
-function getEsbuildOptions(entry, output) {
+function getEsbuildOptions(entry, output, sourceMap = true) {
   return {
     entryPoints: [entry],
     outfile: output,
@@ -35,7 +39,7 @@ function getEsbuildOptions(entry, output) {
     minifyWhitespace: true,
     minifyIdentifiers: productionMode,
     minifySyntax: productionMode,
-    sourcemap: productionMode ? false : "external",
+    sourcemap: !productionMode && sourceMap ? "external" : false,
     logLevel: "silent",
   };
 }
@@ -90,14 +94,14 @@ function logBuildFailure(error, reason = "manual") {
   console.error(error);
 }
 
-async function buildTarget({ entry, output }) {
+async function buildTarget({ entry, output, sourceMap = true }) {
   const outputMap = `${output}.map`;
 
   mkdirSync(dirname(output), { recursive: true });
   rmSync(outputMap, { force: true });
 
   const result = await esbuild.build({
-    ...getEsbuildOptions(entry, output),
+    ...getEsbuildOptions(entry, output, sourceMap),
     metafile: true,
     write: false,
   });
@@ -114,7 +118,7 @@ async function buildTarget({ entry, output }) {
 
   if (productionMode) {
     rmSync(outputMap, { force: true });
-  } else if (outputSourceMap) {
+  } else if (sourceMap && outputSourceMap) {
     writeFileSync(outputMap, outputSourceMap.contents);
   }
 
@@ -150,7 +154,7 @@ if (watchMode) {
 
   for (const target of buildTargets) {
     const context = await esbuild.context({
-      ...getEsbuildOptions(target.entry, target.output),
+      ...getEsbuildOptions(target.entry, target.output, target.sourceMap),
       plugins: [
         {
           name: `script-build-logger:${target.output}`,
