@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { dirname } from "node:path";
 import { gzipSync } from "node:zlib";
 import * as esbuild from "esbuild";
-import { buildInlineScript } from "./cms-inline-utils.mjs";
+import { buildCmsPageScripts } from "./cms-inline-utils.mjs";
 
 const entry = "js/src/index.js";
 const output = "js/script.js";
@@ -10,6 +10,21 @@ const outputMap = `${output}.map`;
 const legacyOutputFiles = ["js/script-v1.js", "js/script-v2.js", "js/script-v2.js.map", "js/script.js.map"];
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
+
+function getEsbuildOptions() {
+  return {
+    entryPoints: [entry],
+    outfile: output,
+    bundle: true,
+    format: "iife",
+    legalComments: "none",
+    minifyWhitespace: true,
+    minifyIdentifiers: productionMode,
+    minifySyntax: productionMode,
+    sourcemap: productionMode ? false : "external",
+    logLevel: "silent",
+  };
+}
 
 function formatBytes(bytes) {
   if (bytes < 1024) {
@@ -27,6 +42,10 @@ function reportOutputSizes(js) {
   const rawBytes = Buffer.byteLength(js);
   const gzipBytes = gzipSync(js).byteLength;
   console.log(`[script] Size raw: ${formatBytes(rawBytes)} | gzip: ${formatBytes(gzipBytes)}`);
+}
+
+function stripSourceMapComment(source) {
+  return source.replace(/\n?\/\/# sourceMappingURL=.*$/m, "");
 }
 
 function logBuildSuccess(reason = "manual") {
@@ -61,15 +80,9 @@ async function build(reason = "manual") {
     });
 
     const result = await esbuild.build({
-      entryPoints: [entry],
-      outfile: output,
-      bundle: true,
-      format: "iife",
-      minify: productionMode,
-      sourcemap: productionMode ? false : "linked",
+      ...getEsbuildOptions(),
       metafile: true,
       write: false,
-      logLevel: "silent",
     });
 
     const outputFile = result.outputFiles.find((file) => file.path.endsWith(output));
@@ -79,8 +92,9 @@ async function build(reason = "manual") {
       throw new Error(`Missing bundled output for ${output}`);
     }
 
-    writeFileSync(output, outputFile.contents);
-    buildInlineScript();
+    const bundledSource = stripSourceMapComment(outputFile.text);
+    writeFileSync(output, `${bundledSource}\n`);
+    buildCmsPageScripts();
 
     if (productionMode) {
       rmSync(outputMap, { force: true });
@@ -89,7 +103,7 @@ async function build(reason = "manual") {
     }
 
     logBuildSuccess(reason);
-    reportOutputSizes(outputFile.text);
+    reportOutputSizes(bundledSource);
   } catch (error) {
     logBuildFailure(error, reason);
 
@@ -106,13 +120,7 @@ if (!watchMode) {
 if (watchMode) {
   let isInitialWatchBuild = true;
   const context = await esbuild.context({
-    entryPoints: [entry],
-    outfile: output,
-    bundle: true,
-    format: "iife",
-    minify: productionMode,
-    sourcemap: productionMode ? false : "linked",
-    logLevel: "silent",
+    ...getEsbuildOptions(),
     plugins: [
       {
         name: "script-build-logger",
@@ -128,9 +136,13 @@ if (watchMode) {
             }
 
             const source = readFileSync(output, "utf8");
-            buildInlineScript();
+            const normalizedSource = stripSourceMapComment(source);
+            if (normalizedSource !== source) {
+              writeFileSync(output, `${normalizedSource}\n`);
+            }
+            buildCmsPageScripts();
             logBuildSuccess(isInitialWatchBuild ? "initial watch build" : "watch change");
-            reportOutputSizes(source);
+            reportOutputSizes(normalizedSource);
             isInitialWatchBuild = false;
           });
         },

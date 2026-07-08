@@ -147,6 +147,10 @@ Apply these rules only when:
 ## CMS And Build Rules
 - For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
 - Inline-ready CSS and JavaScript for CMS usage should be unminified in dev/watch workflows and minified only in production builds unless explicitly requested otherwise.
+- For dev/watch workflows started by `npm start`, generated output in `js/` and `cms/includes/` should not retain build comments.
+- Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
+- Keep development output readable when possible, but comment-free output takes priority for generated JS used by CMS includes.
+- Production builds may still apply stronger minification, but comment removal is required in both dev and production generated JS output.
 - Remove comments from generated inline HTML include files in both dev and production output.
 
 ## Final Check For Scoped Page Work
