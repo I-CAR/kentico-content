@@ -36,7 +36,7 @@ function getEsbuildOptions(entry, output, sourceMap = true) {
     bundle: true,
     format: "iife",
     legalComments: "none",
-    minifyWhitespace: true,
+    minifyWhitespace: productionMode,
     minifyIdentifiers: productionMode,
     minifySyntax: productionMode,
     sourcemap: !productionMode && sourceMap ? "external" : false,

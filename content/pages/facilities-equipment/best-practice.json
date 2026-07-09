@@ -3,41 +3,9 @@
   "title": "Facility and Equipment - Best Practice",
   "sections": [
     {
-      "id": "hero",
-      "type": "hero",
-      "title": "Hero",
-      "label": "Section label",
-      "sublabel": "Section sublabel goes here.",
-      "body": [
-        "Add approved introductory copy for this hero section.",
-        "Use this space for a second paragraph if the design calls for one."
-      ],
-      "buttons": [
-        {
-          "label": "Primary Action",
-          "href": "#next-step"
-        }
-      ],
-      "image": {
-        "alt": "Hero image",
-        "desktopSrc": "https://placehold.co/1600x580",
-        "desktopSrcset": "https://placehold.co/1600x580 1600w",
-        "mobileSrcset": "https://placehold.co/400x300 400w",
-        "width": "1600",
-        "height": "580",
-        "sizes": "(max-width: 1024px) 800px, 1600px",
-        "loading": "eager"
-      },
-      "__template": {
-        "id": "hero",
-        "type": "hero",
-        "variant": "default",
-        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./best-practice.main.html"
     }
-  ],
-  "__template": {
-    "source": "facilities-equipment/best-practice.json",
-    "signature": "eb11d2eaa9a8cce60f8dd49a4db2ef420db48612"
-  }
+  ]
 }

@@ -3,105 +3,14 @@
   "title": "Governance - Leadership",
   "sections": [
     {
-      "id": "hero",
-      "type": "hero",
-      "title": "Hero",
-      "label": "Section label",
-      "sublabel": "Section sublabel goes here.",
-      "body": [
-        "Add approved introductory copy for this hero section.",
-        "Use this space for a second paragraph if the design calls for one."
-      ],
-      "buttons": [
-        {
-          "label": "Primary Action",
-          "href": "#next-step"
-        }
-      ],
-      "image": {
-        "alt": "Hero image",
-        "desktopSrc": "https://placehold.co/1600x580",
-        "desktopSrcset": "https://placehold.co/1600x580 1600w",
-        "mobileSrcset": "https://placehold.co/400x300 400w",
-        "width": "1600",
-        "height": "580",
-        "sizes": "(max-width: 1024px) 800px, 1600px",
-        "loading": "eager"
-      },
-      "__template": {
-        "id": "hero",
-        "type": "hero",
-        "variant": "default",
-        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
-      }
-    },
-    {
-      "id": "leaders",
-      "type": "profileGrid",
-      "title": "Leaders",
-      "body": [
-        "Add a short introduction for this profile grid."
-      ],
-      "profiles": [
-        {
-          "name": "Person 1",
-          "title": "Person Title",
-          "image": {
-            "alt": "Person 1",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
-          }
-        },
-        {
-          "name": "Person 2",
-          "title": "Person Title",
-          "image": {
-            "alt": "Person 2",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
-          }
-        },
-        {
-          "name": "Person 3",
-          "title": "Person Title",
-          "image": {
-            "alt": "Person 3",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
-          }
-        },
-        {
-          "name": "Person 4",
-          "title": "Person Title",
-          "image": {
-            "alt": "Person 4",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
-          }
-        }
-      ],
-      "__template": {
-        "id": "leaders",
-        "type": "profileGrid",
-        "variant": "default",
-        "signature": "77d17068350556be5e30c73ee903316d17ba8574"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./leadership.main.html"
     }
   ],
-  "__template": {
-    "source": "governance/leadership.json",
-    "signature": "2da575f4357c257409d9a71dd4d44893905a60cc"
+  "cms": {
+    "headHtml": [
+      "<style type=\"text/css\">@media (min-width: 768px){.pb-md-80{padding-bottom:80px!important}}.leaderTitle{font-weight:600!important}</style>"
+    ]
   }
 }

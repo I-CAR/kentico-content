@@ -154,15 +154,15 @@ Apply these rules only when:
   2. external `<link>` tags such as Google Fonts
   3. `<main>`
   4. inline `<script>`
-- CSS and JavaScript emitted for CMS usage should be minified in both dev/watch and production builds.
+- CSS and JavaScript emitted for CMS usage should be minified in production builds.
 - Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
 - When a page does not use a dependency, do not emit that dependency into the CMS output.
 - Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
-- For dev/watch workflows started by `npm start`, generated output in `js/` and CMS HTML fragments should not retain build comments.
+- For dev/watch workflows started by `npm run dev`, generated output in `js/` and CMS HTML fragments may remain unminified for readability.
 - Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
-- Keep development output readable when possible, but minified and comment-free CMS output takes priority.
-- Production builds may still apply stronger minification, but comment removal is required in both dev and production generated JS output.
-- Remove comments from generated CMS HTML fragments in both dev and production output.
+- Keep development output readable when possible; minified CMS output takes priority for production builds.
+- Production builds should apply comment removal and minification for generated JS output.
+- Remove comments from generated CMS HTML fragments in production output.
 
 ## Final Check For Scoped Page Work
 Before finishing a scoped content-page task, confirm:

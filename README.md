@@ -140,7 +140,7 @@ That means `content/pages/` is your working source of truth, `html/` is preserve
 If the project is already installed, these are the most useful commands:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Runs the watchers for:

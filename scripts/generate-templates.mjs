@@ -371,6 +371,14 @@ export function syncTemplates() {
       const existingPage = existsSync(outputFile)
         ? JSON.parse(readFileSync(outputFile, "utf8"))
         : null;
+      const templateSource = relative(templateSourceDir, sourceFile);
+
+      if (existingPage && existingPage.__template?.source !== templateSource) {
+        unchangedCount += 1;
+        console.log(`[templates] Skipped custom ${outputFile}`);
+        continue;
+      }
+
       const { page } = buildPageFromTemplate(template, sourceFile, existingPage);
       const result = syncGeneratedPage(sourceFile, page);
 

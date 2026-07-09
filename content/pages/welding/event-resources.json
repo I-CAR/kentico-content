@@ -3,96 +3,9 @@
   "title": "Welding - Event Resources",
   "sections": [
     {
-      "type": "hero",
-      "id": "hero",
-      "title": "Welding Event Resources",
-      "body": [
-        "Find resources to prepare for a welding event, including certification requirements, essential equipment, and key policies to ensure your shop and team are ready."
-      ],
-      "imageClassName": "ic-image-rounded",
-      "image": {
-        "alt": "Welder in a bodyshop practicing proper welding techniques after achieving his I-CAR Welding Certification",
-        "desktopSrc": "https://stage.info.i-car.com/getmedia/5138d0f9-5114-402d-8b14-6fe2fdeec3ac/Hero_800w_D.webp",
-        "desktopSrcset": "https://stage.info.i-car.com/getmedia/6615ffd0-0ad7-48a3-8ccd-41b2eab12ab7/Hero_400w_D.webp 400w, https://stage.info.i-car.com/getmedia/5138d0f9-5114-402d-8b14-6fe2fdeec3ac/Hero_800w_D.webp 800w, https://stage.info.i-car.com/getmedia/175d63b5-b999-49e7-b4dd-638be465f463/Hero_1600w_D.webp 1600w",
-        "mobileSrcset": "https://stage.info.i-car.com/getmedia/00b67f1d-7dfa-4a18-a93c-638f9f58ae63/Hero_400w_M.webp 400w, https://stage.info.i-car.com/getmedia/8afc6734-97c4-4b55-a3ab-d6fd241b4d48/Hero_800w_M.webp 800w, https://stage.info.i-car.com/getmedia/d42fb9b1-5a30-4de0-b5e9-0e2318ba7da1/Hero_1600w_M.webp 1600w",
-        "width": "863",
-        "height": "593",
-        "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px",
-        "loading": "eager"
-      }
-    },
-    {
-      "type": "stickyCards",
-      "id": "requirements",
-      "title": "Requirements for Welding Certification",
-      "backgroundLight": true,
-      "cards": [
-        {
-          "title": "General Requirements",
-          "body": "Always needed for any welding certification:",
-          "listItems": [
-            "OEM-approved welding equipment",
-            "Proper ventilation and safety gear",
-            "Government-issued photo ID",
-            "Welding helmet (auto-darkening preferred)",
-            "Safety glasses (must be worn at all times)",
-            "Welding gloves",
-            "Leather boots or shoes (no tennis shoes)",
-            "Hearing protection"
-          ],
-          "footer": "Additional items may include a magnifying lens, welding cape or long-sleeve shirt, and a securely mounted vice for destructive-test welds."
-        },
-        {
-          "title": "Course Requirements",
-          "body": "Choose your course and review details.",
-          "linkListClassName": "ic-card-list ic-card-list-courses mt-0",
-          "linkItems": [
-            { "label": "Training and Certification: Steel GMA Welding", "href": "https://info.i-car.com/getmedia/2c62e01e-b971-45a3-a29d-2298cc7b226b/steel-gma-welding.pdf", "target": "_blank" },
-            { "label": "Training and Certification: Steel Sectioning", "href": "https://info.i-car.com/getmedia/025ac28c-bacc-4048-a225-8e48d688df2b/steel-sectioning.pdf", "target": "_blank" },
-            { "label": "Training and Certification: Aluminum GMA (MIG) Welding", "href": "http://info.i-car.com/getmedia/5f819372-4c2e-40a6-a874-c29c118f2fb0/aluminum-gma-mig-welding.pdf", "target": "_blank" }
-          ]
-        },
-        {
-          "title": "Additional Guidelines",
-          "linkListClassName": "ic-card-list ic-card-list-courses mt-0",
-          "linkItems": [
-            { "label": "Requirements for Welding Training & Certification", "href": "https://info.i-car.com/getmedia/160d19a8-14fa-4cfb-b05b-9bb55d48ecbb/WT-C_HOSD_Requirements.pdf", "target": "_blank" }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "cards",
-      "id": "preparation",
-      "title": "Get Ready for Your Welding Event",
-      "body": [
-        "Preparation is key to success. Before your certification or recertification event, make sure you're ready with the right tools and practice materials."
-      ],
-      "cardColumnClass": "col col-12 col-md-6 col-xl-4 pt-2 pt-md-3 mt-md-3",
-      "contentColumnClass": "col col-12 col-xl-9",
-      "cards": [
-        {
-          "title": "Order Coupons",
-          "body": "Get welding coupons for hands-on practice before your event."
-        },
-        {
-          "title": "Practice Welds",
-          "body": "Sharpen your skills by practicing the welds you'll perform during your assessment."
-        },
-        {
-          "title": "Review Policies",
-          "body": "Review policies for welding and in-shop events."
-        }
-      ]
-    },
-    {
-      "type": "embed",
-      "id": "video",
-      "title": "Preparation Video",
-      "body": [
-        "Watch this video for tips on preparing for your in-shop event, from tuning your welder to checking your equipment and safety gear."
-      ],
-      "embedHtml": "<iframe src=\"https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363080447112\" width=\"1200\" height=\"675\" frameborder=\"0\"></iframe>"
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./event-resources.main.html"
     }
   ]
 }

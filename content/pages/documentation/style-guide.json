@@ -1,0 +1,11 @@
+{
+  "slug": "style-guide",
+  "title": "I-CAR Web Style Guide",
+  "sections": [
+    {
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./style-guide.main.html"
+    }
+  ]
+}

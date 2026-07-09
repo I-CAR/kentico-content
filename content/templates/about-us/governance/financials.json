@@ -1,0 +1,7 @@
+{
+  "slug": "financials",
+  "title": "Financials",
+  "sections": [
+    { "id": "page-content", "type": "html" }
+  ]
+}

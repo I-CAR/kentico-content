@@ -1,0 +1,14 @@
+{
+  "slug": "welding",
+  "title": "Welding",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "page-nav", "type": "pageNav" },
+    { "id": "benefits", "type": "iconCardGrid" },
+    { "id": "certifications", "type": "cards" },
+    { "id": "requirements", "type": "textMedia", "variant": "reverse" },
+    { "id": "preparation", "type": "iconCardGrid" },
+    { "id": "resources", "type": "textMedia", "variant": "reverse" },
+    { "id": "start", "type": "textMedia" }
+  ]
+}

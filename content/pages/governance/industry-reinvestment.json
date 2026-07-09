@@ -1,0 +1,11 @@
+{
+  "slug": "industry-reinvestment",
+  "title": "Governance - Industry Reinvestment",
+  "sections": [
+    {
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./industry-reinvestment.main.html"
+    }
+  ]
+}

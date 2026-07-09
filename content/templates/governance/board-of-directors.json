@@ -1,0 +1,11 @@
+{
+  "slug": "board-of-directors",
+  "title": "Governance - Board of Directors",
+  "sections": [
+    { "id": "hero", "type": "html" },
+    { "id": "board-members", "type": "html" },
+    { "id": "board-structure", "type": "html" },
+    { "id": "selection-process", "type": "html" },
+    { "id": "board-cta", "type": "html" }
+  ]
+}

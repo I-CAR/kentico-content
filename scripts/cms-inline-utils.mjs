@@ -9,10 +9,10 @@ import {
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import * as esbuild from "esbuild";
-import { collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
+import { collectRenderableContentFiles, collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
+import { pageUsesBootstrap, pageUsesJquery, pageUsesSwiper } from "./page-dependencies.mjs";
 
 const outputDir = "cms";
-const htmlSourceDir = "html";
 const contentSourceDir = join("content", "pages");
 const legacyOutputDirs = ["pages", "content", "css", "js", "includes", "_shared", "generated"].map((directory) =>
   join(outputDir, directory),
@@ -75,6 +75,22 @@ function isSwiperAsset(assetPath) {
   return /(^|\/)node_modules\/swiper\//i.test(assetPath.replace(/\\/g, "/"));
 }
 
+function isJqueryAsset(assetPath) {
+  return /(^|\/)node_modules\/jquery\//i.test(assetPath.replace(/\\/g, "/"));
+}
+
+function isCmsMainScriptAsset(assetPath) {
+  return /(^|\/)js\/script\.js$/i.test(assetPath.replace(/\\/g, "/"));
+}
+
+function isCmsVendorStylesheet(assetPath) {
+  return /(^|\/)css\/vendor\/cms-main-202106042\.css$/i.test(assetPath.replace(/\\/g, "/"));
+}
+
+function isSharedSiteStylesheet(assetPath) {
+  return /(^|\/)css\/style(?:-cms(?:-swiper)?)?\.css$/i.test(assetPath.replace(/\\/g, "/"));
+}
+
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
@@ -114,12 +130,11 @@ function collectFiles(root, extension) {
 }
 
 function toCmsHtmlOutputPath(sourceFile) {
-  const relativePath = relative(htmlSourceDir, sourceFile).replace(/\\/g, "/");
-  return join(outputDir, relativePath);
+  return join(outputDir, sourceFile);
 }
 
 function toSourceRelativeHtmlPath(sourceFile) {
-  return relative(htmlSourceDir, sourceFile).replace(/\\/g, "/");
+  return sourceFile.replace(/\\/g, "/");
 }
 
 function toCmsScriptHtmlOutputPath(sourceFile) {
@@ -145,7 +160,7 @@ function loadCmsScriptSplitPaths() {
 
   const splitPaths = new Set();
 
-  for (const sourceFile of collectFiles(contentSourceDir, ".json")) {
+  for (const sourceFile of collectRenderableContentFiles()) {
     const page = JSON.parse(readFileSync(sourceFile, "utf8"));
 
     if (page?.cms?.scriptOutput === "separateHtmlFile") {
@@ -465,33 +480,64 @@ function extractInlineScriptSource(source) {
     .join("\n");
 }
 
-function pageUsesSwiper(source) {
-  return (
-    /\bSwiper\s*\(/.test(source) ||
-    /\bjs-ic-swiper(?:-[\w-]+)?\b/.test(source) ||
-    /\bic-swiper(?:-[\w-]+)?\b/.test(source) ||
-    /\bswiper(?:-wrapper|-slide|-pagination|-button-next|-button-prev)?\b/.test(source)
-  );
-}
-
-function pageUsesBootstrap(source) {
-  const bootstrapClassPattern =
-    /\b(?:container(?:-fluid)?|row|col(?:-(?:auto|\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+))?|g[xy]?-\d+|gap-\d+|d-(?:none|block|inline|inline-block|flex|grid)|d-(?:sm|md|lg|xl|xxl)-(?:none|block|inline|inline-block|flex|grid)|justify-content-(?:start|end|center|between|around|evenly)|align-items-(?:start|end|center|baseline|stretch)|align-self-(?:start|end|center|baseline|stretch)|flex-(?:row|column|wrap|nowrap|fill|grow-\d|shrink-\d)|order-(?:first|last|\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+)|offset-(?:\d+|sm-\d+|md-\d+|lg-\d+|xl-\d+|xxl-\d+)|m[trblxyse]?-(?:auto|\d+)|p[trblxyse]?-\d+|text-(?:start|end|center|uppercase|lowercase|capitalize)|fw-(?:normal|bold|semibold|light)|w-\d+|h-\d+|btn(?:-[\w-]+)?|accordion(?:-[\w-]+)?|collapse|show|card(?:-[\w-]+)?|ratio(?:-\d+x\d+)?|img-fluid)\b/;
-
-  return (
-    /\bdata-bs-[\w-]+=/i.test(source) ||
-    /\bbootstrap\./.test(source) ||
-    bootstrapClassPattern.test(source)
-  );
-}
-
 function detectPageDependencies(source) {
   const dependencySource = [extractCmsMain(source), extractInlineScriptSource(source)].filter(Boolean).join("\n");
 
   return {
     bootstrap: pageUsesBootstrap(dependencySource),
+    jquery: pageUsesJquery(dependencySource),
     swiper: pageUsesSwiper(dependencySource),
   };
+}
+
+function pageUsesBootstrapJs(source) {
+  return /\bdata-bs-(?:toggle|target|parent|ride|slide|dismiss)\s*=/i.test(source);
+}
+
+function pageUsesCmsBaseJs(source) {
+  return (
+    /\bjs-ic-dropdown-container\b/.test(source) ||
+    /\bjs-ic-btn-dropdown\b/.test(source) ||
+    /\bjs-ic-dropdown\b/.test(source) ||
+    /\bg-recaptcha\b/.test(source) ||
+    /\bcaptcha_settings\b/.test(source) ||
+    /\bg-recaptcha-response\b/.test(source) ||
+    /\bjs-ic-swatch\b/.test(source)
+  );
+}
+
+function detectPageScriptDependencies(source) {
+  const dependencySource = [extractCmsMain(source), extractInlineScriptSource(source)].filter(Boolean).join("\n");
+
+  return {
+    base: pageUsesCmsBaseJs(dependencySource),
+    bootstrap: pageUsesBootstrapJs(dependencySource),
+    jquery: pageUsesJquery(dependencySource),
+    swiper: pageUsesSwiper(dependencySource),
+  };
+}
+
+function getCmsBundleScriptPaths(source) {
+  const dependencies = detectPageScriptDependencies(source);
+  const assetPaths = [];
+
+  if (dependencies.jquery) {
+    assetPaths.push(join("node_modules", "jquery", "dist", "jquery.min.js"));
+  }
+
+  if (dependencies.base) {
+    assetPaths.push(join("js", "script-cms.js"));
+  }
+
+  if (dependencies.bootstrap) {
+    assetPaths.push(join("js", "script-cms-bootstrap.js"));
+  }
+
+  if (dependencies.swiper) {
+    assetPaths.push(join("js", "script-cms-swiper.js"));
+  }
+
+  return [...new Set(assetPaths)];
 }
 
 function filterCmsAssetPaths(assetPaths, dependencies) {
@@ -504,12 +550,21 @@ function filterCmsAssetPaths(assetPaths, dependencies) {
       return dependencies.swiper;
     }
 
+    if (isJqueryAsset(assetPath)) {
+      return dependencies.jquery;
+    }
+
     return true;
   });
 }
 
 function extractCmsCssPaths(sourceFile, source) {
-  return filterCmsAssetPaths(extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" }), detectPageDependencies(source));
+  return filterCmsAssetPaths(
+    extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" }).filter(
+      (assetPath) => !isCmsVendorStylesheet(assetPath) && !isSharedSiteStylesheet(assetPath),
+    ),
+    detectPageDependencies(source),
+  );
 }
 
 async function renderCmsStyleTag(sourceFile, source) {
@@ -565,11 +620,19 @@ function extractCmsScriptBlocks(sourceFile, source) {
             continue;
           }
 
+          if (isCmsMainScriptAsset(currentAssetPath)) {
+            continue;
+          }
+
           if (isBootstrapAsset(currentAssetPath) && !dependencies.bootstrap) {
             continue;
           }
 
           if (isSwiperAsset(currentAssetPath) && !dependencies.swiper) {
+            continue;
+          }
+
+          if (isJqueryAsset(currentAssetPath) && !dependencies.jquery) {
             continue;
           }
 
@@ -606,6 +669,7 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minif
   const styleTag = await renderCmsStyleTag(sourceFile, source);
   const linkTags = renderCmsLinkTags(source);
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
+  const bundleScriptPaths = getCmsBundleScriptPaths(source);
   const scriptParts = [];
 
   for (const block of scriptBlocks) {
@@ -615,6 +679,20 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minif
     }
 
     const minifiedJs = await minifyJs(block.source);
+
+    if (!minifiedJs) {
+      continue;
+    }
+
+    scriptParts.push(`<script>\n${minifiedJs}\n</script>`);
+  }
+
+  for (const bundleScriptPath of bundleScriptPaths) {
+    if (!existsSync(bundleScriptPath)) {
+      continue;
+    }
+
+    const minifiedJs = await minifyJs(stripJsComments(readFileSync(bundleScriptPath, "utf8")));
 
     if (!minifiedJs) {
       continue;
@@ -802,36 +880,39 @@ async function minifyCss(source) {
 
 export async function buildCmsPages({ minify = false } = {}) {
   const renderedPages = collectRenderedPageDocuments();
-  const htmlFiles = renderedPages.map((page) => page.virtualSourcePath);
+  const htmlFiles = renderedPages.map((page) => page.relativeOutputPath);
 
   if (htmlFiles.length === 0) {
     return false;
   }
 
   ensureOutputDir();
-  const splitPaths = loadCmsScriptSplitPaths();
-  cleanupRemovedCmsPages(htmlFiles, splitPaths);
+  const configuredSplitPaths = loadCmsScriptSplitPaths();
+  const actualSplitPaths = new Set();
+  cleanupRemovedCmsPages(htmlFiles, configuredSplitPaths);
 
   for (const renderedPage of renderedPages) {
-    const sourceFile = renderedPage.virtualSourcePath;
+    const sourceFile = renderedPage.relativeOutputPath;
     const outputFile = join(outputDir, renderedPage.relativeOutputPath);
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
     const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, { minify });
+    const shouldWriteSplitScript = shouldSplitCmsScripts(sourceFile, configuredSplitPaths) && Boolean(output.scripts);
 
     mkdirSync(dirname(outputFile), { recursive: true });
     writeFileSync(outputFile, `${output.html}\n`);
-    if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
+    if (shouldWriteSplitScript) {
+      actualSplitPaths.add(toSourceRelativeHtmlPath(sourceFile));
       writeFileSync(scriptOutputFile, `${output.scripts}\n`);
     } else {
       rmSync(scriptOutputFile, { force: true });
     }
     console.log(`[cms] Built ${outputFile}${minify ? " [minified]" : ""}`);
-    if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
+    if (shouldWriteSplitScript) {
       console.log(`[cms] Built ${scriptOutputFile}${minify ? " [minified]" : ""}`);
     }
   }
 
-  cleanupRemovedCmsPages(htmlFiles, splitPaths);
+  cleanupRemovedCmsPages(htmlFiles, actualSplitPaths);
 
   return htmlFiles.length > 0;
 }

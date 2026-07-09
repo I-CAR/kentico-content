@@ -2,13 +2,7 @@
   "slug": "industry-councils",
   "title": "Governance - Industry Councils",
   "sections": [
-    {
-      "id": "hero",
-      "type": "hero"
-    },
-    {
-      "id": "feedback-forums",
-      "type": "cards"
-    }
+    { "id": "hero", "type": "html" },
+    { "id": "feedback-forums", "type": "html" }
   ]
 }

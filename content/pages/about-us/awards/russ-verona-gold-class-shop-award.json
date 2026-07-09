@@ -3,85 +3,13 @@
   "title": "About Us - Awards - Russ Verona Gold Class Shop Award",
   "sections": [
     {
-      "id": "hero",
-      "type": "hero",
-      "title": "Hero",
-      "label": "Section label",
-      "sublabel": "Section sublabel goes here.",
-      "body": [
-        "Add approved introductory copy for this hero section.",
-        "Use this space for a second paragraph if the design calls for one."
-      ],
-      "buttons": [
-        {
-          "label": "Primary Action",
-          "href": "#next-step"
-        }
-      ],
-      "image": {
-        "alt": "Hero image",
-        "desktopSrc": "https://placehold.co/1600x580",
-        "desktopSrcset": "https://placehold.co/1600x580 1600w",
-        "mobileSrcset": "https://placehold.co/400x300 400w",
-        "width": "1600",
-        "height": "580",
-        "sizes": "(max-width: 1024px) 800px, 1600px",
-        "loading": "eager"
-      },
-      "__template": {
-        "id": "hero",
-        "type": "hero",
-        "variant": "default",
-        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
-      }
-    },
-    {
-      "id": "nomination-overview",
-      "type": "stickyCards",
-      "title": "Nomination Overview",
-      "body": [
-        "Add introductory copy for this sticky card section."
-      ],
-      "cards": [
-        {
-          "title": "Sticky Card 1",
-          "body": "Add supporting body copy here.",
-          "listItems": [
-            "First supporting point",
-            "Second supporting point"
-          ]
-        },
-        {
-          "title": "Sticky Card 2",
-          "body": "Add supporting body copy here.",
-          "listItems": [
-            "First supporting point",
-            "Second supporting point"
-          ]
-        },
-        {
-          "title": "Sticky Card 3",
-          "body": "Add supporting body copy here.",
-          "listItems": [
-            "First supporting point",
-            "Second supporting point"
-          ]
-        }
-      ],
-      "__template": {
-        "id": "nomination-overview",
-        "type": "stickyCards",
-        "variant": "default",
-        "signature": "49a9acb370ea8466dc5127bcb0bda1a2ee66ebe8"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./russ-verona-gold-class-shop-award.main.html"
     }
   ],
   "cms": {
     "scriptOutput": "separateHtmlFile",
     "scriptHtml": []
-  },
-  "__template": {
-    "source": "about-us/awards/russ-verona-gold-class-shop-award.json",
-    "signature": "f12596236b2e844b960d2188fdebc27613ab16ca"
   }
 }

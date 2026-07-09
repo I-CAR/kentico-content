@@ -1,0 +1,10 @@
+{
+  "slug": "event-resources",
+  "title": "Welding - Event Resources",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "requirements", "type": "stickyCards" },
+    { "id": "preparation", "type": "cards" },
+    { "id": "video", "type": "embed" }
+  ]
+}

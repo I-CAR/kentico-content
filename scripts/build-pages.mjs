@@ -5,9 +5,10 @@ import {
   rmSync,
   statSync,
 } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
+import { pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
 
 const watchMode = process.argv.includes("--watch");
 const contentSourceDir = join("content", "pages");
@@ -47,6 +48,10 @@ function collectFiles(root, extension) {
   }
 
   return files.sort();
+}
+
+export function collectRenderableContentFiles() {
+  return collectFiles(contentSourceDir, ".json");
 }
 
 function toPosixPath(filePath) {
@@ -89,8 +94,8 @@ function normalizeHtmlBlocks(blocks) {
   return (Array.isArray(blocks) ? blocks : [blocks]).filter(Boolean);
 }
 
-function renderTrustedHtml(value) {
-  return normalizeContentText(value);
+function renderTrustedHtml(value, { normalizeText = true } = {}) {
+  return normalizeText ? normalizeContentText(value) : value;
 }
 
 function renderParagraphs(paragraphs, className = "") {
@@ -122,7 +127,10 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
   const buttonMarkup = buttons
     .map((button) => {
       const className = button.className || defaultClassName;
-      return `                    <a href="${escapeHtml(button.href)}" class="${escapeHtml(className)}">${renderText(button.label)}</a>`;
+      const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
+      const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
+      const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
+      return `                    <a href="${escapeHtml(button.href)}" class="${escapeHtml(className)}"${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>`;
     })
     .join("\n");
 
@@ -325,6 +333,9 @@ function resolveIconSvg(card) {
 
 function renderHeroSection(section) {
   const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
+  const contentHtmlMarkup = normalizeHtmlBlocks(section.contentHtml)
+    .map((block) => renderTrustedHtml(block))
+    .join("\n\n");
   const buttonsMarkup = renderButtons(section.buttons);
   const imageMarkup = renderPicture(
     section.image,
@@ -334,32 +345,36 @@ function renderHeroSection(section) {
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
   const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || section.title;
   const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const sectionClassName = section.sectionClassName || `ic-section ic-section-hero${backgroundClass}`;
+  const containerClassName = section.containerClassName || "container";
   const heroContentClass = section.contentClassName || "col order-last order-md-first mt-2 pt-1 mt-md-0 pt-md-0";
   const heroMediaClass = section.mediaClassName || "col col-12 col-md col-lg-7 order-first order-md-last";
   const heroRowClassName = section.rowClassName || "row justify-content-center";
+  const heroBoxClassName = section.boxClassName || "ic-box ic-box-mobile-collapse";
+  const titleClassName = section.titleClassName || "ic-section-title";
   const badgeMarkup = section.badgeImage
     ? `\n                    <div class="${escapeHtml(section.badgeColumnClass || "col col-auto order-first order-md-last mb-3 pb-3 mb-md-0 pb-md-0")}">
                         <img alt="${escapeHtml(section.badgeImage.alt || "")}" class="${escapeHtml(section.badgeImage.className || "ic-image-logo")}" loading="${escapeHtml(section.badgeImage.loading || "lazy")}" width="${escapeHtml(section.badgeImage.width || "")}" height="${escapeHtml(section.badgeImage.height || "")}" sizes="${escapeHtml(section.badgeImage.sizes || "")}" src="${escapeHtml(section.badgeImage.desktopSrc || "")}" srcset="${escapeHtml(section.badgeImage.desktopSrcset || section.badgeImage.desktopSrc || "")}">
                     </div>`
     : "";
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section ic-section-hero${backgroundClass}">
-            <div class="container">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(sectionClassName)}">
+            <div class="${escapeHtml(containerClassName)}">
                 <div class="${escapeHtml(heroRowClassName)}">
 
                     <div class="${escapeHtml(heroContentClass)}">
-                        <div class="ic-box ic-box-mobile-collapse">
-                            <h1 class="ic-section-title">${renderText(section.title)}</h1>
+                        <div class="${escapeHtml(heroBoxClassName)}">
+                            <h1 class="${escapeHtml(titleClassName)}">${renderText(section.title)}</h1>
                             ${section.label ? `<p class="ic-label">${renderText(section.label)}</p>` : ""}
                             ${section.sublabel ? `<p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>` : ""}
 ${bodyMarkup ? `${bodyMarkup}\n\n` : ""}${buttonsMarkup}
-                        </div>
+${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}                        </div>
                     </div>
 
 ${badgeMarkup}
 
                     <div class="${escapeHtml(heroMediaClass)}">
-                        ${imageLinkHref ? `<a href="${escapeHtml(imageLinkHref)}" title="${escapeHtml(imageLinkTitle)}">
+                        ${imageLinkHref ? `<a href="${escapeHtml(imageLinkHref)}" title="${escapeHtml(imageLinkTitle)}"${section.imageLink?.target ? ` target="${escapeHtml(section.imageLink.target)}"` : ""}${section.imageLink?.ariaLabel ? ` aria-label="${escapeHtml(section.imageLink.ariaLabel)}"` : ""}>
                             ${imageMarkup}
                         </a>` : imageMarkup}
                     </div>
@@ -404,16 +419,50 @@ function renderCardsSection(section) {
   const imageClassName = section.imageClassName || "ic-card-image ic-image-rounded";
   const cardMarkup = (section.cards || [])
     .map(
-      (card) => `                            <div class="${escapeHtml(cardColumnClass)}">
-                                <div class="${escapeHtml(card.className || cardClassName)}">
-                                    <div class="${escapeHtml(card.bodyClassName || cardBodyClassName)}">
-${card.title ? `                                        <h3 class="ic-card-title">${renderText(card.title)}</h3>\n` : ""}                                        <p class="ic-card-text">${renderText(card.body, { widowProtection: true })}</p>
-                                    </div>
-${card.image ? `                                    <figure class="ic-card-media">
+      (card) => {
+        const titleMarkup = card.title
+          ? `                                        <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""}${card.linkTitle ? ` title="${escapeHtml(card.linkTitle)}"` : ""}>${renderText(card.title)}</a>` : renderText(card.title)}</h3>\n`
+          : "";
+        const bodyMarkup = card.body
+          ? `                                        <p class="${escapeHtml(card.bodyClassName || "ic-card-text")}">${renderText(card.body, { widowProtection: true })}</p>\n`
+          : "";
+        const listMarkup = card.listItems?.length
+          ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
+${card.listItems
+  .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
+  .join("\n")}
+                                        </ul>\n`
+          : "";
+        const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
+          .map((block) => `                                        ${renderTrustedHtml(block)}`)
+          .join("\n");
+        const linksMarkup = card.links?.length
+          ? `                                        <p>\n${card.links
+            .map(
+              (link) =>
+                `                                            <a href="${escapeHtml(link.href)}"${link.target ? ` target="${escapeHtml(link.target)}"` : ""}>${renderText(link.label)}</a>`,
+            )
+            .join("<br>\n")}\n                                        </p>\n`
+          : "";
+        const mediaMarkup = card.image
+          ? `                                    <figure class="ic-card-media">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName)}
-                                    </figure>` : ""}
+                                    </figure>`
+          : card.iconHtml
+            ? `                                    <figure class="ic-card-media">
+                                        ${renderTrustedHtml(card.iconHtml)}
+                                    </figure>`
+            : "";
+
+        return `                            <div class="${escapeHtml(cardColumnClass)}">
+                                <div class="${escapeHtml(card.className || cardClassName)}">
+                                    <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
+${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
+                                    </div>
+${mediaMarkup}
                                 </div>
-                            </div>`,
+                            </div>`;
+      },
     )
     .join("\n\n");
 
@@ -460,6 +509,13 @@ ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                 </div>
             </div>
         </section>`;
+}
+
+function renderHtmlSection(section) {
+  return normalizeHtmlBlocks(section.html)
+    .map((block) => renderTrustedHtml(block, { normalizeText: false }).trim())
+    .filter(Boolean)
+    .join("\n");
 }
 
 function renderStatementListSection(section) {
@@ -865,11 +921,14 @@ function renderStickyCardsSection(section) {
           (item) => `                                            <li><a href="${escapeHtml(item.href)}"${item.target ? ` target="${escapeHtml(item.target)}"` : ""}>${renderText(item.label)}</a>${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
         )
         .join("\n");
+      const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
+        .map((block) => `                                        ${renderTrustedHtml(block)}`)
+        .join("\n");
 
       return `                                <div class="ic-card ic-background-white">
                                     <div class="ic-card-body">
                                         <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${renderText(card.title)}</h3>
-${card.body ? `                                        <p>${renderText(card.body, { widowProtection: true })}</p>\n` : ""}${card.bodyHtml ? `                                        <p>${renderTrustedHtml(card.bodyHtml)}</p>\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
+${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${card.body ? `                                        <p>${renderText(card.body, { widowProtection: true })}</p>\n` : ""}${card.bodyHtml ? `                                        <p>${renderTrustedHtml(card.bodyHtml)}</p>\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
 ${listMarkupInner}
                                         </ul>
 ` : ""}${linkListMarkupInner ? `                                        <ul class="${escapeHtml(card.linkListClassName || "ic-card-list ic-card-list-courses")}">
@@ -1000,8 +1059,7 @@ function renderEmbedSection(section) {
 
                 <div class="row justify-content-center${section.introRowClassName ? ` ${escapeHtml(section.introRowClassName)}` : " mb-3 pb-3"}">
                     <div class="${escapeHtml(section.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center")}">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
-${bodyMarkup ? `\n${bodyMarkup}` : ""}
+${section.title ? `                        <h2 class="ic-section-title">${renderText(section.title)}</h2>\n` : ""}${bodyMarkup ? `\n${bodyMarkup}` : ""}
                     </div>
                 </div>
 
@@ -1067,6 +1125,8 @@ function renderSection(section) {
       return renderCardsSection(section);
     case "text":
       return renderTextSection(section);
+    case "html":
+      return renderHtmlSection(section);
     case "statementList":
       return renderStatementListSection(section);
     case "textMedia":
@@ -1105,12 +1165,18 @@ function renderDocument(page, outputFile) {
   const stylesheetHref = toPosixPath(relative(dirname(outputFile), "css/vendor/cms-main-202106042.css"));
   const bootstrapCssHref = toPosixPath(relative(dirname(outputFile), "node_modules/bootstrap/dist/css/bootstrap.min.css"));
   const swiperCssHref = toPosixPath(relative(dirname(outputFile), "node_modules/swiper/swiper-bundle.min.css"));
+  const legacyCssHref = toPosixPath(relative(dirname(outputFile), "css/legacy/style-legacy.css"));
   const mainCssHref = toPosixPath(relative(dirname(outputFile), "css/style.css"));
   const jqueryHref = toPosixPath(relative(dirname(outputFile), "node_modules/jquery/dist/jquery.min.js"));
   const scriptHref = toPosixPath(relative(dirname(outputFile), "js/script.js"));
   const sectionMarkup = (page.sections || []).map((section) => renderSection(section)).join("\n\n");
   const headHtml = renderPageHeadHtml(page);
   const inlineCmsScriptHtml = renderPageCmsScriptHtml(page);
+  const dependencySource = [headHtml, sectionMarkup, inlineCmsScriptHtml].filter(Boolean).join("\n");
+  const shouldIncludeLegacyCss = pageUsesLegacyCss(dependencySource);
+  const shouldIncludeJquery = pageUsesJquery(dependencySource) && !sourceReferencesJqueryAsset(dependencySource);
+  const jqueryScriptTag = shouldIncludeJquery ? `    <script src="${jqueryHref}"></script>\n` : "";
+  const legacyCssTag = shouldIncludeLegacyCss ? `    <link rel="stylesheet" href="${legacyCssHref}">\n` : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1124,9 +1190,8 @@ function renderDocument(page, outputFile) {
     ${headHtml ? `${headHtml}\n    ` : ""}<link rel="stylesheet" href="${stylesheetHref}">
     <link rel="stylesheet" href="${bootstrapCssHref}">
     <link rel="stylesheet" href="${swiperCssHref}">
-    <link rel="stylesheet" href="${mainCssHref}">
-    <script src="${jqueryHref}"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet" />
+${legacyCssTag}    <link rel="stylesheet" href="${mainCssHref}">
+${jqueryScriptTag}    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet" />
 </head>
 
 <body>
@@ -1158,6 +1223,68 @@ function renderPageHeadHtml(page) {
     .join("\n    ");
 }
 
+function extractMainInnerHtml(source, filePath) {
+  const mainMatch = source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
+
+  if (mainMatch) {
+    return mainMatch[1].trim();
+  }
+
+  return source.trim();
+}
+
+function loadHtmlFragmentFile(baseDir, filePath) {
+  const resolvedPath = resolve(baseDir, filePath);
+
+  if (!existsSync(resolvedPath)) {
+    throw new Error(`Missing HTML fragment "${filePath}"`);
+  }
+
+  return extractMainInnerHtml(readFileSync(resolvedPath, "utf8"), resolvedPath);
+}
+
+function normalizePageSections(page, sourceDirectory) {
+  return (page.sections || []).map((section) => {
+    if (section?.type !== "html" || !section.sourceHtmlFile) {
+      return section;
+    }
+
+    const htmlBlocks = [
+      ...normalizeHtmlBlocks(section.html),
+      loadHtmlFragmentFile(sourceDirectory, section.sourceHtmlFile),
+    ];
+
+    return {
+      ...section,
+      html: htmlBlocks,
+    };
+  });
+}
+
+function normalizePageCms(page, sourceDirectory) {
+  if (!page.cms) {
+    return page.cms;
+  }
+
+  const cms = { ...page.cms };
+
+  if (page.cms.headHtmlFile) {
+    cms.headHtml = [
+      ...normalizeHtmlBlocks(page.cms.headHtml),
+      loadHtmlFragmentFile(sourceDirectory, page.cms.headHtmlFile),
+    ];
+  }
+
+  if (page.cms.scriptHtmlFile) {
+    cms.scriptHtml = [
+      ...normalizeHtmlBlocks(page.cms.scriptHtml),
+      loadHtmlFragmentFile(sourceDirectory, page.cms.scriptHtmlFile),
+    ];
+  }
+
+  return cms;
+}
+
 function parseAuthoringFile(sourceFile) {
   const page = JSON.parse(readFileSync(sourceFile, "utf8"));
 
@@ -1169,7 +1296,13 @@ function parseAuthoringFile(sourceFile) {
     throw new Error(`Expected "sections" array in ${sourceFile}`);
   }
 
-  return page;
+  const sourceDirectory = dirname(sourceFile);
+
+  return {
+    ...page,
+    sections: normalizePageSections(page, sourceDirectory),
+    cms: normalizePageCms(page, sourceDirectory),
+  };
 }
 
 function toContentHtmlRelativePath(sourceFile, page) {
@@ -1178,10 +1311,6 @@ function toContentHtmlRelativePath(sourceFile, page) {
   const fallbackName = sourceRelativePath.split("/").pop().replace(/\.json$/i, "");
   const outputBaseName = page.slug || fallbackName;
   return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
-}
-
-function toVirtualHtmlSourcePath(sourceFile, page) {
-  return join("html", toContentHtmlRelativePath(sourceFile, page)).replace(/\\/g, "/");
 }
 
 export function collectRenderedPageDocuments() {
@@ -1195,17 +1324,15 @@ export function collectRenderedPageDocuments() {
     return [];
   }
 
-  return collectFiles(contentSourceDir, ".json").map((sourceFile) => {
+  return collectRenderableContentFiles().map((sourceFile) => {
     const page = parseAuthoringFile(sourceFile);
     const relativeOutputPath = toContentHtmlRelativePath(sourceFile, page);
-    const virtualSourcePath = toVirtualHtmlSourcePath(sourceFile, page);
 
     return {
       sourceFile,
       page,
       relativeOutputPath,
-      virtualSourcePath,
-      html: renderDocument(page, virtualSourcePath),
+      html: renderDocument(page, relativeOutputPath),
     };
   });
 }
@@ -1223,7 +1350,7 @@ async function buildPages() {
 
 export function createContentSnapshot() {
   const pageSnapshot = existsSync(contentSourceDir)
-    ? collectFiles(contentSourceDir, ".json")
+    ? collectRenderableContentFiles()
     .map((file) => {
       const stats = statSync(file);
       return `${file}:${stats.mtimeMs}:${stats.size}`;

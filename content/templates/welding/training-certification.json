@@ -1,0 +1,11 @@
+{
+  "slug": "training-certification",
+  "title": "Welding - Training and Certification",
+  "sections": [
+    { "id": "hero", "type": "hero" },
+    { "id": "responsibilities", "type": "stickyCards" },
+    { "id": "certification", "type": "cards" },
+    { "id": "certification-details", "type": "stickyCards" },
+    { "id": "preparation", "type": "textMedia", "variant": "reverse" }
+  ]
+}

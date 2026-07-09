@@ -1,45 +1,11 @@
 {
   "slug": "sally-mott-giveaway",
-  "title": "Sally Mott Giveaway",
+  "title": "Sally MOtt Giveaway",
   "sections": [
     {
-      "type": "text",
-      "id": "hero",
-      "title": "Sally Mott Signed Poster Giveaway",
-      "bodyHtml": [
-        "Fill out the form below for a chance to win a signed <strong>Sally Mott &times; Collision Careers</strong> poster."
-      ],
-      "__template": {
-        "id": "hero",
-        "type": "text",
-        "variant": "default",
-        "signature": "8f8f89bb140f53ad7158bd2ab5e80ba794e379f9"
-      }
-    },
-    {
-      "type": "embed",
-      "id": "form",
-      "title": "Enter Giveaway",
-      "embedHtml": "<div class=\"row justify-content-center mb-5\"><div class=\"col-12 col-md-8 col-lg-6\"><img alt=\"Sally Mott Poster\" class=\"img-fluid shadow rounded\" width=\"636\" height=\"454\" src=\"https://stage.info.i-car.com/getmedia/5d256dcf-20b0-4e4f-8e49-11a3fbc08864/Sally-Mott_Poster-Mock-Up.webp\"></div></div><div class=\"row justify-content-center\"><div class=\"col-12 col-lg-8\"><div class=\"card shadow-sm\"><div class=\"card-body p-4 p-md-5\"><form class=\"ic-form cc-form\" action=\"https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D1I0000002nE3\" method=\"POST\" novalidate><input name=\"captcha_settings\" type=\"hidden\" value='{\"keyname\":\"ICAR\",\"fallback\":\"true\",\"orgId\":\"00D1I0000002nE3\",\"ts\":\"\"}'><input name=\"oid\" type=\"hidden\" value=\"00D1I0000002nE3\"><input name=\"retURL\" type=\"hidden\" value=\"https://www.collisioncareers.com/\"><input name=\"company\" type=\"hidden\" value=\"Talent Aquisition\"><input name=\"00N8W00000PF4n8\" type=\"hidden\" value=\"Collision Repair\"><input name=\"lead_source\" type=\"hidden\" value=\"Talent Giveaway\"><input name=\"00N8W00000PE1V2\" type=\"hidden\" value=\"Sally Mott - MX-5 Race\"><div class=\"row g-3\"><div class=\"col-12\"><p class=\"ic-alert small\"><strong>Giveaway closes October 19, 2025 at 11:59 PM ET.</strong><br>Open to U.S. residents, 18+ only. One entry per person. Winners will be chosen at random and notified via email.</p></div><div class=\"col-md-6\"><label class=\"form-label\" for=\"first_name\">First Name <span class=\"ic-required\">*</span></label><input id=\"first_name\" name=\"first_name\" type=\"text\" class=\"form-control\" maxlength=\"40\" autocomplete=\"given-name\" required placeholder=\"Enter your first name\"></div><div class=\"col-md-6\"><label class=\"form-label\" for=\"last_name\">Last Name <span class=\"ic-required\">*</span></label><input id=\"last_name\" name=\"last_name\" type=\"text\" class=\"form-control\" maxlength=\"80\" autocomplete=\"family-name\" required placeholder=\"Enter your last name\"></div><div class=\"col-md-6\"><label class=\"form-label\" for=\"email\">Email <span class=\"ic-required\">*</span></label><input id=\"email\" name=\"email\" type=\"email\" class=\"form-control\" maxlength=\"80\" autocomplete=\"email\" inputmode=\"email\" required placeholder=\"Enter your email address\"></div><div class=\"col-md-6\"><label class=\"form-label\" for=\"phone\">Phone</label><input id=\"phone\" name=\"phone\" type=\"tel\" class=\"form-control\" maxlength=\"40\" autocomplete=\"tel\" inputmode=\"tel\" placeholder=\"Enter your phone number\"></div><div class=\"col-md-6 py-1\"><label class=\"form-label\" for=\"city\">City</label><input id=\"city\" name=\"city\" type=\"text\" class=\"form-control\" maxlength=\"40\" autocomplete=\"address-level2\" placeholder=\"Enter your city\"></div><div class=\"col-md-3 py-1\"><label class=\"form-label\" for=\"state\">State</label><select id=\"state\" name=\"state\" class=\"form-control form-select\"><option value=\"\" disabled selected>Select state</option><option value=\"AL\">Alabama</option><option value=\"AK\">Alaska</option><option value=\"AZ\">Arizona</option><option value=\"CA\">California</option><option value=\"FL\">Florida</option><option value=\"GA\">Georgia</option><option value=\"IL\">Illinois</option><option value=\"NY\">New York</option><option value=\"TX\">Texas</option><option value=\"WI\">Wisconsin</option></select></div><div class=\"col-md-3 py-1\"><label class=\"form-label\" for=\"zip\">ZIP</label><input id=\"zip\" name=\"zip\" type=\"text\" class=\"form-control\" maxlength=\"20\" autocomplete=\"postal-code\" placeholder=\"Enter your ZIP\"></div><div class=\"col-12\"><label class=\"form-label\" for=\"00N8W00000PF4u9\">I'm a <span class=\"ic-required\">*</span></label><select id=\"00N8W00000PF4u9\" name=\"00N8W00000PF4u9\" class=\"form-control form-select\" required><option value=\"\" disabled selected>I'm a</option><option value=\"Educator\">Educator</option><option value=\"Existing CR Professional\">Existing Collision Repair Professional</option><option value=\"Job Seeker\">Job Seeker</option><option value=\"Parent\">Parent</option><option value=\"Student\">Student</option></select></div><div class=\"col-auto\"><div class=\"d-flex justify-content-center\"><div class=\"g-recaptcha\" data-sitekey=\"6LfTSyoqAAAAAJQynP9sSRGLAoGSGbTJvpgEE1vF\"></div></div></div><div class=\"col-12\"><button type=\"submit\" class=\"btn btn-primary btn-lg w-100\">Enter Giveaway</button></div></div></form></div></div></div></div>",
-      "__template": {
-        "id": "form",
-        "type": "embed",
-        "variant": "default",
-        "signature": "9dca9f5cac3de211b389b39818277b66d02dd380"
-      }
-    },
-    {
-      "type": "legal",
-      "id": "disclaimer",
-      "paragraphs": [
-        "By submitting this form, you consent to the collection, processing, and use of your personal data, including receiving marketing communications related to Collision Careers and other I-CAR services. This giveaway is not sponsored, endorsed, or administered by, or associated with, Meta."
-      ],
-      "__template": {
-        "id": "disclaimer",
-        "type": "legal",
-        "variant": "default",
-        "signature": "7c65e91101260638b4ee31915cf5a191ea6916a6"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./sally-mott-giveaway.main.html"
     }
   ],
   "cms": {
@@ -50,9 +16,5 @@
       "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>",
       "<script>document.addEventListener(\"DOMContentLoaded\",()=>{const form=document.querySelector(\".ic-form\");if(!form)return;const formCard=form.closest(\".card-body\")||form;const submitBtn=form.querySelector('[type=\"submit\"]');const captchaSettings=form.querySelector('input[name=\"captcha_settings\"]');const recaptchaContainer=form.querySelector(\".g-recaptcha\");const retURL=form.querySelector('input[name=\"retURL\"]')?.value||\"/\";const isLocal=[\"localhost\",\"127.0.0.1\"].includes(location.hostname);const setInvalid=(el,msg)=>{if(!el)return;el.classList.add(\"is-invalid\");el.setAttribute(\"aria-invalid\",\"true\");let fb=el.parentElement?.querySelector(\".invalid-feedback\");if(!fb){fb=document.createElement(\"div\");fb.className=\"invalid-feedback\";el.parentElement?.appendChild(fb);}fb.textContent=msg||\"Please correct this field.\";};const clearInvalid=el=>{if(!el)return;el.classList.remove(\"is-invalid\");el.removeAttribute(\"aria-invalid\");const fb=el.parentElement?.querySelector(\".invalid-feedback\");if(fb)fb.textContent=\"\";};const setRecaptchaInvalid=msg=>{if(!recaptchaContainer)return;let fb=recaptchaContainer.nextElementSibling;if(!fb||!fb.classList||!fb.classList.contains(\"invalid-feedback\")){fb=document.createElement(\"div\");fb.className=\"invalid-feedback d-block mt-2\";recaptchaContainer.insertAdjacentElement(\"afterend\",fb);}fb.textContent=msg||\"Please complete the reCAPTCHA.\";recaptchaContainer.classList.add(\"border\",\"border-danger\",\"rounded\");};const clearRecaptchaInvalid=()=>{if(!recaptchaContainer)return;const fb=recaptchaContainer.nextElementSibling;if(fb&&fb.classList.contains(\"invalid-feedback\"))fb.textContent=\"\";recaptchaContainer.classList.remove(\"border\",\"border-danger\",\"rounded\");};const showSuccessUI=({willRedirect,delaySeconds=15,url=\"https://www.collisioncareers.com/\",isLocal=false})=>{formCard.innerHTML=`<div class=\"ic-message ic-message-success\"><h2 class=\"mb-3\">Thank you!</h2><p class=\"mb-4\">Your entry was successfully submitted. Winner will be randomly selected on <strong>October 20th</strong> and contacted via email. Good luck!</p><p class=\"mb-0 js-redirect-line\">You will be redirected to <a href=\"${url}\" title=\"Return to homepage\">${url}</a> in <span class=\"js-seconds\">${delaySeconds}</span> second${delaySeconds===1?\"\":\"s\"}…</p></div>`;if(!willRedirect)return;let secs=delaySeconds;const tick=setInterval(()=>{secs-=1;const lineEl=formCard.querySelector(\".js-redirect-line\");if(lineEl){lineEl.innerHTML=`You will be redirected to <a href=\"${url}\" title=\"Return to homepage\">${url}</a> in <span class=\"js-seconds\">${secs}</span> second${secs===1?\"\":\"s\"}.`; }if(secs<=0){clearInterval(tick);isLocal?window.open(url,\"_blank\"):window.location.href=url;}},1000);};const validateForm=()=>{let isValid=true;form.querySelectorAll(\".is-invalid\").forEach(clearInvalid);clearRecaptchaInvalid();form.querySelectorAll(\"[required]\").forEach(field=>{if(!field.value||!field.value.trim()){setInvalid(field,\"This field is required.\");isValid=false;}});const emailField=form.querySelector(\"#email\");if(emailField&&emailField.value.trim()){const emailRegex=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;if(!emailRegex.test(emailField.value)){setInvalid(emailField,\"Enter a valid email address.\");isValid=false;}}const phoneField=form.querySelector(\"#phone\");if(phoneField&&phoneField.value.trim()){const phoneRegex=/^[0-9]+$/;if(!phoneRegex.test(phoneField.value)){setInvalid(phoneField,\"Use numbers only (no dashes or spaces).\");isValid=false;}}if(!isLocal){let recaptchaOK=false;try{recaptchaOK=typeof grecaptcha!==\"undefined\"&&grecaptcha.getResponse().length>0;}catch(_){recaptchaOK=false;}if(!recaptchaOK){setRecaptchaInvalid(\"Please verify you are not a robot.\");isValid=false;}}return isValid;};form.addEventListener(\"submit\",e=>{e.preventDefault();if(!validateForm())return;submitBtn?.setAttribute(\"disabled\",\"disabled\");if(submitBtn)submitBtn.textContent=\"Submitting…\";if(isLocal){showSuccessUI({willRedirect:true,delaySeconds:15,url:retURL,isLocal:true});try{grecaptcha?.reset?.();}catch(_){}return;}try{const cs=captchaSettings?.value?JSON.parse(captchaSettings.value):{};cs.ts=String(Date.now());if(captchaSettings)captchaSettings.value=JSON.stringify(cs);}catch(_){}let iframe=document.querySelector('iframe[name=\"sfw2l_iframe\"]');if(!iframe){iframe=document.createElement(\"iframe\");iframe.name=\"sfw2l_iframe\";iframe.style.display=\"none\";document.body.appendChild(iframe);}iframe.addEventListener(\"load\",()=>{showSuccessUI({willRedirect:true,delaySeconds:15,url:retURL,isLocal:false});try{grecaptcha?.reset?.();}catch(_){}submitBtn?.removeAttribute(\"disabled\");if(submitBtn)submitBtn.textContent=\"Enter Giveaway\";},{once:true});const prevTarget=form.getAttribute(\"target\");form.setAttribute(\"target\",\"sfw2l_iframe\");form.submit();if(prevTarget===null)form.removeAttribute(\"target\");else form.setAttribute(\"target\",prevTarget);});});</script>"
     ]
-  },
-  "__template": {
-    "source": "sally-mott-giveaway.json",
-    "signature": "7417148b09d3c1f781746625b87a678e28790484"
   }
 }

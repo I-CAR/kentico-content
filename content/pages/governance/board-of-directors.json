@@ -1,0 +1,11 @@
+{
+  "slug": "board-of-directors",
+  "title": "Governance - Board of Directors",
+  "sections": [
+    {
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./board-of-directors.main.html"
+    }
+  ]
+}

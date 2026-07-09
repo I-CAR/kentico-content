@@ -3,66 +3,9 @@
   "title": "SkillsUSA",
   "sections": [
     {
-      "type": "hero",
-      "id": "hero",
-      "title": "Industry-Driven Reinvestment Highlights",
-      "body": [
-        "I-CAR has diligently re-invested in strategic initiatives that further industry training outcomes, strategically expand services driven by industry voice, and annual support for CREF, all geared to create industry benefits that align with I-CAR's vision and mission.",
-        "These reinvestments have contributed to I-CAR's strong financial position, enabling the organization to continue providing valuable training and services to the collision repair industry."
-      ],
-      "image": {
-        "alt": "",
-        "desktopSrc": "https://placehold.co/945x500",
-        "desktopSrcset": "https://placehold.co/362x192 362w, https://placehold.co/728x385 728w, https://placehold.co/945x500 945w, https://placehold.co/1456x770 1456w, https://placehold.co/1890x1000 1890w",
-        "mobileSrcset": "https://placehold.co/362x192 362w, https://placehold.co/728x385 728w",
-        "width": "945",
-        "height": "500",
-        "sizes": "(max-width: 400px) 362px, (max-width: 768px) 728px, 945px",
-        "loading": "eager"
-      },
-      "__template": {
-        "id": "hero",
-        "type": "hero",
-        "variant": "default",
-        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
-      }
-    },
-    {
-      "type": "cards",
-      "id": "impact",
-      "title": "I-CAR Industry Impact Fund Currently at Work",
-      "cardColumnClass": "col col-12 col-md-6 col-lg pb-3 mb-3",
-      "contentColumnClass": "col col-12",
-      "cardClassName": "ic-card ic-background-white h-100",
-      "cardBodyClassName": "ic-card-body",
-      "cards": [
-        {
-          "title": "Students",
-          "body": "I-CAR Academy is the beginning of a lifetime journey towards excellence in collision repair."
-        },
-        {
-          "title": "Parents",
-          "body": "Helping kids find a fulfilling career is a big deal. Let Collision Careers help you."
-        },
-        {
-          "title": "Schools",
-          "body": "You're the guiding force for students. We have the tools to support you."
-        },
-        {
-          "title": "Collision Repairers",
-          "body": "Discover I-CAR Academy's entry-level collision repair education for shops."
-        }
-      ],
-      "__template": {
-        "id": "impact",
-        "type": "cards",
-        "variant": "default",
-        "signature": "6aa4869a1ac923e72c2087317b758c41b94519b7"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./skillsusa.main.html"
     }
-  ],
-  "__template": {
-    "source": "skillsusa.json",
-    "signature": "818e887ca429a1f2190c051cbff3cbce13fda467"
-  }
+  ]
 }

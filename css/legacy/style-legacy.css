@@ -170,6 +170,149 @@ h6,
     color: var(--darker);
 }
 
+.table thead th {
+    font-weight: 600;
+}
+
+.table tbody th {
+    font-weight: normal;
+}
+
+.table.table-stack {
+    margin: 0 auto;
+    max-width: none;
+    min-width: 100%;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table.table-stack thead th,
+.table.table-stack tbody th,
+.table.table-stack tbody td {
+    padding: calc(12rem / 16) calc(24rem / 16) calc(12rem / 16) 0;
+    vertical-align: top;
+}
+
+.table.table-stack thead th {
+    text-align: left;
+    vertical-align: middle;
+    white-space: normal;
+}
+
+.table.table-stack tbody th,
+.table.table-stack tbody td {
+    text-align: left;
+}
+
+
+.table.table-stack td[data-value] .checkmark {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (min-width: 768px) {
+
+    .table.table-stack .table-stack-name {
+        width: 100%;
+    }
+
+    .table.table-stack [data-label="Position"] {
+        max-width: calc(185rem / 16);
+        min-width: calc(185rem / 16);
+    }
+
+    .table.table-stack [data-label="Name"] {
+        max-width: calc(220rem / 16);
+        min-width: calc(220rem / 16);
+    }
+
+    .table.table-stack [data-label="Organization"] {
+        max-width: calc(280rem / 16);
+        min-width: calc(280rem / 16);
+    }
+
+    .table.table-stack [data-label="Segment"] {
+        max-width: calc(325rem / 16);
+        min-width: calc(325rem / 16);
+    }
+
+    .table.table-stack [data-label="Term Ends"] {
+        max-width: calc(120rem / 16);
+        min-width: calc(120rem / 16);
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .table.table-stack [data-label="Incumbent Eligible for Re-Election"] {
+        max-width: calc(170rem / 16);
+        min-width: calc(170rem / 16);
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 769.98px) {
+
+    .table.table-stack thead,
+    .table.table-stack tfoot {
+        display: none;
+    }
+
+    .table.table-stack tbody tr {
+        border-bottom: 1px solid var(--bs-border-color);
+        display: block;
+        padding: 1rem 0;
+    }
+
+    .table.table-stack tbody th,
+    .table.table-stack tbody td {
+        border: 0;
+        display: flex;
+        gap: var(--space-20);
+        line-height: 1.65;
+        padding: .25rem 0;
+        padding-left: var(--space-20);
+    }
+
+    .table.table-stack tbody td::before,
+    .table.table-stack tbody th.table-stack-name::before {
+        color: var(--dark);
+        content: attr(data-label);
+        font-weight: 600;
+        max-width: 9rem;
+        min-width: 9rem;
+    }
+
+    .table.table-stack tbody th.table-stack-title {
+        display: block;
+        font-size: calc(18rem / 16);
+        font-weight: 600;
+        padding-left: 0;
+    }
+
+    .table.table-stack tbody th.table-stack-name {
+        display: flex;
+        font-weight: 400;
+        width: 100%;
+    }
+
+    .table.table-stack tbody td[data-value="No"] {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute !important;
+        white-space: nowrap;
+        width: 1px;
+    }
+
+    .table.table-stack td[data-value] .checkmark {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
 ol,
 ul {
     padding-left: 1rem;

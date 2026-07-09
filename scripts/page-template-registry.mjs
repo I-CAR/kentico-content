@@ -373,6 +373,15 @@ const sectionTemplateRegistry = {
       ],
     }),
   },
+  html: {
+    default: (id) => ({
+      id,
+      type: "html",
+      html: [
+        `<!-- Replace with approved HTML for the "${id}" section. -->`,
+      ],
+    }),
+  },
 };
 
 export function getSupportedTemplateTypes() {

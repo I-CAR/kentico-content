@@ -1,158 +1,16 @@
 {
   "slug": "high-voltage-safety",
-  "title": "Electric and Hybrid Vehicle Repair - High Voltage Safety",
+  "title": "Electric and Hyrbrid Vehicle Repair - High Voltage Safety",
   "sections": [
     {
-      "id": "hero",
-      "type": "hero",
-      "title": "Hero",
-      "label": "Section label",
-      "sublabel": "Section sublabel goes here.",
-      "body": [
-        "Add approved introductory copy for this hero section.",
-        "Use this space for a second paragraph if the design calls for one."
-      ],
-      "buttons": [
-        {
-          "label": "Primary Action",
-          "href": "#next-step"
-        }
-      ],
-      "image": {
-        "alt": "Hero image",
-        "desktopSrc": "https://placehold.co/1600x580",
-        "desktopSrcset": "https://placehold.co/1600x580 1600w",
-        "mobileSrcset": "https://placehold.co/400x300 400w",
-        "width": "1600",
-        "height": "580",
-        "sizes": "(max-width: 1024px) 800px, 1600px",
-        "loading": "eager"
-      },
-      "__template": {
-        "id": "hero",
-        "type": "hero",
-        "variant": "default",
-        "signature": "65ebb930db1a0050644eae7d99000b442f23c06c"
-      }
-    },
-    {
-      "id": "faq",
-      "type": "accordion",
-      "title": "Faq",
-      "body": [
-        "Add introductory copy for this accordion."
-      ],
-      "items": [
-        {
-          "title": "Accordion Item 1",
-          "body": [
-            "Add supporting copy for this accordion item."
-          ]
-        },
-        {
-          "title": "Accordion Item 2",
-          "body": [
-            "Add supporting copy for this accordion item."
-          ]
-        },
-        {
-          "title": "Accordion Item 3",
-          "body": [
-            "Add supporting copy for this accordion item."
-          ]
-        }
-      ],
-      "__template": {
-        "id": "faq",
-        "type": "accordion",
-        "variant": "default",
-        "signature": "b3f7752995a391fd14163c1072798a8d759a43d2"
-      }
-    },
-    {
-      "id": "guides",
-      "type": "textMedia",
-      "title": "Guides",
-      "reverse": true,
-      "body": [
-        "Add body copy that pairs with the supporting image."
-      ],
-      "buttons": [
-        {
-          "label": "Learn More",
-          "href": "#next-step",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "image": {
-        "alt": "Guides image",
-        "desktopSrc": "https://placehold.co/800x550",
-        "desktopSrcset": "https://placehold.co/800x550 800w",
-        "mobileSrcset": "https://placehold.co/400x450 400w",
-        "width": "800",
-        "height": "550",
-        "sizes": "800px"
-      },
-      "__template": {
-        "id": "guides",
-        "type": "textMedia",
-        "variant": "reverse",
-        "signature": "db87fe3215f93a187ff1d3eee76714ccad9fa055"
-      }
-    },
-    {
-      "id": "videos",
-      "type": "embed",
-      "title": "Videos",
-      "body": [
-        "Add introductory copy for this embedded content."
-      ],
-      "embedHtml": "<div class=\"ratio ratio-16x9\"><div class=\"d-flex align-items-center justify-content-center border rounded\">Replace this placeholder with approved embed HTML.</div></div>",
-      "__template": {
-        "id": "videos",
-        "type": "embed",
-        "variant": "default",
-        "signature": "4b18ae4e7a95e8ca15b02d20a358406cdbb0e183"
-      }
-    },
-    {
-      "id": "coming-soon",
-      "type": "textMedia",
-      "title": "Coming Soon",
-      "body": [
-        "Add body copy that pairs with the supporting image."
-      ],
-      "buttons": [
-        {
-          "label": "Learn More",
-          "href": "#next-step",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
-        }
-      ],
-      "image": {
-        "alt": "Coming Soon image",
-        "desktopSrc": "https://placehold.co/800x550",
-        "desktopSrcset": "https://placehold.co/800x550 800w",
-        "mobileSrcset": "https://placehold.co/400x450 400w",
-        "width": "800",
-        "height": "550",
-        "sizes": "800px"
-      },
-      "__template": {
-        "id": "coming-soon",
-        "type": "textMedia",
-        "variant": "default",
-        "signature": "f7a32f223947c8930e6a95fe1446805a91b0ccf0"
-      }
+      "id": "page-content",
+      "type": "html",
+      "sourceHtmlFile": "./high-voltage-safety.main.html"
     }
   ],
   "cms": {
     "scriptHtml": [
       "<script src=\"https://players.brightcove.net/1862663934001/experience_698ba27579abd02d2213bf16/live.js\"></script>"
     ]
-  },
-  "__template": {
-    "source": "electric-hybrid-vehicle-repair/high-voltage-safety.json",
-    "signature": "586807f2f2dd302b4a64315af9f8df7f192a4f9a"
   }
 }
