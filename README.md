@@ -139,11 +139,32 @@ That means `content/pages/` is your working source of truth, `html/` is preserve
 
 If the project is already installed, these are the most useful commands:
 
+### Content author
+
+```bash
+npm run watch
+```
+
+Content author watch mode. Rebuilds:
+
+- generated authoring pages
+- CMS output
+
+```bash
+npm run build:cms:dev
+```
+
+Refreshes the CMS output from `content/pages/` without doing a full production build.
+
+If you only changed page JSON content and need updated CMS output, `npm run build:cms:dev` is often enough.
+
+### Developer
+
 ```bash
 npm run dev
 ```
 
-Runs the watchers for:
+Developer watch mode. Rebuilds:
 
 - generated authoring pages
 - CSS
@@ -155,6 +176,8 @@ npm run build
 ```
 
 Syncs templates, validates page JSON, and creates production-style CSS, JS, and CMS output from `content/pages/`.
+
+### Advanced / maintenance
 
 ```bash
 npm run build:pages
@@ -290,14 +313,6 @@ Useful authoring notes:
 - `stickyCards` can also render linked course/resource lists through `linkItems`
 - `iconCardGrid` can render linked cards plus an optional centered footer block
 - `embed` is the lightweight option for iframe, playlist, or other trusted embed markup
-
-```bash
-npm run build:cms:dev
-```
-
-Refreshes the CMS output from `content/pages/` without doing a full production build.
-
-If you only changed page JSON content and need updated CMS output, `npm run build:cms:dev` is often enough.
 
 ## Good Files To Learn From
 
