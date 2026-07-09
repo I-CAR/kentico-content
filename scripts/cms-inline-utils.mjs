@@ -95,6 +95,10 @@ function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
 
+function stripCssSourceMapComment(source) {
+  return source.replace(/\n?\/\*# sourceMappingURL=.*?\*\/\s*$/m, "").trim();
+}
+
 function stripJsComments(source) {
   return source
     .replace(/\/\*[\s\S]*?\*\//g, "")
@@ -580,6 +584,55 @@ async function renderCmsStyleTag(sourceFile, source) {
   return css ? `<style>\n${css}\n</style>` : "";
 }
 
+function toInlineCssSourceMap(assetPath, cssSource) {
+  const sourceMapMatch = cssSource.match(/\/\*# sourceMappingURL=([^*]+)\*\//);
+
+  if (!sourceMapMatch) {
+    return cssSource;
+  }
+
+  const sourceMapRef = sourceMapMatch[1]?.trim();
+
+  if (!sourceMapRef || sourceMapRef.startsWith("data:")) {
+    return cssSource;
+  }
+
+  const sourceMapPath = join(dirname(assetPath), sourceMapRef);
+
+  if (!existsSync(sourceMapPath)) {
+    return cssSource;
+  }
+
+  const sourceMap = readFileSync(sourceMapPath, "utf8").trim();
+  const inlineSourceMap = Buffer.from(sourceMap).toString("base64");
+
+  return cssSource.replace(
+    /\/\*# sourceMappingURL=([^*]+)\*\//,
+    `/*# sourceMappingURL=data:application/json;charset=utf-8;base64,${inlineSourceMap} */`,
+  );
+}
+
+async function renderDevCmsStyleTags(sourceFile, source) {
+  const styleTags = extractCmsCssPaths(sourceFile, source)
+    .map((assetPath) => {
+      const cssSource = readFileSync(assetPath, "utf8").trim();
+
+      if (!cssSource) {
+        return "";
+      }
+
+      const cssWithInlineMap = toInlineCssSourceMap(assetPath, cssSource);
+      const cssOutput = cssWithInlineMap.includes("sourceMappingURL=")
+        ? cssWithInlineMap
+        : stripCssSourceMapComment(cssWithInlineMap);
+
+      return cssOutput ? `<style>\n${cssOutput}\n</style>` : "";
+    })
+    .filter(Boolean);
+
+  return styleTags.join("\n\n");
+}
+
 function renderCmsLinkTags(source) {
   return [...extractHeadExternalLinks(source), ...extractHeadFontLinks(source)]
     .filter((link, index, links) => links.indexOf(link) === index)
@@ -666,7 +719,9 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minif
   const mainSource = extractCmsMain(source);
   const rewrittenMain = rewriteLocalAssetPaths(sourceFile, outputFile, mainSource);
   const mainOutput = minify ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
-  const styleTag = await renderCmsStyleTag(sourceFile, source);
+  const styleTag = minify
+    ? await renderCmsStyleTag(sourceFile, source)
+    : await renderDevCmsStyleTags(sourceFile, source);
   const linkTags = renderCmsLinkTags(source);
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
@@ -925,7 +980,9 @@ export async function buildCmsAssets({ minify = false } = {}) {
 export function createHtmlSnapshot() {
   const assetSnapshot = [
     ...(existsSync("css") ? collectFiles("css", ".css") : []),
+    ...(existsSync("css") ? collectFiles("css", ".map") : []),
     ...(existsSync("js") ? collectFiles("js", ".js") : []),
+    ...(existsSync("js") ? collectFiles("js", ".map") : []),
   ]
     .map((file) => {
       const stats = statSync(file);
