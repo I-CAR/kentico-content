@@ -139,8 +139,6 @@ That means `content/pages/` is your working source of truth, `html/` is preserve
 
 If the project is already installed, these are the most useful commands:
 
-### Content author
-
 ```bash
 npm run watch
 ```
@@ -151,14 +149,12 @@ Content author watch mode. Rebuilds:
 - CMS output
 
 ```bash
-npm run build:cms:dev
+npm run cms
 ```
 
 Refreshes the CMS output from `content/pages/` without doing a full production build.
 
-If you only changed page JSON content and need updated CMS output, `npm run build:cms:dev` is often enough.
-
-### Developer
+If you only changed page JSON content and need updated CMS output, `npm run cms` is often enough.
 
 ```bash
 npm run dev
@@ -177,25 +173,11 @@ npm run build
 
 Syncs templates, validates page JSON, and creates production-style CSS, JS, and CMS output from `content/pages/`.
 
-### Advanced / maintenance
-
 ```bash
-npm run build:pages
+npm run pages
 ```
 
 Syncs `content/templates/*.json` into `content/pages/*.json`, then validates the resulting page authoring files.
-
-```bash
-npm run generate:templates
-```
-
-Syncs `content/templates/**/*.json` into matching page JSON files under `content/pages/`.
-
-```bash
-npm run backfill:templates
-```
-
-Rewrites template files under `content/templates/` from the current `content/pages/` library using the canonical minimal template format.
 
 If you want a real example, compare `content/templates/template-demo.json` with `content/pages/template-demo.json`.
 
@@ -259,7 +241,7 @@ Template rules:
 - no additional top-level keys are allowed beyond `slug`, `title`, and `sections`
 - no additional section keys are allowed beyond `id`, `type`, and optional `variant`
 - templates are the source of truth for page structure
-- `generate:templates` and `build:pages` both sync template structure into `content/pages/`
+- `generate:templates` and `pages` both sync template structure into `content/pages/`
 - `pageNav` links are auto-generated when not explicitly provided
 
 Template authoring template:

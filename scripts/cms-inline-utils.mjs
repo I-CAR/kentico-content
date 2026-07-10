@@ -64,6 +64,35 @@ const tagAttributePriority = {
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
 const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
+const cmsFormShellClasses = [
+  "breadcrumb",
+  "c-nav--main",
+  "control-label",
+  "content",
+  "disclaimer",
+  "editing-form-control-nested-control",
+  "field-validation-error",
+  "footer",
+  "footer-inner",
+  "form-control",
+  "form-field",
+  "formwidget-error",
+  "formwidget-submit-text",
+  "header",
+  "header-inner",
+  "input-validation-error",
+  "ktc-default-section",
+  "ktc-radio",
+  "ktc-radio-list",
+  "optional",
+  "pageWrap",
+  "row",
+  "row--with-cols-padding",
+  "subhead",
+  "textarea-validation-error",
+  "ic-form",
+];
+const cmsFormShellTags = ["article", "button", "form", "input", "label", "main", "select", "textarea"];
 
 function normalizeAssetPath(htmlFile, assetPath) {
   return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
@@ -97,7 +126,7 @@ function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
 
-function collectHtmlUsage(source) {
+function collectHtmlUsage(source, { includeCmsFormShell = false } = {}) {
   const classes = new Set();
   const ids = new Set(["main"]);
   const tags = new Set(["article"]);
@@ -120,6 +149,11 @@ function collectHtmlUsage(source) {
 
   for (const match of source.matchAll(/<([a-z][\w-]*)\b/gi)) {
     tags.add(match[1].toLowerCase());
+  }
+
+  if (includeCmsFormShell) {
+    cmsFormShellClasses.forEach((className) => classes.add(className));
+    cmsFormShellTags.forEach((tagName) => tags.add(tagName));
   }
 
   return { classes, ids, tags };
@@ -191,9 +225,9 @@ function selectorMatchesHtmlUsage(selector, usage) {
   return classMatches.length > 0 || idMatches.length > 0 || tagMatches.length > 0;
 }
 
-function filterSharedStylesheet(cssSource, htmlSource) {
+function filterSharedStylesheet(cssSource, htmlSource, { includeCmsFormShell = false } = {}) {
   const root = postcss.parse(cssSource);
-  const usage = collectHtmlUsage(htmlSource);
+  const usage = collectHtmlUsage(htmlSource, { includeCmsFormShell });
 
   function cloneMatchingNode(node) {
     if (node.type === "rule") {
@@ -322,6 +356,18 @@ function loadCmsScriptSplitPaths() {
 
 function shouldSplitCmsScripts(sourceFile, splitPaths = loadCmsScriptSplitPaths()) {
   return splitPaths.has(toSourceRelativeHtmlPath(sourceFile));
+}
+
+function pageUsesCmsForm(page) {
+  if (page?.cms?.hasForm === true) {
+    return true;
+  }
+
+  if (page?.cms?.scriptOutput === "separateHtmlFile") {
+    return true;
+  }
+
+  return normalizeCmsFragments(page).length > 0;
 }
 
 function normalizeCmsFragments(page) {
@@ -870,7 +916,8 @@ function extractCmsCssPaths(sourceFile, source, { forceBootstrap = false } = {})
   );
 }
 
-async function renderCmsStyleTag(sourceFile, source, { forceBootstrap = false } = {}) {
+async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = false } = {}) {
+  const includeCmsFormShell = pageUsesCmsForm(page);
   const cssParts = extractCmsCssPaths(sourceFile, source, { forceBootstrap })
     .map((assetPath) => {
       const cssSource = stripCssComments(readFileSync(assetPath, "utf8"));
@@ -880,7 +927,7 @@ async function renderCmsStyleTag(sourceFile, source, { forceBootstrap = false } 
       }
 
       if (isSharedSiteStylesheet(assetPath)) {
-        return filterSharedStylesheet(cssSource, source);
+        return filterSharedStylesheet(cssSource, source, { includeCmsFormShell });
       }
 
       return cssSource;
@@ -980,7 +1027,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
 
 export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false } = {}) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
-  const styleTag = await renderCmsStyleTag(sourceFile, source, { forceBootstrap: minify });
+  const styleTag = await renderCmsStyleTag(sourceFile, source, page, { forceBootstrap: minify });
   const linkTags = renderCmsLinkTags(source);
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
