@@ -1,44 +1,44 @@
 @use "../abstracts/mixins" as *;
 
 #main,
-#main > article {
+#main>article {
     padding-left: 0;
     padding-right: 0;
 }
 
-#main > article {
+#main>article {
     padding: 0;
 }
 
 @include mq(md, down) {
-    #main > article {
+    #main>article {
         overflow: hidden;
     }
 }
 
-#main > article > .row > .content {
+#main>article>.row>.content {
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
 @include mq(md) {
-    #main > article > .row > .content {
+    #main>article>.row>.content {
         padding-right: 0;
     }
 }
 
-main + .row.row--with-cols-padding {
+main+.row.row--with-cols-padding {
     margin-top: var(--section-margin);
     background: white !important;
-    padding: var(--section-padding) calc(12rem / 16)
-        clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120)) calc(12rem / 16);
+    // padding: var(--section-padding) calc(12rem / 16)
+    //     clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120)) calc(12rem / 16);
 }
 
-main:has(section.ic-background-white:last-child) + .row.row--with-cols-padding {
+main:has(section.ic-background-white:last-child)+.row.row--with-cols-padding {
     background: var(--lightest) !important;
 }
 
-main:has(section.ic-background-light:last-child) + .row.row--with-cols-padding {
+main:has(section.ic-background-light:last-child)+.row.row--with-cols-padding {
     margin-top: 0;
     background: none !important;
 }
@@ -63,6 +63,7 @@ main:has(section.ic-background-light:last-child) + .row.row--with-cols-padding {
 }
 
 @include mq(xxxl) {
+
     .ic-section .container,
     .ic-header .container,
     .breadcrumb,
@@ -72,7 +73,7 @@ main:has(section.ic-background-light:last-child) + .row.row--with-cols-padding {
     }
 }
 
-body > .pageWrap {
+body>.pageWrap {
     overflow-x: visible !important;
     overflow-y: visible !important;
 }
@@ -83,8 +84,8 @@ body > .pageWrap {
     }
 }
 
-main > .ic-section:last-child,
-main > .section:last-child {
+main>.ic-section:last-child,
+main>.section:last-child {
     padding-bottom: clamp(5rem, 1.721rem + 9.697vw, 7.5rem);
 }
 
