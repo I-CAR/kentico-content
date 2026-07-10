@@ -9,6 +9,7 @@ import {
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import * as esbuild from "esbuild";
+import postcss from "postcss";
 import { collectRenderableContentFiles, collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesSwiper } from "./page-dependencies.mjs";
 
@@ -62,6 +63,7 @@ const tagAttributePriority = {
   script: ["src", "type", "async", "defer"],
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
+const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
 
 function normalizeAssetPath(htmlFile, assetPath) {
   return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
@@ -93,6 +95,149 @@ function isSharedSiteStylesheet(assetPath) {
 
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
+}
+
+function collectHtmlUsage(source) {
+  const classes = new Set();
+  const ids = new Set(["main"]);
+  const tags = new Set(["article"]);
+
+  for (const match of source.matchAll(/\bclass=["']([^"']+)["']/gi)) {
+    match[1]
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .forEach((value) => classes.add(value));
+  }
+
+  for (const match of source.matchAll(/\bid=["']([^"']+)["']/gi)) {
+    const value = match[1]?.trim();
+
+    if (value) {
+      ids.add(value);
+    }
+  }
+
+  for (const match of source.matchAll(/<([a-z][\w-]*)\b/gi)) {
+    tags.add(match[1].toLowerCase());
+  }
+
+  return { classes, ids, tags };
+}
+
+function splitSelectorList(selectorSource) {
+  const selectors = [];
+  let current = "";
+  let bracketDepth = 0;
+  let parenDepth = 0;
+
+  for (const character of selectorSource) {
+    if (character === "[") {
+      bracketDepth += 1;
+    } else if (character === "]") {
+      bracketDepth = Math.max(0, bracketDepth - 1);
+    } else if (character === "(") {
+      parenDepth += 1;
+    } else if (character === ")") {
+      parenDepth = Math.max(0, parenDepth - 1);
+    }
+
+    if (character === "," && bracketDepth === 0 && parenDepth === 0) {
+      if (current.trim()) {
+        selectors.push(current.trim());
+      }
+      current = "";
+      continue;
+    }
+
+    current += character;
+  }
+
+  if (current.trim()) {
+    selectors.push(current.trim());
+  }
+
+  return selectors;
+}
+
+function selectorMatchesHtmlUsage(selector, usage) {
+  const normalized = selector
+    .replace(/:not\(([^()]*)\)/g, "")
+    .replace(/::?[\w-]+(?:\([^)]*\))?/g, "")
+    .replace(/\[[^\]]*\]/g, "");
+
+  if (!normalized.trim()) {
+    return true;
+  }
+
+  const classMatches = [...normalized.matchAll(/\.(-?[_a-zA-Z]+[\w-]*)/g)].map((match) => match[1]);
+  const idMatches = [...normalized.matchAll(/#([_a-zA-Z][\w-]*)/g)].map((match) => match[1]);
+  const tagMatches = [...normalized.matchAll(/(^|[\s>+~])([a-z][\w-]*)/gi)]
+    .map((match) => match[2].toLowerCase())
+    .filter((tagName) => tagName !== "from" && tagName !== "to");
+
+  if (classMatches.some((className) => !usage.classes.has(className))) {
+    return false;
+  }
+
+  if (idMatches.some((id) => !usage.ids.has(id))) {
+    return false;
+  }
+
+  if (tagMatches.some((tagName) => !usage.tags.has(tagName))) {
+    return false;
+  }
+
+  return classMatches.length > 0 || idMatches.length > 0 || tagMatches.length > 0;
+}
+
+function filterSharedStylesheet(cssSource, htmlSource) {
+  const root = postcss.parse(cssSource);
+  const usage = collectHtmlUsage(htmlSource);
+
+  function cloneMatchingNode(node) {
+    if (node.type === "rule") {
+      const selectors = splitSelectorList(node.selector).filter((selector) => selectorMatchesHtmlUsage(selector, usage));
+
+      if (selectors.length === 0) {
+        return null;
+      }
+
+      return node.clone({ selector: selectors.join(", ") });
+    }
+
+    if (node.type === "atrule") {
+      if (node.name === "media" || node.name === "supports" || node.name === "layer" || node.name === "container") {
+        const cloned = node.clone({ nodes: [] });
+
+        for (const child of node.nodes ?? []) {
+          const matchedChild = cloneMatchingNode(child);
+
+          if (matchedChild) {
+            cloned.append(matchedChild);
+          }
+        }
+
+        return cloned.nodes.length > 0 ? cloned : null;
+      }
+
+      return node.clone();
+    }
+
+    return node.clone();
+  }
+
+  const filteredRoot = postcss.root();
+
+  for (const node of root.nodes) {
+    const matchedNode = cloneMatchingNode(node);
+
+    if (matchedNode) {
+      filteredRoot.append(matchedNode);
+    }
+  }
+
+  return filteredRoot.toString().trim();
 }
 
 function stripJsComments(source) {
@@ -697,10 +842,10 @@ function getCmsBundleScriptPaths(source) {
   return [...new Set(assetPaths)];
 }
 
-function filterCmsAssetPaths(assetPaths, dependencies) {
+function filterCmsAssetPaths(assetPaths, dependencies, { forceBootstrap = false } = {}) {
   return assetPaths.filter((assetPath) => {
     if (isBootstrapAsset(assetPath)) {
-      return dependencies.bootstrap;
+      return forceBootstrap || dependencies.bootstrap;
     }
 
     if (isSwiperAsset(assetPath)) {
@@ -715,19 +860,34 @@ function filterCmsAssetPaths(assetPaths, dependencies) {
   });
 }
 
-function extractCmsCssPaths(sourceFile, source) {
+function extractCmsCssPaths(sourceFile, source, { forceBootstrap = false } = {}) {
   return filterCmsAssetPaths(
     extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" }).filter(
-      (assetPath) => !isCmsVendorStylesheet(assetPath) && !isSharedSiteStylesheet(assetPath),
+      (assetPath) => !isCmsVendorStylesheet(assetPath),
     ),
     detectPageDependencies(source),
+    { forceBootstrap },
   );
 }
 
-async function renderCmsStyleTag(sourceFile, source) {
-  const cssParts = extractCmsCssPaths(sourceFile, source)
-    .map((assetPath) => stripCssComments(readFileSync(assetPath, "utf8")))
+async function renderCmsStyleTag(sourceFile, source, { forceBootstrap = false } = {}) {
+  const cssParts = extractCmsCssPaths(sourceFile, source, { forceBootstrap })
+    .map((assetPath) => {
+      const cssSource = stripCssComments(readFileSync(assetPath, "utf8"));
+
+      if (!cssSource) {
+        return "";
+      }
+
+      if (isSharedSiteStylesheet(assetPath)) {
+        return filterSharedStylesheet(cssSource, source);
+      }
+
+      return cssSource;
+    })
     .filter(Boolean);
+
+  cssParts.push(cmsShellCss);
 
   if (cssParts.length === 0) {
     return "";
@@ -820,7 +980,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
 
 export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false } = {}) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
-  const styleTag = await renderCmsStyleTag(sourceFile, source);
+  const styleTag = await renderCmsStyleTag(sourceFile, source, { forceBootstrap: minify });
   const linkTags = renderCmsLinkTags(source);
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
