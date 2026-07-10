@@ -124,7 +124,7 @@ section.ic-section[id] {
         margin-top: 0;
     }
 
-    .ic-section.ic-section-hero:has(.ic-video-banner, .ic-image-banner) {
+    .ic-section.ic-section-hero.ic-section-hero-padded:has(.ic-video-banner, .ic-image-banner) {
         padding: var(--hero-padding) 0;
     }
 

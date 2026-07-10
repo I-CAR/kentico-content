@@ -22,6 +22,16 @@ ul {}
 `;
 const buildTargets = [
   {
+    entryPath: join(sourceRoot, "vendor", "bootstrap-subset.scss"),
+    output: "css/bootstrap-subset.css",
+    sourceMap: false,
+  },
+  {
+    entryPath: join(sourceRoot, "vendor", "bootstrap-cms-compat.scss"),
+    output: "css/bootstrap-cms-compat.css",
+    sourceMap: false,
+  },
+  {
     entryPath: join(sourceRoot, "style.scss"),
     output: "css/style.css",
     appendCss: legacySelectors,
@@ -68,6 +78,7 @@ async function buildTarget({ entryPath, output, appendCss = "", sourceMap = true
   const shouldWriteSourceMap = !productionMode && sourceMap;
 
   const result = compile(entryPath, {
+    loadPaths: ["node_modules"],
     style: productionMode ? "compressed" : "expanded",
     sourceMap: shouldWriteSourceMap,
     sourceMapIncludeSources: shouldWriteSourceMap,

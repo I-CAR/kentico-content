@@ -1,0 +1,47 @@
+@each $breakpoint, $breakpoint-width in $grid-breakpoints {
+  $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+  @include media-breakpoint-up($breakpoint) {
+    @each $size, $length in $spacers {
+      .pl#{$infix}-#{$size} {
+        padding-left: $length !important;
+      }
+
+      .pr#{$infix}-#{$size} {
+        padding-right: $length !important;
+      }
+
+      .ml#{$infix}-#{$size} {
+        margin-left: $length !important;
+      }
+
+      .mr#{$infix}-#{$size} {
+        margin-right: $length !important;
+      }
+    }
+
+    .ml#{$infix}-auto {
+      margin-left: auto !important;
+    }
+
+    .mr#{$infix}-auto {
+      margin-right: auto !important;
+    }
+
+    .text#{$infix}-left {
+      text-align: left !important;
+    }
+
+    .text#{$infix}-right {
+      text-align: right !important;
+    }
+  }
+}
+
+.font-weight-bold {
+  font-weight: $font-weight-bold !important;
+}
+
+.font-weight-normal {
+  font-weight: $font-weight-normal !important;
+}

@@ -25,6 +25,14 @@
     padding-bottom: 1.5rem;
 }
 
+.swiper-wrapper {
+    box-sizing: border-box;
+}
+
+.swiper-slide {
+    height: auto;
+}
+
 .ic-swiper-courses .swiper-wrapper,
 .ic-swiper .swiper-wrapper {
     flex-wrap: nowrap;
@@ -44,10 +52,6 @@
     .ic-swiper-courses .swiper-slide {
         padding: var(--space-10);
     }
-}
-
-.ic-swiper-courses .swiper-slide .ic-card {
-    height: 100%;
 }
 
 .ic-swiper-nav {

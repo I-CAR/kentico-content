@@ -8,7 +8,7 @@ import {
 import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
-import { pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
+import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
 
 const watchMode = process.argv.includes("--watch");
 const contentSourceDir = join("content", "pages");
@@ -66,6 +66,26 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+function normalizeImageAssetUrl(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  return value.replace(/https?:\/\/(?:stage\.)?info\.i-car\.com(?=\/)/gi, "");
+}
+
+function normalizeImageAssetUrlsInHtml(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  return value.replace(/\b(src|srcset)=("([^"]*)"|'([^']*)')/gi, (match, attribute, quotedValue, doubleQuoted, singleQuoted) => {
+    const quote = quotedValue[0];
+    const attributeValue = doubleQuoted ?? singleQuoted ?? "";
+    return `${attribute}=${quote}${normalizeImageAssetUrl(attributeValue)}${quote}`;
+  });
+}
+
 function normalizeContentText(value) {
   return value.replace(/I-CAR/g, "I&#8209;CAR").replace(/Gold Class/g, "Gold&nbsp;Class");
 }
@@ -95,7 +115,8 @@ function normalizeHtmlBlocks(blocks) {
 }
 
 function renderTrustedHtml(value, { normalizeText = true } = {}) {
-  return normalizeText ? normalizeContentText(value) : value;
+  const normalizedValue = normalizeText ? normalizeContentText(value) : value;
+  return normalizeImageAssetUrlsInHtml(normalizedValue);
 }
 
 function renderParagraphs(paragraphs, className = "") {
@@ -1163,7 +1184,7 @@ function renderSection(section) {
 function renderDocument(page, outputFile) {
   const pageTitle = escapeHtml(page.title || page.slug || "Generated Page");
   const stylesheetHref = toPosixPath(relative(dirname(outputFile), "css/vendor/cms-main-202106042.css"));
-  const bootstrapCssHref = toPosixPath(relative(dirname(outputFile), "node_modules/bootstrap/dist/css/bootstrap.min.css"));
+  const bootstrapCssHref = toPosixPath(relative(dirname(outputFile), "css/bootstrap-subset.css"));
   const swiperCssHref = toPosixPath(relative(dirname(outputFile), "node_modules/swiper/swiper-bundle.min.css"));
   const legacyCssHref = toPosixPath(relative(dirname(outputFile), "css/legacy/style-legacy.css"));
   const mainCssHref = toPosixPath(relative(dirname(outputFile), "css/style.css"));
@@ -1173,12 +1194,14 @@ function renderDocument(page, outputFile) {
   const headHtml = renderPageHeadHtml(page);
   const inlineCmsScriptHtml = renderPageCmsScriptHtml(page);
   const dependencySource = [headHtml, sectionMarkup, inlineCmsScriptHtml].filter(Boolean).join("\n");
+  const shouldIncludeBootstrapCss = pageUsesBootstrap(dependencySource);
   const shouldIncludeLegacyCss = pageUsesLegacyCss(dependencySource);
   const shouldIncludeJquery = pageUsesJquery(dependencySource) && !sourceReferencesJqueryAsset(dependencySource);
+  const bootstrapCssTag = shouldIncludeBootstrapCss ? `    <link rel="stylesheet" href="${bootstrapCssHref}">\n` : "";
   const jqueryScriptTag = shouldIncludeJquery ? `    <script src="${jqueryHref}"></script>\n` : "";
   const legacyCssTag = shouldIncludeLegacyCss ? `    <link rel="stylesheet" href="${legacyCssHref}">\n` : "";
 
-  return `<!DOCTYPE html>
+  return normalizeImageAssetUrlsInHtml(`<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1188,8 +1211,7 @@ function renderDocument(page, outputFile) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     ${headHtml ? `${headHtml}\n    ` : ""}<link rel="stylesheet" href="${stylesheetHref}">
-    <link rel="stylesheet" href="${bootstrapCssHref}">
-    <link rel="stylesheet" href="${swiperCssHref}">
+${bootstrapCssTag}    <link rel="stylesheet" href="${swiperCssHref}">
 ${legacyCssTag}    <link rel="stylesheet" href="${mainCssHref}">
 ${jqueryScriptTag}    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet" />
 </head>
@@ -1206,7 +1228,7 @@ ${inlineCmsScriptHtml ? `${inlineCmsScriptHtml}\n\n` : ""}    <script src="${scr
 </body>
 
 </html>
-`;
+`);
 }
 
 function renderPageCmsScriptHtml(page) {
