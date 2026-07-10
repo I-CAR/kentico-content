@@ -1,6 +1,15 @@
 {
   "slug": "membership",
   "title": "Governance - Membership",
+  "cms": {
+    "fragments": [
+      {
+        "name": "postform",
+        "fromSectionId": "pricing",
+        "includeScripts": true
+      }
+    ]
+  },
   "sections": [
     {
       "id": "page-content",

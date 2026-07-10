@@ -1036,10 +1036,12 @@ main+.row.row--with-cols-padding form {
     background: #f7f7f7 !important;
 }
 
+/*
 .section.bg-light:only-child,
 .section.bg-light:last-child {
     margin-bottom: 0;
 }
+*/
 
 .section.section_fixed-spacing {
     padding: var(--space-60) 0;

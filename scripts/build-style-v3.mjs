@@ -30,12 +30,12 @@ const buildTargets = [
   {
     entryPath: join(sourceRoot, "style-cms.scss"),
     output: "css/style-cms.css",
-    sourceMap: true,
+    sourceMap: false,
   },
   {
     entryPath: join(sourceRoot, "style-cms-swiper.scss"),
     output: "css/style-cms-swiper.css",
-    sourceMap: true,
+    sourceMap: false,
   },
 ];
 

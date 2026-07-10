@@ -95,10 +95,6 @@ function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
 
-function stripCssSourceMapComment(source) {
-  return source.replace(/\n?\/\*# sourceMappingURL=.*?\*\/\s*$/m, "").trim();
-}
-
 function stripJsComments(source) {
   return source
     .replace(/\/\*[\s\S]*?\*\//g, "")
@@ -145,6 +141,10 @@ function toCmsScriptHtmlOutputPath(sourceFile) {
   return toCmsHtmlOutputPath(sourceFile).replace(/\.html$/i, ".scripts.html");
 }
 
+function toCmsFragmentHtmlOutputPath(sourceFile, fragmentName) {
+  return toCmsHtmlOutputPath(sourceFile).replace(/\.html$/i, `.${fragmentName}.html`);
+}
+
 function toCompanionScriptSourcePath(sourceFile) {
   return sourceFile.replace(/\.html$/i, ".scripts.html");
 }
@@ -179,6 +179,33 @@ function shouldSplitCmsScripts(sourceFile, splitPaths = loadCmsScriptSplitPaths(
   return splitPaths.has(toSourceRelativeHtmlPath(sourceFile));
 }
 
+function normalizeCmsFragments(page) {
+  const fragments = Array.isArray(page?.cms?.fragments) ? page.cms.fragments : [];
+
+  return fragments
+    .map((fragment) => ({
+      name: typeof fragment?.name === "string" ? fragment.name.trim() : "",
+      fromSectionId: typeof fragment?.fromSectionId === "string" ? fragment.fromSectionId.trim() : "",
+      afterSectionId: typeof fragment?.afterSectionId === "string" ? fragment.afterSectionId.trim() : "",
+      includeScripts: Boolean(fragment?.includeScripts),
+    }))
+    .filter((fragment) => fragment.name && (fragment.fromSectionId || fragment.afterSectionId));
+}
+
+function getExpectedCmsOutputPathsForPage(renderedPage, splitPaths) {
+  const sourceFile = renderedPage.relativeOutputPath;
+  const fragmentOutputs = normalizeCmsFragments(renderedPage.page).map((fragment) =>
+    toCmsFragmentHtmlOutputPath(sourceFile, fragment.name),
+  );
+  const outputs = [toCmsHtmlOutputPath(sourceFile), ...fragmentOutputs];
+
+  if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
+    outputs.push(toCmsScriptHtmlOutputPath(sourceFile));
+  }
+
+  return outputs;
+}
+
 function removeEmptyDirectories(root) {
   if (!existsSync(root)) {
     return;
@@ -198,18 +225,12 @@ function removeEmptyDirectories(root) {
   }
 }
 
-function cleanupRemovedCmsPages(sourceFiles, splitPaths = loadCmsScriptSplitPaths()) {
+function cleanupRemovedCmsPages(renderedPages, splitPaths = loadCmsScriptSplitPaths()) {
   if (!existsSync(outputDir)) {
     return;
   }
 
-  const expectedOutputs = new Set(
-    sourceFiles.flatMap((sourceFile) =>
-      shouldSplitCmsScripts(sourceFile, splitPaths)
-        ? [toCmsHtmlOutputPath(sourceFile), toCmsScriptHtmlOutputPath(sourceFile)]
-        : [toCmsHtmlOutputPath(sourceFile)],
-    ),
-  );
+  const expectedOutputs = new Set(renderedPages.flatMap((renderedPage) => getExpectedCmsOutputPathsForPage(renderedPage, splitPaths)));
   const existingOutputs = collectFiles(outputDir, ".html");
   const existingJsonOutputs = collectFiles(outputDir, ".json");
   const existingCssOutputs = collectFiles(outputDir, ".css");
@@ -467,6 +488,138 @@ function extractCmsMain(source) {
   return main;
 }
 
+function extractMainInner(source) {
+  const mainMatch = source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
+
+  if (!mainMatch) {
+    throw new Error("Missing <main> in HTML source");
+  }
+
+  return mainMatch[1];
+}
+
+function extractTopLevelSections(mainInnerSource) {
+  const sections = [];
+  const lowerSource = mainInnerSource.toLowerCase();
+  let index = 0;
+
+  while (index < mainInnerSource.length) {
+    const nextOpen = lowerSource.indexOf("<section", index);
+
+    if (nextOpen === -1) {
+      break;
+    }
+
+    const openEnd = getTagBoundary(mainInnerSource, nextOpen);
+
+    if (openEnd === -1) {
+      throw new Error("Malformed <section> tag in <main>");
+    }
+
+    const blockEnd = getClosingTagEnd(mainInnerSource, "section", nextOpen);
+
+    if (blockEnd === -1) {
+      throw new Error("Missing closing </section> tag in <main>");
+    }
+
+    const sectionHtml = mainInnerSource.slice(nextOpen, blockEnd);
+    const idMatch = sectionHtml.match(/\bid=["']([^"']+)["']/i);
+
+    sections.push({
+      id: idMatch?.[1] ?? "",
+      start: nextOpen,
+      end: blockEnd,
+      html: sectionHtml,
+    });
+
+    index = blockEnd;
+  }
+
+  return sections;
+}
+
+function wrapMainFragment(source) {
+  return `<main>\n${source.trim()}\n</main>`;
+}
+
+function splitMainByCmsFragments(mainSource, page) {
+  const fragments = normalizeCmsFragments(page);
+
+  if (fragments.length === 0) {
+    return [{ name: "", mainSource }];
+  }
+
+  const mainInnerSource = extractMainInner(mainSource);
+  const sections = extractTopLevelSections(mainInnerSource);
+  const fragmentBoundaries = fragments
+    .map((fragment) => {
+      let sectionIndex = -1;
+
+      if (fragment.fromSectionId) {
+        sectionIndex = sections.findIndex((section) => section.id === fragment.fromSectionId);
+      } else if (fragment.afterSectionId) {
+        const afterIndex = sections.findIndex((section) => section.id === fragment.afterSectionId);
+        sectionIndex = afterIndex === -1 ? -1 : afterIndex + 1;
+      }
+
+      if (sectionIndex === -1 || sectionIndex > sections.length) {
+        throw new Error(
+          `Unable to resolve CMS fragment "${fragment.name}" on page "${page.slug || page.title || "unknown"}"`,
+        );
+      }
+
+      return {
+        ...fragment,
+        sectionIndex,
+      };
+    })
+    .sort((left, right) => left.sectionIndex - right.sectionIndex);
+
+  const outputs = [];
+  let previousStart = 0;
+
+  for (const fragment of fragmentBoundaries) {
+    const boundaryOffset =
+      fragment.sectionIndex >= sections.length ? mainInnerSource.length : sections[fragment.sectionIndex].start;
+    const primaryInner = mainInnerSource.slice(previousStart, boundaryOffset).trim();
+
+    if (outputs.length === 0) {
+      outputs.push({
+        name: "",
+        mainSource: wrapMainFragment(primaryInner),
+        includeScripts: false,
+      });
+    }
+
+    previousStart = boundaryOffset;
+  }
+
+  for (let index = 0; index < fragmentBoundaries.length; index += 1) {
+    const fragment = fragmentBoundaries[index];
+    const startOffset =
+      fragment.sectionIndex >= sections.length ? mainInnerSource.length : sections[fragment.sectionIndex].start;
+    const nextFragment = fragmentBoundaries[index + 1];
+    const endOffset = nextFragment
+      ? nextFragment.sectionIndex >= sections.length
+        ? mainInnerSource.length
+        : sections[nextFragment.sectionIndex].start
+      : mainInnerSource.length;
+    const fragmentInner = mainInnerSource.slice(startOffset, endOffset).trim();
+
+    outputs.push({
+      name: fragment.name,
+      mainSource: wrapMainFragment(fragmentInner),
+      includeScripts: fragment.includeScripts,
+    });
+  }
+
+  if (outputs.length === 0) {
+    return [{ name: "", mainSource }];
+  }
+
+  return outputs;
+}
+
 function extractInlineScriptSource(source) {
   return Array.from(
     source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi),
@@ -584,55 +737,6 @@ async function renderCmsStyleTag(sourceFile, source) {
   return css ? `<style>\n${css}\n</style>` : "";
 }
 
-function toInlineCssSourceMap(assetPath, cssSource) {
-  const sourceMapMatch = cssSource.match(/\/\*# sourceMappingURL=([^*]+)\*\//);
-
-  if (!sourceMapMatch) {
-    return cssSource;
-  }
-
-  const sourceMapRef = sourceMapMatch[1]?.trim();
-
-  if (!sourceMapRef || sourceMapRef.startsWith("data:")) {
-    return cssSource;
-  }
-
-  const sourceMapPath = join(dirname(assetPath), sourceMapRef);
-
-  if (!existsSync(sourceMapPath)) {
-    return cssSource;
-  }
-
-  const sourceMap = readFileSync(sourceMapPath, "utf8").trim();
-  const inlineSourceMap = Buffer.from(sourceMap).toString("base64");
-
-  return cssSource.replace(
-    /\/\*# sourceMappingURL=([^*]+)\*\//,
-    `/*# sourceMappingURL=data:application/json;charset=utf-8;base64,${inlineSourceMap} */`,
-  );
-}
-
-async function renderDevCmsStyleTags(sourceFile, source) {
-  const styleTags = extractCmsCssPaths(sourceFile, source)
-    .map((assetPath) => {
-      const cssSource = readFileSync(assetPath, "utf8").trim();
-
-      if (!cssSource) {
-        return "";
-      }
-
-      const cssWithInlineMap = toInlineCssSourceMap(assetPath, cssSource);
-      const cssOutput = cssWithInlineMap.includes("sourceMappingURL=")
-        ? cssWithInlineMap
-        : stripCssSourceMapComment(cssWithInlineMap);
-
-      return cssOutput ? `<style>\n${cssOutput}\n</style>` : "";
-    })
-    .filter(Boolean);
-
-  return styleTags.join("\n\n");
-}
-
 function renderCmsLinkTags(source) {
   return [...extractHeadExternalLinks(source), ...extractHeadFontLinks(source)]
     .filter((link, index, links) => links.indexOf(link) === index)
@@ -714,14 +818,9 @@ function extractCmsScriptBlocks(sourceFile, source) {
   return blocks;
 }
 
-export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minify = false } = {}) {
+export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false } = {}) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
-  const mainSource = extractCmsMain(source);
-  const rewrittenMain = rewriteLocalAssetPaths(sourceFile, outputFile, mainSource);
-  const mainOutput = minify ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
-  const styleTag = minify
-    ? await renderCmsStyleTag(sourceFile, source)
-    : await renderDevCmsStyleTags(sourceFile, source);
+  const styleTag = await renderCmsStyleTag(sourceFile, source);
   const linkTags = renderCmsLinkTags(source);
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
@@ -757,14 +856,28 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, { minif
   }
 
   const inlineScripts = scriptParts.join("\n\n").trim();
-  const htmlParts = [styleTag, linkTags, mainOutput.trim()];
+  const mainFragments = splitMainByCmsFragments(extractCmsMain(source), page);
+  const files = mainFragments.map((fragment) => {
+    const fragmentOutputFile = fragment.name ? toCmsFragmentHtmlOutputPath(sourceFile, fragment.name) : outputFile;
+    const rewrittenMain = rewriteLocalAssetPaths(sourceFile, fragmentOutputFile, fragment.mainSource);
+    const mainOutput = minify ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
+    const htmlParts = [fragment.name ? "" : styleTag, fragment.name ? "" : linkTags, mainOutput.trim()];
 
-  if (!splitScripts && inlineScripts) {
-    htmlParts.push(inlineScripts);
-  }
+    if (fragment.includeScripts && inlineScripts) {
+      htmlParts.push(inlineScripts);
+    } else if (!splitScripts && !fragment.name && inlineScripts) {
+      htmlParts.push(inlineScripts);
+    }
+
+    return {
+      name: fragment.name,
+      outputFile: fragmentOutputFile,
+      html: htmlParts.filter(Boolean).join("\n\n").trim(),
+    };
+  });
 
   return {
-    html: htmlParts.filter(Boolean).join("\n\n").trim(),
+    files,
     scripts: splitScripts ? inlineScripts : "",
   };
 }
@@ -944,30 +1057,33 @@ export async function buildCmsPages({ minify = false } = {}) {
   ensureOutputDir();
   const configuredSplitPaths = loadCmsScriptSplitPaths();
   const actualSplitPaths = new Set();
-  cleanupRemovedCmsPages(htmlFiles, configuredSplitPaths);
+  cleanupRemovedCmsPages(renderedPages, configuredSplitPaths);
 
   for (const renderedPage of renderedPages) {
     const sourceFile = renderedPage.relativeOutputPath;
     const outputFile = join(outputDir, renderedPage.relativeOutputPath);
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
-    const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, { minify });
+    const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, renderedPage.page, { minify });
     const shouldWriteSplitScript = shouldSplitCmsScripts(sourceFile, configuredSplitPaths) && Boolean(output.scripts);
 
-    mkdirSync(dirname(outputFile), { recursive: true });
-    writeFileSync(outputFile, `${output.html}\n`);
+    for (const file of output.files) {
+      mkdirSync(dirname(file.outputFile), { recursive: true });
+      writeFileSync(file.outputFile, `${file.html}\n`);
+      console.log(`[cms] Built ${file.outputFile}${minify ? " [minified]" : ""}`);
+    }
+
     if (shouldWriteSplitScript) {
       actualSplitPaths.add(toSourceRelativeHtmlPath(sourceFile));
       writeFileSync(scriptOutputFile, `${output.scripts}\n`);
     } else {
       rmSync(scriptOutputFile, { force: true });
     }
-    console.log(`[cms] Built ${outputFile}${minify ? " [minified]" : ""}`);
     if (shouldWriteSplitScript) {
       console.log(`[cms] Built ${scriptOutputFile}${minify ? " [minified]" : ""}`);
     }
   }
 
-  cleanupRemovedCmsPages(htmlFiles, actualSplitPaths);
+  cleanupRemovedCmsPages(renderedPages, actualSplitPaths);
 
   return htmlFiles.length > 0;
 }
