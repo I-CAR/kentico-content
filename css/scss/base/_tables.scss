@@ -54,8 +54,8 @@
     font-weight: 700;
 }
 
-.table tr:not(.total) th,
-.table tr:not(.total) td {
+.table:not(.table-stack) tr:not(.total) th,
+.table:not(.table-stack) tr:not(.total) td {
     font-size: calc(18rem / 16);
 }
 
@@ -71,8 +71,8 @@
         font-size: calc(28rem / 16);
     }
 
-    .table tr:not(.total) th,
-    .table tr:not(.total) td {
+    .table:not(.table-stack) tr:not(.total) th,
+    .table:not(.table-stack) tr:not(.total) td {
         font-size: calc(22rem / 16);
     }
 }
