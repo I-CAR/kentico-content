@@ -1,6 +1,9 @@
 {
   "slug": "industry-councils",
   "title": "Governance - Industry Councils",
+  "cms": {
+    "hasForm": true
+  },
   "sections": [
     {
       "id": "page-content",

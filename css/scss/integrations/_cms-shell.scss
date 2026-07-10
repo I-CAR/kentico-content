@@ -87,3 +87,8 @@ main > .ic-section:last-child,
 main > .section:last-child {
     padding-bottom: clamp(5rem, 1.721rem + 9.697vw, 7.5rem);
 }
+
+.forum-icon {
+    flex-shrink: 0;
+    object-fit: contain;
+}
