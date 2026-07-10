@@ -116,9 +116,9 @@ section.ic-section[id] {
 }
 
 @include mq(md) {
-    .ic-section-hero.ic-background-light {
-        padding: 0;
-    }
+    // .ic-section-hero.ic-background-light {
+    //     padding: 0;
+    // }
 
     .ic-section:has(.ic-video-banner, .ic-image-banner) {
         margin-top: 0;

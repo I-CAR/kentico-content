@@ -64,6 +64,7 @@ const tagAttributePriority = {
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
 const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
+const cmsFormShellCss = `.ic-section+.row.row--with-cols-padding,.section+.row.row--with-cols-padding{margin-top:var(--section-margin);background:var(--lightest)!important;padding:var(--section-padding) 0}.ic-section.ic-background-white+.row.row--with-cols-padding,.section.ic-background-white+.row.row--with-cols-padding,.section.bg-white+.row.row--with-cols-padding{background:var(--lightest)!important}.ic-section.ic-background-light+.row.row--with-cols-padding,.section.ic-background-light+.row.row--with-cols-padding,.section.bg-light+.row.row--with-cols-padding{margin-top:0;background:none!important}.ic-section+.row.row--with-cols-padding:last-child,.section+.row.row--with-cols-padding:last-child{padding-bottom:clamp(5rem,1.721rem + 9.697vw,7.5rem)}.ic-section+.row.row--with-cols-padding form,.section+.row.row--with-cols-padding form,.row--with-cols-padding form{max-width:100%}.row--with-cols-padding:has(form,.formwidget-submit-text){margin:0}.row--with-cols-padding:has(.formwidget-submit-text) .subhead,.row--with-cols-padding:has(.formwidget-submit-text) .disclaimer{display:none!important}`;
 const cmsFormShellClasses = [
   "breadcrumb",
   "c-nav--main",
@@ -952,6 +953,10 @@ async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = fa
     .filter(Boolean);
 
   cssParts.push(cmsShellCss);
+
+  if (includeCmsFormShell) {
+    cssParts.push(cmsFormShellCss);
+  }
 
   if (cssParts.length === 0) {
     return "";
