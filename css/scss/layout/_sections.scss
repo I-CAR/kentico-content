@@ -121,12 +121,11 @@ section.ic-section[id] {
     }
 
     .ic-section:has(.ic-video-banner, .ic-image-banner) {
-        // padding: var(--hero-padding-sm) 0;
         margin-top: 0;
     }
 
     .ic-section.ic-section-hero:has(.ic-video-banner, .ic-image-banner) {
-        padding: var(--section-padding);
+        padding: var(--hero-padding) 0;
     }
 
     .ic-section:has(.ic-image-cutout) .col:has(> h1, > h2) {
