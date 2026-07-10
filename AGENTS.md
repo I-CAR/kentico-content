@@ -152,7 +152,7 @@ Apply these rules only when:
 - Preferred CMS fragment order is:
   1. inline `<style>`
   2. external `<link>` tags such as Google Fonts
-  3. `<main>`
+  3. page section HTML
   4. inline `<script>`
 - CSS and JavaScript emitted for CMS usage should be minified in production builds.
 - Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.

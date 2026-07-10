@@ -20,8 +20,8 @@
     --global-radius-lg: var(--space-20);
     --global-radius: clamp(var(--global-radius-sm), calc(0.385rem + 1.013vw), var(--global-radius-lg));
     --global-border-width: 2px;
-    --section-padding: clamp(var(--space-40), 1.68rem + 2.424vw, var(--space-60));
-    --section-margin: clamp(var(--space-20), 0.43rem + 2.424vw, var(--space-40));
+    --section-padding: clamp(var(--space-40), 0.996rem + 4.449vw, var(--space-80));
+    --section-margin: var(--space-20);
     --form-field-padding: .75em;
 }
 
@@ -976,23 +976,31 @@ figure.oem-image img,
     margin-bottom: var(--space-20);
 } */
 
-main+.row.row--with-cols-padding {
+.ic-section:last-child+.row.row--with-cols-padding,
+.section:last-child+.row.row--with-cols-padding {
     margin-top: var(--section-margin);
     background: #f7f7f7 !important;
     padding: var(--section-padding) 0;
 }
 
-main:has(section.bg-light:last-child)+.row.row--with-cols-padding {
+.section.bg-light:last-child+.row.row--with-cols-padding,
+.section.ic-background-light:last-child+.row.row--with-cols-padding {
     margin-top: 0;
     background: none !important;
 }
 
-main+.row.row--with-cols-padding form {
+.ic-section:last-child+.row.row--with-cols-padding form,
+.section:last-child+.row.row--with-cols-padding form {
     /* margin-bottom: clamp(var(--space-40), clamp(2.5rem, 1.68rem + 2.424vw, 3.75rem), var(--space-60)); */
 }
 
 .section {
     padding: var(--section-padding) 0;
+}
+
+.section:not(.bg-light)+.section.bg-light,
+.section.bg-light+.section:not(.bg-light) {
+    margin-top: var(--section-margin);
 }
 
 .section:before {
@@ -1032,16 +1040,23 @@ main+.row.row--with-cols-padding form {
 }
 
 .section.bg-light {
-    margin: var(--section-margin) 0;
+    margin: 0;
     background: #f7f7f7 !important;
 }
 
-/*
-.section.bg-light:only-child,
-.section.bg-light:last-child {
-    margin-bottom: 0;
+@media screen and (max-width: 768px) {
+
+    .section.bg-light+.section.bg-light {
+        padding-top: calc(var(--space-40) + var(--section-margin));
+    }
 }
-*/
+
+@media screen and (min-width: 769px) {
+
+    .section.bg-light+.section.bg-light {
+        padding-top: calc(var(--space-80) + var(--section-margin));
+    }
+}
 
 .section.section_fixed-spacing {
     padding: var(--space-60) 0;

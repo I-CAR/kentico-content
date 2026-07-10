@@ -99,7 +99,23 @@ function normalizeAssetPath(htmlFile, assetPath) {
 }
 
 function isBootstrapAsset(assetPath) {
-  return /(^|\/)node_modules\/bootstrap\//i.test(assetPath.replace(/\\/g, "/"));
+  return /(^|\/)(?:node_modules\/bootstrap\/|css\/bootstrap-(?:subset|cms-compat)\.css$)/i.test(
+    assetPath.replace(/\\/g, "/"),
+  );
+}
+
+function isBootstrapSubsetAsset(assetPath) {
+  return /(^|\/)(?:node_modules\/bootstrap\/dist\/css\/bootstrap(?:\.min)?\.css|css\/bootstrap-subset\.css)$/i.test(
+    assetPath.replace(/\\/g, "/"),
+  );
+}
+
+function getCmsBootstrapAssetPath(assetPath) {
+  if (isBootstrapSubsetAsset(assetPath)) {
+    return join("css", "bootstrap-cms-compat.css");
+  }
+
+  return assetPath;
 }
 
 function isSwiperAsset(assetPath) {
@@ -729,15 +745,15 @@ function extractTopLevelSections(mainInnerSource) {
   return sections;
 }
 
-function wrapMainFragment(source) {
-  return `<main>\n${source.trim()}\n</main>`;
+function normalizeMainFragment(source) {
+  return source.trim();
 }
 
 function splitMainByCmsFragments(mainSource, page) {
   const fragments = normalizeCmsFragments(page);
 
   if (fragments.length === 0) {
-    return [{ name: "", mainSource }];
+    return [{ name: "", mainSource: normalizeMainFragment(extractMainInner(mainSource)) }];
   }
 
   const mainInnerSource = extractMainInner(mainSource);
@@ -777,7 +793,7 @@ function splitMainByCmsFragments(mainSource, page) {
     if (outputs.length === 0) {
       outputs.push({
         name: "",
-        mainSource: wrapMainFragment(primaryInner),
+        mainSource: normalizeMainFragment(primaryInner),
         includeScripts: false,
       });
     }
@@ -799,7 +815,7 @@ function splitMainByCmsFragments(mainSource, page) {
 
     outputs.push({
       name: fragment.name,
-      mainSource: wrapMainFragment(fragmentInner),
+      mainSource: normalizeMainFragment(fragmentInner),
       includeScripts: fragment.includeScripts,
     });
   }
@@ -920,13 +936,14 @@ async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = fa
   const includeCmsFormShell = pageUsesCmsForm(page);
   const cssParts = extractCmsCssPaths(sourceFile, source, { forceBootstrap })
     .map((assetPath) => {
-      const cssSource = stripCssComments(readFileSync(assetPath, "utf8"));
+      const resolvedAssetPath = getCmsBootstrapAssetPath(assetPath);
+      const cssSource = stripCssComments(readFileSync(resolvedAssetPath, "utf8"));
 
       if (!cssSource) {
         return "";
       }
 
-      if (isSharedSiteStylesheet(assetPath)) {
+      if (isSharedSiteStylesheet(resolvedAssetPath)) {
         return filterSharedStylesheet(cssSource, source, { includeCmsFormShell });
       }
 
