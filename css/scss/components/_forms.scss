@@ -17,7 +17,7 @@ form .ktc-default-section {
     flex-flow: row wrap;
     width: 100%;
     width: calc(100% + calc(30rem / 16));
-    margin: 0 calc(15rem / -16);
+    margin: 0.5rem calc(15rem / -16);
 }
 
 form .form-field .editing-form-control-nested-control {
@@ -33,13 +33,17 @@ form .form-field > label.control-label {
 
 form label + label,
 form .form-field + .form-field {
-    margin-top: calc(20rem / 16);
-    margin-bottom: 0;
+    // margin-top: calc(20rem / 16);
+    // margin-bottom: 0;
 }
 
 form .form-field + .form-field:has([for*="_section"]),
 form > .ktc-default-section + input[type="submit"] {
     margin-top: var(--space-40);
+}
+
+form .ktc-default-section + input[type="submit"] {
+    margin-top: calc(32rem / 16);
 }
 
 form .form-field + .form-field:has(input[name*="Recaptcha"]) {
@@ -52,6 +56,10 @@ form .form-field > label.control-label {
     margin-bottom: var(--space-4);
     font: normal normal 600 var(--body-font-size)/1.5 var(--primary-font);
     color: inherit;
+}
+
+form .form-field:not(:has(input, select)) label.control-label {
+    font-size: var(--h4-font-size);
 }
 
 form label .label .optional {
@@ -80,7 +88,7 @@ form .form-field .editing-form-control-nested-control textarea.form-control,
 form .form-field .editing-form-control-nested-control select.form-control {
     width: 100%;
     max-width: 100%;
-    padding: var(--space-8) 0.65rem;
+    // padding: var(--space-8) 0.65rem;
     border-radius: 0;
     border: 1px solid var(--gray);
     box-shadow: none;
@@ -148,6 +156,11 @@ form label:has(input[type="email"]:invalid:not(:focus):not(:placeholder-shown)):
 
 .row--with-cols-padding form {
     max-width: 100%;
+    // margin-bottom: clamp(
+    //     var(--space-40),
+    //     clamp(2.5rem, 1.68rem + 2.424vw, 3.75rem),
+    //     var(--space-60)
+    // );
 }
 
 form .form-field .form-control {
@@ -158,7 +171,7 @@ form .form-field {
     flex: 0 0 100%;
     max-width: 100%;
     padding: 0 calc(15rem / 16);
-    margin: 0;
+    margin: 0.5rem 0;
 }
 
 form .form-field:has(input[id*="organization"]),
