@@ -10,7 +10,8 @@
   ],
   "cms": {
     "scriptHtml": [
-      "<script src=\"https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js\"></script>"
+      "<script src=\"https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js\"></script>",
+      "<script>(function(){var buttons=document.querySelectorAll('.accordion .accordion-button[data-ic-collapse=\"true\"]');buttons.forEach(function(button){if(button.dataset.icAccordionBound==='true'){return;}button.dataset.icAccordionBound='true';button.addEventListener('click',function(event){event.preventDefault();event.stopPropagation();var selector=button.getAttribute('data-ic-target')||button.getAttribute('href');if(!selector||selector==='#'){return;}var panel;try{panel=document.querySelector(selector);}catch(error){return;}if(!panel){return;}var expanded=button.getAttribute('aria-expanded')==='true';var parentSelector=panel.getAttribute('data-ic-parent');if(!expanded&&parentSelector){var parent=document.querySelector(parentSelector);if(parent){parent.querySelectorAll('.accordion-collapse.show').forEach(function(currentPanel){if(currentPanel===panel){return;}currentPanel.classList.remove('show');var currentButton=parent.querySelector('[data-ic-target=\"#'+currentPanel.id+'\"],[href=\"#'+currentPanel.id+'\"]');if(currentButton){currentButton.classList.add('collapsed');currentButton.setAttribute('aria-expanded','false');}});}}button.classList.toggle('collapsed',expanded);button.setAttribute('aria-expanded',expanded?'false':'true');panel.classList.toggle('show',!expanded);});});})();</script>"
     ]
   }
 }

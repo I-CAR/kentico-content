@@ -994,7 +994,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
 
       if (src) {
         if (/^[a-z]+:/i.test(src) || src.startsWith("//")) {
-          blocks.push({ type: "external", tag: rebuildTag(match[0].replace(/\s*<\/script>\s*$/i, ">")) });
+          blocks.push({ type: "external", tag: rebuildExternalScriptTag(match[0]) });
           continue;
         }
 
@@ -1197,6 +1197,16 @@ function rebuildTag(tagSource) {
 
   const attributeSuffix = sortedAttributes ? ` ${sortedAttributes}` : "";
   return `<${tagName}${attributeSuffix}${selfClosing ? " />" : ">"}`;
+}
+
+function rebuildExternalScriptTag(tagSource) {
+  const openTagMatch = tagSource.match(/<script\b[^>]*>/i);
+
+  if (!openTagMatch) {
+    return tagSource;
+  }
+
+  return `${rebuildTag(openTagMatch[0])}</script>`;
 }
 
 function transformFragment(fragment, transformText) {
