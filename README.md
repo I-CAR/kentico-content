@@ -137,41 +137,49 @@ That means `content/pages/` is your working source of truth, `html/` is preserve
 
 ## Local Commands
 
-If the project is already installed, these are the most useful commands:
+If the project is already installed, these are the commands that matter most:
+
+### Content author
 
 ```bash
 npm run watch
 ```
 
-Content author watch mode. Rebuilds:
+Watches page JSON and rebuilds:
 
 - generated authoring pages
 - CMS output
 
-```bash
-npm run cms
-```
-
-Refreshes the CMS output from `content/pages/` without doing a full production build.
-
-If you only changed page JSON content and need updated CMS output, `npm run cms` is often enough.
+### Developer
 
 ```bash
 npm run dev
 ```
 
-Developer watch mode. Rebuilds:
+Watches and rebuilds:
 
 - generated authoring pages
 - CSS
 - JS
 - CMS output
 
+### Production
+
 ```bash
 npm run build
 ```
 
-Syncs templates, validates page JSON, and creates production-style CSS, JS, and CMS output from `content/pages/`.
+Syncs templates, validates page JSON, and creates production CSS, JS, and CMS output from `content/pages/`.
+
+### Targeted helpers
+
+```bash
+npm run cms
+```
+
+Refreshes only the CMS output from `content/pages/`.
+
+If you only changed page JSON content and need updated CMS output, `npm run cms` is often enough.
 
 ```bash
 npm run pages
