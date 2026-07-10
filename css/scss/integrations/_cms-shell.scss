@@ -21,6 +21,10 @@
     padding-bottom: 0;
 }
 
+.content.no-right-rail {
+    padding: 0;
+}
+
 @include mq(md) {
     #main>article>.row>.content {
         padding-right: 0;

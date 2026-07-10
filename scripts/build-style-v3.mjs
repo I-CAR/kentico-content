@@ -48,6 +48,12 @@ const buildTargets = [
     sourceMap: false,
   },
 ];
+const sassDeprecationsToSilence = [
+  "import",
+  "global-builtin",
+  "color-functions",
+  "if-function",
+];
 
 let buildQueued = false;
 let buildRunning = false;
@@ -79,6 +85,8 @@ async function buildTarget({ entryPath, output, appendCss = "", sourceMap = true
 
   const result = compile(entryPath, {
     loadPaths: ["node_modules"],
+    quietDeps: true,
+    silenceDeprecations: sassDeprecationsToSilence,
     style: productionMode ? "compressed" : "expanded",
     sourceMap: shouldWriteSourceMap,
     sourceMapIncludeSources: shouldWriteSourceMap,
