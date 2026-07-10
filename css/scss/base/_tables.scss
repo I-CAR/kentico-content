@@ -8,8 +8,8 @@
     margin-bottom: 0;
 }
 
-.table td,
-.table th {
+.table tbody td,
+.table tbody th {
     padding: calc(5rem / 16) 0;
     vertical-align: center;
 }
@@ -21,6 +21,12 @@
 .table th {
     width: 100%;
     font-weight: normal;
+}
+
+.table thead th,
+.table thead td {
+    border-bottom: 0;
+    border-top: 0;
 }
 
 .table tfoot {

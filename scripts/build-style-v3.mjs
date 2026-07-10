@@ -10,7 +10,10 @@ const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
 const sourceRoot = "css/scss";
 const legacySelectors = `
-main:not(+.row--with-cols-padding) .ic-section:last-child {
+main:not(+.row--with-cols-padding) .ic-section:last-of-type,
+main:not(+.row--with-cols-padding) .section:last-of-type,
+main .ic-section.mb-0,
+main .section.mb-0 {
   padding-bottom: clamp(calc(80rem / 16), 1.721rem + 9.697vw, calc(120rem / 16));
 }
 
