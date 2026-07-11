@@ -56,7 +56,7 @@ section.ic-section[id] {
 }
 
 .ic-section:has(h1, h2) .ic-section-title,
-.ic-section:has(h1, h2) .ic-section-title+p {
+.ic-section:has(h1, h2) .ic-section-title+p:not(.ic-section-label, .section-label) {
     width: 100%;
 }
 

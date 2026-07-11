@@ -139,6 +139,10 @@ function isSharedSiteStylesheet(assetPath) {
   return /(^|\/)css\/style(?:-cms(?:-swiper)?)?\.css$/i.test(assetPath.replace(/\\/g, "/"));
 }
 
+function isSwiperStylesheet(assetPath) {
+  return /(^|\/)css\/style-cms-swiper\.css$/i.test(assetPath.replace(/\\/g, "/"));
+}
+
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
@@ -171,6 +175,20 @@ function collectHtmlUsage(source, { includeCmsFormShell = false } = {}) {
   if (includeCmsFormShell) {
     cmsFormShellClasses.forEach((className) => classes.add(className));
     cmsFormShellTags.forEach((tagName) => tags.add(tagName));
+  }
+
+  if (classes.has("swiper") || classes.has("ic-swiper") || pageUsesSwiper(source)) {
+    [
+      "swiper-horizontal",
+      "swiper-pagination-bullets",
+      "swiper-pagination-horizontal",
+      "swiper-pagination-lock",
+      "swiper-slide-active",
+      "swiper-slide-next",
+      "swiper-slide-prev",
+      "swiper-backface-hidden",
+      "swiper-initialized",
+    ].forEach((className) => classes.add(className));
   }
 
   return { classes, ids, tags };
@@ -944,6 +962,10 @@ async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = fa
         return "";
       }
 
+      if (isSwiperStylesheet(resolvedAssetPath)) {
+        return cssSource;
+      }
+
       if (isSharedSiteStylesheet(resolvedAssetPath)) {
         return filterSharedStylesheet(cssSource, source, { includeCmsFormShell });
       }
@@ -1047,7 +1069,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
   return blocks;
 }
 
-export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false } = {}) {
+export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false, minifyHtml = minify } = {}) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
   const styleTag = await renderCmsStyleTag(sourceFile, source, page, { forceBootstrap: minify });
   const linkTags = renderCmsLinkTags(source);
@@ -1089,7 +1111,7 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, {
   const files = mainFragments.map((fragment) => {
     const fragmentOutputFile = fragment.name ? toCmsFragmentHtmlOutputPath(sourceFile, fragment.name) : outputFile;
     const rewrittenMain = rewriteLocalAssetPaths(sourceFile, fragmentOutputFile, fragment.mainSource);
-    const mainOutput = minify ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
+    const mainOutput = minifyHtml ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
     const htmlParts = [fragment.name ? "" : styleTag, fragment.name ? "" : linkTags, mainOutput.trim()];
 
     if (fragment.includeScripts && inlineScripts) {
@@ -1285,7 +1307,7 @@ async function minifyCss(source) {
   return result.code.trim();
 }
 
-export async function buildCmsPages({ minify = false } = {}) {
+export async function buildCmsPages({ minify = false, minifyHtml = minify } = {}) {
   const renderedPages = collectRenderedPageDocuments();
   const htmlFiles = renderedPages.map((page) => page.relativeOutputPath);
 
@@ -1302,7 +1324,10 @@ export async function buildCmsPages({ minify = false } = {}) {
     const sourceFile = renderedPage.relativeOutputPath;
     const outputFile = join(outputDir, renderedPage.relativeOutputPath);
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
-    const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, renderedPage.page, { minify });
+    const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, renderedPage.page, {
+      minify,
+      minifyHtml,
+    });
     const shouldWriteSplitScript = shouldSplitCmsScripts(sourceFile, configuredSplitPaths) && Boolean(output.scripts);
 
     for (const file of output.files) {
@@ -1327,8 +1352,8 @@ export async function buildCmsPages({ minify = false } = {}) {
   return htmlFiles.length > 0;
 }
 
-export async function buildCmsAssets({ minify = false } = {}) {
-  const builtPages = await buildCmsPages({ minify });
+export async function buildCmsAssets({ minify = false, minifyHtml = minify } = {}) {
+  const builtPages = await buildCmsPages({ minify, minifyHtml });
   return builtPages;
 }
 

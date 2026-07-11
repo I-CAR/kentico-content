@@ -7,5 +7,10 @@
       "type": "html",
       "sourceHtmlFile": "./adas-courses.main.html"
     }
-  ]
+  ],
+  "cms": {
+    "scriptHtml": [
+      "<script src=\"https://players.brightcove.net/1862663934001/default_default/index.min.js\"></script>"
+    ]
+  }
 }

@@ -19,7 +19,7 @@ async function build(reason = "manual") {
   buildRunning = true;
 
   try {
-    await buildCmsAssets({ minify: productionMode });
+    await buildCmsAssets({ minify: productionMode, minifyHtml: true });
 
     if (watchMode) {
       console.log(`[cms] Build complete (${reason})`);

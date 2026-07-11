@@ -200,6 +200,33 @@ ul.ic-card-list-courses {
     padding: 0;
 }
 
+table.ic-card-table-courses {
+    border-collapse: collapse;
+    margin: var(--space-20) 0 0;
+    width: 100%;
+}
+
+table.ic-card-table-courses > :not(caption) > * > * {
+    border: 0;
+    padding: var(--space-12) 0;
+    vertical-align: top;
+}
+
+table.ic-card-table-courses tbody tr + tr {
+    border-top: 2px solid var(--light);
+}
+
+table.ic-card-table-courses tbody th {
+    font-weight: normal;
+}
+
+table.ic-card-table-courses tbody td:last-child {
+    padding-left: var(--space-12);
+    text-align: right;
+    white-space: nowrap;
+    width: 1%;
+}
+
 ul.ic-card-list-courses > li {
     @include flex-row(null, space-between);
     gap: var(--space-12);
@@ -221,8 +248,7 @@ ul.ic-card-list-courses > li span {
 
 @include mq(xxl) {
     ul.ic-card-list-courses > li span {
-        flex: 0 0 calc(200rem / 16);
-        max-width: calc(200rem / 16);
+        flex: 0 0 auto;
         text-align: right;
     }
 }
@@ -238,13 +264,13 @@ ul.ic-card-list-courses > li + li {
     border-top: 2px solid var(--light);
 }
 
-.ic-card:has(.ic-card-list-courses) .ic-card-title,
+.ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-title,
 form .form-field > label.control-label[for*="_section"] {
     font-size: var(--h3-font-size);
     font-weight: var(--semibold);
 }
 
-.ic-card:has(.ic-card-list-courses) .ic-card-subtitle {
+.ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-subtitle {
     font-size: var(--body-font-size);
     margin-bottom: 0.25rem !important;
 }

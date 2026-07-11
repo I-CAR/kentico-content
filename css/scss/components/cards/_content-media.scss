@@ -129,7 +129,7 @@
     font-weight: var(--bold);
 }
 
-.ic-card:has(.ic-card-list-courses) .ic-card-title {
+.ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-title {
     margin-bottom: var(--space-20) !important;
 }
 
@@ -295,6 +295,6 @@ blockquote .ic-quote-text p:last-child::after {
     }
 }
 
-.ic-card:has(.ic-card-list-courses) .ic-card-body {
-    padding: clamp(var(--space-20), 0.84rem + 1.212vw, var(--space-30));
+.ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-body {
+    padding: var(--space-30);
 }

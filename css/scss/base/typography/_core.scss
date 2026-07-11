@@ -120,9 +120,13 @@ p.ic-sublabel {
     font-weight: var(--semibold);
 }
 
+p.section-label,
 p.ic-section-label {
     order: -1;
     display: inline-block;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
     margin-bottom: var(--space-20);
     padding: var(--space-4) var(--space-10);
     background: var(--black);
