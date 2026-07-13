@@ -158,7 +158,7 @@ Apply these rules only when:
 - Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
 - When a page does not use a dependency, do not emit that dependency into the CMS output.
 - Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
-- For dev/watch workflows started by `npm run dev`, generated output in `js/` and CMS HTML fragments should remain unminified for readability.
+- For dev/watch workflows started by `npm run dev`, generated output in `js/` should remain unminified for readability, while CMS HTML fragments should still be minified.
 - Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
 - Keep development output readable when possible, but comment-free CMS output takes priority.
 - Production builds should apply comment removal and minification for generated JS output.
