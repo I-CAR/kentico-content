@@ -3,7 +3,7 @@
   "title": "ADAS",
   "sections": [
     {
-      "id": "hero",
+      "id": "top",
       "type": "hero"
     },
     {
@@ -18,6 +18,10 @@
     {
       "id": "tools",
       "type": "iconCardGrid"
+    },
+    {
+      "id": "platinum",
+      "type": "textMedia"
     }
   ]
 }

@@ -1,7 +1,26 @@
 {
   "slug": "high-voltage-safety",
-  "title": "Electric and Hybrid Vehicle Repair - High Voltage Safety",
+  "title": "High-Voltage Safety",
   "sections": [
-    { "id": "page-content", "type": "html" }
+    {
+      "id": "top",
+      "type": "hero"
+    },
+    {
+      "id": "faq",
+      "type": "accordion"
+    },
+    {
+      "id": "guides",
+      "type": "textMedia"
+    },
+    {
+      "id": "videos",
+      "type": "embed"
+    },
+    {
+      "id": "coming-soon",
+      "type": "textMedia"
+    }
   ]
 }
