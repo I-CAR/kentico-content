@@ -11,15 +11,14 @@
     <link rel="stylesheet" href="../../css/bootstrap-subset.css">
     <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet" />
 </head>
 
 <body>
 
     <main>
-        <section class="ic-section ic-section-hero ic-background-white" id="top">
+
+<section class="ic-section ic-section-hero ic-background-white" id="top">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col col-12 col-md-6 col-xl-5 mb-3 mb-md-0 pr-md-5">
@@ -409,73 +408,12 @@
                 </div>
             </div>
         </section>
+
     </main>
 
-    <script src="https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js"></script>
-    <script src="../../node_modules/swiper/swiper-bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = new Swiper('.ic-swiper', {
-                loop: true,
-                speed: 600,
-                spaceBetween: 0,
+<script src="https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js"></script>
 
-                // --- fixes for the height / pagination jump ---
-                autoHeight: true,           // dynamically adjusts height per slide
-                observeParents: true,       // watches for layout changes
-                observer: true,             // observes changes in Swiper elements
-
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true
-                },
-
-                // Autoplay
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false, // keep autoplay after user swipes/clicks
-                    pauseOnMouseEnter: true
-                },
-
-                simulateTouch: true,
-                shortSwipes: true,
-                longSwipes: false,
-                longSwipesRatio: 0.1,
-                grabCursor: true,
-
-                a11y: {
-                    enabled: true
-                },
-
-                on: {
-                    init(swiper) {
-                        // Ensure initial height is correct
-                        swiper.updateAutoHeight(0);
-
-                        // Recalculate after images load (fixes first-slide short height)
-                        const imgs = swiper.el.querySelectorAll('img');
-                        imgs.forEach(img => {
-                            if (!img.complete) {
-                                img.addEventListener('load', () => swiper.updateAutoHeight(200), { once: true });
-                            }
-                        });
-
-                        // Handle webfonts loading (in case text changes height)
-                        if (document.fonts && document.fonts.ready) {
-                            document.fonts.ready.then(() => swiper.updateAutoHeight(200)).catch(() => { });
-                        }
-                    },
-                    slideChangeTransitionEnd(swiper) {
-                        swiper.updateAutoHeight(200);
-                    },
-                    imagesReady(swiper) {
-                        swiper.updateAutoHeight(200);
-                    },
-                },
-            });
-        });
-    </script>
-
+    <script src="../../js/script.js"></script>
 </body>
 
 </html>

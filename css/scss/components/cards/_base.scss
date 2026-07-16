@@ -20,7 +20,7 @@
     padding: var(--space-12);
 }
 
-@include mq(xs, down) {
+@include mq(md, down) {
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image)
         .ic-card-body.ic-card-body-indented {
         padding: var(--space-12) 0;

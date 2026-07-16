@@ -1,1 +1,210 @@
-{"slug":"welding","title":"Welding","sections":[{"id":"top","type":"hero","title":"Welding","body":["Welding is an essential skill for structural integrity and occupant safety after a collision. Improper welds can lead to repair failures and safety risks. That’s why OEM network and Direct Repair Program requirements demand certified welding&nbsp;technicians."],"image":{"alt":"Welders in a bodyshop practicing proper welding techniques during collision repair welding training","desktopSrc":"/getmedia/55468889-d3b1-4fb4-b5b3-779bd7b13e7f/Hero_1600w_D.webp","desktopSrcset":"/getmedia/4f61f6ba-e76f-4a48-93e4-fe416d7bfa24/Hero_400w_D.webp 400w, /getmedia/9740908d-5cca-42a9-b9d8-e7325571ff17/Hero_800w_D.webp 800w, /getmedia/55468889-d3b1-4fb4-b5b3-779bd7b13e7f/Hero_1600w_D.webp 1600w","mobileSrcset":"/getmedia/5c8d3225-da17-4529-bd08-411a1c9eda96/Hero_400w_M.webp 400w, /getmedia/4855f991-665e-429f-95ed-25f38d4bbe30/Hero_800w_M.webp 800w","width":"1600","height":"580","sizes":"(max-width: 450px) 400px, (max-width: 1024px) 800px, 1600px","loading":"eager"}},{"id":"benefits","type":"iconCardGrid","title":"Benefits of I-CAR Welding Training & Certification","backgroundLight":true,"cards":[{"title":"Theory Instruction","body":"Train on welding techniques through theory instruction","iconKey":"careerDevelopment"},{"title":"Hands-On Coaching","body":"Receive instructor-led, hands-on practice and coaching","iconKey":"justInTime"},{"title":"Certification","body":"Achieve I-CAR’s industry-recognized welding certification","iconKey":"repairersRealm"}],"footerButtons":[{"label":"Explore Welding Training & Certification","href":"https://www.i-car.com/welding-training-certification","className":"ic-btn ic-btn-primary ic-btn-outline"}]},{"id":"certifications","type":"cards","title":"Different I-CAR Welding Certifications","cardColumnClass":"col col-12 col-md-6 col-xl-3 pt-1 mt-3 pt-md-3","cards":[{"title":"Steel GMA Welding","body":"Focused on Gas Metal Arc (MIG) welding for steel components","href":"https://www.i-car.com/product/training-and-certification-steel-gma-welding/01t8W000006id7uQAA"},{"title":"Steel Sectioning","body":"Covers proper sectioning and joining techniques for structural steel repairs","href":"https://www.i-car.com/product/training-and-certification-steel-sectioning/01t8W000006id1IQAQ"},{"title":"Aluminum GMA (MIG) Welding","body":"Designed for aluminum-intensive vehicles and OEM-approved MIG welding processes","href":"https://www.i-car.com/product/training-and-certification-aluminum-gma-mig-welding/01t8W000006idqsQAA"}]},{"id":"requirements","type":"textMedia","reverse":true,"title":"Network Requirements for Welding Certification","body":["Many OEM-certified and insurance networks require I-CAR welding certification.","Meeting these standards ensures compliance and customer confidence."],"links":[{"label":"OEM Requirements","href":"https://info.i-car.com/network-programs/oem"},{"label":"Insurance Requirements","href":"https://info.i-car.com/network-programs/insurance"}],"image":{"alt":"Welder in a bodyshop using proper welding techniques during collision repair as mandated by network requirements","desktopSrc":"/getmedia/267cd5c9-a951-4dcd-b681-0151f2f69a2e/Network-Requirements_800w_D.webp","desktopSrcset":"/getmedia/0759e461-db93-4500-971c-edf8da3e7f2e/Network-Requirements_400w_D.webp 400w, /getmedia/267cd5c9-a951-4dcd-b681-0151f2f69a2e/Network-Requirements_800w_D.webp 800w","width":"800","height":"600","sizes":"800px"}},{"id":"preparation","type":"iconCardGrid","title":"Get Ready for Welding Training","backgroundLight":true,"body":["Confirm your shop is ready for certification."],"cards":[{"title":"Facility & Equipment","body":"Prepare with facility set up and proper welding equipment","iconKey":"askICar"},{"title":"Technician Experience","body":"Ensure your tech has completed online and hands-on course prerequisites","iconKey":"adasNews"},{"title":"Policy Compliance","body":"Verify your shop meets all I-CAR welding standards and safety requirements.","iconKey":"repairersRealm"}],"footerButtons":[{"label":"View Welding Event Requirements","href":"/welding/welding-event-resources","className":"ic-btn ic-btn-primary ic-btn-outline"}]},{"id":"resources","type":"textMedia","reverse":true,"title":"Access RTS Welding Resources","body":["Stay current with Repairability Technical Support (RTS) for welding procedures.","Access OEM guidelines, step-by-step instructions, and troubleshooting tips."],"buttons":[{"label":"Visit the RTS Portal","href":"https://rts.i-car.com/crn-1977.html","className":"ic-btn ic-btn-primary ic-btn-outline"}],"image":{"alt":"Collision repair technician in a bodyshop viewing the RTS website for welding techniques, tips, and guidelines","desktopSrc":"/getmedia/bd7ad47d-09d5-44b2-b8dc-a7e846fc6570/Access-RTS_800w_D.webp","desktopSrcset":"/getmedia/21ed6bb3-7c44-4ced-afa3-0aba4a494e2e/Access-RTS_400w_D.webp 400w, /getmedia/bd7ad47d-09d5-44b2-b8dc-a7e846fc6570/Access-RTS_800w_D.webp 800w","width":"800","height":"600","sizes":"800px"}},{"id":"start","type":"textMedia","title":"Start Your Welding Certification","body":["Get certified and build the skills needed to make safe, quality repairs."],"buttons":[{"label":"Train Today","href":"https://www.i-car.com/welding-training-certification","className":"ic-btn ic-btn-primary"}]}]}
+{
+    "slug": "welding",
+    "title": "Welding",
+    "sections": [
+        {
+            "id": "top",
+            "type": "hero",
+            "title": "Welding",
+            "body": [
+                "Welding is an essential skill for structural integrity and occupant safety after a collision. Improper welds can lead to repair failures and safety risks. That\u2019s why OEM network and Direct Repair Program requirements demand certified welding&nbsp;technicians."
+            ],
+            "image": {
+                "alt": "Welders in a bodyshop practicing proper welding techniques during collision repair welding training",
+                "desktopSrc": "/getmedia/55468889-d3b1-4fb4-b5b3-779bd7b13e7f/Hero_1600w_D.webp",
+                "desktopSrcset": "/getmedia/4f61f6ba-e76f-4a48-93e4-fe416d7bfa24/Hero_400w_D.webp 400w, /getmedia/9740908d-5cca-42a9-b9d8-e7325571ff17/Hero_800w_D.webp 800w, /getmedia/55468889-d3b1-4fb4-b5b3-779bd7b13e7f/Hero_1600w_D.webp 1600w",
+                "mobileSrcset": "/getmedia/5c8d3225-da17-4529-bd08-411a1c9eda96/Hero_400w_M.webp 400w, /getmedia/4855f991-665e-429f-95ed-25f38d4bbe30/Hero_800w_M.webp 800w",
+                "width": "1600",
+                "height": "580",
+                "sizes": "(max-width: 450px) 400px, (max-width: 1024px) 800px, 1600px",
+                "loading": "eager"
+            }
+        },
+        {
+            "id": "benefits",
+            "type": "iconCardGrid",
+            "title": "Benefits of I-CAR Welding Training & Certification",
+            "backgroundLight": true,
+            "cards": [
+                {
+                    "title": "Theory Instruction",
+                    "body": "Train on welding techniques through theory instruction",
+                    "iconKey": "careerDevelopment"
+                },
+                {
+                    "title": "Hands-On Coaching",
+                    "body": "Receive instructor-led, hands-on practice and coaching",
+                    "iconKey": "justInTime"
+                },
+                {
+                    "title": "Certification",
+                    "body": "Achieve I-CAR\u2019s industry-recognized welding certification",
+                    "iconKey": "repairersRealm"
+                }
+            ],
+            "footerButtons": [
+                {
+                    "label": "Explore Welding Training & Certification",
+                    "href": "https://www.i-car.com/welding-training-certification",
+                    "className": "ic-btn ic-btn-primary ic-btn-outline"
+                }
+            ]
+        },
+        {
+            "id": "certifications",
+            "type": "cards",
+            "title": "Different I-CAR Welding Certifications",
+            "cardColumnClass": "col col-12 col-md-6 col-xl-3 pt-1 mt-3 pt-md-3",
+            "cards": [
+                {
+                    "title": "Steel GMA Welding",
+                    "body": "Focused on Gas Metal Arc (MIG) welding for steel components",
+                    "href": "https://www.i-car.com/product/training-and-certification-steel-gma-welding/01t8W000006id7uQAA",
+                    "image": {
+                        "alt": "Welder in a bodyshop learning Steel GMA Welding during an I-CAR welding certification course",
+                        "desktopSrc": "/getmedia/8aa30e80-9057-4de9-bba0-b8822e1bba17/Steel-GMA-Welding_800w.webp",
+                        "desktopSrcset": "/getmedia/c13f7256-5ceb-494c-b3e4-f5a3e4388b86/Steel-GMA-Welding_400w.webp 400w, /getmedia/8aa30e80-9057-4de9-bba0-b8822e1bba17/Steel-GMA-Welding_800w.webp 800w, /getmedia/724ae702-65eb-4bea-92f3-3846f82cb89d/Steel-GMA-Welding_1600w.webp 1600w",
+                        "width": "600",
+                        "height": "300",
+                        "sizes": "(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
+                    }
+                },
+                {
+                    "title": "Steel Sectioning",
+                    "body": "Covers proper sectioning and joining techniques for structural steel repairs",
+                    "href": "https://www.i-car.com/product/training-and-certification-steel-sectioning/01t8W000006id1IQAQ",
+                    "image": {
+                        "alt": "Welder in a bodyshop learning Steel Sectioning during an I-CAR welding certification course",
+                        "desktopSrc": "/getmedia/cdd1efd5-b7ee-4049-8bb6-10cf281a4f18/Steel-Sectioning_800w.webp",
+                        "desktopSrcset": "/getmedia/051a7f1d-3e44-43ce-b4ca-bd7c4d7868b8/Steel-Sectioning_400w.webp 400w, /getmedia/cdd1efd5-b7ee-4049-8bb6-10cf281a4f18/Steel-Sectioning_800w.webp 800w, /getmedia/e03b6a55-5c58-4190-8bee-55bf308df164/Steel-Sectioning_1600w.webp 1600w",
+                        "width": "600",
+                        "height": "300",
+                        "sizes": "(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
+                    }
+                },
+                {
+                    "title": "Aluminum GMA (MIG) Welding",
+                    "body": "Designed for aluminum-intensive vehicles and OEM-approved MIG welding processes",
+                    "href": "https://www.i-car.com/product/training-and-certification-aluminum-gma-mig-welding/01t8W000006idqsQAA",
+                    "image": {
+                        "alt": "Welder in a bodyshop learning Aluminum GMA (MIG) Welding during an I-CAR welding certification course",
+                        "desktopSrc": "/getmedia/768d4043-5242-45a6-a309-18aedbab2e44/Aluminum-GMA-Welding_800w.webp",
+                        "desktopSrcset": "/getmedia/b029a3ab-3b89-45ce-a43b-6922216d2e4a/Aluminum-GMA-Welding_400w.webp 400w, /getmedia/768d4043-5242-45a6-a309-18aedbab2e44/Aluminum-GMA-Welding_800w.webp 800w, /getmedia/951489ab-a81e-4332-a5c7-da7bcfdf609a/Aluminum-GMA-Welding_1600w.webp 1600w",
+                        "width": "600",
+                        "height": "300",
+                        "sizes": "(max-width: 768px) 800px, (max-width: 991.9px) 400px, 800px"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "requirements",
+            "type": "textMedia",
+            "reverse": true,
+            "title": "Network Requirements for Welding Certification",
+            "body": [
+                "Many OEM-certified and insurance networks require I-CAR welding certification. Meeting these standards ensures compliance and customer confidence."
+            ],
+            "links": [
+                {
+                    "label": "OEM Requirements",
+                    "href": "https://info.i-car.com/network-programs/oem"
+                },
+                {
+                    "label": "Insurance Requirements",
+                    "href": "https://info.i-car.com/network-programs/insurance"
+                }
+            ],
+            "image": {
+                "alt": "Welder in a bodyshop using proper welding techniques during collision repair as mandated by network requirements",
+                "desktopSrc": "/getmedia/267cd5c9-a951-4dcd-b681-0151f2f69a2e/Network-Requirements_800w_D.webp",
+                "desktopSrcset": "/getmedia/0759e461-db93-4500-971c-edf8da3e7f2e/Network-Requirements_400w_D.webp 400w, /getmedia/267cd5c9-a951-4dcd-b681-0151f2f69a2e/Network-Requirements_800w_D.webp 800w, /getmedia/64dc940f-c5b3-42f5-bf6c-c11d1f58ebce/Network-Requirements_1600w_D.webp 1600w",
+                "width": "800",
+                "height": "600",
+                "sizes": "800px",
+                "mobileSrcset": "/getmedia/0bd92ce9-cec5-4dfe-b889-22d0565c1a55/Network-Requirements_400w_M.webp 400w, /getmedia/a8de41a3-b1ec-4210-910c-73b3cb3e33f1/Network-Requirements_800w_M.webp 800w, /getmedia/591a92e3-1709-4593-a085-7032a928049d/Network-Requirements_1600w_M.webp 1600w"
+            }
+        },
+        {
+            "id": "preparation",
+            "type": "iconCardGrid",
+            "title": "Get Ready for Welding Training",
+            "backgroundLight": true,
+            "body": [
+                "Confirm your shop is ready for certification."
+            ],
+            "cards": [
+                {
+                    "title": "Facility & Equipment",
+                    "body": "Prepare with facility set up and proper welding equipment",
+                    "iconKey": "askICar"
+                },
+                {
+                    "title": "Technician Experience",
+                    "body": "Ensure your tech has completed online and hands-on course prerequisites",
+                    "iconKey": "adasNews"
+                },
+                {
+                    "title": "Policy Compliance",
+                    "body": "Verify your shop meets all I-CAR welding standards and safety requirements.",
+                    "iconKey": "repairersRealm"
+                }
+            ],
+            "footerButtons": [
+                {
+                    "label": "View Welding Event Requirements",
+                    "href": "/welding/welding-event-resources",
+                    "className": "ic-btn ic-btn-primary ic-btn-outline"
+                }
+            ]
+        },
+        {
+            "id": "resources",
+            "type": "textMedia",
+            "reverse": true,
+            "title": "Access RTS Welding Resources",
+            "body": [
+                "Stay current with Repairability Technical Support (RTS) for welding procedures. Access OEM guidelines, step-by-step instructions, and troubleshooting tips."
+            ],
+            "buttons": [
+                {
+                    "label": "Visit the RTS Portal",
+                    "href": "https://rts.i-car.com/crn-1977.html",
+                    "className": "ic-btn ic-btn-primary ic-btn-outline"
+                }
+            ],
+            "image": {
+                "alt": "Collision repair technician in a bodyshop viewing the RTS website for welding techniques, tips, and guidelines",
+                "desktopSrc": "/getmedia/bd7ad47d-09d5-44b2-b8dc-a7e846fc6570/Access-RTS_800w_D.webp",
+                "desktopSrcset": "/getmedia/21ed6bb3-7c44-4ced-afa3-0aba4a494e2e/Access-RTS_400w_D.webp 400w, /getmedia/bd7ad47d-09d5-44b2-b8dc-a7e846fc6570/Access-RTS_800w_D.webp 800w, /getmedia/a263142c-2a21-4da6-9201-2c0d1a8852b2/Access-RTS_1600w_D.webp 1600w",
+                "width": "800",
+                "height": "600",
+                "sizes": "800px",
+                "mobileSrcset": "/getmedia/b4e2f9e8-a8f9-45da-9fef-be081f6d2e9c/Access-RTS_400w_M.webp 400w, /getmedia/22beffec-d740-4382-8eb1-a2e1f46473fb/Access-RTS_800w_M.webp 800w, /getmedia/f01647e6-6306-4719-b4d1-6394abadaecc/Access-RTS_1600w_M.webp 1600w"
+            }
+        },
+        {
+            "id": "start",
+            "type": "textMedia",
+            "title": "Start Your Welding Certification",
+            "body": [
+                "Get certified and build the skills needed to make safe, quality repairs."
+            ],
+            "buttons": [
+                {
+                    "label": "Train Today",
+                    "href": "https://www.i-car.com/welding-training-certification",
+                    "className": "ic-btn ic-btn-primary"
+                }
+            ],
+            "image": {
+                "alt": "Student taking welding training to learn proper welding techniques to achieve an I-CAR welding certification",
+                "desktopSrc": "/getmedia/d22d5c59-f5c9-4706-ad7c-aafe63799745/Start-Welding-Cert_800w.webp",
+                "desktopSrcset": "/getmedia/7f316c24-7d27-4ef0-82b1-54b513d3d876/Start-Welding-Cert_400w.webp 400w, /getmedia/d22d5c59-f5c9-4706-ad7c-aafe63799745/Start-Welding-Cert_800w.webp 800w, /getmedia/41f80094-da99-4566-bb00-6922add257e6/Start-Welding-Cert_1600w.webp 1600w",
+                "width": "800",
+                "height": "600",
+                "sizes": "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+            }
+        }
+    ]
+}

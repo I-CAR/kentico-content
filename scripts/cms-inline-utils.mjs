@@ -63,7 +63,7 @@ const tagAttributePriority = {
   script: ["src", "type", "async", "defer"],
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
-const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
+const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--space-8)}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
 const cmsFormShellCss = `.ic-section+.row.row--with-cols-padding,.section+.row.row--with-cols-padding{margin-top:var(--section-margin);background:var(--lightest)!important;padding:var(--section-padding) 0}.ic-section.ic-background-white+.row.row--with-cols-padding,.section.ic-background-white+.row.row--with-cols-padding,.section.bg-white+.row.row--with-cols-padding{background:var(--lightest)!important}.ic-section.ic-background-light+.row.row--with-cols-padding,.section.ic-background-light+.row.row--with-cols-padding,.section.bg-light+.row.row--with-cols-padding{margin-top:0;background:none!important}.ic-section+.row.row--with-cols-padding:last-child,.section+.row.row--with-cols-padding:last-child{padding-bottom:clamp(5rem,1.721rem + 9.697vw,7.5rem)}.ic-section+.row.row--with-cols-padding form,.section+.row.row--with-cols-padding form,.row--with-cols-padding form{max-width:100%}.row--with-cols-padding:has(form,.formwidget-submit-text){margin:0}.row--with-cols-padding:has(.formwidget-submit-text) .subhead,.row--with-cols-padding:has(.formwidget-submit-text) .disclaimer{display:none!important}`;
 const cmsFormShellClasses = [
   "breadcrumb",
@@ -609,7 +609,7 @@ function extractLinkTags(source) {
   return Array.from(source.matchAll(/<link\b[\s\S]*?>/gi), (match) => match[0]);
 }
 
-function toOutputAssetPath(sourceFile, outputFile, assetPath) {
+function toOutputAssetPath(sourceFile, outputFile, assetPath, assetBaseFile = sourceFile) {
   if (
     !assetPath ||
     /^[a-z]+:/i.test(assetPath) ||
@@ -620,10 +620,10 @@ function toOutputAssetPath(sourceFile, outputFile, assetPath) {
     return assetPath;
   }
 
-  return relative(dirname(outputFile), normalizeAssetPath(sourceFile, assetPath)).replace(/\\/g, "/");
+  return relative(dirname(outputFile), normalizeAssetPath(assetBaseFile, assetPath)).replace(/\\/g, "/");
 }
 
-function rewriteSrcsetValue(sourceFile, outputFile, srcsetValue) {
+function rewriteSrcsetValue(sourceFile, outputFile, srcsetValue, assetBaseFile = sourceFile) {
   return srcsetValue
     .split(",")
     .map((entry) => {
@@ -634,25 +634,25 @@ function rewriteSrcsetValue(sourceFile, outputFile, srcsetValue) {
       }
 
       const [url, ...descriptorParts] = trimmed.split(/\s+/);
-      const rewrittenUrl = toOutputAssetPath(sourceFile, outputFile, url);
+      const rewrittenUrl = toOutputAssetPath(sourceFile, outputFile, url, assetBaseFile);
       return [rewrittenUrl, ...descriptorParts].filter(Boolean).join(" ");
     })
     .join(", ");
 }
 
-function rewriteLocalAssetPaths(sourceFile, outputFile, source) {
+function rewriteLocalAssetPaths(sourceFile, outputFile, source, assetBaseFile = sourceFile) {
   return source
     .replace(/\b(href|src)=["']([^"']+)["']/gi, (match, attributeName, assetPath) => {
-      const rewrittenPath = toOutputAssetPath(sourceFile, outputFile, assetPath);
+      const rewrittenPath = toOutputAssetPath(sourceFile, outputFile, assetPath, assetBaseFile);
       return `${attributeName}="${escapeAttribute(rewrittenPath)}"`;
     })
     .replace(/\bsrcset=["']([^"']+)["']/gi, (match, srcsetValue) => {
-      const rewrittenValue = rewriteSrcsetValue(sourceFile, outputFile, srcsetValue);
+      const rewrittenValue = rewriteSrcsetValue(sourceFile, outputFile, srcsetValue, assetBaseFile);
       return `srcset="${escapeAttribute(rewrittenValue)}"`;
     });
 }
 
-function extractLocalAssetPaths(sourceFile, source, { tagName, extension }) {
+function extractLocalAssetPaths(sourceFile, source, { tagName, extension, assetBaseFile = sourceFile }) {
   const pattern =
     tagName === "link"
       ? /<link\b[^>]*href=["']([^"']+)["'][^>]*>/gi
@@ -667,7 +667,7 @@ function extractLocalAssetPaths(sourceFile, source, { tagName, extension }) {
       continue;
     }
 
-    const normalizedPath = normalizeAssetPath(sourceFile, assetPath);
+    const normalizedPath = normalizeAssetPath(assetBaseFile, assetPath);
 
     if (seen.has(normalizedPath) || !existsSync(normalizedPath)) {
       continue;
@@ -941,9 +941,9 @@ function filterCmsAssetPaths(assetPaths, dependencies, { forceBootstrap = false 
   });
 }
 
-function extractCmsCssPaths(sourceFile, source, { forceBootstrap = false } = {}) {
+function extractCmsCssPaths(sourceFile, source, { forceBootstrap = false, assetBaseFile = sourceFile } = {}) {
   return filterCmsAssetPaths(
-    extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css" }).filter(
+    extractLocalAssetPaths(sourceFile, source, { tagName: "link", extension: ".css", assetBaseFile }).filter(
       (assetPath) => !isCmsVendorStylesheet(assetPath),
     ),
     detectPageDependencies(source),
@@ -951,9 +951,9 @@ function extractCmsCssPaths(sourceFile, source, { forceBootstrap = false } = {})
   );
 }
 
-async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = false } = {}) {
+async function renderCmsStyleTag(sourceFile, source, page, { forceBootstrap = false, assetBaseFile = sourceFile } = {}) {
   const includeCmsFormShell = pageUsesCmsForm(page);
-  const cssParts = extractCmsCssPaths(sourceFile, source, { forceBootstrap })
+  const cssParts = extractCmsCssPaths(sourceFile, source, { forceBootstrap, assetBaseFile })
     .map((assetPath) => {
       const resolvedAssetPath = getCmsBootstrapAssetPath(assetPath);
       const cssSource = stripCssComments(readFileSync(resolvedAssetPath, "utf8"));
@@ -999,7 +999,7 @@ function removeScriptTags(source) {
   return source.replace(/<script\b[\s\S]*?<\/script>\s*/gi, "");
 }
 
-function extractCmsScriptBlocks(sourceFile, source) {
+function extractCmsScriptBlocks(sourceFile, source, assetBaseFile = sourceFile) {
   const companionSourceFile = toCompanionScriptSourcePath(sourceFile);
   const companionSource = existsSync(companionSourceFile) ? readFileSync(companionSourceFile, "utf8") : "";
   const dependencies = detectPageDependencies([source, companionSource].filter(Boolean).join("\n"));
@@ -1020,7 +1020,7 @@ function extractCmsScriptBlocks(sourceFile, source) {
           continue;
         }
 
-        const assetPath = normalizeAssetPath(sourceFile, src);
+        const assetPath = normalizeAssetPath(assetBaseFile, src);
         const assetPaths = [assetPath];
 
         for (const currentAssetPath of assetPaths) {
@@ -1069,11 +1069,20 @@ function extractCmsScriptBlocks(sourceFile, source) {
   return blocks;
 }
 
-export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, { minify = false, minifyHtml = minify } = {}) {
+export async function renderCmsHtmlParts(
+  sourceFile,
+  outputFile,
+  source,
+  page,
+  { minify = false, minifyHtml = minify, assetBaseFile = sourceFile } = {},
+) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
-  const styleTag = await renderCmsStyleTag(sourceFile, source, page, { forceBootstrap: minify });
+  const styleTag = await renderCmsStyleTag(sourceFile, source, page, {
+    forceBootstrap: minify,
+    assetBaseFile,
+  });
   const linkTags = renderCmsLinkTags(source);
-  const scriptBlocks = extractCmsScriptBlocks(sourceFile, source);
+  const scriptBlocks = extractCmsScriptBlocks(sourceFile, source, assetBaseFile);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
   const scriptParts = [];
 
@@ -1110,9 +1119,9 @@ export async function renderCmsHtmlParts(sourceFile, outputFile, source, page, {
   const mainFragments = splitMainByCmsFragments(extractCmsMain(source), page);
   const files = mainFragments.map((fragment) => {
     const fragmentOutputFile = fragment.name ? toCmsFragmentHtmlOutputPath(sourceFile, fragment.name) : outputFile;
-    const rewrittenMain = rewriteLocalAssetPaths(sourceFile, fragmentOutputFile, fragment.mainSource);
+    const rewrittenMain = rewriteLocalAssetPaths(sourceFile, fragmentOutputFile, fragment.mainSource, assetBaseFile);
     const mainOutput = minifyHtml ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
-    const htmlParts = [fragment.name ? "" : styleTag, fragment.name ? "" : linkTags, mainOutput.trim()];
+    const htmlParts = [fragment.name ? "" : linkTags, fragment.name ? "" : styleTag, mainOutput.trim()];
 
     if (fragment.includeScripts && inlineScripts) {
       htmlParts.push(inlineScripts);
@@ -1322,9 +1331,11 @@ export async function buildCmsPages({ minify = false, minifyHtml = minify } = {}
 
   for (const renderedPage of renderedPages) {
     const sourceFile = renderedPage.relativeOutputPath;
+    const assetBaseFile = join("html", renderedPage.relativeOutputPath);
     const outputFile = join(outputDir, renderedPage.relativeOutputPath);
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
     const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, renderedPage.page, {
+      assetBaseFile,
       minify,
       minifyHtml,
     });

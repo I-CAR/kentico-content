@@ -1,9 +1,11 @@
 import {
   existsSync,
+  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
   statSync,
+  writeFileSync,
 } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -12,6 +14,7 @@ import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJ
 
 const watchMode = process.argv.includes("--watch");
 const contentSourceDir = join("content", "pages");
+const htmlOutputDir = "html";
 const legacyGeneratedHtmlDir = join("html", "generated");
 const isDirectRun = process.argv[1]
   ? pathToFileURL(process.argv[1]).href === import.meta.url
@@ -58,12 +61,27 @@ function toPosixPath(filePath) {
   return filePath.replace(/\\/g, "/");
 }
 
+function joinClassNames(...classNames) {
+  return classNames
+    .filter((className) => typeof className === "string" && className.trim().length > 0)
+    .map((className) => className.trim())
+    .join(" ");
+}
+
+function buildSectionClassName(baseClassName, ...additionalClassNames) {
+  return joinClassNames(baseClassName, ...additionalClassNames);
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+function restoreEncodedEntities(value) {
+  return value.replace(/&amp;(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]+);/gi, "&$1;");
 }
 
 function normalizeImageAssetUrl(value) {
@@ -102,7 +120,8 @@ function applyWidowProtection(value) {
 
 function renderText(value, { widowProtection = false } = {}) {
   const escapedValue = escapeHtml(value);
-  const normalizedValue = normalizeContentText(escapedValue);
+  const restoredValue = restoreEncodedEntities(escapedValue);
+  const normalizedValue = normalizeContentText(restoredValue);
   return widowProtection ? applyWidowProtection(normalizedValue) : normalizedValue;
 }
 
@@ -366,7 +385,10 @@ function renderHeroSection(section) {
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
   const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || section.title;
   const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const sectionClassName = section.sectionClassName || `ic-section ic-section-hero${backgroundClass}`;
+  const sectionClassName = buildSectionClassName(
+    section.sectionClassName || `ic-section ic-section-hero${backgroundClass}`,
+    section.__autoSectionClassName,
+  );
   const containerClassName = section.containerClassName || "container";
   const heroContentClass = section.contentClassName || "col order-last order-md-first mt-2 pt-1 mt-md-0 pt-md-0";
   const heroMediaClass = section.mediaClassName || "col col-12 col-md col-lg-7 order-first order-md-last";
@@ -413,7 +435,7 @@ function renderPageNavSection(section) {
     )
     .join("\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section ic-section-nav ic-background-light">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section ic-section-nav ic-background-light", section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
 
@@ -487,7 +509,7 @@ ${mediaMarkup}
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(introColumnClass)}">
@@ -519,7 +541,7 @@ function renderTextSection(section) {
   const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
   const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
@@ -550,7 +572,7 @@ function renderStatementListSection(section) {
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
@@ -567,7 +589,7 @@ function renderCtaSection(section) {
   const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
   const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section ic-background-light">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section ic-background-light", section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
@@ -595,8 +617,8 @@ function renderTextMediaSection(section) {
     ? "col col-12 col-md-6 mt-3 mt-md-0 pl-lg-5"
     : "col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5");
   const mediaColumnClasses = section.mediaColumnClass || (section.reverse
-    ? "col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5"
-    : "col col-12 col-md-6 mt-3 mt-md-0");
+    ? "col col-12 col-md-6 pr-lg-5"
+    : "col col-12 col-md-6 mt-3 pt-1 mt-md-0 pt-md-0");
   const contentColumnClass = section.contentColumnClass || "col col-12 col-xl-10";
   const rowClassName = section.rowClassName || "row justify-content-between align-items-center";
   const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
@@ -616,7 +638,7 @@ ${indentBlock(pictureMarkup, 36)}
 ${linkedPictureMarkup}
                             </div>`;
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}${section.sectionClassName ? ` ${escapeHtml(section.sectionClassName)}` : ""}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.sectionClassName, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
@@ -633,6 +655,17 @@ function renderQuoteGridSection(section) {
   const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
   const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
   const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = section.footerButtons?.length
+    ? `                <div class="row justify-content-center mt-3 pt-3">
+                    <div class="col">
+                        <p class="text-md-center">
+${section.footerButtons
+  .map((button) => `                            <a href="${escapeHtml(button.href)}" class="${escapeHtml(button.className || "ic-btn ic-btn-primary ic-btn-outline")}"${button.title ? ` title="${escapeHtml(button.title)}"` : ""}${button.target ? ` target="${escapeHtml(button.target)}"` : ""}${button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : ""}>${renderText(button.label)}</a>`)
+  .join("\n")}
+                        </p>
+                    </div>
+                </div>`
+    : "";
   const useCarousel = section.carousel !== false;
   const slideClassName = useCarousel
     ? "swiper-slide col col-12 col-md-6 col-xl-3 pt-3 mt-1 mt-md-3"
@@ -668,7 +701,7 @@ ${quoteMarkup}
 ${quoteMarkup}
                         </div>`;
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}${section.sectionClassName ? ` ${escapeHtml(section.sectionClassName)}` : ""}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.sectionClassName, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
@@ -686,7 +719,7 @@ ${buttonsMarkup ? `\n\n                <div class="row justify-content-center mt
                     <div class="col">
 ${indentBlock(buttonsMarkup, 24)}
                     </div>
-                </div>` : ""}
+                </div>` : ""}${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
             </div>
         </section>`;
 }
@@ -702,7 +735,7 @@ function renderQuoteSection(section) {
     .join("\n");
 
   if (section.compact) {
-    return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+    return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
@@ -728,7 +761,7 @@ ${quoteBody}
         </section>`;
   }
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3 mb-md-2 pb-md-0">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
@@ -779,7 +812,7 @@ function renderProfileGridSection(section) {
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-2">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
@@ -826,7 +859,7 @@ function renderMediaFeatureListSection(section) {
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}${section.className ? ` ${escapeHtml(section.className)}` : ""}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
@@ -870,7 +903,7 @@ ${indentBlock(resolveIconSvg(card).trim(), 32)}
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}${section.className ? ` ${escapeHtml(section.className)}` : ""}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
@@ -906,7 +939,7 @@ function renderLogoGridSection(section) {
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-2">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
@@ -961,7 +994,7 @@ ${linkListMarkupInner}
     })
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-12 col-lg-10 col-xl-9">
@@ -988,7 +1021,7 @@ function renderLegalSection(section) {
     .map((paragraph) => `                        <p><small>${renderTrustedHtml(paragraph)}</small></p>`)
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}${section.className ? ` ${escapeHtml(section.className)}` : ""}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3 mb-md-2 pb-md-0">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
@@ -1048,7 +1081,7 @@ ${renderAccordionItemBody(item)}
     })
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-12 col-lg-10 col-xl-8">
@@ -1075,7 +1108,7 @@ function renderEmbedSection(section) {
   const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
   const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
 
                 <div class="row justify-content-center${section.introRowClassName ? ` ${escapeHtml(section.introRowClassName)}` : " mb-3 pb-3"}">
@@ -1108,7 +1141,7 @@ function renderMediaSliderSection(section) {
     ? `\n                                ${renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline").trim()}`
     : "";
 
-  return `        <section id="${escapeHtml(section.id)}" class="ic-section${backgroundClass}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-12 col-lg-10 col-xl-9">
@@ -1242,6 +1275,22 @@ function renderPageHeadHtml(page) {
   return normalizeHtmlBlocks(page.cms?.headHtml)
     .map((block) => renderTrustedHtml(block).trim())
     .filter(Boolean)
+    .sort((left, right) => {
+      const leftIsLink = /^<link\b/i.test(left);
+      const rightIsLink = /^<link\b/i.test(right);
+      const leftIsStyle = /^<style\b/i.test(left);
+      const rightIsStyle = /^<style\b/i.test(right);
+
+      if (leftIsLink !== rightIsLink) {
+        return leftIsLink ? -1 : 1;
+      }
+
+      if (leftIsStyle !== rightIsStyle) {
+        return leftIsStyle ? 1 : -1;
+      }
+
+      return 0;
+    })
     .join("\n    ");
 }
 
@@ -1266,7 +1315,7 @@ function loadHtmlFragmentFile(baseDir, filePath) {
 }
 
 function normalizePageSections(page, sourceDirectory) {
-  return (page.sections || []).map((section) => {
+  const normalizedSections = (page.sections || []).map((section) => {
     if (section?.type !== "html" || !section.sourceHtmlFile) {
       return section;
     }
@@ -1279,6 +1328,19 @@ function normalizePageSections(page, sourceDirectory) {
     return {
       ...section,
       html: htmlBlocks,
+    };
+  });
+
+  return normalizedSections.map((section, index) => {
+    const nextSection = normalizedSections[index + 1];
+
+    if (!section?.backgroundLight || !nextSection?.backgroundLight) {
+      return section;
+    }
+
+    return {
+      ...section,
+      __autoSectionClassName: joinClassNames(section.__autoSectionClassName, "pb-0"),
     };
   });
 }
@@ -1335,6 +1397,37 @@ function toContentHtmlRelativePath(sourceFile, page) {
   return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
 }
 
+function syncRenderedHtmlFile(renderedPage) {
+  const outputFile = join(htmlOutputDir, renderedPage.relativeOutputPath);
+  const nextContents = renderedPage.html;
+
+  if (!existsSync(outputFile)) {
+    mkdirSync(dirname(outputFile), { recursive: true });
+    writeFileSync(outputFile, nextContents);
+
+    return {
+      status: "created",
+      outputFile,
+    };
+  }
+
+  const previousContents = readFileSync(outputFile, "utf8");
+
+  if (previousContents === nextContents) {
+    return {
+      status: "unchanged",
+      outputFile,
+    };
+  }
+
+  writeFileSync(outputFile, nextContents);
+
+  return {
+    status: "updated",
+    outputFile,
+  };
+}
+
 export function collectRenderedPageDocuments() {
   const templateSyncResult = syncTemplates();
 
@@ -1349,12 +1442,14 @@ export function collectRenderedPageDocuments() {
   return collectRenderableContentFiles().map((sourceFile) => {
     const page = parseAuthoringFile(sourceFile);
     const relativeOutputPath = toContentHtmlRelativePath(sourceFile, page);
+    const htmlOutputPath = join(htmlOutputDir, relativeOutputPath);
 
     return {
       sourceFile,
       page,
       relativeOutputPath,
-      html: renderDocument(page, relativeOutputPath),
+      htmlOutputPath,
+      html: renderDocument(page, htmlOutputPath),
     };
   });
 }
@@ -1364,7 +1459,13 @@ async function buildPages() {
   rmSync(legacyGeneratedHtmlDir, { recursive: true, force: true });
 
   for (const renderedPage of renderedPages) {
-    console.log(`[pages] Validated ${renderedPage.sourceFile}`);
+    const result = syncRenderedHtmlFile(renderedPage);
+    const label = result.status === "created"
+      ? "Created"
+      : result.status === "updated"
+        ? "Updated"
+        : "Unchanged";
+    console.log(`[pages] ${label} ${result.outputFile}`);
   }
 
   return renderedPages.length > 0;

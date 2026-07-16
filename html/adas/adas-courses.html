@@ -9,18 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../../css/vendor/cms-main-202106042.css">
     <link rel="stylesheet" href="../../css/bootstrap-subset.css">
+    <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet" />
 </head>
 
 <body>
-    <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css" />
 
     <main>
 
-        <section id="top" class="ic-section ic-section-hero pt-0">
+<section id="top" class="ic-section ic-section-hero pt-0">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
 
@@ -404,71 +402,9 @@
 
     </main>
 
-    <script src="https://players.brightcove.net/1862663934001/experience_68d316acb9665e72e8243afc/live.js"></script>
-    <script src="../../node_modules/swiper/swiper-bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = new Swiper('.ic-swiper', {
-                loop: true,
-                speed: 600,
-                spaceBetween: 0,
+<script src="https://players.brightcove.net/1862663934001/default_default/index.min.js"></script>
 
-                // --- fixes for the height / pagination jump ---
-                autoHeight: true,           // dynamically adjusts height per slide
-                observeParents: true,       // watches for layout changes
-                observer: true,             // observes changes in Swiper elements
-
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true
-                },
-
-                // Autoplay
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false, // keep autoplay after user swipes/clicks
-                    pauseOnMouseEnter: true
-                },
-
-                simulateTouch: true,
-                shortSwipes: true,
-                longSwipes: false,
-                longSwipesRatio: 0.1,
-                grabCursor: true,
-
-                a11y: {
-                    enabled: true
-                },
-
-                on: {
-                    init(swiper) {
-                        // Ensure initial height is correct
-                        swiper.updateAutoHeight(0);
-
-                        // Recalculate after images load (fixes first-slide short height)
-                        const imgs = swiper.el.querySelectorAll('img');
-                        imgs.forEach(img => {
-                            if (!img.complete) {
-                                img.addEventListener('load', () => swiper.updateAutoHeight(200), { once: true });
-                            }
-                        });
-
-                        // Handle webfonts loading (in case text changes height)
-                        if (document.fonts && document.fonts.ready) {
-                            document.fonts.ready.then(() => swiper.updateAutoHeight(200)).catch(() => { });
-                        }
-                    },
-                    slideChangeTransitionEnd(swiper) {
-                        swiper.updateAutoHeight(200);
-                    },
-                    imagesReady(swiper) {
-                        swiper.updateAutoHeight(200);
-                    },
-                },
-            });
-        });
-    </script>
-
+    <script src="../../js/script.js"></script>
 </body>
 
 </html>

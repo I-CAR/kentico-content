@@ -22,7 +22,7 @@
 }
 
 .content.no-right-rail {
-    padding: 0;
+    padding: 0 var(--space-8);
 }
 
 @include mq(md) {
