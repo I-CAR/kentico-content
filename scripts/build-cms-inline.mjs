@@ -1,4 +1,5 @@
 import { buildCmsAssets, createHtmlSnapshot } from "./cms-inline-utils.mjs";
+import { spawn } from "node:child_process";
 
 const watchMode = process.argv.includes("--watch");
 const productionMode = process.argv.includes("--production");
@@ -8,6 +9,26 @@ let buildRunning = false;
 let queuedReason = null;
 let watchDebounce = null;
 let previousSnapshot = "";
+
+function runFreshBuildProcess() {
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [process.argv[1]], {
+      cwd: process.cwd(),
+      env: process.env,
+      stdio: "inherit",
+    });
+
+    child.on("error", reject);
+    child.on("exit", (code, signal) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`Fresh CMS build failed${signal ? ` (${signal})` : code != null ? ` (code ${code})` : ""}`));
+    });
+  });
+}
 
 async function build(reason = "manual") {
   if (buildRunning) {
@@ -19,7 +40,11 @@ async function build(reason = "manual") {
   buildRunning = true;
 
   try {
-    await buildCmsAssets({ minify: productionMode, minifyHtml: true });
+    if (watchMode) {
+      await runFreshBuildProcess();
+    } else {
+      await buildCmsAssets({ minify: productionMode, minifyHtml: true });
+    }
 
     if (watchMode) {
       console.log(`[cms] Build complete (${reason})`);
@@ -55,7 +80,7 @@ function scheduleBuild(reason) {
 await build();
 
 if (watchMode) {
-  console.log("[cms] Watching content/pages/**/*.json");
+  console.log("[cms] Watching content/pages/**/*, scripts/**/*.mjs, package.json, css outputs, and js outputs");
   previousSnapshot = createHtmlSnapshot();
 
   setInterval(() => {

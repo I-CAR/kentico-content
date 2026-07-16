@@ -32,6 +32,7 @@ h1,
 .ic-h1 {
     margin-bottom: var(--space-20) !important;
     font-size: var(--h1-font-size);
+    line-height: 1.2;
     font-weight: var(--bold);
     color: var(--gray-900);
 }
@@ -109,6 +110,10 @@ p.ic-card-label {
 
 .ic-section .ic-section-title:only-child {
     margin-bottom: 0 !important;
+}
+
+.content.no-right-rail h1:only-child {
+    @include visually-hidden();
 }
 
 .ic-section:has(p.ic-sublabel) .ic-section-title {

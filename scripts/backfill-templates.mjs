@@ -1,11 +1,16 @@
 import {
   existsSync,
   mkdirSync,
-  readFileSync,
   readdirSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
+import {
+  authoringFileExtensions,
+  assertUniqueAuthoringBasenames,
+  parseStructuredAuthoringFile,
+  serializeStructuredAuthoringFile,
+} from "./authoring-format.mjs";
 
 const pagesSourceDir = join("content", "pages");
 const templateSourceDir = join("content", "templates");
@@ -38,6 +43,10 @@ function collectFiles(root, extension) {
 }
 
 function detectVariant(section) {
+  if (section.type === "hero" && (section.variant === "banner" || section.heroStyle === "banner")) {
+    return "banner";
+  }
+
   if (section.type === "textMedia" && section.reverse) {
     return "reverse";
   }
@@ -62,7 +71,7 @@ function createTemplateSectionEntry(section) {
 }
 
 function backfillTemplateForPage(pageFile) {
-  const page = JSON.parse(readFileSync(pageFile, "utf8"));
+  const page = parseStructuredAuthoringFile(pageFile);
   const relativeFile = relative(pagesSourceDir, pageFile);
   const templateFile = join(templateSourceDir, relativeFile);
   const alreadyExists = existsSync(templateFile);
@@ -74,13 +83,16 @@ function backfillTemplateForPage(pageFile) {
   };
 
   mkdirSync(dirname(templateFile), { recursive: true });
-  writeFileSync(templateFile, `${JSON.stringify(template, null, 2)}\n`);
+  writeFileSync(templateFile, `${serializeStructuredAuthoringFile(templateFile, template)}\n`);
 
   return { status: alreadyExists ? "updated" : "created", templateFile };
 }
 
 function backfillTemplates() {
-  const pageFiles = collectFiles(pagesSourceDir, ".json");
+  const pageFiles = assertUniqueAuthoringBasenames(
+    authoringFileExtensions.flatMap((extension) => collectFiles(pagesSourceDir, extension)),
+    "content page files",
+  );
   let createdCount = 0;
   let updatedCount = 0;
 

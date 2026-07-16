@@ -7,8 +7,15 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
+import { spawn } from "node:child_process";
 import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import {
+  authoringFileExtensions,
+  assertUniqueAuthoringBasenames,
+  parseStructuredAuthoringFile,
+  stripAuthoringFileExtension,
+} from "./authoring-format.mjs";
 import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
 
@@ -54,7 +61,39 @@ function collectFiles(root, extension) {
 }
 
 export function collectRenderableContentFiles() {
-  return collectFiles(contentSourceDir, ".json");
+  return assertUniqueAuthoringBasenames(
+    authoringFileExtensions.flatMap((extension) => collectFiles(contentSourceDir, extension)),
+    "content page files",
+  );
+}
+
+function createFileSnapshot(files) {
+  return files
+    .map((file) => {
+      const stats = statSync(file);
+      return `${file}:${stats.mtimeMs}:${stats.size}`;
+    })
+    .join("|");
+}
+
+function runFreshBuildProcess() {
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [process.argv[1]], {
+      cwd: process.cwd(),
+      env: process.env,
+      stdio: "inherit",
+    });
+
+    child.on("error", reject);
+    child.on("exit", (code, signal) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`Fresh pages build failed${signal ? ` (${signal})` : code != null ? ` (code ${code})` : ""}`));
+    });
+  });
 }
 
 function toPosixPath(filePath) {
@@ -68,8 +107,109 @@ function joinClassNames(...classNames) {
     .join(" ");
 }
 
+function getSectionHeading(section = {}) {
+  return section.heading || section.title || "";
+}
+
+function getHeroHeadline(section = {}) {
+  return section.heading || section.headline || section.headline1 || section.title || "";
+}
+
+function getCardHeading(card = {}) {
+  return card.heading || card.title || "";
+}
+
+function getAccordionItemHeading(item = {}) {
+  return item.heading || item.title || "";
+}
+
+function getBackgroundColor(section = {}) {
+  if (typeof section.backgroundColor === "string" && section.backgroundColor.trim()) {
+    return section.backgroundColor.trim().toLowerCase();
+  }
+
+  if (section.backgroundLight === true) {
+    return "light";
+  }
+
+  if (section.backgroundLight === false) {
+    return "white";
+  }
+
+  return "";
+}
+
+function getBackgroundClassName(section = {}) {
+  const backgroundColor = getBackgroundColor(section);
+
+  if (backgroundColor === "light") {
+    return " ic-background-light";
+  }
+
+  if (backgroundColor === "white") {
+    return " ic-background-white";
+  }
+
+  return "";
+}
+
+function getActionLocation(item = {}, defaultLocation = "header") {
+  return typeof item.location === "string" && item.location.trim()
+    ? item.location.trim().toLowerCase()
+    : defaultLocation;
+}
+
+function getSectionButtons(section = {}) {
+  const buttonGroup = section.buttons;
+  const buttons = Array.isArray(buttonGroup)
+    ? [...buttonGroup]
+    : Array.isArray(buttonGroup?.items)
+      ? buttonGroup.items.map((button) => ({
+        ...button,
+        location: getActionLocation(button, getActionLocation(buttonGroup, "header")),
+      }))
+      : [];
+  const legacyFooterButtons = Array.isArray(section.footerButtons)
+    ? section.footerButtons.map((button) => ({ ...button, location: getActionLocation(button, "footer") }))
+    : [];
+
+  return [...buttons, ...legacyFooterButtons];
+}
+
+function getSectionButtonsByLocation(section = {}, location, defaultLocation = "header") {
+  return getSectionButtons(section).filter((button) => getActionLocation(button, defaultLocation) === location);
+}
+
+function getSectionLinksByLocation(section = {}, location, defaultLocation = "header") {
+  const linkGroup = section.links;
+  const links = Array.isArray(linkGroup)
+    ? linkGroup
+    : Array.isArray(linkGroup?.items)
+      ? linkGroup.items.map((link) => ({
+        ...link,
+        location: getActionLocation(link, getActionLocation(linkGroup, "header")),
+      }))
+      : [];
+  return links.filter((link) => getActionLocation(link, defaultLocation) === location);
+}
+
 function buildSectionClassName(baseClassName, ...additionalClassNames) {
   return joinClassNames(baseClassName, ...additionalClassNames);
+}
+
+function resolveSectionSpacingClassNames(section) {
+  const spacing = section.spacing;
+
+  if (!spacing) {
+    return "";
+  }
+
+  return joinClassNames(
+    spacing.marginTop === "none" ? "mt-0" : "",
+    spacing.paddingTop === "sm" ? "ic-section-padding-top-sm" : "",
+    spacing.paddingBottom === "sm" ? "ic-section-padding-bottom-sm" : "",
+    spacing.paddingBottom === "lg" ? "ic-section-padding-bottom-lg" : "",
+  );
 }
 
 function escapeHtml(value) {
@@ -105,7 +245,9 @@ function normalizeImageAssetUrlsInHtml(value) {
 }
 
 function normalizeContentText(value) {
-  return value.replace(/I-CAR/g, "I&#8209;CAR").replace(/Gold Class/g, "Gold&nbsp;Class");
+  return value
+    .replace(/I(?:-|‑|&#8209;)CAR/g, "I&#8209;CAR")
+    .replace(/Gold(?:\s|&nbsp;)Class/g, "Gold&nbsp;Class");
 }
 
 function applyWidowProtection(value) {
@@ -147,6 +289,34 @@ function renderParagraphs(paragraphs, className = "") {
     .join("\n\n");
 }
 
+function normalizeParagraphList(value) {
+  if (Array.isArray(value)) {
+    return value.filter((item) => typeof item === "string" && item.length > 0);
+  }
+
+  if (typeof value === "string" && value.length > 0) {
+    return [value];
+  }
+
+  return [];
+}
+
+function getParagraphs(content = {}) {
+  return normalizeParagraphList(content.paragraphs ?? content.body);
+}
+
+function getHtmlParagraphs(content = {}) {
+  return normalizeParagraphList(content.paragraphsHtml ?? content.bodyHtml);
+}
+
+function hasParagraphContent(content = {}) {
+  return getParagraphs(content).length > 0 || getHtmlParagraphs(content).length > 0;
+}
+
+function renderParagraphContent(content = {}, className = "") {
+  return renderContentParagraphs(getParagraphs(content), getHtmlParagraphs(content), className);
+}
+
 function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className = "") {
   const classAttribute = className ? ` class="${className}"` : "";
   const plainMarkup = paragraphs.map(
@@ -159,6 +329,244 @@ function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className
   return [...plainMarkup, ...htmlMarkup].join("\n\n");
 }
 
+function buildResponsiveSrcset(entries = []) {
+  return entries
+    .filter((entry) => typeof entry?.url === "string" && entry.url.length > 0 && entry.width)
+    .map((entry) => `${entry.url} ${entry.width}w`)
+    .join(", ");
+}
+
+function getImageUrl(image = {}, device, width) {
+  const nestedUrl = image.urls?.[device]?.[`${width}w`];
+
+  if (typeof nestedUrl === "string" && nestedUrl.length > 0) {
+    return nestedUrl;
+  }
+
+  const flatUrl = image[`${device}${width}w`];
+
+  if (typeof flatUrl === "string" && flatUrl.length > 0) {
+    return flatUrl;
+  }
+
+  return "";
+}
+
+function getImageHeight(image = {}, device) {
+  if (typeof image.height === "string" && image.height.length > 0) {
+    return image.height;
+  }
+
+  if (typeof image.height === "number") {
+    return String(image.height);
+  }
+
+  const nestedHeight = image.height?.[device];
+
+  if (typeof nestedHeight === "string" && nestedHeight.length > 0) {
+    return nestedHeight;
+  }
+
+  if (typeof nestedHeight === "number") {
+    return String(nestedHeight);
+  }
+
+  const legacyHeight = image[`${device}Height`];
+
+  if (typeof legacyHeight === "string" && legacyHeight.length > 0) {
+    return legacyHeight;
+  }
+
+  if (typeof legacyHeight === "number") {
+    return String(legacyHeight);
+  }
+
+  return "";
+}
+
+function imageHasDeviceUrls(image = {}, device) {
+  return [70, 100, 140, 200, 400, 800, 1600, 3200].some((width) => Boolean(getImageUrl(image, device, width)));
+}
+
+function validateImageAlt(image = {}, context = "image") {
+  if (typeof image.alt !== "string" || image.alt.trim().length === 0) {
+    throw new Error(`Missing required alt text for ${context}`);
+  }
+}
+
+function validateImageHeight(image = {}, context = "image", { requireMobileHeight = false } = {}) {
+  const desktopHeight = getImageHeight(image, "desktop");
+  const mobileHeight = getImageHeight(image, "mobile");
+
+  if (!desktopHeight) {
+    throw new Error(`Missing required desktop height for ${context}`);
+  }
+
+  if (requireMobileHeight && !mobileHeight) {
+    throw new Error(`Missing required mobile height for ${context}`);
+  }
+}
+
+function validateResponsiveImage(image = {}, context = "image") {
+  validateImageAlt(image, context);
+  validateImageHeight(image, context, { requireMobileHeight: imageHasDeviceUrls(image, "mobile") });
+}
+
+function validateFixedImage(image = {}, context = "image") {
+  validateImageAlt(image, context);
+  validateImageHeight(image, context);
+}
+
+function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultLoading = "lazy") {
+  const hasStructuredUrls = Boolean(
+    image.urls?.mobile?.["400w"]
+    || image.urls?.mobile?.["800w"]
+    || image.urls?.mobile?.["1600w"]
+    || image.urls?.desktop?.["400w"]
+    || image.urls?.desktop?.["800w"]
+    || image.urls?.desktop?.["1600w"]
+    || image.urls?.desktop?.["3200w"]
+    || image.mobile400w
+    || image.mobile800w
+    || image.mobile1600w
+    || image.desktop400w
+    || image.desktop800w
+    || image.desktop1600w
+    || image.desktop3200w
+  );
+
+  if (!hasStructuredUrls) {
+    return {
+      mobileSrcset: image.mobileSrcset || "",
+      sourceWidth: image.width || "800",
+      sourceHeight: image.height || "450",
+      desktopSrc: image.desktopSrc || "",
+      desktopSrcset: image.desktopSrcset || image.desktopSrc || "",
+      imgWidth: image.width || "",
+      imgHeight: image.height || "",
+      sizes: image.sizes || "",
+      loading: image.loading || defaultLoading,
+    };
+  }
+
+  const presetConfig = {
+    banner: {
+      mobileWidths: [400, 800, 1600],
+      desktopWidths: [800, 1600, 3200],
+      defaultSizes: "(max-width: 1024px) 800px, 1600px",
+      sourceWidth: "800",
+      imgWidth: "3200",
+      srcKey: "desktop3200w",
+    },
+    textMedia: {
+      mobileWidths: [400, 800, 1600],
+      desktopWidths: [400, 800, 1600],
+      defaultSizes: "800px",
+      sourceWidth: "800",
+      imgWidth: "1600",
+      srcKey: "desktop1600w",
+    },
+    card: {
+      mobileWidths: [400, 800, 1600],
+      desktopWidths: [400, 800, 1600],
+      defaultSizes: "(max-width: 768px) 100vw, 33vw",
+      sourceWidth: "800",
+      imgWidth: "1600",
+      srcKey: "desktop1600w",
+    },
+  }[preset] || {
+    mobileWidths: [400, 800, 1600],
+    desktopWidths: [400, 800, 1600],
+    defaultSizes: "800px",
+    sourceWidth: "800",
+    imgWidth: "1600",
+      srcKey: "desktop1600w",
+  };
+
+  const mobileSrcset = buildResponsiveSrcset(
+    presetConfig.mobileWidths.map((width) => ({
+      width,
+      url: getImageUrl(image, "mobile", width),
+    })),
+  );
+  const desktopSrcset = buildResponsiveSrcset(
+    presetConfig.desktopWidths.map((width) => ({
+      width,
+      url: getImageUrl(image, "desktop", width),
+    })),
+  );
+  const desktopSrc = getImageUrl(image, "desktop", Number.parseInt(presetConfig.srcKey.replace(/\D+/g, ""), 10))
+    || getImageUrl(image, "desktop", 1600)
+    || getImageUrl(image, "desktop", 800)
+    || getImageUrl(image, "desktop", 400)
+    || "";
+
+  return {
+    mobileSrcset,
+    sourceWidth: presetConfig.sourceWidth,
+    sourceHeight: getImageHeight(image, "mobile") || getImageHeight(image, "desktop") || "",
+    desktopSrc,
+    desktopSrcset: desktopSrcset || desktopSrc,
+    imgWidth: presetConfig.imgWidth,
+    imgHeight: getImageHeight(image, "desktop") || getImageHeight(image, "mobile") || "",
+    sizes: presetConfig.defaultSizes,
+    loading: defaultLoading,
+  };
+}
+
+function resolveFixedImageConfig(image = {}, defaults = {}) {
+  const desktopEntries = [70, 100, 140, 200, 400, 800, 1600, 3200]
+    .map((width) => {
+      const url = getImageUrl(image, "desktop", width);
+      return url ? { width, url } : null;
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.width - right.width);
+
+  if (!desktopEntries.length) {
+    return {
+      src: image.desktopSrc || "",
+      srcset: image.desktopSrcset || image.desktopSrc || "",
+      width: image.width || defaults.width || "",
+      height: getImageHeight(image, "desktop") || image.height || defaults.height || "",
+      sizes: image.sizes || defaults.sizes || "",
+      loading: image.loading || defaults.loading || "lazy",
+    };
+  }
+
+  const largest = desktopEntries[desktopEntries.length - 1];
+
+  return {
+    src: largest.url,
+    srcset: buildResponsiveSrcset(desktopEntries),
+    width: String(largest.width),
+    height: getImageHeight(image, "desktop") || defaults.height || "",
+    sizes: defaults.sizes || "",
+    loading: defaults.loading || "lazy",
+  };
+}
+
+function renderImg(image, imageClassName = "", defaults = {}) {
+  validateFixedImage(image, defaults.context || "image");
+  const config = resolveFixedImageConfig(image, defaults);
+  return `<img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${imageClassName ? ` class="${escapeHtml(imageClassName)}"` : ""} width="${escapeHtml(config.width)}" height="${escapeHtml(config.height)}" sizes="${escapeHtml(config.sizes)}" src="${escapeHtml(config.src)}" srcset="${escapeHtml(config.srcset)}">`;
+}
+
+function resolveButtonClassName(button = {}, defaultClassName = "ic-btn ic-btn-primary") {
+  if (button.className) {
+    return button.className;
+  }
+
+  const variantClassName = {
+    primary: "ic-btn ic-btn-primary",
+    outline: "ic-btn ic-btn-primary ic-btn-outline",
+    white: "ic-btn ic-btn-white",
+    gray: "ic-btn ic-btn-gray",
+  }[button.variant || ""];
+
+  return variantClassName || defaultClassName;
+}
+
 function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
   if (!buttons?.length) {
     return "";
@@ -166,7 +574,7 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
 
   const buttonMarkup = buttons
     .map((button) => {
-      const className = button.className || defaultClassName;
+      const className = resolveButtonClassName(button, defaultClassName);
       const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
       const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
       const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
@@ -175,6 +583,34 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
     .join("\n");
 
   return `                <p>\n${buttonMarkup}\n                </p>`;
+}
+
+function renderFooterButtonRow(buttons, defaultClassName = "ic-btn ic-btn-primary ic-btn-outline", columnClassName = "col") {
+  const buttonsMarkup = renderButtons(buttons, defaultClassName);
+
+  if (!buttonsMarkup) {
+    return "";
+  }
+
+  return `                <div class="row justify-content-center mt-3 pt-3">
+                    <div class="${escapeHtml(columnClassName)}">
+${indentBlock(buttonsMarkup, 24)}
+                    </div>
+                </div>`;
+}
+
+function renderFooterLinkRow(links, className = "ic-menu mt-3", columnClassName = "col") {
+  const linksMarkup = renderLinkList(links, className);
+
+  if (!linksMarkup) {
+    return "";
+  }
+
+  return `                <div class="row justify-content-center mt-3 pt-3">
+                    <div class="${escapeHtml(columnClassName)}">
+${indentBlock(linksMarkup, 24)}
+                    </div>
+                </div>`;
 }
 
 function renderLinkList(links = [], className = "ic-menu mt-3") {
@@ -202,19 +638,20 @@ function indentBlock(block, spaces) {
     .join("\n");
 }
 
-function renderPicture(image, imageClassName = "", defaultLoading = "lazy") {
+function renderPicture(image, imageClassName = "", defaultLoading = "lazy", preset = "textMedia", context = "image") {
   if (!image) {
     return "";
   }
 
-  const sourceMarkup = image.mobileSrcset
-    ? `\n                                <source media="(max-width: 768px)" width="${escapeHtml(image.width || "800")}" height="${escapeHtml(image.height || "450")}" sizes="${escapeHtml(image.sizes || "800px")}" srcset="${escapeHtml(image.mobileSrcset)}">`
+  validateResponsiveImage(image, context);
+  const config = resolveResponsiveImageConfig(image, preset, defaultLoading);
+  const sourceMarkup = config.mobileSrcset
+    ? `\n                                <source media="(max-width: 768px)" width="${escapeHtml(config.sourceWidth)}" height="${escapeHtml(config.sourceHeight)}" sizes="${escapeHtml(config.sizes)}" srcset="${escapeHtml(config.mobileSrcset)}">`
     : "";
   const classAttribute = imageClassName ? ` class="${escapeHtml(imageClassName)}"` : "";
-  const loading = image.loading || defaultLoading;
 
   return `<picture>${sourceMarkup}
-                                <img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(loading)}"${classAttribute} width="${escapeHtml(image.width || "")}" height="${escapeHtml(image.height || "")}" sizes="${escapeHtml(image.sizes || "")}" src="${escapeHtml(image.desktopSrc || "")}" srcset="${escapeHtml(image.desktopSrcset || image.desktopSrc || "")}">
+                                <img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${classAttribute} width="${escapeHtml(config.imgWidth)}" height="${escapeHtml(config.imgHeight)}" sizes="${escapeHtml(config.sizes)}" src="${escapeHtml(config.desktopSrc)}" srcset="${escapeHtml(config.desktopSrcset)}">
                             </picture>`;
 }
 
@@ -361,32 +798,60 @@ const iconSvgMap = {
 
 function resolveIconSvg(card) {
   if (card.iconSvg) {
-    return card.iconSvg;
+    return normalizeIconSvgMarkup(card.iconSvg);
   }
 
   if (card.iconKey && iconSvgMap[card.iconKey]) {
-    return iconSvgMap[card.iconKey];
+    return normalizeIconSvgMarkup(iconSvgMap[card.iconKey]);
   }
 
   throw new Error(`Missing iconSvg or valid iconKey for card "${card.title || "unknown"}"`);
 }
 
+function normalizeIconSvgMarkup(iconSvg) {
+  const svgMarkup = typeof iconSvg === "string" ? iconSvg.trim() : "";
+
+  if (!svgMarkup.startsWith("<svg")) {
+    throw new Error("Invalid iconSvg markup: missing <svg> root");
+  }
+
+  const openTagMatch = svgMarkup.match(/^<svg\b([^>]*)>/i);
+  const viewBoxMatch = openTagMatch?.[1]?.match(/\bviewBox="([^"]+)"/i);
+  const fillMatch = openTagMatch?.[1]?.match(/\bfill="([^"]+)"/i);
+  const innerMarkup = svgMarkup
+    .replace(/^<svg\b[^>]*>/i, "")
+    .replace(/<\/svg>\s*$/i, "")
+    .trim();
+
+  return `<svg class="ic-card-icon" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="${escapeHtml(viewBoxMatch?.[1] || "0 0 60 60")}" fill="${escapeHtml(fillMatch?.[1] || "none")}">
+    ${innerMarkup}
+  </svg>`;
+}
+
 function renderHeroSection(section) {
-  const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
+  const heroHeadline = getHeroHeadline(section);
+  const heroVariant = section.variant || section.heroStyle || "default";
+  const bodyMarkup = renderParagraphContent(section);
   const contentHtmlMarkup = normalizeHtmlBlocks(section.contentHtml)
     .map((block) => renderTrustedHtml(block))
     .join("\n\n");
-  const buttonsMarkup = renderButtons(section.buttons);
+  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary");
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary");
   const imageMarkup = renderPicture(
     section.image,
     section.imageClassName || section.image?.className || "ic-image-banner",
     "eager",
+    "banner",
+    `hero "${section.id}" image`,
   );
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
-  const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || section.title;
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || heroHeadline;
+  const backgroundClass = getBackgroundClassName(section);
   const sectionClassName = buildSectionClassName(
-    section.sectionClassName || `ic-section ic-section-hero${backgroundClass}`,
+    `ic-section ic-section-hero${backgroundClass}`,
+    heroVariant === "banner" ? "pt-0 pt-md-5" : "",
+    resolveSectionSpacingClassNames(section),
+    section.sectionClassName,
     section.__autoSectionClassName,
   );
   const containerClassName = section.containerClassName || "container";
@@ -395,9 +860,10 @@ function renderHeroSection(section) {
   const heroRowClassName = section.rowClassName || "row justify-content-center";
   const heroBoxClassName = section.boxClassName || "ic-box ic-box-mobile-collapse";
   const titleClassName = section.titleClassName || "ic-section-title";
+  const visibleTitleClassName = `${titleClassName} ic-h1`;
   const badgeMarkup = section.badgeImage
     ? `\n                    <div class="${escapeHtml(section.badgeColumnClass || "col col-auto order-first order-md-last mb-3 pb-3 mb-md-0 pb-md-0")}">
-                        <img alt="${escapeHtml(section.badgeImage.alt || "")}" class="${escapeHtml(section.badgeImage.className || "ic-image-logo")}" loading="${escapeHtml(section.badgeImage.loading || "lazy")}" width="${escapeHtml(section.badgeImage.width || "")}" height="${escapeHtml(section.badgeImage.height || "")}" sizes="${escapeHtml(section.badgeImage.sizes || "")}" src="${escapeHtml(section.badgeImage.desktopSrc || "")}" srcset="${escapeHtml(section.badgeImage.desktopSrcset || section.badgeImage.desktopSrc || "")}">
+                        ${renderImg(section.badgeImage, section.badgeImage.className || "ic-image-logo", { loading: section.badgeImage.loading || "lazy", context: `hero "${section.id}" badge image` })}
                     </div>`
     : "";
 
@@ -407,7 +873,7 @@ function renderHeroSection(section) {
 
                     <div class="${escapeHtml(heroContentClass)}">
                         <div class="${escapeHtml(heroBoxClassName)}">
-                            <h1 class="${escapeHtml(titleClassName)}">${renderText(section.title)}</h1>
+                            <p class="${escapeHtml(visibleTitleClassName)}">${renderText(heroHeadline)}</p>
                             ${section.label ? `<p class="ic-label">${renderText(section.label)}</p>` : ""}
                             ${section.sublabel ? `<p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>` : ""}
 ${bodyMarkup ? `${bodyMarkup}\n\n` : ""}${buttonsMarkup}
@@ -424,6 +890,7 @@ ${badgeMarkup}
 
                 </div>
             </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
@@ -450,24 +917,79 @@ ${linkMarkup}
         </section>`;
 }
 
+function resolveCardsSemanticLayout(section) {
+  const layout = section.layout;
+
+  if (!layout) {
+    return null;
+  }
+
+  const cardsPerRow = layout.cardsPerRow || {};
+  const introWidth = layout.introWidth || "default";
+  const contentWidth = layout.contentWidth || "default";
+  const cardStyle = layout.cardStyle || "default";
+
+  const introColumnClass = {
+    default: "col col-md-10 col-lg-8 col-xl-6 text-md-center",
+    wide: "col col-12 col-lg-10 col-xl-8 text-md-center",
+  }[introWidth] || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
+
+  const contentColumnClass = {
+    default: "col col-12 col-xl-9",
+    wide: "col col-12 col-lg-10 col-xl-9",
+    full: "col col-12",
+  }[contentWidth] || "col col-12 col-xl-9";
+
+  const mdColumns = cardsPerRow.md || 2;
+  const xlColumns = cardsPerRow.xl || 3;
+  const mdColumnClass = {
+    1: "col-md-12",
+    2: "col-md-6",
+    3: "col-md-4",
+    4: "col-md-3",
+  }[mdColumns] || "col-md-6";
+  const xlColumnClass = {
+    1: "col-xl-12",
+    2: "col-xl-6",
+    3: "col-xl-4",
+    4: "col-xl-3",
+  }[xlColumns] || "col-xl-4";
+
+  const cardBodyClassName = {
+    default: "ic-card-body ic-card-body-indented",
+    standard: "ic-card-body",
+  }[cardStyle] || "ic-card-body ic-card-body-indented";
+
+  return {
+    introColumnClass,
+    contentColumnClass,
+    cardColumnClass: joinNonEmptyClassNames("col col-12", mdColumnClass, xlColumnClass, "pt-3 mt-3"),
+    cardBodyClassName,
+  };
+}
+
 function renderCardsSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const introBodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
-  const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
-  const cardColumnClass = section.cardColumnClass || "col col-12 col-md-6 col-xl-4 pt-3 mt-3";
-  const introColumnClass = section.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
-  const contentColumnClass = section.contentColumnClass || "col col-12 col-xl-9";
+  const backgroundClass = getBackgroundClassName(section);
+  const introBodyMarkup = renderParagraphContent(section);
+  const headerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const semanticLayout = resolveCardsSemanticLayout(section);
+  const cardColumnClass = section.cardColumnClass || semanticLayout?.cardColumnClass || "col col-12 col-md-6 col-xl-4 pt-3 mt-3";
+  const introColumnClass = section.introColumnClass || semanticLayout?.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
+  const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-9";
   const cardClassName = section.cardClassName || "ic-card";
-  const cardBodyClassName = section.cardBodyClassName || "ic-card-body ic-card-body-indented";
+  const cardBodyClassName = section.cardBodyClassName || semanticLayout?.cardBodyClassName || "ic-card-body ic-card-body-indented";
   const imageClassName = section.imageClassName || "ic-card-image ic-image-rounded";
+  const cardListClassName = section.cardListClassName || "row justify-content-center list-unstyled mb-0";
   const cardMarkup = (section.cards || [])
     .map(
       (card) => {
-        const titleMarkup = card.title
-          ? `                                        <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""}${card.linkTitle ? ` title="${escapeHtml(card.linkTitle)}"` : ""}>${renderText(card.title)}</a>` : renderText(card.title)}</h3>\n`
+        const cardHeading = getCardHeading(card);
+        const titleMarkup = cardHeading
+          ? `                                        <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""}${card.linkTitle ? ` title="${escapeHtml(card.linkTitle)}"` : ""}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
           : "";
-        const bodyMarkup = card.body
-          ? `                                        <p class="${escapeHtml(card.bodyClassName || "ic-card-text")}">${renderText(card.body, { widowProtection: true })}</p>\n`
+        const bodyMarkup = hasParagraphContent(card)
+          ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
           : "";
         const listMarkup = card.listItems?.length
           ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
@@ -489,7 +1011,7 @@ ${card.listItems
           : "";
         const mediaMarkup = card.image
           ? `                                    <figure class="ic-card-media">
-                                        ${renderPicture(card.image, card.imageClassName || imageClassName)}
+                                        ${renderPicture(card.image, card.imageClassName || imageClassName, "lazy", "card", `card "${cardHeading || "unknown"}" image`)}
                                     </figure>`
           : card.iconHtml
             ? `                                    <figure class="ic-card-media">
@@ -497,14 +1019,14 @@ ${card.listItems
                                     </figure>`
             : "";
 
-        return `                            <div class="${escapeHtml(cardColumnClass)}">
+        return `                            <li class="${escapeHtml(cardColumnClass)}">
                                 <div class="${escapeHtml(card.className || cardClassName)}">
                                     <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
 ${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
                                     </div>
 ${mediaMarkup}
                                 </div>
-                            </div>`;
+                            </li>`;
       },
     )
     .join("\n\n");
@@ -513,44 +1035,40 @@ ${mediaMarkup}
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(introColumnClass)}">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
-${introBodyMarkup ? `\n${introBodyMarkup}` : ""}
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
                     </div>
                 </div>
 
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
-                        <div class="row justify-content-center">
+                        <ul class="${escapeHtml(cardListClassName)}">
 ${cardMarkup}
-                        </div>
+                        </ul>
                     </div>
                 </div>
-${buttonsMarkup ? `\n\n                <div class="row justify-content-center mt-3 pt-3">
-                    <div class="col">
-                        <p class="text-md-center">
-                            <a href="${escapeHtml(section.buttons[0].href)}" class="${escapeHtml(section.buttons[0].className || "ic-btn ic-btn-primary ic-btn-outline")}">${renderText(section.buttons[0].label)}</a>
-                        </p>
-                    </div>
-                </div>` : ""}
+${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
             </div>
         </section>`;
 }
 
 function renderTextSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
-  const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = renderParagraphContent(section);
+  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                     </div>
                 </div>
             </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
@@ -562,11 +1080,11 @@ function renderHtmlSection(section) {
 }
 
 function renderStatementListSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = renderParagraphContent(section);
   const statementsMarkup = (section.statements || [])
     .map(
-      (statement) => `                        <h3>${renderText(statement.title)}</h3>
+      (statement) => `                        <h3>${renderText(statement.heading || statement.title)}</h3>
 
                         <p>${renderText(statement.body, { widowProtection: true })}</p>`,
     )
@@ -576,7 +1094,7 @@ function renderStatementListSection(section) {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}\n` : ""}
 ${statementsMarkup}
                     </div>
@@ -586,51 +1104,132 @@ ${statementsMarkup}
 }
 
 function renderCtaSection(section) {
-  const bodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
-  const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
+  const bodyMarkup = renderParagraphContent(section);
+  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section ic-background-light", section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                     </div>
                 </div>
             </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
+function joinNonEmptyClassNames(...values) {
+  return values.filter(Boolean).join(" ");
+}
+
+function resolveTextMediaSemanticLayout(section) {
+  const layout = section.layout;
+
+  if (!layout) {
+    return null;
+  }
+
+  const desktopMediaPosition = layout.desktopMediaPosition || (section.reverse ? "left" : "right");
+  const mobileMediaOrder = layout.mobileMediaOrder || (desktopMediaPosition === "left" ? "above" : "below");
+  const desktopSplit = layout.desktopSplit || "equal";
+  const contentWidth = layout.contentWidth || "default";
+  const copyVerticalAlign = layout.copyVerticalAlign || "start";
+  const mobileCopySpacing = layout.mobileCopySpacing || (mobileMediaOrder === "above" ? "offset" : "none");
+  const mobileMediaSpacing = layout.mobileMediaSpacing || (mobileMediaOrder === "below" ? "tight" : "none");
+
+  const contentColumnClass = {
+    default: "col col-12 col-xl-10",
+    wide: "col col-12 col-lg-10 col-xl-9",
+    full: "col col-12",
+  }[contentWidth] || "col col-12 col-xl-10";
+
+  const textDesktopSplitClass = {
+    equal: "col-md-6",
+    "text-5-media-7": "col-md-6 col-xl-5",
+    "text-7-media-5": "col-md-6 col-xl-7",
+  }[desktopSplit] || "col-md-6";
+
+  const mediaDesktopSplitClass = {
+    equal: "col-md-6",
+    "text-5-media-7": "col-md-6 col-xl-7",
+    "text-7-media-5": "col-md-6 col-xl-5",
+  }[desktopSplit] || "col-md-6";
+
+  let textOrderClass = "";
+  let mediaOrderClass = "";
+
+  if (desktopMediaPosition === "right" && mobileMediaOrder === "above") {
+    textOrderClass = "order-last order-md-first";
+    mediaOrderClass = "order-first order-md-last";
+  } else if (desktopMediaPosition === "left" && mobileMediaOrder === "below") {
+    textOrderClass = "order-first order-md-last";
+    mediaOrderClass = "order-last order-md-first";
+  }
+
+  const textMobileSpacingClass = mobileCopySpacing === "offset" ? "mt-2 pt-1 mt-md-0 pt-md-0" : "";
+  const mediaMobileSpacingClass = {
+    none: "",
+    tight: "mt-3 mt-md-0",
+    section: "mt-3 pt-3 mt-md-0 pt-md-0",
+  }[mobileMediaSpacing] || "";
+
+  const textDesktopPaddingClass = desktopMediaPosition === "right" ? "pr-lg-5" : "";
+  const mediaDesktopPaddingClass = desktopMediaPosition === "left" ? "pr-lg-5" : "";
+  const textVerticalAlignClass = copyVerticalAlign === "center" ? "align-self-center" : "";
+
+  return {
+    textColumnClasses: joinNonEmptyClassNames(
+      "col col-12",
+      textDesktopSplitClass,
+      textOrderClass,
+      textMobileSpacingClass,
+      textDesktopPaddingClass,
+      textVerticalAlignClass,
+    ),
+    mediaColumnClasses: joinNonEmptyClassNames(
+      "col col-12",
+      mediaDesktopSplitClass,
+      mediaOrderClass,
+      mediaMobileSpacingClass,
+      mediaDesktopPaddingClass,
+    ),
+    contentColumnClass,
+  };
+}
+
 function renderTextMediaSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(
-    renderContentParagraphs(section.body || [], section.bodyHtml || []),
-    12,
-  );
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 12);
   const buttonsMarkup = indentBlock(
-    renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline"),
+    renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline"),
     12,
   );
-  const linkListMarkup = section.links ? `${renderLinkList(section.links)}\n` : "";
-  const textColumnClasses = section.textColumnClass || (section.reverse
+  const linkListMarkup = renderLinkList(getSectionLinksByLocation(section, "header")) ? `${renderLinkList(getSectionLinksByLocation(section, "header"))}\n` : "";
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerLinksMarkup = renderFooterLinkRow(getSectionLinksByLocation(section, "footer"));
+  const semanticLayout = resolveTextMediaSemanticLayout(section);
+  const textColumnClasses = section.textColumnClass || semanticLayout?.textColumnClasses || (section.reverse
     ? "col col-12 col-md-6 mt-3 mt-md-0 pl-lg-5"
     : "col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5");
-  const mediaColumnClasses = section.mediaColumnClass || (section.reverse
+  const mediaColumnClasses = section.mediaColumnClass || semanticLayout?.mediaColumnClasses || (section.reverse
     ? "col col-12 col-md-6 pr-lg-5"
     : "col col-12 col-md-6 mt-3 pt-1 mt-md-0 pt-md-0");
-  const contentColumnClass = section.contentColumnClass || "col col-12 col-xl-10";
+  const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-10";
   const rowClassName = section.rowClassName || "row justify-content-between align-items-center";
   const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
-                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(section.title)}</h2>
+                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
 ${section.label ? `                                <p class="ic-label">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
-    : renderPicture(section.image, section.imageClassName || "ic-section-image ic-image-rounded");
+    : renderPicture(section.image, section.imageClassName || "ic-section-image ic-image-rounded", "lazy", "textMedia", `section "${section.id}" image`);
   const linkedPictureMarkup = section.mediaHtml
     ? `                                ${pictureMarkup}`
     : section.imageLink
-      ? `                                <a href="${escapeHtml(section.imageLink.href)}" title="${escapeHtml(section.imageLink.title || section.title)}">
+      ? `                                <a href="${escapeHtml(section.imageLink.href)}" title="${escapeHtml(section.imageLink.title || getSectionHeading(section))}">
 ${indentBlock(pictureMarkup, 36)}
                                 </a>`
       : `                                ${pictureMarkup}`;
@@ -643,29 +1242,20 @@ ${linkedPictureMarkup}
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
                         <div class="${escapeHtml(rowClassName)}">
-${section.reverse ? `${mediaColumn}\n\n${textColumn}` : `${textColumn}\n\n${mediaColumn}`}
+${(section.layout?.desktopMediaPosition || (section.reverse ? "left" : "right")) === "left" ? `${mediaColumn}\n\n${textColumn}` : `${textColumn}\n\n${mediaColumn}`}
                         </div>
                     </div>
                 </div>
             </div>
+${footerLinksMarkup ? `\n${footerLinksMarkup}` : ""}${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
 function renderQuoteGridSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
-  const buttonsMarkup = renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline");
-  const footerButtonsMarkup = section.footerButtons?.length
-    ? `                <div class="row justify-content-center mt-3 pt-3">
-                    <div class="col">
-                        <p class="text-md-center">
-${section.footerButtons
-  .map((button) => `                            <a href="${escapeHtml(button.href)}" class="${escapeHtml(button.className || "ic-btn ic-btn-primary ic-btn-outline")}"${button.title ? ` title="${escapeHtml(button.title)}"` : ""}${button.target ? ` target="${escapeHtml(button.target)}"` : ""}${button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : ""}>${renderText(button.label)}</a>`)
-  .join("\n")}
-                        </p>
-                    </div>
-                </div>`
-    : "";
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
+  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const useCarousel = section.carousel !== false;
   const slideClassName = useCarousel
     ? "swiper-slide col col-12 col-md-6 col-xl-3 pt-3 mt-1 mt-md-3"
@@ -673,20 +1263,20 @@ ${section.footerButtons
   const quoteMarkup = (section.quotes || [])
     .map(
       (quote) => `                            <div class="${slideClassName}">
-                                <blockquote class="ic-card ic-background-white">
-                                    <div class="ic-card-body">
+                                <figure class="ic-card ic-background-white">
+                                    <blockquote class="ic-card-body">
                                         <p class="ic-card-text">${renderText(quote.quote, { widowProtection: true })}</p>
-                                        <div class="ic-card-cite ic-cite">
-                                            <img alt="${escapeHtml(quote.image?.alt || quote.name)}" loading="lazy" class="ic-cite-photo" width="${escapeHtml(quote.image?.width || "70")}" height="${escapeHtml(quote.image?.height || "70")}" sizes="${escapeHtml(quote.image?.sizes || "80px")}" src="${escapeHtml(quote.image?.desktopSrc || "")}" srcset="${escapeHtml(quote.image?.desktopSrcset || quote.image?.desktopSrc || "")}">
-                                            <p>
-                                                <cite>
-                                                    <strong>${renderText(quote.name)}</strong><br>
-                                                    ${renderText(quote.title, { widowProtection: true })}
-                                                </cite>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </blockquote>
+                                    </blockquote>
+                                    <figcaption class="ic-card-cite ic-cite">
+                                        ${renderImg(quote.image || { alt: quote.name }, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${quote.name}" image` })}
+                                        <p>
+                                            <cite>
+                                                <strong>${renderText(quote.name)}</strong><br>
+                                                ${renderText(quote.title, { widowProtection: true })}
+                                            </cite>
+                                        </p>
+                                    </figcaption>
+                                </figure>
                             </div>`,
     )
     .join("\n\n");
@@ -705,8 +1295,8 @@ ${quoteMarkup}
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
-${bodyMarkup ? `\n${bodyMarkup}` : ""}
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                     </div>
                 </div>
 
@@ -715,17 +1305,13 @@ ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${quotesWrapperMarkup}
                     </div>
                 </div>
-${buttonsMarkup ? `\n\n                <div class="row justify-content-center mt-3 pt-3">
-                    <div class="col">
-${indentBlock(buttonsMarkup, 24)}
-                    </div>
-                </div>` : ""}${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
+${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
             </div>
         </section>`;
 }
 
 function renderQuoteSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const backgroundClass = getBackgroundClassName(section);
   const quoteClass = section.compact ? "ic-quote-text mb-3 pb-1" : "ic-quote-text";
   const quoteBody = (section.quoteHtml || [])
     .map((paragraph) => {
@@ -739,22 +1325,22 @@ function renderQuoteSection(section) {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
-                        <h2 class="ic-section-title text-md-center">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title text-md-center">${renderText(getSectionHeading(section))}</h2>
 
-                        <blockquote>
-                            <div class="${quoteClass}">
+                        <figure>
+                            <blockquote class="${quoteClass}">
 ${quoteBody}
-                            </div>
-                            <div class="ic-cite">
-                                <img alt="${escapeHtml(section.cite.image.alt)}" class="ic-cite-photo" loading="lazy" width="${escapeHtml(section.cite.image.width)}" height="${escapeHtml(section.cite.image.height)}" sizes="${escapeHtml(section.cite.image.sizes)}" src="${escapeHtml(section.cite.image.desktopSrc)}" srcset="${escapeHtml(section.cite.image.desktopSrcset)}">
+                            </blockquote>
+                            <figcaption class="ic-cite">
+                                ${renderImg(section.cite.image, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${section.id}" cite image` })}
                                 <p>
                                     <cite>
                                         <strong>${renderText(section.cite.name)}</strong><br>
                                         ${renderText(section.cite.title, { widowProtection: true })}
                                     </cite>
                                 </p>
-                            </div>
-                        </blockquote>
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -765,17 +1351,17 @@ ${quoteBody}
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3 mb-md-2 pb-md-0">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
-                        <h2 class="ic-section-title text-center">${renderText(section.title)}</h2>
-${section.body || section.bodyHtml ? `\n${indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8)}\n` : ""}
-                        <blockquote class="ic-card ic-card-lg ic-background-white">
-                            <div class="ic-card-body">
+                        <h2 class="ic-section-title text-center">${renderText(getSectionHeading(section))}</h2>
+${hasParagraphContent(section) ? `\n${indentBlock(renderParagraphContent(section), 8)}\n` : ""}
+                        <figure class="ic-card ic-card-lg ic-background-white">
+                            <blockquote class="ic-card-body">
                                 <div class="${quoteClass}">
 ${quoteBody}
                                 </div>
-                            </div>
-                            <div class="ic-card-media">
+                            </blockquote>
+                            <figcaption class="ic-card-media">
                                 <div class="ic-card-cite ic-cite">
-                                    <img alt="${escapeHtml(section.cite.image.alt)}" loading="lazy" class="ic-cite-photo" width="${escapeHtml(section.cite.image.width)}" height="${escapeHtml(section.cite.image.height)}" sizes="${escapeHtml(section.cite.image.sizes)}" src="${escapeHtml(section.cite.image.desktopSrc)}" srcset="${escapeHtml(section.cite.image.desktopSrcset)}">
+                                    ${renderImg(section.cite.image, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${section.id}" cite image` })}
                                     <p>
                                         <cite>
                                             <strong>${renderText(section.cite.name)}</strong><br>
@@ -783,8 +1369,8 @@ ${quoteBody}
                                         </cite>
                                     </p>
                                 </div>
-                            </div>
-                        </blockquote>
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -792,22 +1378,22 @@ ${quoteBody}
 }
 
 function renderProfileGridSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const profileMarkup = (section.profiles || [])
     .map(
       (profile) => `                            <li class="col-6 col-md-4 col-lg-3 col-xxl-5up mt-3 pt-3">
-                                <div class="ic-card ic-card-column">
+                                <article class="ic-card ic-card-column">
                                     <figure class="ic-card-media">
-                                        <div class="ic-card-profile ic-profile ic-profile-stacked">
-                                            <img alt="${escapeHtml(profile.image?.alt || profile.name)}" class="ic-profile-photo" loading="lazy" width="${escapeHtml(profile.image?.width || "100")}" height="${escapeHtml(profile.image?.height || "100")}" sizes="${escapeHtml(profile.image?.sizes || "100px")}" src="${escapeHtml(profile.image?.desktopSrc || "")}" srcset="${escapeHtml(profile.image?.desktopSrcset || profile.image?.desktopSrc || "")}">
+                                        <figcaption class="ic-card-profile ic-profile ic-profile-stacked">
+                                            ${renderImg(profile.image || { alt: profile.name }, "ic-profile-photo", { width: "100", height: "100", sizes: "100px", loading: "lazy", context: `profile "${profile.name}" image` })}
                                             <p>
                                                 <strong>${renderText(profile.name)}</strong><br>
                                                 ${renderText(profile.title, { widowProtection: true })}
                                             </p>
-                                        </div>
+                                        </figcaption>
                                     </figure>
-                                </div>
+                                </article>
                             </li>`,
     )
     .join("\n\n");
@@ -816,7 +1402,7 @@ function renderProfileGridSection(section) {
             <div class="container">
                 <div class="row justify-content-center mb-2">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
                     </div>
                 </div>
@@ -833,24 +1419,24 @@ ${profileMarkup}
 }
 
 function renderMediaFeatureListSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const featureMarkup = (section.cards || [])
     .map(
       (card) => `                            <div class="col col-12 mt-3 pt-3 mt-md-4">
                                 <div class="ic-card">
                                     <div class="row">
                                         <div class="col col-12 col-md order-last mt-2 pt-1 mt-md-0 pt-md-0">
-                                            <h3 class="mb-2">${renderText(card.title)}</h3>
+                                            <h3 class="mb-2">${renderText(getCardHeading(card))}</h3>
 
                                             <p class="mb-1"><strong>${renderText(card.lead, { widowProtection: true })}</strong></p>
 
-                                            <p>${renderText(card.body, { widowProtection: true })}</p>
+${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card), 44)}\n` : ""}
                                         </div>
 
                                         <div class="col col-12 col-md order-first pr-lg-3">
                                             <figure class="ic-card-media">
-                                                ${renderPicture(card.image, "ic-card-image ic-image-rounded")}
+                                                ${renderPicture(card.image, "ic-card-image ic-image-rounded", "lazy", "card", `feature "${getCardHeading(card) || "unknown"}" image`)}
                                             </figure>
                                         </div>
                                     </div>
@@ -863,7 +1449,7 @@ function renderMediaFeatureListSection(section) {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
                     </div>
                 </div>
@@ -880,26 +1466,28 @@ ${featureMarkup}
 }
 
 function renderIconCardGridSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const footerBodyMarkup = indentBlock(
     renderContentParagraphs(section.footerBody || [], section.footerBodyHtml || []),
     8,
   );
-  const footerButtonsMarkup = renderButtons(section.footerButtons, "ic-btn ic-btn-primary ic-btn-outline");
+  const headerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const footerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const cardListClassName = section.cardListClassName || "row row_compact justify-content-center list-unstyled mb-0";
   const cardMarkup = (section.cards || [])
     .map(
-      (card) => `                    <div class="${escapeHtml(section.cardColumnClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
+      (card) => `                    <li class="${escapeHtml(section.cardColumnClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
                         <div class="ic-card ic-card-horizontal-mobile ic-background-white">
                             <div class="ic-card-body">
-${card.title ? `                                <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""} title="${escapeHtml(card.linkTitle || card.title)}">${renderText(card.title)}</a>` : renderText(card.title)}</h3>\n` : ""}
-                                <p class="ic-card-text">${renderText(card.body, { widowProtection: true })}</p>
+${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""} title="${escapeHtml(card.linkTitle || getCardHeading(card))}">${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
+${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card, "ic-card-text"), 32)}\n` : ""}
                             </div>
                             <figure class="ic-card-media">
 ${indentBlock(resolveIconSvg(card).trim(), 32)}
                             </figure>
                         </div>
-                    </div>`,
+                    </li>`,
     )
     .join("\n\n");
 
@@ -907,17 +1495,17 @@ ${indentBlock(resolveIconSvg(card).trim(), 32)}
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
-${bodyMarkup ? `\n${bodyMarkup}` : ""}
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
                     </div>
                 </div>
 
-                <div class="row row_compact justify-content-center">
+                <ul class="${escapeHtml(cardListClassName)}">
 ${cardMarkup}
-                </div>
+                </ul>
 ${section.footerTitle || footerBodyMarkup || footerButtonsMarkup ? `\n\n                <div class="row justify-content-center pt-4 mt-3 pt-md-5 mt-md-2">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
-${section.footerTitle ? `                        <h3>${renderText(section.footerTitle)}</h3>\n` : ""}${footerBodyMarkup ? `${footerBodyMarkup}\n` : ""}                    </div>
+${section.footerHeading || section.footerTitle ? `                        <h3>${renderText(section.footerHeading || section.footerTitle)}</h3>\n` : ""}${footerBodyMarkup ? `${footerBodyMarkup}\n` : ""}                    </div>
                 </div>
 ${footerButtonsMarkup ? `\n                <div class="row justify-content-center mt-3 pt-3">
                     <div class="col col-auto">
@@ -929,12 +1517,12 @@ ${indentBlock(footerButtonsMarkup, 24)}
 }
 
 function renderLogoGridSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const logoMarkup = (section.logos || [])
     .map(
       (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || "col-auto mt-3 pt-3 px-md-4")}">
-                                ${logo.href ? `<a href="${escapeHtml(logo.href)}" class="stretched-link"${logo.title ? ` title="${escapeHtml(logo.title)}"` : ""}>` : ""}<img alt="${escapeHtml(logo.alt)}" class="${escapeHtml(logo.className || "ic-logo")}" height="${escapeHtml(logo.height)}" loading="lazy" src="${escapeHtml(logo.src)}" width="${escapeHtml(logo.width)}">${logo.href ? "</a>" : ""}
+                                ${logo.href ? `<a href="${escapeHtml(logo.href)}" class="stretched-link"${logo.title ? ` title="${escapeHtml(logo.title)}"` : ""}>` : ""}${renderImg(logo, logo.className || "ic-logo", { loading: "lazy", context: `logo "${logo.alt || "unknown"}"` })}${logo.href ? "</a>" : ""}
                             </li>`,
     )
     .join("\n\n");
@@ -943,7 +1531,7 @@ function renderLogoGridSection(section) {
             <div class="container">
                 <div class="row justify-content-center mb-2">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
-                        <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
                     </div>
                 </div>
@@ -960,11 +1548,12 @@ ${logoMarkup}
 }
 
 function renderStickyCardsSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const introButtonsMarkup = section.buttons?.length
-    ? `                                ${renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline").trim()}`
+  const backgroundClass = getBackgroundClassName(section);
+  const introButtonsMarkup = getSectionButtonsByLocation(section, "header").length
+    ? `                                ${renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline").trim()}`
     : "";
-  const introBodyMarkup = renderContentParagraphs(section.body || [], section.bodyHtml || []);
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const introBodyMarkup = renderParagraphContent(section);
   const listMarkup = (section.cards || [])
     .map((card) => {
       const listMarkupInner = (card.listItems || [])
@@ -979,10 +1568,12 @@ function renderStickyCardsSection(section) {
         .map((block) => `                                        ${renderTrustedHtml(block)}`)
         .join("\n");
 
+      const cardBodyMarkup = renderParagraphContent(card);
+
       return `                                <div class="ic-card ic-background-white">
                                     <div class="ic-card-body">
-                                        <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${renderText(card.title)}</h3>
-${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${card.body ? `                                        <p>${renderText(card.body, { widowProtection: true })}</p>\n` : ""}${card.bodyHtml ? `                                        <p>${renderTrustedHtml(card.bodyHtml)}</p>\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
+                                        <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${renderText(getCardHeading(card))}</h3>
+${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${cardBodyMarkup ? `${indentBlock(cardBodyMarkup, 40)}\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
 ${listMarkupInner}
                                         </ul>
 ` : ""}${linkListMarkupInner ? `                                        <ul class="${escapeHtml(card.linkListClassName || "ic-card-list ic-card-list-courses")}">
@@ -1001,7 +1592,7 @@ ${linkListMarkupInner}
                         <div class="row justify-content-center">
                             <div class="col col-12 col-md-6 col-xl-5 mb-4 pr-md-4">
                                 <div class="ic-sticky">
-                                    <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                                    <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${introBodyMarkup ? `${indentBlock(introBodyMarkup, 36)}\n` : ""}${introButtonsMarkup ? `${introButtonsMarkup}\n` : ""}                                </div>
                             </div>
 
@@ -1012,16 +1603,17 @@ ${listMarkup}
                     </div>
                 </div>
             </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
 function renderLegalSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
+  const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = (section.paragraphs || [])
     .map((paragraph) => `                        <p><small>${renderTrustedHtml(paragraph)}</small></p>`)
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.className, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3 mb-md-2 pb-md-0">
                     <div class="col col-md-10 col-lg-8 col-xl-6">
@@ -1033,10 +1625,10 @@ ${bodyMarkup}
 }
 
 function renderAccordionItemBody(item) {
-  const paragraphs = (item.body || [])
+  const paragraphs = getParagraphs(item)
     .map((paragraph) => `                                                <p>${renderText(paragraph, { widowProtection: true })}</p>`)
     .join("\n");
-  const htmlParagraphs = (item.bodyHtml || [])
+  const htmlParagraphs = getHtmlParagraphs(item)
     .map((paragraph) => `                                                <p>${renderTrustedHtml(paragraph)}</p>`)
     .join("\n");
   const listIntro = item.listIntro
@@ -1057,8 +1649,8 @@ ${item.listItems
 }
 
 function renderAccordionSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const introBodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 32);
+  const backgroundClass = getBackgroundClassName(section);
+  const introBodyMarkup = indentBlock(renderParagraphContent(section), 32);
   const accordionId = escapeHtml(section.accordionId || `${section.id}Accordion`);
   const itemsMarkup = (section.items || [])
     .map((item, index) => {
@@ -1069,7 +1661,7 @@ function renderAccordionSection(section) {
       return `                                <div class="ic-card ic-background-white accordion-item mb-2">
                                     <h3 class="ic-card-title accordion-header" id="${escapeHtml(headingId)}">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${escapeHtml(collapseId)}" aria-expanded="false" aria-controls="${escapeHtml(collapseId)}">
-                                            ${renderText(item.title)}
+                                            ${renderText(getAccordionItemHeading(item))}
                                         </button>
                                     </h3>
                                     <div id="${escapeHtml(collapseId)}" class="accordion-collapse collapse" aria-labelledby="${escapeHtml(headingId)}"${section.accordionId ? ` data-bs-parent="#${accordionId}"` : ""}>
@@ -1088,7 +1680,7 @@ ${renderAccordionItemBody(item)}
                         <div class="row justify-content-center">
 
                             <div class="${escapeHtml(section.introColumnClass || "col col-12 col-md-6 col-xl")}">
-                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title ic-sticky")}">${renderText(section.title)}</h2>
+                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title ic-sticky")}">${renderText(getSectionHeading(section))}</h2>
 ${introBodyMarkup ? `${introBodyMarkup}\n` : ""}                            </div>
 
                             <div class="${escapeHtml(section.accordionColumnClass || "col col-12 col-md-6 col-xl-auto pt-2 pt-md-0 pl-md-4")}">
@@ -1105,15 +1697,15 @@ ${itemsMarkup}
 }
 
 function renderEmbedSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const bodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 8);
+  const backgroundClass = getBackgroundClassName(section);
+  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
 
                 <div class="row justify-content-center${section.introRowClassName ? ` ${escapeHtml(section.introRowClassName)}` : " mb-3 pb-3"}">
                     <div class="${escapeHtml(section.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center")}">
-${section.title ? `                        <h2 class="ic-section-title">${renderText(section.title)}</h2>\n` : ""}${bodyMarkup ? `\n${bodyMarkup}` : ""}
+${getSectionHeading(section) ? `                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>\n` : ""}${bodyMarkup ? `\n${bodyMarkup}` : ""}
                     </div>
                 </div>
 
@@ -1128,18 +1720,19 @@ ${indentBlock(renderTrustedHtml(section.embedHtml || ""), 24)}
 }
 
 function renderMediaSliderSection(section) {
-  const backgroundClass = section.backgroundLight ? " ic-background-light" : "";
-  const introBodyMarkup = indentBlock(renderContentParagraphs(section.body || [], section.bodyHtml || []), 32);
+  const backgroundClass = getBackgroundClassName(section);
+  const introBodyMarkup = indentBlock(renderParagraphContent(section), 32);
   const slidesMarkup = (section.slides || [])
     .map(
       (slide, index) => `                                        <div class="${escapeHtml(section.slideClassName || "swiper-slide col col-12")}">
-                                            ${slide.link?.href ? `<a href="${escapeHtml(slide.link.href)}"${slide.link.title ? ` title="${escapeHtml(slide.link.title)}"` : ""}>` : ""}<img alt="${escapeHtml(slide.image.alt || "")}" loading="${escapeHtml(slide.image.loading || (index === 0 ? "eager" : "lazy"))}" class="${escapeHtml(slide.image.className || "ic-image-rounded")}" width="${escapeHtml(slide.image.width || "")}" height="${escapeHtml(slide.image.height || "")}" sizes="${escapeHtml(slide.image.sizes || "")}" src="${escapeHtml(slide.image.desktopSrc || "")}" srcset="${escapeHtml(slide.image.desktopSrcset || slide.image.desktopSrc || "")}">${slide.link?.href ? "</a>" : ""}
+                                            ${slide.link?.href ? `<a href="${escapeHtml(slide.link.href)}"${slide.link.title ? ` title="${escapeHtml(slide.link.title)}"` : ""}>` : ""}${renderPicture(slide.image, slide.image.className || "ic-image-rounded", index === 0 ? "eager" : "lazy", "textMedia", `slide ${index + 1} image`)}${slide.link?.href ? "</a>" : ""}
                                         </div>`,
     )
     .join("\n\n");
-  const buttonsMarkup = section.buttons?.length
-    ? `\n                                ${renderButtons(section.buttons, "ic-btn ic-btn-primary ic-btn-outline").trim()}`
+  const buttonsMarkup = getSectionButtonsByLocation(section, "header").length
+    ? `\n                                ${renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline").trim()}`
     : "";
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
@@ -1148,12 +1741,12 @@ function renderMediaSliderSection(section) {
                         <div class="row justify-content-between align-items-center">
 
                             <div class="${escapeHtml(section.introColumnClass || "col col-11 col-md-5 col-lg-4 mb-3 mb-md-0")}">
-                                <h2 class="ic-section-title">${renderText(section.title)}</h2>
+                                <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${introBodyMarkup ? `${introBodyMarkup}\n` : ""}${buttonsMarkup}
                             </div>
 
                             <div class="${escapeHtml(section.sliderColumnClass || "col col-12 col-md-7 col-lg-8 mt-3 mt-md-0")}">
-                                <div class="${escapeHtml(section.sliderClassName || "swiper ic-swiper js-ic-swiper")}" aria-label="${escapeHtml(section.ariaLabel || `${section.title} slider`)}">
+                                <div class="${escapeHtml(section.sliderClassName || "swiper ic-swiper js-ic-swiper")}" aria-label="${escapeHtml(section.ariaLabel || `${getSectionHeading(section)} slider`)}">
                                     <div class="${escapeHtml(section.wrapperClassName || "swiper-wrapper row flex-nowrap")}">
 ${slidesMarkup}
                                     </div>
@@ -1166,6 +1759,7 @@ ${slidesMarkup}
                     </div>
                 </div>
             </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
 }
 
@@ -1314,8 +1908,34 @@ function loadHtmlFragmentFile(baseDir, filePath) {
   return extractMainInnerHtml(readFileSync(resolvedPath, "utf8"), resolvedPath);
 }
 
+function loadRawTextFile(baseDir, filePath) {
+  const resolvedPath = resolve(baseDir, filePath);
+
+  if (!existsSync(resolvedPath)) {
+    throw new Error(`Missing raw text file "${filePath}"`);
+  }
+
+  return readFileSync(resolvedPath, "utf8");
+}
+
 function normalizePageSections(page, sourceDirectory) {
   const normalizedSections = (page.sections || []).map((section) => {
+    if (section?.type === "iconCardGrid" && Array.isArray(section.cards)) {
+      return {
+        ...section,
+        cards: section.cards.map((card) => {
+          if (!card?.iconSvgFile) {
+            return card;
+          }
+
+          return {
+            ...card,
+            iconSvg: loadRawTextFile(sourceDirectory, card.iconSvgFile),
+          };
+        }),
+      };
+    }
+
     if (section?.type !== "html" || !section.sourceHtmlFile) {
       return section;
     }
@@ -1334,7 +1954,7 @@ function normalizePageSections(page, sourceDirectory) {
   return normalizedSections.map((section, index) => {
     const nextSection = normalizedSections[index + 1];
 
-    if (!section?.backgroundLight || !nextSection?.backgroundLight) {
+    if (getBackgroundColor(section) !== "light" || getBackgroundColor(nextSection) !== "light") {
       return section;
     }
 
@@ -1370,7 +1990,7 @@ function normalizePageCms(page, sourceDirectory) {
 }
 
 function parseAuthoringFile(sourceFile) {
-  const page = JSON.parse(readFileSync(sourceFile, "utf8"));
+  const page = parseStructuredAuthoringFile(sourceFile);
 
   if (!page || typeof page !== "object") {
     throw new Error(`Expected an object in ${sourceFile}`);
@@ -1392,7 +2012,7 @@ function parseAuthoringFile(sourceFile) {
 function toContentHtmlRelativePath(sourceFile, page) {
   const sourceRelativePath = relative(contentSourceDir, sourceFile).replace(/\\/g, "/");
   const sourceDirectory = dirname(sourceRelativePath).replace(/\\/g, "/");
-  const fallbackName = sourceRelativePath.split("/").pop().replace(/\.json$/i, "");
+  const fallbackName = stripAuthoringFileExtension(sourceRelativePath.split("/").pop());
   const outputBaseName = page.slug || fallbackName;
   return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
 }
@@ -1472,17 +2092,16 @@ async function buildPages() {
 }
 
 export function createContentSnapshot() {
-  const pageSnapshot = existsSync(contentSourceDir)
-    ? collectRenderableContentFiles()
-    .map((file) => {
-      const stats = statSync(file);
-      return `${file}:${stats.mtimeMs}:${stats.size}`;
-    })
-    .join("|")
-    : "";
+  const contentFiles = existsSync(contentSourceDir)
+    ? [...collectRenderableContentFiles(), ...collectFiles(contentSourceDir, ".html")]
+    : [];
+  const pageSnapshot = contentFiles.length > 0 ? createFileSnapshot(contentFiles) : "";
   const templateSnapshot = createTemplateSnapshot();
+  const scriptFiles = existsSync("scripts") ? collectFiles("scripts", ".mjs") : [];
+  const scriptSnapshot = scriptFiles.length > 0 ? createFileSnapshot(scriptFiles) : "";
+  const packageSnapshot = existsSync("package.json") ? createFileSnapshot(["package.json"]) : "";
 
-  return [pageSnapshot, templateSnapshot].filter(Boolean).join("|");
+  return [pageSnapshot, templateSnapshot, scriptSnapshot, packageSnapshot].filter(Boolean).join("|");
 }
 
 async function build(reason = "manual") {
@@ -1495,7 +2114,11 @@ async function build(reason = "manual") {
   buildRunning = true;
 
   try {
-    await buildPages();
+    if (watchMode) {
+      await runFreshBuildProcess();
+    } else {
+      await buildPages();
+    }
 
     if (watchMode) {
       console.log(`[pages] Build complete (${reason})`);
@@ -1532,7 +2155,7 @@ if (isDirectRun) {
   await build();
 
   if (watchMode) {
-    console.log("[pages] Watching content/pages/**/*.json");
+  console.log("[pages] Watching content/pages/**/*.{json,yaml,yml,html}, scripts/**/*.mjs, and package.json");
     previousSnapshot = createContentSnapshot();
 
     setInterval(() => {

@@ -45,9 +45,9 @@ section.ic-section[id] {
     overflow: hidden;
 }
 
-.ic-section .col:has(h1, h2),
-.ic-section .col:has(h1, h2) .ic-box,
-.ic-section .col:has(h1, h2) .ic-section-box-copy {
+.ic-section .col:has(h1, h2, .ic-section-title.ic-h1),
+.ic-section .col:has(h1, h2, .ic-section-title.ic-h1) .ic-box,
+.ic-section .col:has(h1, h2, .ic-section-title.ic-h1) .ic-section-box-copy {
     @include content-column;
 }
 
@@ -55,8 +55,8 @@ section.ic-section[id] {
     z-index: 2;
 }
 
-.ic-section:has(h1, h2) .ic-section-title,
-.ic-section:has(h1, h2) .ic-section-title+p:not(.ic-section-label, .section-label) {
+.ic-section:has(h1, h2, .ic-section-title.ic-h1) .ic-section-title,
+.ic-section:has(h1, h2, .ic-section-title.ic-h1) .ic-section-title+p:not(.ic-section-label, .section-label) {
     width: 100%;
 }
 
@@ -69,14 +69,14 @@ section.ic-section[id] {
         padding-top: calc(var(--section-padding-lg) + var(--section-margin-lg));
     }
 
-    .ic-section-hero.ic-background-light .col:has(h1, h2) {
+    .ic-section-hero.ic-background-light .col:has(h1, h2, .ic-section-title.ic-h1) {
         padding-top: var(--section-padding);
         padding-bottom: var(--section-padding);
     }
 }
 
 .ic-section:has(.ic-image-banner, .ic-video-banner) .ic-box,
-.ic-section:has(.ic-image-banner, .ic-video-banner) .col:has(h1, h2) {
+.ic-section:has(.ic-image-banner, .ic-video-banner) .col:has(h1, h2, .ic-section-title.ic-h1) {
     position: relative;
     z-index: 1;
 }
@@ -128,12 +128,12 @@ section.ic-section[id] {
         padding: var(--hero-padding) 0;
     }
 
-    .ic-section:has(.ic-image-cutout) .col:has(> h1, > h2) {
+    .ic-section:has(.ic-image-cutout) .col:has(> h1, > h2, > .ic-section-title.ic-h1) {
         // padding-bottom: var(--section-padding);
     }
 
-    .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(> h1, > h2),
-    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2) {
+    .ic-section.ic-background-light+.ic-section:has(.ic-image-cutout) .col:has(> h1, > h2, > .ic-section-title.ic-h1),
+    .ic-section:has(.ic-image-banner, .ic-video-banner)+.ic-section:has(.ic-image-cutout) .col:has(h1, h2, .ic-section-title.ic-h1) {
         // margin-bottom: var(--section-margin) !important;
     }
 

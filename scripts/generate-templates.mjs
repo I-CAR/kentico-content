@@ -8,6 +8,14 @@ import {
 import { createHash } from "node:crypto";
 import { basename, dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  authoringFileExtensions,
+  assertUniqueAuthoringBasenames,
+  authoringSourcesMatch,
+  parseStructuredAuthoringFile,
+  serializeStructuredAuthoringFile,
+  stripAuthoringFileExtension,
+} from "./authoring-format.mjs";
 
 import {
   createTemplateSection,
@@ -50,7 +58,7 @@ function toSlug(sourceFile, template) {
     return template.slug.trim();
   }
 
-  return basename(sourceFile, ".json");
+  return stripAuthoringFileExtension(basename(sourceFile));
 }
 
 function titleFromSlug(slug) {
@@ -70,7 +78,7 @@ function sectionTitleFromId(id) {
 }
 
 function parseTemplateFile(sourceFile) {
-  const template = JSON.parse(readFileSync(sourceFile, "utf8"));
+  const template = parseStructuredAuthoringFile(sourceFile);
 
   if (!template || typeof template !== "object" || Array.isArray(template)) {
     throw new Error(`Expected an object in ${sourceFile}`);
@@ -300,7 +308,7 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null) {
 function syncGeneratedPage(sourceFile, page) {
   const relativeFile = relative(templateSourceDir, sourceFile);
   const outputFile = join(outputSourceDir, relativeFile);
-  const nextContents = `${JSON.stringify(page, null, 2)}\n`;
+  const nextContents = `${serializeStructuredAuthoringFile(outputFile, page)}\n`;
 
   if (!existsSync(outputFile)) {
     mkdirSync(dirname(outputFile), { recursive: true });
@@ -343,7 +351,7 @@ export function createTemplateSnapshot() {
   const roots = [templateSourceDir, outputSourceDir];
 
   return roots
-    .flatMap((root) => collectFiles(root, ".json"))
+    .flatMap((root) => authoringFileExtensions.flatMap((extension) => collectFiles(root, extension)))
     .map((file) => {
       const contents = readFileSync(file, "utf8");
       return `${file}:${contents.length}:${stableSerialize(contents)}`;
@@ -352,7 +360,10 @@ export function createTemplateSnapshot() {
 }
 
 export function syncTemplates() {
-  const templateFiles = collectFiles(templateSourceDir, ".json");
+  const templateFiles = assertUniqueAuthoringBasenames(
+    authoringFileExtensions.flatMap((extension) => collectFiles(templateSourceDir, extension)),
+    "template files",
+  );
 
   if (templateFiles.length === 0) {
     console.log("[templates] No template files found under content/templates");
@@ -369,11 +380,11 @@ export function syncTemplates() {
       const template = parseTemplateFile(sourceFile);
       const outputFile = join(outputSourceDir, relative(templateSourceDir, sourceFile));
       const existingPage = existsSync(outputFile)
-        ? JSON.parse(readFileSync(outputFile, "utf8"))
+        ? parseStructuredAuthoringFile(outputFile)
         : null;
       const templateSource = relative(templateSourceDir, sourceFile);
 
-      if (existingPage && existingPage.__template?.source !== templateSource) {
+      if (existingPage && !authoringSourcesMatch(existingPage.__template?.source, templateSource)) {
         unchangedCount += 1;
         console.log(`[templates] Skipped custom ${outputFile}`);
         continue;

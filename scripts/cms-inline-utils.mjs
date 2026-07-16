@@ -10,6 +10,7 @@ import {
 import { dirname, join, relative } from "node:path";
 import * as esbuild from "esbuild";
 import postcss from "postcss";
+import { parseStructuredAuthoringFile, stripAuthoringFileExtension } from "./authoring-format.mjs";
 import { collectRenderableContentFiles, collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesSwiper } from "./page-dependencies.mjs";
 
@@ -367,7 +368,7 @@ function toCompanionScriptSourcePath(sourceFile) {
 function toContentHtmlRelativePath(sourceFile, page) {
   const sourceRelativePath = relative(contentSourceDir, sourceFile).replace(/\\/g, "/");
   const sourceDirectory = dirname(sourceRelativePath).replace(/\\/g, "/");
-  const fallbackName = sourceRelativePath.split("/").pop().replace(/\.json$/i, "");
+  const fallbackName = stripAuthoringFileExtension(sourceRelativePath.split("/").pop());
   const outputBaseName = page.slug || fallbackName;
   return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
 }
@@ -380,7 +381,7 @@ function loadCmsScriptSplitPaths() {
   const splitPaths = new Set();
 
   for (const sourceFile of collectRenderableContentFiles()) {
-    const page = JSON.parse(readFileSync(sourceFile, "utf8"));
+    const page = parseStructuredAuthoringFile(sourceFile);
 
     if (page?.cms?.scriptOutput === "separateHtmlFile") {
       splitPaths.add(toContentHtmlRelativePath(sourceFile, page));

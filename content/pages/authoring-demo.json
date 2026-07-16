@@ -5,10 +5,10 @@
     {
       "id": "hero",
       "type": "hero",
-      "title": "Hero",
+      "heading": "Hero",
       "label": "Section label",
       "sublabel": "Section sublabel goes here.",
-      "body": [
+      "paragraphs": [
         "Add approved introductory copy for this hero section.",
         "Use this space for a second paragraph if the design calls for one."
       ],
@@ -20,13 +20,22 @@
       ],
       "image": {
         "alt": "Hero image",
-        "desktopSrc": "https://placehold.co/1600x580",
-        "desktopSrcset": "https://placehold.co/1600x580 1600w",
-        "mobileSrcset": "https://placehold.co/400x300 400w",
-        "width": "1600",
-        "height": "580",
-        "sizes": "(max-width: 1024px) 800px, 1600px",
-        "loading": "eager"
+        "urls": {
+          "desktop": {
+            "800w": "https://placehold.co/800x580",
+            "1600w": "https://placehold.co/1600x580",
+            "3200w": "https://placehold.co/3200x580"
+          },
+          "mobile": {
+            "400w": "https://placehold.co/400x300",
+            "800w": "https://placehold.co/800x300",
+            "1600w": "https://placehold.co/1600x300"
+          }
+        },
+        "height": {
+          "desktop": "580",
+          "mobile": "300"
+        }
       },
       "__template": {
         "id": "hero",
@@ -74,48 +83,84 @@
     {
       "id": "benefits",
       "type": "cards",
-      "title": "Benefits",
-      "body": [
+      "heading": "Benefits",
+      "paragraphs": [
         "Add a short introduction for this card group."
       ],
       "cards": [
         {
-          "title": "Card One",
-          "body": "Add supporting card copy here.",
+          "heading": "Card One",
+          "paragraphs": [
+            "Add supporting card copy here."
+          ],
           "image": {
             "alt": "Card one image",
-            "desktopSrc": "https://placehold.co/400x220",
-            "desktopSrcset": "https://placehold.co/400x220 400w",
-            "mobileSrcset": "https://placehold.co/400x200 400w",
-            "width": "400",
-            "height": "220",
-            "sizes": "800px"
+            "urls": {
+              "desktop": {
+                "400w": "https://placehold.co/400x220",
+                "800w": "https://placehold.co/800x220",
+                "1600w": "https://placehold.co/1600x220"
+              },
+              "mobile": {
+                "400w": "https://placehold.co/400x200",
+                "800w": "https://placehold.co/800x200",
+                "1600w": "https://placehold.co/1600x200"
+              }
+            },
+            "height": {
+              "desktop": "220",
+              "mobile": "200"
+            }
           }
         },
         {
-          "title": "Card Two",
-          "body": "Add supporting card copy here.",
+          "heading": "Card Two",
+          "paragraphs": [
+            "Add supporting card copy here."
+          ],
           "image": {
             "alt": "Card two image",
-            "desktopSrc": "https://placehold.co/400x220",
-            "desktopSrcset": "https://placehold.co/400x220 400w",
-            "mobileSrcset": "https://placehold.co/400x200 400w",
-            "width": "400",
-            "height": "220",
-            "sizes": "800px"
+            "urls": {
+              "desktop": {
+                "400w": "https://placehold.co/400x220",
+                "800w": "https://placehold.co/800x220",
+                "1600w": "https://placehold.co/1600x220"
+              },
+              "mobile": {
+                "400w": "https://placehold.co/400x200",
+                "800w": "https://placehold.co/800x200",
+                "1600w": "https://placehold.co/1600x200"
+              }
+            },
+            "height": {
+              "desktop": "220",
+              "mobile": "200"
+            }
           }
         },
         {
-          "title": "Card Three",
-          "body": "Add supporting card copy here.",
+          "heading": "Card Three",
+          "paragraphs": [
+            "Add supporting card copy here."
+          ],
           "image": {
             "alt": "Card three image",
-            "desktopSrc": "https://placehold.co/400x220",
-            "desktopSrcset": "https://placehold.co/400x220 400w",
-            "mobileSrcset": "https://placehold.co/400x200 400w",
-            "width": "400",
-            "height": "220",
-            "sizes": "800px"
+            "urls": {
+              "desktop": {
+                "400w": "https://placehold.co/400x220",
+                "800w": "https://placehold.co/800x220",
+                "1600w": "https://placehold.co/1600x220"
+              },
+              "mobile": {
+                "400w": "https://placehold.co/400x200",
+                "800w": "https://placehold.co/800x200",
+                "1600w": "https://placehold.co/1600x200"
+              }
+            },
+            "height": {
+              "desktop": "220",
+              "mobile": "200"
+            }
           }
         }
       ],
@@ -129,8 +174,8 @@
     {
       "id": "workflow",
       "type": "text",
-      "title": "Workflow",
-      "body": [
+      "heading": "Workflow",
+      "paragraphs": [
         "Add body copy for this section."
       ],
       "__template": {
@@ -143,25 +188,35 @@
     {
       "id": "patterns",
       "type": "textMedia",
-      "title": "Patterns",
-      "body": [
+      "heading": "Patterns",
+      "paragraphs": [
         "Add body copy that pairs with the supporting image."
       ],
       "buttons": [
         {
           "label": "Learn More",
           "href": "#next-step",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
+          "variant": "outline"
         }
       ],
       "image": {
         "alt": "Patterns image",
-        "desktopSrc": "https://placehold.co/800x550",
-        "desktopSrcset": "https://placehold.co/800x550 800w",
-        "mobileSrcset": "https://placehold.co/400x450 400w",
-        "width": "800",
-        "height": "550",
-        "sizes": "800px"
+        "urls": {
+          "desktop": {
+            "400w": "https://placehold.co/400x550",
+            "800w": "https://placehold.co/800x550",
+            "1600w": "https://placehold.co/1600x550"
+          },
+          "mobile": {
+            "400w": "https://placehold.co/400x450",
+            "800w": "https://placehold.co/800x450",
+            "1600w": "https://placehold.co/1600x450"
+          }
+        },
+        "height": {
+          "desktop": "550",
+          "mobile": "450"
+        }
       },
       "__template": {
         "id": "patterns",
@@ -173,8 +228,8 @@
     {
       "id": "team-quotes",
       "type": "quoteGrid",
-      "title": "Team Quotes",
-      "body": [
+      "heading": "Team Quotes",
+      "paragraphs": [
         "Add a short introduction for this quote collection."
       ],
       "quotes": [
@@ -241,8 +296,8 @@
     {
       "id": "owners",
       "type": "profileGrid",
-      "title": "Owners",
-      "body": [
+      "heading": "Owners",
+      "paragraphs": [
         "Add a short introduction for this profile grid."
       ],
       "profiles": [
@@ -251,11 +306,15 @@
           "title": "Person Title",
           "image": {
             "alt": "Person 1",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
+            "urls": {
+              "desktop": {
+                "100w": "https://placehold.co/100x100",
+                "200w": "https://placehold.co/200x200"
+              }
+            },
+            "height": {
+              "desktop": "100"
+            }
           }
         },
         {
@@ -263,11 +322,15 @@
           "title": "Person Title",
           "image": {
             "alt": "Person 2",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
+            "urls": {
+              "desktop": {
+                "100w": "https://placehold.co/100x100",
+                "200w": "https://placehold.co/200x200"
+              }
+            },
+            "height": {
+              "desktop": "100"
+            }
           }
         },
         {
@@ -275,11 +338,15 @@
           "title": "Person Title",
           "image": {
             "alt": "Person 3",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
+            "urls": {
+              "desktop": {
+                "100w": "https://placehold.co/100x100",
+                "200w": "https://placehold.co/200x200"
+              }
+            },
+            "height": {
+              "desktop": "100"
+            }
           }
         },
         {
@@ -287,11 +354,15 @@
           "title": "Person Title",
           "image": {
             "alt": "Person 4",
-            "desktopSrc": "https://placehold.co/100x100",
-            "desktopSrcset": "https://placehold.co/100x100 100w, https://placehold.co/200x200 200w",
-            "width": "100",
-            "height": "100",
-            "sizes": "100px"
+            "urls": {
+              "desktop": {
+                "100w": "https://placehold.co/100x100",
+                "200w": "https://placehold.co/200x200"
+              }
+            },
+            "height": {
+              "desktop": "100"
+            }
           }
         }
       ],
@@ -305,15 +376,15 @@
     {
       "id": "next-step",
       "type": "cta",
-      "title": "Next Step",
-      "body": [
+      "heading": "Next Step",
+      "paragraphs": [
         "Add closing copy that supports the final call to action."
       ],
       "buttons": [
         {
           "label": "Primary Action",
           "href": "#hero",
-          "className": "ic-btn ic-btn-primary ic-btn-outline"
+          "variant": "outline"
         }
       ],
       "__template": {
@@ -325,7 +396,7 @@
     }
   ],
   "__template": {
-    "source": "authoring-demo.json",
-    "signature": "888fefc65f1f6945f35db1fc76298daf6006c5af"
+    "source": "content/templates/authoring-demo.json",
+    "signature": "90baf5abfd51d065eecda85f526433d328f8c9a5"
   }
 }
