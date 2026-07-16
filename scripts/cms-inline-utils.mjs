@@ -63,8 +63,9 @@ const tagAttributePriority = {
   script: ["src", "type", "async", "defer"],
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
-const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--space-8)}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
+const cmsShellCss = `.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto;padding-left:.75rem;padding-right:.75rem}#main,#main>article{padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--space-8)}.content.no-right-rail h1:only-child{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(10rem / 16)}@media screen and (min-width:1520px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:calc(1520rem / 16)!important}}`;
 const cmsFormShellCss = `.ic-section+.row.row--with-cols-padding,.section+.row.row--with-cols-padding{margin-top:var(--section-margin);background:var(--lightest)!important;padding:var(--section-padding) 0}.ic-section.ic-background-white+.row.row--with-cols-padding,.section.ic-background-white+.row.row--with-cols-padding,.section.bg-white+.row.row--with-cols-padding{background:var(--lightest)!important}.ic-section.ic-background-light+.row.row--with-cols-padding,.section.ic-background-light+.row.row--with-cols-padding,.section.bg-light+.row.row--with-cols-padding{margin-top:0;background:none!important}.ic-section+.row.row--with-cols-padding:last-child,.section+.row.row--with-cols-padding:last-child{padding-bottom:clamp(5rem,1.721rem + 9.697vw,7.5rem)}.ic-section+.row.row--with-cols-padding form,.section+.row.row--with-cols-padding form,.row--with-cols-padding form{max-width:100%}.row--with-cols-padding:has(form,.formwidget-submit-text){margin:0}.row--with-cols-padding:has(.formwidget-submit-text) .subhead,.row--with-cols-padding:has(.formwidget-submit-text) .disclaimer{display:none!important}`;
+const cmsHeadBootstrapSource = `(function(){var bootstrapScript=document.currentScript;var deferredScriptType='text/plain';var run=function(){if(!document.head||!document.body){bootstrapScript&&bootstrapScript.remove();return}var headNodes=Array.from(document.body.querySelectorAll('link,style'));var scriptNodes=Array.from(document.body.querySelectorAll('script[type="'+deferredScriptType+'"]'));var sameLink=function(node){var href=node.getAttribute('href')||'';var rel=node.getAttribute('rel')||'';var media=node.getAttribute('media')||'';var as=node.getAttribute('as')||'';if(!href)return false;return Array.from(document.head.querySelectorAll('link[href]')).some(function(existing){return existing!==node&&(existing.getAttribute('href')||'')===href&&(existing.getAttribute('rel')||'')===rel&&(existing.getAttribute('media')||'')===media&&(existing.getAttribute('as')||'')===as;});};var sameStyle=function(node){var css=(node.textContent||'').trim();if(!css)return false;return Array.from(document.head.querySelectorAll('style')).some(function(existing){return existing!==node&&(existing.textContent||'').trim()===css;});};headNodes.forEach(function(node){var duplicate=node.tagName.toLowerCase()==='link'?sameLink(node):sameStyle(node);if(duplicate){node.remove();return}document.head.appendChild(node)});scriptNodes.forEach(function(node){var script=document.createElement('script');Array.from(node.attributes).forEach(function(attribute){if(attribute.name==='type')return;script.setAttribute(attribute.name,attribute.value)});if(node.textContent)script.textContent=node.textContent;node.remove();document.body.appendChild(script)});bootstrapScript&&bootstrapScript.remove()};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run,{once:true})}else{run()}})();`;
 const cmsFormShellClasses = [
   "breadcrumb",
   "c-nav--main",
@@ -995,6 +996,16 @@ function renderCmsLinkTags(source) {
     .join("\n");
 }
 
+async function renderCmsHeadBootstrapScript() {
+  const minifiedJs = await minifyJs(cmsHeadBootstrapSource);
+  return minifiedJs ? `<script>\n${minifiedJs}\n</script>` : "";
+}
+
+function toInactiveCmsScriptTag(tagSource) {
+  const markedTag = tagSource.replace(/^<script(?=[\s>])/i, '<script type="text/plain"');
+  return markedTag.replace(/\stype="[^"]*"/i, ' type="text/plain"');
+}
+
 function removeScriptTags(source) {
   return source.replace(/<script\b[\s\S]*?<\/script>\s*/gi, "");
 }
@@ -1082,13 +1093,14 @@ export async function renderCmsHtmlParts(
     assetBaseFile,
   });
   const linkTags = renderCmsLinkTags(source);
+  const headBootstrapScript = linkTags || styleTag ? await renderCmsHeadBootstrapScript() : "";
   const scriptBlocks = extractCmsScriptBlocks(sourceFile, source, assetBaseFile);
   const bundleScriptPaths = getCmsBundleScriptPaths(source);
   const scriptParts = [];
 
   for (const block of scriptBlocks) {
     if (block.type === "external") {
-      scriptParts.push(block.tag);
+      scriptParts.push(toInactiveCmsScriptTag(block.tag));
       continue;
     }
 
@@ -1098,7 +1110,7 @@ export async function renderCmsHtmlParts(
       continue;
     }
 
-    scriptParts.push(`<script>\n${minifiedJs}\n</script>`);
+    scriptParts.push(`<script type="text/plain">\n${minifiedJs}\n</script>`);
   }
 
   for (const bundleScriptPath of bundleScriptPaths) {
@@ -1112,7 +1124,7 @@ export async function renderCmsHtmlParts(
       continue;
     }
 
-    scriptParts.push(`<script>\n${minifiedJs}\n</script>`);
+    scriptParts.push(`<script type="text/plain">\n${minifiedJs}\n</script>`);
   }
 
   const inlineScripts = scriptParts.join("\n\n").trim();
@@ -1127,6 +1139,10 @@ export async function renderCmsHtmlParts(
       htmlParts.push(inlineScripts);
     } else if (!splitScripts && !fragment.name && inlineScripts) {
       htmlParts.push(inlineScripts);
+    }
+
+    if (!fragment.name && headBootstrapScript) {
+      htmlParts.push(headBootstrapScript);
     }
 
     return {
@@ -1227,7 +1243,8 @@ function rebuildTag(tagSource) {
     .join(" ");
 
   const attributeSuffix = sortedAttributes ? ` ${sortedAttributes}` : "";
-  return `<${tagName}${attributeSuffix}${selfClosing ? " />" : ">"}`;
+  const isVoidElement = htmlVoidElements.has(tagName.toLowerCase());
+  return `<${tagName}${attributeSuffix}${selfClosing && !isVoidElement ? " />" : ">"}`;
 }
 
 function rebuildExternalScriptTag(tagSource) {
