@@ -127,7 +127,7 @@ The build process renders `content/pages/**/*.json` into CMS-ready HTML under `c
 
 In general:
 
-- CMS output is emitted as a paste-ready fragment in this order: inline `<style>`, external `<link>` tags, page section HTML, then `<script>`
+- CMS output is emitted as a paste-ready fragment in this order: external `<link>` tags, inline `<style>`, page section HTML, then `<script>`
 - comments are stripped out
 - attributes are normalized/sorted
 - page-level `.css` and `.js` files are not emitted under `cms/`
