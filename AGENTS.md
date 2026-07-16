@@ -149,7 +149,8 @@ Apply these rules only when:
 - `cms/` output should mirror the `html/` tree directly.
 - Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
 - Prefer CMS output that a content author can copy and paste directly from a single HTML file.
-- For template-managed pages under `content/pages/`, keep the JSON file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
+- For template-managed pages under `content/pages/`, keep the page data file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
+- When migrating a page from custom HTML authoring to template-managed JSON or YAML, delete any now-unused sibling `*.main.html` file in the same change so orphaned page sources do not linger.
 - When a page is meant to stay template-managed, preserve or restore the page-level `__template.source` metadata so `npm run pages` does not treat it as skipped custom content.
 - If a page is intentionally custom and should no longer follow its template, make that an explicit decision rather than an accidental side effect of removing template metadata or editing generated artifacts directly.
 - Preferred CMS fragment order is:

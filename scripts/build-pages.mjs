@@ -206,14 +206,18 @@ function resolveSectionSpacingClassNames(section) {
 
   return joinClassNames(
     spacing.marginTop === "none" ? "mt-0" : "",
+    spacing.paddingTop === "none" ? "pt-0" : "",
+    spacing.paddingTop === "none-mobile" ? "pt-0 pt-md-5" : "",
+    spacing.paddingTop === "none-lg" ? "pt-lg-0" : "",
     spacing.paddingTop === "sm" ? "ic-section-padding-top-sm" : "",
+    spacing.paddingBottom === "none" ? "pb-0" : "",
     spacing.paddingBottom === "sm" ? "ic-section-padding-bottom-sm" : "",
     spacing.paddingBottom === "lg" ? "ic-section-padding-bottom-lg" : "",
   );
 }
 
 function escapeHtml(value) {
-  return value
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -334,6 +338,27 @@ function buildResponsiveSrcset(entries = []) {
     .filter((entry) => typeof entry?.url === "string" && entry.url.length > 0 && entry.width)
     .map((entry) => `${entry.url} ${entry.width}w`)
     .join(", ");
+}
+
+function getFixedImageEntries(image = {}, device = "desktop") {
+  const nestedEntries = Object.entries(image.urls?.[device] || {})
+    .map(([key, url]) => {
+      const match = key.match(/^(\d+)w$/);
+      return match && typeof url === "string" && url.length > 0
+        ? { width: Number.parseInt(match[1], 10), url }
+        : null;
+    })
+    .filter(Boolean);
+  const legacyEntries = [70, 100, 140, 175, 200, 350, 400, 800, 1600, 3200]
+    .map((width) => {
+      const url = getImageUrl(image, device, width);
+      return url ? { width, url } : null;
+    })
+    .filter(Boolean);
+
+  return [...nestedEntries, ...legacyEntries]
+    .filter((entry, index, entries) => entries.findIndex((candidate) => candidate.width === entry.width) === index)
+    .sort((left, right) => left.width - right.width);
 }
 
 function getImageUrl(image = {}, device, width) {
@@ -515,13 +540,7 @@ function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultL
 }
 
 function resolveFixedImageConfig(image = {}, defaults = {}) {
-  const desktopEntries = [70, 100, 140, 200, 400, 800, 1600, 3200]
-    .map((width) => {
-      const url = getImageUrl(image, "desktop", width);
-      return url ? { width, url } : null;
-    })
-    .filter(Boolean)
-    .sort((left, right) => left.width - right.width);
+  const desktopEntries = getFixedImageEntries(image, "desktop");
 
   if (!desktopEntries.length) {
     return {
@@ -539,9 +558,9 @@ function resolveFixedImageConfig(image = {}, defaults = {}) {
   return {
     src: largest.url,
     srcset: buildResponsiveSrcset(desktopEntries),
-    width: String(largest.width),
+    width: String(image.width || defaults.width || largest.width),
     height: getImageHeight(image, "desktop") || defaults.height || "",
-    sizes: defaults.sizes || "",
+    sizes: image.sizes || defaults.sizes || "",
     loading: defaults.loading || "lazy",
   };
 }
@@ -831,6 +850,16 @@ function normalizeIconSvgMarkup(iconSvg) {
 function renderHeroSection(section) {
   const heroHeadline = getHeroHeadline(section);
   const heroVariant = section.variant || section.heroStyle || "default";
+  const semanticLayout = heroVariant === "split"
+    ? {
+      contentClassName: "col col-12 col-md-6 col-xl-5 order-last order-md-first",
+      mediaClassName: "col col-12 col-md-6 col-xl-7 pl-lg-5 mb-3 pb-1 mb-md-0 pb-md-0 order-first order-md-last",
+      rowClassName: "row justify-content-center",
+      imageClassName: "ic-image-banner",
+      imagePreset: "textMedia",
+      autoSectionClassName: "pt-0",
+    }
+    : null;
   const bodyMarkup = renderParagraphContent(section);
   const contentHtmlMarkup = normalizeHtmlBlocks(section.contentHtml)
     .map((block) => renderTrustedHtml(block))
@@ -839,9 +868,9 @@ function renderHeroSection(section) {
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary");
   const imageMarkup = renderPicture(
     section.image,
-    section.imageClassName || section.image?.className || "ic-image-banner",
+    section.imageClassName || section.image?.className || semanticLayout?.imageClassName || "ic-image-banner",
     "eager",
-    "banner",
+    semanticLayout?.imagePreset || "banner",
     `hero "${section.id}" image`,
   );
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
@@ -850,14 +879,15 @@ function renderHeroSection(section) {
   const sectionClassName = buildSectionClassName(
     `ic-section ic-section-hero${backgroundClass}`,
     heroVariant === "banner" ? "pt-0 pt-md-5" : "",
+    semanticLayout?.autoSectionClassName,
     resolveSectionSpacingClassNames(section),
     section.sectionClassName,
     section.__autoSectionClassName,
   );
   const containerClassName = section.containerClassName || "container";
-  const heroContentClass = section.contentClassName || "col order-last order-md-first mt-2 pt-1 mt-md-0 pt-md-0";
-  const heroMediaClass = section.mediaClassName || "col col-12 col-md col-lg-7 order-first order-md-last";
-  const heroRowClassName = section.rowClassName || "row justify-content-center";
+  const heroContentClass = section.contentClassName || semanticLayout?.contentClassName || "col order-last order-md-first mt-2 pt-1 mt-md-0 pt-md-0";
+  const heroMediaClass = section.mediaClassName || semanticLayout?.mediaClassName || "col col-12 col-md col-lg-7 order-first order-md-last";
+  const heroRowClassName = section.rowClassName || semanticLayout?.rowClassName || "row justify-content-center";
   const heroBoxClassName = section.boxClassName || "ic-box ic-box-mobile-collapse";
   const titleClassName = section.titleClassName || "ic-section-title";
   const visibleTitleClassName = `${titleClassName} ic-h1`;
@@ -928,6 +958,7 @@ function resolveCardsSemanticLayout(section) {
   const introWidth = layout.introWidth || "default";
   const contentWidth = layout.contentWidth || "default";
   const cardStyle = layout.cardStyle || "default";
+  const imageStyle = layout.imageStyle || "rounded";
 
   const introColumnClass = {
     default: "col col-md-10 col-lg-8 col-xl-6 text-md-center",
@@ -936,6 +967,7 @@ function resolveCardsSemanticLayout(section) {
 
   const contentColumnClass = {
     default: "col col-12 col-xl-9",
+    ten: "col col-12 col-xl-10",
     wide: "col col-12 col-lg-10 col-xl-9",
     full: "col col-12",
   }[contentWidth] || "col col-12 col-xl-9";
@@ -955,16 +987,31 @@ function resolveCardsSemanticLayout(section) {
     4: "col-xl-3",
   }[xlColumns] || "col-xl-4";
 
-  const cardBodyClassName = {
-    default: "ic-card-body ic-card-body-indented",
-    standard: "ic-card-body",
-  }[cardStyle] || "ic-card-body ic-card-body-indented";
+  const cardPresentation = {
+    default: {
+      cardClassName: "ic-card",
+      cardBodyClassName: "ic-card-body ic-card-body-indented",
+    },
+    standard: {
+      cardClassName: "ic-card",
+      cardBodyClassName: "ic-card-body",
+    },
+    panel: {
+      cardClassName: "ic-card ic-background-white",
+      cardBodyClassName: "ic-card-body",
+    },
+  }[cardStyle] || {
+    cardClassName: "ic-card",
+    cardBodyClassName: "ic-card-body ic-card-body-indented",
+  };
 
   return {
     introColumnClass,
     contentColumnClass,
     cardColumnClass: joinNonEmptyClassNames("col col-12", mdColumnClass, xlColumnClass, "pt-3 mt-3"),
-    cardBodyClassName,
+    cardClassName: cardPresentation.cardClassName,
+    cardBodyClassName: cardPresentation.cardBodyClassName,
+    imageClassName: imageStyle === "standard" ? "ic-card-image" : "ic-card-image ic-image-rounded",
   };
 }
 
@@ -977,9 +1024,9 @@ function renderCardsSection(section) {
   const cardColumnClass = section.cardColumnClass || semanticLayout?.cardColumnClass || "col col-12 col-md-6 col-xl-4 pt-3 mt-3";
   const introColumnClass = section.introColumnClass || semanticLayout?.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
   const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-9";
-  const cardClassName = section.cardClassName || "ic-card";
+  const cardClassName = section.cardClassName || semanticLayout?.cardClassName || "ic-card";
   const cardBodyClassName = section.cardBodyClassName || semanticLayout?.cardBodyClassName || "ic-card-body ic-card-body-indented";
-  const imageClassName = section.imageClassName || "ic-card-image ic-image-rounded";
+  const imageClassName = section.imageClassName || semanticLayout?.imageClassName || "ic-card-image ic-image-rounded";
   const cardListClassName = section.cardListClassName || "row justify-content-center list-unstyled mb-0";
   const cardMarkup = (section.cards || [])
     .map(
@@ -1140,6 +1187,8 @@ function resolveTextMediaSemanticLayout(section) {
   const copyVerticalAlign = layout.copyVerticalAlign || "start";
   const mobileCopySpacing = layout.mobileCopySpacing || (mobileMediaOrder === "above" ? "offset" : "none");
   const mobileMediaSpacing = layout.mobileMediaSpacing || (mobileMediaOrder === "below" ? "tight" : "none");
+  const rowVerticalAlign = layout.rowVerticalAlign || "center";
+  const imageStyle = layout.imageStyle || "rounded";
 
   const contentColumnClass = {
     default: "col col-12 col-xl-10",
@@ -1198,6 +1247,11 @@ function resolveTextMediaSemanticLayout(section) {
       mediaDesktopPaddingClass,
     ),
     contentColumnClass,
+    rowClassName: joinNonEmptyClassNames(
+      "row justify-content-between",
+      rowVerticalAlign === "end" ? "align-items-end" : "align-items-center",
+    ),
+    imageClassName: imageStyle === "cutout" ? "ic-image-cutout" : "ic-section-image ic-image-rounded",
   };
 }
 
@@ -1219,13 +1273,13 @@ function renderTextMediaSection(section) {
     ? "col col-12 col-md-6 pr-lg-5"
     : "col col-12 col-md-6 mt-3 pt-1 mt-md-0 pt-md-0");
   const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-10";
-  const rowClassName = section.rowClassName || "row justify-content-between align-items-center";
+  const rowClassName = section.rowClassName || semanticLayout?.rowClassName || "row justify-content-between align-items-center";
   const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
                                 <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
 ${section.label ? `                                <p class="ic-label">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
-    : renderPicture(section.image, section.imageClassName || "ic-section-image ic-image-rounded", "lazy", "textMedia", `section "${section.id}" image`);
+    : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || "ic-section-image ic-image-rounded", "lazy", "textMedia", `section "${section.id}" image`);
   const linkedPictureMarkup = section.mediaHtml
     ? `                                ${pictureMarkup}`
     : section.imageLink
@@ -1445,7 +1499,7 @@ ${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card), 44)}\
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.className, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">

@@ -107,6 +107,26 @@ const sectionTemplateRegistry = {
         mobileHeight: 300,
       }),
     }),
+    split: (id) => ({
+      id,
+      type: "hero",
+      heading: titleFromId(id),
+      variant: "split",
+      paragraphs: [
+        "Add approved introductory copy for this hero section.",
+        "Use this space for a second paragraph if the design calls for one.",
+      ],
+      image: placeholderImage({
+        alt: `${titleFromId(id)} image`,
+        desktopWidth: 1600,
+        desktopHeight: 550,
+        mobileWidth: 400,
+        mobileHeight: 550,
+      }),
+      spacing: {
+        paddingTop: "none",
+      },
+    }),
   },
   pageNav: {
     default: (id) => ({

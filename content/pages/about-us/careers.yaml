@@ -33,8 +33,8 @@ sections:
           800w: /getmedia/6fe1ad97-3b52-48c1-8520-a760741ca706/Hero_800w-M.webp
           1600w: /getmedia/ac2fba90-7d24-4764-ac3f-361760cef205/Hero_1600w-M.webp
       height:
-        desktop: "580"
-        mobile: "450"
+        desktop: 580
+        mobile: 450
     __template:
       id: hero
       type: hero
@@ -81,7 +81,7 @@ sections:
               400w: /getmedia/32f13fb6-f9a9-4c55-8b3e-75a0f01393b8/Work-That-Works-For-You_400w-M.webp
               800w: /getmedia/ed6a4f19-1946-4519-831b-ce7b3ff5d0e1/Work-That-Works-For-You_800w-M.webp
               1600w: /getmedia/ea4bf8cf-a203-449e-a82a-2a26b2e97919/Work-That-Works-For-You_1600w-M.webp
-          height: "260"
+          height: 260
       - heading: Drive Meaningful Impact
         paragraphs:
           - >-
@@ -98,7 +98,7 @@ sections:
               400w: /getmedia/2b1aa7da-0d34-4b09-a686-ff1442b24af1/Drive-Meaningful-Impact_400w-M.webp
               800w: /getmedia/734b75da-c4fc-4524-a1c2-2d8e2ca76bae/Drive-Meaningful-Impact_800w-M.webp
               1600w: /getmedia/df05eb3f-a937-4397-8314-3144d589b55e/Drive-Meaningful-Impact_1600w-M.webp
-          height: "260"
+          height: 260
       - heading: A Place Where You Belong
         paragraphs:
           - >-
@@ -116,7 +116,7 @@ sections:
               400w: /getmedia/84a5132b-336c-4002-9eee-8e725db661cb/Place-Where-You-Belong_400w-M.webp
               800w: /getmedia/6d8fbd45-9ca7-4177-8dad-d49cd6c3fbe6/Place-Where-You-Belong_800w-M.webp
               1600w: /getmedia/2fab83f2-03f3-4af1-9a62-08da0503a24a/Place-Where-You-Belong_1600w-M.webp
-          height: "260"
+          height: 260
     buttons:
       location: footer
       items:
@@ -156,7 +156,7 @@ sections:
               400w: /getmedia/433b8cf0-823c-4a68-a96f-8513bfece6f7/Early-Career_400w-M.webp
               800w: /getmedia/f1354b8e-317a-44b4-8901-f7803a5899ef/Early-Career_800w-M.webp
               1600w: /getmedia/85bfa71d-8443-4731-a987-da2fb9567c0b/Early-Career_1600w-M.webp
-          height: "220"
+          height: 220
       - heading: Experienced Professionals
         paragraphs:
           - >-
@@ -173,7 +173,7 @@ sections:
               400w: /getmedia/c373a504-3031-494f-accc-be42d8a8bf10/Experienced-Professionals_400w-M.webp
               800w: /getmedia/11015fe4-6497-4467-a7f1-d3a0644eedde/Experienced-Professionals_800w-M.webp
               1600w: /getmedia/8d0c9780-176b-400b-be3a-a5866ea0ede2/Experienced-Professionals_1600w-M.webp
-          height: "220"
+          height: 220
       - heading: Technical & Industry Roles
         paragraphs:
           - >-
@@ -190,7 +190,7 @@ sections:
               400w: /getmedia/6edead3f-a11d-4bbc-acbb-d21a66521381/Tech-Industry-Roles-400w-M.webp
               800w: /getmedia/1fd4089b-e36b-4ec1-9a49-2fbb066abae3/Tech-Industry-Roles-800w-M.webp
               1600w: /getmedia/8ccd1095-4b74-49c9-8cf0-9b030e7b4f46/Tech-Industry-Roles-1600w-M.webp
-          height: "220"
+          height: 220
       - heading: Internships
         paragraphs:
           - >-
@@ -208,7 +208,7 @@ sections:
               400w: /getmedia/fb108411-61fa-4e1f-9cd4-d3a2a37ec136/Internships_400w-M.webp
               800w: /getmedia/da04015f-c8fc-40dc-b308-41785b57eb90/Internships_800w-M.webp
               1600w: /getmedia/ac5a427d-a2a4-44d7-808c-2671fc4fc6fb/Internships_1600w-M.webp
-          height: "220"
+          height: 220
     paragraphs:
       - >-
         We offer opportunities for people at every stage of their careers and across a wide range of backgrounds. From
@@ -255,8 +255,8 @@ sections:
           800w: /getmedia/4a22545d-10e8-4e72-8463-272d241d7e22/Hiring-Process_800w-M.webp
           1600w: /getmedia/16a28a5a-5802-41ac-be57-1ee95c75248c/Hiring-Process_1600w-M.webp
       height:
-        desktop: "580"
-        mobile: "400"
+        desktop: 580
+        mobile: 400
     __template:
       id: hiring-process
       type: textMedia
@@ -299,7 +299,7 @@ sections:
           800w: /getmedia/4ea4c4d7-1a92-4545-a0d0-d250ea6da9c9/Workplace-for-You_800w.webp
           1600w: /getmedia/2a755f67-a354-47a7-836b-eb70834aa168/Workplace-for-You_1600w.webp
       height:
-        desktop: "320"
+        desktop: 320
     __template:
       id: workplace
       type: textMedia
@@ -336,8 +336,8 @@ sections:
           800w: /getmedia/cfc89963-16e0-48c8-83f5-541ade8883c8/Awards_800w-M.webp
           1600w: /getmedia/26c5df73-8c05-4ade-8c08-5c816dc3e6ad/Awards_1600w-M.webp
       height:
-        desktop: "440"
-        mobile: "1076"
+        desktop: 440
+        mobile: 1076
     __template:
       id: culture
       type: textMedia
@@ -363,7 +363,7 @@ sections:
             100w: /getmedia/50762219-1963-4704-b29d-0f421f61fd78/Kyle-Thompson_100w.webp
             200w: /getmedia/e490aa05-18b9-4a57-9fea-904cc227b7ae/Kyle-Thompson_200w.webp
         height:
-          desktop: "90"
+          desktop: 90
     __template:
       id: ceo-quote
       type: quote
@@ -388,7 +388,7 @@ sections:
               70w: /getmedia/00d14c80-69a1-471a-9e99-3ef183aa8104/Peterson_70w.webp
               140w: /getmedia/9e723cea-1da1-4f52-b362-bb39716bf205/Peterson_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           Returning to I-CAR in 2026 as a full-time instructor, I quickly recognized its strong commitment to continuous
           learning and skill development. In my role, I help reinforce the importance of safe, high-quality repairs
@@ -403,7 +403,7 @@ sections:
               70w: /getmedia/fd8e4e27-9be8-499c-8139-564f204e3bff/Spoto_70w.webp
               140w: /getmedia/7d501424-5a72-4876-a5dd-b2320044a2e0/Spoto_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           I-CAR is a place where hard work, sincerity, and empathy are recognized and appreciated every day. The culture
           fosters a genuine sense of belonging, where people support each other’s success. I’m proud to be part of a
@@ -418,7 +418,7 @@ sections:
               70w: /getmedia/3cf194bf-730e-4e22-a613-a9526c38479e/Devarajan_70w.webp
               140w: /getmedia/af179248-2f6b-4406-b7a6-3e717883f14a/Devarajan_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           Since joining I-CAR, I quickly realized it’s more than just an organization, it’s a true community. The
           collaboration, passion for the industry, and focus on safe, complete, high-quality repairs immediately stood
@@ -434,7 +434,7 @@ sections:
               70w: /getmedia/d12175b9-78b5-4e2f-9ab4-1bbafddbd27d/Garcia_70w.webp
               140w: /getmedia/10f45862-86b6-4597-88d3-165f76af4588/Garcia_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
     buttons:
       location: footer
       items:
@@ -474,8 +474,8 @@ sections:
           800w: /getmedia/d4f0097a-655b-488c-b2a5-00ca7f14bcb2/Employee-Benefits_800w-M.webp
           1600w: /getmedia/f9a21185-0279-4167-81a4-39c375fb8924/Employee-Benefits_1600w-M.webp
       height:
-        desktop: "520"
-        mobile: "400"
+        desktop: 520
+        mobile: 400
     __template:
       id: employee-benefits-summary
       type: textMedia
@@ -664,7 +664,7 @@ sections:
               70w: /getmedia/22e353e7-4958-4575-a70b-dc2c1ed067b1/Guzman_70w.webp
               140w: /getmedia/3c22cf2c-49db-439a-95af-e11edf47634a/Guzman_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           I-CAR has been deeply committed to my professional development, providing meaningful leadership opportunities
           that have helped advance my career. As I’ve progressed and started a family, the support and flexibility I’ve
@@ -679,7 +679,7 @@ sections:
               70w: /getmedia/6393818e-5cd3-41e9-9236-1b9c49822e84/Pettinato_70w.webp
               140w: /getmedia/b6abd09e-9322-4ec4-b112-c04df333ef90/Pettinato_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           Having comprehensive medical benefits meant the hardest part of my experience was simply hearing the
           diagnosis. Meritian Health made everything after that feel manageable, guiding me through each step with
@@ -695,7 +695,7 @@ sections:
               70w: /getmedia/83de8bd2-d46b-4d62-8aa0-33ab4ea703c5/Bristow_70w.webp
               140w: /getmedia/055761b2-07f7-43bf-8a03-22e0b97bbb66/Bristow_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
       - quote: >-
           At I-CAR, I work with people I genuinely enjoy every day. There’s a strong sense of teamwork, support, and
           shared purpose that makes the work both meaningful and rewarding. I’ve been trusted to take on new challenges
@@ -710,7 +710,7 @@ sections:
               70w: /getmedia/4d520877-940f-48fe-a9e8-439452673e2f/Burns_70w.webp
               140w: /getmedia/fb00218e-1f4f-4e84-9516-4381a5856bbf/Burns_140w.webp
           height:
-            desktop: "70"
+            desktop: 70
     __template:
       id: employee-benefits-quotes
       type: quoteGrid
@@ -749,8 +749,8 @@ sections:
           800w: /getmedia/f7372fee-a8ca-45af-b0a5-eb6486f266bf/Join-I-CAR-Team_800w-M.webp
           1600w: /getmedia/088894ad-9cec-4d05-b1eb-ac4b168a50a0/Join-I-CAR-Team_1600w-M.webp
       height:
-        desktop: "650"
-        mobile: "400"
+        desktop: 650
+        mobile: 400
     imageClassName: ic-image-cutout
     __template:
       id: join

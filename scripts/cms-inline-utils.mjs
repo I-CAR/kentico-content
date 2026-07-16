@@ -489,7 +489,7 @@ function cleanupRemovedCmsPages(renderedPages, splitPaths = loadCmsScriptSplitPa
 }
 
 function escapeAttribute(value) {
-  return value.replaceAll('"', "&quot;");
+  return String(value).replaceAll('"', "&quot;");
 }
 
 function normalizeTextValue(value) {

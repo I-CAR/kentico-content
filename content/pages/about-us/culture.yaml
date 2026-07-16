@@ -1,0 +1,798 @@
+slug: culture
+title: About Us - Culture
+sections:
+  - id: hero
+    type: hero
+    heading: A Culture Built on Purpose – Powered by People
+    variant: split
+    paragraphs:
+      - Our culture is defined by how we work together, support one another, and show up every day.
+      - At I-CAR, collaboration and shared purpose drive everything we do-helping us grow and move the industry forward.
+    image:
+      alt: Coworkers gathered around a laptop during a meeting
+      urls:
+        desktop:
+          400w: /getmedia/f5bf654f-0e91-4df2-9d79-2324941de0a8/Hero_400w-D.webp
+          800w: /getmedia/c6215677-b2a9-4ed2-992f-1d5777e4b900/Hero_800w-D.webp
+          1600w: /getmedia/4372871f-06f0-41a0-b638-bdc0256d2dbe/Hero_1600w-D.webp
+        mobile:
+          400w: /getmedia/11f68c01-6b28-441a-8fd4-2319399fb2d0/Hero_400w-M.webp
+          800w: /getmedia/9a298da1-c1d4-4859-810b-1b25bb084047/Hero_800w-M.webp
+          1600w: /getmedia/20ccca66-6b44-4218-8784-bd48fb7678d9/Hero_1600w-M.webp
+      height: 550
+    __template:
+      id: hero
+      type: hero
+      variant: split
+      signature: b1e748887304b3a8ccf826641f8bb81f867fabe3
+  - id: ceo
+    type: quote
+    heading: A Message From Our CEO
+    backgroundColor: light
+    paragraphs:
+      - Hear from our CEO on how we're building a culture that supports our people and helps advance the industry.
+    quoteHtml:
+      - <strong>At I-CAR, our people are at the center of everything we do.</strong>
+      - >-
+        We're intentional about building a culture where individuals feel supported, challenged, and empowered to
+        grow-because when our people thrive, our impact grows with them.
+      - >-
+        We invest in learning, development, and collaboration so our teams can build meaningful careers while
+        contributing to something bigger than themselves. That commitment doesn't stop within our walls – it extends to
+        the role we play in strengthening and advancing the collision repair industry.
+      - >-
+        <strong>I'm proud of the culture we're building-one that supports our people, elevates our industry, and makes a
+        difference every day.</strong>
+    cite:
+      name: Kyle Thompson
+      title: I-CAR CEO & President
+      image:
+        alt: Kyle Thompson
+        width: 100
+        urls:
+          desktop:
+            100w: /getmedia/50762219-1963-4704-b29d-0f421f61fd78/Kyle-Thompson_100w.webp
+            200w: /getmedia/e490aa05-18b9-4a57-9fea-904cc227b7ae/Kyle-Thompson_200w.webp
+        height: 100
+    __template:
+      id: ceo
+      type: quote
+      variant: default
+      signature: 723e41d28080f7771610b6aa888a87fba4f37e71
+  - id: purpose
+    type: statementList
+    heading: Our Purpose and Impact
+    paragraphs:
+      - >-
+        Our purpose guides the work we do every day—and every role contributes to advancing safety, quality, and
+        performance across the industry.
+    statements:
+      - heading: I-CAR Vision
+        body: >-
+          That every person in the collision repair industry has the information, knowledge and skills required to
+          perform complete, safe and quality repairs for the ultimate benefit of the consumer.
+      - heading: I-CAR Mission
+        body: >-
+          To deliver increasingly accessible, on-demand and relevant education, knowledge, services and solutions for
+          collision repair facilities and the related industry value chain.
+    __template:
+      id: purpose
+      type: statementList
+      variant: default
+      signature: dc163f57951b6fa81717d03f5e10545fa1f08cd2
+  - id: values
+    type: mediaFeatureList
+    heading: Our Core Beliefs and Values
+    paragraphs:
+      - Our core beliefs and values guide how we work together and shape the impact we make every day.
+    spacing:
+      paddingTop: none-lg
+    cards:
+      - heading: Collaboration
+        lead: >-
+          I-CAR is dedicated to fostering a team environment while understanding and acting on the needs of the
+          Inter-Industry.
+        paragraphs:
+          - >-
+            This commitment is demonstrated by empowering and appreciating engagement and teamwork, listening to and
+            being guided by the Voice-of-the-Industry, serving with integrity as a neutral forum for all parties,
+            encouraging participation and involvement at all levels, supporting a respectful culture, and working
+            cooperatively both internally and externally.
+        image:
+          alt: Two employees collaborating over a computer in an office
+          urls:
+            desktop:
+              400w: /getmedia/364047ae-6d10-415c-94d1-4c2255ee1603/Collaboration_400w-D.webp
+              800w: /getmedia/02d533c1-5be8-4707-9c1b-3d209ca01c0f/Collaboration_800w-D.webp
+              1600w: /getmedia/12645d6b-93cf-4c32-b9cf-0c897214ac7f/Collaboration_1600w-D.webp
+            mobile:
+              400w: /getmedia/bf510604-a558-48a5-a0be-1c4920d99cd0/Collaboration_400w-M.webp
+              800w: /getmedia/bef9f72e-d59c-4f49-b293-b889441c673a/Collaboration_800w-M.webp
+              1600w: /getmedia/484507bc-db6c-48db-803c-6502ae58f58a/Collaboration_1600w-M.webp
+          height: 220
+      - heading: Relevance
+        lead: >-
+          I-CAR is dedicated to continually enhancing the value delivered to the Inter-Industry in curriculum, courses
+          and services.
+        paragraphs:
+          - >-
+            This commitment is demonstrated by listening and acting appropriately while ensuring I-CAR's sustainability,
+            setting priorities responsive to customer needs and industry innovations, and being an industry-minded
+            enterprise focused on advancing the knowledge of the industry, its companies, the individual who serve in it
+            and those who are served by it.
+        image:
+          alt: A digital screen on a car's interior dashboard
+          urls:
+            desktop:
+              400w: /getmedia/0ff5d35c-72aa-4e2d-92e1-840d9e809605/Relevance_400w-D.webp
+              800w: /getmedia/49342e57-e5ea-4382-a620-a3609cf50921/Relevance_800w-D.webp
+              1600w: /getmedia/2c244598-c897-4fc4-9cbb-e56f8adb4d7b/Relevance_1600w-D.webp
+            mobile:
+              400w: /getmedia/84cff5b9-5185-4c54-9b07-1955c07e58a4/Relevance_400w-M.webp
+              800w: /getmedia/6851ef65-8807-4aab-8452-68476b3c7573/Relevance_800w-M.webp
+              1600w: /getmedia/7de6f55b-d127-45b1-b421-b1177f90eec6/Relevance_1600w-M.webp
+          height: 220
+      - heading: Expertise
+        lead: I-CAR is dedicated to being a respected resource for the Inter-Industry.
+        paragraphs:
+          - >-
+            This commitment is demonstrated by maintaining leadership and current knowledge in education, training,
+            vehicle and repair technologies, and industry best practices; providing expert insight to the
+            Inter-Industry; staying well informed about current and anticipated conditions; and retaining skilled
+            professionals recognized as subject matter experts in their fields.
+        image:
+          alt: An instructor teaching a student with hands-on materials
+          urls:
+            desktop:
+              400w: /getmedia/6a36f6b8-df33-49ed-a82a-61f6f081acff/Expertise_400w-D.webp
+              800w: /getmedia/fc9500be-133a-410d-8f14-b7e9acafa754/Expertise_800w-D.webp
+              1600w: /getmedia/c53cf410-5683-4982-961d-5ee61c0c7915/Expertise_1600w-D.webp
+            mobile:
+              400w: /getmedia/8a3197ee-ce2d-4daa-a667-bd0a69feb170/Expertise_400w-M.webp
+              800w: /getmedia/d549f6b1-96df-4963-bf0a-38e87f53787c/Expertise_800w-M.webp
+              1600w: /getmedia/e17c1dd7-c6b8-45be-962c-7dadd5365085/Expertise_1600w-M.webp
+          height: 220
+      - heading: Excellence
+        lead: >-
+          I-CAR is dedicated to being the best we can possibly be for the ultimate benefit of the industry we serve, as
+          well as our volunteers, instructors and staff.
+        paragraphs:
+          - >-
+            This commitment is demonstrated by being accountable and holding each other accountable in a team-spirited
+            manner, continually striving to be extraordinary in service and operation, exhibiting a sense of urgency and
+            a bias for action, having a strong work ethic and being disciplined about how we approach our work, and
+            always possessing a conscience about being the best we can possibly be.
+        image:
+          alt: A woman reviewing reports on a computer screen in an office
+          urls:
+            desktop:
+              400w: /getmedia/f3ad8945-6eed-4f3b-80a3-15527558cd0a/Excellence_400w-D.webp
+              800w: /getmedia/2ef9b659-cde4-4b91-81ff-0d0644b368c3/Excellence_800w-D.webp
+              1600w: /getmedia/bb924c64-743b-42d8-b77a-7b442fb41172/Excellence_1600w-D.webp
+            mobile:
+              400w: /getmedia/3be876a7-ba26-484a-85e1-ada72e398e17/Excellence_400w-M.webp
+              800w: /getmedia/a342a9c3-843f-4fca-bf48-3e7dbd678bcf/Excellence_800w-M.webp
+              1600w: /getmedia/1ac298e5-0877-4698-a1d3-b9b2fd763d02/Excellence_1600w-M.webp
+          height: 220
+      - heading: Integrity
+        lead: I-CAR is dedicated to being trustworthy.
+        paragraphs:
+          - >-
+            This commitment is demonstrated by delivering on promises; being ethical, honest, fair, and sincere in
+            communications and behavior; and being transparent in our decision-making.
+        image:
+          alt: A collision repair shop employee inspecting a wheel on a lifted car
+          urls:
+            desktop:
+              400w: /getmedia/423d97fc-ddce-496c-b4ac-49e4540bf65e/Integrity_400w-D.webp
+              800w: /getmedia/52356168-e22c-4530-abe0-fa5f11c383d4/Integrity_800w-D.webp
+              1600w: /getmedia/ed374f20-59fb-4968-8b5b-e2bb1207850b/Integrity_1600w-D.webp
+            mobile:
+              400w: /getmedia/1ecef2e7-e50c-46a0-8551-4582c3a290aa/Integrity_400w-M.webp
+              800w: /getmedia/c5434c7c-70c9-4e3a-80a0-7ed2c942b3f7/Integrity_800w-M.webp
+              1600w: /getmedia/c526b56c-cf29-4439-8232-47d6999b80d5/Integrity_1600w-M.webp
+          height: 220
+    __template:
+      id: values
+      type: mediaFeatureList
+      variant: default
+      signature: 943589304ad538f6da1121bf3988573a92e4d103
+  - id: leadership
+    type: profileGrid
+    heading: Leadership That Supports Our People and Purpose
+    backgroundColor: light
+    paragraphs:
+      - Our leaders foster a culture where people grow, contribute, and make an impact.
+    profiles:
+      - name: Kyle Thompson
+        title: CEO & President
+        image:
+          alt: Kyle Thompson
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/8d1e692b-9788-4747-9553-193aae3c892b/Leadership_KyleThompson.webp
+              350w: /getmedia/8d1e692b-9788-4747-9553-193aae3c892b/Leadership_KyleThompson.webp
+          height: 100
+      - name: Lori Barrington
+        title: Vice President, Delivery
+        image:
+          alt: Lori Barrington
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/3521ecea-af5f-4866-806e-4156b7e6cc81/Leadership_LoriBarrington.webp
+              350w: /getmedia/3521ecea-af5f-4866-806e-4156b7e6cc81/Leadership_LoriBarrington.webp
+          height: 100
+      - name: John Eck
+        title: Vice President, Business Development
+        image:
+          alt: John Eck
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/45018ad6-4a2d-4f36-ba2b-5c71a956e99c/Leadership_JohnEck.webp
+              350w: /getmedia/45018ad6-4a2d-4f36-ba2b-5c71a956e99c/Leadership_JohnEck.webp
+          height: 100
+      - name: Dara Goroff
+        title: Vice President, Planning & Industry Talent Programming
+        image:
+          alt: Dara Goroff
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/1d875f66-3820-4672-bee1-dcc82b13bcb6/Leadership_DaraGoroff.webp
+              350w: /getmedia/1d875f66-3820-4672-bee1-dcc82b13bcb6/Leadership_DaraGoroff.webp
+          height: 100
+      - name: Andy Johnson
+        title: Vice President, IT & Digital Innovation
+        image:
+          alt: Andy Johnson
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/366b9c30-351e-45b1-991c-cf2ed487f513/Leadership_AndyJohnson.webp
+              350w: /getmedia/366b9c30-351e-45b1-991c-cf2ed487f513/Leadership_AndyJohnson.webp
+          height: 100
+      - name: Tom Marek
+        title: Vice President, Finance & Operations
+        image:
+          alt: Tom Marek
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/aff60a84-35e2-4d1f-be7e-89482435b5d5/Leadership_TomMarek.webp
+              350w: /getmedia/aff60a84-35e2-4d1f-be7e-89482435b5d5/Leadership_TomMarek.webp
+          height: 100
+      - name: Mark Miller
+        title: Vice President, Technical Operations
+        image:
+          alt: Mark Miller
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/20b8b3a1-28ba-407f-9df4-3fac20c15554/Leadership_MarkMiller.webp
+              350w: /getmedia/20b8b3a1-28ba-407f-9df4-3fac20c15554/Leadership_MarkMiller.webp
+          height: 100
+      - name: Jeff Pevey
+        title: Vice President, Industry Relations
+        image:
+          alt: Jeff Pevey
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/37a9771d-301d-4e64-8383-0c99e9e07117/Leadership_JeffPeevy.webp
+              350w: /getmedia/37a9771d-301d-4e64-8383-0c99e9e07117/Leadership_JeffPeevy.webp
+          height: 100
+      - name: Arianna Sherlock
+        title: Vice President, Marketing
+        image:
+          alt: Arianna Sherlock
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/ab48c0c7-40bd-4ec8-b667-22f9e642a01b/Leadership_AriannaSherlock.webp
+              350w: /getmedia/ab48c0c7-40bd-4ec8-b667-22f9e642a01b/Leadership_AriannaSherlock.webp
+          height: 100
+      - name: Melissa Snyder
+        title: Vice President, People & Culture
+        image:
+          alt: Melissa Snyder
+          width: 100
+          urls:
+            desktop:
+              175w: /getmedia/da3a91fa-b7b3-4754-8c03-99e74f9c7640/Leadership_MelissaSnyder.webp
+              350w: /getmedia/da3a91fa-b7b3-4754-8c03-99e74f9c7640/Leadership_MelissaSnyder.webp
+          height: 100
+    __template:
+      id: leadership
+      type: profileGrid
+      variant: default
+      signature: 83f355b5301a8fde479562776f10d1840acab3bc
+  - id: trusted
+    type: logoGrid
+    heading: Trusted Across the Industry
+    paragraphs:
+      - >-
+        At I-CAR, you'll be part of an organization trusted by leading manufacturers, insurers, and industry
+        partners–supporting safe, high-quality repairs.
+      - These partnerships expand our impact and help advance the industry.
+    logos:
+      - alt: 3M
+        src: /getmedia/181f652a-c899-4c02-b2f3-e05b73311013/3M.webp
+        width: 150
+        height: 79
+      - alt: AAA
+        src: /getmedia/94bab307-35c9-40a9-b0dc-dc708c24e80e/AAA.webp
+        width: 150
+        height: 92
+      - alt: Acura
+        src: /getmedia/38ebf4d4-7f27-4ad6-9ed6-63d4b1726d86/Acura.webp
+        width: 150
+        height: 36
+      - alt: AFR
+        src: /getmedia/8ef7e5b0-2c74-464c-b9da-da135325c945/AFR.webp
+        width: 148
+        height: 82
+      - alt: AkzoNobel
+        src: /getmedia/cccd642c-044c-4f37-93a5-a02d455968f5/AkzoNobel.webp
+        width: 150
+        height: 22
+      - alt: Alacrity
+        src: /getmedia/0acec012-d570-4c35-b10a-701f673fa625/Alacrity.webp
+        width: 150
+        height: 36
+      - alt: Alfa Romeo
+        src: /getmedia/d7b95a3b-1804-4e36-9155-4d1c8a4d42cf/Alfa-Romeo.webp
+        width: 100
+        height: 100
+      - alt: ALLCAT
+        src: /getmedia/00e4e579-4211-41c0-86e2-06bc15a91a70/ALLCAT.webp
+        width: 100
+        height: 100
+      - alt: ALLDATA
+        src: /getmedia/7371039e-b968-4727-86be-1b063f537174/ALLDATA.webp
+        width: 150
+        height: 30
+      - alt: Allstate
+        src: /getmedia/4b8e18e5-25cf-4f06-8510-d8111e9db8c6/Allstate.webp
+        width: 150
+        height: 90
+      - alt: Amica
+        src: /getmedia/7874a105-891e-45ee-92e8-37af3c19b52d/Amica.webp
+        width: 150
+        height: 42
+      - alt: Assured-Performance
+        src: /getmedia/2b8f5343-f285-4870-9f26-52b91800bf6b/Assured-Performance.webp
+        width: 150
+        height: 24
+      - alt: asTech
+        src: /getmedia/5a323ffc-80a1-439d-982f-308a46115c4c/asTech.webp
+        width: 150
+        height: 52
+      - alt: Audi
+        src: /getmedia/b1ffadfc-5930-4e0d-a7ef-c033550a1435/Audi.webp
+        width: 150
+        height: 82
+      - alt: Autel
+        src: /getmedia/8aab70ef-f049-47ae-add7-6205e4577ebe/Autel.webp
+        width: 150
+        height: 26
+      - alt: asTech
+        src: /getmedia/ed8d61ae-7b76-4179-8a98-058aaba56191/Axalta.webp
+        width: 134
+        height: 100
+      - alt: BASF
+        src: /getmedia/751de451-07e2-4735-b4c5-44aca11beb4d/BASF.webp
+        width: 150
+        height: 56
+      - alt: BMW
+        src: /getmedia/8c7baf14-7950-4665-ae83-496c021e7cc4/BMW.webp
+        width: 100
+        height: 100
+      - alt: Buick
+        src: /getmedia/e62a71a6-c33e-4ec2-8170-7b710e309e7e/Buick.webp
+        width: 126
+        height: 100
+      - alt: Cadillac
+        src: /getmedia/b3aec0c4-3f2c-4939-8e5b-cfc2ba3407e9/Cadillac.webp
+        width: 148
+        height: 98
+      - alt: CARADAS
+        src: /getmedia/0dd93351-ef09-43b0-bac1-0c6946ecb04c/CARADAS.webp
+        width: 160
+        height: 50
+      - alt: Car-O-Liner
+        src: /getmedia/0a52b673-8827-4e55-9a36-a0bedd86b42d/Car-O-Liner.webp
+        width: 150
+        height: 18
+      - alt: CCC
+        src: /getmedia/fe9abbf9-f73a-4571-9536-5f0ea46dc339/CCC.webp
+        width: 150
+        height: 56
+      - alt: CEI
+        src: /getmedia/16daddf4-6e57-4e51-a902-1a958ba8cb74/CEI.webp
+        width: 150
+        height: 58
+      - alt: Central-Insurance
+        src: /getmedia/bacc2e53-eb56-4bee-a636-2700e04c1c9e/Central-Insurance.webp
+        width: 150
+        height: 44
+      - alt: Certified-Collision-Group
+        src: /getmedia/2b7ef6dc-764e-49b7-ad3b-1bb6ac6e7c51/Certified-Collision-Group.webp
+        width: 150
+        height: 46
+      - alt: Chevrolet
+        src: /getmedia/3053604a-fae3-4b32-9ae1-f7d5a190815e/Chevrolet.webp
+        width: 150
+        height: 75
+      - alt: Chief
+        src: /getmedia/a7ee37d4-92d9-4cdf-80e9-79e2f7e6b962/Chief.webp
+        width: 150
+        height: 38
+      - alt: Chrysler
+        src: /getmedia/702bf07b-1de4-4f5e-a98b-9cee88cbbc5c/Chrysler.webp
+        width: 152
+        height: 32
+      - alt: Craft-Masters-Academy
+        src: /getmedia/64d728b1-85cc-4433-8fbe-d308092afd95/Craft-Masters-Academy.webp
+        width: 150
+        height: 82
+      - alt: Dent-Fix
+        src: /getmedia/fda243df-05ad-460a-9681-608231f5be47/Dent-Fix.webp
+        width: 150
+        height: 102
+      - alt: DeVILBISS
+        src: /getmedia/9f9a4181-eaee-4ab4-bc31-6a7f92c7c9bf/DeVILBISS.webp
+        width: 150
+        height: 84
+      - alt: Dodge
+        src: /getmedia/9828e544-3949-46ac-b5e5-83bc563c55b2/Dodge.webp
+        width: 150
+        height: 22
+      - alt: Enterprise
+        src: /getmedia/a52c4ca7-4ee1-4d61-9485-7f5839410e88/Enterprise.webp
+        width: 150
+        height: 32
+      - alt: Everlast
+        src: /getmedia/43fb3a28-5f1a-4628-a670-b01380f5c29a/Everlast.webp
+        width: 150
+        height: 63
+      - alt: Farmers
+        src: /getmedia/2bafb81b-482d-4f73-aa16-8e8bbf268270/Farmers.webp
+        width: 150
+        height: 80
+      - alt: FCA
+        src: /getmedia/e3050183-2d8d-4e57-a51b-e48edc9db4dd/FCA.webp
+        width: 150
+        height: 56
+      - alt: FIAT
+        src: /getmedia/d4673a7a-5fd3-44c2-8ed3-fa67e5d37a8d/FIAT.webp
+        width: 100
+        height: 100
+      - alt: FIAT
+        src: /getmedia/9f8d7cb1-e117-48df-b9d8-dcd6ca21066e/Ford.webp
+        width: 150
+        height: 58
+      - alt: GEICO
+        src: /getmedia/74689467-0162-4654-ad24-c8ef11c35130/GEICO.webp
+        width: 150
+        height: 26
+      - alt: GM
+        src: /getmedia/8fed4437-64ac-402b-89f6-40518834a11c/GM.webp
+        width: 100
+        height: 100
+      - alt: GMC
+        src: /getmedia/5ba9eb85-a810-4c62-a055-9f335b6e8682/GMC.webp
+        width: 150
+        height: 34
+      - alt: HeadlightsDotCom
+        src: /getmedia/35db38ae-2590-40f1-829c-21f077053197/HeadlightsDotCom.webp
+        width: 156
+        height: 48
+      - alt: Honda
+        src: /getmedia/129ee968-5d84-4fb7-94d7-c76a79e8aa8a/Honda.webp
+        width: 150
+        height: 96
+      - alt: Hunter
+        src: /getmedia/6baca89b-c92f-402a-8a71-ec0ac139799f/Hunter.webp
+        width: 152
+        height: 34
+      - alt: Hyundai
+        src: /getmedia/473a7a8a-0423-4af3-865f-fe38ba8fb80d/Hyundai.webp
+        width: 150
+        height: 72
+      - alt: IANet
+        src: /getmedia/f9e87e68-e10f-447a-9c92-cf48a6a772c7/IANet.webp
+        width: 150
+        height: 74
+      - alt: Infiniti
+        src: /getmedia/8299c006-373e-40bf-82a7-06c0ff9c55c1/Infiniti.webp
+        width: 150
+        height: 72
+      - alt: Innovation-Group
+        src: /getmedia/20b077da-d13c-40f9-8b54-9df317315684/Innovation-Group.webp
+        width: 150
+        height: 34
+      - alt: Intrepid
+        src: /getmedia/d3791b12-0c12-4e26-8aab-82b2f22f505f/Intrepid.webp
+        width: 150
+        height: 58
+      - alt: Jaguar
+        src: /getmedia/7f8ac8bf-9f3b-4052-85e4-c1c099bdd4af/Jaguar.webp
+        width: 150
+        height: 68
+      - alt: Jeep
+        src: /getmedia/af330bf3-0a1a-480f-8418-d583774c52d6/Jeep.webp
+        width: 150
+        height: 62
+      - alt: KECO
+        src: /getmedia/2f922e33-990d-4c7a-895e-2da7ab33e8de/KECO.webp
+        width: 150
+        height: 54
+      - alt: Kemper
+        src: /getmedia/f4696f44-afcc-4c1f-a10e-20350014e08c/Kemper.webp
+        width: 150
+        height: 26
+      - alt: KIA
+        src: /getmedia/ab1459c8-bb1b-49f4-b23a-53bc33fa7f37/KIA.webp
+        width: 150
+        height: 36
+      - alt: Land-Rover
+        src: /getmedia/5378e33c-80cf-4440-a544-a651b0f2c195/Land-Rover.webp
+        width: 150
+        height: 80
+      - alt: Lincoln
+        src: /getmedia/f075b38e-1905-4a67-92d0-49de3d32bd4f/Lincoln.webp
+        width: 150
+        height: 68
+      - alt: LKQ
+        src: /getmedia/361fde36-8f9d-482d-895b-779d290f17d3/LKQ.webp
+        width: 150
+        height: 40
+      - alt: LORD-Fusor
+        src: /getmedia/6ee6d0f4-5a19-422e-a716-bbdb19d87499/LORD-Fusor.webp
+        width: 150
+        height: 42
+      - alt: Lusid-Technologies
+        src: /getmedia/2a4b37a4-0542-40c3-b457-56fbb6814294/Lusid-Technologies.webp
+        width: 150
+        height: 80
+      - alt: Maserati
+        src: /getmedia/ce623020-3616-4ea0-8591-52c57b7454c5/Maserati.webp
+        width: 150
+        height: 66
+      - alt: Mazda
+        src: /getmedia/e86e2d1b-de1a-4a69-a15e-c7a58f4bd085/Mazda.webp
+        width: 110
+        height: 100
+      - alt: Mercedes
+        src: /getmedia/bab9df18-6dd0-4d90-91d6-e87e4b2109cc/Mercedes.webp
+        width: 100
+        height: 100
+      - alt: Nationwide
+        src: /getmedia/b6abf399-c57a-4a17-9e89-7feaa2a09139/Nationwide.webp
+        width: 150
+        height: 60
+      - alt: Nexterra
+        src: /getmedia/a6cd538e-e46c-4a68-a199-00e854106100/Nexterra.webp
+        width: 150
+        height: 30
+      - alt: Nissan
+        src: /getmedia/4bf87558-ffc3-4c1f-be83-60729a22679f/Nissan.webp
+        width: 120
+        height: 100
+      - alt: NJM
+        src: /getmedia/820aaf90-e330-48b8-8b06-91808403c678/NJM.webp
+        width: 150
+        height: 42
+      - alt: Norton-RSG
+        src: /getmedia/b858c047-1f6c-48b3-a0e1-b853cef4afe1/Norton-RSG.webp
+        width: 150
+        height: 32
+      - alt: OPUS
+        src: /getmedia/15e825c8-673a-4838-8ff9-c9727340860b/OPUS.webp
+        width: 150
+        height: 56
+      - alt: Pekin
+        src: /getmedia/26154b65-3200-4919-93eb-f7fd9e16b57f/Pekin.webp
+        width: 150
+        height: 46
+      - alt: Polyvance
+        src: /getmedia/d8abc1ca-8716-43db-9347-271f0aaf426d/Polyvance.webp
+        width: 150
+        height: 42
+      - alt: Porsche
+        src: /getmedia/46ae50ee-d768-4605-8e0b-75cac224033d/Porsche.webp
+        width: 150
+        height: 62
+      - alt: PPG
+        src: /getmedia/7da11818-301d-4045-81f4-c707745a208b/PPG.webp
+        width: 130
+        height: 100
+      - alt: Pronto-Insurance
+        src: /getmedia/fb64bc8c-642b-4e39-a42c-05db055c65cc/Pronto-Insurance.webp
+        width: 150
+        height: 48
+      - alt: ProSpot
+        src: /getmedia/c28ee622-a4f9-42fc-ad28-8000f06c4a98/ProSpot.webp
+        width: 150
+        height: 24
+      - alt: ProStat
+        src: /getmedia/6668a098-270a-4fbe-9381-803bf7881229/ProStat.webp
+        width: 150
+        height: 74
+      - alt: PROTECH
+        src: /getmedia/d5e66dbd-4e8a-4e5e-9e6f-3415c1cf04f1/PROTECH.webp
+        width: 150
+        height: 24
+      - alt: RAM
+        src: /getmedia/3c219463-d47d-41ea-b2bb-286e0f5a7fb4/RAM.webp
+        width: 92
+        height: 100
+      - alt: SEM
+        src: /getmedia/48f0ecf7-688c-4c1b-baea-f6a9b3522b30/SEM.webp
+        width: 150
+        height: 92
+      - alt: Sherwin-Williams
+        src: /getmedia/9d39e5fb-eab8-45e5-8846-d9e7a27f46b8/Sherwin-Williams.webp
+        width: 150
+        height: 78
+      - alt: Solidus
+        src: /getmedia/fa25ca48-e212-4906-8787-2ad5975bb27b/Solidus.webp
+        width: 150
+        height: 28
+      - alt: Spark
+        src: /getmedia/fd5cd6b8-a78a-45aa-aac5-e7b5725f1db9/Spark.webp
+        width: 150
+        height: 74
+      - alt: StateFarm
+        src: /getmedia/44d42062-d838-4c3a-8ab4-a3359d1f57c4/StateFarm.webp
+        width: 150
+        height: 92
+      - alt: Subaru
+        src: /getmedia/9dd80f45-c77c-4967-a96c-2c110785ea1e/Subaru.webp
+        width: 150
+        height: 89
+      - alt: Tesla
+        src: /getmedia/aadb0d89-1cd9-4c01-8635-926a7e58cbbd/Tesla.webp
+        width: 150
+        height: 48
+      - alt: USAA
+        src: /getmedia/7ba4624f-547d-4883-9095-b36d94e06527/USAA.webp
+        width: 96
+        height: 100
+      - alt: Vinfast
+        src: /getmedia/655c7d2c-bb77-490a-8816-7198d6da0e02/Vinfast.webp
+        width: 100
+        height: 100
+      - alt: Volvo
+        src: /getmedia/0a1068cc-141f-45de-a6aa-7ac8e1309d79/Volvo.webp
+        width: 100
+        height: 100
+      - alt: VW
+        src: /getmedia/7424548c-72db-4fd2-ae60-c7c57f08c13a/VW.webp
+        width: 100
+        height: 100
+    __template:
+      id: trusted
+      type: logoGrid
+      variant: default
+      signature: f01119decfa859086ec0ccfc6bc364e9502c5a23
+  - id: future
+    type: cards
+    heading: Shaping the Future of the Industry
+    backgroundColor: light
+    paragraphs:
+      - >-
+        From emerging technologies to evolving repair standards, our teams help shape what's next for the collision
+        repair industry.
+    layout:
+      cardsPerRow:
+        md: 2
+        xl: 3
+      contentWidth: ten
+      introWidth: default
+      cardStyle: panel
+      imageStyle: standard
+    cards:
+      - heading: Advanced Vehicle Technologies
+        paragraphs:
+          - Help advance training and standards for increasingly complex vehicle systems.
+        image:
+          alt: Digital illustration of car with digital data and sensor overlays
+          urls:
+            desktop:
+              400w: /getmedia/c6dafb37-cc9b-4f52-a4e1-eb39306bfe27/Advanced-Vehicle-Tech_400w.webp
+              800w: /getmedia/3df5f7e2-7a80-4683-9afe-398ddb5a1e27/Advanced-Vehicle-Tech_800w.webp
+              1600w: /getmedia/fd3ba607-d1d3-4bf7-bd1f-3ff5047603af/Advanced-Vehicle-Tech_1600w.webp
+            mobile:
+              400w: /getmedia/c6dafb37-cc9b-4f52-a4e1-eb39306bfe27/Advanced-Vehicle-Tech_400w.webp
+              800w: /getmedia/3df5f7e2-7a80-4683-9afe-398ddb5a1e27/Advanced-Vehicle-Tech_800w.webp
+              1600w: /getmedia/fd3ba607-d1d3-4bf7-bd1f-3ff5047603af/Advanced-Vehicle-Tech_1600w.webp
+          height: 220
+      - heading: Electric and Hybrid Vehicles
+        paragraphs:
+          - Support the industry's transition to new technologies and evolving repair requirements.
+        image:
+          alt: Electric vehicle at a charging station
+          urls:
+            desktop:
+              400w: /getmedia/886edd30-c29f-47b3-a3b6-f86be32fe903/EV-and-Hybrid_400w.webp
+              800w: /getmedia/824940f4-1511-4ffd-a54b-95ab673169fb/EV-and-Hybrid_800w.webp
+              1600w: /getmedia/3413e5d5-d3b2-4ae5-8708-75b8b00a0896/EV-and-Hybrid_1600w.webp
+            mobile:
+              400w: /getmedia/886edd30-c29f-47b3-a3b6-f86be32fe903/EV-and-Hybrid_400w.webp
+              800w: /getmedia/824940f4-1511-4ffd-a54b-95ab673169fb/EV-and-Hybrid_800w.webp
+              1600w: /getmedia/3413e5d5-d3b2-4ae5-8708-75b8b00a0896/EV-and-Hybrid_1600w.webp
+          height: 220
+      - heading: Tools and Training Innovation
+        paragraphs:
+          - Help develop tools and resources that improve repair outcomes across the industry.
+        image:
+          alt: I-CAR instructor wearing a virtual headset
+          urls:
+            desktop:
+              400w: /getmedia/503539f1-86c8-4294-83c3-02f97532e3b1/Tools-and-Training_400w.webp
+              800w: /getmedia/d830446a-dc63-40d0-9261-b6b2d3e5865b/Tools-and-Training_800w.webp
+              1600w: /getmedia/b4faee9f-9d68-4ee6-a356-643b4e54e4d8/Tools-and-Training_1600w.webp
+            mobile:
+              400w: /getmedia/503539f1-86c8-4294-83c3-02f97532e3b1/Tools-and-Training_400w.webp
+              800w: /getmedia/d830446a-dc63-40d0-9261-b6b2d3e5865b/Tools-and-Training_800w.webp
+              1600w: /getmedia/b4faee9f-9d68-4ee6-a356-643b4e54e4d8/Tools-and-Training_1600w.webp
+          height: 220
+    __template:
+      id: future
+      type: cards
+      variant: default
+      signature: f7590204a7b96b689e0dea6994056ceeaceda8cf
+  - id: join
+    type: textMedia
+    heading: Make an Impact. Build Your Career.
+    paragraphs:
+      - >-
+        At I-CAR, every role contributes to meaningful work–helping support safer, high-quality repairs and advancing
+        the future of the industry.
+      - >-
+        Whether you're starting your career or bringing years of experience in technical, field-based, or corporate
+        roles, you'll find opportunities to grow, contribute, and make an impact.
+    buttons:
+      location: header
+      items:
+        - label: Explore Open Roles
+          href: https://careers.i-car.com/search
+          variant: outline
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      desktopSplit: text-5-media-7
+      contentWidth: wide
+      copyVerticalAlign: center
+      mobileCopySpacing: none
+      mobileMediaSpacing: tight
+      rowVerticalAlign: end
+      imageStyle: cutout
+    imageLink:
+      href: https://careers.i-car.com/search
+      title: Explore Open Roles
+    image:
+      alt: In-person and virtual employees
+      urls:
+        desktop:
+          400w: /getmedia/105b3e33-30da-4b48-87cf-d0c44881a76c/Make-an-Impact_400w-D.webp
+          800w: /getmedia/20531f69-3e9c-42ab-a6b8-341d56ac5b36/Make-an-Impact_800w-D.webp
+          1600w: /getmedia/0729bf5d-d184-45ca-a5ab-aa4accd80d7b/Make-an-Impact_1600w-D.webp
+        mobile:
+          400w: /getmedia/68d09588-0b19-43d0-a246-a57b124a83e9/Make-an-Impact_400w-M.webp
+          800w: /getmedia/e0a0155f-ea13-4bc5-b41d-499e593b86b7/Make-an-Impact_800w-M.webp
+          1600w: /getmedia/092a98e9-511f-4265-862d-3c320bcca1a8/Make-an-Impact_1600w-M.webp
+      height: 650
+    __template:
+      id: join
+      type: textMedia
+      variant: default
+      signature: 99731af543e4566d802f77203ee6fd648b16d7a8
+__template:
+  source: about-us/culture.yaml
+  signature: 65be17d13f3f74a7af83e1515e98708f1664797c
+
