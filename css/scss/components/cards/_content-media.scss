@@ -59,24 +59,22 @@
 
 .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
 .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
-.ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
-    .ic-card-body {
+.ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
     padding: var(--space-12) var(--space-20);
 }
 
 @include mq(xs, down) {
+
     // .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
     .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body,
-    .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
-        .ic-card-body {
+    .ic-card:is(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
         padding-left: 0;
         padding-right: 0;
         // padding-bottom: 0;
     }
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
-    .ic-card-body {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-body {
     // padding: var(--space-20) 0 0;
     padding: var(--space-12) 0 0;
 }
@@ -85,19 +83,13 @@
     padding-top: var(--space-12);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(
-        .ic-background-white,
-        .ic-background-light
-    )
-    .ic-card-body {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(.ic-background-white,
+    .ic-background-light) .ic-card-body {
     padding: var(--space-30) var(--space-30) var(--space-30) var(--space-20);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(
-        .ic-background-white,
-        .ic-background-light
-    )
-    .ic-card-body {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(.ic-background-white,
+    .ic-background-light) .ic-card-body {
     padding: 0 0 0 var(--space-20);
 }
 
@@ -114,10 +106,7 @@
         padding: var(--space-30);
     }
 
-    .ic-card:not(.ic-background-white, .ic-background-light):has(
-            .ic-card-media:first-child:not(:only-child)
-        )
-        .ic-card-body {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-body {
         // padding: var(--space-30) 0 var(--space-30) var(--space-30);
     }
 }
@@ -171,32 +160,42 @@
     color: inherit;
 }
 
-.ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-body {
+:is(.ic-card:is(.ic-background-white, .ic-background-light):is(figure),
+    figure.ic-card:is(.ic-background-white, .ic-background-light):has(> blockquote.ic-card-body)) {
+    gap: var(--space-20);
     padding: var(--space-20);
 }
 
+:is(.ic-card:is(.ic-background-white, .ic-background-light):is(figure),
+    figure.ic-card:is(.ic-background-white, .ic-background-light):has(> blockquote.ic-card-body)) .ic-card-body {
+    margin: 0;
+    padding: 0;
+}
+
 @include mq(md, down) {
-    .ic-card:is(.ic-background-white, .ic-background-light):is(blockquote) .ic-card-text {
+
+    :is(.ic-card:is(.ic-background-white, .ic-background-light):is(figure),
+        figure.ic-card:is(.ic-background-white, .ic-background-light):has(> blockquote.ic-card-body)) .ic-card-text {
         font-size: calc(14rem / var(--rem-base));
     }
 }
 
-.ic-card:is(blockquote) p.ic-card-text::before,
+:is(.ic-card:is(figure), figure.ic-card:has(> blockquote.ic-card-body)) p.ic-card-text::before,
 blockquote .ic-quote-text p:first-child::before {
     content: "“";
 }
 
-.ic-card:is(blockquote) p.ic-card-text::after,
+:is(.ic-card:is(figure), figure.ic-card:has(> blockquote.ic-card-body)) p.ic-card-text::after,
 blockquote .ic-quote-text p:last-child::after {
     content: "”";
 }
 
-.ic-card:is(blockquote) strong {
+:is(.ic-card:is(figure), figure.ic-card:has(> blockquote.ic-card-body)) strong {
     font-weight: var(--semibold);
 }
 
 @include mq(md) {
-    blockquote .ic-quote-text + .ic-cite {
+    figure > blockquote.ic-quote-text + .ic-cite {
         justify-content: center;
     }
 }
@@ -243,8 +242,7 @@ blockquote .ic-quote-text p:last-child::after {
     transform: scale(1.1);
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo)
-    .ic-card-media {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-icon, .ic-card-logo) .ic-card-media {
     padding: 0;
     border-radius: 0;
 }
@@ -253,19 +251,13 @@ blockquote .ic-quote-text p:last-child::after {
     padding-top: var(--space-24);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(
-        .ic-background-white,
-        .ic-background-light
-    )
-    .ic-card-media {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):is(.ic-background-white,
+    .ic-background-light) .ic-card-media {
     padding: var(--space-30) 0 0 var(--space-30);
 }
 
-.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(
-        .ic-background-white,
-        .ic-background-light
-    )
-    .ic-card-media {
+.ic-card:has(.ic-checkmark):has(.ic-card-media:first-child:not(:only-child)):not(.ic-background-white,
+    .ic-background-light) .ic-card-media {
     padding: 0;
 }
 
@@ -279,17 +271,11 @@ blockquote .ic-quote-text p:last-child::after {
         height: 100%;
     }
 
-    .ic-card:not(.ic-background-white, .ic-background-light):has(
-            .ic-card-media:first-child:not(:only-child)
-        )
-        .ic-card-media {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
         @include radius-split(full);
     }
 
-    .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):has(
-            .ic-card-media:first-child:not(:only-child)
-        )
-        .ic-card-media {
+    .ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):has(.ic-card-media:first-child:not(:only-child)) .ic-card-media {
         padding-top: 0;
         padding-right: 0;
     }

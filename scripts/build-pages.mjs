@@ -604,7 +604,11 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
   return `                <p>\n${buttonMarkup}\n                </p>`;
 }
 
-function renderFooterButtonRow(buttons, defaultClassName = "ic-btn ic-btn-primary ic-btn-outline", columnClassName = "col") {
+function renderFooterButtonRow(
+  buttons,
+  defaultClassName = "ic-btn ic-btn-primary ic-btn-outline",
+  columnClassName = "col col-auto",
+) {
   const buttonsMarkup = renderButtons(buttons, defaultClassName);
 
   if (!buttonsMarkup) {

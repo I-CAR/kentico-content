@@ -25,13 +25,13 @@ sections:
       alt: Two coworkers walking and talking in an office
       urls:
         desktop:
-          800w: /getmedia/f54c1676-6ce0-4279-a554-fd28b77972cb/Hero_800w-D.webp
-          1600w: /getmedia/019a49d7-6cb7-4849-8218-73f95a32a7c6/Hero_1600w-D.webp
-          3200w: /getmedia/1fbbd565-55e0-4acf-8e42-67972bafba14/Hero_3200w-D.webp
+          800w: /getmedia/fc965d46-7a60-4bb1-9342-2f48ca6f9b5f/Hero_800w-D.webp
+          1600w: /getmedia/a45a65ff-c730-47fa-b653-d35efed0cd97/Hero_1600w-D.webp
+          3200w: /getmedia/d9a7fb8e-e92a-4f96-83ac-5e4c2d7a951a/Hero_3200w-D.webp
         mobile:
-          400w: /getmedia/51d25ff2-2561-4343-88cd-6df68fa32bb9/Hero_400w-M.webp
-          800w: /getmedia/6fe1ad97-3b52-48c1-8520-a760741ca706/Hero_800w-M.webp
-          1600w: /getmedia/ac2fba90-7d24-4764-ac3f-361760cef205/Hero_1600w-M.webp
+          400w: /getmedia/4c7de2a1-8901-42d8-a730-aee7a8bea49c/Hero_400w-M.webp
+          800w: /getmedia/ecf145d6-0686-4393-a22c-207aa8fefeac/Hero_800w-M.webp
+          1600w: /getmedia/ccb67eb2-aa08-4045-b8ac-ed8296edc888/Hero_1600w-M.webp
       height:
         desktop: 580
         mobile: 450
@@ -174,7 +174,7 @@ sections:
               800w: /getmedia/11015fe4-6497-4467-a7f1-d3a0644eedde/Experienced-Professionals_800w-M.webp
               1600w: /getmedia/8d0c9780-176b-400b-be3a-a5866ea0ede2/Experienced-Professionals_1600w-M.webp
           height: 220
-      - heading: Technical & Industry Roles
+      - heading: Technical and Industry Roles
         paragraphs:
           - >-
             Use your technical expertise to advance safe, high-quality vehicle repairs. These roles support collision
@@ -409,10 +409,10 @@ sections:
           fosters a genuine sense of belonging, where people support each other’s success. I’m proud to be part of a
           team where leaders truly champion our growth, making every contribution feel seen, valued, and impactful. It’s
           the kind of environment where you can grow, contribute, and feel truly connected to the work you do.
-        name: Vathsala Devarjan
+        name: Vathsala Devarajan
         title: Manager, IT Application Agile
         image:
-          alt: Vathsala Devarjan
+          alt: Vathsala Devarajan
           urls:
             desktop:
               70w: /getmedia/3cf194bf-730e-4e22-a613-a9526c38479e/Devarajan_70w.webp
@@ -505,7 +505,7 @@ sections:
               <path d="M10.9897 50.3798C10.9897 45.5298 7.04971 41.5898 2.19971 41.5898V50.3798H10.9897Z" stroke="#3B383F" stroke-width="2" stroke-linejoin="round" />
               <path d="M2.19971 31.83C7.05971 31.83 10.9897 27.89 10.9897 23.04H2.19971V31.83Z" stroke="#3B383F" stroke-width="2" stroke-linejoin="round" />
             </svg>
-      - heading: Hybrid & Flexible Work
+      - heading: Hybrid and Flexible Work
         paragraphs:
           - Flexible, primarily remote work schedules
         iconSvg: >
@@ -534,7 +534,7 @@ sections:
             </svg>
       - heading: Health Benefits
         paragraphs:
-          - Medical, dental, vision, FSA & HSA with employer contribution
+          - Medical, dental, vision, FSA and HSA with employer contribution
         iconSvg: >
           <svg class="ic-card-icon" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"
           fill="none">
@@ -676,8 +676,8 @@ sections:
           alt: Johnathan Pettinato
           urls:
             desktop:
-              70w: /getmedia/6393818e-5cd3-41e9-9236-1b9c49822e84/Pettinato_70w.webp
-              140w: /getmedia/b6abd09e-9322-4ec4-b112-c04df333ef90/Pettinato_140w.webp
+              70w: /getmedia/db8cf7af-22a1-4189-b430-5520df834ca3/Pettinato_70w.webp
+              140w: /getmedia/730f5589-f926-4669-b443-d8f78cde2060/Pettinato_140w.webp
           height:
             desktop: 70
       - quote: >-

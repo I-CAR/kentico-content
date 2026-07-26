@@ -6,28 +6,26 @@
     @include transition-ui(border-color);
 }
 
-.align-items-stretch > * > .ic-card {
+.align-items-stretch>*>.ic-card {
     height: 100%;
 }
 
-.align-items-stretch > * > .ic-card .ic-card-body {
+.align-items-stretch>*>.ic-card .ic-card-body {
     @include flex-stack;
     height: 100%;
 }
 
-.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image)
-    .ic-card-body.ic-card-body-indented {
+.ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
     padding: var(--space-12);
 }
 
 @include mq(md, down) {
-    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image)
-        .ic-card-body.ic-card-body-indented {
+    .ic-card:not(.ic-background-white, .ic-background-light):has(.ic-card-image) .ic-card-body.ic-card-body-indented {
         padding: var(--space-12) 0;
     }
 }
 
-.align-items-stretch > * > .ic-card .ic-card-cite {
+.align-items-stretch>*>.ic-card .ic-card-cite {
     margin-top: auto;
 }
 
@@ -45,8 +43,7 @@
     gap: var(--space-30);
 }
 
-.ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light)
-    :is(.ic-card-body, .ic-card-media) {
+.ic-card.ic-card-lg:is(.ic-background-white, .ic-background-light) :is(.ic-card-body, .ic-card-media) {
     padding: 0;
 }
 
@@ -55,32 +52,33 @@
         text-align: center;
     }
 
-    .ic-card.ic-card-lg:is(blockquote) .ic-card-cite {
+    :is(.ic-card.ic-card-lg:is(figure), figure.ic-card.ic-card-lg:has(> blockquote.ic-card-body)) .ic-card-cite {
         flex-flow: column nowrap;
         gap: var(--space-8);
     }
 }
 
 @include mq(md, down) {
-    .ic-card.ic-card-lg:is(blockquote) {
+    :is(.ic-card.ic-card-lg:is(figure), figure.ic-card.ic-card-lg:has(> blockquote.ic-card-body)) {
         flex-flow: column-reverse nowrap;
         padding: var(--space-20);
     }
 
-    .ic-card.ic-card-lg:is(blockquote) .ic-cite {
+    :is(.ic-card.ic-card-lg:is(figure), figure.ic-card.ic-card-lg:has(> blockquote.ic-card-body)) .ic-cite {
         gap: var(--space-20);
     }
 
-    .ic-card.ic-card-lg:is(blockquote) .ic-cite-photo {
+    :is(.ic-card.ic-card-lg:is(figure), figure.ic-card.ic-card-lg:has(> blockquote.ic-card-body)) .ic-cite-photo {
         max-width: calc(90rem / 16);
     }
 }
 
-.ic-card:is(blockquote) {
-    @include flex-row;
+:is(.ic-card:is(figure), figure.ic-card:has(> blockquote.ic-card-body)) {
+    flex-flow: column nowrap;
+    margin: 0;
 }
 
-.ic-card:is(blockquote) .ic-card-media {
+.ic-card:is(figure) .ic-card-media {
     flex: 0 0 auto;
     padding: var(--card-padding);
 }
@@ -94,13 +92,9 @@
     align-items: center;
 }
 
-.ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):not(
-        :has(.ic-card-media:first-child:not(:only-child))
-    ),
-.ic-card:has(.stretched-link):has(.ic-card-image):not(
-        .ic-background-white,
-        .ic-background-light
-    ):not(:has(.ic-card-media:first-child:not(:only-child))),
+.ic-card:has(.stretched-link):has(.ic-card-icon, .ic-card-logo):not( :has(.ic-card-media:first-child:not(:only-child))),
+.ic-card:has(.stretched-link):has(.ic-card-image):not(.ic-background-white,
+    .ic-background-light):not(:has(.ic-card-media:first-child:not(:only-child))),
 .ic-card:has(.ic-checkmark):has(.ic-card-media:last-child) {
     text-align: center;
 }
@@ -143,8 +137,7 @@
         // padding-top: var(--space-10) !important;
     }
 
-    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light)
-        .ic-card-body {
+    .ic-card:has(h4, ul, ol):has(svg):not(.ic-background-white, .ic-background-light) .ic-card-body {
         padding: var(--space-10) var(--space-20) var(--space-20) !important;
     }
 
@@ -156,13 +149,13 @@
         text-align: left !important;
     }
 
-    .ic-card.ic-card-horizontal-mobile > figure.ic-card-media {
+    .ic-card.ic-card-horizontal-mobile>figure.ic-card-media {
         padding: 0;
     }
 }
 
 @include mq(md) {
-    .ic-card.ic-card-horizontal-mobile > .ic-card-body {
+    .ic-card.ic-card-horizontal-mobile>.ic-card-body {
         text-align: center;
     }
 }
