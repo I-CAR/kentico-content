@@ -4,12 +4,20 @@ sections:
   - id: hero
     type: hero
     heading: A Culture Built on Purpose – Powered by People
+    headingTag: h1
     variant: split
+    imageStyle: rounded
+    spacing:
+      paddingTop: none-lg
     paragraphs:
       - Our culture is defined by how we work together, support one another, and show up every day.
       - At I-CAR, collaboration and shared purpose drive everything we do-helping us grow and move the industry forward.
     image:
       alt: Coworkers gathered around a laptop during a meeting
+      loading: lazy
+      output:
+        imgWidth: 800
+        srcWidth: 400
       urls:
         desktop:
           400w: /getmedia/f5bf654f-0e91-4df2-9d79-2324941de0a8/Hero_400w-D.webp
@@ -19,7 +27,9 @@ sections:
           400w: /getmedia/11f68c01-6b28-441a-8fd4-2319399fb2d0/Hero_400w-M.webp
           800w: /getmedia/9a298da1-c1d4-4859-810b-1b25bb084047/Hero_800w-M.webp
           1600w: /getmedia/20ccca66-6b44-4218-8784-bd48fb7678d9/Hero_1600w-M.webp
-      height: 550
+      height:
+        desktop: 550
+        mobile: 450
     __template:
       id: hero
       type: hero
@@ -29,23 +39,27 @@ sections:
     type: quote
     heading: A Message From Our CEO
     backgroundColor: light
+    quoteLayout: side-by-side
+    centerIntro: true
+    introTextClassName: mb-3 pb-3 text-center
     paragraphs:
       - Hear from our CEO on how we're building a culture that supports our people and helps advance the industry.
     quoteHtml:
-      - <strong>At I-CAR, our people are at the center of everything we do.</strong>
+      - <strong>At I&#8209;CAR, our people are at the center of everything we&nbsp;do.</strong>
       - >-
         We're intentional about building a culture where individuals feel supported, challenged, and empowered to
-        grow-because when our people thrive, our impact grows with them.
+        grow-because when our people thrive, our impact grows with&nbsp;them.
       - >-
         We invest in learning, development, and collaboration so our teams can build meaningful careers while
-        contributing to something bigger than themselves. That commitment doesn't stop within our walls – it extends to
-        the role we play in strengthening and advancing the collision repair industry.
+        contributing to something bigger than themselves. That commitment doesn't stop within our walls &ndash; it
+        extends to the role we play in strengthening and advancing the collision repair&nbsp;industry.
       - >-
         <strong>I'm proud of the culture we're building-one that supports our people, elevates our industry, and makes a
-        difference every day.</strong>
+        difference every&nbsp;day.</strong>
     cite:
       name: Kyle Thompson
       title: I-CAR CEO & President
+      titleHtml: I&#8209;CAR CEO &amp;&nbsp;President
       image:
         alt: Kyle Thompson
         width: 100
@@ -62,6 +76,7 @@ sections:
   - id: purpose
     type: statementList
     heading: Our Purpose and Impact
+    textAlignment: center
     paragraphs:
       - >-
         Our purpose guides the work we do every day—and every role contributes to advancing safety, quality, and
@@ -83,6 +98,7 @@ sections:
   - id: values
     type: mediaFeatureList
     heading: Our Core Beliefs and Values
+    textAlignment: center
     paragraphs:
       - Our core beliefs and values guide how we work together and shape the impact we make every day.
     spacing:
@@ -749,6 +765,8 @@ sections:
   - id: join
     type: textMedia
     heading: Make an Impact. Build Your Career.
+    spacing:
+      paddingBottom: none
     paragraphs:
       - >-
         At I-CAR, every role contributes to meaningful work–helping support safer, high-quality repairs and advancing
