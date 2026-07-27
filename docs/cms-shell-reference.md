@@ -4,7 +4,7 @@ This file captures the current CMS shell context used around rendered page conte
 
 It exists as a working reference snapshot for implementation decisions. The actual source of truth remains:
 
-- [scripts/cms-inline-utils.mjs](/Volumes/Sites/I-CAR/content/kentico/info/scripts/cms-inline-utils.mjs) for injected CMS shell CSS
+- [dev/scripts/cms-inline-utils.mjs](/Volumes/Sites/I-CAR/content/kentico/info/dev/scripts/cms-inline-utils.mjs) for injected CMS shell CSS
 - the live shell snapshot provided in the attachment for the broader Kentico page wrapper structure
 
 ## Shell Structure Reference

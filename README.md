@@ -5,8 +5,8 @@ This repo is set up for building and maintaining structured content pages that a
 If you are a content author with basic HTML and CSS skills, the main thing to know is:
 
 - Edit files in `content/pages/`
-- Use `content/html/` as the archived library of legacy/source markup
-- Use `html/` for generated local preview pages
+- Use `content/legacy/` as the archived library of legacy/source markup
+- Use `previews/` for generated local preview pages
 - Do not hand-edit files in `cms/`
 - Use the existing content structure and swap in approved copy, links, and image URLs
 
@@ -17,19 +17,29 @@ If you are a content author with basic HTML and CSS skills, the main thing to kn
 - `content/templates/`
   Lightweight template JSON source used to define page structure for `content/pages/`.
   See `content/templates/template-demo.json` for a catalog demo.
-- `content/html/`
+- `content/legacy/`
   Archived pre-pipeline static HTML pages preserved for source comparison and pattern lookup.
 - `cms/`
   Generated CMS-ready HTML output that mirrors the rendered `content/pages/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
-- `html/`
+- `previews/`
   Generated local preview HTML rendered from `content/pages/`.
-- `css/scss/`
+- `dev/`
+  Development-only source assets, scripts, and tool configuration.
+- `dev/assets/css/scss/`
   Source styles for the newer page system.
-- `css/legacy/style-legacy.css`
+- `dev/assets/css/legacy/style-legacy.css`
   Styles used by older legacy pages.
-- `html/documentation/component-library.html`
+- `dev/assets/js/`
+  Source and built JavaScript bundles for previews and CMS output.
+- `dev/assets/img/`
+  Reserved image asset directory.
+- `dev/scripts/`
+  Build and development scripts.
+- `dev/config/`
+  Shared formatter and lint configuration.
+- `previews/documentation/component-library.html`
   A live reference of reusable section patterns for newer pages.
-- `html/documentation/style-guide.html`
+- `previews/documentation/style-guide.html`
   A live reference for typography, buttons, colors, and common styling.
 
 ## The Two Page Systems
@@ -45,13 +55,13 @@ These usually use classes like:
 - `ic-card`
 - `ic-box`
 
-They usually load `css/style.css`.
+They usually load `dev/assets/css/style.css`.
 
 Example:
 
-- `html/about-us/careers.html`
+- `previews/about-us/careers.html`
 
-For these pages, the component library at `html/documentation/component-library.html` is the best reference.
+For these pages, the component library at `previews/documentation/component-library.html` is the best reference.
 
 ### 2. Legacy pages
 
@@ -62,12 +72,12 @@ These usually use classes like:
 - `box`
 - `btn btn-primary`
 
-They usually load `css/legacy/style-legacy.css`.
+They usually load `dev/assets/css/legacy/style-legacy.css`.
 
 Examples:
 
-- `html/gold-class.html`
-- `html/industries-served/insurance.html`
+- `content/legacy/gold-class.html`
+- `content/legacy/industries-served/insurer.html`
 
 For legacy pages, the safest workflow is to copy nearby patterns from an existing page instead of mixing in newer `ic-*` components unless someone has asked for a rebuild.
 
@@ -136,7 +146,7 @@ In general:
 - page-level `.css` and `.js` files are not emitted under `cms/`
 - if a page opts into separate script handoff, those tags are emitted to a matching `.scripts.html` file
 
-That means `content/pages/` is your working source of truth, `content/html/` preserves the old static references, `html/` is local preview output, and `cms/` is publish output.
+That means `content/pages/` is your working source of truth, `content/legacy/` preserves the old static references, `previews/` is local preview output, and `cms/` is publish output.
 
 ## Local Commands
 
@@ -311,11 +321,11 @@ Useful authoring notes:
 
 If you are getting acquainted with the setup, start here:
 
-- `html/documentation/component-library.html`
-- `html/documentation/style-guide.html`
-- `html/about-us/careers.html`
-- `html/about-us/culture.html`
-- `html/gold-class.html`
+- `previews/documentation/component-library.html`
+- `previews/documentation/style-guide.html`
+- `previews/about-us/careers.html`
+- `previews/about-us/culture.html`
+- `content/legacy/gold-class.html`
 
 Together, those examples show both the newer and legacy page styles used in this repo.
 
@@ -352,6 +362,6 @@ If you remember only five things, remember these:
 
 1. Edit `content/pages/`, not `cms/`.
 2. Reuse the existing layout before inventing a new one.
-3. Use `html/documentation/` as your visual reference.
+3. Use `previews/documentation/` as your visual reference.
 4. Preserve project-specific copy conventions like `I&#8209;CAR` and `Gold&nbsp;Class`.
 5. Rebuild CMS output after content changes when the handoff requires it.
