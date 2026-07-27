@@ -17,7 +17,6 @@ If you are a content author with basic HTML and CSS skills, the main thing to kn
   Working source of truth for CMS-ready page generation. These files can be `.json`, `.yaml`, or `.yml`.
 - `content/templates/`
   Lightweight template source used to define page structure for template-managed files in `content/pages/`.
-  See `content/templates/template-demo.json` for a catalog demo.
 - `content/legacy/`
   Archived pre-pipeline static HTML pages preserved for source comparison and pattern lookup.
 - `cms/`
@@ -94,7 +93,6 @@ Examples:
 
 - `content/pages/about-us/careers.yaml`
 - `content/pages/about-us/culture.yaml`
-- `content/pages/template-demo.json`
 
 These pages usually contain section objects with fields like:
 
@@ -267,8 +265,6 @@ npm run pages
 
 Syncs template-managed files from `content/templates/` into `content/pages/`, then validates the resulting page authoring files.
 
-If you want a real example, compare `content/templates/template-demo.json` with `content/pages/template-demo.json`.
-
 Page source files can also include optional CMS handoff metadata:
 
 ```json
@@ -352,8 +348,6 @@ Template authoring template:
 
 Template notes:
 
-- Use `content/templates/template-demo.json` as the catalog example for every supported section type and current variant.
-- Compare `content/templates/template-demo.json` with `content/pages/template-demo.json` to see the template input and generated output side by side.
 - If a section is retained and its template signature has not changed, content edits in `content/pages/` stay intact.
 - If a section is new or its template signature changes, the page section is reset to the generated placeholder content for that section.
 - After sync, continue editing the resulting page source file in `content/pages/`.
