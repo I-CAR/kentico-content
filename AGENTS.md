@@ -8,7 +8,7 @@ These rules are intentionally narrow. They do not apply to every possible file c
 ## Applies When
 Follow these instructions when all of the following are true:
 
-- You are editing a file under `html/`.
+- You are editing a file under `content/html/` or a custom `content/pages/**/*.main.html` source fragment.
 - The task is primarily content population, copy replacement, template cleanup, or page assembly.
 - The page is a marketing, informational, landing, or brand/content page rather than application logic.
 
@@ -27,7 +27,7 @@ These instructions should not be treated as global rules for unrelated work such
 - Refactoring CSS or design system code without page-copy work
 - Backend, API, data, or build tooling changes
 - Utility scripts, tests, or infrastructure updates
-- Changes outside `html/` unless the task explicitly says to reuse these content rules
+- Changes outside `content/html/` and `content/pages/**/*.main.html` unless the task explicitly says to reuse these content rules
 
 ## Primary Goal
 Preserve the existing component structure while replacing scaffold content with approved copy and production-ready HTML.
@@ -66,7 +66,7 @@ Unless explicitly requested:
 - If a section ID no longer matches the section content, rename it to something accurate and update any related anchor links.
 - Keep existing design system classes unless there is a specific reason to change them.
 - Do not add unnecessary wrapper markup.
-- When editing a file under `html/`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
+- When editing a file under `content/html/` or `content/pages/**/*.main.html`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
 
 ## Markup Ordering Rules
 - When a `section` element has an `id`, place the `id` attribute first.
@@ -97,7 +97,7 @@ Unless explicitly requested:
 ## Scoped Image Placement Rules
 Apply these rules only when:
 
-- editing files under `html/`
+- editing files under `content/html/` or `content/pages/**/*.main.html`
 - placing designer-provided image URLs into marketing/content page templates
 - the task includes populating image `src` and `srcset` values
 
@@ -145,6 +145,7 @@ Apply these rules only when:
 - Apply text normalization rules to legal copy unless doing so would alter a required official string.
 
 ## CMS And Build Rules
+- Do not hand-edit generated files under root `html/`; treat that tree as local preview output.
 - For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
 - `cms/` output should mirror the `html/` tree directly.
 - Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.

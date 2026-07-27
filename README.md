@@ -5,21 +5,24 @@ This repo is set up for building and maintaining structured content pages that a
 If you are a content author with basic HTML and CSS skills, the main thing to know is:
 
 - Edit files in `content/pages/`
-- Use `html/` as a reference library for legacy/source markup
+- Use `content/html/` as the archived library of legacy/source markup
+- Use `html/` for generated local preview pages
 - Do not hand-edit files in `cms/`
 - Use the existing content structure and swap in approved copy, links, and image URLs
 
 ## What Lives Where
 
-- `html/`
-  Preserved reference pages and component examples. These are kept for source comparison and pattern lookup.
 - `content/pages/`
   Structured JSON source of truth for CMS-ready page generation.
 - `content/templates/`
   Lightweight template JSON source used to define page structure for `content/pages/`.
   See `content/templates/template-demo.json` for a catalog demo.
+- `content/html/`
+  Archived pre-pipeline static HTML pages preserved for source comparison and pattern lookup.
 - `cms/`
   Generated CMS-ready HTML output that mirrors the rendered `content/pages/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
+- `html/`
+  Generated local preview HTML rendered from `content/pages/`.
 - `css/scss/`
   Source styles for the newer page system.
 - `css/legacy/style-legacy.css`
@@ -133,7 +136,7 @@ In general:
 - page-level `.css` and `.js` files are not emitted under `cms/`
 - if a page opts into separate script handoff, those tags are emitted to a matching `.scripts.html` file
 
-That means `content/pages/` is your working source of truth, `html/` is preserved for reference, and `cms/` is output.
+That means `content/pages/` is your working source of truth, `content/html/` preserves the old static references, `html/` is local preview output, and `cms/` is publish output.
 
 ## Local Commands
 
