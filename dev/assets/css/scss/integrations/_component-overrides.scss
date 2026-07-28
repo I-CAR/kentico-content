@@ -8,6 +8,12 @@ h1:empty {
     display: none !important;
 }
 
+.ic-row-no-bleed {
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+}
+
 @include mq(md) {
     section.ic-section .row .row {
         width: 100%;

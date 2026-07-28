@@ -1,0 +1,209 @@
+slug: gold-class-marketing-kit
+title: Gold Class Marketing Kit
+sections:
+  - id: top
+    type: text
+    title: Gold Class Marketing Kit
+    headingTag: h1
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    layout:
+      width: full
+      align: start
+    body:
+      - >-
+        Your Gold Class and Platinum certification sets your business apart. Use the logos and materials below to
+        showcase your achievement, strengthen your brand presence, and communicate your commitment to quality.
+  - id: logos
+    type: cards
+    title: Logos
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    variant: assetDownloads
+    layout:
+      introWidth: full
+      introAlign: start
+      contentWidth: full
+      cardsPerRow:
+        md: auto
+      cardAlign: start
+      mediaPosition: start
+      mediaWrap: nowrap
+      linkStyle: text
+    bodyHtml:
+      - >-
+        Gold Class and Platinum logos can be used on letterhead, business cards, websites, estimates, and other
+        marketing materials. The EPS format is ideal for embroidery or screen printing on apparel, banners, and signs,
+        offering versatile ways to highlight your certification.
+      - >-
+        Always follow <a href="#">brand guidelines</a> for correct logo usage.
+    cards:
+      - title: Gold Class Collision Repair
+        links:
+          - label: Download Logo
+            href: "#"
+        image:
+          alt: Gold Class Collision Repair logo
+          desktopSrc: /getmedia/0cb42a8d-ef51-4244-b3ae-b7a1da1632ce/GoldClass_CollisionRepair_140w.webp
+          width: "140"
+          height: "140"
+          sizes: 140px
+        imagePreset: logo
+      - title: Platinum Professional
+        links:
+          - label: Download Logo
+            href: "#"
+        image:
+          alt: Platinum Professional logo
+          desktopSrc: /getmedia/6d5519f5-667d-49e4-84d9-6e11ef375159/Platinum_Professional_140w.webp
+          width: "140"
+          height: "140"
+          sizes: 140px
+        imagePreset: logo
+  - id: social-media
+    type: cards
+    title: Social Media
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    variant: assetDownloads
+    layout:
+      introWidth: full
+      introAlign: start
+      contentWidth: full
+      cardsPerRow:
+        md: 2
+        lg: 4
+      cardAlign: start
+      mediaPosition: start
+      mediaWrap: nowrap
+      linkStyle: text
+    body:
+      - >-
+        You can play an important role in building the value of Gold Class shops by helping spread the word on social
+        media. Share our posts on Facebook, Instagram, LinkedIn and X, and like and comment to keep conversations
+        active and engaging.
+      - Add the Gold Class logo to photos of your shop or customers to make them stand out.
+    cards:
+      - title: ADAS
+        links:
+          - label: Download JPEG
+            href: "#"
+        image:
+          alt: ADAS social media image
+          desktopSrc: /getmedia/1bd0e47b-e443-4a4c-8952-ef102b80058e/GCKit_Social_ADAS_200w.webp
+          width: "200"
+          height: "200"
+          sizes: 200px
+        imagePreset: socialSquare
+      - title: Dent Repair
+        links:
+          - label: Download JPEG
+            href: "#"
+        image:
+          alt: Dent Repair social media image
+          desktopSrc: /getmedia/b1b218da-2dd1-44f5-8720-cd8a026305d0/GCKit_Social_Dent-Repair_200w.webp
+          width: "200"
+          height: "200"
+          sizes: 200px
+        imagePreset: socialSquare
+      - title: Refinish
+        links:
+          - label: Download JPEG
+            href: "#"
+        image:
+          alt: Refinish social media image
+          desktopSrc: /getmedia/407353e3-3d13-4dd8-a6ab-5aa5c015ff77/GCKit_Social_Refinish_200w.webp
+          width: "200"
+          height: "200"
+          sizes: 200px
+        imagePreset: socialSquare
+      - title: Welding
+        links:
+          - label: Download JPEG
+            href: "#"
+        image:
+          alt: Welding social media image
+          desktopSrc: /getmedia/189f05d9-2451-4c9d-b16b-b5e2e35d6172/GCKit_Social_Welding_200w.webp
+          width: "200"
+          height: "200"
+          sizes: 200px
+        imagePreset: socialSquare
+  - id: messaging
+    type: text
+    title: Messaging
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    layout:
+      width: full
+      align: start
+      actionsStyle: linkList
+      actionsLayout: stack
+      actionsVariant: text
+    body:
+      - >-
+        Communicate the value of Gold Class with ready-to-use messaging for your website, social media, advertising, and
+        on-hold scripts.
+    buttons:
+      items:
+        - label: Download PDF
+          href: "#"
+        - label: Download Word Doc
+          href: "#"
+  - id: web-content
+    type: text
+    title: Web Content
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    layout:
+      width: full
+      align: start
+      actionsStyle: linkList
+      actionsLayout: stack
+      actionsVariant: text
+    body:
+      - Promote your Gold Class status on your website.
+    buttons:
+      items:
+        - label: Download Web Content Examples
+          href: "#"
+  - id: email
+    type: text
+    title: Email
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    layout:
+      width: full
+      align: start
+      actionsStyle: linkList
+      actionsLayout: stack
+      actionsVariant: text
+    body:
+      - Co-brand email headers and footers to promote your Gold Class achievement.
+    buttons:
+      items:
+        - label: Download Email Materials
+          href: "#"
+  - id: press
+    type: text
+    title: Press
+    headingStyle: plain
+    sectionChrome: bordered
+    sectionSpacing: compact
+    layout:
+      width: full
+      align: start
+      actionsStyle: linkList
+      actionsLayout: stack
+      actionsVariant: text
+    body:
+      - Templates to customize and share with local press to promote your shop.
+    buttons:
+      items:
+        - label: Download Press Kit
+          href: "#"

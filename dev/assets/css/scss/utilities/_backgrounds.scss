@@ -62,29 +62,47 @@
 }
 
 .ic-section.ic-background-white.ic-section-border {
-    padding: 0;
+    --ic-section-border-padding-y: var(--section-padding);
+    padding-top: var(--ic-section-border-padding-y);
+    padding-bottom: var(--ic-section-border-padding-y);
 }
 
 .ic-section.ic-background-white.ic-section-border .container {
-    padding-top: var(--section-padding);
-    padding-bottom: var(--section-padding);
+    position: relative;
+}
+
+.ic-section.ic-background-white.ic-section-border .container::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--ic-section-border-padding-y) * -1);
+    left: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+    right: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
     border-top: 1px solid var(--light);
+    pointer-events: none;
+}
+
+.ic-section.ic-background-white.ic-section-border.ic-section-divider-spacing-40 {
+    --ic-section-border-padding-y: var(--space-32);
 }
 
 @include mq(xxxl) {
     .ic-section.ic-background-white.ic-section-border .container {
-        padding: var(--section-padding) 0;
+        padding: 0;
     }
 }
 
-.ic-section.ic-background-white.ic-section-border:first-child .container {
+.ic-section.ic-background-white.ic-section-border:first-of-type .container {
     // padding-top: 0;
     border: 0;
 }
 
-.ic-section.ic-background-white.ic-section-border
-    + .ic-section.ic-background-white.ic-section-border {
-    padding-top: 0;
+.ic-section.ic-background-white.ic-section-border:first-of-type .container::before {
+    content: none;
+}
+
+.ic-section.ic-background-white.ic-section-border:last-of-type,
+.ic-section.ic-background-white.ic-section-border.mb-0 {
+    padding-bottom: clamp(5rem, 1.721rem + 9.697vw, 7.5rem);
 }
 
 .ic-background-primary-100 {

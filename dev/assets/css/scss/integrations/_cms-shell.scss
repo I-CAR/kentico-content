@@ -1,5 +1,10 @@
 @use "../abstracts/mixins" as *;
 
+:root {
+    --shell-inline-padding: var(--space-12);
+    --shell-max-width: calc(1520rem / 16);
+}
+
 #main,
 #main>article {
     padding-left: 0;
@@ -23,6 +28,10 @@
 
 .content.no-right-rail {
     padding: 0 var(--space-8);
+}
+
+.content.no-right-rail:has(> .ic-section) {
+    padding: 0;
 }
 
 @include mq(md) {
@@ -61,14 +70,14 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--space-12);
-    padding-right: var(--space-12);
+    padding-left: var(--shell-inline-padding);
+    padding-right: var(--shell-inline-padding);
 }
 
 .breadcrumb {
     // display: none;
     margin: calc(25rem / var(--rem-base)) auto;
-    padding: 0 var(--space-10);
+    padding: 0 var(--shell-inline-padding);
 }
 
 @include mq(xxxl) {
@@ -78,7 +87,7 @@
     .breadcrumb,
     .header .header-inner,
     .footer .footer-inner {
-        max-width: calc(1520rem / 16) !important;
+        max-width: var(--shell-max-width) !important;
     }
 }
 

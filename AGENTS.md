@@ -151,6 +151,8 @@ Apply these rules only when:
 - Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
 - Prefer CMS output that a content author can copy and paste directly from a single HTML file.
 - For template-managed pages under `content/pages/`, keep the page data file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
+- Do not treat a JSON-to-YAML or YAML-to-JSON conversion as complete if the page still depends on `sourceHtmlFile` or a sibling `*.main.html`, unless the user explicitly asks to keep custom HTML authoring.
+- When converting an HTML-wrapper page to structured authoring, prefer native page-data sections and explicit options over preserving raw HTML/CSS/class authoring in page data.
 - When migrating a page from custom HTML authoring to template-managed JSON or YAML, delete any now-unused sibling `*.main.html` file in the same change so orphaned page sources do not linger.
 - When a page is meant to stay template-managed, preserve or restore the page-level `__template.source` metadata so `npm run pages` does not treat it as skipped custom content.
 - If a page is intentionally custom and should no longer follow its template, make that an explicit decision rather than an accidental side effect of removing template metadata or editing generated artifacts directly.
@@ -163,6 +165,8 @@ Apply these rules only when:
 - Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
 - When a page does not use a dependency, do not emit that dependency into the CMS output.
 - Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
+- Prefer author-facing option names and values that describe intent in plain language rather than implementation details.
+- Avoid exposing raw measurements, CSS terminology, or developer-centric phrasing to content authors when a semantic option such as `default`, `compact`, or `roomy` can express the same choice.
 - For dev/watch workflows started by `npm run dev`, generated output in `dev/assets/js/` should remain unminified for readability, while CMS HTML fragments should still be minified.
 - Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
 - Keep development output readable when possible, but comment-free CMS output takes priority.

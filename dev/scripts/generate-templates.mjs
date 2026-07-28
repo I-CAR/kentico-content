@@ -53,6 +53,24 @@ function collectFiles(root, extension) {
   return files.sort();
 }
 
+function resolveExistingAuthoringFile(filePath) {
+  if (existsSync(filePath)) {
+    return filePath;
+  }
+
+  const fileBase = stripAuthoringFileExtension(filePath);
+
+  for (const extension of authoringFileExtensions) {
+    const candidate = `${fileBase}${extension}`;
+
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return filePath;
+}
+
 function toSlug(sourceFile, template) {
   if (typeof template.slug === "string" && template.slug.trim()) {
     return template.slug.trim();
@@ -271,7 +289,7 @@ function mergeSectionWithExisting(generatedSection, metadata, existingSection) {
   };
 }
 
-function buildPageFromTemplate(template, sourceFile, existingPage = null) {
+function buildPageFromTemplate(template, sourceFile, existingPage = null, outputFile = null) {
   const slug = toSlug(sourceFile, template);
   const title = typeof template.title === "string" && template.title.trim()
     ? template.title.trim()
@@ -297,7 +315,7 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null) {
       sections: mergedSections.map((entry) => entry.section),
       ...(existingPage?.cms ? { cms: existingPage.cms } : {}),
       __template: {
-        source: relative(templateSourceDir, sourceFile),
+        source: outputFile ? relative(outputSourceDir, outputFile) : relative(templateSourceDir, sourceFile),
         signature: templateSignature,
       },
     },
@@ -305,9 +323,7 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null) {
   };
 }
 
-function syncGeneratedPage(sourceFile, page) {
-  const relativeFile = relative(templateSourceDir, sourceFile);
-  const outputFile = join(outputSourceDir, relativeFile);
+function syncGeneratedPage(outputFile, page) {
   const nextContents = `${serializeStructuredAuthoringFile(outputFile, page)}\n`;
 
   if (!existsSync(outputFile)) {
@@ -378,7 +394,8 @@ export function syncTemplates() {
   for (const sourceFile of templateFiles) {
     try {
       const template = parseTemplateFile(sourceFile);
-      const outputFile = join(outputSourceDir, relative(templateSourceDir, sourceFile));
+      const defaultOutputFile = join(outputSourceDir, relative(templateSourceDir, sourceFile));
+      const outputFile = resolveExistingAuthoringFile(defaultOutputFile);
       const existingPage = existsSync(outputFile)
         ? parseStructuredAuthoringFile(outputFile)
         : null;
@@ -390,8 +407,8 @@ export function syncTemplates() {
         continue;
       }
 
-      const { page } = buildPageFromTemplate(template, sourceFile, existingPage);
-      const result = syncGeneratedPage(sourceFile, page);
+      const { page } = buildPageFromTemplate(template, sourceFile, existingPage, outputFile);
+      const result = syncGeneratedPage(outputFile, page);
 
       if (result.status === "created") {
         createdCount += 1;

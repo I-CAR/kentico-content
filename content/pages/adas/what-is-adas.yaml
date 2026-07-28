@@ -1,0 +1,231 @@
+slug: what-is-adas
+title: What Is ADAS?
+sections:
+  - id: top
+    type: hero
+    variant: split
+    title: What is ADAS?
+    body:
+      - >-
+        Advanced Driver Assistance Systems (ADAS) are now standard in modern vehicles and directly impact how repairs
+        are performed. From sensor alignment to windshield calibration, understanding ADAS is essential for restoring
+        safety systems after a&nbsp;collision.
+    spacing:
+      paddingTop: none
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      mobileCopySpacing: tight
+      mobileMediaSpacing: tight
+      desktopGapTarget: copy
+      desktopGapBreakpoint: md
+    imageStyle: rounded
+    imageFrame: none
+    image:
+      alt: >-
+        Technician testing vehicle sensors for proper ADAS calibration to ensure systems function properly after
+        collision repair
+      desktopSrc: /getmedia/ab19fda5-0aa7-4eef-87ce-bbd3b697bbb0/Hero_800w.webp
+      desktopSrcset: >-
+        /getmedia/730d0885-bf6c-4804-9c92-6b4939f4782c/Hero_400w.webp 400w,
+        /getmedia/ab19fda5-0aa7-4eef-87ce-bbd3b697bbb0/Hero_800w.webp 800w,
+        /getmedia/510ec914-9db7-429c-b362-0a1ef69e8c78/Hero_1600w.webp 1600w
+      width: "873"
+      height: "550"
+      sizes: "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+      loading: eager
+    __template:
+      id: top
+      type: hero
+      variant: default
+      signature: a593f70b8504907c15e4805cfb2461296de73f32
+  - id: faq
+    type: accordion
+    title: Common ADAS Questions
+    backgroundColor: light
+    accordionId: faqAccordion
+    items:
+      - title: What does recalibration mean in a repair shop?
+        body:
+          - >-
+            Recalibration means resetting ADAS sensors after repairs. This is critical after replacing windshields,
+            bumpers, or suspension components, or after any structural work that could affect sensor alignment.
+      - title: What is ADAS windshield calibration?
+        body:
+          - >-
+            When a windshield is replaced, the forward-facing camera mounted behind it must be recalibrated. This
+            ensures systems like lane departure warning and adaptive cruise control function properly.
+      - title: What does calibration mean on a car after a collision?
+        body:
+          - >-
+            Calibration means ensuring all ADAS sensors are properly aligned and communicating with the vehicle’s
+            control systems. It’s a key step in post-repair safety validation.
+      - title: Where are ADAS sensors located on a vehicle?
+        listIntro: "ADAS sensors may be found:"
+        listItems:
+          - Behind the windshield (camera)
+          - In the front and rear bumpers (radar and sonar)
+          - In side mirrors (blind spot detection)
+          - Around the vehicle perimeter (ultrasonic sensors)
+        closingText: Technicians must inspect these areas after any impact.
+      - title: Which ADAS features are most affected by collision damage?
+        listItems:
+          - Forward collision warning
+          - Lane keeping assist
+          - Blind spot monitoring
+          - Parking assist
+          - Adaptive cruise control
+        closingText: These systems rely on precise sensor placement and may require recalibration or replacement.
+      - title: What types of ADAS technologies help prevent crashes?
+        listIntro: "Technologies include:"
+        listItems:
+          - Automatic emergency braking
+          - Lane departure warning
+          - Pedestrian detection
+          - Cross-traffic alert
+          - Driver attention monitoring
+        closingText: Collision repair shops must ensure these systems are restored to OEM specs.
+      - title: What is the expected benefit of ADAS in collision repair?
+        body:
+          - >-
+            ADAS helps prevent future accidents. Proper calibration after repairs ensures the vehicle’s safety systems
+            are fully functional, protecting both the driver and others on the road.
+      - title: What are the six levels of driver assistance technology?
+        listIntro: "Technicians should be aware of these SAE levels:"
+        listItems:
+          - "Level 0: No automation"
+          - "Level 1–2: Driver assistance (ADAS)"
+          - "Level 3–5: Increasing levels of autonomy"
+        closingText: >-
+          Most collision repair work today involves Level 1–2 systems, which require technician intervention for
+          calibration.
+      - title: What does it mean to calibrate a car in a body shop?
+        body:
+          - >-
+            It means using OEM-approved tools and procedures to realign ADAS sensors after repairs. Calibration is
+            essential for restoring vehicle safety.
+      - title: Which alignment procedure may involve self-calibration?
+        body:
+          - >-
+            Dynamic calibration often involves self-calibration, where the vehicle adjusts its sensors during a test
+            drive under specific conditions.
+      - title: What is car calibration after a crash?
+        body:
+          - >-
+            Car calibration ensures that all safety systems are functioning as intended. It’s a critical final step in
+            the repair process, especially for vehicles with ADAS.
+      - title: How do safety devices inside a car help keep customers safe after repairs?
+        body:
+          - >-
+            Safety devices like airbags, seatbelts, and ADAS systems must be inspected and tested after a collision.
+            Proper repair and calibration ensure they’ll perform correctly in future incidents.
+    __template:
+      id: faq
+      type: accordion
+      variant: default
+      signature: b3f7752995a391fd14163c1072798a8d759a43d2
+  - id: videos
+    type: embed
+    title: ADAS Video Playlist
+    body:
+      - >-
+        Watch the essentials of ADAS and how it impacts collision repair from sensor calibration to restoring safety
+        systems after a&nbsp;crash.
+    embedHtml: <div data-experience="68d316acb9665e72e8243afc" class="ic-playlist ic-background-light"></div>
+    __template:
+      id: videos
+      type: embed
+      variant: default
+      signature: 4b18ae4e7a95e8ca15b02d20a358406cdbb0e183
+  - id: education
+    type: textMedia
+    title: ADAS Education
+    body:
+      - >-
+        Learn how to diagnose, calibrate, and restore advanced safety systems with confidence with online and
+        hands&#8209;on&nbsp;courses.
+    buttons:
+      - label: Explore ADAS Education
+        href: /adas/adas-courses
+        variant: outline
+    backgroundColor: light
+    layout:
+      contentWidth: wide
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: left
+      mobileMediaOrder: above
+      mobileCopySpacing: tight
+      desktopGapTarget: copy
+    imageLink:
+      href: /adas/adas-courses
+      title: Explore ADAS Education
+    image:
+      alt: >-
+        Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after
+        collision or accident repair
+      desktopSrc: /getmedia/fd5eed09-cdbc-4a7d-bc03-7f8107dfb928/ADAS-Education_800w_D.webp
+      desktopSrcset: >-
+        /getmedia/6b9c1a8d-a6aa-4aa4-b6bb-4644b8533c7a/ADAS-Education_400w_D.webp 400w,
+        /getmedia/fd5eed09-cdbc-4a7d-bc03-7f8107dfb928/ADAS-Education_800w_D.webp 800w,
+        /getmedia/645cb925-4d38-418e-8916-6ae6d361ebc0/ADAS-Education_1600w_D.webp 1600w
+      mobileSrcset: >-
+        /getmedia/d68d05c4-879a-42bf-a901-d8ae6ae1e70a/ADAS-Education_400w_M.webp 400w,
+        /getmedia/b88ff160-856a-4297-a5e1-a9e43b119a49/ADAS-Education_800w_M.webp 800w,
+        /getmedia/83bc3099-b04f-41fa-a95f-0f909e0e3a45/ADAS-Education_1600w_M.webp 1600w
+      width: "800"
+      height: "576"
+      sizes: "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+    __template:
+      id: education
+      type: textMedia
+      variant: reverse
+      signature: 46f603462fd9e204acfb5868ba108e1a9b8cf921
+  - id: platinum
+    type: textMedia
+    title: Platinum Path
+    body:
+      - >-
+        ADAS is one of the fastest-growing specialties in collision repair. As vehicles become more complex, shops need
+        experts who can restore advanced safety systems with precision. Whether you're building your career or
+        future-proofing your business, ADAS expertise ensures safer, OEM-compliant repairs and sets you apart in a
+        rapidly evolving&nbsp;industry.
+    buttons:
+      - label: Get to Platinum
+        href: https://www.i-car.com/adas-technician-platinum-path
+        variant: primary
+    spacing:
+      paddingBottom: none
+    layout:
+      contentWidth: wide
+      desktopSplit: equal
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      mobileCopySpacing: tight
+      mobileMediaSpacing: tight
+      copyVerticalAlign: center
+      desktopGapTarget: copy
+    imageLink:
+      href: https://www.i-car.com/adas-technician-platinum-path
+      title: Get to Platinum
+    image:
+      alt: >-
+        Technicians in a car testing a camera for proper ADAS calibration to ensure systems function properly after
+        collision or accident repair
+      desktopSrc: /getmedia/e620dec7-de5a-4289-9e5e-2e350afc229f/Platinum-Path_800w.webp
+      desktopSrcset: >-
+        /getmedia/74952b82-741e-44d9-8225-a411ec5171e4/Platinum-Path_400w.webp 400w,
+        /getmedia/e620dec7-de5a-4289-9e5e-2e350afc229f/Platinum-Path_800w.webp 800w,
+        /getmedia/dfe31a50-6968-401c-8a1d-6e9c90f1f66d/Platinum-Path_1600w.webp 1600w
+      width: "472"
+      height: "472"
+      sizes: "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+    __template:
+      id: platinum
+      type: textMedia
+      variant: default
+      signature: fc560734e1c7d325ee2208cc54adfb867a19136b
+__template:
+  source: adas/what-is-adas.yaml
+  signature: e78b619f9b740f961e9c1afec4029147fd1b0c43
+

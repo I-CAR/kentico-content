@@ -167,6 +167,7 @@ function getSectionButtons(section = {}) {
       ? buttonGroup.items.map((button) => ({
         ...button,
         location: getActionLocation(button, getActionLocation(buttonGroup, "header")),
+        variant: button.variant || buttonGroup.variant || buttonGroup.buttonVariant,
       }))
       : [];
   const legacyFooterButtons = Array.isArray(section.footerButtons)
@@ -197,14 +198,84 @@ function buildSectionClassName(baseClassName, ...additionalClassNames) {
   return joinClassNames(baseClassName, ...additionalClassNames);
 }
 
-function resolveSectionSpacingClassNames(section) {
-  const spacing = section.spacing;
+function getSectionChromeClassName(section = {}) {
+  return section.sectionChrome === "bordered" ? "ic-background-white ic-section-border" : "";
+}
 
-  if (!spacing) {
-    return "";
+function normalizeBreakpoint(value, fallback = "lg") {
+  const breakpoint = typeof value === "string" ? value.trim().toLowerCase() : "";
+  return ["sm", "md", "lg", "xl"].includes(breakpoint) ? breakpoint : fallback;
+}
+
+function resolveSplitColumnOrderClasses(desktopMediaPosition = "right", mobileMediaOrder = "below") {
+  if (desktopMediaPosition === "right" && mobileMediaOrder === "above") {
+    return {
+      copyClassName: "order-last order-md-first",
+      mediaClassName: "order-first order-md-last",
+    };
   }
 
+  if (desktopMediaPosition === "left" && mobileMediaOrder === "below") {
+    return {
+      copyClassName: "order-first order-md-last",
+      mediaClassName: "order-last order-md-first",
+    };
+  }
+
+  return {
+    copyClassName: "",
+    mediaClassName: "",
+  };
+}
+
+function resolveSplitColumnGapClassNames({
+  desktopMediaPosition = "right",
+  desktopGapTarget = "",
+  desktopGapBreakpoint = "lg",
+} = {}) {
+  const gapBreakpoint = normalizeBreakpoint(desktopGapBreakpoint, "lg");
+
+  if (desktopGapTarget !== "copy" && desktopGapTarget !== "media") {
+    return {
+      copyClassName: "",
+      mediaClassName: "",
+    };
+  }
+
+  const gapSide = desktopGapTarget === "copy"
+    ? (desktopMediaPosition === "right" ? "pr" : "pl")
+    : (desktopMediaPosition === "right" ? "pl" : "pr");
+  const gapClassName = `${gapSide}-${gapBreakpoint}-5`;
+
+  return {
+    copyClassName: desktopGapTarget === "copy" ? gapClassName : "",
+    mediaClassName: desktopGapTarget === "media" ? gapClassName : "",
+  };
+}
+
+function resolveSplitImageClassName({
+  imageStyle = "rounded",
+  imageFrame = "section",
+  imageInset = false,
+} = {}) {
+  const baseClassName = imageStyle === "cutout"
+    ? "ic-image-cutout"
+    : imageStyle === "banner"
+      ? "ic-image-banner"
+      : imageFrame === "none"
+        ? "ic-image-rounded"
+        : "ic-section-image ic-image-rounded";
+
+  return joinClassNames(baseClassName, imageInset ? "px-4" : "");
+}
+
+function resolveSectionSpacingClassNames(section) {
+  const spacing = section.spacing;
+  const semanticSectionSpacing = section.sectionSpacing;
+
   return joinClassNames(
+    semanticSectionSpacing === "compact" || semanticSectionSpacing === "roomy" ? "ic-section-divider-spacing-40" : "",
+    !spacing ? "" : [
     spacing.marginTop === "none" ? "mt-0" : "",
     spacing.paddingTop === "none" ? "pt-0" : "",
     spacing.paddingTop === "none-mobile" ? "pt-0 pt-md-5" : "",
@@ -213,6 +284,21 @@ function resolveSectionSpacingClassNames(section) {
     spacing.paddingBottom === "none" ? "pb-0" : "",
     spacing.paddingBottom === "sm" ? "ic-section-padding-bottom-sm" : "",
     spacing.paddingBottom === "lg" ? "ic-section-padding-bottom-lg" : "",
+    spacing.divider === 40 || spacing.divider === "40" ? "ic-section-divider-spacing-40" : "",
+    ].join(" "),
+  );
+}
+
+function useStructuredNoBleedRows(section = {}) {
+  return section.sectionChrome === "bordered";
+}
+
+function buildStructuredSectionRowClassName(section = {}, ...additionalClassNames) {
+  return joinClassNames(
+    "row",
+    "justify-content-center",
+    useStructuredNoBleedRows(section) ? "ic-row-no-bleed" : "",
+    ...additionalClassNames,
   );
 }
 
@@ -616,6 +702,52 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
   return `                <p>\n${buttonMarkup}\n                </p>`;
 }
 
+function renderActionLinks(buttons, {
+  stack = false,
+  linkClassName = "",
+  wrapperClassName = "",
+} = {}) {
+  if (!buttons?.length) {
+    return "";
+  }
+
+  const linkClassAttribute = linkClassName ? ` class="${escapeHtml(linkClassName)}"` : "";
+
+  if (stack) {
+    const itemsMarkup = buttons
+      .map((button, index) => {
+        const paragraphClassName = index === buttons.length - 1 ? "mb-0" : "mb-1";
+        const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
+        const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
+        const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
+
+        return `                    <p class="${paragraphClassName}">
+                        <a href="${escapeHtml(button.href)}"${linkClassAttribute}${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>
+                    </p>`;
+      })
+      .join("\n\n");
+
+    if (wrapperClassName) {
+      return `                <div class="${escapeHtml(wrapperClassName)}">
+${itemsMarkup}
+                </div>`;
+    }
+
+    return itemsMarkup;
+  }
+
+  const inlineLinksMarkup = buttons
+    .map((button) => {
+      const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
+      const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
+      const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
+      return `                    <a href="${escapeHtml(button.href)}"${linkClassAttribute}${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>`;
+    })
+    .join("\n");
+
+  return `                <p>\n${inlineLinksMarkup}\n                </p>`;
+}
+
 function renderFooterButtonRow(
   buttons,
   defaultClassName = "ic-btn ic-btn-primary ic-btn-outline",
@@ -663,6 +795,29 @@ function renderLinkList(links = [], className = "ic-menu mt-3") {
   return `                                <ul class="${escapeHtml(className)}">
 ${items}
                                 </ul>`;
+}
+
+function getSectionHeadingTag(section = {}, defaultTag = "h2") {
+  return /^(h1|h2|h3|h4|h5|h6|p)$/i.test(section.headingTag || "")
+    ? section.headingTag.toLowerCase()
+    : defaultTag;
+}
+
+function renderSectionHeading(section = {}, defaultTag = "h2", defaultClassName = "ic-section-title") {
+  const heading = getSectionHeading(section);
+
+  if (!heading) {
+    return "";
+  }
+
+  const headingTag = getSectionHeadingTag(section, defaultTag);
+  const headingStyle = section.headingStyle || "sectionTitle";
+  const className = headingStyle === "plain"
+    ? (section.titleClassName || "")
+    : (section.titleClassName || defaultClassName);
+  const classAttribute = className ? ` class="${escapeHtml(className)}"` : "";
+
+  return `<${headingTag}${classAttribute}>${renderText(heading)}</${headingTag}>`;
 }
 
 function indentBlock(block, spaces) {
@@ -863,22 +1018,88 @@ function normalizeIconSvgMarkup(iconSvg) {
   </svg>`;
 }
 
+function resolveHeroSemanticLayout(section) {
+  const layout = section.layout;
+
+  if ((section.variant || section.heroStyle || "default") !== "split" && !layout) {
+    return null;
+  }
+
+  const desktopMediaPosition = layout?.desktopMediaPosition || "right";
+  const mobileMediaOrder = layout?.mobileMediaOrder || "above";
+  const desktopSplit = layout?.desktopSplit || "text-5-media-7";
+  const rowVerticalAlign = layout?.rowVerticalAlign || "center";
+  const mobileCopySpacing = layout?.mobileCopySpacing || "none";
+  const mobileMediaSpacing = layout?.mobileMediaSpacing || (mobileMediaOrder === "above" ? "section" : "none");
+  const desktopGapTarget = layout?.desktopGapTarget || "media";
+  const desktopGapBreakpoint = layout?.desktopGapBreakpoint || "lg";
+  const boxStyle = layout?.boxStyle || "none";
+  const imageStyle = layout?.imageStyle || section.imageStyle || "rounded";
+  const imageFrame = layout?.imageFrame || section.imageFrame || "section";
+  const imageInset = layout?.imageInset === true || section.imageInset === true;
+
+  const copyDesktopSplitClass = {
+    equal: "col-md-6",
+    "text-5-media-7": "col-md-6 col-xl-5",
+    "text-7-media-5": "col-md-6 col-xl-7",
+  }[desktopSplit] || "col-md-6";
+  const mediaDesktopSplitClass = {
+    equal: "col-md-6",
+    "text-5-media-7": "col-md-6 col-xl-7",
+    "text-7-media-5": "col-md-6 col-xl-5",
+  }[desktopSplit] || "col-md-6";
+  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder);
+  const gapClasses = resolveSplitColumnGapClassNames({
+    desktopMediaPosition,
+    desktopGapTarget,
+    desktopGapBreakpoint,
+  });
+  const copyMobileSpacingClass = mobileCopySpacing === "tight"
+    ? "mb-3 mb-md-0"
+    : mobileCopySpacing === "offset"
+      ? "mt-2 pt-1 mt-md-0 pt-md-0"
+      : "";
+  const mediaMobileSpacingClass = mobileMediaSpacing === "tight"
+    ? (mobileMediaOrder === "above" ? "mb-3 mb-md-0" : "mt-3 mt-md-0")
+    : mobileMediaSpacing === "section"
+      ? (mobileMediaOrder === "above" ? "mb-3 pb-1 mb-md-0 pb-md-0" : "mt-3 pt-3 mt-md-0 pt-md-0")
+      : "";
+
+  return {
+    contentClassName: joinClassNames(
+      "col col-12",
+      copyDesktopSplitClass,
+      orderClasses.copyClassName,
+      copyMobileSpacingClass,
+      gapClasses.copyClassName,
+    ),
+    mediaClassName: joinClassNames(
+      "col col-12",
+      mediaDesktopSplitClass,
+      orderClasses.mediaClassName,
+      mediaMobileSpacingClass,
+      gapClasses.mediaClassName,
+    ),
+    rowClassName: joinClassNames(
+      "row justify-content-between",
+      rowVerticalAlign === "end" ? "align-items-end" : "align-items-center",
+    ),
+    imageClassName: resolveSplitImageClassName({
+      imageStyle,
+      imageFrame,
+      imageInset,
+    }),
+    imagePreset: imageStyle === "banner" ? "banner" : "textMedia",
+    autoSectionClassName: "",
+    boxClassName: boxStyle === "collapse" ? "ic-box ic-box-mobile-collapse" : "",
+  };
+}
+
 function renderHeroSection(section) {
   const heroHeadline = getHeroHeadline(section);
   const heroVariant = section.variant || section.heroStyle || "default";
   const headingTag = /^(h1|h2|h3|h4|h5|h6|p)$/i.test(section.headingTag || "") ? section.headingTag.toLowerCase() : "p";
-  const splitHeroImageStyle = section.imageStyle || section.layout?.imageStyle || "rounded";
-  const semanticLayout = heroVariant === "split"
-    ? {
-      contentClassName: "col col-12 col-md-6 col-xl-5 order-last order-md-first",
-      mediaClassName: "col col-12 col-md-6 col-xl-7 pl-lg-5 mb-3 pb-1 mb-md-0 pb-md-0 order-first order-md-last",
-      rowClassName: "row justify-content-between align-items-center",
-      imageClassName: splitHeroImageStyle === "banner" ? "ic-image-banner" : "ic-section-image ic-image-rounded",
-      imagePreset: "textMedia",
-      autoSectionClassName: "",
-      boxClassName: "",
-    }
-    : null;
+  const semanticLayout = heroVariant === "split" ? resolveHeroSemanticLayout(section) : null;
   const bodyMarkup = renderParagraphContent(section);
   const contentHtmlMarkup = normalizeHtmlBlocks(section.contentHtml)
     .map((block) => renderTrustedHtml(block))
@@ -979,14 +1200,19 @@ function resolveCardsSemanticLayout(section) {
 
   const cardsPerRow = layout.cardsPerRow || {};
   const introWidth = layout.introWidth || "default";
+  const introAlign = layout.introAlign || "center";
   const contentWidth = layout.contentWidth || "default";
   const cardStyle = layout.cardStyle || "default";
   const imageStyle = layout.imageStyle || "rounded";
+  const cardVariant = section.variant || layout.variant || "default";
+  const hasExplicitCardsPerRow = ["sm", "md", "lg", "xl", "xxl"].some((breakpoint) => cardsPerRow[breakpoint]);
 
-  const introColumnClass = {
-    default: "col col-md-10 col-lg-8 col-xl-6 text-md-center",
-    wide: "col col-12 col-lg-10 col-xl-8 text-md-center",
-  }[introWidth] || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
+  const introAlignmentClass = introAlign === "start" ? "" : "text-md-center";
+  const introColumnClass = joinClassNames({
+    default: "col col-md-10 col-lg-8 col-xl-6",
+    wide: "col col-12 col-lg-10 col-xl-8",
+    full: "col col-12",
+  }[introWidth] || "col col-md-10 col-lg-8 col-xl-6", introAlignmentClass);
 
   const contentColumnClass = {
     default: "col col-12 col-xl-9",
@@ -995,20 +1221,30 @@ function resolveCardsSemanticLayout(section) {
     full: "col col-12",
   }[contentWidth] || "col col-12 col-xl-9";
 
-  const mdColumns = cardsPerRow.md || 2;
-  const xlColumns = cardsPerRow.xl || 3;
-  const mdColumnClass = {
-    1: "col-md-12",
-    2: "col-md-6",
-    3: "col-md-4",
-    4: "col-md-3",
-  }[mdColumns] || "col-md-6";
-  const xlColumnClass = {
-    1: "col-xl-12",
-    2: "col-xl-6",
-    3: "col-xl-4",
-    4: "col-xl-3",
-  }[xlColumns] || "col-xl-4";
+  const breakpointColumnClasses = hasExplicitCardsPerRow
+    ? [
+      ["sm", cardsPerRow.sm],
+      ["md", cardsPerRow.md],
+      ["lg", cardsPerRow.lg],
+      ["xl", cardsPerRow.xl],
+      ["xxl", cardsPerRow.xxl],
+    ]
+      .map(([breakpoint, columns]) => {
+        if (columns === "auto") {
+          return `col-${breakpoint}-auto`;
+        }
+
+        const span = {
+          1: "12",
+          2: "6",
+          3: "4",
+          4: "3",
+        }[columns];
+
+        return span ? `col-${breakpoint}-${span}` : "";
+      })
+      .filter(Boolean)
+    : ["col-md-6", "col-xl-4"];
 
   const cardPresentation = {
     default: {
@@ -1029,13 +1265,23 @@ function resolveCardsSemanticLayout(section) {
   };
 
   return {
+    variant: cardVariant,
     introColumnClass,
     contentColumnClass,
-    cardColumnClass: joinNonEmptyClassNames("col col-12", mdColumnClass, xlColumnClass, "pt-3 mt-3"),
+    cardColumnClass: joinNonEmptyClassNames("col col-12", ...breakpointColumnClasses, "pt-3 mt-3"),
     cardClassName: cardPresentation.cardClassName,
     cardBodyClassName: cardPresentation.cardBodyClassName,
     imageClassName: imageStyle === "standard" ? "ic-card-image" : "ic-card-image ic-image-rounded",
   };
+}
+
+function resolveAssetDownloadImageClassName(card = {}) {
+  const imagePreset = card.imagePreset || card.image?.imagePreset || "";
+
+  return {
+    logo: "d-block",
+    socialSquare: "d-block",
+  }[imagePreset] || "d-block";
 }
 
 function renderCardsSection(section) {
@@ -1050,8 +1296,57 @@ function renderCardsSection(section) {
   const cardClassName = section.cardClassName || semanticLayout?.cardClassName || "ic-card";
   const cardBodyClassName = section.cardBodyClassName || semanticLayout?.cardBodyClassName || "ic-card-body ic-card-body-indented";
   const imageClassName = section.imageClassName || semanticLayout?.imageClassName || "ic-card-image ic-image-rounded";
-  const cardListClassName = section.cardListClassName || "row justify-content-center list-unstyled mb-0";
-  const cardMarkup = (section.cards || [])
+  const cardAlignClassName = section.layout?.cardAlign === "start" ? "justify-content-start" : "justify-content-center";
+  const cardListClassName = section.cardListClassName || joinClassNames(
+    "row",
+    cardAlignClassName,
+    "list-unstyled",
+    "mb-0",
+  );
+  const cardMarkup = semanticLayout?.variant === "assetDownloads"
+    ? (section.cards || [])
+      .map((card) => {
+        const cardHeading = getCardHeading(card);
+        const mediaWrap = section.layout?.mediaWrap || "wrap";
+        const verticalAlign = section.layout?.verticalAlign || "start";
+        const linkStyle = section.layout?.linkStyle || "text";
+        const mediaGapClassName = section.layout?.mediaGap === "regular" ? "gap-3" : "gap-1";
+        const mediaClassName = section.layout?.mediaPosition === "start"
+          ? joinClassNames("d-flex", mediaGapClassName, verticalAlign === "center" ? "align-items-center" : "align-items-start", mediaWrap === "wrap" ? "flex-wrap" : "")
+          : joinClassNames("d-flex", "flex-column", mediaGapClassName, verticalAlign === "center" ? "align-items-center" : "align-items-start");
+        const headingTag = /^(h3|h4|h5|h6)$/i.test(card.headingTag || "") ? card.headingTag.toLowerCase() : "h4";
+        const titleMarkup = cardHeading ? `                                        <${headingTag} class="mb-0">${renderText(cardHeading)}</${headingTag}>\n` : "";
+        const linksMarkup = card.links?.length
+          ? card.links
+            .map((link) => {
+              const targetAttribute = link.target ? ` target="${escapeHtml(link.target)}"` : "";
+              const titleAttribute = link.title ? ` title="${escapeHtml(link.title)}"` : "";
+              const classAttribute = linkStyle === "text" ? "" : ` class="${escapeHtml(linkStyle)}"`;
+              return `                                        <a href="${escapeHtml(link.href)}"${classAttribute}${targetAttribute}${titleAttribute}>${renderText(link.label)}</a>`;
+            })
+            .join("<br>\n")
+          : "";
+        const mediaMarkup = card.image
+          ? `                                    <figure class="m-0 mr-3 flex-shrink-0">
+                                        ${card.links?.[0]?.href
+    ? `<a class="d-block" href="${escapeHtml(card.links[0].href)}"${card.links[0].target ? ` target="${escapeHtml(card.links[0].target)}"` : ""}${card.links[0].title ? ` title="${escapeHtml(card.links[0].title)}"` : ""}>
+                                            ${renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
+                                        </a>`
+    : renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
+                                    </figure>`
+          : "";
+
+        return `                            <li class="${escapeHtml(joinNonEmptyClassNames(cardColumnClass, "py-2", "pt-0", "mt-0", "text-left"))}">
+                                <div class="${escapeHtml(joinClassNames(mediaClassName, "justify-content-start", "text-left"))}">
+${mediaMarkup}
+                                    <div class="text-left">
+${titleMarkup}${linksMarkup}
+                                    </div>
+                                </div>
+                            </li>`;
+      })
+      .join("\n\n")
+    : (section.cards || [])
     .map(
       (card) => {
         const cardHeading = getCardHeading(card);
@@ -1099,18 +1394,18 @@ ${mediaMarkup}
                             </li>`;
       },
     )
-    .join("\n\n");
+      .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
                     <div class="${escapeHtml(introColumnClass)}">
-                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+                        ${renderSectionHeading(section)}
 ${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
                     </div>
                 </div>
 
-                <div class="row justify-content-center">
+                <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
                     <div class="${escapeHtml(contentColumnClass)}">
                         <ul class="${escapeHtml(cardListClassName)}">
 ${cardMarkup}
@@ -1125,14 +1420,32 @@ ${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
 function renderTextSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = renderParagraphContent(section);
-  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
+  const textLayout = section.layout || {};
+  const introColumnClass = joinClassNames(
+    {
+      default: "col col-md-10 col-lg-8 col-xl-6",
+      full: "col col-12",
+    }[textLayout.width || "default"] || "col col-md-10 col-lg-8 col-xl-6",
+    (textLayout.align || "center") === "start" ? "" : "text-md-center",
+  );
+  const buttons = getSectionButtonsByLocation(section, "header");
+  const actionsStyle = textLayout.actionsStyle || section.actions?.style || "buttons";
+  const actionsLayout = textLayout.actionsLayout || section.actions?.layout || "inline";
+  const actionsVariant = textLayout.actionsVariant || section.actions?.variant || "outline";
+  const buttonsMarkup = actionsStyle === "linkList"
+    ? renderActionLinks(buttons, {
+      stack: actionsLayout === "stack",
+      linkClassName: actionsVariant === "text" ? "" : resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"),
+      wrapperClassName: actionsLayout === "stack" ? "mt-2" : "",
+    })
+    : renderButtons(buttons, resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"));
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
-                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+                <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
+                    <div class="${escapeHtml(introColumnClass)}">
+                        ${renderSectionHeading(section)}
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                     </div>
@@ -1215,6 +1528,10 @@ function resolveTextMediaSemanticLayout(section) {
   const mobileMediaSpacing = layout.mobileMediaSpacing || (mobileMediaOrder === "below" ? "tight" : "none");
   const rowVerticalAlign = layout.rowVerticalAlign || "center";
   const imageStyle = layout.imageStyle || "rounded";
+  const imageFrame = layout.imageFrame || "section";
+  const imageInset = layout.imageInset === true;
+  const desktopGapTarget = layout.desktopGapTarget || (desktopMediaPosition === "right" ? "copy" : "media");
+  const desktopGapBreakpoint = layout.desktopGapBreakpoint || "lg";
 
   const contentColumnClass = {
     default: "col col-12 col-xl-10",
@@ -1233,51 +1550,51 @@ function resolveTextMediaSemanticLayout(section) {
     "text-5-media-7": "col-md-6 col-xl-7",
     "text-7-media-5": "col-md-6 col-xl-5",
   }[desktopSplit] || "col-md-6";
+  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder);
+  const gapClasses = resolveSplitColumnGapClassNames({
+    desktopMediaPosition,
+    desktopGapTarget,
+    desktopGapBreakpoint,
+  });
 
-  let textOrderClass = "";
-  let mediaOrderClass = "";
-
-  if (desktopMediaPosition === "right" && mobileMediaOrder === "above") {
-    textOrderClass = "order-last order-md-first";
-    mediaOrderClass = "order-first order-md-last";
-  } else if (desktopMediaPosition === "left" && mobileMediaOrder === "below") {
-    textOrderClass = "order-first order-md-last";
-    mediaOrderClass = "order-last order-md-first";
-  }
-
-  const textMobileSpacingClass = mobileCopySpacing === "offset" ? "mt-2 pt-1 mt-md-0 pt-md-0" : "";
+  const textMobileSpacingClass = mobileCopySpacing === "offset"
+    ? "mt-2 pt-1 mt-md-0 pt-md-0"
+    : mobileCopySpacing === "tight"
+      ? (mobileMediaOrder === "above" ? "mt-3 pt-1 mt-md-0 pt-md-0" : "mb-3 mb-md-0")
+      : "";
   const mediaMobileSpacingClass = {
     none: "",
     tight: "mt-3 mt-md-0",
     section: "mt-3 pt-3 mt-md-0 pt-md-0",
   }[mobileMediaSpacing] || "";
-
-  const textDesktopPaddingClass = desktopMediaPosition === "right" ? "pr-lg-5" : "";
-  const mediaDesktopPaddingClass = desktopMediaPosition === "left" ? "pr-lg-5" : "";
   const textVerticalAlignClass = copyVerticalAlign === "center" ? "align-self-center" : "";
 
   return {
     textColumnClasses: joinNonEmptyClassNames(
       "col col-12",
       textDesktopSplitClass,
-      textOrderClass,
+      orderClasses.copyClassName,
       textMobileSpacingClass,
-      textDesktopPaddingClass,
+      gapClasses.copyClassName,
       textVerticalAlignClass,
     ),
     mediaColumnClasses: joinNonEmptyClassNames(
       "col col-12",
       mediaDesktopSplitClass,
-      mediaOrderClass,
+      orderClasses.mediaClassName,
       mediaMobileSpacingClass,
-      mediaDesktopPaddingClass,
+      gapClasses.mediaClassName,
     ),
     contentColumnClass,
     rowClassName: joinNonEmptyClassNames(
       "row justify-content-between",
       rowVerticalAlign === "end" ? "align-items-end" : "align-items-center",
     ),
-    imageClassName: imageStyle === "cutout" ? "ic-image-cutout" : "ic-section-image ic-image-rounded",
+    imageClassName: resolveSplitImageClassName({
+      imageStyle,
+      imageFrame,
+      imageInset,
+    }),
   };
 }
 
@@ -1660,6 +1977,26 @@ ${logoMarkup}
         </section>`;
 }
 
+function renderBrandStripSection(section) {
+  const backgroundClass = getBackgroundClassName(section) || " ic-background-white";
+  const imageMarkup = section.image
+    ? renderImg(section.image, section.image.className || "d-block", {
+      loading: section.image.loading || "lazy",
+      context: `brand strip "${section.id}" image`,
+    })
+    : "";
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+            <div class="container py-4 border-bottom">
+                <div class="row">
+                    <div class="col col-12">
+                        ${imageMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
 function renderStickyCardsSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const introButtonsMarkup = getSectionButtonsByLocation(section, "header").length
@@ -1904,6 +2241,8 @@ function renderSection(section) {
       return renderIconCardGridSection(section);
     case "logoGrid":
       return renderLogoGridSection(section);
+    case "brandStrip":
+      return renderBrandStripSection(section);
     case "stickyCards":
       return renderStickyCardsSection(section);
     case "legal":

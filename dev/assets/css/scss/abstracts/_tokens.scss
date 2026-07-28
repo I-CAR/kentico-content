@@ -52,6 +52,7 @@
     --space-20: calc(var(--space-10) * 2);
     --space-24: calc(var(--space-12) * 2);
     --space-30: calc(var(--space-15) * 2);
+    --space-32: calc(32rem / var(--rem-base));
     --space-40: calc(var(--space-20) * 2);
     --space-50: calc(50rem / var(--rem-base));
     --space-60: calc(var(--space-30) * 2);
