@@ -334,6 +334,106 @@ function normalizeImageAssetUrlsInHtml(value) {
   });
 }
 
+const downloadableFileExtensions = new Set([
+  "pdf",
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "webp",
+  "svg",
+  "zip",
+  "doc",
+  "docx",
+  "xls",
+  "xlsx",
+  "ppt",
+  "pptx",
+]);
+
+function getHrefPathname(href = "") {
+  if (typeof href !== "string" || !href.trim()) {
+    return "";
+  }
+
+  try {
+    return new URL(href, "https://example.com").pathname.toLowerCase();
+  } catch {
+    return href.split(/[?#]/, 1)[0].toLowerCase();
+  }
+}
+
+function getHrefExtension(href = "") {
+  const pathname = getHrefPathname(href);
+  const extensionMatch = pathname.match(/\.([a-z0-9]+)$/i);
+  return extensionMatch ? extensionMatch[1].toLowerCase() : "";
+}
+
+function hasDownloadableHref(href = "") {
+  return downloadableFileExtensions.has(getHrefExtension(href));
+}
+
+function isDownloadAction(link = {}) {
+  if (link.download === false) {
+    return false;
+  }
+
+  if (link.download === true) {
+    return true;
+  }
+
+  if (typeof link.download === "string" && link.download.trim()) {
+    return true;
+  }
+
+  const actionText = [link.label, link.title, link.ariaLabel]
+    .filter((value) => typeof value === "string" && value.trim())
+    .join(" ");
+
+  return /\bdownload\b/i.test(actionText) && hasDownloadableHref(link.href);
+}
+
+function renderAnchorAttributes(link = {}, {
+  href = link.href,
+  className = "",
+  title = link.title,
+  target = link.target,
+  ariaLabel = link.ariaLabel,
+} = {}) {
+  const attributes = [`href="${escapeHtml(href)}"`];
+
+  if (className) {
+    attributes.push(`class="${escapeHtml(className)}"`);
+  }
+
+  if (title) {
+    attributes.push(`title="${escapeHtml(title)}"`);
+  }
+
+  const shouldDownload = isDownloadAction({
+    ...link,
+    href,
+    title,
+    target,
+    ariaLabel,
+  });
+
+  if (!shouldDownload && target) {
+    attributes.push(`target="${escapeHtml(target)}"`);
+  }
+
+  if (ariaLabel) {
+    attributes.push(`aria-label="${escapeHtml(ariaLabel)}"`);
+  }
+
+  if (shouldDownload) {
+    const downloadValue = typeof link.download === "string" ? link.download.trim() : "";
+    attributes.push(downloadValue ? `download="${escapeHtml(downloadValue)}"` : "download");
+  }
+
+  return ` ${attributes.join(" ")}`;
+}
+
 function normalizeContentText(value) {
   return value
     .replace(/I(?:-|‑|&#8209;)CAR/g, "I&#8209;CAR")
@@ -692,10 +792,7 @@ function renderButtons(buttons, defaultClassName = "ic-btn ic-btn-primary") {
   const buttonMarkup = buttons
     .map((button) => {
       const className = resolveButtonClassName(button, defaultClassName);
-      const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
-      const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
-      const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
-      return `                    <a href="${escapeHtml(button.href)}" class="${escapeHtml(className)}"${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>`;
+      return `                    <a${renderAnchorAttributes(button, { className })}>${renderText(button.label)}</a>`;
     })
     .join("\n");
 
@@ -711,18 +808,13 @@ function renderActionLinks(buttons, {
     return "";
   }
 
-  const linkClassAttribute = linkClassName ? ` class="${escapeHtml(linkClassName)}"` : "";
-
   if (stack) {
     const itemsMarkup = buttons
       .map((button, index) => {
-        const paragraphClassName = index === buttons.length - 1 ? "mb-0" : "mb-1";
-        const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
-        const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
-        const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
+        const paragraphClassName = index === buttons.length - 1 ? "mb-0" : "mb-2";
 
         return `                    <p class="${paragraphClassName}">
-                        <a href="${escapeHtml(button.href)}"${linkClassAttribute}${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>
+                        <a${renderAnchorAttributes(button, { className: linkClassName })}>${renderText(button.label)}</a>
                     </p>`;
       })
       .join("\n\n");
@@ -738,10 +830,7 @@ ${itemsMarkup}
 
   const inlineLinksMarkup = buttons
     .map((button) => {
-      const titleAttribute = button.title ? ` title="${escapeHtml(button.title)}"` : "";
-      const targetAttribute = button.target ? ` target="${escapeHtml(button.target)}"` : "";
-      const ariaLabelAttribute = button.ariaLabel ? ` aria-label="${escapeHtml(button.ariaLabel)}"` : "";
-      return `                    <a href="${escapeHtml(button.href)}"${linkClassAttribute}${titleAttribute}${targetAttribute}${ariaLabelAttribute}>${renderText(button.label)}</a>`;
+      return `                    <a${renderAnchorAttributes(button, { className: linkClassName })}>${renderText(button.label)}</a>`;
     })
     .join("\n");
 
@@ -788,7 +877,7 @@ function renderLinkList(links = [], className = "ic-menu mt-3") {
   const items = links
     .map(
       (link) =>
-        `                                    <li><a href="${escapeHtml(link.href)}"${link.target ? ` target="${escapeHtml(link.target)}"` : ""}>${renderText(link.label)}</a></li>`,
+        `                                    <li><a${renderAnchorAttributes(link)}>${renderText(link.label)}</a></li>`,
     )
     .join("\n");
 
@@ -1157,7 +1246,7 @@ ${heroContentMarkup}
 ${badgeMarkup}
 
                     <div class="${escapeHtml(heroMediaClass)}">
-                        ${imageLinkHref ? `<a href="${escapeHtml(imageLinkHref)}" title="${escapeHtml(imageLinkTitle)}"${section.imageLink?.target ? ` target="${escapeHtml(section.imageLink.target)}"` : ""}${section.imageLink?.ariaLabel ? ` aria-label="${escapeHtml(section.imageLink.ariaLabel)}"` : ""}>
+                        ${imageLinkHref ? `<a${renderAnchorAttributes(section.imageLink || {}, { href: imageLinkHref, title: imageLinkTitle })}>
                             ${imageMarkup}
                         </a>` : imageMarkup}
                     </div>
@@ -1172,7 +1261,7 @@ function renderPageNavSection(section) {
   const linkMarkup = (section.links || [])
     .map(
       (link) =>
-        `                            <li><a href="${escapeHtml(link.href)}" class="ic-btn ic-btn-primary ic-btn-outline">${renderText(link.label)}</a></li>`,
+        `                            <li><a${renderAnchorAttributes(link, { className: "ic-btn ic-btn-primary ic-btn-outline" })}>${renderText(link.label)}</a></li>`,
     )
     .join("\n");
 
@@ -1319,17 +1408,14 @@ function renderCardsSection(section) {
         const linksMarkup = card.links?.length
           ? card.links
             .map((link) => {
-              const targetAttribute = link.target ? ` target="${escapeHtml(link.target)}"` : "";
-              const titleAttribute = link.title ? ` title="${escapeHtml(link.title)}"` : "";
-              const classAttribute = linkStyle === "text" ? "" : ` class="${escapeHtml(linkStyle)}"`;
-              return `                                        <a href="${escapeHtml(link.href)}"${classAttribute}${targetAttribute}${titleAttribute}>${renderText(link.label)}</a>`;
+              return `                                        <a${renderAnchorAttributes(link, { className: linkStyle === "text" ? "" : linkStyle })}>${renderText(link.label)}</a>`;
             })
             .join("<br>\n")
           : "";
         const mediaMarkup = card.image
           ? `                                    <figure class="m-0 mr-3 flex-shrink-0">
                                         ${card.links?.[0]?.href
-    ? `<a class="d-block" href="${escapeHtml(card.links[0].href)}"${card.links[0].target ? ` target="${escapeHtml(card.links[0].target)}"` : ""}${card.links[0].title ? ` title="${escapeHtml(card.links[0].title)}"` : ""}>
+    ? `<a${renderAnchorAttributes(card.links[0], { className: "d-block" })}>
                                             ${renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
                                         </a>`
     : renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
@@ -1351,7 +1437,7 @@ ${titleMarkup}${linksMarkup}
       (card) => {
         const cardHeading = getCardHeading(card);
         const titleMarkup = cardHeading
-          ? `                                        <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""}${card.linkTitle ? ` title="${escapeHtml(card.linkTitle)}"` : ""}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
+          ? `                                        <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle })}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
           : "";
         const bodyMarkup = hasParagraphContent(card)
           ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
@@ -1370,7 +1456,7 @@ ${card.listItems
           ? `                                        <p>\n${card.links
             .map(
               (link) =>
-                `                                            <a href="${escapeHtml(link.href)}"${link.target ? ` target="${escapeHtml(link.target)}"` : ""}>${renderText(link.label)}</a>`,
+                `                                            <a${renderAnchorAttributes(link)}>${renderText(link.label)}</a>`,
             )
             .join("<br>\n")}\n                                        </p>\n`
           : "";
@@ -1419,7 +1505,6 @@ ${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
 
 function renderTextSection(section) {
   const backgroundClass = getBackgroundClassName(section);
-  const bodyMarkup = renderParagraphContent(section);
   const textLayout = section.layout || {};
   const introColumnClass = joinClassNames(
     {
@@ -1432,11 +1517,14 @@ function renderTextSection(section) {
   const actionsStyle = textLayout.actionsStyle || section.actions?.style || "buttons";
   const actionsLayout = textLayout.actionsLayout || section.actions?.layout || "inline";
   const actionsVariant = textLayout.actionsVariant || section.actions?.variant || "outline";
+  const bodyClassName = actionsStyle === "linkList" && actionsLayout === "stack" && actionsVariant === "text"
+    ? "mb-2 pb-1"
+    : "";
+  const bodyMarkup = renderParagraphContent(section, bodyClassName);
   const buttonsMarkup = actionsStyle === "linkList"
     ? renderActionLinks(buttons, {
       stack: actionsLayout === "stack",
       linkClassName: actionsVariant === "text" ? "" : resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"),
-      wrapperClassName: actionsLayout === "stack" ? "mt-2" : "",
     })
     : renderButtons(buttons, resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"));
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
@@ -1626,7 +1714,7 @@ ${section.label ? `                                <p class="ic-label">${renderT
   const linkedPictureMarkup = section.mediaHtml
     ? `                                ${pictureMarkup}`
     : section.imageLink
-      ? `                                <a href="${escapeHtml(section.imageLink.href)}" title="${escapeHtml(section.imageLink.title || getSectionHeading(section))}">
+      ? `                                <a${renderAnchorAttributes(section.imageLink, { title: section.imageLink.title || getSectionHeading(section) })}>
 ${indentBlock(pictureMarkup, 36)}
                                 </a>`
       : `                                ${pictureMarkup}`;
@@ -1910,7 +1998,7 @@ function renderIconCardGridSection(section) {
       (card) => `                    <li class="${escapeHtml(section.cardColumnClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
                         <div class="ic-card ic-card-horizontal-mobile ic-background-white">
                             <div class="ic-card-body">
-${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a href="${escapeHtml(card.href)}" class="stretched-link"${card.target ? ` target="${escapeHtml(card.target)}"` : ""} title="${escapeHtml(card.linkTitle || getCardHeading(card))}">${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
+${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
 ${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card, "ic-card-text"), 32)}\n` : ""}
                             </div>
                             <figure class="ic-card-media">
@@ -1952,7 +2040,7 @@ function renderLogoGridSection(section) {
   const logoMarkup = (section.logos || [])
     .map(
       (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || "col-auto mt-3 pt-3 px-md-4")}">
-                                ${logo.href ? `<a href="${escapeHtml(logo.href)}" class="stretched-link"${logo.title ? ` title="${escapeHtml(logo.title)}"` : ""}>` : ""}${renderImg(logo, logo.className || "ic-logo", { loading: "lazy", context: `logo "${logo.alt || "unknown"}"` })}${logo.href ? "</a>" : ""}
+                                ${logo.href ? `<a${renderAnchorAttributes(logo, { href: logo.href, className: "stretched-link" })}>` : ""}${renderImg(logo, logo.className || "ic-logo", { loading: "lazy", context: `logo "${logo.alt || "unknown"}"` })}${logo.href ? "</a>" : ""}
                             </li>`,
     )
     .join("\n\n");
@@ -2011,7 +2099,7 @@ function renderStickyCardsSection(section) {
         .join("\n");
       const linkListMarkupInner = (card.linkItems || [])
         .map(
-          (item) => `                                            <li><a href="${escapeHtml(item.href)}"${item.target ? ` target="${escapeHtml(item.target)}"` : ""}>${renderText(item.label)}</a>${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
+          (item) => `                                            <li><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a>${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
         )
         .join("\n");
       const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
@@ -2175,7 +2263,7 @@ function renderMediaSliderSection(section) {
   const slidesMarkup = (section.slides || [])
     .map(
       (slide, index) => `                                        <div class="${escapeHtml(section.slideClassName || "swiper-slide col col-12")}">
-                                            ${slide.link?.href ? `<a href="${escapeHtml(slide.link.href)}"${slide.link.title ? ` title="${escapeHtml(slide.link.title)}"` : ""}>` : ""}${renderPicture(slide.image, slide.image.className || "ic-image-rounded", index === 0 ? "eager" : "lazy", "textMedia", `slide ${index + 1} image`)}${slide.link?.href ? "</a>" : ""}
+                                            ${slide.link?.href ? `<a${renderAnchorAttributes(slide.link)}>` : ""}${renderPicture(slide.image, slide.image.className || "ic-image-rounded", index === 0 ? "eager" : "lazy", "textMedia", `slide ${index + 1} image`)}${slide.link?.href ? "</a>" : ""}
                                         </div>`,
     )
     .join("\n\n");
