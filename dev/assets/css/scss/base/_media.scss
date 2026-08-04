@@ -14,10 +14,7 @@ video {
 
 iframe:not([src*="recaptcha"]) {
     aspect-ratio: 16 / 9;
-}
-
-iframe[src*="google.com/maps"] {
-    border: 1px solid #778d98;
+    border: none !important;
 }
 
 .ic-playlist {
