@@ -247,6 +247,7 @@ sections:
       mobileMediaOrder: below
       mobileCopySpacing: tight
       mobileMediaSpacing: tight
+      imageSize: compact
       copyVerticalAlign: center
       desktopGapTarget: copy
     imageLink:

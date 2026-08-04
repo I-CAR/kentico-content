@@ -1489,7 +1489,7 @@ function resolveCardsSemanticLayout(section) {
       default: "col col-12 col-xl-10",
       wide: "col col-12 col-lg-10 col-xl-10",
       full: "col col-12",
-    }[introWidth] || "col col-12 col-xl-10", introAlign === "start" ? "" : "text-center");
+    }[introWidth] || "col col-12 col-xl-10", introAlign === "start" ? "" : "text-md-center");
 
     const iconTextGridContentColumnClass = {
       default: "col col-12 col-xl-10",
@@ -1503,7 +1503,7 @@ function resolveCardsSemanticLayout(section) {
       introColumnClass: iconTextGridIntroColumnClass,
       contentColumnClass: iconTextGridContentColumnClass,
       cardListClassName: "row justify-content-center ic-card-list-icon-text-grid list-unstyled mb-0",
-      cardColumnClass: joinNonEmptyClassNames("col col-12", ...(hasExplicitCardsPerRow ? breakpointColumnClasses : ["col-md-6", "col-xl-5"])),
+      cardColumnClass: joinNonEmptyClassNames("col col-12", ...(hasExplicitCardsPerRow ? breakpointColumnClasses : ["col-md-6", "col-lg-3"])),
       cardClassName: "ic-card ic-card-icon-text-grid",
       cardBodyClassName: "ic-card-body ic-card-body-icon-text-grid",
       imageClassName: "ic-card-icon-text-grid-icon",
@@ -1779,7 +1779,8 @@ function resolveTextMediaSemanticLayout(section) {
   const rowVerticalAlign = layout.rowVerticalAlign || "center";
   const imageStyle = layout.imageStyle || "rounded";
   const imageFrame = layout.imageFrame || "section";
-  const imageInset = layout.imageInset === true;
+  const imageSize = layout.imageSize || "default";
+  const imageInset = layout.imageInset === true || imageSize === "compact";
   const imageRounded = layout.imageRounded !== false && section.imageRounded !== false;
   const desktopGapTarget = layout.desktopGapTarget || (desktopMediaPosition === "right" ? "copy" : "media");
   const desktopGapBreakpoint = layout.desktopGapBreakpoint || "lg";
@@ -2933,8 +2934,9 @@ function normalizePageSections(page, sourceDirectory) {
 
   return normalizedSections.map((section, index) => {
     const nextSection = normalizedSections[index + 1];
+    const hasExplicitPaddingBottom = ["default", "none", "sm", "lg"].includes(section.spacing?.paddingBottom);
 
-    if (getBackgroundColor(section) !== "light" || getBackgroundColor(nextSection) !== "light") {
+    if (hasExplicitPaddingBottom || getBackgroundColor(section) !== "light" || getBackgroundColor(nextSection) !== "light") {
       return section;
     }
 

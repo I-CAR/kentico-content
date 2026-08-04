@@ -34,13 +34,15 @@ sections:
     type: cards
     heading: Who are I-CAR Members?
     backgroundColor: light
+    spacing:
+      paddingBottom: default
     paragraphs:
       - >-
         The Membership community includes all facets of the collision industry, such as vehicle manufacturers,
         repairers, insurers, technicians, equipment manufacturers, and information suppliers.
     layout:
       introWidth: default
-      contentWidth: full
+      contentWidth: ten
       cardsPerRow:
         md: 2
         lg: 3

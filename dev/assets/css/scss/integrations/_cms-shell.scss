@@ -1,12 +1,33 @@
 @use "../abstracts/mixins" as *;
 
 :root {
-    --shell-inline-padding: var(--space-12);
-    --shell-max-width: calc(1520rem / 16);
+    --shell-inline-padding: 0;
+    --shell-header-inline-padding: 0;
+    --shell-footer-inline-padding: 0;
+    --shell-breadcrumb-inline-padding: 0;
+    --shell-desktop-inline-offset: 0px;
+    --shell-max-width: var(--site-width);
+}
+
+@include mq(lg) {
+    :root {
+        --shell-desktop-inline-offset: 0;
+    }
 }
 
 #main,
 #main>article {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.zoneMainContent,
+.zoneMainContent>.pdp.container,
+.zoneMainContent .pdp.container {
+    max-width: var(--shell-max-width) !important;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
 }
@@ -27,11 +48,7 @@
 }
 
 .content.no-right-rail {
-    padding: 0 var(--space-8);
-}
-
-.content.no-right-rail:has(> .ic-section) {
-    padding: 0;
+    padding: 0 calc(var(--space-8) + var(--shell-desktop-inline-offset));
 }
 
 @include mq(md) {
@@ -70,17 +87,30 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--shell-inline-padding);
-    padding-right: var(--shell-inline-padding);
+}
+
+.header .header-inner {
+    padding-left: calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset));
+    padding-right: calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset));
+}
+
+.footer .footer-inner {
+    padding-left: calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset));
+    padding-right: calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset));
 }
 
 .breadcrumb {
-    // display: none;
     margin: calc(25rem / var(--rem-base)) auto;
-    padding: 0 var(--shell-inline-padding);
+    padding: 0 calc(var(--shell-breadcrumb-inline-padding) + var(--shell-desktop-inline-offset));
 }
 
-@include mq(xxxl) {
+.ic-section .container,
+.ic-header .container {
+    padding-left: var(--space-15);
+    padding-right: var(--space-15);
+}
+
+@include mq(xxl) {
 
     .ic-section .container,
     .ic-header .container,

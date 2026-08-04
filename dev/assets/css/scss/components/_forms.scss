@@ -20,9 +20,25 @@ form .ktc-default-section {
     margin: 0.5rem calc(15rem / -16);
 }
 
+.ktc-default-section > .form-field:first-child .explanation-text {
+    font-weight: var(--bold);
+}
+
 form .form-field .editing-form-control-nested-control {
     display: initial;
     max-width: none;
+}
+
+@include mq(md) {
+    form .form-field > label {
+        width: auto;
+    }
+
+    form .form-field .editing-form-control-nested-control {
+        display: block;
+        width: auto;
+        max-width: none;
+    }
 }
 
 form label,
@@ -95,15 +111,80 @@ form .form-field .editing-form-control-nested-control select.form-control {
     font-weight: 400;
 }
 
+form .form-field .editing-form-control-nested-control input[type="text"].form-control,
+form .form-field .editing-form-control-nested-control input[type="email"].form-control,
+form .form-field .editing-form-control-nested-control select.form-control {
+    height: auto;
+    padding: var(--form-field-padding);
+}
+
+form .form-field .editing-form-control-nested-control select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+    padding-right: calc(40rem / 16);
+}
+
 form .form-field .editing-form-control-nested-control .ktc-radio-list {
     display: flex;
     gap: var(--space-12);
 }
 
+form .form-field:has(.ktc-radio) label {
+    margin: 0;
+}
+
+form .form-field .editing-form-control-nested-control:has(select) {
+    position: relative;
+}
+
+form .form-field .editing-form-control-nested-control:has(select):after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: calc(50% + -3px);
+    right: 0.75em;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+    transform: translate(-50%, -50%) rotate(135deg);
+    transform-origin: center;
+    pointer-events: none;
+}
+
 form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio {
     display: inline-flex;
     flex-flow: row nowrap;
+    align-items: center;
     gap: var(--space-8);
+    position: relative;
+    margin-top: calc(12rem / 16);
+}
+
+form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-ui);
+}
+
+form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio:has(input:checked):before {
+    opacity: 1;
+}
+
+form .form-field .editing-form-control-nested-control .ktc-radio-list .ktc-radio label {
+    margin: 0 0 0 0.5em;
+    font-weight: 500;
 }
 
 form
@@ -111,6 +192,27 @@ form
     .editing-form-control-nested-control
     .form-control:is(input, textarea):is([type="checkbox"], [type="radio"]) {
     appearance: auto;
+}
+
+form .form-field .editing-form-control-nested-control input[type="radio"].form-control {
+    width: 1.5rem;
+    height: 1.5rem;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid var(--dark);
+    transition: border var(--transition-ui);
+}
+
+form .form-field .editing-form-control-nested-control input[type="radio"].form-control,
+form .form-field .editing-form-control-nested-control input[type="radio"].form-control + label,
+form .form-field .editing-form-control-nested-control select.form-control {
+    cursor: pointer;
+}
+
+form .form-field .editing-form-control-nested-control input[type="radio"].form-control:hover,
+form .form-field .editing-form-control-nested-control input[type="radio"].form-control:focus {
+    border-color: var(--primary-color);
 }
 
 form :is(input, textarea):focus {
