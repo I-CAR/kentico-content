@@ -257,14 +257,15 @@ function resolveSplitImageClassName({
   imageStyle = "rounded",
   imageFrame = "section",
   imageInset = false,
+  imageRounded = true,
 } = {}) {
   const baseClassName = imageStyle === "cutout"
     ? "ic-image-cutout"
     : imageStyle === "banner"
       ? "ic-image-banner"
       : imageFrame === "none"
-        ? "ic-image-rounded"
-        : "ic-section-image ic-image-rounded";
+        ? (imageRounded ? "ic-image-rounded" : "")
+        : joinClassNames("ic-section-image", imageRounded ? "ic-image-rounded" : "");
 
   return joinClassNames(baseClassName, imageInset ? "px-4" : "");
 }
@@ -322,16 +323,51 @@ function normalizeImageAssetUrl(value) {
   return value.replace(/https?:\/\/(?:stage\.)?info\.i-car\.com(?=\/)/gi, "");
 }
 
+function normalizeImageAssetSrcsetValue(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  return value
+    .split(",")
+    .map((entry) => {
+      const trimmed = entry.trim();
+
+      if (!trimmed) {
+        return trimmed;
+      }
+
+      const [url, ...descriptorParts] = trimmed.split(/\s+/);
+      return [normalizeImageAssetUrl(url), ...descriptorParts].filter(Boolean).join(" ");
+    })
+    .join(", ");
+}
+
+function normalizeCssImageAssetUrls(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  return value.replace(/url\(\s*(['"]?)([^)"']+)\1\s*\)/gi, (match, quote = "", url) => {
+    return `url(${quote}${normalizeImageAssetUrl(url)}${quote})`;
+  });
+}
+
 function normalizeImageAssetUrlsInHtml(value) {
   if (typeof value !== "string" || !value) {
     return value;
   }
 
-  return value.replace(/\b(src|srcset)=("([^"]*)"|'([^']*)')/gi, (match, attribute, quotedValue, doubleQuoted, singleQuoted) => {
+  const normalizedAttributes = value.replace(/\b(src|srcset|poster)=("([^"]*)"|'([^']*)')/gi, (match, attribute, quotedValue, doubleQuoted, singleQuoted) => {
     const quote = quotedValue[0];
     const attributeValue = doubleQuoted ?? singleQuoted ?? "";
-    return `${attribute}=${quote}${normalizeImageAssetUrl(attributeValue)}${quote}`;
+    const normalizedValue = attribute.toLowerCase() === "srcset"
+      ? normalizeImageAssetSrcsetValue(attributeValue)
+      : normalizeImageAssetUrl(attributeValue);
+    return `${attribute}=${quote}${normalizedValue}${quote}`;
   });
+
+  return normalizeCssImageAssetUrls(normalizedAttributes);
 }
 
 const downloadableFileExtensions = new Set([
@@ -457,6 +493,12 @@ function renderText(value, { widowProtection = false } = {}) {
   return widowProtection ? applyWidowProtection(normalizedValue) : normalizedValue;
 }
 
+function renderLiteralText(value, { widowProtection = false } = {}) {
+  const escapedValue = escapeHtml(value);
+  const restoredValue = restoreEncodedEntities(escapedValue);
+  return widowProtection ? applyWidowProtection(restoredValue) : restoredValue;
+}
+
 function normalizeHtmlBlocks(blocks) {
   if (!blocks) {
     return [];
@@ -468,6 +510,46 @@ function normalizeHtmlBlocks(blocks) {
 function renderTrustedHtml(value, { normalizeText = true } = {}) {
   const normalizedValue = normalizeText ? normalizeContentText(value) : value;
   return normalizeImageAssetUrlsInHtml(normalizedValue);
+}
+
+function normalizeEmbedHtml(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return "";
+  }
+
+  return value.replace(/\sstyle=(["'])([\s\S]*?)\1/gi, (match, quote, styleSource) => {
+    const declarations = styleSource
+      .split(";")
+      .map((declaration) => declaration.trim())
+      .filter(Boolean);
+    const filteredDeclarations = declarations.filter((declaration) => {
+      const property = declaration.split(":")[0]?.trim().toLowerCase();
+      return property !== "width" && property !== "max-width";
+    });
+
+    return ` style=${quote}${["width: 100%", ...filteredDeclarations].join("; ")};${quote}`;
+  });
+}
+
+function extractIframeSrcFromHtml(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return "";
+  }
+
+  const iframeMatch = value.match(/<iframe\b[^>]*\bsrc=(["'])(.*?)\1/i);
+  return iframeMatch?.[2]?.trim() || "";
+}
+
+function renderIframeEmbedPlaceholder({ src = "", title = "" } = {}) {
+  if (!src) {
+    return "";
+  }
+
+  const embedTitle = title || "Embedded video";
+
+  return `                        <div class="mx-auto mt-3 pt-3" data-runtime-iframe-embed data-iframe-src="${escapeHtml(src)}" data-iframe-title="${escapeHtml(embedTitle)}" style="width: 100%; position: relative; display: block;">
+                            <div style="width: 100%; padding-top: 56.25%;"></div>
+                        </div>`;
 }
 
 function renderParagraphs(paragraphs, className = "") {
@@ -522,7 +604,7 @@ function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className
 function buildResponsiveSrcset(entries = []) {
   return entries
     .filter((entry) => typeof entry?.url === "string" && entry.url.length > 0 && entry.width)
-    .map((entry) => `${entry.url} ${entry.width}w`)
+    .map((entry) => `${normalizeImageAssetUrl(entry.url)} ${entry.width}w`)
     .join(", ");
 }
 
@@ -551,13 +633,13 @@ function getImageUrl(image = {}, device, width) {
   const nestedUrl = image.urls?.[device]?.[`${width}w`];
 
   if (typeof nestedUrl === "string" && nestedUrl.length > 0) {
-    return nestedUrl;
+    return normalizeImageAssetUrl(nestedUrl);
   }
 
   const flatUrl = image[`${device}${width}w`];
 
   if (typeof flatUrl === "string" && flatUrl.length > 0) {
-    return flatUrl;
+    return normalizeImageAssetUrl(flatUrl);
   }
 
   return "";
@@ -648,11 +730,11 @@ function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultL
 
   if (!hasStructuredUrls) {
     return {
-      mobileSrcset: image.mobileSrcset || "",
+      mobileSrcset: normalizeImageAssetSrcsetValue(image.mobileSrcset || ""),
       sourceWidth: image.width || "800",
       sourceHeight: image.height || "450",
-      desktopSrc: image.desktopSrc || "",
-      desktopSrcset: image.desktopSrcset || image.desktopSrc || "",
+      desktopSrc: normalizeImageAssetUrl(image.desktopSrc || ""),
+      desktopSrcset: normalizeImageAssetSrcsetValue(image.desktopSrcset || image.desktopSrc || ""),
       imgWidth: image.width || "",
       imgHeight: image.height || "",
       sizes: image.sizes || "",
@@ -736,9 +818,10 @@ function resolveFixedImageConfig(image = {}, defaults = {}) {
   const desktopEntries = getFixedImageEntries(image, "desktop");
 
   if (!desktopEntries.length) {
+    const src = normalizeImageAssetUrl(image.desktopSrc || image.src || "");
     return {
-      src: image.desktopSrc || image.src || "",
-      srcset: image.desktopSrcset || image.srcset || image.desktopSrc || image.src || "",
+      src,
+      srcset: normalizeImageAssetSrcsetValue(image.desktopSrcset || image.srcset || src),
       width: image.width || defaults.width || "",
       height: getImageHeight(image, "desktop") || image.height || defaults.height || "",
       sizes: image.sizes || defaults.sizes || "",
@@ -1126,6 +1209,7 @@ function resolveHeroSemanticLayout(section) {
   const imageStyle = layout?.imageStyle || section.imageStyle || "rounded";
   const imageFrame = layout?.imageFrame || section.imageFrame || "section";
   const imageInset = layout?.imageInset === true || section.imageInset === true;
+  const imageRounded = layout?.imageRounded !== false && section.imageRounded !== false;
 
   const copyDesktopSplitClass = {
     equal: "col-md-6",
@@ -1177,6 +1261,7 @@ function resolveHeroSemanticLayout(section) {
       imageStyle,
       imageFrame,
       imageInset,
+      imageRounded,
     }),
     imagePreset: imageStyle === "banner" ? "banner" : "textMedia",
     autoSectionClassName: "",
@@ -1618,6 +1703,7 @@ function resolveTextMediaSemanticLayout(section) {
   const imageStyle = layout.imageStyle || "rounded";
   const imageFrame = layout.imageFrame || "section";
   const imageInset = layout.imageInset === true;
+  const imageRounded = layout.imageRounded !== false && section.imageRounded !== false;
   const desktopGapTarget = layout.desktopGapTarget || (desktopMediaPosition === "right" ? "copy" : "media");
   const desktopGapBreakpoint = layout.desktopGapBreakpoint || "lg";
 
@@ -1682,6 +1768,7 @@ function resolveTextMediaSemanticLayout(section) {
       imageStyle,
       imageFrame,
       imageInset,
+      imageRounded,
     }),
   };
 }
@@ -1799,6 +1886,12 @@ function renderQuoteSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const quoteClass = section.compact ? "ic-quote-text mb-3 pb-1" : "ic-quote-text";
   const quoteLayout = section.quoteLayout || "stacked";
+  const quoteEmbedHtml = typeof section.embed?.html === "string" ? section.embed.html.trim() : "";
+  const quoteEmbedSrc = typeof section.embed?.src === "string" ? section.embed.src.trim() : "";
+  const quoteEmbedTitle = typeof section.embed?.title === "string" && section.embed.title.trim()
+    ? section.embed.title.trim()
+    : `${getSectionHeading(section) || "Embedded"} video`;
+  const quoteEmbedMarkup = renderQuoteEmbedMarkup({ html: quoteEmbedHtml, src: quoteEmbedSrc, title: quoteEmbedTitle });
   const citeTitleMarkup = section.cite?.titleHtml
     ? renderTrustedHtml(section.cite.titleHtml)
     : `<span class="ic-cite-title">${renderText(section.cite.title, { widowProtection: true })}</span>`;
@@ -1820,8 +1913,10 @@ function renderQuoteSection(section) {
                         <h2 class="ic-section-title text-md-center">${renderText(getSectionHeading(section))}</h2>
 
                         <figure>
-                            <blockquote class="${quoteClass}">
+                            <blockquote>
+                                <div class="${quoteClass}">
 ${quoteBody}
+                                </div>
                             </blockquote>
                             <figcaption class="ic-cite">
                                     ${renderImg(section.cite.image, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${section.id}" cite image` })}
@@ -1833,6 +1928,7 @@ ${quoteBody}
                                     </p>
                                 </figcaption>
                         </figure>
+${quoteEmbedMarkup ? `\n${quoteEmbedMarkup}` : ""}
                     </div>
                 </div>
             </div>
@@ -1884,10 +1980,29 @@ ${quoteBody}
                         <h2 class="ic-section-title text-center">${renderText(getSectionHeading(section))}</h2>
 ${introBodyMarkup ? `\n${introBodyMarkup}\n` : ""}
 ${quoteCardMarkup}
+${quoteEmbedMarkup ? `\n${quoteEmbedMarkup}` : ""}
                     </div>
                 </div>
             </div>
         </section>`;
+}
+
+function renderQuoteEmbedMarkup({ html = "", src = "", title = "" } = {}) {
+  const iframeSrc = src || extractIframeSrcFromHtml(html);
+
+  if (iframeSrc) {
+    return renderIframeEmbedPlaceholder({ src: iframeSrc, title });
+  }
+
+  if (html) {
+    return indentBlock(normalizeEmbedHtml(renderTrustedHtml(html, { normalizeText: false })), 24);
+  }
+
+  if (!src) {
+    return "";
+  }
+
+  return renderIframeEmbedPlaceholder({ src, title });
 }
 
 function renderProfileGridSection(section) {
@@ -2162,6 +2277,176 @@ ${bodyMarkup}
         </section>`;
 }
 
+function escapeAttributeValue(value, quote = "\"") {
+  const stringValue = String(value ?? "");
+  const escapedValue = stringValue
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  if (quote === "'") {
+    return escapedValue.replace(/'/g, "&#39;");
+  }
+
+  return escapedValue.replace(/"/g, "&quot;");
+}
+
+function renderLeadFormLabel(field = {}) {
+  if (!field.label) {
+    return "";
+  }
+
+  const requiredMarkup = field.required ? '&nbsp;<span class="ic-required">*</span>' : "";
+  return `<label class="${escapeHtml(field.labelClassName || "form-label")}" for="${escapeHtml(field.id || field.name || "")}">${renderLiteralText(field.label)}${requiredMarkup}</label>`;
+}
+
+function renderLeadFormInput(field = {}) {
+  const requiredAttribute = field.required ? " required" : "";
+  const inputModeAttribute = field.inputMode ? ` inputmode="${escapeHtml(field.inputMode)}"` : "";
+
+  return `<input id="${escapeHtml(field.id || field.name || "")}" name="${escapeHtml(field.name || "")}" type="${escapeHtml(field.type || "text")}" class="${escapeHtml(field.className || "form-control")}"
+        maxlength="${escapeHtml(String(field.maxLength || field.maxlength || ""))}" autocomplete="${escapeHtml(field.autoComplete || field.autocomplete || "")}"${inputModeAttribute}${requiredAttribute}
+        placeholder="${escapeHtml(field.placeholder || "")}" />`;
+}
+
+function renderLeadFormSelect(field = {}) {
+  const requiredAttribute = field.required ? " required" : "";
+  const placeholderMarkup = field.placeholder
+    ? `\n    <option value="" disabled selected>${renderLiteralText(field.placeholder)}</option>`
+    : "";
+  const optionsMarkup = (field.options || [])
+    .map((option) => `    <option value="${escapeHtml(option.value || "")}">${renderLiteralText(option.label || "")}</option>`)
+    .join("\n");
+
+  return `<select id="${escapeHtml(field.id || field.name || "")}" name="${escapeHtml(field.name || "")}" class="${escapeHtml(field.className || "form-control form-select")}"${requiredAttribute}>${placeholderMarkup}${optionsMarkup ? `\n${optionsMarkup}` : ""}
+    </select>`;
+}
+
+function renderLeadFormField(field = {}) {
+  const fieldMarkup = field.type === "select" ? renderLeadFormSelect(field) : renderLeadFormInput(field);
+  const beforeCommentMarkup = field.beforeComment ? `<!-- ${escapeHtml(field.beforeComment)} -->\n` : "";
+
+  return `${beforeCommentMarkup}<div class="${escapeHtml(field.columnClassName || "col-12")}">
+    <div class="${escapeHtml(field.wrapperClassName || "ic-form-field")}">
+        ${renderLeadFormLabel(field)}
+${indentBlock(fieldMarkup, 8)}
+    </div>
+</div>`;
+}
+
+function renderLeadFormHiddenField(field = {}) {
+  const quote = field.quote === "single" ? "'" : "\"";
+  const escapedValue = escapeAttributeValue(field.value ?? "", quote);
+  const valueAttribute = quote === "'"
+    ? `value='${escapedValue}'`
+    : `value="${escapedValue}"`;
+
+  if (field.multiline) {
+    return `<input name="${escapeHtml(field.name || "")}" type="hidden"
+        ${valueAttribute} />`;
+  }
+
+  return `<input name="${escapeHtml(field.name || "")}" type="hidden" ${valueAttribute} />`;
+}
+
+function renderLeadFormSection(section) {
+  const emphasizedLeft = renderLiteralText(section.lead?.emphasisLeft || "").replace(/\s+([^\s]+)\s*$/, "&nbsp;$1");
+  const emphasizedRight = renderLiteralText(section.lead?.emphasisRight || "").replace(/\s+([^\s]+)\s*$/, "&nbsp;$1");
+  const leadMarkup = section.lead
+    ? `                        <p class="${escapeHtml(section.lead.className || "cc-p ic-lead")}">
+                            ${renderLiteralText(section.lead.prefix || "")}
+                            <strong>${emphasizedLeft} ${renderLiteralText(section.lead.separator || "×")} ${emphasizedRight}</strong> ${renderLiteralText(section.lead.suffix || "")}
+                        </p>`
+    : "";
+  const hiddenFieldsMarkup = (section.form?.hiddenFieldGroups || [])
+    .map((group) => `                                <!-- ${escapeHtml(group.comment || "")} -->\n${(group.fields || [])
+      .map((field) => indentBlock(renderLeadFormHiddenField(field), 32))
+      .join("\n")}`)
+    .join("\n");
+  const formFieldsMarkup = (section.form?.fields || [])
+    .map((field) => indentBlock(renderLeadFormField(field), 36))
+    .join("\n");
+  const alertMarkup = section.form?.alert
+    ? `                                    <div class="col-12">
+                                        <p class="ic-alert small">
+                                            <strong>${renderLiteralText(section.form.alert.emphasis || "")}</strong><br>${renderLiteralText(section.form.alert.body || "", { widowProtection: true })}
+                                        </p>
+                                    </div>`
+    : "";
+  const disclaimerMarkup = section.form?.disclaimer
+    ? `                                    <div class="col-12">
+                                        <p class="ic-disclaimer small"><small>${renderLiteralText(section.form.disclaimer, { widowProtection: true })}</small></p>
+                                    </div>`
+    : "";
+
+  return `        <div class="container">
+            <!-- Header / Hero -->
+            <div class="row justify-content-center text-center mb-4">
+                <div class="col-12 col-lg-10">
+                    <img alt="${escapeHtml(section.logoImage?.alt || "")}" class="${escapeHtml(section.logoImage?.className || "img-fluid mb-3")}"
+                        src="${escapeHtml(normalizeImageAssetUrl(section.logoImage?.src || ""))}"
+                        width="${escapeHtml(String(section.logoImage?.width || ""))}" height="${escapeHtml(String(section.logoImage?.height || ""))}" />
+                    <${escapeHtml(section.headingTag || "h1")} class="${escapeHtml(section.headingClassName || "cc-h1 display-6 mb-2")}">${renderLiteralText(getSectionHeading(section))}</${escapeHtml(section.headingTag || "h1")}>
+${leadMarkup}
+                </div>
+            </div>
+
+            <!-- Promo Image -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <img alt="${escapeHtml(section.featureImage?.alt || "")}" class="${escapeHtml(section.featureImage?.className || "img-fluid shadow rounded")}" width="${escapeHtml(String(section.featureImage?.width || ""))}" height="${escapeHtml(String(section.featureImage?.height || ""))}"
+                        src="${escapeHtml(normalizeImageAssetUrl(section.featureImage?.src || ""))}" />
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="${escapeHtml(section.form?.cardClassName || "card shadow-sm")}">
+                        <div class="${escapeHtml(section.form?.cardBodyClassName || "card-body p-4 p-md-5")}">
+                            <form class="${escapeHtml(section.form?.className || "ic-form cc-form")}"
+                                action="${escapeHtml(section.form?.action || "")}"
+                                method="${escapeHtml(section.form?.method || "POST")}" novalidate>
+
+${hiddenFieldsMarkup}
+
+                                <!-- Name -->
+                                <div class="row g-3">
+
+                                    <!-- Alert -->
+${alertMarkup}
+
+${formFieldsMarkup}
+
+                                    <!-- reCAPTCHA -->
+                                    <div class="${escapeHtml(section.form?.recaptcha?.columnClassName || "col-auto")}">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="g-recaptcha"
+                                                data-sitekey="${escapeHtml(section.form?.recaptcha?.siteKey || "")}"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="col-12">
+                                        <button type="submit" class="${escapeHtml(section.form?.submitClassName || "btn btn-primary btn-lg w-100")}">
+                                            ${renderLiteralText(section.form?.submitLabel || "Submit")}
+                                        </button>
+                                    </div>
+
+                                    <!-- Fine Print -->
+${disclaimerMarkup}
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>`;
+}
+
 function renderAccordionItemBody(item) {
   const paragraphs = getParagraphs(item)
     .map((paragraph) => `                                                <p>${renderText(paragraph, { widowProtection: true })}</p>`)
@@ -2335,6 +2620,8 @@ function renderSection(section) {
       return renderStickyCardsSection(section);
     case "legal":
       return renderLegalSection(section);
+    case "leadForm":
+      return renderLeadFormSection(section);
     case "cta":
       return renderCtaSection(section);
     case "accordion":
@@ -2348,6 +2635,20 @@ function renderSection(section) {
   }
 }
 
+const cmsFragmentSectionMarkerPattern = /<!--cms-section-(?:start|end):[^>]+-->/g;
+
+function wrapSectionForCmsFragments(section, markup) {
+  if (!section?.id || typeof markup !== "string" || markup.length === 0) {
+    return markup;
+  }
+
+  return `<!--cms-section-start:${section.id}-->\n${markup}\n<!--cms-section-end:${section.id}-->`;
+}
+
+export function stripCmsFragmentMarkers(source = "") {
+  return typeof source === "string" ? source.replace(cmsFragmentSectionMarkerPattern, "") : source;
+}
+
 function renderDocument(page, outputFile) {
   const pageTitle = escapeHtml(page.title || page.slug || "Generated Page");
   const stylesheetHref = toPosixPath(relative(dirname(outputFile), "dev/assets/css/vendor/cms-main-202106042.css"));
@@ -2357,7 +2658,9 @@ function renderDocument(page, outputFile) {
   const mainCssHref = toPosixPath(relative(dirname(outputFile), "dev/assets/css/style.css"));
   const jqueryHref = toPosixPath(relative(dirname(outputFile), "node_modules/jquery/dist/jquery.min.js"));
   const scriptHref = toPosixPath(relative(dirname(outputFile), "dev/assets/js/script.js"));
-  const sectionMarkup = (page.sections || []).map((section) => renderSection(section)).join("\n\n");
+  const sectionMarkup = (page.sections || [])
+    .map((section) => wrapSectionForCmsFragments(section, renderSection(section)))
+    .join("\n\n");
   const headHtml = renderPageHeadHtml(page);
   const inlineCmsScriptHtml = renderPageCmsScriptHtml(page);
   const dependencySource = [headHtml, sectionMarkup, inlineCmsScriptHtml].filter(Boolean).join("\n");
@@ -2433,7 +2736,6 @@ function renderBrightcoveExperienceScripts(source = "") {
     )
     .join("\n");
 }
-
 function renderPageHeadHtml(page) {
   return normalizeHtmlBlocks(page.cms?.headHtml)
     .map((block) => renderTrustedHtml(block).trim())
@@ -2588,7 +2890,7 @@ function toContentHtmlRelativePath(sourceFile, page) {
 
 function syncRenderedHtmlFile(renderedPage) {
   const outputFile = join(previewOutputDir, renderedPage.relativeOutputPath);
-  const nextContents = renderedPage.html;
+  const nextContents = stripCmsFragmentMarkers(renderedPage.html);
 
   if (!existsSync(outputFile)) {
     mkdirSync(dirname(outputFile), { recursive: true });
@@ -2666,7 +2968,7 @@ export function createContentSnapshot() {
     : [];
   const pageSnapshot = contentFiles.length > 0 ? createFileSnapshot(contentFiles) : "";
   const templateSnapshot = createTemplateSnapshot();
-  const scriptFiles = existsSync("scripts") ? collectFiles("scripts", ".mjs") : [];
+  const scriptFiles = existsSync("dev/scripts") ? collectFiles("dev/scripts", ".mjs") : [];
   const scriptSnapshot = scriptFiles.length > 0 ? createFileSnapshot(scriptFiles) : "";
   const packageSnapshot = existsSync("package.json") ? createFileSnapshot(["package.json"]) : "";
 
@@ -2724,7 +3026,7 @@ if (isDirectRun) {
   await build();
 
   if (watchMode) {
-  console.log("[pages] Watching content/pages/**/*.{json,yaml,yml,html}, dev/scripts/**/*.mjs, and package.json");
+    console.log("[pages] Watching content/pages/**/*.{json,yaml,yml,html}, content/templates/**/*.{json,yaml,yml}, dev/scripts/**/*.mjs, and package.json");
     previousSnapshot = createContentSnapshot();
 
     setInterval(() => {

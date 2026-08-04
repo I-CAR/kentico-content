@@ -80,7 +80,7 @@ function scheduleBuild(reason) {
 await build();
 
 if (watchMode) {
-  console.log("[cms] Watching content/pages/**/*, dev/scripts/**/*.mjs, package.json, css outputs, and js outputs");
+  console.log("[cms] Watching content/pages/**/*, content/templates/**/*, dev/scripts/**/*.mjs, package.json, dev/assets/css/**/*, and dev/assets/js/**/*");
   previousSnapshot = createHtmlSnapshot();
 
   setInterval(() => {

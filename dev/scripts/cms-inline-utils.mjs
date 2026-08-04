@@ -11,7 +11,12 @@ import { dirname, join, relative } from "node:path";
 import * as esbuild from "esbuild";
 import postcss from "postcss";
 import { parseStructuredAuthoringFile, stripAuthoringFileExtension } from "./authoring-format.mjs";
-import { collectRenderableContentFiles, collectRenderedPageDocuments, createContentSnapshot } from "./build-pages.mjs";
+import {
+  collectRenderableContentFiles,
+  collectRenderedPageDocuments,
+  createContentSnapshot,
+  stripCmsFragmentMarkers,
+} from "./build-pages.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesSwiper } from "./page-dependencies.mjs";
 
 const outputDir = "cms";
@@ -361,8 +366,16 @@ function toCmsFragmentHtmlOutputPath(sourceFile, fragmentName) {
   return toCmsHtmlOutputPath(sourceFile).replace(/\.html$/i, `.${fragmentName}.html`);
 }
 
+function toCmsFormHtmlOutputPath(sourceFile) {
+  return toCmsHtmlOutputPath(sourceFile).replace(/\.html$/i, ".form.html");
+}
+
 function toCompanionScriptSourcePath(sourceFile) {
   return sourceFile.replace(/\.html$/i, ".scripts.html");
+}
+
+function toCompanionFormSourcePath(authoringSourceFile) {
+  return `${stripAuthoringFileExtension(authoringSourceFile)}.form.html`;
 }
 
 function toContentHtmlRelativePath(sourceFile, page) {
@@ -426,6 +439,11 @@ function getExpectedCmsOutputPathsForPage(renderedPage, splitPaths) {
     toCmsFragmentHtmlOutputPath(sourceFile, fragment.name),
   );
   const outputs = [toCmsHtmlOutputPath(sourceFile), ...fragmentOutputs];
+  const companionFormSourceFile = renderedPage.sourceFile ? toCompanionFormSourcePath(renderedPage.sourceFile) : "";
+
+  if (companionFormSourceFile && existsSync(companionFormSourceFile)) {
+    outputs.push(toCmsFormHtmlOutputPath(sourceFile));
+  }
 
   if (shouldSplitCmsScripts(sourceFile, splitPaths)) {
     outputs.push(toCmsScriptHtmlOutputPath(sourceFile));
@@ -767,7 +785,24 @@ function extractTopLevelSections(mainInnerSource) {
 }
 
 function normalizeMainFragment(source) {
-  return source.trim();
+  return stripCmsFragmentMarkers(source).trim();
+}
+
+function extractMarkedSections(source) {
+  const sections = [];
+  const pattern = /<!--cms-section-start:([^>]+?)-->([\s\S]*?)<!--cms-section-end:\1-->/g;
+  let match;
+
+  while ((match = pattern.exec(source)) !== null) {
+    sections.push({
+      id: match[1].trim(),
+      start: match.index,
+      end: match.index + match[0].length,
+      html: match[2],
+    });
+  }
+
+  return sections;
 }
 
 function splitMainByCmsFragments(mainSource, page) {
@@ -778,19 +813,20 @@ function splitMainByCmsFragments(mainSource, page) {
   }
 
   const mainInnerSource = extractMainInner(mainSource);
-  const sections = extractTopLevelSections(mainInnerSource);
+  const sections = extractMarkedSections(mainInnerSource);
+  const fragmentSections = sections.length > 0 ? sections : extractTopLevelSections(mainInnerSource);
   const fragmentBoundaries = fragments
     .map((fragment) => {
       let sectionIndex = -1;
 
       if (fragment.fromSectionId) {
-        sectionIndex = sections.findIndex((section) => section.id === fragment.fromSectionId);
+        sectionIndex = fragmentSections.findIndex((section) => section.id === fragment.fromSectionId);
       } else if (fragment.afterSectionId) {
-        const afterIndex = sections.findIndex((section) => section.id === fragment.afterSectionId);
+        const afterIndex = fragmentSections.findIndex((section) => section.id === fragment.afterSectionId);
         sectionIndex = afterIndex === -1 ? -1 : afterIndex + 1;
       }
 
-      if (sectionIndex === -1 || sectionIndex > sections.length) {
+      if (sectionIndex === -1 || sectionIndex > fragmentSections.length) {
         throw new Error(
           `Unable to resolve CMS fragment "${fragment.name}" on page "${page.slug || page.title || "unknown"}"`,
         );
@@ -808,7 +844,9 @@ function splitMainByCmsFragments(mainSource, page) {
 
   for (const fragment of fragmentBoundaries) {
     const boundaryOffset =
-      fragment.sectionIndex >= sections.length ? mainInnerSource.length : sections[fragment.sectionIndex].start;
+      fragment.sectionIndex >= fragmentSections.length
+        ? mainInnerSource.length
+        : fragmentSections[fragment.sectionIndex].start;
     const primaryInner = mainInnerSource.slice(previousStart, boundaryOffset).trim();
 
     if (outputs.length === 0) {
@@ -825,12 +863,14 @@ function splitMainByCmsFragments(mainSource, page) {
   for (let index = 0; index < fragmentBoundaries.length; index += 1) {
     const fragment = fragmentBoundaries[index];
     const startOffset =
-      fragment.sectionIndex >= sections.length ? mainInnerSource.length : sections[fragment.sectionIndex].start;
+      fragment.sectionIndex >= fragmentSections.length
+        ? mainInnerSource.length
+        : fragmentSections[fragment.sectionIndex].start;
     const nextFragment = fragmentBoundaries[index + 1];
     const endOffset = nextFragment
-      ? nextFragment.sectionIndex >= sections.length
+      ? nextFragment.sectionIndex >= fragmentSections.length
         ? mainInnerSource.length
-        : sections[nextFragment.sectionIndex].start
+        : fragmentSections[nextFragment.sectionIndex].start
       : mainInnerSource.length;
     const fragmentInner = mainInnerSource.slice(startOffset, endOffset).trim();
 
@@ -884,6 +924,8 @@ function pageUsesCmsBaseJs(source) {
     /\bjs-ic-dropdown-container\b/.test(source) ||
     /\bjs-ic-btn-dropdown\b/.test(source) ||
     /\bjs-ic-dropdown\b/.test(source) ||
+    /\bdata-runtime-iframe-embed\b/.test(source) ||
+    /\bdata-iframe-src\b/.test(source) ||
     /\bg-recaptcha\b/.test(source) ||
     /\bcaptcha_settings\b/.test(source) ||
     /\bg-recaptcha-response\b/.test(source) ||
@@ -1003,6 +1045,10 @@ async function renderCmsHeadBootstrapScript() {
 }
 
 function toInactiveCmsScriptTag(tagSource) {
+  if (/^<script\b[^>]*\bsrc=["']https:\/\/players\.brightcove\.net\/[^"']+["']/i.test(tagSource)) {
+    return tagSource;
+  }
+
   const markedTag = tagSource.replace(/^<script(?=[\s>])/i, '<script type="text/plain"');
   return markedTag.replace(/\stype="[^"]*"/i, ' type="text/plain"');
 }
@@ -1086,9 +1132,13 @@ export async function renderCmsHtmlParts(
   outputFile,
   source,
   page,
-  { minify = false, minifyHtml = minify, assetBaseFile = sourceFile } = {},
+  { minify = false, minifyHtml = minify, assetBaseFile = sourceFile, authoringSourceFile = "" } = {},
 ) {
   const splitScripts = shouldSplitCmsScripts(sourceFile);
+  const companionFormSourceFile = authoringSourceFile ? toCompanionFormSourcePath(authoringSourceFile) : "";
+  const companionFormSource = page?.cms?.hasForm === true && companionFormSourceFile && existsSync(companionFormSourceFile)
+    ? readFileSync(companionFormSourceFile, "utf8").trim()
+    : "";
   const styleTag = await renderCmsStyleTag(sourceFile, source, page, {
     forceBootstrap: minify,
     assetBaseFile,
@@ -1152,6 +1202,23 @@ export async function renderCmsHtmlParts(
       html: htmlParts.filter(Boolean).join("\n\n").trim(),
     };
   });
+
+  if (companionFormSource) {
+    const formOutputFile = toCmsFormHtmlOutputPath(sourceFile);
+    const rewrittenForm = rewriteLocalAssetPaths(
+      companionFormSourceFile,
+      formOutputFile,
+      companionFormSource,
+      companionFormSourceFile,
+    );
+    const formHtml = minifyHtml ? minifyFragment(rewrittenForm) : removeCommentsAndSortAttributes(rewrittenForm);
+
+    files.push({
+      name: "form",
+      outputFile: formOutputFile,
+      html: formHtml.trim(),
+    });
+  }
 
   return {
     files,
@@ -1258,6 +1325,84 @@ function rebuildExternalScriptTag(tagSource) {
   return `${rebuildTag(openTagMatch[0])}</script>`;
 }
 
+function rebuildTagWithAttributes(tagName, attributes, { selfClosing = false } = {}) {
+  const sortedAttributes = sortAttributes(tagName.toLowerCase(), attributes)
+    .map((attribute) => {
+      if (attribute.value === null) {
+        return attribute.name;
+      }
+
+      return `${attribute.name}="${escapeAttribute(normalizeAttributeValue(attribute.value))}"`;
+    })
+    .join(" ");
+
+  const attributeSuffix = sortedAttributes ? ` ${sortedAttributes}` : "";
+  const isVoidElement = htmlVoidElements.has(tagName.toLowerCase());
+  return `<${tagName}${attributeSuffix}${selfClosing && !isVoidElement ? " />" : ">"}`;
+}
+
+function normalizeFormFragmentTag(tagSource) {
+  if (!tagSource.startsWith("<") || tagSource.startsWith("</") || tagSource.startsWith("<!")) {
+    return tagSource;
+  }
+
+  const selfClosing = /\/\s*>$/.test(tagSource);
+  const inner = tagSource.slice(1, tagSource.length - 1).replace(/\/\s*$/, "").trim();
+  const tagNameMatch = inner.match(/^([^\s/>]+)/);
+
+  if (!tagNameMatch) {
+    return tagSource;
+  }
+
+  const tagName = tagNameMatch[1];
+  const lowerTagName = tagName.toLowerCase();
+
+  if (lowerTagName !== "h2" && lowerTagName !== "p") {
+    return rebuildTag(tagSource);
+  }
+
+  const attributeSource = inner.slice(tagName.length).trim();
+  const attributes = parseAttributes(attributeSource)
+    .filter((attribute) => attribute.name.toLowerCase() !== "class");
+
+  if (lowerTagName === "h2") {
+    attributes.push({ name: "class", value: "ic-section-title" });
+  }
+
+  return rebuildTagWithAttributes(tagName, attributes, { selfClosing });
+}
+
+function normalizeFormFragmentMarkup(fragment) {
+  let output = "";
+
+  for (let index = 0; index < fragment.length; ) {
+    if (fragment.startsWith("<!--", index)) {
+      const commentEnd = fragment.indexOf("-->", index + 4);
+      index = commentEnd === -1 ? fragment.length : commentEnd + 3;
+      continue;
+    }
+
+    if (fragment[index] === "<") {
+      const tagEnd = getTagBoundary(fragment, index);
+
+      if (tagEnd === -1) {
+        output += fragment.slice(index);
+        break;
+      }
+
+      output += normalizeFormFragmentTag(fragment.slice(index, tagEnd + 1));
+      index = tagEnd + 1;
+      continue;
+    }
+
+    const nextTag = fragment.indexOf("<", index);
+    output += fragment.slice(index, nextTag === -1 ? fragment.length : nextTag);
+    index = nextTag === -1 ? fragment.length : nextTag;
+  }
+
+  return output.trim();
+}
+
 function transformFragment(fragment, transformText) {
   let output = "";
 
@@ -1354,6 +1499,7 @@ export async function buildCmsPages({ minify = false, minifyHtml = minify } = {}
     const scriptOutputFile = toCmsScriptHtmlOutputPath(sourceFile);
     const output = await renderCmsHtmlParts(sourceFile, outputFile, renderedPage.html, renderedPage.page, {
       assetBaseFile,
+      authoringSourceFile: renderedPage.sourceFile,
       minify,
       minifyHtml,
     });
@@ -1388,10 +1534,10 @@ export async function buildCmsAssets({ minify = false, minifyHtml = minify } = {
 
 export function createHtmlSnapshot() {
   const assetSnapshot = [
-    ...(existsSync("css") ? collectFiles("css", ".css") : []),
-    ...(existsSync("css") ? collectFiles("css", ".map") : []),
-    ...(existsSync("js") ? collectFiles("js", ".js") : []),
-    ...(existsSync("js") ? collectFiles("js", ".map") : []),
+    ...(existsSync("dev/assets/css") ? collectFiles("dev/assets/css", ".css") : []),
+    ...(existsSync("dev/assets/css") ? collectFiles("dev/assets/css", ".map") : []),
+    ...(existsSync("dev/assets/js") ? collectFiles("dev/assets/js", ".js") : []),
+    ...(existsSync("dev/assets/js") ? collectFiles("dev/assets/js", ".map") : []),
   ]
     .map((file) => {
       const stats = statSync(file);
