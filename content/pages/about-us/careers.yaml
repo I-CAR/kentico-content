@@ -236,6 +236,7 @@ sections:
         to bring your authentic self to each conversation.
     links:
       location: header
+      spacing: compact
       items:
         - label: Corporate Interview Process
           href: https://info.i-car.com/getmedia/a7cfbf9a-520e-4845-8f8e-2b229e07fc67/HR_Corporate_Interview_Process.pdf

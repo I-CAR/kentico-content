@@ -974,6 +974,20 @@ ${indentBlock(linksMarkup, 24)}
                 </div>`;
 }
 
+function resolveLinkListClassName(linkGroup, defaultClassName = "ic-menu mt-3") {
+  if (!linkGroup || Array.isArray(linkGroup)) {
+    return defaultClassName;
+  }
+
+  const spacing = typeof linkGroup.spacing === "string" ? linkGroup.spacing.trim().toLowerCase() : "";
+
+  if (spacing === "compact") {
+    return "ic-menu mt-0";
+  }
+
+  return defaultClassName;
+}
+
 function renderLinkList(links = [], className = "ic-menu mt-3") {
   if (!links.length) {
     return "";
@@ -1843,7 +1857,9 @@ function renderTextMediaSection(section) {
     renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline"),
     12,
   );
-  const linkListMarkup = renderLinkList(getSectionLinksByLocation(section, "header")) ? `${renderLinkList(getSectionLinksByLocation(section, "header"))}\n` : "";
+  const headerLinks = getSectionLinksByLocation(section, "header");
+  const headerLinkListClassName = resolveLinkListClassName(section.links);
+  const linkListMarkup = headerLinks.length ? `${renderLinkList(headerLinks, headerLinkListClassName)}\n` : "";
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerLinksMarkup = renderFooterLinkRow(getSectionLinksByLocation(section, "footer"));
   const semanticLayout = resolveTextMediaSemanticLayout(section);
