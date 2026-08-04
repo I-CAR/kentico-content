@@ -103,6 +103,16 @@ sections:
           - >-
             The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime="2026-11-03">Tuesday,
             November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards.
+  - id: form-copy
+    type: html
+    html: |-
+      <h2 class="ic-section-title">Contact Information</h2>
+      <p>If nominating a Gold Class shop, please provide the nominee’s information below. If submitting on their behalf, include your contact information in the submitter section.</p>
 cms:
+  hasForm: true
+  fragments:
+    - name: form
+      afterSectionId: nomination-overview
+      includeScripts: false
   scriptOutput: separateHtmlFile
   scriptHtml: []
