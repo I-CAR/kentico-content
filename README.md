@@ -394,6 +394,7 @@ Useful authoring notes:
 - `textMedia` sections support:
   - `reverse: true` or `variant: "reverse"`
   - `layout.imageStyle: "rounded"` or `layout.imageStyle: "cutout"`
+  - `layout.imageRounded: false` when the image should keep its base layout class without `ic-image-rounded`
 - `quote` sections support:
   - `quoteLayout: "stacked"` or `quoteLayout: "side-by-side"`
   - `centerIntro: true` when the intro copy above the quote should be centered
