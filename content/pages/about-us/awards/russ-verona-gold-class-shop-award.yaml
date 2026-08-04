@@ -1,0 +1,108 @@
+slug: russ-verona-gold-class-shop-award
+title: About Us - Awards - Russ Verona Gold Class Shop Award
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    heading: Russ Verona Gold Class Shop Award
+    headingTag: h1
+    sublabel: Recognizing Achievement in the Collision Repair Industry
+    titleClassName: ic-section-title text-center text-md-start
+    sublabelClassName: ic-sublabel text-center text-md-start
+    bodyClassName: text-center text-md-start
+    imagePlacement: background
+    backgroundColor: light
+    rowClassName: row justify-content-center align-items-center
+    contentClassName: col col-12 col-md col-lg-6 col-xl-5 order-last order-md-first py-0 pr-lg-4
+    badgeColumnClass: col col-auto order-first order-md-last mb-3 pb-3 mb-md-0 pb-md-0
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+      rowVerticalAlign: center
+      mobileCopySpacing: none
+      mobileMediaSpacing: section
+      desktopGapTarget: media
+      desktopGapBreakpoint: lg
+      boxStyle: none
+      imageStyle: banner
+      imageFrame: none
+    body:
+      - >-
+        First given in 2006, the Russ Verona Memorial Award honors the legacy of Russ Verona, owner of the first
+        Gold Class shop and respected leader in the collision repair industry.
+    image:
+      decorative: true
+      alt: ""
+      urls:
+        desktop:
+          1200w: /getmedia/07eecbf2-1f91-4672-8580-419662171534/What-Is-Platinum_1200w.webp
+          1400w: /getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp
+          1600w: /getmedia/ee70a449-b3c6-4636-bedf-459c48d89cae/What-Is-Platinum_1600w.webp
+          2400w: /getmedia/e2d6b9c8-c1c0-4967-a6d7-b14b1d6b5a9c/What-Is-Platinum_2400w.webp
+          2800w: /getmedia/0325465f-aeb6-4044-bf81-39ddb815afa0/What-Is-Platinum_2800w.webp
+        mobile:
+          400w: /getmedia/57dcef79-4a56-4d88-bf45-f0c593bb4c96/What-Is-Platinum_400w.webp
+          800w: /getmedia/700a3cb4-3d04-4136-8521-bc2e3aebce0a/What-Is-Platinum_800w.webp
+      height:
+        desktop: "400"
+        mobile: "518"
+      output:
+        srcWidth: "1400"
+        sourceWidth: "357"
+        sourceHeight: "518"
+        imgWidth: "1400"
+        imgHeight: "400"
+        sizes: 1400px
+        loading: eager
+    badgeImage:
+      alt: I-CAR Gold Class Collision Repair badge
+      desktopSrc: /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp
+      desktopSrcset: >-
+        /getmedia/b0f61512-f9fa-486e-9927-cd771b80beea/Collision_Badge_220w.webp 220w,
+        /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp 440w
+      width: "170"
+      height: "157"
+      sizes: 220px
+  - id: nomination-overview
+    type: stickyCards
+    backgroundColor: white
+    heading: Collision Repair Shop Nomination Form for 2025 Performance Year
+    buttons:
+      items:
+        - label: View Previous I-CAR Award Recipients
+          href: https://info.i-car.com/about-us/awards
+          variant: outline
+    cards:
+      - heading: Purpose
+        body:
+          - >-
+            Given annually, this award recognizes Gold Class shops that demonstrate a commitment to training, repair
+            quality, and safety in alignment with industry standards.
+      - heading: Eligibility
+        titleClassName: ic-h4
+        contentHtml:
+          - >-
+            <p>This award will be bestowed upon a select collision repair shop that meets the
+            following&nbsp;requirements:</p>
+        listItems:
+          - Holds a long term (defined as at least five consecutive years) I-CAR Gold Class designation
+          - >-
+            Actively promotes the Gold Class designation, training, and a positive image of the collision industry
+            (locally or on a broader scale)
+        footer: >-
+          Please note all current I-CAR employees are not eligible to earn this award. This includes I-CAR full-time
+          and part-time instructors.
+      - heading: Nominating Procedure
+        bodyHtml:
+          - >-
+            Complete this form and submit it prior to <time datetime="2026-07-31">July 31,&nbsp;2026</time>. For
+            questions, email&nbsp;<a href="mailto:i-car.events.dept@i-car.com">i&#8209;car.events.dept@i-car.com</a>.
+      - heading: Presentation of Award
+        bodyHtml:
+          - >-
+            The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime="2026-11-03">Tuesday,
+            November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards.
+cms:
+  scriptOutput: separateHtmlFile
+  scriptHtml: []

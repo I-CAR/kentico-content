@@ -52,8 +52,8 @@ sections:
             href="/getmedia/8c2d35bf-2231-42cb-b4eb-d6d6c7bad778/MemberCouncilApplication_2025.pdf">membership&nbsp;application</a>.
         image:
           alt: Handshake icon
-          desktopSrc: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-1.png
-          desktopSrcset: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-1.png
+          singleSource: true
+          desktopSrc: /getmedia/7acd3763-c971-403d-afdb-57f674c350e3/governance-industry-councils-icon-1.png
           width: "60"
           height: "60"
           sizes: 60px
@@ -65,8 +65,8 @@ sections:
             have the knowledge and skills needed to address emerging vehicle technologies.
         image:
           alt: Car with checklist icon
-          desktopSrc: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-4.png
-          desktopSrcset: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-4.png
+          singleSource: true
+          desktopSrc: /getmedia/44958798-8b47-40f7-8779-e8e483c1658b/governance-industry-councils-icon-4.png
           width: "60"
           height: "60"
           sizes: 60px
@@ -77,8 +77,8 @@ sections:
             address the unique needs and challenges of different sectors within the collision repair industry.
         image:
           alt: Chat bubbles icon
-          desktopSrc: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-2.png
-          desktopSrcset: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-2.png
+          singleSource: true
+          desktopSrc: /getmedia/5a67c54d-1c91-4ab4-8367-90bb6b96373c/governance-industry-councils-icon-2.png
           width: "60"
           height: "60"
           sizes: 60px
@@ -89,8 +89,8 @@ sections:
             and learning materials that better serve collision repair professionals and the industry at large.
         image:
           alt: Book with lightbulb icon
-          desktopSrc: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-3.png
-          desktopSrcset: /I-CAR/media/ICarMain/Governance/governance-industry-councils-icon-3.png
+          singleSource: true
+          desktopSrc: /getmedia/40176a22-b398-4cc5-b590-b1f419fdbfd6/governance-industry-councils-icon-3.png
           width: "60"
           height: "60"
           sizes: 60px

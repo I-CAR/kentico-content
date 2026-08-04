@@ -715,6 +715,7 @@ function validateFixedImage(image = {}, context = "image") {
 }
 
 function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultLoading = "lazy") {
+  const singleSource = image.singleSource === true;
   const hasStructuredUrls = Boolean(
     image.urls?.mobile?.["400w"]
     || image.urls?.mobile?.["800w"]
@@ -734,16 +735,17 @@ function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultL
 
   if (!hasStructuredUrls) {
     return {
-      mobileSrcset: normalizeImageAssetSrcsetValue(image.mobileSrcset || ""),
+      mobileSrcset: singleSource ? "" : normalizeImageAssetSrcsetValue(image.mobileSrcset || ""),
       sourceWidth: image.output?.sourceWidth || image.width || "800",
       sourceHeight: image.output?.sourceHeight || image.height || "450",
       desktopSrc: normalizeImageAssetUrl(image.desktopSrc || ""),
-      desktopSrcset: normalizeImageAssetSrcsetValue(image.desktopSrcset || image.desktopSrc || ""),
+      desktopSrcset: singleSource ? "" : normalizeImageAssetSrcsetValue(image.desktopSrcset || image.desktopSrc || ""),
       imgWidth: image.output?.imgWidth || image.width || "",
       imgHeight: image.output?.imgHeight || image.height || "",
       sizes: image.output?.sizes || image.sizes || "",
-    loading: image.output?.loading || image.loading || defaultLoading,
-  };
+      loading: image.output?.loading || image.loading || defaultLoading,
+      includeSrcset: !singleSource,
+    };
   }
 
   const presetConfig = {
@@ -816,30 +818,33 @@ function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultL
     || "";
 
   return {
-    mobileSrcset,
+    mobileSrcset: singleSource ? "" : mobileSrcset,
     sourceWidth: preferredSourceWidth,
     sourceHeight: getImageHeight(image, "mobile") || getImageHeight(image, "desktop") || "",
     desktopSrc,
-    desktopSrcset: desktopSrcset || desktopSrc,
+    desktopSrcset: singleSource ? "" : (desktopSrcset || desktopSrc),
     imgWidth: preferredImgWidth,
     imgHeight: getImageHeight(image, "desktop") || getImageHeight(image, "mobile") || "",
     sizes: image.sizes || image.output?.sizes || presetConfig.defaultSizes,
     loading: image.loading || image.output?.loading || defaultLoading,
+    includeSrcset: !singleSource,
   };
 }
 
 function resolveFixedImageConfig(image = {}, defaults = {}) {
+  const singleSource = image.singleSource === true;
   const desktopEntries = getFixedImageEntries(image, "desktop");
 
   if (!desktopEntries.length) {
     const src = normalizeImageAssetUrl(image.desktopSrc || image.src || "");
     return {
       src,
-      srcset: normalizeImageAssetSrcsetValue(image.desktopSrcset || image.srcset || src),
+      srcset: singleSource ? "" : normalizeImageAssetSrcsetValue(image.desktopSrcset || image.srcset || src),
       width: image.width || defaults.width || "",
       height: getImageHeight(image, "desktop") || image.height || defaults.height || "",
       sizes: image.sizes || defaults.sizes || "",
       loading: image.loading || defaults.loading || "lazy",
+      includeSrcset: !singleSource,
     };
   }
 
@@ -852,18 +857,21 @@ function resolveFixedImageConfig(image = {}, defaults = {}) {
 
   return {
     src: srcEntry.url,
-    srcset: buildResponsiveSrcset(desktopEntries),
+    srcset: singleSource ? "" : buildResponsiveSrcset(desktopEntries),
     width: String(image.width || defaults.width || largest.width),
     height: getImageHeight(image, "desktop") || defaults.height || "",
     sizes: image.sizes || defaults.sizes || "",
     loading: defaults.loading || "lazy",
+    includeSrcset: !singleSource,
   };
 }
 
 function renderImg(image, imageClassName = "", defaults = {}) {
   validateFixedImage(image, defaults.context || "image");
   const config = resolveFixedImageConfig(image, defaults);
-  return `<img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${imageClassName ? ` class="${escapeHtml(imageClassName)}"` : ""} width="${escapeHtml(config.width)}" height="${escapeHtml(config.height)}" sizes="${escapeHtml(config.sizes)}" src="${escapeHtml(config.src)}" srcset="${escapeHtml(config.srcset)}">`;
+  const sizesAttribute = config.sizes ? ` sizes="${escapeHtml(config.sizes)}"` : "";
+  const srcsetAttribute = config.includeSrcset ? ` srcset="${escapeHtml(config.srcset)}"` : "";
+  return `<img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${imageClassName ? ` class="${escapeHtml(imageClassName)}"` : ""} width="${escapeHtml(config.width)}" height="${escapeHtml(config.height)}"${sizesAttribute} src="${escapeHtml(config.src)}"${srcsetAttribute}>`;
 }
 
 function resolveButtonClassName(button = {}, defaultClassName = "ic-btn ic-btn-primary") {
@@ -1025,9 +1033,11 @@ function renderPicture(image, imageClassName = "", defaultLoading = "lazy", pres
     ? `\n                                <source media="(max-width: 768px)" width="${escapeHtml(config.sourceWidth)}" height="${escapeHtml(config.sourceHeight)}" sizes="${escapeHtml(config.sizes)}" srcset="${escapeHtml(config.mobileSrcset)}">`
     : "";
   const classAttribute = imageClassName ? ` class="${escapeHtml(imageClassName)}"` : "";
+  const sizesAttribute = config.sizes ? ` sizes="${escapeHtml(config.sizes)}"` : "";
+  const srcsetAttribute = config.includeSrcset ? ` srcset="${escapeHtml(config.desktopSrcset)}"` : "";
 
   return `<picture>${sourceMarkup}
-                                <img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${classAttribute} width="${escapeHtml(config.imgWidth)}" height="${escapeHtml(config.imgHeight)}" sizes="${escapeHtml(config.sizes)}" src="${escapeHtml(config.desktopSrc)}" srcset="${escapeHtml(config.desktopSrcset)}">
+                                <img alt="${escapeHtml(image.alt || "")}" loading="${escapeHtml(config.loading)}"${classAttribute} width="${escapeHtml(config.imgWidth)}" height="${escapeHtml(config.imgHeight)}"${sizesAttribute} src="${escapeHtml(config.desktopSrc)}"${srcsetAttribute}>
                             </picture>`;
 }
 

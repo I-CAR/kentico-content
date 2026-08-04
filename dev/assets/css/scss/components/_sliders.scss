@@ -6,10 +6,6 @@
     margin-left: calc(var(--space-12) * -1);
 }
 
-.ic-section > .container > .row .row:has(.ic-swiper) {
-    max-width: calc(100% + 3rem);
-}
-
 .ic-swiper {
     width: 100%;
 }
@@ -30,6 +26,10 @@
 }
 
 @include mq(md) {
+    .ic-section > .container > .row .row:has(.ic-swiper) {
+        max-width: calc(100% + 3rem);
+    }
+
     .ic-swiper .swiper-slide {
         margin-left: 0.375rem;
     }

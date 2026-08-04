@@ -162,13 +162,21 @@
 
 @include mq(md, down) {
     .ic-card-icon-text-grid {
-        justify-content: center;
+        align-items: flex-start;
+        flex-flow: row-reverse nowrap;
+        gap: var(--space-12);
+        justify-content: flex-start;
     }
 
     .ic-card-icon-text-grid>.ic-card-body {
-        margin: 0 auto;
-        max-width: calc(353rem / var(--rem-base));
+        flex: 1 1 auto;
+        margin: 0;
+        max-width: none;
         text-align: left;
+    }
+
+    .ic-card-icon-text-grid-icon {
+        margin: 0;
     }
 }
 
@@ -358,6 +366,10 @@ figure > blockquote:has(> .ic-quote-text) {
     }
 }
 
-.ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-body {
+.ic-card:has(.ic-card-list-courses) .ic-card-body {
     padding: var(--space-30);
+}
+
+.ic-card:has(.ic-card-table-courses) .ic-card-body {
+    padding: var(--space-24);
 }
