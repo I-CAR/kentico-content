@@ -211,9 +211,14 @@ blockquote .ic-quote-text p:last-child::after {
     font-weight: var(--semibold);
 }
 
+figure > blockquote:has(> .ic-quote-text) {
+    margin-bottom: 0;
+}
+
 @include mq(md) {
-    figure > blockquote.ic-quote-text + .ic-cite {
-        align-items: flex-start;
+    figure > blockquote.ic-quote-text + .ic-cite,
+    figure > blockquote:has(> .ic-quote-text) + .ic-cite {
+        align-items: center;
         justify-content: center;
     }
 }
