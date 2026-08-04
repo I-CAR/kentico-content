@@ -118,6 +118,60 @@
     font-weight: var(--bold);
 }
 
+.ic-card-list-icon-text-grid {
+    --bs-gutter-x: 30px;
+    --bs-gutter-y: 30px;
+}
+
+.ic-card-list-icon-text-grid>li {
+    max-width: calc(487rem / var(--rem-base));
+}
+
+.ic-card-icon-text-grid {
+    flex-flow: column nowrap;
+    text-align: left;
+}
+
+.ic-card-icon-text-grid>.ic-card-body {
+    max-width: calc(487rem / var(--rem-base));
+    padding: 0;
+}
+
+.ic-card-icon-text-grid>.ic-card-media {
+    margin: 0;
+}
+
+.ic-card-icon-text-grid .ic-card-title {
+    font-size: calc(18rem / var(--rem-base));
+    line-height: 1.25;
+    margin: 0 0 .75rem !important;
+}
+
+.ic-card-icon-text-grid .ic-card-text {
+    margin: 0;
+}
+
+.ic-card-icon-text-grid-icon {
+    display: block;
+    flex-shrink: 0;
+    height: 60px;
+    margin: 0 0 .75rem;
+    object-fit: contain;
+    width: 60px;
+}
+
+@include mq(md, down) {
+    .ic-card-icon-text-grid {
+        justify-content: center;
+    }
+
+    .ic-card-icon-text-grid>.ic-card-body {
+        margin: 0 auto;
+        max-width: calc(353rem / var(--rem-base));
+        text-align: left;
+    }
+}
+
 .ic-card:has(.ic-card-list-courses, .ic-card-table-courses) .ic-card-title {
     margin-bottom: var(--space-20) !important;
 }

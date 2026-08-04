@@ -2,7 +2,7 @@
 
 .swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-horizontal {
     position: static;
-    margin-top: calc(5rem / 16);
+    margin-top: calc(1.25rem / 16);
     margin-left: calc(var(--space-12) * -1);
 }
 
@@ -23,6 +23,10 @@
 .js-ic-swiper-media .swiper-slide picture > img {
     display: block;
     width: 100%;
+}
+
+#adas-lab .js-ic-swiper-media > .swiper-pagination.swiper-pagination-horizontal {
+    margin-top: calc(-2.5rem + 10px);
 }
 
 @include mq(md) {

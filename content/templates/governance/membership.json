@@ -4,11 +4,8 @@
   "sections": [
     {
       "id": "hero",
-      "type": "hero"
-    },
-    {
-      "id": "page-nav",
-      "type": "pageNav"
+      "type": "hero",
+      "variant": "split"
     },
     {
       "id": "who-are-members",

@@ -1,0 +1,254 @@
+slug: sally-mott-giveaway
+title: Sally MOtt Giveaway
+sections:
+  - id: page-content
+    type: leadForm
+    heading: Sally Mott Signed Poster Giveaway
+    headingTag: h1
+    logoImage:
+      alt: Collision Careers Logo
+      src: /getmedia/ccb0fd03-949c-492d-a217-9dca20cedfc5/CollisionCareers-Logo_Square.webp
+      width: 180
+      height: 98
+    lead:
+      prefix: Fill out the form below for a chance to win a signed
+      emphasisLeft: Sally Mott
+      separator: ×
+      emphasisRight: Collision Careers
+      suffix: poster.
+    featureImage:
+      alt: Sally Mott Poster
+      src: /getmedia/5d256dcf-20b0-4e4f-8e49-11a3fbc08864/Sally-Mott_Poster-Mock-Up.webp
+      width: 636
+      height: 454
+    form:
+      action: https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D1I0000002nE3
+      method: POST
+      hiddenFieldGroups:
+        - comment: Required SFDC Hidden Fields
+          fields:
+            - name: captcha_settings
+              value: '{"keyname":"ICAR","fallback":"true","orgId":"00D1I0000002nE3","ts":""}'
+              quote: single
+              multiline: true
+            - name: oid
+              value: 00D1I0000002nE3
+            - name: retURL
+              value: https://www.collisioncareers.com/
+        - comment: Business Logic Hidden Fields
+          fields:
+            - name: company
+              value: Talent Aquisition
+            - name: 00N8W00000PF4n8
+              value: Collision Repair
+            - name: lead_source
+              value: Talent Giveaway
+            - name: 00N8W00000PE1V2
+              value: Sally Mott - MX-5 Race
+      alert:
+        emphasis: Giveaway closes October 19, 2025 at 11:59 PM ET.
+        body: Open to U.S. residents, 18+ only. One entry per person. Winners will be chosen at random and notified via email.
+      fields:
+        - id: first_name
+          name: first_name
+          label: First Name
+          type: text
+          required: true
+          maxLength: 40
+          autoComplete: given-name
+          placeholder: Enter your first name
+          columnClassName: col-md-6
+        - id: last_name
+          name: last_name
+          label: Last Name
+          type: text
+          required: true
+          maxLength: 80
+          autoComplete: family-name
+          placeholder: Enter your last name
+          columnClassName: col-md-6
+        - id: email
+          name: email
+          label: Email
+          beforeComment: Contact
+          type: email
+          required: true
+          maxLength: 80
+          autoComplete: email
+          inputMode: email
+          placeholder: Enter your email address
+          columnClassName: col-md-6
+        - id: phone
+          name: phone
+          label: Phone
+          type: tel
+          maxLength: 40
+          autoComplete: tel
+          inputMode: tel
+          placeholder: Enter your phone number
+          columnClassName: col-md-6
+        - id: city
+          name: city
+          label: City
+          beforeComment: Location
+          type: text
+          maxLength: 40
+          autoComplete: address-level2
+          placeholder: Enter your city
+          columnClassName: col-md-6 py-1
+        - id: state
+          name: state
+          label: State
+          type: select
+          placeholder: Select state
+          columnClassName: col-md-3 py-1
+          options:
+            - value: AL
+              label: Alabama
+            - value: AK
+              label: Alaska
+            - value: AS
+              label: American Samoa
+            - value: AZ
+              label: Arizona
+            - value: AR
+              label: Arkansas
+            - value: CA
+              label: California
+            - value: CO
+              label: Colorado
+            - value: CT
+              label: Connecticut
+            - value: DE
+              label: Delaware
+            - value: DC
+              label: District of Columbia
+            - value: FL
+              label: Florida
+            - value: GA
+              label: Georgia
+            - value: GU
+              label: Guam
+            - value: HI
+              label: Hawaii
+            - value: ID
+              label: Idaho
+            - value: IL
+              label: Illinois
+            - value: IN
+              label: Indiana
+            - value: IA
+              label: Iowa
+            - value: KS
+              label: Kansas
+            - value: KY
+              label: Kentucky
+            - value: LA
+              label: Louisiana
+            - value: ME
+              label: Maine
+            - value: MD
+              label: Maryland
+            - value: MA
+              label: Massachusetts
+            - value: MI
+              label: Michigan
+            - value: MN
+              label: Minnesota
+            - value: MS
+              label: Mississippi
+            - value: MO
+              label: Missouri
+            - value: MT
+              label: Montana
+            - value: NE
+              label: Nebraska
+            - value: NV
+              label: Nevada
+            - value: NH
+              label: New Hampshire
+            - value: NJ
+              label: New Jersey
+            - value: NM
+              label: New Mexico
+            - value: NY
+              label: New York
+            - value: NC
+              label: North Carolina
+            - value: ND
+              label: North Dakota
+            - value: MP
+              label: Northern Mariana Islands
+            - value: OH
+              label: Ohio
+            - value: OK
+              label: Oklahoma
+            - value: OR
+              label: Oregon
+            - value: PA
+              label: Pennsylvania
+            - value: PR
+              label: Puerto Rico
+            - value: RI
+              label: Rhode Island
+            - value: SC
+              label: South Carolina
+            - value: SD
+              label: South Dakota
+            - value: TN
+              label: Tennessee
+            - value: TX
+              label: Texas
+            - value: UT
+              label: Utah
+            - value: VT
+              label: Vermont
+            - value: VI
+              label: Virgin Islands (U.S.)
+            - value: VA
+              label: Virginia
+            - value: WA
+              label: Washington
+            - value: WV
+              label: West Virginia
+            - value: WI
+              label: Wisconsin
+            - value: WY
+              label: Wyoming
+        - id: zip
+          name: zip
+          label: ZIP
+          type: text
+          maxLength: 20
+          autoComplete: postal-code
+          placeholder: Enter your ZIP
+          columnClassName: col-md-3 py-1
+        - id: 00N8W00000PF4u9
+          name: 00N8W00000PF4u9
+          label: I'm a
+          beforeComment: Talent Role
+          type: select
+          required: true
+          placeholder: I'm a
+          columnClassName: col-12
+          options:
+            - value: Educator
+              label: Educator
+            - value: Existing CR Professional
+              label: Existing Collision Repair Professional
+            - value: Job Seeker
+              label: Job Seeker
+            - value: Parent
+              label: Parent
+            - value: Student
+              label: Student
+      recaptcha:
+        siteKey: 6LfTSyoqAAAAAJQynP9sSRGLAoGSGbTJvpgEE1vF
+      submitLabel: Enter Giveaway
+      disclaimer: By submitting this form, you consent to the collection, processing, and use of your personal data, including receiving marketing communications related to Collision Careers and other I-CAR services. This giveaway is not sponsored, endorsed, or administered by, or associated with, Meta.
+cms:
+  headHtml:
+    - '<link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&amp;family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">'
+  scriptHtml:
+    - '<script src="https://www.google.com/recaptcha/api.js" async defer></script>'
+    - '<script>document.addEventListener("DOMContentLoaded",()=>{const form=document.querySelector(".ic-form");if(!form)return;const formCard=form.closest(".card-body")||form;const submitBtn=form.querySelector(''[type="submit"]'');const captchaSettings=form.querySelector(''input[name="captcha_settings"]'');const recaptchaContainer=form.querySelector(".g-recaptcha");const retURL=form.querySelector(''input[name="retURL"]'')?.value||"/";const isLocal=["localhost","127.0.0.1"].includes(location.hostname);const setInvalid=(el,msg)=>{if(!el)return;el.classList.add("is-invalid");el.setAttribute("aria-invalid","true");let fb=el.parentElement?.querySelector(".invalid-feedback");if(!fb){fb=document.createElement("div");fb.className="invalid-feedback";el.parentElement?.appendChild(fb);}fb.textContent=msg||"Please correct this field.";};const clearInvalid=el=>{if(!el)return;el.classList.remove("is-invalid");el.removeAttribute("aria-invalid");const fb=el.parentElement?.querySelector(".invalid-feedback");if(fb)fb.textContent="";};const setRecaptchaInvalid=msg=>{if(!recaptchaContainer)return;let fb=recaptchaContainer.nextElementSibling;if(!fb||!fb.classList||!fb.classList.contains("invalid-feedback")){fb=document.createElement("div");fb.className="invalid-feedback d-block mt-2";recaptchaContainer.insertAdjacentElement("afterend",fb);}fb.textContent=msg||"Please complete the reCAPTCHA.";recaptchaContainer.classList.add("border","border-danger","rounded");};const clearRecaptchaInvalid=()=>{if(!recaptchaContainer)return;const fb=recaptchaContainer.nextElementSibling;if(fb&&fb.classList.contains("invalid-feedback"))fb.textContent="";recaptchaContainer.classList.remove("border","border-danger","rounded");};const showSuccessUI=({willRedirect,delaySeconds=15,url="https://www.collisioncareers.com/",isLocal=false})=>{formCard.innerHTML=`<div class="ic-message ic-message-success"><h2 class="mb-3">Thank you!</h2><p class="mb-4">Your entry was successfully submitted. Winner will be randomly selected on <strong>October 20th</strong> and contacted via email. Good luck!</p><p class="mb-0 js-redirect-line">You will be redirected to <a href="${url}" title="Return to homepage">${url}</a> in <span class="js-seconds">${delaySeconds}</span> second${delaySeconds===1?"":"s"}…</p></div>`;if(!willRedirect)return;let secs=delaySeconds;const tick=setInterval(()=>{secs-=1;const lineEl=formCard.querySelector(".js-redirect-line");if(lineEl){lineEl.innerHTML=`You will be redirected to <a href="${url}" title="Return to homepage">${url}</a> in <span class="js-seconds">${secs}</span> second${secs===1?"":"s"}.`; }if(secs<=0){clearInterval(tick);isLocal?window.open(url,"_blank"):window.location.href=url;}},1000);};const validateForm=()=>{let isValid=true;form.querySelectorAll(".is-invalid").forEach(clearInvalid);clearRecaptchaInvalid();form.querySelectorAll("[required]").forEach(field=>{if(!field.value||!field.value.trim()){setInvalid(field,"This field is required.");isValid=false;}});const emailField=form.querySelector("#email");if(emailField&&emailField.value.trim()){const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(!emailRegex.test(emailField.value)){setInvalid(emailField,"Enter a valid email address.");isValid=false;}}const phoneField=form.querySelector("#phone");if(phoneField&&phoneField.value.trim()){const phoneRegex=/^[0-9]+$/;if(!phoneRegex.test(phoneField.value)){setInvalid(phoneField,"Use numbers only (no dashes or spaces).");isValid=false;}}if(!isLocal){let recaptchaOK=false;try{recaptchaOK=typeof grecaptcha!=="undefined"&&grecaptcha.getResponse().length>0;}catch(_){recaptchaOK=false;}if(!recaptchaOK){setRecaptchaInvalid("Please verify you are not a robot.");isValid=false;}}return isValid;};form.addEventListener("submit",e=>{e.preventDefault();if(!validateForm())return;submitBtn?.setAttribute("disabled","disabled");if(submitBtn)submitBtn.textContent="Submitting…";if(isLocal){showSuccessUI({willRedirect:true,delaySeconds:15,url:retURL,isLocal:true});try{grecaptcha?.reset?.();}catch(_){}return;}try{const cs=captchaSettings?.value?JSON.parse(captchaSettings.value):{};cs.ts=String(Date.now());if(captchaSettings)captchaSettings.value=JSON.stringify(cs);}catch(_){}let iframe=document.querySelector(''iframe[name="sfw2l_iframe"]'');if(!iframe){iframe=document.createElement("iframe");iframe.name="sfw2l_iframe";iframe.style.display="none";document.body.appendChild(iframe);}iframe.addEventListener("load",()=>{showSuccessUI({willRedirect:true,delaySeconds:15,url:retURL,isLocal:false});try{grecaptcha?.reset?.();}catch(_){}submitBtn?.removeAttribute("disabled");if(submitBtn)submitBtn.textContent="Enter Giveaway";},{once:true});const prevTarget=form.getAttribute("target");form.setAttribute("target","sfw2l_iframe");form.submit();if(prevTarget===null)form.removeAttribute("target");else form.setAttribute("target",prevTarget);});});</script>'
