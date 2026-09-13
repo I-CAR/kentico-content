@@ -1,0 +1,55 @@
+# Global Execution & Workflow Rules
+
+## 1. Memory Bank & Context Protocol (Pointers Over Payloads)
+- **Primary Goal is Execution:** Your priority is writing code, generating schemas, or delegating tasks. Do not get stuck in a documentation loop.
+- **Single Update Rule:** Update `memory/activeContext.md` and `memory/progress.md` EXACTLY ONCE per task—only at the very end, immediately before calling `attempt_completion` or `new_task`. 
+- **Pointers Over Payloads (Strict Token Limit):** Keep memory files aggressively concise to save context tokens. 
+  - NEVER copy-paste code blocks, raw Figma AST data, CSS values, or full JSON/YAML schemas into `.md` files. 
+  - Log ONLY URLs, specific node IDs, file paths, and high-level bullet points. Let receiving agents extract granular data themselves.
+- **Mandatory Reads:** At the start of EVERY task, read `memory/activeContext.md` AND `memory/projectBrief.md`.
+
+## 2. Component-Driven CMS Architecture (Kentico)
+- **Separation of Concerns:** Keep content/data files separate from structural layout templates.
+- **Templates (`content/templates/*.yaml`):** Define structural skeletons ONLY. Keys limited to `slug`, `title`, and `sections` (with `id`, `type`, `variant`). NEVER add text copy, headlines, or HTML here.
+- **Pages (`content/pages/*.yaml`):** The data source of truth. Contains structured copy and variant parameters.
+- **No Raw HTML in Data:** Never embed raw HTML blocks, inline styling, or markup strings (`bodyHtml`) directly inside YAML. Extend `dev/scripts/build-pages.mjs` with structured properties instead.
+
+## 3. Style Modernization & Legacy Retirement
+- **SCSS Source of Truth:** Write and edit styling exclusively in modular SCSS (`dev/assets/css/scss/`).
+- **Read-Only Files:** Never hand-edit compiled outputs (`dist/`, `previews/`, `*.min.css`) or legacy CSS files (`dev/assets/css/legacy/`).
+- **Style Dictionary Compliance:** All migrated components must replace legacy CSS classes with the modernized YAML variant equivalents mapped in the architecture spec.
+
+## 4. Port Safety & Isolation Protocols
+- **Port 3000 Protection:** Port 3000 is strictly reserved for user manual previews. Agents must NEVER bind dev servers, scripts, or Puppeteer tests to Port 3000.
+- **Agent Execution Port:** All agent-driven development servers, static previews, and headless testing MUST run exclusively on **Port 3001** (or dedicated background ports like 3002+).
+
+## 5. Action-First Tool Execution
+- Always execute file modifications (`write_file`, `replace_in_file`) or terminal tools immediately.
+- STRICT RULE: Do not output conversational preambles, status updates, or plan confirmations prior to invoking a tool call.
+
+## 6. QA & Terminal Verification
+- When executing terminal checks, always chain multi-step verifications into a single invocation using `&&`.
+- Exit Code 0 with empty stdout means COMPLETE SUCCESS. Do not re-run a silent successful command.
+
+## 7. High-Accuracy Migration Protocols
+- **Programmatic Data Extraction:** When migrating legacy `main.html` + `.json` pairings, use automated parsing scripts (e.g., Cheerio/Node one-liners) rather than manual copy-pasting to prevent text loss, typos, or missing attributes.
+- **Schema Validation Gate:** All `.yaml` outputs must pass strict Zod/JSON Schema validation in `dev/scripts/build-pages.mjs`. Unapproved keys or embedded HTML must throw fatal build errors.
+- **Shadow DOM Diffing:** Validate migrated YAML output by comparing text nodes and computed layout math against legacy baselines served on Port 3001.
+
+## 8. Milestone Responsive DOM-Measurement Verification (Zero Hallucination Policy)
+- **Zero Blind Approvals & No Visual Guessing:** You are strictly forbidden from relying on screenshots or visual estimations to verify UI pixel-perfection. Vision models hallucinate alignment.
+- **Batch Code First (No Tool Spam):** Do NOT invoke Puppeteer for single-line CSS edits. Write and compile complete styling/components before executing browser tests.
+- **Milestone Execution Only:** Invoke Puppeteer (`puppeteer_navigate` and `puppeteer_evaluate`) ONLY at major milestones (e.g., after completing a section build or before a task handoff).
+- **Dual-Viewport Validation Protocol:** Compare `window.getComputedStyle()` at Desktop (1440px) and Mobile (375px) against Figma AST/design math on Port 3001. If DOM math fails, batch fixes before re-evaluating.
+
+## 9. Anti-Clutter Protocol (No Ephemeral Files)
+- **No Standalone `.md` Files:** NEVER create loose markdown files anywhere in the project. All notes belong in `memory/activeContext.md`.
+- **No Ephemeral Diagnostic Scripts:** NEVER create temporary `.js`, `.mjs`, or `.sh` files for debugging. Perform one-off inspections using terminal command-line one-liners (e.g., `node -e "..."`).
+
+## 10. Design Context Survival & Handoffs
+- **Preserve Pointers:** When delegating via `new_task`, the prompt string MUST contain exact Figma URLs, specific Node IDs, and all known Image URLs. Never force a receiving agent to design blind.
+
+## 11. Silent Headless Browser Execution & Tool Bans
+- **Strict Tool Ban:** You are strictly forbidden from using the built-in `browser_action` tool under any circumstances.
+- **No OS Window Manipulation:** NEVER execute client-side JavaScript window resizing or repositioning commands like `window.resizeTo()` or `window.moveTo()`.
+- **Silent Headless Context:** All browser inspections must occur silently in the background via the Puppeteer MCP server with `--headless=new` arguments on Port 3001.

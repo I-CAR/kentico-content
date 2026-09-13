@@ -1,185 +1,55 @@
-# AGENTS.md
+# Multi-Agent Workflow Pipeline & Execution Contracts
 
-## Purpose
-This file defines repo-local instructions for populating and refining marketing/content HTML pages in this project.
+This repository uses a strict 3-tier delegation pipeline for migrating legacy Kentico `main.html` + `.json` pairings to modern component-driven `.yaml` schemas. All operations are initiated by the Lead Architect and executed across background processes isolated to **Port 3001**.
 
-These rules are intentionally narrow. They do not apply to every possible file change in the repo.
+[ kentico-architect ] --(new_task)--> [ frontend-dev ] --(new_task)--> [ qa-runner ]
+(Spec & Schema)                       (Build & Math)                   (Gatekeeper)
 
-## Applies When
-Follow these instructions when all of the following are true:
+---
 
-- You are editing a file under `content/legacy/` or a custom `content/pages/**/*.main.html` source fragment.
-- The task is primarily content population, copy replacement, template cleanup, or page assembly.
-- The page is a marketing, informational, landing, or brand/content page rather than application logic.
+## Agent Roles & Delegation Protocols
 
-Typical examples:
+### 1. 🏗️ `kentico-architect` (Lead Architect)
+- **Role:** Read-Only Advisor & Schema Specifier.
+- **Allowed Groups:** `read`, `mcp`
+- **Execution Protocol:**
+  1. Inspects legacy `main.html` files, legacy CSS, and target Figma designs.
+  2. Maps legacy HTML structures to modern SCSS class equivalents in the Style Dictionary.
+  3. Formulates structural skeleton schemas (`content/templates/*.yaml`) and content page data schemas (`content/pages/*.yaml`).
+  4. Writes programmatic Cheerio/Node extraction specs for data migration.
+  5. Updates `memory/activeContext.md` with ultra-concise pointers (file paths, node IDs, URLs).
+- **Handoff:** Invokes `new_task` in `frontend-dev` mode with subtask objective and asset pointers. Never edits implementation files directly.
 
-- Replacing placeholder copy in an HTML template
-- Rebuilding a page from a screenshot, PDF, approved mockup, or written source copy
-- Updating quote sections, CTA copy, benefit lists, legal copy, or section headlines
-- Wiring in-section navigation for a content page
-- Cleaning presentation-only HTML left in a scaffolded template
+---
 
-## Does Not Apply When
-These instructions should not be treated as global rules for unrelated work such as:
+### 2. ⚡ `frontend-dev` (Implementation & DOM Math)
+- **Role:** Action-First Implementer & Automated Translator.
+- **Allowed Groups:** `read`, `edit`, `mcp`, `command`
+- **Execution Protocol:**
+  1. Writes Node.js extraction scripts to programmatically convert legacy `main.html` into structured YAML without manual copy-paste errors.
+  2. Extends `dev/scripts/build-pages.mjs` with Zod schema validation to reject inline HTML or unapproved keys.
+  3. Writes modular SCSS components under `dev/assets/css/scss/`.
+  4. Runs build scripts and serves local previews strictly on **Port 3001** (Port 3000 is reserved for user previews).
+  5. Executes `puppeteer_navigate` and `puppeteer_evaluate` at major milestones to measure computed CSS (`window.getComputedStyle()`) at Desktop (1440px) and Mobile (375px) against design AST math.
+- **Handoff:** Invokes `new_task` in `qa-runner` mode once all DOM math validations pass on Port 3001.
 
-- Editing JavaScript application logic
-- Refactoring CSS or design system code without page-copy work
-- Backend, API, data, or build tooling changes
-- Utility scripts, tests, or infrastructure updates
-- Changes outside `content/legacy/` and `content/pages/**/*.main.html` unless the task explicitly says to reuse these content rules
+---
 
-## Primary Goal
-Preserve the existing component structure while replacing scaffold content with approved copy and production-ready HTML.
+### 3. 🧪 `qa-runner` (Automation & Quality Gatekeeper)
+- **Role:** Terminal Verification & Regression Detector.
+- **Allowed Groups:** `read`, `edit`, `command`, `mcp`
+- **Execution Protocol:**
+  1. Executes chained build and validation checks (`node dev/scripts/build-pages.mjs && npm run build`).
+  2. Serves previews on **Port 3001**.
+  3. Executes shadow DOM diffing, programmatically comparing legacy HTML text nodes and computed box models against updated YAML outputs.
+  4. Performs dual-viewport DOM math verification via headless Puppeteer.
+- **Handoff:** If a defect or schema violation is detected, logs exact discrepancies to `memory/activeContext.md` and opens a `new_task` to `frontend-dev`. If perfect, updates `memory/progress.md` and completes the task.
 
-Unless explicitly requested:
+---
 
-- Do not redesign the layout
-- Do not invent new copy
-- Do not restructure sections that already map well to the approved source
+## Execution Guardrails
 
-## Copy Rules
-- Replace all placeholder copy with approved source copy.
-- Remove placeholder labels such as `Section Headline`, `Card Title`, `Section Button`, `Section Link`, `Cite Name`, `Cite Title`, and lorem ipsum text.
-- Keep the existing heading hierarchy unless there is a clear structural problem.
-- Use approved source copy exactly as written unless the user asks for editorial changes.
-- Treat mockups, approved screenshots, and user-provided text as the source of truth for wording, punctuation, capitalization, dashes, quotation marks, and formatting-sensitive phrasing.
-- Do not rewrite, normalize, simplify, “clean up,” or optimize approved copy on your own.
-- If source text appears unusual but is clearly intentional in the approved reference, preserve it.
-- If the source is ambiguous or unreadable, ask or flag the ambiguity instead of inventing a cleaned-up version.
-
-## Typography Rules
-- For non-heading copy longer than 5 words, replace the space between the last two words with `&nbsp;` to prevent widows.
-- Do not apply widow protection to headings unless specifically requested.
-- Do not use HTML entity codes in plain-language HTML attributes such as `alt`, `title`, `aria-label`, and similar human-readable attribute text; write those attribute values as plain readable text.
-- If text is visually uppercased by CSS, write it in title case in the HTML source.
-- Remove literal quotation marks from quote text when quote styling is handled by CSS.
-
-## Text Normalization Rules
-- Always write `I&#8209;CAR` for I-CAR in HTML text.
-- Always write `Gold&nbsp;Class` for Gold Class in HTML text.
-- Preserve legitimate acronyms such as `CEO`, `FSA`, `HSA`, and `401(k)`.
-
-## HTML Cleanup Rules
-- Remove presentation-only scaffold metadata such as inline section `--name` variables unless explicitly needed.
-- Keep meaningful section IDs.
-- If a section ID no longer matches the section content, rename it to something accurate and update any related anchor links.
-- Keep existing design system classes unless there is a specific reason to change them.
-- Do not add unnecessary wrapper markup.
-- When editing a file under `content/legacy/` or `content/pages/**/*.main.html`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
-
-## Markup Ordering Rules
-- When a `section` element has an `id`, place the `id` attribute first.
-- For the first major layout column wrappers in a section, order classes as:
-  1. column responsive classes
-  2. order responsive classes
-  3. spacing classes
-- For `img`, order attributes as:
-  `alt`, `loading`, `class`, `width`, `height`, `sizes`, `src`, `srcset`
-- For `source`, order attributes as:
-  `width`, `height`, `media`, `sizes`, `srcset`
-
-## Navigation Rules
-- On-page navigation must point to real section anchors.
-- Nav labels should match visible section names.
-
-## Quote Rules
-- Quote copy should not include literal opening or closing quotation marks if CSS supplies them.
-- Keep attribution within the existing cite structure when one already exists.
-
-## Images and Assets
-- If final assets are not provided, leave image placeholders or existing asset references in place and update only the copy.
-- If assets are provided, map them to the correct section based on the approved reference.
-- When requested to use placeholders on inventory/demo pages, prefer `placehold.co` URLs without `?text`.
-- If replacing one media type with another inside an existing section, preserve the surrounding section layout and markup unless explicitly asked to redesign it.
-- Keep placeholder media structurally compatible with the component they replace so existing JavaScript behaviors can still initialize.
-
-## Scoped Image Placement Rules
-Apply these rules only when:
-
-- editing files under `content/legacy/` or `content/pages/**/*.main.html`
-- placing designer-provided image URLs into marketing/content page templates
-- the task includes populating image `src` and `srcset` values
-
-### Image Mapping Rules
-- Prefer mapping assets by filename/section-name when the designer names files after page headlines or card titles.
-- Assume filenames such as `Hero`, `Hiring-Process`, `Employee-Benefits`, `Work-That-Works-For-You`, or `Drive-Meaningful-Impact` correspond to the matching visible section or card headline.
-- Before asking for clarification, attempt to map assets to template slots using:
-  1. section headline
-  2. card headline
-  3. quote attribution name
-  4. image placement in the template
-
-### Responsive URL Rules
-- Only update image `src` and `srcset` values unless the task explicitly asks for more.
-- If a slot uses `<picture>`, populate:
-  - `source srcset`
-  - `img src`
-  - `img srcset`
-- If a slot uses only `<img>`, populate:
-  - `img src`
-  - `img srcset`
-- Do not remove or simplify an existing responsive image pattern unless explicitly requested.
-
-### Desktop / Mobile Naming Rules
-- When filenames include `-D` and `-M`, treat:
-  - `-M` as the mobile `source srcset`
-  - `-D` as the default `img src` and `img srcset`
-- When only one responsive set exists and there is no `-D` / `-M` split, use that set in the existing `img src` and `img srcset` fields.
-
-### Headshot Rules
-- Map person-named assets to matching quote/headshot slots by surname or full name.
-- For small profile images, use the smaller file as `src` and include the larger companion file in `srcset`.
-
-### Missing Asset Rules
-- After mapping, explicitly identify any gaps by slot name, not just by count.
-- Report missing assets in a checklist format.
-- If all visible template image slots are covered, state that no asset gaps remain.
-
-### Placeholder Replacement Rules
-- Replace placeholder image URLs when real assets are available for that slot.
-- Before finishing, confirm there are no remaining placeholder image URLs.
-
-## Legal Copy
-- Replace placeholder legal/disclaimer copy with approved legal copy exactly.
-- Apply text normalization rules to legal copy unless doing so would alter a required official string.
-
-## CMS And Build Rules
-- Do not hand-edit generated files under `previews/`; treat that tree as local preview output.
-- For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
-- `cms/` output should mirror the `previews/` tree directly.
-- Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
-- Prefer CMS output that a content author can copy and paste directly from a single HTML file.
-- For template-managed pages under `content/pages/`, keep the page data file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
-- Do not treat a JSON-to-YAML or YAML-to-JSON conversion as complete if the page still depends on `sourceHtmlFile` or a sibling `*.main.html`, unless the user explicitly asks to keep custom HTML authoring.
-- When converting an HTML-wrapper page to structured authoring, prefer native page-data sections and explicit options over preserving raw HTML/CSS/class authoring in page data.
-- When migrating a page from custom HTML authoring to template-managed JSON or YAML, delete any now-unused sibling `*.main.html` file in the same change so orphaned page sources do not linger.
-- When a page is meant to stay template-managed, preserve or restore the page-level `__template.source` metadata so `npm run pages` does not treat it as skipped custom content.
-- If a page is intentionally custom and should no longer follow its template, make that an explicit decision rather than an accidental side effect of removing template metadata or editing generated artifacts directly.
-- Preferred CMS fragment order is:
-  1. external `<link>` tags such as Google Fonts
-  2. inline `<style>`
-  3. page section HTML
-  4. inline `<script>`
-- CSS and JavaScript emitted for CMS usage should be minified in production builds.
-- Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
-- When a page does not use a dependency, do not emit that dependency into the CMS output.
-- Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
-- Prefer author-facing option names and values that describe intent in plain language rather than implementation details.
-- Avoid exposing raw measurements, CSS terminology, or developer-centric phrasing to content authors when a semantic option such as `default`, `compact`, or `roomy` can express the same choice.
-- For dev/watch workflows started by `npm run dev`, generated output in `dev/assets/js/` should remain unminified for readability, while CMS HTML fragments should still be minified.
-- Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
-- Keep development output readable when possible, but comment-free CMS output takes priority.
-- Production builds should apply comment removal and minification for generated JS output.
-- Remove comments from generated CMS HTML fragments in both dev and production output.
-
-## Final Check For Scoped Page Work
-Before finishing a scoped content-page task, confirm:
-
-- No lorem ipsum or placeholder labels remain
-- `I-CAR` is normalized to `I&#8209;CAR`
-- `Gold Class` is normalized to `Gold&nbsp;Class`
-- Non-heading copy over 5 words uses widow protection
-- Quote text does not include literal quotation marks when CSS handles them
-- Display-uppercase text is title case in source
-- On-page nav links target real section IDs
+- **Zero Hallucination Policy:** Screenshots and visual estimations are banned. UI verification relies strictly on computed DOM math (`window.getComputedStyle()`).
+- **Tool Ban:** The built-in `browser_action` tool is strictly forbidden. All browser automation must run silently via the Puppeteer MCP server (`--headless=new`).
+- **Port Safety:** Agents must never touch Port 3000. All dev servers and Puppeteer evaluations run on Port 3001.
+- **Token Discipline:** Memory updates occur exactly ONCE per task iteration, immediately prior to handoff. Memory files contain pointers only (URLs, file paths, node IDs).
