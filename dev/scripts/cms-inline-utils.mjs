@@ -69,8 +69,140 @@ const tagAttributePriority = {
   script: ["src", "type", "async", "defer"],
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
-const cmsShellCss = `:root{--shell-inline-padding:0;--shell-header-inline-padding:0;--shell-footer-inline-padding:0;--shell-breadcrumb-inline-padding:0;--shell-desktop-inline-offset:0px;--shell-max-width:var(--site-width)}@media screen and (min-width:1024.1px){:root{--shell-desktop-inline-offset:0}}.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto}.header .header-inner{padding-left:calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset));padding-right:calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset))}.footer .footer-inner{padding-left:calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset));padding-right:calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset))}#main,#main>article{padding-left:0;padding-right:0}.zoneMainContent,.zoneMainContent>.pdp.container,.zoneMainContent .pdp.container{max-width:var(--shell-max-width)!important;width:100%;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0}#main>article{padding:0}.content.no-right-rail{padding:0 calc(var(--space-8) + var(--shell-desktop-inline-offset))}.content.no-right-rail h1:only-child{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 calc(var(--shell-breadcrumb-inline-padding) + var(--shell-desktop-inline-offset))}.ic-section .container,.ic-header .container{padding-left:var(--space-15);padding-right:var(--space-15)}@media screen and (min-width:1440px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:var(--shell-max-width)!important}}`;
+const cmsShellCss = `:root{--shell-inline-padding:var(--space-12);--shell-header-inline-padding:var(--shell-inline-padding);--shell-footer-inline-padding:var(--shell-inline-padding);--shell-breadcrumb-inline-padding:var(--shell-inline-padding);--shell-content-inline-padding:var(--space-8);--shell-section-inline-padding:var(--space-15);--shell-desktop-inline-offset:0px;--shell-max-width:var(--site-width)}@media screen and (min-width:1024.1px){:root{--shell-inline-padding:var(--space-8);--shell-content-inline-padding:var(--space-12);--shell-section-inline-padding:var(--space-12);--shell-desktop-inline-offset:var(--space-15)}}.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto}.header .header-inner{padding-left:var(--shell-header-inline-padding);padding-right:var(--shell-header-inline-padding)}.footer .footer-inner{padding-left:var(--shell-footer-inline-padding);padding-right:var(--shell-footer-inline-padding)}#main,#main>article{padding-left:0;padding-right:0}.zoneMainContent,.zoneMainContent>.pdp.container,.zoneMainContent .pdp.container{max-width:var(--shell-max-width)!important;width:100%;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0}.pdp.container>.row{margin:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--shell-content-inline-padding)}.content.no-right-rail h1:only-child{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 var(--shell-breadcrumb-inline-padding)}.ic-section .container,.ic-header .container{padding-left:var(--shell-section-inline-padding);padding-right:var(--shell-section-inline-padding)}@media screen and (min-width:1440px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:var(--shell-max-width)!important}}`;
 const cmsFormShellCss = `.ic-section+.row.row--with-cols-padding,.section+.row.row--with-cols-padding{margin-top:var(--section-margin);background:var(--lightest)!important;padding:var(--section-padding) 0}.ic-section.ic-background-white+.row.row--with-cols-padding,.section.ic-background-white+.row.row--with-cols-padding,.section.bg-white+.row.row--with-cols-padding{background:var(--lightest)!important}.ic-section.ic-background-light+.row.row--with-cols-padding,.section.ic-background-light+.row.row--with-cols-padding,.section.bg-light+.row.row--with-cols-padding{margin-top:0;background:none!important}.ic-section+.row.row--with-cols-padding:last-child,.section+.row.row--with-cols-padding:last-child{padding-bottom:clamp(5rem,1.721rem + 9.697vw,7.5rem)}.ic-section+.row.row--with-cols-padding form,.section+.row.row--with-cols-padding form,.row--with-cols-padding form{max-width:100%}.row--with-cols-padding:has(form,.formwidget-submit-text){margin:0}.row--with-cols-padding:has(.formwidget-submit-text) .subhead,.row--with-cols-padding:has(.formwidget-submit-text) .disclaimer{display:none!important}`;
+const aboutUsCmsLegacyCss = `
+:where(body,.content)>section.section_hero {
+  margin-top: calc(-30rem / 16);
+}
+
+:where(body,.content)>section.section_hero img,
+:where(body,.content)>section:nth-of-type(2) .rounded,
+:where(body,.content)>section:nth-of-type(4) .rounded {
+  border-radius: calc(12rem / 16);
+}
+
+:where(body,.content)>section:nth-of-type(3) .card.card-borderless {
+  border-radius: 0;
+}
+
+:where(body,.content)>section.section_programs {
+  padding-bottom: 0;
+}
+
+:where(body,.content)>section.section_iacet,
+:where(body,.content)>section:nth-of-type(9) {
+  padding-top: 0;
+}
+
+.section_logos {
+  background: var(--light);
+}
+
+.box {
+  overflow: hidden;
+  border-radius: var(--global-radius);
+}
+
+.box-copy {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  background: var(--light);
+}
+
+.box-image img {
+  border-radius: calc(12rem / 16);
+}
+
+.row_logos .col-auto {
+  flex: 0 0 calc(150rem / 16);
+  max-width: calc(150rem / 16);
+}
+
+.embed-responsive-3by2 {
+  padding-top: 0;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+  :where(body,.content)>section.section_hero,
+  :where(body,.content)>section:nth-of-type(2),
+  :where(body,.content)>section:nth-of-type(3),
+  :where(body,.content)>section:nth-of-type(4),
+  :where(body,.content)>section.section_international {
+    padding-top: calc(30rem / 16);
+    padding-bottom: calc(30rem / 16);
+  }
+
+  :where(body,.content)>section.section_programs {
+    padding-top: calc(30rem / 16);
+  }
+
+  :where(body,.content)>section.section_iacet {
+    padding-bottom: calc(30rem / 16);
+  }
+
+  :where(body,.content)>section.section_hero {
+    margin-top: calc(-60rem / 16);
+  }
+
+  :where(body,.content)>section.section_hero img,
+  :where(body,.content)>section:nth-of-type(2) .rounded,
+  :where(body,.content)>section:nth-of-type(4) .rounded {
+    border-radius: calc(20rem / 16);
+  }
+
+  .box-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .box-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: none;
+    width: 100%;
+  }
+
+  .section_logos img {
+    max-width: 80%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .box-image img {
+    width: auto;
+    min-height: 100%;
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .section_logos .row_logos {
+    width: 1100vw;
+  }
+
+  .section_logos .container-fluid {
+    overflow: auto;
+  }
+
+  .section_iacet {
+    background: var(--light);
+  }
+
+  .section_iacet .logo {
+    max-width: calc(120rem / 16);
+  }
+
+  .box {
+    border-radius: 0;
+  }
+}
+`;
 const cmsHeadBootstrapSource = `(function(){var bootstrapScript=document.currentScript;var deferredScriptType='text/plain';var run=function(){if(!document.head||!document.body){bootstrapScript&&bootstrapScript.remove();return}var headNodes=Array.from(document.body.querySelectorAll('link,style'));var scriptNodes=Array.from(document.body.querySelectorAll('script[type="'+deferredScriptType+'"]'));var sameLink=function(node){var href=node.getAttribute('href')||'';var rel=node.getAttribute('rel')||'';var media=node.getAttribute('media')||'';var as=node.getAttribute('as')||'';if(!href)return false;return Array.from(document.head.querySelectorAll('link[href]')).some(function(existing){return existing!==node&&(existing.getAttribute('href')||'')===href&&(existing.getAttribute('rel')||'')===rel&&(existing.getAttribute('media')||'')===media&&(existing.getAttribute('as')||'')===as;});};var sameStyle=function(node){var css=(node.textContent||'').trim();if(!css)return false;return Array.from(document.head.querySelectorAll('style')).some(function(existing){return existing!==node&&(existing.textContent||'').trim()===css;});};headNodes.forEach(function(node){var duplicate=node.tagName.toLowerCase()==='link'?sameLink(node):sameStyle(node);if(duplicate){node.remove();return}document.head.appendChild(node)});scriptNodes.forEach(function(node){var script=document.createElement('script');Array.from(node.attributes).forEach(function(attribute){if(attribute.name==='type')return;script.setAttribute(attribute.name,attribute.value)});if(node.textContent)script.textContent=node.textContent;node.remove();document.body.appendChild(script)});bootstrapScript&&bootstrapScript.remove()};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run,{once:true})}else{run()}})();`;
 const cmsFormShellClasses = [
   "breadcrumb",
@@ -110,6 +242,36 @@ const cmsFormShellClasses = [
   "ic-required",
 ];
 const cmsFormShellTags = ["article", "button", "form", "input", "label", "main", "select", "textarea"];
+const protectedContentTags = new Set(["code", "pre", "script", "style", "textarea"]);
+const inlineSpacingTags = new Set([
+  "a",
+  "abbr",
+  "b",
+  "bdi",
+  "bdo",
+  "cite",
+  "code",
+  "data",
+  "del",
+  "dfn",
+  "em",
+  "i",
+  "ins",
+  "kbd",
+  "label",
+  "mark",
+  "q",
+  "s",
+  "samp",
+  "small",
+  "span",
+  "strong",
+  "sub",
+  "sup",
+  "time",
+  "u",
+  "var",
+]);
 
 function normalizeAssetPath(htmlFile, assetPath) {
   return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
@@ -323,6 +485,10 @@ function filterSharedStylesheet(cssSource, htmlSource, { includeCmsFormShell = f
   }
 
   return filteredRoot.toString().trim();
+}
+
+function getAboutUsCmsLegacyCss(sourceFile) {
+  return toSourceRelativeHtmlPath(sourceFile) === "about-us.html" ? aboutUsCmsLegacyCss : "";
 }
 
 function stripJsComments(source) {
@@ -539,6 +705,35 @@ function normalizeTextValue(value) {
   return normalized;
 }
 
+function parseTagToken(tagSource) {
+  if (!tagSource.startsWith("<") || tagSource.startsWith("<!--") || tagSource.startsWith("<!")) {
+    return null;
+  }
+
+  const closingMatch = tagSource.match(/^<\/\s*([^\s>\/]+)/);
+
+  if (closingMatch) {
+    return {
+      tagName: closingMatch[1].toLowerCase(),
+      closing: true,
+      selfClosing: false,
+    };
+  }
+
+  const openMatch = tagSource.match(/^<\s*([^\s/>]+)/);
+
+  if (!openMatch) {
+    return null;
+  }
+
+  const tagName = openMatch[1].toLowerCase();
+  return {
+    tagName,
+    closing: false,
+    selfClosing: /\/\s*>$/.test(tagSource) || htmlVoidElements.has(tagName),
+  };
+}
+
 function getTagBoundary(source, startIndex) {
   let quote = null;
 
@@ -566,7 +761,7 @@ function getTagBoundary(source, startIndex) {
   return -1;
 }
 
-function getClosingTagEnd(source, tagName, startIndex) {
+function getClosingTagRange(source, tagName, startIndex) {
   const lowerSource = source.toLowerCase();
   const openNeedle = `<${tagName}`;
   const closeNeedle = `</${tagName}`;
@@ -578,14 +773,14 @@ function getClosingTagEnd(source, tagName, startIndex) {
     const nextClose = lowerSource.indexOf(closeNeedle, index);
 
     if (nextClose === -1) {
-      return -1;
+      return null;
     }
 
     if (nextOpen !== -1 && nextOpen < nextClose) {
       const openEnd = getTagBoundary(source, nextOpen);
 
       if (openEnd === -1) {
-        return -1;
+        return null;
       }
 
       const openTag = source.slice(nextOpen, openEnd + 1);
@@ -602,18 +797,25 @@ function getClosingTagEnd(source, tagName, startIndex) {
     const closeEnd = getTagBoundary(source, nextClose);
 
     if (closeEnd === -1) {
-      return -1;
+      return null;
     }
 
     depth -= 1;
     index = closeEnd + 1;
 
     if (depth === 0) {
-      return closeEnd + 1;
+      return {
+        start: nextClose,
+        end: closeEnd + 1,
+      };
     }
   }
 
-  return -1;
+  return null;
+}
+
+function getClosingTagEnd(source, tagName, startIndex) {
+  return getClosingTagRange(source, tagName, startIndex)?.end ?? -1;
 }
 
 function extractSection(source, tagName) {
@@ -1032,6 +1234,12 @@ async function renderCmsStyleTag(
     })
     .filter(Boolean);
 
+  const aboutUsCmsLegacyCss = getAboutUsCmsLegacyCss(sourceFile);
+
+  if (aboutUsCmsLegacyCss) {
+    cssParts.push(aboutUsCmsLegacyCss);
+  }
+
   cssParts.push(cmsShellCss);
 
   if (includeCmsFormShell) {
@@ -1043,7 +1251,7 @@ async function renderCmsStyleTag(
   }
 
   const css = await minifyCss(cssParts.join("\n\n"));
-  return css ? `<style>\n${css}\n</style>` : "";
+  return css ? `<style>${css}</style>` : "";
 }
 
 function renderCmsLinkTags(source, page) {
@@ -1057,7 +1265,7 @@ function renderCmsLinkTags(source, page) {
 
 async function renderCmsHeadBootstrapScript() {
   const minifiedJs = await minifyJs(cmsHeadBootstrapSource);
-  return minifiedJs ? `<script>\n${minifiedJs}\n</script>` : "";
+  return minifiedJs ? `<script>${minifiedJs}</script>` : "";
 }
 
 function toInactiveCmsScriptTag(tagSource) {
@@ -1179,7 +1387,7 @@ export async function renderCmsHtmlParts(
       continue;
     }
 
-    scriptParts.push(`<script type="text/plain">\n${minifiedJs}\n</script>`);
+    scriptParts.push(`<script type="text/plain">${minifiedJs}</script>`);
   }
 
   for (const bundleScriptPath of bundleScriptPaths) {
@@ -1193,7 +1401,7 @@ export async function renderCmsHtmlParts(
       continue;
     }
 
-    scriptParts.push(`<script type="text/plain">\n${minifiedJs}\n</script>`);
+    scriptParts.push(`<script type="text/plain">${minifiedJs}</script>`);
   }
 
   const inlineScripts = scriptParts.join("\n\n").trim();
@@ -1201,7 +1409,7 @@ export async function renderCmsHtmlParts(
   const files = mainFragments.map((fragment) => {
     const fragmentOutputFile = fragment.name ? toCmsFragmentHtmlOutputPath(sourceFile, fragment.name) : outputFile;
     const rewrittenMain = rewriteLocalAssetPaths(sourceFile, fragmentOutputFile, fragment.mainSource, assetBaseFile);
-    const mainOutput = minifyHtml ? minifyFragment(rewrittenMain) : removeCommentsAndSortAttributes(rewrittenMain);
+    const mainOutput = removeCommentsAndSortAttributes(rewrittenMain);
     const htmlParts = [fragment.name ? "" : linkTags, fragment.name ? "" : styleTag, mainOutput.trim()];
 
     if (fragment.includeScripts && inlineScripts) {
@@ -1214,10 +1422,11 @@ export async function renderCmsHtmlParts(
       htmlParts.push(headBootstrapScript);
     }
 
+    const html = htmlParts.filter(Boolean).join(minifyHtml ? "" : "\n\n").trim();
     return {
       name: fragment.name,
       outputFile: fragmentOutputFile,
-      html: htmlParts.filter(Boolean).join("\n\n").trim(),
+      html: minifyHtml ? minifyFragment(html) : html,
     };
   });
 
@@ -1229,17 +1438,17 @@ export async function renderCmsHtmlParts(
       companionFormSource,
       companionFormSourceFile,
     );
-    const formHtml = minifyHtml ? minifyFragment(rewrittenForm) : removeCommentsAndSortAttributes(rewrittenForm);
+    const formHtml = removeCommentsAndSortAttributes(rewrittenForm);
     files.push({
       name: "form",
       outputFile: formOutputFile,
-      html: formHtml.trim(),
+      html: (minifyHtml ? minifyFragment(formHtml) : formHtml).trim(),
     });
   }
 
   return {
     files,
-    scripts: splitScripts ? inlineScripts : "",
+    scripts: splitScripts ? (minifyHtml ? minifyFragment(inlineScripts) : inlineScripts) : "",
   };
 }
 
@@ -1420,8 +1629,8 @@ function normalizeFormFragmentMarkup(fragment) {
   return output.trim();
 }
 
-function transformFragment(fragment, transformText) {
-  let output = "";
+function tokenizeFragment(fragment) {
+  const tokens = [];
 
   for (let index = 0; index < fragment.length; ) {
     if (fragment.startsWith("<!--", index)) {
@@ -1434,19 +1643,110 @@ function transformFragment(fragment, transformText) {
       const tagEnd = getTagBoundary(fragment, index);
 
       if (tagEnd === -1) {
-        output += fragment.slice(index);
+        tokens.push({ type: "text", source: fragment.slice(index) });
         break;
       }
 
-      output += rebuildTag(fragment.slice(index, tagEnd + 1));
+      const tagSource = fragment.slice(index, tagEnd + 1);
+      const tagToken = parseTagToken(tagSource);
+
+      if (tagToken && !tagToken.closing && !tagToken.selfClosing && protectedContentTags.has(tagToken.tagName)) {
+        const closingRange = getClosingTagRange(fragment, tagToken.tagName, index);
+
+        if (closingRange) {
+          tokens.push({
+            type: "protected",
+            tagName: tagToken.tagName,
+            openTag: tagSource,
+            content: fragment.slice(tagEnd + 1, closingRange.start),
+            closeTag: fragment.slice(closingRange.start, closingRange.end),
+          });
+          index = closingRange.end;
+          continue;
+        }
+      }
+
+      tokens.push({
+        type: "tag",
+        source: tagSource,
+        tagName: tagToken?.tagName ?? "",
+        closing: tagToken?.closing ?? false,
+        selfClosing: tagToken?.selfClosing ?? false,
+      });
       index = tagEnd + 1;
       continue;
     }
 
     const nextTag = fragment.indexOf("<", index);
-    const text = fragment.slice(index, nextTag === -1 ? fragment.length : nextTag);
-    output += transformText(text);
+    tokens.push({
+      type: "text",
+      source: fragment.slice(index, nextTag === -1 ? fragment.length : nextTag),
+    });
     index = nextTag === -1 ? fragment.length : nextTag;
+  }
+
+  return tokens;
+}
+
+function findAdjacentNonEmptyToken(tokens, startIndex, direction) {
+  for (let index = startIndex + direction; index >= 0 && index < tokens.length; index += direction) {
+    const token = tokens[index];
+
+    if (token.type === "text" && token.source === "") {
+      continue;
+    }
+
+    return token;
+  }
+
+  return null;
+}
+
+function tokenAllowsInlineSpacing(token, side) {
+  if (!token) {
+    return false;
+  }
+
+  if (token.type === "protected") {
+    return inlineSpacingTags.has(token.tagName);
+  }
+
+  if (token.type !== "tag" || !inlineSpacingTags.has(token.tagName)) {
+    return false;
+  }
+
+  if (token.selfClosing) {
+    return true;
+  }
+
+  return side === "left" ? token.closing : !token.closing;
+}
+
+function shouldPreserveInterTagSpace(previousToken, nextToken) {
+  return tokenAllowsInlineSpacing(previousToken, "left") && tokenAllowsInlineSpacing(nextToken, "right");
+}
+
+function transformFragment(fragment, transformText) {
+  const tokens = tokenizeFragment(fragment);
+  let output = "";
+
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
+
+    if (token.type === "tag") {
+      output += rebuildTag(token.source);
+      continue;
+    }
+
+    if (token.type === "protected") {
+      output += `${rebuildTag(token.openTag)}${token.content}${token.closeTag}`;
+      continue;
+    }
+
+    output += transformText(token.source, {
+      previousToken: findAdjacentNonEmptyToken(tokens, index, -1),
+      nextToken: findAdjacentNonEmptyToken(tokens, index, 1),
+    });
   }
 
   return output.trim();
@@ -1456,7 +1756,11 @@ function preserveText(text) {
   return text;
 }
 
-function minifyText(text) {
+function minifyText(text, { previousToken = null, nextToken = null } = {}) {
+  if (text.trim() === "") {
+    return shouldPreserveInterTagSpace(previousToken, nextToken) ? " " : "";
+  }
+
   return normalizeTextValue(text);
 }
 
