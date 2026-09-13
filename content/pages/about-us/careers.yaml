@@ -729,10 +729,6 @@ sections:
       mobileCopySpacing: none
       mobileMediaSpacing: tight
     heading: Join the I-CAR Team
-    paragraphsHtml:
-      - >-
-        Apply today, follow I-CAR on <a href="https://www.linkedin.com/company/i-car" target="_blank">LinkedIn</a>, and
-        contact <a href="mailto:careers@i-car.com">Careers@I-CAR.com</a> with any questions.
     buttons:
       location: header
       items:
@@ -759,6 +755,8 @@ sections:
       type: textMedia
       variant: default
       signature: 99731af543e4566d802f77203ee6fd648b16d7a8
+    paragraphs:
+      - Apply today, follow I-CAR on LinkedIn, and contact Careers@I-CAR.com with any questions.
   - id: disclaimer
     type: legal
     spacing:

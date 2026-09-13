@@ -41,15 +41,13 @@ sections:
       variant: iconTextGrid
     cards:
       - heading: Member Council
-        bodyHtml:
+        body:
           - >-
             Serves as the voice of the customer, offering feedback on current and future I-CAR services and programs.
             Members act as a sounding board for planning and a champion of industry adoption, goodwill, and advocacy,
-            helping I-CAR align its offerings with the needs of repairers, insurers, educators, and suppliers. <a
-            href="/getmedia/ce763e63-b9ad-439f-b86b-06b30fe7cad7/Member-Council-Representatives.pdf"
-            target="_blank">Current members</a> include industry leaders from various segments, and members interested
-            in joining can complete the <a
-            href="/getmedia/8c2d35bf-2231-42cb-b4eb-d6d6c7bad778/MemberCouncilApplication_2025.pdf">membership&nbsp;application</a>.
+            helping I-CAR align its offerings with the needs of repairers, insurers, educators, and suppliers. Current
+            members include industry leaders from various segments, and members interested in joining can complete the
+            membership application.
         image:
           alt: Handshake icon
           singleSource: true

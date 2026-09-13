@@ -28,9 +28,9 @@ sections:
       imageStyle: banner
       imageFrame: none
     body:
-      - >-
-        First presented in 2009, the Jeff Silver Platinum Individual Award honors Jeff Silver, a visionary leader
-        known for his commitment to technical training and excellence within the collision repair industry.
+      - First presented in 2009, the Jeff Silver Platinum Individual Award
+        honors Jeff Silver, a visionary leader known for his commitment to
+        technical training and excellence within the collision repair industry.
     image:
       decorative: true
       alt: ""
@@ -58,9 +58,10 @@ sections:
     badgeImage:
       alt: I-CAR Platinum Professional badge logo
       desktopSrc: /getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp
-      desktopSrcset: >-
-        /getmedia/06ab284e-6251-4554-8a54-1c5e174b5b11/Platinum_Professional_170w.webp 170w,
-        /getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp 340w
+      desktopSrcset: /getmedia/06ab284e-6251-4554-8a54-1c5e174b5b11/Platinum_Professional_170w.webp
+        170w,
+        /getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp
+        340w
       width: "170"
       height: "157"
       sizes: 170px
@@ -76,35 +77,38 @@ sections:
     cards:
       - heading: Purpose
         body:
-          - >-
-            This award recognizes individuals who demonstrate a commitment to continuous learning, professional
-            growth, and advancing industry standards through ongoing training and development.
+          - This award recognizes individuals who demonstrate a commitment to
+            continuous learning, professional growth, and advancing industry
+            standards through ongoing training and development.
       - heading: Eligibility
         titleClassName: ic-h4
-        contentHtml:
-          - <p>This award will be bestowed upon a select individual that meets the following&nbsp;requirements:</p>
+        content:
+          - "This award will be bestowed upon a select individual that meets the
+            following requirements:"
         listItems:
-          - Holds a long term (defined as at least five consecutive years) I-CAR Platinum Individual designation
+          - Holds a long term (defined as at least five consecutive years) I-CAR
+            Platinum Individual designation
           - Trains beyond the minimum requirement to maintain the designation
           - Available for a member of any industry segment that meets criteria
-        footer: >-
-          Please note all current I-CAR employees are not eligible to earn this award. This includes I-CAR
-          full-time and part-time instructors.
+        footer: Please note all current I-CAR employees are not eligible to earn this
+          award. This includes I-CAR full-time and part-time instructors.
       - heading: Nominating Procedure
-        bodyHtml:
-          - >-
-            Complete this form and submit it prior to <time datetime="2026-07-31">July 31,&nbsp;2026</time>. For
-            questions, email&nbsp;<a href="mailto:i-car.events.dept@i-car.com">i&#8209;car.events.dept@i-car.com</a>.
+        body:
+          - Complete this form and submit it prior to July 31, 2026. For
+            questions, email i&#8209;car.events.dept@i-car.com.
       - heading: Presentation of Award
-        bodyHtml:
-          - >-
-            The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime="2026-11-03">Tuesday,
-            November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards.
+        body:
+          - The award will be presented during 2026 SEMA Week in Las Vegas, on
+            Tuesday, November 3, at the Collision Industry Red Carpet Awards.
   - id: form-copy
     type: html
-    html: |-
+    html: >-
       <h2 class="ic-section-title">Contact Information</h2>
-      <p>If nominating a Platinum Individual, complete both your contact information as the submitter, and the nominee's below. If self-nomination, check the box and only complete the following nominee contact information.</p>
+
+      <p>If nominating a Platinum Individual, complete both your contact
+      information as the submitter, and the nominee's below. If self-nomination,
+      check the box and only complete the following nominee contact
+      information.</p>
 cms:
   hasForm: true
   fragments:

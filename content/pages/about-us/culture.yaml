@@ -8,7 +8,7 @@ sections:
     variant: split
     imageStyle: rounded
     spacing:
-      paddingTop: none-lg
+      paddingTop: none
     paragraphs:
       - Our culture is defined by how we work together, support one another, and show up every day.
       - At I-CAR, collaboration and shared purpose drive everything we do-helping us grow and move the industry forward.

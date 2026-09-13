@@ -28,9 +28,9 @@ sections:
       imageStyle: banner
       imageFrame: none
     body:
-      - >-
-        First given in 2006, the Russ Verona Memorial Award honors the legacy of Russ Verona, owner of the first
-        Gold Class shop and respected leader in the collision repair industry.
+      - First given in 2006, the Russ Verona Memorial Award honors the legacy of
+        Russ Verona, owner of the first Gold Class shop and respected leader in
+        the collision repair industry.
     image:
       decorative: true
       alt: ""
@@ -58,9 +58,10 @@ sections:
     badgeImage:
       alt: I-CAR Gold Class Collision Repair badge
       desktopSrc: /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp
-      desktopSrcset: >-
-        /getmedia/b0f61512-f9fa-486e-9927-cd771b80beea/Collision_Badge_220w.webp 220w,
-        /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp 440w
+      desktopSrcset: /getmedia/b0f61512-f9fa-486e-9927-cd771b80beea/Collision_Badge_220w.webp
+        220w,
+        /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp
+        440w
       width: "170"
       height: "157"
       sizes: 220px
@@ -76,38 +77,38 @@ sections:
     cards:
       - heading: Purpose
         body:
-          - >-
-            Given annually, this award recognizes Gold Class shops that demonstrate a commitment to training, repair
-            quality, and safety in alignment with industry standards.
+          - Given annually, this award recognizes Gold Class shops that
+            demonstrate a commitment to training, repair quality, and safety in
+            alignment with industry standards.
       - heading: Eligibility
         titleClassName: ic-h4
-        contentHtml:
-          - >-
-            <p>This award will be bestowed upon a select collision repair shop that meets the
-            following&nbsp;requirements:</p>
+        content:
+          - "This award will be bestowed upon a select collision repair shop
+            that meets the following requirements:"
         listItems:
-          - Holds a long term (defined as at least five consecutive years) I-CAR Gold Class designation
-          - >-
-            Actively promotes the Gold Class designation, training, and a positive image of the collision industry
-            (locally or on a broader scale)
-        footer: >-
-          Please note all current I-CAR employees are not eligible to earn this award. This includes I-CAR full-time
-          and part-time instructors.
+          - Holds a long term (defined as at least five consecutive years) I-CAR
+            Gold Class designation
+          - Actively promotes the Gold Class designation, training, and a
+            positive image of the collision industry (locally or on a broader
+            scale)
+        footer: Please note all current I-CAR employees are not eligible to earn this
+          award. This includes I-CAR full-time and part-time instructors.
       - heading: Nominating Procedure
-        bodyHtml:
-          - >-
-            Complete this form and submit it prior to <time datetime="2026-07-31">July 31,&nbsp;2026</time>. For
-            questions, email&nbsp;<a href="mailto:i-car.events.dept@i-car.com">i&#8209;car.events.dept@i-car.com</a>.
+        body:
+          - Complete this form and submit it prior to July 31, 2026. For
+            questions, email i&#8209;car.events.dept@i-car.com.
       - heading: Presentation of Award
-        bodyHtml:
-          - >-
-            The award will be presented during 2026 SEMA Week in Las Vegas, on <time datetime="2026-11-03">Tuesday,
-            November&nbsp;3</time>, at the Collision Industry Red Carpet&nbsp;Awards.
+        body:
+          - The award will be presented during 2026 SEMA Week in Las Vegas, on
+            Tuesday, November 3, at the Collision Industry Red Carpet Awards.
   - id: form-copy
     type: html
-    html: |-
+    html: >-
       <h2 class="ic-section-title">Contact Information</h2>
-      <p>If nominating a Gold Class shop, please provide the nominee’s information below. If submitting on their behalf, include your contact information in the submitter section.</p>
+
+      <p>If nominating a Gold&nbsp;Class shop, please provide the nominee’s
+      information below. If submitting on their behalf, include your contact
+      information in the submitter section.</p>
 cms:
   hasForm: true
   fragments:

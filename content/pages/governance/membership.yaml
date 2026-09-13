@@ -76,18 +76,14 @@ sections:
     textAlignment: start
     body:
       - >-
-        Member dues must be received, or postmarked no later than December 31 of the prior year to be eligible to vote
-        in the following membership term. No such member status will be effective until member dues are received.
-    bodyHtml:
+        Independent Member – If you are an independent (single location) collision repair business with annual sales of
+        less than $3 million, a career technical school (without an active licensing subscription), an individual
+        unemployed or retired individual, employee in a business with annual sales less than or equal to $3 million or
+        employed by a business already with Regular Member status.Annual Dues: $500.00
       - >-
-        <strong>Independent Member –</strong> If you are an independent (single location) collision repair business with
-        annual sales of less than $3 million, a career technical school (without an active licensing subscription), an
-        individual unemployed or retired individual, employee in a business with annual sales less than or equal to $3
-        million or employed by a business already with Regular Member status.<br><em>Annual Dues: $500.00</em>
-      - >-
-        <strong>Organizational Member –</strong> If you are a multi-shop operator with two or more locations, insurer,
-        vehicle manufacturer, tool/equipment/miscellaneous supplier, and related industry organization or
-        association.<br><em>Annual Dues: $1,000.00</em>
+        Organizational Member – If you are a multi-shop operator with two or more locations, insurer, vehicle
+        manufacturer, tool/equipment/miscellaneous supplier, and related industry organization or association.Annual
+        Dues: $1,000.00
     __template:
       id: pricing
       type: text
