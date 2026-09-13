@@ -1,17 +1,22 @@
 @use "../abstracts/mixins" as *;
 
 :root {
-    --shell-inline-padding: 0;
-    --shell-header-inline-padding: 0;
-    --shell-footer-inline-padding: 0;
-    --shell-breadcrumb-inline-padding: 0;
+    --shell-inline-padding: var(--space-12);
+    --shell-header-inline-padding: var(--shell-inline-padding);
+    --shell-footer-inline-padding: var(--shell-inline-padding);
+    --shell-breadcrumb-inline-padding: var(--shell-inline-padding);
+    --shell-content-inline-padding: var(--space-8);
+    --shell-section-inline-padding: var(--space-15);
     --shell-desktop-inline-offset: 0px;
     --shell-max-width: var(--site-width);
 }
 
 @include mq(lg) {
     :root {
-        --shell-desktop-inline-offset: 0;
+        --shell-inline-padding: var(--space-8);
+        --shell-content-inline-padding: var(--space-12);
+        --shell-section-inline-padding: var(--space-12);
+        --shell-desktop-inline-offset: var(--space-15);
     }
 }
 
@@ -32,6 +37,10 @@
     padding-right: 0;
 }
 
+.pdp.container>.row {
+    margin: 0;
+}
+
 #main>article {
     padding: 0;
 }
@@ -48,7 +57,7 @@
 }
 
 .content.no-right-rail {
-    padding: 0 calc(var(--space-8) + var(--shell-desktop-inline-offset));
+    padding: 0 var(--shell-content-inline-padding);
 }
 
 @include mq(md) {
@@ -57,23 +66,18 @@
     }
 }
 
-.ic-section+.row.row--with-cols-padding,
-.section+.row.row--with-cols-padding {
+.ic-section+.row.row--with-cols-padding {
     margin-top: var(--section-margin);
     background: white !important;
     // padding: var(--section-padding) calc(12rem / 16)
     //     clamp(var(--space-80), 3.361rem + 4.848vw, var(--space-120)) calc(12rem / 16);
 }
 
-.ic-section.ic-background-white+.row.row--with-cols-padding,
-.section.ic-background-white+.row.row--with-cols-padding,
-.section.bg-white+.row.row--with-cols-padding {
+.ic-section.ic-background-white+.row.row--with-cols-padding {
     background: var(--lightest) !important;
 }
 
-.ic-section.ic-background-light+.row.row--with-cols-padding,
-.section.ic-background-light+.row.row--with-cols-padding,
-.section.bg-light+.row.row--with-cols-padding {
+.ic-section.ic-background-light+.row.row--with-cols-padding {
     margin-top: 0;
     background: none !important;
 }
@@ -90,24 +94,24 @@
 }
 
 .header .header-inner {
-    padding-left: calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset));
-    padding-right: calc(var(--shell-header-inline-padding) + var(--shell-desktop-inline-offset));
+    padding-left: var(--shell-header-inline-padding);
+    padding-right: var(--shell-header-inline-padding);
 }
 
 .footer .footer-inner {
-    padding-left: calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset));
-    padding-right: calc(var(--shell-footer-inline-padding) + var(--shell-desktop-inline-offset));
+    padding-left: var(--shell-footer-inline-padding);
+    padding-right: var(--shell-footer-inline-padding);
 }
 
 .breadcrumb {
     margin: calc(25rem / var(--rem-base)) auto;
-    padding: 0 calc(var(--shell-breadcrumb-inline-padding) + var(--shell-desktop-inline-offset));
+    padding: 0 var(--shell-breadcrumb-inline-padding);
 }
 
 .ic-section .container,
 .ic-header .container {
-    padding-left: var(--space-15);
-    padding-right: var(--space-15);
+    padding-left: var(--shell-section-inline-padding);
+    padding-right: var(--shell-section-inline-padding);
 }
 
 @include mq(xxl) {
@@ -133,13 +137,10 @@ body>.pageWrap {
 }
 
 .ic-section:last-of-type,
-.section:last-of-type,
-.ic-section.mb-0,
-.section.mb-0 {
+.ic-section.mb-0 {
     padding-bottom: clamp(5rem, 1.721rem + 9.697vw, 7.5rem);
 }
 
-.ic-section+.row.row--with-cols-padding:last-child,
-.section+.row.row--with-cols-padding:last-child {
+.ic-section+.row.row--with-cols-padding:last-child {
     padding-bottom: clamp(5rem, 1.721rem + 9.697vw, 7.5rem);
 }

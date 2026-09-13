@@ -5,7 +5,8 @@
     top: var(--space-30);
 }
 
-body:has(.ic-header) .ic-sticky {
+body:has(.ic-header) .ic-sticky,
+body:has(.header) .ic-sticky {
     top: var(--header-height-mobile);
 
     @include mq(lg) {
