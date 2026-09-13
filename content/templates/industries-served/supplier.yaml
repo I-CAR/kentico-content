@@ -1,0 +1,17 @@
+slug: supplier
+title: Industries Served - Supplier
+sections:
+  - id: hero
+    type: hero
+  - id: technical-resources
+    type: iconCardGrid
+  - id: partners
+    type: text
+  - id: academy
+    type: textMedia
+  - id: training
+    type: cards
+  - id: emerging
+    type: textMedia
+  - id: get-started
+    type: cta

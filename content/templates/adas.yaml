@@ -1,0 +1,14 @@
+slug: adas
+title: ADAS
+sections:
+  - id: top
+    type: hero
+  - id: what-is-adas
+    type: textMedia
+  - id: education
+    type: textMedia
+    variant: reverse
+  - id: tools
+    type: iconCardGrid
+  - id: platinum
+    type: textMedia

@@ -1,0 +1,12 @@
+slug: electric-hybrid-vehicle-repair
+title: Electric & Hybrid Vehicle Repair
+sections:
+  - id: top
+    type: hero
+  - id: benefits
+    type: iconCardGrid
+  - id: requirements
+    type: textMedia
+    variant: reverse
+  - id: tools
+    type: iconCardGrid

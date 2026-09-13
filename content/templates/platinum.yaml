@@ -1,0 +1,20 @@
+slug: platinum
+title: Platinum
+sections:
+  - id: hero
+    type: hero
+  - id: what-is-platinum
+    type: textMedia
+    variant: reverse
+  - id: why-go-platinum
+    type: stickyCards
+  - id: training-standards
+    type: embed
+  - id: appraiser-changes
+    type: textMedia
+    variant: reverse
+  - id: testimonials
+    type: quoteGrid
+    variant: static
+  - id: start-your-journey
+    type: cta

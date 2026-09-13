@@ -1,0 +1,13 @@
+slug: industry-reinvestment
+title: Governance - Industry Reinvestment
+sections:
+  - id: hero
+    type: html
+  - id: impact-report
+    type: html
+  - id: impact-fund-current
+    type: html
+  - id: industry-support
+    type: html
+  - id: financial-tables
+    type: html

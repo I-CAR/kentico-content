@@ -1,0 +1,7 @@
+slug: skillsusa
+title: SkillsUSA
+sections:
+  - id: hero
+    type: hero
+  - id: impact
+    type: cards

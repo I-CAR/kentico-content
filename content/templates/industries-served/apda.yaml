@@ -1,0 +1,17 @@
+slug: apda
+title: Industries Served - APDA
+sections:
+  - id: hero
+    type: hero
+  - id: paths
+    type: stickyCards
+  - id: education
+    type: cards
+  - id: emerging-technologies
+    type: iconCardGrid
+  - id: academy
+    type: textMedia
+  - id: opportunities
+    type: cards
+  - id: get-started
+    type: cta

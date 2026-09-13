@@ -1,0 +1,14 @@
+slug: what-is-adas
+title: What Is ADAS?
+sections:
+  - id: top
+    type: hero
+  - id: faq
+    type: accordion
+  - id: videos
+    type: embed
+  - id: education
+    type: textMedia
+    variant: reverse
+  - id: platinum
+    type: textMedia

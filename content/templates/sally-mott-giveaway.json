@@ -1,9 +1,0 @@
-{
-  "slug": "sally-mott-giveaway",
-  "title": "Sally Mott Giveaway",
-  "sections": [
-    { "id": "hero", "type": "text" },
-    { "id": "form", "type": "embed" },
-    { "id": "disclaimer", "type": "legal" }
-  ]
-}

@@ -1,0 +1,13 @@
+slug: high-voltage-safety
+title: High-Voltage Safety
+sections:
+  - id: top
+    type: hero
+  - id: faq
+    type: accordion
+  - id: guides
+    type: textMedia
+  - id: videos
+    type: embed
+  - id: coming-soon
+    type: textMedia

@@ -1,0 +1,13 @@
+slug: gold-class-marketing-kit
+title: Gold Class Marketing Kit
+sections:
+  - id: top
+    type: text
+  - id: logos
+    type: cards
+  - id: social-media
+    type: cards
+  - id: messaging
+    type: text
+  - id: in-shop-displays
+    type: cards
