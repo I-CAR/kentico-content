@@ -18,6 +18,7 @@ import {
 } from "./authoring-format.mjs";
 import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
+import { validatePageData, throwOnValidationError } from "./schema-validation.mjs";
 
 const watchMode = process.argv.includes("--watch");
 const contentSourceDir = join("content", "pages");
@@ -277,15 +278,15 @@ function resolveSectionSpacingClassNames(section) {
   return joinClassNames(
     semanticSectionSpacing === "compact" || semanticSectionSpacing === "roomy" ? "ic-section-divider-spacing-40" : "",
     !spacing ? "" : [
-    spacing.marginTop === "none" ? "mt-0" : "",
-    spacing.paddingTop === "none" ? "pt-0" : "",
-    spacing.paddingTop === "none-mobile" ? "pt-0 pt-md-5" : "",
-    spacing.paddingTop === "none-lg" ? "pt-lg-0" : "",
-    spacing.paddingTop === "sm" ? "ic-section-padding-top-sm" : "",
-    spacing.paddingBottom === "none" ? "pb-0" : "",
-    spacing.paddingBottom === "sm" ? "ic-section-padding-bottom-sm" : "",
-    spacing.paddingBottom === "lg" ? "ic-section-padding-bottom-lg" : "",
-    spacing.divider === 40 || spacing.divider === "40" ? "ic-section-divider-spacing-40" : "",
+      spacing.marginTop === "none" ? "mt-0" : "",
+      spacing.paddingTop === "none" ? "pt-0" : "",
+      spacing.paddingTop === "none-mobile" ? "pt-0 pt-md-5" : "",
+      spacing.paddingTop === "none-lg" ? "pt-lg-0" : "",
+      spacing.paddingTop === "sm" ? "ic-section-padding-top-sm" : "",
+      spacing.paddingBottom === "none" ? "pb-0" : "",
+      spacing.paddingBottom === "sm" ? "ic-section-padding-bottom-sm" : "",
+      spacing.paddingBottom === "lg" ? "ic-section-padding-bottom-lg" : "",
+      spacing.divider === 40 || spacing.divider === "40" ? "ic-section-divider-spacing-40" : "",
     ].join(" "),
   );
 }
@@ -779,7 +780,7 @@ function resolveResponsiveImageConfig(image = {}, preset = "textMedia", defaultL
     defaultSizes: "800px",
     sourceWidth: "800",
     imgWidth: "1600",
-      srcKey: "desktop1600w",
+    srcKey: "desktop1600w",
   };
 
   const preferredSourceWidth = String(image.output?.sourceWidth || presetConfig.sourceWidth);
@@ -1308,16 +1309,33 @@ function resolveHeroSemanticLayout(section) {
 }
 
 function renderHeroSection(section) {
-  const heroHeadline = getHeroHeadline(section);
+  // Support both legacy and structured properties
+  // Structured properties: title, subtitle, label, sublabel, body, image, buttons, etc.
+  // Legacy properties: headline1, headline2, contentHtml, etc.
+
+  const heroHeadline = section.title || getHeroHeadline(section);
   const heroVariant = section.variant || section.heroStyle || "default";
-  const headingTag = /^(h1|h2|h3|h4|h5|h6|p)$/i.test(section.headingTag || "") ? section.headingTag.toLowerCase() : "p";
+  const headingTag = /^(h1|h2|h3|h4|h5|h6|p)$/i.test(section.headingTag || "") ? section.headingTag.toLowerCase() : "h1";
   const semanticLayout = heroVariant === "split" ? resolveHeroSemanticLayout(section) : null;
   const heroImagePlacement = section.imagePlacement || "column";
-  const bodyMarkup = renderParagraphContent(section, section.bodyClassName || "");
+
+  // Build body markup from structured properties or legacy properties
+  let bodyMarkup = "";
+  if (section.body) {
+    // Structured property: render as paragraph
+    bodyMarkup = `                            <p class="${escapeHtml(section.bodyClassName || "")}">${renderText(section.body)}</p>`;
+  } else {
+    // Legacy property: use existing logic
+    bodyMarkup = renderParagraphContent(section, section.bodyClassName || "");
+  }
+
   const contentHtmlMarkup = normalizeHtmlBlocks(section.contentHtml)
     .map((block) => renderTrustedHtml(block))
     .join("\n\n");
-  const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary");
+
+  // Build buttons from structured properties or legacy properties
+  const sectionButtons = section.buttons || getSectionButtonsByLocation(section, "header") || [];
+  const buttonsMarkup = renderButtons(sectionButtons, "ic-btn ic-btn-primary");
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary");
   const imageMarkup = renderPicture(
     section.image,
@@ -1328,7 +1346,17 @@ function renderHeroSection(section) {
   );
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
   const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || heroHeadline;
-  const backgroundClass = getBackgroundClassName(section);
+  // Map backgroundTheme to background class
+  let backgroundClass = getBackgroundClassName(section);
+  if (section.backgroundTheme && !backgroundClass) {
+    const themeMap = {
+      light: " ic-background-light",
+      white: " ic-background-white",
+      dark: " ic-background-dark",
+    };
+    backgroundClass = themeMap[section.backgroundTheme] || "";
+  }
+
   const sectionClassName = buildSectionClassName(
     `ic-section ic-section-hero${backgroundClass}`,
     heroVariant === "banner" ? "pt-0 pt-md-5" : "",
@@ -1572,10 +1600,10 @@ function renderCardsSection(section) {
         const mediaMarkup = card.image
           ? `                                    <figure class="m-0 mr-3 flex-shrink-0">
                                         ${card.links?.[0]?.href
-    ? `<a${renderAnchorAttributes(card.links[0], { className: "d-block" })}>
+            ? `<a${renderAnchorAttributes(card.links[0], { className: "d-block" })}>
                                             ${renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
                                         </a>`
-    : renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
+            : renderImg(card.image, card.imageClassName || resolveAssetDownloadImageClassName(card), { loading: card.image.loading || "lazy", context: `card "${cardHeading || "unknown"}" image` })}
                                     </figure>`
           : "";
 
@@ -1590,44 +1618,44 @@ ${titleMarkup}${linksMarkup}
       })
       .join("\n\n")
     : (section.cards || [])
-    .map(
-      (card) => {
-        const cardHeading = getCardHeading(card);
-        const titleMarkup = cardHeading
-          ? `                                        <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle })}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
-          : "";
-        const bodyMarkup = hasParagraphContent(card)
-          ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
-          : "";
-        const listMarkup = card.listItems?.length
-          ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
+      .map(
+        (card) => {
+          const cardHeading = getCardHeading(card);
+          const titleMarkup = cardHeading
+            ? `                                        <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle })}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
+            : "";
+          const bodyMarkup = hasParagraphContent(card)
+            ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
+            : "";
+          const listMarkup = card.listItems?.length
+            ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
 ${card.listItems
-  .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
-  .join("\n")}
+              .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
+              .join("\n")}
                                         </ul>\n`
-          : "";
-        const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
-          .map((block) => `                                        ${renderTrustedHtml(block)}`)
-          .join("\n");
-        const linksMarkup = card.links?.length
-          ? `                                        <p>\n${card.links
-            .map(
-              (link) =>
-                `                                            <a${renderAnchorAttributes(link)}>${renderText(link.label)}</a>`,
-            )
-            .join("<br>\n")}\n                                        </p>\n`
-          : "";
-        const mediaMarkup = card.image
-          ? `                                    <figure class="ic-card-media">
+            : "";
+          const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
+            .map((block) => `                                        ${renderTrustedHtml(block)}`)
+            .join("\n");
+          const linksMarkup = card.links?.length
+            ? `                                        <p>\n${card.links
+              .map(
+                (link) =>
+                  `                                            <a${renderAnchorAttributes(link)}>${renderText(link.label)}</a>`,
+              )
+              .join("<br>\n")}\n                                        </p>\n`
+            : "";
+          const mediaMarkup = card.image
+            ? `                                    <figure class="ic-card-media">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName, "lazy", "card", `card "${cardHeading || "unknown"}" image`)}
                                     </figure>`
-          : card.iconHtml
-            ? `                                    <figure class="ic-card-media">
+            : card.iconHtml
+              ? `                                    <figure class="ic-card-media">
                                         ${renderTrustedHtml(card.iconHtml)}
                                     </figure>`
-            : "";
+              : "";
 
-        return `                            <li class="${escapeHtml(cardColumnClass)}">
+          return `                            <li class="${escapeHtml(cardColumnClass)}">
                                 <div class="${escapeHtml(card.className || cardClassName)}">
                                     <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
 ${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
@@ -1635,8 +1663,8 @@ ${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMark
 ${mediaMarkup}
                                 </div>
                             </li>`;
-      },
-    )
+        },
+      )
       .join("\n\n");
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
@@ -2319,10 +2347,10 @@ function renderStickyCardsSection(section) {
                                             </thead>
                                             <tbody>
 ${linkItems
-  .map(
-    (item) => `                                                <tr><th scope="row"><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></th>${hasLinkItemMeta ? `<td>${item.meta ? renderText(item.meta) : ""}</td>` : ""}</tr>`,
-  )
-  .join("\n")}
+          .map(
+            (item) => `                                                <tr><th scope="row"><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></th>${hasLinkItemMeta ? `<td>${item.meta ? renderText(item.meta) : ""}</td>` : ""}</tr>`,
+          )
+          .join("\n")}
                                             </tbody>
                                         </table>
 `
@@ -2570,8 +2598,8 @@ function renderAccordionItemBody(item) {
   const listMarkup = item.listItems?.length
     ? `                                                <ul class="${escapeHtml(item.listClassName || "my-1 pl-3 ml-5")}">
 ${item.listItems
-  .map((listItem) => `                                                    <li>${renderTrustedHtml(listItem)}</li>`)
-  .join("\n")}
+      .map((listItem) => `                                                    <li>${renderTrustedHtml(listItem)}</li>`)
+      .join("\n")}
                                                 </ul>\n`
     : "";
   const closingText = item.closingText
@@ -2981,6 +3009,10 @@ function parseAuthoringFile(sourceFile) {
   if (!Array.isArray(page.sections)) {
     throw new Error(`Expected "sections" array in ${sourceFile}`);
   }
+
+  // Validate page data against schema (rejects inline HTML, unapproved keys)
+  const validationResult = validatePageData(page, sourceFile);
+  throwOnValidationError(validationResult, sourceFile);
 
   const sourceDirectory = dirname(sourceFile);
 
