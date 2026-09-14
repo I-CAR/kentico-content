@@ -2,54 +2,80 @@
 
 ## 1. Memory Bank & Context Protocol (Pointers Over Payloads)
 - **Primary Goal is Execution:** Your priority is writing code, generating schemas, or delegating tasks. Do not get stuck in a documentation loop.
-- **Single Update Rule:** Update `memory/activeContext.md` and `memory/progress.md` EXACTLY ONCE per task—only at the very end, immediately before calling `attempt_completion` or `new_task`. 
-- **Pointers Over Payloads (Strict Token Limit):** Keep memory files aggressively concise to save context tokens. 
-  - NEVER copy-paste code blocks, raw Figma AST data, CSS values, or full JSON/YAML schemas into `.md` files. 
-  - Log ONLY URLs, specific node IDs, file paths, and high-level bullet points. Let receiving agents extract granular data themselves.
+- **Single Update Rule:** Update `memory/activeContext.md` and `memory/progress.md` EXACTLY ONCE per task—only at the very end, immediately before calling `attempt_completion` or `new_task`.
+- **Pointers Over Payloads (Strict Token Limit):** Keep memory files aggressively concise to save context tokens. NEVER copy-paste code blocks, raw Figma AST data, CSS values, or full JSON/YAML schemas into `.md` files. Log ONLY URLs, specific node IDs, file paths, and high-level bullet points.
 - **Mandatory Reads:** At the start of EVERY task, read `memory/activeContext.md` AND `memory/projectBrief.md`.
+- **Read Before Asking (Zero-Punting):** Before asking the user for specifications, check memory files and audits first. Do not punt questions to the user if the data is already in your workspace.
 
 ## 2. Component-Driven CMS Architecture (Kentico)
 - **Separation of Concerns:** Keep content/data files separate from structural layout templates.
-- **Templates (`content/templates/*.yaml`):** Define structural skeletons ONLY. Keys limited to `slug`, `title`, and `sections` (with `id`, `type`, `variant`). NEVER add text copy, headlines, or HTML here.
+- **Templates (`content/templates/*.yaml`):** Define structural skeletons ONLY. Keys limited to `slug`, `title`, and `sections`. NEVER add text copy here.
 - **Pages (`content/pages/*.yaml`):** The data source of truth. Contains structured copy and variant parameters.
-- **No Raw HTML in Data:** Never embed raw HTML blocks, inline styling, or markup strings (`bodyHtml`) directly inside YAML. Extend `dev/scripts/build-pages.mjs` with structured properties instead.
+- **No Raw HTML in Data:** Never embed raw HTML blocks or inline styling directly inside YAML.
 
 ## 3. Style Modernization & Legacy Retirement
 - **SCSS Source of Truth:** Write and edit styling exclusively in modular SCSS (`dev/assets/css/scss/`).
 - **Read-Only Files:** Never hand-edit compiled outputs (`dist/`, `previews/`, `*.min.css`) or legacy CSS files (`dev/assets/css/legacy/`).
-- **Style Dictionary Compliance:** All migrated components must replace legacy CSS classes with the modernized YAML variant equivalents mapped in the architecture spec.
 
-## 4. Port Safety & Isolation Protocols
-- **Port 3000 Protection:** Port 3000 is strictly reserved for user manual previews. Agents must NEVER bind dev servers, scripts, or Puppeteer tests to Port 3000.
-- **Agent Execution Port:** All agent-driven development servers, static previews, and headless testing MUST run exclusively on **Port 3001** (or dedicated background ports like 3002+).
+## 4. Strict Port Configuration & Isolation
+- **User Preview Port (4000):** All local development servers intended for user viewing run strictly on Port 4000.
+- **Agent/Testing Port (4001):** All automated audits, Puppeteer scripts, static preview servers, and background HTTP tasks run strictly on Port 4001.
+- **URL Target Verification:** Any script targeting `localhost` or `127.0.0.1` must point to `http://localhost:4001`. Never use Port 3000, 3001, or 3003.
 
-## 5. Action-First Tool Execution
-- Always execute file modifications (`write_file`, `replace_in_file`) or terminal tools immediately.
-- STRICT RULE: Do not output conversational preambles, status updates, or plan confirmations prior to invoking a tool call.
+## 5. Canonical Project Constants
+- **Figma File Key:** ALWAYS use `80i51JCUKVIrTZ8Zt9y73X` for all Figma MCP tool calls. Never search for, guess, or attempt to use any other Figma file key string.
 
-## 6. QA & Terminal Verification
-- When executing terminal checks, always chain multi-step verifications into a single invocation using `&&`.
-- Exit Code 0 with empty stdout means COMPLETE SUCCESS. Do not re-run a silent successful command.
+## 6. Action-First Tool Execution
+- Always execute file modifications (`write_file`, `replace_in_file`) or terminal tools immediately without conversational preambles.
+- Chain multi-step terminal verifications into a single invocation using `&&`. Do not re-run a silent successful command.
 
-## 7. High-Accuracy Migration Protocols
-- **Programmatic Data Extraction:** When migrating legacy `main.html` + `.json` pairings, use automated parsing scripts (e.g., Cheerio/Node one-liners) rather than manual copy-pasting to prevent text loss, typos, or missing attributes.
-- **Schema Validation Gate:** All `.yaml` outputs must pass strict Zod/JSON Schema validation in `dev/scripts/build-pages.mjs`. Unapproved keys or embedded HTML must throw fatal build errors.
-- **Shadow DOM Diffing:** Validate migrated YAML output by comparing text nodes and computed layout math against legacy baselines served on Port 3001.
+## 7. Holistic Validation (Content, Styles, Functionality)
+- **Content:** Every text node, label, and input placeholder must strictly match the Figma AST data extraction.
+- **Styles:** CSS tokens (typography, padding, box-shadow, colors) must match Figma node values 1:1.
+- **Functionality:** Invisible reCAPTCHA v3 must be properly configured, buttons must be single-source CTAs for forms, and input fields must be functionally accessible.
 
-## 8. Milestone Responsive DOM-Measurement Verification (Zero Hallucination Policy)
-- **Zero Blind Approvals & No Visual Guessing:** You are strictly forbidden from relying on screenshots or visual estimations to verify UI pixel-perfection. Vision models hallucinate alignment.
-- **Batch Code First (No Tool Spam):** Do NOT invoke Puppeteer for single-line CSS edits. Write and compile complete styling/components before executing browser tests.
-- **Milestone Execution Only:** Invoke Puppeteer (`puppeteer_navigate` and `puppeteer_evaluate`) ONLY at major milestones (e.g., after completing a section build or before a task handoff).
-- **Dual-Viewport Validation Protocol:** Compare `window.getComputedStyle()` at Desktop (1440px) and Mobile (375px) against Figma AST/design math on Port 3001. If DOM math fails, batch fixes before re-evaluating.
+## 8. Asset & Placehold.co Guardrails
+- **Placehold.co Enforcement:** If a Figma image URL is missing or a `/getmedia/` local path is broken, you MUST inject `https://placehold.co/[width]x[height]` matching the exact bounding box dimensions extracted from Figma.
+- **Asset Bounds Guard:** Headless tests must confirm image bounding boxes (`getBoundingClientRect()`) evaluate to non-zero width and height.
 
-## 9. Anti-Clutter Protocol (No Ephemeral Files)
-- **No Standalone `.md` Files:** NEVER create loose markdown files anywhere in the project. All notes belong in `memory/activeContext.md`.
-- **No Ephemeral Diagnostic Scripts:** NEVER create temporary `.js`, `.mjs`, or `.sh` files for debugging. Perform one-off inspections using terminal command-line one-liners (e.g., `node -e "..."`).
+## 9. Fluid Responsive & Tablet Testing
+- **Tablet Consideration:** You must account for tablet layouts. Hardcoded desktop widths that crush on 768px screens are unacceptable. Layouts must be fluid.
+- **Tri-Viewport Protocol:** `window.getComputedStyle()` audits must be tested across Desktop (1440px), Tablet (768px), and Mobile (375px) on Port 4001.
 
-## 10. Design Context Survival & Handoffs
-- **Preserve Pointers:** When delegating via `new_task`, the prompt string MUST contain exact Figma URLs, specific Node IDs, and all known Image URLs. Never force a receiving agent to design blind.
+## 10. Autonomous Ping-Pong & Handoff Loop (No User Escalation)
+- **Never Escalate on First Failure:** If a build fails, a schema validation fails, or a Puppeteer audit fails, YOU MUST NOT stop and ask the user for help. You must autonomously analyze the error, rewrite the code, and re-test up to 3 times.
+- **The QA-Gatekeeper Loop:** `frontend-dev` is strictly forbidden from declaring a task complete to the user. Once `frontend-dev` passes local tests, it MUST invoke `new_task` to hand off to `qa-runner`. 
+- **QA Rejection:** If `qa-runner` detects a defect, it MUST NOT alert the user. It must invoke `new_task` to send the failure log back to `frontend-dev` for immediate remediation. The user is only notified upon 100% QA success.
 
-## 11. Silent Headless Browser Execution & Tool Bans
-- **Strict Tool Ban:** You are strictly forbidden from using the built-in `browser_action` tool under any circumstances.
-- **No OS Window Manipulation:** NEVER execute client-side JavaScript window resizing or repositioning commands like `window.resizeTo()` or `window.moveTo()`.
-- **Silent Headless Context:** All browser inspections must occur silently in the background via the Puppeteer MCP server with `--headless=new` arguments on Port 3001.
+## 11. Structural DOM Assertions (Pre-CSS Math)
+- **Structure Before Paint:** Before measuring CSS computed styles, the agent MUST programmatically verify the DOM tree hierarchy.
+- **Verification Requirements:** Assert that flex/grid columns do not collapse, that text and forms are in separate isolated columns, and checklists render correctly. If the HTML tree is wrong, do not proceed to CSS validation.
+
+## 12. Anti-False-Positive Testing
+- **Figma-Sourced Assertions:** Audit scripts must explicitly define expected values by extracting them directly from the Figma MCP payload. Do not hardcode expected values based on your own CSS output. Assert `Live_DOM_Value === Figma_AST_Value`.
+- **Structural Hierarchy Anti-Hallucination:** Never assume structural compliance based on isolated CSS properties. If structural disconnects occur, print the generated HTML fragment directly to the console for inspection.
+
+## 13. The "Figma First" Styling Protocol
+- **No Blind CSS:** You must NEVER write SCSS, CSS, or inline styles without first querying the live Figma MCP for the specific Node ID. Do not guess padding, margins, colors, or dimensions.
+- **Schema Over Hacks:** If CSS `!important` tags fail to achieve visual parity, STOP writing CSS. Update the YAML schema (`content/pages/*.yaml`) and the HTML Template Engine (`dev/scripts/build-cms-inline.mjs`) to generate explicit semantic HTML wrappers before applying styles.
+
+## 14. Static Asset Serving Guard
+- Before executing Puppeteer DOM evaluations on Port 4001, verify that the static HTTP server is correctly serving BOTH the HTML output directory AND its sibling `./css` directory. If CSS assets return 404, halt the audit and fix the server route first.
+
+## 15. Flat Asset Bundling & Network Verification
+- **No Directory Traversal:** Never use `../../` or `../` pathing for web assets. Local HTTP servers block path traversals above the web root.
+- **Flat Bundling Protocol:** The build pipeline MUST physically copy all compiled CSS/JS assets into a sibling folder (e.g., `./css/`) within the final output directory. All generated HTML must link to these flat, localized assets.
+
+## 16. Production CSS Baseline Protection
+- **Read-Only Baselines:** Legacy stylesheets (e.g., `style-cms.css`) are strictly read-only.
+- **Dedicated Override Layer:** New design tokens must be written to and compiled into `figma-overrides.css`, injected into the HTML `<head>` directly *after* the read-only baseline.
+
+## 17. Figma MCP Depth & Node Bounds Safety
+- **Forbidden Root Queries:** NEVER call `get_figma_data` with only a `fileKey`. You MUST explicitly pass both `fileKey` AND a specific `nodeId` (e.g., `nodeId: "296:63"`).
+- **Depth Constraints:** Always set a strict `depth` limit (maximum `depth: 3`) on Figma MCP queries to prevent payload token explosions.
+
+## 18. Silent Headless Browser Execution & Tool Bans
+- **Strict Tool Ban:** You are strictly forbidden from using the built-in `browser_action` tool. All browser inspections must occur silently via the Puppeteer MCP server with `--headless=new` arguments on Port 4001.
+
+## 19. Hard Failure on MCP Tool Errors
+- **No Silent Memory Fallbacks:** If an MCP tool (such as Figma MCP) returns an error, you MUST NOT fall back to local memory files or guess. Halt execution immediately, state the exact MCP error, and wait for user intervention.

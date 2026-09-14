@@ -1,16 +1,22 @@
 # Dependencies & Package Managers
 node_modules/
 .pnpm-store/
+.npm/
+.nvm/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Build Outputs, Previews & Temporary Build Cache
-dist/
-previews/
-build/
+# Build Caches & Legacy Backups (Active cms/ and previews/ kept readable for verification)
 .cache/
+.sass-cache/
 *.tsbuildinfo
+previews-old/
+cms-backup/
+
+# CSS Source Maps & Minified Bundles
+dev/assets/css/*.css.map
+*.min.css.map
 
 # OS & Environment System Files
 .DS_Store
@@ -26,7 +32,7 @@ Thumbs.db
 !.vscode/settings.json
 .idea/
 
-# Binaries & Media Assets
+# Binaries & Media Assets (Prevents context token bloat)
 *.png
 *.jpg
 *.jpeg
@@ -36,6 +42,10 @@ Thumbs.db
 *.pdf
 *.zip
 *.tar.gz
+*.ico
+*.ttf
+*.woff
+*.woff2
 
 # Execution & Debug Logs
 *.log
