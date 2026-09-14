@@ -38,6 +38,7 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
   2. Synthesizes 1:1 Content, Styling, and Functionality. Missing images MUST use `placehold.co`.
   3. Compiles build assets and serves static previews strictly on **Port 4001**.
   4. Runs headless Puppeteer DOM math audits (`window.getComputedStyle()`) across **Desktop (1440px), Tablet (768px), and Mobile (375px)**.
+  5. **CMS Dual-Output Pattern:** Generates HTML with BOTH inline `<style>` tags (for Kentico widget pasting) AND external CSS `<link>` tags (for Port 4001 testing). Copies compiled CSS assets to `cms/` directory for HTTP serving.
 - **Handoff:** Invokes `new_task` in `qa-runner` mode ONLY once full-tree computed DOM math passes. NEVER asks the user for approval.
 
 ---

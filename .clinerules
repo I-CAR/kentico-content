@@ -389,7 +389,53 @@ When escalating, use this format in `memory/activeContext.md`:
    - [ ] `README.md` reflects current agent roles and capabilities
    - [ ] No contradictions between `.clinerules`, `.roomodes`, and `AGENTS.md`
 
-## 30. Bootstrap Layout System & Responsive Design Standards
+## 30. CMS Dual-Output HTML Generation (Inline Styles + External Assets)
+
+### Dual-Output Pattern for Kentico CMS Integration
+- **Purpose:** Generate HTML suitable for both standalone preview (Port 4001) AND Kentico CMS widget pasting
+- **Inline Styles:** Include `<style>` tags with compiled CSS for content authors to copy/paste into Kentico HTML widgets
+- **External CSS Links:** Also include `<link>` tags in `<head>` for standalone preview and testing on Port 4001
+- **Rationale:** Content authors copy the `<main>` content + inline styles into Kentico; agents test full pages with external CSS links on Port 4001
+
+### HTML Head Section Requirements
+- **Mandatory Head Structure:** Every generated HTML file MUST include a proper `<head>` section with:
+  - `<meta charset="UTF-8">`
+  - `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+  - CSS `<link>` tags for external stylesheets (for Port 4001 testing)
+  - External font links (Google Fonts, etc.)
+  - Inline `<style>` tags with compiled CSS (for Kentico widget pasting)
+  - Bootstrap head script for deferred asset loading
+- **Link Tag Ordering:** CSS links MUST appear in this order:
+  1. CMS stylesheet (`style-cms.css`)
+  2. External font links
+  3. Additional stylesheets (Swiper, Bootstrap, etc.)
+  4. Inline critical styles
+  5. Bootstrap head script
+
+### Build Pipeline CSS Handling
+- **Source Files:** Read compiled CSS from `dev/assets/css/` directory
+- **Destination:** Copy to `cms/` directory (flat structure, no subdirectories)
+- **Relative Paths:** HTML files link to CSS using relative paths (e.g., `href="style-cms.css"`)
+- **HTTP Serving:** CSS files MUST be accessible via HTTP GET on Port 4001 with 200 status code
+- **Asset Verification:** Before Puppeteer DOM audits, verify CSS files exist and return 200 responses
+
+### Implementation in `dev/scripts/cms-inline-utils.mjs`
+- **Function:** `renderCmsCssLinkTags(sourceFile, outputFile)` - generates CSS link tags for `<head>`
+- **Function:** `renderCmsStyleTag()` - generates inline `<style>` tag with compiled CSS
+- **Function:** `copyCssAssets()` - copies compiled CSS to output directory for Port 4001 serving
+- **Function:** `cleanupRemovedCmsPages()` - preserves CMS CSS files in cleanup phase (do not delete)
+- **Integration:** Call `copyCssAssets()` AFTER cleanup to ensure files are not deleted
+
+### Content Author Workflow
+1. Agent generates HTML with inline styles + external CSS links
+2. Content author copies `<main>` content + inline `<style>` tag
+3. Content author pastes into Kentico HTML widget
+4. Kentico renders widget with inline styles (no external CSS needed)
+5. Agent tests full page on Port 4001 with external CSS links for validation
+
+---
+
+## 31. Bootstrap Layout System & Responsive Design Standards
 
 ### Bootstrap Grid Architecture
 - **Container System:** All sections use `.container` (responsive max-width) or `.container-fluid` (full-width)

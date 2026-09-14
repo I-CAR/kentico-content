@@ -115,9 +115,16 @@ Archived pre-pipeline static HTML pages preserved for source comparison and patt
 #### `cms/`
 Generated CMS-ready HTML output mirroring the `content/pages/` tree. **Do not hand-edit.**
 
+**Dual-Output Pattern (Kentico Integration):**
+- **Inline Styles:** Each HTML file includes `<style>` tags with compiled CSS for content authors to copy/paste into Kentico HTML widgets
+- **External CSS Links:** HTML `<head>` also includes `<link>` tags pointing to CSS assets for standalone preview and testing on Port 4001
+- **CSS Assets:** Compiled CSS files (`style-cms.css`, `bootstrap-cms-compat.css`, `style-cms-swiper.css`) are copied to `cms/` directory for HTTP serving
+- **Content Author Workflow:** Authors copy `<main>` content + inline `<style>` tag into Kentico; agents test full pages with external CSS links on Port 4001
+
 Output format:
-- External `<link>` tags
-- Inline `<style>` blocks
+- Proper `<head>` section with meta tags and CSS links
+- External `<link>` tags for stylesheets
+- Inline `<style>` blocks with compiled CSS
 - Page section HTML
 - `<script>` tags (optionally split to `.scripts.html` files)
 - Comments stripped, attributes normalized

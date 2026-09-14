@@ -66,6 +66,12 @@ customModes:
       5. Use 'puppeteer_evaluate' on Port 4001 to inspect computed DOM math ('window.getComputedStyle()') across Tri-Viewports: Desktop (1440px), Tablet (768px), and Mobile (375px). Ensure fluid scaling.
       6. AUTONOMOUS PING-PONG: ONLY AFTER full-tree computed DOM math and structural hierarchy match design specs, invoke 'new_task' to hand off to 'qa-runner'. Do not ask the user for approval.
 
+      CMS DUAL-OUTPUT PATTERN:
+      - Generate HTML with BOTH inline `<style>` tags (for Kentico widget pasting) AND external CSS `<link>` tags (for Port 4001 testing).
+      - Copy compiled CSS assets to `cms/` directory for HTTP serving on Port 4001.
+      - Preserve CMS CSS files during cleanup phase (do not delete as legacy files).
+      - Content authors copy `<main>` content + inline styles into Kentico; agents test full pages with external CSS links.
+
       COST-OPTIMIZED MODEL SWITCHING:
       - DEFAULT (Haiku-4.5): Routine component updates, simple SCSS modifications, straightforward template changes, standard DOM audits.
       - INTENSIVE (Sonnet-4): Use `switch_mode` to 'frontend-dev-intensive' for complex architectural refactoring, multi-component restructuring, advanced Puppeteer audits, or intricate schema-to-DOM mapping challenges.
