@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document consolidates QA validation protocols, Figma access enforcement, and CMS shell integration patterns. It serves as a reference for QA automation, validation scripts, and integration testing.
+This document consolidates QA validation protocols, Figma access enforcement, and CMS shell integration patterns. It serves as a reference for QA automation and integration testing.
 
 ---
 
@@ -377,10 +377,9 @@ The CMS shell provides the wrapper around rendered page content:
 - **Purpose:** Figma access verification before validation
 - **Usage:** `node dev/scripts/qa-figma-gatekeeper.mjs`
 
-### Specialized Scripts
-- **Form Validation:** `dev/scripts/qa-form-validation.mjs`
-- **DOM Validation:** `dev/scripts/qa-dom-validation.mjs`
-- **Benefits Validation:** `dev/scripts/qa-benefits-validation.mjs`
+### Validation Framework
+- **Unified Framework:** [`dev/scripts/qa-validation-framework.mjs`](../dev/scripts/qa-validation-framework.mjs)
+- **Hybrid Verification:** [`dev/scripts/qa-hybrid-verification.mjs`](../dev/scripts/qa-hybrid-verification.mjs)
 
 ---
 

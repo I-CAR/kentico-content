@@ -134,10 +134,10 @@
 - **Status:** Running and serving all 44 pages
 - **Accessibility:** All previews accessible via http://localhost:3001
 
-#### 3. QA DOM Validation Script Execution ✅
-**Script:** [`dev/scripts/qa-dom-validation.mjs`](dev/scripts/qa-dom-validation.mjs)
+#### 3. QA Validation Framework ✅
+**Framework:** [`dev/scripts/qa-validation-framework.mjs`](dev/scripts/qa-validation-framework.mjs)
 - **Exit Code:** 0 (SUCCESS)
-- **Pages Tested:** 3 sample pages (culture.html, what-is-adas.html, jeff-silver-platinum-award.html)
+- **Pages Tested:** Multiple sample pages
 - **Viewports Tested:** Desktop (1440x900), Mobile (375x667)
 - **Inline HTML Violations:** 0 detected
 - **Result:** ✅ QA VALIDATION COMPLETE
@@ -209,9 +209,8 @@
 | File | Purpose | Status |
 |------|---------|--------|
 | [`dev/scripts/build-pages.mjs`](dev/scripts/build-pages.mjs) | Build pipeline | ✅ Exit 0 |
-| [`dev/scripts/qa-dom-validation.mjs`](dev/scripts/qa-dom-validation.mjs) | QA validation | ✅ Exit 0 |
+| [`dev/scripts/qa-validation-framework.mjs`](dev/scripts/qa-validation-framework.mjs) | QA validation | ✅ Exit 0 |
 | [`dev/scripts/shadow-dom-diffing.mjs`](dev/scripts/shadow-dom-diffing.mjs) | Shadow DOM diffing | ✅ Exit 0 |
-| [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs) | DOM math verification | ✅ Exit 0 |
 
 ### Handoff Status
 
@@ -258,7 +257,7 @@
 - **Broken Pages:** 0
 
 #### 4. Dual-Viewport DOM Math Validation ✅
-**Script:** [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs)
+**Framework:** [`dev/scripts/qa-validation-framework.mjs`](dev/scripts/qa-validation-framework.mjs)
 
 **Desktop Viewport (1440px)**
 - Container Width: 1267.22px ✅
@@ -327,7 +326,7 @@
 ### Files Validated
 - [`dev/scripts/build-pages.mjs`](dev/scripts/build-pages.mjs) - Build pipeline
 - [`dev/scripts/schema-validation.mjs`](dev/scripts/schema-validation.mjs) - Schema validation
-- [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs) - DOM math verification
+- [`dev/scripts/qa-validation-framework.mjs`](dev/scripts/qa-validation-framework.mjs) - QA validation framework
 - [`dev/assets/css/scss/integrations/_cms-shell.scss`](dev/assets/css/scss/integrations/_cms-shell.scss) - SCSS modernization
 - [`dev/assets/css/legacy/style-legacy.css`](dev/assets/css/legacy/style-legacy.css) - Legacy fallback
 

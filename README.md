@@ -326,24 +326,6 @@ Zod-based schema validation enforcing strict structure.
 - Proper image loading attributes
 - Valid icon keys
 
-#### [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs)
-Headless Puppeteer DOM math verification across viewports.
-
-**Tests:**
-- Desktop (1440px) computed styles
-- Mobile (375px) computed styles
-- Container widths, grid gaps, typography
-- Responsive scaling verification
-
-#### [`dev/scripts/qa-dom-validation.mjs`](dev/scripts/qa-dom-validation.mjs)
-Comprehensive QA validation suite.
-
-**Checks:**
-- HTML structure validity
-- Proper closing tags
-- Syntax errors
-- Broken pages
-
 #### [`dev/scripts/shadow-dom-diffing.mjs`](dev/scripts/shadow-dom-diffing.mjs)
 Programmatic shadow diffing between legacy HTML and modern YAML output.
 
@@ -833,9 +815,6 @@ If you remember only five things, remember these:
 ### Technical References
 - [Validation Framework Migration](docs/VALIDATION-FRAMEWORK-MIGRATION.md) — Migration guide for new validation system
 - [CMS Shell Reference](docs/cms-shell-reference.md) — CMS integration patterns and spacing reference
-
-### Archived Documentation
-- [Archive](docs/archive/) — Superseded documentation files (consolidated into core guides above)
 
 ---
 

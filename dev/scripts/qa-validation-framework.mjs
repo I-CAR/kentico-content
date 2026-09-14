@@ -2,16 +2,10 @@
 
 /**
  * UNIFIED QA VALIDATION FRAMEWORK
- * 
+ *
  * Consolidates all validation logic into a single, modular framework.
- * Eliminates redundancy across:
- * - qa-benefits-validation.mjs
- * - qa-dom-validation.mjs
- * - qa-form-validation.mjs
- * - qa-stay-ahead-validation.mjs
- * - validate-dom-math.mjs
- * - validate-dom-math-enhanced.mjs
- * 
+ * Provides modular validation plugins for different component types.
+ *
  * USAGE:
  *   import { ValidationFramework } from './qa-validation-framework.mjs';
  *   const framework = new ValidationFramework(config);
