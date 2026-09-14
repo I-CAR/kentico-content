@@ -1,0 +1,84 @@
+// Checkmark Icons for Value Propositions
+// Extends ic-card-icon for Gold Class themed checkmarks
+
+.ic-card-icon {
+    display: block;
+    margin: 0 auto 1rem;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    fill: #E8C869;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease, filter 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+}
+
+.ic-card-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+
+    .ic-card-icon {
+        margin: 0;
+    }
+}
+
+.ic-card-horizontal-mobile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .ic-card-media {
+        order: -1;
+        margin-bottom: 1rem;
+    }
+
+    .ic-card-body {
+        flex: 1;
+    }
+
+    .ic-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .ic-card-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .ic-card-media {
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .ic-card-horizontal-mobile {
+        .ic-card-title {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .ic-card-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .ic-card-media {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+}

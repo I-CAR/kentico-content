@@ -1,0 +1,162 @@
+// Star Ratings Display for Testimonials
+// New structure: star rating shown first in separate card-rating div
+
+.ic-card-rating {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: 32px;
+    color: #E8C869;
+    letter-spacing: 4px;
+    line-height: 1.2;
+    font-weight: normal;
+}
+
+// Legacy support for old structure
+.ic-card-stars {
+    display: block;
+    margin: 0 auto 1rem;
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: 32px;
+    color: #E8C869;
+    letter-spacing: 4px;
+    line-height: 1.2;
+    font-weight: normal;
+}
+
+.ic-cite-photo {
+    display: block;
+    margin-bottom: 0.75rem;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 250 / 39;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.ic-card-cite {
+    margin-top: 8px; // 8px spacing between quote and citer
+    margin-bottom: 0;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.625; // 26px / 16px = 1.625
+    color: #707070;
+    text-align: center;
+
+    cite {
+        display: inline;
+        font-style: normal;
+        font-family: "Source Sans Pro", sans-serif;
+        font-weight: 400; // Normal weight, no bold
+        font-size: 1rem;
+        line-height: 1.625; // 26px / 16px = 1.625
+        color: #707070;
+
+        .ic-cite-title {
+            display: inline;
+            font-size: 1rem;
+            color: #707070;
+            font-weight: 400;
+            line-height: 1.625; // 26px / 16px = 1.625
+        }
+
+        .ic-cite-location {
+            display: inline;
+            font-size: 1rem;
+            color: #707070;
+            font-weight: 400;
+            line-height: 1.625; // 26px / 16px = 1.625
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .ic-card-stars {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0.75rem;
+    }
+
+    .ic-cite-photo {
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .ic-card-cite {
+        // Removed padding-top per user feedback
+    }
+}
+
+// Quote text styling for testimonial cards
+.ic-card-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5; // 24px / 16px = 1.5 (per Figma H6 style)
+    text-align: center;
+    color: #333538;
+    margin-top: 0;
+    margin-bottom: 8px; // 8px spacing between quote and citer
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+// Card body styling for testimonials
+.ic-card-body {
+    padding: 0; // Remove padding to control spacing precisely
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+// Ensure cards have proper proportions
+.ic-section-quoteGrid .ic-card {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ic-section-quoteGrid .ic-card-body {
+    flex: 1 1 auto;
+}
+
+.ic-section-quoteGrid .ic-card-cite {
+    flex: 0 0 auto;
+}
+
+// Testimonial card styling - remove backgrounds, borders, border-radius
+.ic-testimonial-card {
+    background: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0;
+
+    // Override any inherited card styling
+    &.ic-background-white,
+    &.ic-background-light {
+        background: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+}
+
+// Ensure proper spacing between elements in testimonial cards
+.ic-testimonial-card .ic-card-body {
+    padding: 0 0 1rem 0;
+}
+
+// Mobile responsive adjustments
+@media (max-width: 768px) {
+    .ic-card-rating {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+    }
+}

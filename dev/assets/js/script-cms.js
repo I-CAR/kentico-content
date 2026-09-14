@@ -1,2 +1,218 @@
-(()=>{function r(t){if(document.readyState!=="loading"){t();return}document.addEventListener("DOMContentLoaded",t,{once:!0})}var d=".js-ic-dropdown-container",p=".js-ic-btn-dropdown",m=".js-ic-dropdown",s="ic-visually-hidden",f=".section_hero";function A(t){let e=t.getAttribute("aria-controls")||t.getAttribute("data-target");if(e){let o=document.getElementById(e.replace(/^#/,""));if(o)return o}let n=t.closest(d);return n?n.querySelector(m):null}function l(t,e){!t||t.classList.contains(s)||(t.contains(document.activeElement)&&e?.focus({preventScroll:!0}),t.classList.add(s),t.setAttribute("aria-hidden","true"),t.setAttribute("inert",""),e?.setAttribute("aria-expanded","false"))}function x(t,e){t&&(t.classList.remove(s),t.removeAttribute("aria-hidden"),t.removeAttribute("inert"),e?.setAttribute("aria-expanded","true"))}function v(t){document.querySelectorAll(m).forEach(e=>{e!==t&&l(e,e._icOwnerBtn)})}function h(t,e){t._icOwnerBtn=e,e.hasAttribute("aria-haspopup")||e.setAttribute("aria-haspopup","menu"),e.hasAttribute("aria-expanded")||e.setAttribute("aria-expanded","false"),t.hasAttribute("role")||t.setAttribute("role","menu"),t.classList.contains(s)&&(t.setAttribute("aria-hidden","true"),t.setAttribute("inert","")),t.querySelectorAll("a, button").forEach(n=>{n.hasAttribute("role")||n.setAttribute("role","menuitem"),n.hasAttribute("tabindex")||(n.tabIndex=0)})}function S(){window.toggleLinks=function(t){let n=(t instanceof Element?t:null)?.closest(f)||document.querySelector(f),o=n?.querySelector(".dropdown");!n||!o||(n.classList.toggle("dropdown-open"),o.classList.toggle("-hidden"))}}function w(){document.addEventListener("click",t=>{let e=t.target.closest(p);if(!e||!e.closest(d))return;t.preventDefault();let n=A(e);if(!n)return;if(h(n,e),!n.classList.contains(s)){l(n,e);return}v(n);function i(){document.removeEventListener("click",a),document.removeEventListener("keydown",u)}function a(c){n.contains(c.target)||e.contains(c.target)||(i(),l(n,e))}function u(c){c.key==="Escape"&&(i(),l(n,e),e.focus())}setTimeout(()=>{document.addEventListener("click",a),document.addEventListener("keydown",u)},0),x(n,e)})}function L(){document.querySelectorAll(d).forEach(t=>{let e=t.querySelector(p),n=t.querySelector(m);e&&n&&h(n,e)})}function g(){S(),w(),r(L)}function D(){if(window.grecaptcha||document.querySelector('script[src*="google.com/recaptcha/api.js"]'))return;let t=document.createElement("script");t.src="https://www.google.com/recaptcha/api.js",t.async=!0,t.defer=!0,document.head.appendChild(t)}function C(){let t=document.getElementById("g-recaptcha-response");if(t&&t.value&&t.value.trim()!=="")return;let e=document.getElementsByName("captcha_settings")[0];if(!(!e||!e.value))try{let n=JSON.parse(e.value);n.ts=String(Date.now()),e.value=JSON.stringify(n)}catch{}}function R(){D(),(document.getElementById("g-recaptcha-response")||document.getElementsByName("captcha_settings")[0])&&setInterval(C,500)}function y(){r(R)}function I(){document.querySelectorAll("[data-runtime-iframe-embed][data-iframe-src]").forEach(t=>{if(t.dataset.iframeEmbedInitialized==="true")return;let e=t.dataset.iframeSrc?.trim();if(!e)return;t.className="mx-auto mt-md-4 pt-md-1";let n=t.dataset.iframeTitle?.trim()||"Embedded video",o=t.firstElementChild instanceof HTMLDivElement?t.firstElementChild:document.createElement("div");o.parentElement!==t&&(o.style.cssText="width: 100%; padding-top: 56.25%;",t.replaceChildren(o));let i=document.createElement("iframe");i.className="ic-rounded",i.src=e,i.title=n,i.loading="lazy",i.allow="encrypted-media; fullscreen",i.style.cssText="width: 100%; position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; height: 100%; border: 0;",o.appendChild(i),t.dataset.iframeEmbedInitialized="true"})}function E(){r(I)}function N(){document.querySelectorAll(".js-ic-swatch").forEach(e=>{e.addEventListener("click",n=>{let o=getComputedStyle(e).getPropertyValue("--color-hex").replace(/"/g,"").trim();o&&navigator.clipboard.writeText(o).then(()=>{let i=document.createElement("span");i.className="ic-copied-msg",i.textContent=`Copied ${o}!`;let a=e.getBoundingClientRect(),u=n.clientX-a.left,c=n.clientY-a.top;i.style.left=`${u}px`,i.style.top=`${c}px`,e.appendChild(i),setTimeout(()=>i.remove(),1500)})})})}function b(){r(N)}g();y();E();b();})();
+(() => {
+  // dev/assets/js/src/utils/on-dom-ready.js
+  function onDomReady(callback) {
+    if (document.readyState !== "loading") {
+      callback();
+      return;
+    }
+    document.addEventListener("DOMContentLoaded", callback, { once: true });
+  }
 
+  // dev/assets/js/src/features/hero-links-dropdown.js
+  var CONTAINER = ".js-ic-dropdown-container";
+  var BTN_SEL = ".js-ic-btn-dropdown";
+  var DD_SEL = ".js-ic-dropdown";
+  var HIDDEN = "ic-visually-hidden";
+  var HERO_SECTION = ".section_hero";
+  function getDropdown(button) {
+    const id = button.getAttribute("aria-controls") || button.getAttribute("data-target");
+    if (id) {
+      const node = document.getElementById(id.replace(/^#/, ""));
+      if (node) return node;
+    }
+    const container = button.closest(CONTAINER);
+    return container ? container.querySelector(DD_SEL) : null;
+  }
+  function hideDropdown(dropdown, button) {
+    if (!dropdown || dropdown.classList.contains(HIDDEN)) return;
+    if (dropdown.contains(document.activeElement)) {
+      button?.focus({ preventScroll: true });
+    }
+    dropdown.classList.add(HIDDEN);
+    dropdown.setAttribute("aria-hidden", "true");
+    dropdown.setAttribute("inert", "");
+    button?.setAttribute("aria-expanded", "false");
+  }
+  function showDropdown(dropdown, button) {
+    if (!dropdown) return;
+    dropdown.classList.remove(HIDDEN);
+    dropdown.removeAttribute("aria-hidden");
+    dropdown.removeAttribute("inert");
+    button?.setAttribute("aria-expanded", "true");
+  }
+  function closeAllExcept(skip) {
+    document.querySelectorAll(DD_SEL).forEach((dropdown) => {
+      if (dropdown !== skip) hideDropdown(dropdown, dropdown._icOwnerBtn);
+    });
+  }
+  function primeA11y(dropdown, button) {
+    dropdown._icOwnerBtn = button;
+    if (!button.hasAttribute("aria-haspopup")) button.setAttribute("aria-haspopup", "menu");
+    if (!button.hasAttribute("aria-expanded")) button.setAttribute("aria-expanded", "false");
+    if (!dropdown.hasAttribute("role")) dropdown.setAttribute("role", "menu");
+    if (dropdown.classList.contains(HIDDEN)) {
+      dropdown.setAttribute("aria-hidden", "true");
+      dropdown.setAttribute("inert", "");
+    }
+    dropdown.querySelectorAll("a, button").forEach((element) => {
+      if (!element.hasAttribute("role")) element.setAttribute("role", "menuitem");
+      if (!element.hasAttribute("tabindex")) element.tabIndex = 0;
+    });
+  }
+  function initHeroToggleLinks() {
+    window.toggleLinks = function(trigger) {
+      const button = trigger instanceof Element ? trigger : null;
+      const section = button?.closest(HERO_SECTION) || document.querySelector(HERO_SECTION);
+      const dropdown = section?.querySelector(".dropdown");
+      if (!section || !dropdown) return;
+      section.classList.toggle("dropdown-open");
+      dropdown.classList.toggle("-hidden");
+    };
+  }
+  function initDropdownButtons() {
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest(BTN_SEL);
+      if (!button || !button.closest(CONTAINER)) return;
+      event.preventDefault();
+      const dropdown = getDropdown(button);
+      if (!dropdown) return;
+      primeA11y(dropdown, button);
+      const willOpen = dropdown.classList.contains(HIDDEN);
+      if (!willOpen) {
+        hideDropdown(dropdown, button);
+        return;
+      }
+      closeAllExcept(dropdown);
+      function teardown() {
+        document.removeEventListener("click", onDocClick);
+        document.removeEventListener("keydown", onKeydown);
+      }
+      function onDocClick(nextEvent) {
+        if (dropdown.contains(nextEvent.target) || button.contains(nextEvent.target)) return;
+        teardown();
+        hideDropdown(dropdown, button);
+      }
+      function onKeydown(nextEvent) {
+        if (nextEvent.key !== "Escape") return;
+        teardown();
+        hideDropdown(dropdown, button);
+        button.focus();
+      }
+      setTimeout(() => {
+        document.addEventListener("click", onDocClick);
+        document.addEventListener("keydown", onKeydown);
+      }, 0);
+      showDropdown(dropdown, button);
+    });
+  }
+  function initDropdownA11yPass() {
+    document.querySelectorAll(CONTAINER).forEach((container) => {
+      const button = container.querySelector(BTN_SEL);
+      const dropdown = container.querySelector(DD_SEL);
+      if (button && dropdown) primeA11y(dropdown, button);
+    });
+  }
+  function initHeroLinksDropdown() {
+    initHeroToggleLinks();
+    initDropdownButtons();
+    onDomReady(initDropdownA11yPass);
+  }
+
+  // dev/assets/js/src/features/recaptcha.js
+  function loadRecaptcha() {
+    if (window.grecaptcha || document.querySelector('script[src*="google.com/recaptcha/api.js"]')) {
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+  function updateCaptchaTimestamp() {
+    const response = document.getElementById("g-recaptcha-response");
+    if (response && response.value && response.value.trim() !== "") return;
+    const settingsElement = document.getElementsByName("captcha_settings")[0];
+    if (!settingsElement || !settingsElement.value) return;
+    try {
+      const data = JSON.parse(settingsElement.value);
+      data.ts = String(Date.now());
+      settingsElement.value = JSON.stringify(data);
+    } catch {
+    }
+  }
+  function startRecaptcha() {
+    loadRecaptcha();
+    const hasCaptcha = document.getElementById("g-recaptcha-response") || document.getElementsByName("captcha_settings")[0];
+    if (hasCaptcha) {
+      setInterval(updateCaptchaTimestamp, 500);
+    }
+  }
+  function initRecaptcha() {
+    onDomReady(startRecaptcha);
+  }
+
+  // dev/assets/js/src/features/runtime-iframe-embeds.js
+  function initRuntimeIframeEmbedsInstance() {
+    document.querySelectorAll("[data-runtime-iframe-embed][data-iframe-src]").forEach((container) => {
+      if (container.dataset.iframeEmbedInitialized === "true") {
+        return;
+      }
+      const src = container.dataset.iframeSrc?.trim();
+      if (!src) {
+        return;
+      }
+      container.className = "mx-auto mt-md-4 pt-md-1";
+      const title = container.dataset.iframeTitle?.trim() || "Embedded video";
+      const ratioBox = container.firstElementChild instanceof HTMLDivElement ? container.firstElementChild : document.createElement("div");
+      if (ratioBox.parentElement !== container) {
+        ratioBox.style.cssText = "width: 100%; padding-top: 56.25%;";
+        container.replaceChildren(ratioBox);
+      }
+      const iframe = document.createElement("iframe");
+      iframe.className = "ic-rounded";
+      iframe.src = src;
+      iframe.title = title;
+      iframe.loading = "lazy";
+      iframe.allow = "encrypted-media; fullscreen";
+      iframe.style.cssText = "width: 100%; position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; height: 100%; border: 0;";
+      ratioBox.appendChild(iframe);
+      container.dataset.iframeEmbedInitialized = "true";
+    });
+  }
+  function initRuntimeIframeEmbeds() {
+    onDomReady(initRuntimeIframeEmbedsInstance);
+  }
+
+  // dev/assets/js/src/features/swatches.js
+  function initSwatches() {
+    const swatches = document.querySelectorAll(".js-ic-swatch");
+    swatches.forEach((swatch) => {
+      swatch.addEventListener("click", (event) => {
+        const hex = getComputedStyle(swatch).getPropertyValue("--color-hex").replace(/"/g, "").trim();
+        if (!hex) return;
+        navigator.clipboard.writeText(hex).then(() => {
+          const message = document.createElement("span");
+          message.className = "ic-copied-msg";
+          message.textContent = `Copied ${hex}!`;
+          const rect = swatch.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          message.style.left = `${x}px`;
+          message.style.top = `${y}px`;
+          swatch.appendChild(message);
+          setTimeout(() => message.remove(), 1500);
+        });
+      });
+    });
+  }
+  function initSwatchCopy() {
+    onDomReady(initSwatches);
+  }
+
+  // dev/assets/js/src/index-cms.js
+  initHeroLinksDropdown();
+  initRecaptcha();
+  initRuntimeIframeEmbeds();
+  initSwatchCopy();
+})();

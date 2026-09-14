@@ -801,7 +801,7 @@ Ask before making a bigger structural change if you are unsure about:
 | [`dev/scripts/build-pages.mjs`](dev/scripts/build-pages.mjs) | Page rendering and validation |
 | [`dev/scripts/build-cms-inline.mjs`](dev/scripts/build-cms-inline.mjs) | CMS output generation |
 | [`dev/scripts/schema-validation.mjs`](dev/scripts/schema-validation.mjs) | Zod schema validation |
-| [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs) | DOM math verification |
+| [`dev/scripts/qa-hybrid-verification.mjs`](dev/scripts/qa-hybrid-verification.mjs) | Hybrid DOM math and content verification |
 | [`dev/assets/css/scss/style-cms.scss`](dev/assets/css/scss/style-cms.scss) | Main SCSS source |
 | [`dev/assets/css/legacy/style-legacy.css`](dev/assets/css/legacy/style-legacy.css) | Legacy fallback (read-only) |
 | [`docs/cms-shell-reference.md`](docs/cms-shell-reference.md) | CMS shell spacing reference |
@@ -819,6 +819,23 @@ If you remember only five things, remember these:
 3. **Use `previews/documentation/` as reference** — Component library and style guide are your visual guides
 4. **Preserve project copy conventions** — Use `I&#8209;CAR`, `Gold&nbsp;Class`, and widow protection correctly
 5. **Rebuild after changes** — Run `npm run build` or `npm run cms` to refresh output
+
+---
+
+## Documentation
+
+### Core Guides
+- [Figma Management](docs/FIGMA-MANAGEMENT.md) — Centralized Figma file management and asset handling
+- [Verification Framework](docs/VERIFICATION-FRAMEWORK.md) — Three-layer validation approach for DOM math and content parity
+- [Efficiency Protocol](docs/EFFICIENCY-PROTOCOL.md) — Multi-mode workflow optimization and cost-efficient model switching
+- [QA Reference](docs/QA-REFERENCE.md) — Comprehensive validation checklist and quality assurance procedures
+
+### Technical References
+- [Validation Framework Migration](docs/VALIDATION-FRAMEWORK-MIGRATION.md) — Migration guide for new validation system
+- [CMS Shell Reference](docs/cms-shell-reference.md) — CMS integration patterns and spacing reference
+
+### Archived Documentation
+- [Archive](docs/archive/) — Superseded documentation files (consolidated into core guides above)
 
 ---
 

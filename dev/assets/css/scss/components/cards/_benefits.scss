@@ -1,0 +1,47 @@
+// Benefits Cards (What You Get section)
+// Based on Figma node #296:127-137
+
+.ic-card.ic-card-benefits {
+    border: none !important;
+    border-radius: 0 !important;
+    border-left: 1px solid #E8C869 !important; // Yellow border from Figma fill_0041f93a
+    padding: 0 !important;
+
+    .ic-card-body {
+        padding-left: 1.5rem !important; // 24px left padding only
+        padding-top: 0 !important;
+        padding-right: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .ic-card-title {
+        font-size: 1.125rem; // 18px
+        line-height: 1.44; // 26px/18px
+        text-align: left;
+        margin-top: 0 !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .ic-card-text {
+        font-size: 1rem; // 16px
+        line-height: 1.625; // 26px/16px
+        text-align: left !important;
+        margin-bottom: 0;
+    }
+}
+
+// Section title styling for benefits section
+.ic-section-textMedia .ic-section-title {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+// Center container in benefits section
+.ic-section-textMedia .container {
+    margin: 0 auto;
+}
+
+// Ensure image has no border radius
+.ic-image-cutout {
+    border-radius: 0 !important;
+}
