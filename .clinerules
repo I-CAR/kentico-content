@@ -44,8 +44,22 @@
 
 ## 10. Autonomous Ping-Pong & Handoff Loop (No User Escalation)
 - **Never Escalate on First Failure:** If a build fails, a schema validation fails, or a Puppeteer audit fails, YOU MUST NOT stop and ask the user for help. You must autonomously analyze the error, rewrite the code, and re-test up to 3 times.
-- **The QA-Gatekeeper Loop:** `frontend-dev` is strictly forbidden from declaring a task complete to the user. Once `frontend-dev` passes local tests, it MUST invoke `new_task` to hand off to `qa-runner`. 
+- **The QA-Gatekeeper Loop:** `frontend-dev` is strictly forbidden from declaring a task complete to the user. Once `frontend-dev` passes local tests, it MUST invoke `new_task` to hand off to `qa-runner`.
 - **QA Rejection:** If `qa-runner` detects a defect, it MUST NOT alert the user. It must invoke `new_task` to send the failure log back to `frontend-dev` for immediate remediation. The user is only notified upon 100% QA success.
+
+## 29. Comprehensive QA Audit Protocol (Mandatory Checklist)
+- **HTML Structure Validation:** Verify HTML file contains proper `<html>`, `<head>`, `<body>`, and `<main>` elements. Files with only CSS/JS and no body content are CRITICAL FAILURES.
+- **Content Rendering Verification:** Confirm YAML content renders to DOM elements. Missing bullets, badges, H3 elements, or form fields indicate template engine failures.
+- **Salesforce Integration Audit:** Verify all required hidden fields (`oid`, `retURL`, `lead_source`, `Campaign_ID`, `recordType`) are present in forms.
+- **SEO Metadata Validation:** Check for page title, meta description, Open Graph tags, canonical URLs, and lang attributes.
+- **Analytics Implementation Check:** Verify Google Analytics, GTM, conversion tracking, and event tracking are properly implemented.
+- **Accessibility Compliance Audit:** Validate WCAG touch targets (44px minimum), alt text, ARIA attributes, keyboard navigation, and screen reader compatibility.
+- **Performance Bottleneck Detection:** Check for unoptimized images, missing lazy loading, large DOM size, and slow resource loading.
+- **Security Implementation Review:** Verify HTTPS enforcement, privacy policy links, CSRF protection, and input sanitization.
+- **Mobile-Specific Issue Detection:** Validate viewport meta tags, touch target sizes, horizontal scroll prevention, and responsive breakpoints.
+- **Third-Party Integration Verification:** Check Google Fonts, Bootstrap, jQuery, reCAPTCHA, and social media integrations are working.
+- **Console Error Monitoring:** Capture and report JavaScript errors, CSS errors, network failures, and browser warnings.
+- **Network Request Analysis:** Identify 404 errors, slow requests, missing resources, and CDN failures.
 
 ## 11. Structural DOM Assertions (Pre-CSS Math)
 - **Structure Before Paint:** Before measuring CSS computed styles, the agent MUST programmatically verify the DOM tree hierarchy.

@@ -62,6 +62,19 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
   2. **Canonical Figma Key:** `80i51JCUKVIrTZ8Zt9y73X` (per .clinerules Section 5).
   3. **Hard Blocker:** If Figma MCP access fails, HALT immediately. No silent fallbacks. State exact error and wait for user intervention.
   4. **No Suppression:** Figma access failures are NOT silent. User is notified of the exact MCP error.
+- **Comprehensive Audit Protocol (Per .clinerules Section 29):**
+  1. **HTML Structure Validation:** Verify proper `<html>`, `<head>`, `<body>`, `<main>` elements exist. Files with only CSS/JS are CRITICAL FAILURES.
+  2. **Content Rendering Verification:** Confirm YAML content renders to DOM. Missing bullets, badges, H3 elements indicate template failures.
+  3. **Salesforce Integration Audit:** Verify required hidden fields (`oid`, `retURL`, `lead_source`, `Campaign_ID`, `recordType`) in forms.
+  4. **SEO Metadata Validation:** Check page title, meta description, Open Graph tags, canonical URLs, lang attributes.
+  5. **Analytics Implementation:** Verify Google Analytics, GTM, conversion tracking, event tracking implementation.
+  6. **Accessibility Compliance:** Validate WCAG touch targets (44px min), alt text, ARIA attributes, keyboard navigation.
+  7. **Performance Analysis:** Check unoptimized images, lazy loading, DOM size, resource loading speed.
+  8. **Security Review:** Verify HTTPS enforcement, privacy policy links, CSRF protection, input sanitization.
+  9. **Mobile-Specific Validation:** Check viewport meta, touch targets, horizontal scroll prevention, responsive breakpoints.
+  10. **Third-Party Integration Check:** Verify Google Fonts, Bootstrap, jQuery, reCAPTCHA, social media integrations.
+  11. **Console Error Monitoring:** Capture JavaScript errors, CSS errors, network failures, browser warnings.
+  12. **Network Request Analysis:** Identify 404 errors, slow requests, missing resources, CDN failures.
 - **Execution Protocol:**
   1. Executes chained build and validation checks (`node dev/scripts/build-cms-inline.mjs && npm run build:css`).
   2. Runs headless Puppeteer DOM math scripts on `http://localhost:4001`.
