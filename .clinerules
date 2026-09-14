@@ -132,3 +132,259 @@
 - File restriction errors MUST be thrown immediately on attempted edit
 - Error message MUST include: agent name, attempted file path, allowed file patterns
 - No silent failures or fallback mechanisms
+
+## 27. Triple-Brief Memory Architecture (Strategic vs. Task vs. Historical)
+
+### Strategic Charter (`memory/projectBrief.md`)
+- **Scope:** Long-term migration strategy, architectural laws, 5-phase roadmap, execution environment constants
+- **Audience:** All agents at task start (mandatory read per Section 1)
+- **Update Frequency:** Rarely (only when strategic direction changes)
+- **Content:** Executive objectives, core architecture laws, high-level phases, port isolation rules, token efficiency guidelines
+- **Immutability:** Represents the canonical project charter. Changes require architect review.
+
+### Task Execution State (`memory/activeContext.md`)
+- **Scope:** Current task execution state, Figma node IDs, file paths modified, validation gates, handoff checkpoints
+- **Audience:** Current agent + next agent in handoff chain
+- **Update Frequency:** Exactly ONCE per task (at completion, before `attempt_completion` or `new_task`)
+- **Content:** Phase name, agent responsible, completion status, critical file paths, next handoff target, blocking issues
+- **Format:** Concise pointers only (URLs, node IDs, file paths). Max 5 lines per checkpoint.
+
+### Historical Progress Log (`memory/progress.md`)
+- **Scope:** Completed phases, milestone achievements, major deliverables, project timeline
+- **Audience:** Reference for project status and completed work
+- **Update Frequency:** At major phase completions or significant milestones
+- **Content:** Phase summaries, completion status, deliverable tracking, project timeline
+- **Purpose:** Historical record and project status dashboard
+
+### Triple-Brief Protocol Rules
+- **Mandatory Reads:** At task start, read BOTH `memory/projectBrief.md` (strategic context) AND `memory/activeContext.md` (task state)
+- **Optional Reference:** Read `memory/progress.md` for historical context when needed
+- **No Duplication:** Strategic content → `projectBrief.md`. Task-specific data → `activeContext.md`. Historical data → `progress.md`.
+- **Handoff Clarity:** When invoking `new_task`, the outgoing agent MUST ensure `activeContext.md` contains: (1) completed steps, (2) exact file paths, (3) next agent's required inputs, (4) any blocking issues
+- **Token Efficiency:** Keep `activeContext.md` under 50 lines total. Use abbreviations and pointers, never full code blocks or raw AST data.
+- **Architect Review:** `kentico-architect` maintains `projectBrief.md` accuracy and updates `progress.md` at major milestones. All strategic changes require architect sign-off.
+
+## 28. Architect-Centric Delegation Protocols
+
+### kentico-architect Mandatory Delegation Rules
+
+**Core Principle:** `kentico-architect` is a read-only advisor and strategic planner. NEVER edit implementation files directly. ALL implementation work MUST be delegated via `new_task`.
+
+**Delegation Targets by Task Type:**
+
+1. **Structural Changes & SCSS Updates → `frontend-dev`**
+   - Template modifications (`content/templates/*.yaml`)
+   - Component hierarchy changes
+   - SCSS rewrites (`dev/assets/css/scss/`)
+   - HTML semantic restructuring
+   - Figma-to-DOM parity implementations
+
+2. **Content & Data Mapping → `data-mapper`**
+   - YAML content updates (`content/pages/*.yaml`)
+   - Figma data extraction (copy, labels, dimensions)
+   - Schema validation and synchronization
+   - `placehold.co` dimension mapping
+
+3. **Validation & Testing → `qa-runner`**
+   - Build verification and chaining
+   - Puppeteer DOM math audits (tri-viewport)
+   - Regression detection
+   - Deployment verification
+
+**Handoff Protocol:**
+- Always update `memory/activeContext.md` BEFORE invoking `new_task`
+- Include: (1) architectural decision rationale, (2) specific file paths, (3) success criteria, (4) any constraints
+- Provide explicit guidance, not implementation details
+- Example: "Restructure `.hero` section to use CSS Grid (not Flexbox) to achieve 3-column layout on desktop, 2-column on tablet (768px), 1-column on mobile. Query Figma node `296:63` for exact spacing tokens."
+
+---
+
+### Agent Escalation Back to Architect
+
+**When to Escalate:** Any agent discovering architectural inconsistencies, scope creep, or cross-system dependencies MUST escalate back to `kentico-architect` BEFORE proceeding.
+
+**frontend-dev Escalation Triggers:**
+- Architectural decisions needed (e.g., "Should this component use Grid or Flexbox?")
+- Schema changes required (e.g., "Current YAML structure cannot express this variant")
+- Cross-component dependencies discovered (e.g., "This component depends on 3 other components' output")
+- Structural HTML changes that affect multiple templates
+- Figma design conflicts with current architecture
+- Performance implications requiring strategic review
+
+**Escalation Protocol:**
+```
+1. HALT implementation immediately
+2. Update memory/activeContext.md with:
+   - Exact problem statement
+   - File paths affected
+   - Why current architecture fails
+   - Proposed solution (if any)
+3. Invoke new_task in kentico-architect mode with:
+   - Specific architectural question
+   - Context from activeContext.md
+   - Request for strategic guidance
+4. WAIT for architect decision before resuming
+```
+
+**data-mapper Escalation Triggers:**
+- Structural HTML changes needed (e.g., "YAML schema requires new wrapper divs")
+- Template schema modifications required
+- Content cannot fit current component structure
+- Cross-template dependencies discovered
+- Figma data extraction reveals missing schema fields
+
+**Escalation Protocol:**
+```
+1. HALT YAML updates immediately
+2. Update memory/activeContext.md with:
+   - Exact YAML path and field
+   - Why current schema fails
+   - Required structural change
+3. Invoke new_task in frontend-dev mode with:
+   - Specific template file path
+   - Required HTML/schema change
+   - Content that needs to fit
+4. WAIT for frontend-dev to restructure template
+5. Resume YAML updates after template is ready
+```
+
+**qa-runner Escalation Triggers:**
+- Systematic failures across multiple components (not isolated bugs)
+- Architectural flaws discovered (e.g., "Grid layout breaks on all tablet viewports")
+- Major refactoring needed (e.g., "Entire component hierarchy needs restructuring")
+- Design conflicts with implementation (e.g., "Figma shows 3-column, but CSS Grid only renders 2")
+- Performance issues requiring architectural review
+
+**Escalation Protocol:**
+```
+1. RECORD exact failure in memory/activeContext.md:
+   - Component name
+   - Viewport (1440px/768px/375px)
+   - Expected vs. actual value
+   - Figma node ID reference
+2. Invoke new_task in kentico-architect mode with:
+   - Failure summary
+   - Architectural implications
+   - Request for strategic guidance
+3. DO NOT alert user
+4. WAIT for architect decision
+5. If frontend-dev needed, architect will invoke new_task
+```
+
+---
+
+### Escalation Trigger Matrix
+
+| Trigger | Agent | Escalate To | Action |
+|---------|-------|-------------|--------|
+| Scope creep beyond current task | Any | `kentico-architect` | Halt, update memory, invoke new_task |
+| Architectural inconsistencies | Any | `kentico-architect` | Halt, update memory, invoke new_task |
+| Cross-component dependencies | Any | `kentico-architect` | Halt, update memory, invoke new_task |
+| Strategic direction changes needed | Any | `kentico-architect` | Halt, update memory, invoke new_task |
+| Schema cannot express variant | `frontend-dev` | `kentico-architect` | Halt, update memory, invoke new_task |
+| Structural HTML changes needed | `data-mapper` | `frontend-dev` | Halt, update memory, invoke new_task |
+| Systematic failures (3+ components) | `qa-runner` | `kentico-architect` | Record failure, invoke new_task |
+| Design conflicts with implementation | `qa-runner` | `kentico-architect` | Record failure, invoke new_task |
+
+---
+
+### Memory Checkpoint Format for Escalations
+
+When escalating, use this format in `memory/activeContext.md`:
+
+```
+## Escalation Checkpoint
+- **From Agent:** [current agent name]
+- **To Agent:** [target agent name]
+- **Trigger:** [specific escalation trigger]
+- **Problem:** [exact issue statement]
+- **Files Affected:** [list of file paths]
+- **Blocking Issue:** [what prevents continuation]
+- **Required Decision:** [what architect/frontend-dev needs to decide]
+- **Context:** [relevant Figma node IDs, YAML paths, or error messages]
+```
+
+---
+
+### No Silent Failures Rule
+
+- **Escalation is NOT Failure:** Escalating to architect is a sign of good architecture, not failure.
+- **Autonomous Retry First:** Before escalating, agents MUST attempt 3 autonomous fixes (per Section 24).
+- **Only Escalate After 3 Strikes:** If 3 autonomous retries fail, escalate immediately.
+- **Architect Decides Next Steps:** Architect may request additional retries, delegate to different agent, or modify strategy.
+- **User Never Sees Escalations:** All escalations are internal. User is only notified of final success or unrecoverable errors.
+
+---
+
+### Architect Review Responsibilities
+
+`kentico-architect` MUST review and maintain:
+- `memory/projectBrief.md` (strategic charter)
+- `memory/progress.md` (milestone tracking)
+- `AGENTS.md` (agent role definitions)
+- `.clinerules` (execution rules)
+- `.roomodes` (mode configurations)
+- `.rooignore` (file access boundaries)
+- `.gitignore` (version control rules)
+- `README.md` (project documentation)
+
+**Review Frequency:** At task completion and before major phase transitions.
+**Update Authority:** Only `kentico-architect` can modify strategic documents. Other agents request changes via escalation.
+
+## 29. Cross-File Validation & Consistency Protocol
+
+**Strategic Document Interdependencies:** The following files form an integrated system and MUST be kept in sync:
+- `.clinerules` (execution rules and agent protocols)
+- `.gitignore` (version control boundaries)
+- `.rooignore` (file access restrictions)
+- `.roomodes` (agent mode definitions and model assignments)
+- `AGENTS.md` (agent role documentation)
+- `README.md` (project documentation)
+
+**Validation Rules:**
+
+1. **Model Consistency Audit:**
+   - Every agent mode in `.roomodes` MUST have a corresponding entry in `AGENTS.md` with matching model assignments
+   - If `.roomodes` specifies `anthropic/claude-haiku-4.5` (default), `AGENTS.md` MUST document it as the default model
+   - If `.roomodes` specifies `anthropic/claude-sonnet-4` (intensive/strategic), `AGENTS.md` MUST document the switching trigger
+   - Mismatches trigger immediate correction before task completion
+
+2. **Agent Role Alignment:**
+   - Every agent role defined in `AGENTS.md` MUST have a corresponding mode slug in `.roomodes`
+   - Role descriptions in `AGENTS.md` MUST match execution protocols in `.roomodes`
+   - File editing restrictions in `.clinerules` (Section 26) MUST align with agent capabilities in `.roomodes`
+
+3. **Port & Environment Constants:**
+   - Port 4000 (user preview) and Port 4001 (agent/testing) MUST be consistently referenced across all files
+   - Figma File Key `80i51JCUKVIrTZ8Zt9y73X` MUST appear in `.clinerules`, `AGENTS.md`, and `.roomodes`
+   - Any changes to port assignments or Figma keys MUST be updated in ALL three files simultaneously
+
+4. **Memory System References:**
+   - Triple-brief memory architecture (`memory/projectBrief.md`, `memory/activeContext.md`, `memory/progress.md`) MUST be documented in:
+     - `.clinerules` (Section 27)
+     - `AGENTS.md` (Triple-Brief Memory Architecture section)
+     - `.roomodes` (agent role definitions)
+   - Any changes to memory protocols MUST be synchronized across all three files
+
+5. **File Access Boundaries:**
+   - Agent file editing restrictions in `.clinerules` (Section 26) MUST be enforced by `.rooignore` patterns
+   - If an agent is forbidden from editing a file, that file MUST be blocked in `.rooignore` for that agent's context
+   - Changes to `.rooignore` MUST be reflected in `.clinerules` agent restrictions
+
+6. **Synchronization Protocol:**
+   - When editing any of these six files, ALWAYS check the others for consistency
+   - If a change affects multiple files, update ALL affected files in a single task
+   - Document cross-file dependencies in commit messages or task checkpoints
+   - Use `memory/activeContext.md` to track which files were modified and why
+
+7. **Validation Checklist (Before Task Completion):**
+   - [ ] All agent modes in `.roomodes` have matching entries in `AGENTS.md`
+   - [ ] Model assignments in `.roomodes` match documentation in `AGENTS.md`
+   - [ ] Dynamic switching triggers in `AGENTS.md` match `.roomodes` mode definitions
+   - [ ] Port numbers (4000, 4001) are consistent across all files
+   - [ ] Figma File Key `80i51JCUKVIrTZ8Zt9y73X` is present in all relevant files
+   - [ ] Triple-brief memory architecture is documented consistently
+   - [ ] Agent file restrictions in `.clinerules` align with `.roomodes` capabilities
+   - [ ] `.rooignore` patterns enforce `.clinerules` restrictions
+   - [ ] `README.md` reflects current agent roles and capabilities
+   - [ ] No contradictions between `.clinerules`, `.roomodes`, and `AGENTS.md`
