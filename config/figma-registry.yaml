@@ -1,0 +1,87 @@
+# Figma File Registry - Central source of truth for all Figma resources
+# This file manages all Figma design files used across the project
+# Last updated: 2026-09-14
+
+default: i-car-main-components
+
+files:
+  i-car-main-components:
+    key: "80i51JCUKVIrTZ8Zt9y73X"
+    name: "I-CAR Main Components"
+    description: "Primary component library and page designs for Kentico CMS"
+    owner: "Design Team"
+    last_updated: "2024-09-14"
+    status: "active"
+    project: "kentico-cms"
+    node_map:
+      hero-sections: "296:63"
+      form-components: "145:22"
+      card-layouts: "189:45"
+      navigation: "67:12"
+      buttons: "234:56"
+      typography: "345:67"
+    notes: "Primary design system for all CMS pages"
+
+  # Template for adding new Figma files
+  # i-car-marketing-pages:
+  #   key: "ABC123DEF456GHI789"
+  #   name: "I-CAR Marketing Pages"
+  #   description: "Landing pages and marketing materials"
+  #   owner: "Marketing Team"
+  #   last_updated: "2024-09-10"
+  #   status: "active"
+  #   project: "marketing-campaigns"
+  #   node_map:
+  #     landing-hero: "234:56"
+  #     cta-sections: "345:67"
+  #     testimonials: "456:78"
+  #   notes: "Marketing-specific designs"
+
+  # i-car-mobile-app:
+  #   key: "XYZ789ABC123DEF456"
+  #   name: "I-CAR Mobile App"
+  #   description: "Mobile application designs"
+  #   owner: "Product Team"
+  #   last_updated: "2024-09-05"
+  #   status: "development"
+  #   project: "mobile-app"
+  #   node_map:
+  #     app-navigation: "123:45"
+  #     course-cards: "234:56"
+  #     profile-screens: "345:67"
+  #   notes: "In active development"
+
+  # i-car-legacy-archive:
+  #   key: "OLD123LEGACY456"
+  #   name: "Legacy Designs Archive"
+  #   description: "Archived designs for reference only"
+  #   owner: "Design Team"
+  #   last_updated: "2024-08-01"
+  #   status: "archived"
+  #   project: null
+  #   notes: "Do not use for new development - reference only"
+
+# Project-specific mappings
+projects:
+  kentico-cms:
+    primary_file: "i-car-main-components"
+    fallback_files: []
+    description: "Kentico CMS content pages"
+
+  # marketing-campaigns:
+  #   primary_file: "i-car-marketing-pages"
+  #   fallback_files: ["i-car-main-components"]
+  #   description: "Marketing campaign pages"
+
+  # mobile-app:
+  #   primary_file: "i-car-mobile-app"
+  #   fallback_files: ["i-car-main-components"]
+  #   description: "Mobile application"
+
+# Instructions for adding new files:
+# 1. Add entry under 'files' section with unique key (use kebab-case)
+# 2. Include all required fields: key, name, description, owner, status
+# 3. Add node_map entries for important components
+# 4. Create project mapping if this is a new project
+# 5. Run validation: node dev/scripts/figma-registry.mjs validate
+# 6. Commit changes with descriptive message
