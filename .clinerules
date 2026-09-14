@@ -48,7 +48,7 @@
 - **QA Rejection:** If `qa-runner` detects a defect, it MUST NOT alert the user. It must invoke `new_task` to send the failure log back to `frontend-dev` for immediate remediation. The user is only notified upon 100% QA success.
 
 ## 29. Comprehensive QA Audit Protocol (Mandatory Checklist)
-- **HTML Structure Validation:** Verify HTML file contains proper `<html>`, `<head>`, `<body>`, and `<main>` elements. Files with only CSS/JS and no body content are CRITICAL FAILURES.
+- **HTML Structure Validation (Port 4001 Full-Page Testing Only):** When testing full pages on Port 4001, verify HTML file contains proper `<html>`, `<head>`, `<body>`, and `<main>` elements. NOTE: CMS fragments generated per Section 30 intentionally omit document structure for Kentico widget pasting and are NOT subject to this validation.
 - **Content Rendering Verification:** Confirm YAML content renders to DOM elements. Missing bullets, badges, H3 elements, or form fields indicate template engine failures.
 - **Salesforce Integration Audit:** Verify all required hidden fields (`oid`, `retURL`, `lead_source`, `Campaign_ID`, `recordType`) are present in forms.
 - **SEO Metadata Validation:** Check for page title, meta description, Open Graph tags, canonical URLs, and lang attributes.
