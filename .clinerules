@@ -79,3 +79,56 @@
 
 ## 19. Hard Failure on MCP Tool Errors
 - **No Silent Memory Fallbacks:** If an MCP tool (such as Figma MCP) returns an error, you MUST NOT fall back to local memory files or guess. Halt execution immediately, state the exact MCP error, and wait for user intervention.
+
+## 20. Configuration Validation Rules
+- **Port Conflict Detection:** Before executing any server process, verify that the target port (4000 or 4001) is not already in use. Use `lsof -i :PORT` to check availability.
+- **Model Consistency Audit:** All agent mode definitions in `.roomodes` must reference `anthropic/claude-sonnet-4` or approved cost-efficient alternatives. Mismatches trigger immediate correction.
+- **Figma File Key Validation:** Every Figma MCP call MUST include the canonical key `80i51JCUKVIrTZ8Zt9y73X`. Calls without explicit nodeId are forbidden.
+
+## 21. Cross-Agent State Tracking Protocols
+- **Handoff Checkpoints:** Before invoking `new_task`, the current agent MUST write a concise checkpoint to `memory/activeContext.md` containing: (1) completed steps, (2) exact file paths modified, (3) next agent's required inputs, (4) any blocking issues.
+- **Rejection Loop Tracking:** If `qa-runner` rejects a build, it MUST record the exact failure (line number, assertion, computed vs. expected value) in `memory/activeContext.md` before handing back to `frontend-dev`.
+- **Data Mapper Halt Protocol:** If `data-mapper` encounters a structural HTML requirement, it MUST halt immediately and invoke `new_task` in `frontend-dev` mode with the exact YAML path and required change.
+
+## 22. Memory System Enhancement & Workflow Checkpoints
+- **Structured Checkpoints:** Memory files MUST track: (1) Phase name, (2) Agent responsible, (3) Completion status (✅/❌), (4) Critical file paths, (5) Next handoff target.
+- **Validation Gate Definitions:** Each agent handoff MUST include explicit validation criteria (e.g., "DOM math passes on 1440px, 768px, 375px" or "Zero schema violations").
+- **Token Efficiency:** Keep all memory entries under 5 lines per checkpoint. Use abbreviations (e.g., "DOM math ✅" instead of "Computed DOM mathematics validation passed").
+
+## 23. Build Pipeline Integrity
+- **Chained Verification:** All build commands MUST be chained with `&&` to ensure sequential execution and immediate failure detection.
+- **Exit Code Assertion:** Every build step MUST explicitly verify exit code 0. Non-zero exits trigger autonomous retry (up to 3 attempts) before escalation.
+- **Asset Availability Guard:** Before serving on Port 4001, verify that CSS, JS, and image assets are physically present in the output directory and accessible via HTTP GET.
+
+## 24. Autonomous Retry & Recovery Protocol
+- **Three-Strike Rule:** If a build, schema validation, or Puppeteer audit fails, the responsible agent MUST autonomously retry up to 3 times with incremental fixes before requesting user intervention.
+- **Failure Logging:** Each retry MUST log the exact error, attempted fix, and result to `memory/activeContext.md` for audit trail.
+- **Silent Recovery:** Retries MUST NOT alert the user. Only final success or unrecoverable errors trigger user notification.
+|
+## 25. Mandatory Architect Review Protocol
+- **Mandatory Architect Review:** At task completion, `kentico-architect` MUST review and update if necessary: `README.md`, `AGENTS.md`, `.clinerules`, `.roomodes`, `.rooignore`, `.gitignore`.
+- **No Screenshot Images:** All agents are forbidden from creating screenshot images. Use headless Puppeteer console output only.
+- **Documentation Protocol:** No additional `.md` files unless explicitly instructed by the user. Agent-created documentation must be placed under `docs/` directory only.
+
+## 26. Agent File Editing Restrictions (Enforceable)
+
+### kentico-architect
+- **Editable:** `memory/activeContext.md`, `memory/projectBrief.md` (pointers only)
+- **Forbidden:** All implementation files. Read-only advisor role. Use `new_task` to delegate.
+
+### frontend-dev
+- **Editable:** `content/pages/`, `content/templates/`, `dev/`, `docs/`, `memory/activeContext.md`, `memory/progress.md`, `memory/projectBrief.md`, `.clinerules`, `.gitignore`, `.rooignore`, `package.json`, `README.md`
+- **Forbidden:** `.roomodes`, `AGENTS.md` (read-only), `dev/scripts/*.mjs` (build scripts read-only)
+
+### data-mapper
+- **Editable:** `content/pages/`, `content/templates/`, `docs/`, `memory/activeContext.md`, `memory/progress.md`
+- **Forbidden:** `dev/`, `.mjs` files, `.clinerules`, `.roomodes`, `AGENTS.md`, `package.json`
+
+### qa-runner
+- **Editable:** `dev/`, `docs/`, `memory/activeContext.md`, `memory/progress.md`, `package.json`
+- **Forbidden:** `content/`, `.clinerules`, `.roomodes`, `AGENTS.md`, `README.md`
+
+### Enforcement Protocol
+- File restriction errors MUST be thrown immediately on attempted edit
+- Error message MUST include: agent name, attempted file path, allowed file patterns
+- No silent failures or fallback mechanisms

@@ -18,7 +18,7 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
 
 ### 1. 🏗️ `kentico-architect` (Lead Architect)
 - **Role:** Read-Only Advisor & Schema Specifier.
-- **Model:** `anthropic/claude-3-5-sonnet-20241022`
+- **Model:** `anthropic/claude-sonnet-4`
 - **Execution Protocol:**
   1. Inspects legacy HTML, target Figma designs (File Key: `80i51JCUKVIrTZ8Zt9y73X`), and layout trees.
   2. Maps structural skeleton schemas (`content/templates/*.yaml`) and data schemas (`content/pages/*.yaml`).
@@ -29,7 +29,7 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
 
 ### 2. ⚡ `frontend-dev` (Implementation & DOM Math)
 - **Role:** Action-First Implementer & SCSS/Template Developer.
-- **Model:** `anthropic/claude-3-5-sonnet-20241022`
+- **Model:** `anthropic/claude-sonnet-4`
 - **Execution Protocol:**
   1. Queries live Figma MCP for Node IDs before writing SCSS (No blind CSS).
   2. Synthesizes 1:1 Content, Styling, and Functionality. Missing images MUST use `placehold.co`.
@@ -41,7 +41,7 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
 
 ### 3. 🗺️ `data-mapper` (Data Sync & Content Mapper)
 - **Role:** Cost-Efficient Data Mapper & YAML Synchronizer.
-- **Model:** `anthropic/claude-3-5-haiku-20241022` (or GPT-4o-mini)
+- **Model:** `anthropic/claude-sonnet-4`
 - **Execution Protocol:**
   1. Queries live Figma MCP (File Key: `80i51JCUKVIrTZ8Zt9y73X`) to extract copy, headlines, button labels, and `placehold.co` image dimensions.
   2. Updates `content/pages/*.yaml` without altering `.mjs` scripts.
@@ -52,7 +52,7 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
 
 ### 4. 🧪 `qa-runner` (Automation & Quality Gatekeeper)
 - **Role:** Terminal Verification & Regression Detector.
-- **Model:** `anthropic/claude-3-5-sonnet-20241022`
+- **Model:** `anthropic/claude-sonnet-4`
 - **Execution Protocol:**
   1. Executes chained build and validation checks (`node dev/scripts/build-cms-inline.mjs && npm run build:css`).
   2. Runs headless Puppeteer DOM math scripts on `http://localhost:4001`.

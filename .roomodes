@@ -17,7 +17,7 @@ customModes:
     groups:
       - read
       - mcp
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4
 
   # --- 2. DEVELOPMENT & CONTENT ---
   - slug: frontend-dev
@@ -39,7 +39,7 @@ customModes:
       - edit
       - mcp
       - command
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4
 
   # --- 3. DATA & YAML SYNC (COST-EFFICIENT) ---
   - slug: data-mapper
@@ -58,7 +58,7 @@ customModes:
       - edit
       - mcp
       - command
-    model: anthropic/claude-3-5-haiku-20241022
+    model: anthropic/claude-sonnet-4
 
   # --- 4. OPERATIONAL & QA RUNNER ---
   - slug: qa-runner
@@ -82,4 +82,4 @@ customModes:
       - edit
       - command
       - mcp
-    model: anthropic/claude-3-5-sonnet-20241022
+    model: anthropic/claude-sonnet-4

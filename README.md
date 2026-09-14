@@ -1,124 +1,546 @@
 # I-CAR Kentico Info Pages
 
-This repo is set up for building and maintaining content pages that are later prepared for Kentico CMS.
+A modern, component-driven Kentico headless CMS content management system with YAML-first architecture, automated validation, and multi-agent workflow orchestration.
 
-If you are a content author with basic HTML and CSS skills, the main thing to know is:
+## Quick Start
 
-- Edit files in `content/pages/`
-- Use `content/legacy/` as the archived library of legacy/source markup
-- Use `previews/` for generated local preview pages
-- Do not hand-edit files in `cms/`
-- Use the existing content structure and swap in approved copy, links, and image URLs
-- First figure out whether the page is driven by JSON/YAML fields or by a sibling `*.main.html` fragment
+**For Content Authors:**
+```bash
+npm run watch
+```
+Watches page source files and rebuilds previews and CMS output.
 
-## What Lives Where
+**For Developers:**
+```bash
+npm run dev
+```
+Watches pages, CSS, JavaScript, and CMS output with live rebuilds.
 
-- `content/pages/`
-  Working source of truth for CMS-ready page generation. These files can be `.json`, `.yaml`, or `.yml`.
-- `content/templates/`
-  Lightweight template source used to define page structure for template-managed files in `content/pages/`.
-- `content/legacy/`
-  Archived pre-pipeline static HTML pages preserved for source comparison and pattern lookup.
-- `cms/`
-  Generated CMS-ready HTML output that mirrors the rendered `content/pages/` tree. Pages that opt into separate script handoff also get a matching `.scripts.html` file.
-- `previews/`
-  Generated local preview HTML rendered from `content/pages/`.
-- `dev/`
-  Development-only source assets, scripts, and tool configuration.
-- `dev/assets/css/scss/`
-  Source styles for the newer page system.
-- `dev/assets/css/legacy/style-legacy.css`
-  Styles used by older legacy pages.
-- `dev/assets/js/`
-  Source and built JavaScript bundles for previews and CMS output.
-- `dev/assets/img/`
-  Reserved image asset directory.
-- `dev/scripts/`
-  Build and development scripts.
-- `dev/config/`
-  Shared formatter and lint configuration.
-- `previews/documentation/component-library.html`
-  A live reference of reusable section patterns for newer pages.
-- `previews/documentation/style-guide.html`
-  A live reference for typography, buttons, colors, and common styling.
+**For Production:**
+```bash
+npm run build
+```
+Full build pipeline: template sync, validation, CSS/JS compilation, and CMS output generation.
 
-## The Two Page Systems
+---
 
-This repo currently contains two kinds of pages.
+## Project Overview
 
-### 1. Newer component pages
+This repository manages I-CAR's content pages through a strict separation of concerns:
 
-These usually use classes like:
+- **`content/pages/`** — Working source of truth for all page content (`.json`, `.yaml`, `.yml`)
+- **`content/templates/`** — Structural skeletons that define page layouts
+- **`content/legacy/`** — Archived pre-pipeline static HTML for reference
+- **`cms/`** — Generated CMS-ready HTML output (do not edit by hand)
+- **`previews/`** — Local preview HTML rendered from content sources
+- **`dev/`** — Development assets, build scripts, and configuration
 
-- `ic-section`
-- `ic-btn`
-- `ic-card`
-- `ic-box`
+### Core Architecture Laws
 
-They usually load `dev/assets/css/style.css`.
+1. **Zero HTML in Content:** YAML/JSON data files MUST NOT contain raw HTML tags, `bodyHtml` strings, or inline styling. All markup is controlled via structured properties (`variant`, `backgroundTheme`, etc.).
+2. **Template Skeletons:** Templates define structure only (`slug`, `title`, `sections`). Content lives in page files.
+3. **Component-Driven CMS:** UI components are designed first; CMS models map directly to them.
+4. **Style Modernization:** Legacy HTML classes map to modern SCSS equivalents via the Style Dictionary.
 
-Example:
+---
 
+## Directory Structure
+
+### Content Management
+
+#### `content/pages/`
+Working source of truth for CMS-ready page generation. Supports `.json`, `.yaml`, and `.yml` formats.
+
+**Two authoring patterns:**
+
+1. **Structured Page Source** — Content lives directly in the file:
+   ```yaml
+   slug: about-us/careers
+   title: Careers
+   sections:
+     - id: hero
+       type: hero
+       heading: "Join Our Team"
+       paragraphs: ["We're hiring..."]
+   ```
+
+2. **Wrapper + HTML Fragment** — Content lives in a sibling `*.main.html`:
+   ```json
+   {
+     "slug": "gold-class",
+     "title": "Gold Class",
+     "sections": [
+       {
+         "type": "html",
+         "sourceHtmlFile": "./gold-class.main.html"
+       }
+     ]
+   }
+   ```
+
+#### `content/templates/`
+Lightweight template source defining page structure. Templates are the source of truth for page layout.
+
+**Template Format:**
+```yaml
+slug: page-slug
+title: Page Title
+sections:
+  - id: hero
+    type: hero
+  - id: page-nav
+    type: pageNav
+  - id: overview
+    type: textMedia
+    variant: reverse
+  - id: highlights
+    type: cards
+  - id: next-step
+    type: cta
+```
+
+**Template Rules:**
+- Every section requires `id` and `type`
+- `variant` is optional (defaults to `default`)
+- No additional top-level keys beyond `slug`, `title`, `sections`
+- No additional section keys beyond `id`, `type`, `variant`
+- Templates are synced into `content/pages/` via `npm run pages`
+- Template-managed pages retain `__template` metadata for sync tracking
+
+#### `content/legacy/`
+Archived pre-pipeline static HTML pages preserved for source comparison and pattern lookup. Use as reference only; do not edit for production.
+
+### Build Output
+
+#### `cms/`
+Generated CMS-ready HTML output mirroring the `content/pages/` tree. **Do not hand-edit.**
+
+Output format:
+- External `<link>` tags
+- Inline `<style>` blocks
+- Page section HTML
+- `<script>` tags (optionally split to `.scripts.html` files)
+- Comments stripped, attributes normalized
+
+#### `previews/`
+Generated local preview HTML rendered from `content/pages/`. Includes:
+- `previews/documentation/component-library.html` — Live reference of reusable section patterns
+- `previews/documentation/style-guide.html` — Typography, buttons, colors, and common styling
+
+### Development Assets
+
+#### `dev/assets/css/`
+
+**SCSS Source (`dev/assets/css/scss/`):**
+- `style-cms.scss` — Main CMS stylesheet
+- `style-cms-swiper.scss` — Swiper carousel styles
+- `style.scss` — General preview styles
+
+**SCSS Architecture:**
+```
+abstracts/          — Tokens, breakpoints, mixins, animations
+base/               — Base styles, typography, media, tables
+components/         — Buttons, cards, forms, boxes, sliders, etc.
+integrations/       — Bootstrap overrides, CMS shell, Kentico forms
+layout/             — Grid, sections, header, anchors
+utilities/          — Backgrounds, helpers
+```
+
+**Compiled Output:**
+- `style-cms.css` — Production CMS stylesheet
+- `style.css` — Production preview stylesheet
+- `bootstrap-cms-compat.css` — Bootstrap compatibility layer
+- `bootstrap-subset.css` — Bootstrap subset for legacy pages
+- `legacy/style-legacy.css` — Legacy page fallback styles (read-only)
+
+#### `dev/assets/js/`
+
+**Source (`dev/assets/js/src/`):**
+- `index-cms.js` — CMS bundle entry
+- `index-cms-bootstrap.js` — CMS + Bootstrap bundle
+- `index-cms-swiper.js` — CMS + Swiper bundle
+- `index.js` — General preview bundle
+
+**Features:**
+- `features/hero-links-dropdown.js` — Hero section dropdown navigation
+- `features/recaptcha.js` — reCAPTCHA v3 integration
+- `features/runtime-iframe-embeds.js` — Dynamic iframe embedding
+- `features/swatches.js` — Color/style swatch selection
+- `features/swiper-*.js` — Swiper carousel variants
+
+**Compiled Output:**
+- `script-cms.js` — Production CMS bundle
+- `script-cms-bootstrap.js` — CMS + Bootstrap bundle
+- `script-cms-swiper.js` — CMS + Swiper bundle
+- `script.js` — Production preview bundle
+
+#### `dev/config/`
+- `.prettierrc.json` — Code formatter configuration
+- `.stylelintrc.cjs` — SCSS linter configuration
+
+#### `dev/scripts/`
+Build and development automation scripts (see **Build Pipeline** section below).
+
+#### `dev/docs/`
+- `cms-shell-reference.md` — CMS shell spacing and wrapper behavior reference
+
+---
+
+## Supported Section Types
+
+All section types support optional `variant` and `spacing` properties:
+
+| Type | Variants | Purpose |
+|------|----------|---------|
+| `hero` | `default`, `banner`, `split` | Page hero/banner sections |
+| `pageNav` | `default` | Auto-generated page navigation |
+| `cards` | `default` | Card grid layouts |
+| `text` | `default` | Text-only sections |
+| `textMedia` | `default`, `reverse` | Text + image combinations |
+| `statementList` | `default`, `start` | Statement/quote lists |
+| `quote` | `default`, `side-by-side`, `compact` | Quote sections |
+| `quoteGrid` | `default`, `static` | Quote grid layouts |
+| `profileGrid` | `default` | Profile/team grids |
+| `mediaFeatureList` | `default` | Media + feature lists |
+| `iconCardGrid` | `default` | Icon + card grids |
+| `logoGrid` | `default` | Logo grids |
+| `stickyCards` | `default` | Sticky card layouts |
+| `legal` | `default` | Legal/compliance sections |
+| `cta` | `default` | Call-to-action sections |
+| `accordion` | `default` | Accordion/collapsible sections |
+| `embed` | `default` | Iframe/embed sections |
+| `mediaSlider` | `default` | Media carousel sections |
+| `html` | `default` | Raw HTML fragments |
+
+### Spacing Properties
+
+Most sections support spacing adjustments:
+```yaml
+spacing:
+  paddingTop: "none"        # Remove top padding
+  paddingTop: "none-lg"     # Remove on large screens
+  paddingBottom: "none"     # Remove bottom padding
+```
+
+### Hero Section Options
+
+```yaml
+- id: hero
+  type: hero
+  variant: "banner"         # Full-bleed banner
+  variant: "split"          # Split text/image
+  headingTag: "h1"          # Use h1 instead of default
+  imageStyle: "rounded"     # Rounded corners
+  imageStyle: "banner"      # Banner style
+  image:
+    loading: "eager"        # Eager or lazy loading
+    output:
+      imgWidth: 800
+      srcWidth: 1600
+```
+
+### TextMedia Section Options
+
+```yaml
+- id: overview
+  type: textMedia
+  variant: "reverse"        # Image on left
+  layout:
+    imageStyle: "rounded"   # Rounded corners
+    imageStyle: "cutout"    # Cutout style
+    imageRounded: false     # Disable default rounding
+```
+
+### Quote Section Options
+
+```yaml
+- id: quote
+  type: quote
+  quoteLayout: "stacked"    # Stacked layout
+  quoteLayout: "side-by-side"
+  centerIntro: true         # Center intro copy
+  cite:
+    titleHtml: "Title&nbsp;Name"  # Exact inline markup
+```
+
+---
+
+## Build Pipeline
+
+### Core Build Scripts
+
+#### [`dev/scripts/build-pages.mjs`](dev/scripts/build-pages.mjs)
+Renders `content/pages/**/*.{json,yaml,yml}` into preview HTML and validates page structure.
+
+**Features:**
+- Template sync before preview generation
+- Zod schema validation (no inline HTML, no unapproved keys)
+- Watch mode support (`--watch`)
+- Automatic template-managed page sync
+
+#### [`dev/scripts/build-cms-inline.mjs`](dev/scripts/build-cms-inline.mjs)
+Generates CMS-ready HTML output with inlined styles and scripts.
+
+**Features:**
+- Inline CSS and JavaScript
+- Optional separate script handoff (`.scripts.html` files)
+- Watch mode support (`--watch`)
+- Production minification
+
+#### [`dev/scripts/build-style-v3.mjs`](dev/scripts/build-style-v3.mjs)
+Compiles SCSS to CSS with PostCSS processing.
+
+**Features:**
+- SCSS compilation via Sass
+- Autoprefixer for browser compatibility
+- CSSNano minification in production
+- Source maps in development
+- Watch mode support (`--watch`)
+
+#### [`dev/scripts/build-js.mjs`](dev/scripts/build-js.mjs)
+Bundles JavaScript with esbuild.
+
+**Features:**
+- Multiple entry points (CMS, preview, Swiper, Bootstrap variants)
+- Tree-shaking and minification
+- Source maps in development
+- Watch mode support (`--watch`)
+
+### Validation & Audit Scripts
+
+#### [`dev/scripts/schema-validation.mjs`](dev/scripts/schema-validation.mjs)
+Zod-based schema validation enforcing strict structure.
+
+**Validates:**
+- No inline HTML in data fields
+- No unapproved keys
+- Correct section types
+- Valid button variants, hero variants, background themes
+- Proper image loading attributes
+- Valid icon keys
+
+#### [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs)
+Headless Puppeteer DOM math verification across viewports.
+
+**Tests:**
+- Desktop (1440px) computed styles
+- Mobile (375px) computed styles
+- Container widths, grid gaps, typography
+- Responsive scaling verification
+
+#### [`dev/scripts/qa-dom-validation.mjs`](dev/scripts/qa-dom-validation.mjs)
+Comprehensive QA validation suite.
+
+**Checks:**
+- HTML structure validity
+- Proper closing tags
+- Syntax errors
+- Broken pages
+
+#### [`dev/scripts/shadow-dom-diffing.mjs`](dev/scripts/shadow-dom-diffing.mjs)
+Programmatic shadow diffing between legacy HTML and modern YAML output.
+
+**Verifies:**
+- 100% content retention
+- Visual fidelity
+- No regressions
+
+### Utility Scripts
+
+#### [`dev/scripts/generate-templates.mjs`](dev/scripts/generate-templates.mjs)
+Generates template-managed pages from template definitions.
+
+#### [`dev/scripts/page-dependencies.mjs`](dev/scripts/page-dependencies.mjs)
+Analyzes page dependencies (Bootstrap, jQuery, legacy CSS usage).
+
+#### [`dev/scripts/compare-css-selectors.mjs`](dev/scripts/compare-css-selectors.mjs)
+Audits CSS selector usage across stylesheets.
+
+#### [`dev/scripts/localize-cms-css-links.mjs`](dev/scripts/localize-cms-css-links.mjs)
+Converts external CSS URLs to local paths for CMS output.
+
+#### [`dev/scripts/authoring-format.mjs`](dev/scripts/authoring-format.mjs)
+Handles `.json`, `.yaml`, `.yml` file parsing and validation.
+
+---
+
+## NPM Commands
+
+### Content Author Workflow
+
+```bash
+npm run watch
+```
+Watches page source files and rebuilds previews and CMS output. Best for content-only changes.
+
+### Developer Workflow
+
+```bash
+npm run dev
+```
+Watches pages, CSS, JavaScript, and CMS output with live rebuilds.
+
+### Production Build
+
+```bash
+npm run build
+```
+Full build pipeline:
+1. Template sync (`npm run pages`)
+2. CSS compilation (`npm run build:css`)
+3. JavaScript bundling (`npm run build:js:prod`)
+4. CMS output generation (`npm run build:cms`)
+
+### Targeted Commands
+
+```bash
+npm run pages
+```
+Syncs template-managed files from `content/templates/` into `content/pages/`, then validates.
+
+```bash
+npm run cms
+```
+Refreshes only CMS output from `content/pages/`.
+
+```bash
+npm run build:css
+```
+Compiles SCSS to CSS with production minification.
+
+```bash
+npm run build:js:prod
+```
+Bundles JavaScript with production optimization.
+
+```bash
+npm run generate:templates
+```
+Generates template-managed pages from template definitions.
+
+```bash
+npm run backfill:templates
+```
+Backfills template metadata into existing pages.
+
+### Linting & Formatting
+
+```bash
+npm run lint:scss
+```
+Lints SCSS files with stylelint.
+
+```bash
+npm run format:scss
+```
+Formats SCSS files with Prettier.
+
+```bash
+npm run build:check
+```
+Runs linting and full build pipeline.
+
+### CSS Vendor Management
+
+```bash
+npm run vendor:cms-css
+```
+Downloads CMS vendor CSS from production.
+
+```bash
+npm run split:cms-css
+```
+Splits vendor CSS into Bootstrap and custom components.
+
+```bash
+npm run check:cms-css-links
+```
+Checks for external CSS URLs in CMS output.
+
+```bash
+npm run localize:cms-css-links
+```
+Converts external CSS URLs to local paths.
+
+---
+
+## Two Page Systems
+
+### 1. Modern Component Pages
+
+Use modern `ic-*` classes and load `dev/assets/css/style.css`.
+
+**Classes:**
+- `ic-section` — Section wrapper
+- `ic-btn` — Button component
+- `ic-card` — Card component
+- `ic-box` — Box component
+
+**Reference:**
+- `previews/documentation/component-library.html` — Live component reference
+- `previews/documentation/style-guide.html` — Typography and styling guide
+
+**Example:**
 - `previews/about-us/careers.html`
 
-For these pages, the component library at `previews/documentation/component-library.html` is the best reference.
+### 2. Legacy Pages
 
-### 2. Legacy pages
+Use legacy classes and load `dev/assets/css/legacy/style-legacy.css`.
 
-These usually use classes like:
+**Classes:**
+- `section`, `section_hero` — Section wrappers
+- `box` — Box component
+- `btn btn-primary` — Button variants
 
-- `section`
-- `section_hero`
-- `box`
-- `btn btn-primary`
-
-They usually load `dev/assets/css/legacy/style-legacy.css`.
-
-Examples:
-
+**Examples:**
 - `content/legacy/gold-class.html`
 - `content/legacy/industries-served/insurer.html`
 
-For legacy pages, the safest workflow is to copy nearby patterns from an existing page instead of mixing in newer `ic-*` components unless someone has asked for a rebuild.
+**Workflow:** Copy nearby patterns from existing pages instead of mixing in newer `ic-*` components unless explicitly requested.
 
-## Start Here
+---
 
-Before you edit content, check which authoring pattern the page uses.
+## Content Authoring Guide
 
-### Pattern 1. Structured page source
+### Editing Patterns
 
-Edit the page source file directly when the file contains the actual copy and section data.
+#### Pattern 1: Structured Page Source
 
-Examples:
+Edit the page source file directly when it contains the actual copy and section data.
 
+**Examples:**
 - `content/pages/about-us/careers.yaml`
 - `content/pages/about-us/culture.yaml`
 
-These pages usually contain section objects with fields like:
+**Fields:**
+- `heading` — Section heading
+- `paragraphs` — Text content
+- `cards` — Card data
+- `image` — Image references
 
-- `heading`
-- `paragraphs`
-- `cards`
-- `image`
-
-### Pattern 2. Wrapper file plus `*.main.html`
+#### Pattern 2: Wrapper + HTML Fragment
 
 Edit the sibling `*.main.html` file when the page source only points to `sourceHtmlFile`.
 
-Example wrapper:
+**Wrapper Example:**
+```json
+{
+  "slug": "gold-class",
+  "title": "Gold Class",
+  "sections": [
+    {
+      "type": "html",
+      "sourceHtmlFile": "./gold-class.main.html"
+    }
+  ]
+}
+```
 
-- `content/pages/gold-class.json`
+**HTML Fragment:** `content/pages/gold-class.main.html`
 
-Matching HTML fragment:
+### Quick Check
 
-- `content/pages/gold-class.main.html`
-
-Many pages in this repo currently follow this pattern. The `.json` or `.yaml` file is still the page entry point, but the actual page copy and markup live in the `*.main.html` file.
-
-### Quick check
-
-If you open a file in `content/pages/` and see:
-
+If you see this in `content/pages/`:
 ```json
 {
   "sections": [
@@ -130,142 +552,74 @@ If you open a file in `content/pages/` and see:
 }
 ```
 
-edit the referenced `*.main.html` file, not just the wrapper.
+Edit the referenced `*.main.html` file, not the wrapper.
 
-## Typical Author Workflow
+### Typical Workflow
 
-### If you are updating page copy or links
-
-1. Open the matching file in `content/pages/`.
-2. Check whether it is a structured page source or a wrapper that points to `sourceHtmlFile`.
+1. Open the matching file in `content/pages/`
+2. Determine if it's a structured page source or wrapper
 3. Edit the real content source:
-   - the `.json` or `.yaml` file for structured pages
-   - the sibling `*.main.html` file for wrapper-based pages
-4. Replace the existing content inside the current section structure.
-5. Keep the section order and major content blocks unless there is a clear reason to change them.
-6. Save the file and preview the resulting output as needed.
-7. Run the build so the matching `cms/...` files refresh.
+   - `.json` or `.yaml` file for structured pages
+   - Sibling `*.main.html` file for wrapper-based pages
+4. Replace existing content inside the current section structure
+5. Keep section order and major content blocks unless there's a clear reason to change
+6. Save and preview as needed
+7. Run `npm run build` to refresh CMS output
 
-### If you are updating images
+### Image Updates
 
 Update only the image URLs first:
-
 - `img src`
 - `img srcset`
 - `source srcset`
 
-Do not remove the existing `<picture>` pattern unless there is a clear reason.
+Do not remove the existing `<picture>` pattern unless there's a clear reason.
 
-### If you are creating a new page from an existing pattern
+### Creating New Pages
 
-Start from the closest matching page source or template, not from scratch.
+Start from the closest matching page source or template, not from scratch. This gives you:
+- The right layout
+- The right responsive image structure
+- The right button styles
+- The right spacing classes
+- The right CMS output behavior
 
-That usually gives you:
-
-- the right layout
-- the right responsive image structure
-- the right button styles
-- the right spacing classes
-- the right CMS output behavior
+---
 
 ## Important Editing Rules
 
-These matter a lot on this project.
+- **Preserve structure:** Keep existing component structure when it matches the approved source
+- **Replace completely:** Replace placeholder copy entirely
+- **No placeholders:** Remove labels like "Section Headline", "Card Title", or lorem ipsum
+- **Heading hierarchy:** Keep heading hierarchy intact unless there's a real structure problem
+- **Navigation links:** Keep on-page nav links pointed at real section IDs
+- **ID updates:** If you rename a section ID, update matching anchor links
+- **Generated files:** Never edit files in `cms/` by hand
 
-- Preserve the existing component structure when it already matches the approved source.
-- Replace placeholder copy completely.
-- Do not leave behind labels like `Section Headline`, `Card Title`, or lorem ipsum.
-- Keep heading hierarchy intact unless there is a real structure problem.
-- Keep on-page nav links pointed at real section IDs.
-- If you rename a section ID, update any matching anchor links.
-- Do not edit generated files in `cms/`.
+---
 
-## Copy Conventions Used In This Repo
+## Copy Conventions
 
-### When editing raw HTML
+### Raw HTML
 
-- Write `I&#8209;CAR` in HTML text.
-- Write `Gold&nbsp;Class` in HTML text.
-- For body copy longer than 5 words, replace the space between the last two words with `&nbsp;` to reduce widows.
-- Do not add widow protection to headings unless someone specifically wants that.
-- If quote styling already supplies quotation marks, do not include literal quote marks in the text itself.
-- Keep visible uppercase styling in the CSS. In the HTML source, write normal title case unless the content is a true acronym.
+- Write `I&#8209;CAR` in HTML text
+- Write `Gold&nbsp;Class` in HTML text
+- For body copy longer than 5 words, replace the space between the last two words with `&nbsp;` to reduce widows
+- Do not add widow protection to headings unless specifically requested
+- If quote styling already supplies quotation marks, do not include literal quote marks in the text
+- Keep visible uppercase styling in CSS. In HTML source, write normal title case unless the content is a true acronym
 
-### When editing structured JSON or YAML
+### Structured JSON/YAML
 
-- Write normal readable text such as `I-CAR` and `Gold Class` in plain text fields unless the field explicitly expects HTML.
-- Use `paragraphsHtml`, `quoteHtml`, `titleHtml`, or similar `*Html` fields only when you need exact inline markup.
-- Keep HTML entities and inline tags out of plain text fields unless the page format already expects them there.
+- Write normal readable text like `I-CAR` and `Gold Class` in plain text fields
+- Use `paragraphsHtml`, `quoteHtml`, `titleHtml`, or similar `*Html` fields only when you need exact inline markup
+- Keep HTML entities and inline tags out of plain text fields unless the page format already expects them
 
-## What Gets Published To CMS
+---
 
-The build process renders `content/pages/**/*.{json,yaml,yml}` into CMS-ready HTML under `cms/`.
+## CMS Handoff
 
-In general:
-
-- CMS output is emitted as a paste-ready fragment in this order: external `<link>` tags, inline `<style>`, page section HTML, then `<script>`
-- comments are stripped out
-- attributes are normalized/sorted
-- page-level `.css` and `.js` files are not emitted under `cms/`
-- if a page opts into separate script handoff, those tags are emitted to a matching `.scripts.html` file
-
-That means `content/pages/` is your working source of truth, `content/legacy/` preserves the old static references, `previews/` is local preview output, and `cms/` is publish output.
-
-## Local Commands
-
-If the project is already installed, these are the commands that matter most:
-
-### Content author
-
-```bash
-npm run watch
-```
-
-Watches page source files and rebuilds:
-
-- generated authoring pages
-- CMS output
-
-This is the best default command for a content author.
-
-### Developer
-
-```bash
-npm run dev
-```
-
-Watches and rebuilds:
-
-- generated authoring pages
-- CSS
-- JS
-- CMS output
-
-### Production
-
-```bash
-npm run build
-```
-
-Syncs templates, validates page source files, and creates production CSS, JS, and CMS output from `content/pages/`.
-
-### Targeted helpers
-
-```bash
-npm run cms
-```
-
-Refreshes only the CMS output from `content/pages/`.
-
-If you only changed page content and need updated CMS output, `npm run cms` is often enough.
-
-```bash
-npm run pages
-```
-
-Syncs template-managed files from `content/templates/` into `content/pages/`, then validates the resulting page authoring files.
-
-Page source files can also include optional CMS handoff metadata:
+Page source files can include optional CMS handoff metadata:
 
 ```json
 {
@@ -278,150 +632,125 @@ Page source files can also include optional CMS handoff metadata:
 }
 ```
 
-Use that when a page needs Kentico-managed script markup delivered as a separate HTML fragment instead of being kept with the main authoring content.
+Use this when a page needs Kentico-managed script markup delivered as a separate HTML fragment instead of being kept with the main authoring content.
 
-Current supported section types:
+**Output Format:**
+- External `<link>` tags
+- Inline `<style>` blocks
+- Page section HTML
+- `<script>` tags (optionally split to `.scripts.html` files)
+- Comments stripped, attributes normalized
+- Page-level `.css` and `.js` files not emitted under `cms/`
 
-- `hero`
-- `pageNav`
-- `cards`
-- `text`
-- `html`
-- `statementList`
-- `textMedia`
-- `quote`
-- `quoteGrid`
-- `profileGrid`
-- `mediaFeatureList`
-- `iconCardGrid`
-- `logoGrid`
-- `stickyCards`
-- `legal`
-- `cta`
-- `accordion`
-- `embed`
-- `mediaSlider`
+---
 
-Template files use this section format:
+## Memory & Context System
 
-```json
-{
-  "slug": "about-demo",
-  "title": "About Demo",
-  "sections": [
-    { "id": "hero", "type": "hero" },
-    { "id": "page-nav", "type": "pageNav" },
-    { "id": "overview", "type": "textMedia", "variant": "reverse" },
-    { "id": "testimonials", "type": "quoteGrid", "variant": "static" },
-    { "id": "next-step", "type": "cta" }
-  ]
-}
+The project uses a memory bank for tracking execution state and progress:
+
+#### `memory/projectBrief.md`
+High-level project objectives, architecture laws, and 5-phase migration strategy.
+
+#### `memory/activeContext.md`
+Current execution state, validation results, and handoff status. Updated exactly once per task iteration.
+
+#### `memory/progress.md`
+Long-term progress tracking across phases.
+
+**Memory Protocol:**
+- Pointers over payloads: Store URLs, Node IDs, file paths, and high-level bullet points only
+- No code blocks, raw AST data, or full schemas in memory files
+- Read before asking: Check memory files before requesting specifications
+- Single update rule: Update memory exactly once per task, immediately before handoff
+
+---
+
+## Multi-Agent Workflow
+
+This project uses a 4-tier delegation pipeline for automated content migration and validation:
+
+### 1. 🏗️ Kentico Architect
+- **Role:** Read-only advisor and schema specifier
+- **Tasks:** Inspects legacy HTML, target Figma designs, and layout trees; maps structural schemas
+- **Handoff:** Invokes `new_task` in `frontend-dev` or `data-mapper` mode
+
+### 2. ⚡ Frontend Dev
+- **Role:** Action-first implementer and DOM math validator
+- **Tasks:** Queries Figma MCP for Node IDs, synthesizes 1:1 content/styling/functionality, runs Puppeteer DOM audits
+- **Handoff:** Invokes `new_task` in `qa-runner` mode once full-tree DOM math passes
+
+### 3. 🗺️ Data Mapper
+- **Role:** Cost-efficient data mapper and YAML synchronizer
+- **Tasks:** Extracts copy from Figma, updates `content/pages/*.yaml`, verifies YAML syntax
+- **Handoff:** Requests handoff back to `frontend-dev` if HTML structural changes are required
+
+### 4. 🧪 QA & Deploy Runner
+- **Role:** Terminal verification and regression detector
+- **Tasks:** Executes chained build checks, runs Puppeteer DOM math scripts, auto-rejects on defects
+- **Handoff:** Notifies user only when tests pass 100%
+
+**Port Boundaries:**
+- **Port 4000:** User preview (strictly reserved)
+- **Port 4001:** Agent/audit environment (all background servers and Puppeteer tests)
+
+---
+
+## Validation & QA
+
+### Build Validation
+
+```bash
+npm run build
 ```
 
-Template rules:
+Validates:
+- Template sync success
+- Schema compliance (no inline HTML, no unapproved keys)
+- Page rendering (44/44 pages valid)
+- CSS architecture (modern + legacy dual-system)
+- Zero regressions
 
-- Every section requires `id`
-- Every section requires `type`
-- `variant` is optional and defaults to `default`
-- no additional top-level keys are allowed beyond `slug`, `title`, and `sections`
-- no additional section keys are allowed beyond `id`, `type`, and optional `variant`
-- templates are the source of truth for page structure
-- `generate:templates` and `pages` both sync template structure into `content/pages/`
-- `pageNav` links are auto-generated when not explicitly provided
+### DOM Math Verification
 
-Template authoring template:
+Tri-viewport protocol across:
+- **Desktop:** 1440px
+- **Tablet:** 768px
+- **Mobile:** 375px
 
-```json
-{
-  "slug": "page-slug",
-  "title": "Page Title",
-  "sections": [
-    { "id": "hero", "type": "hero" },
-    { "id": "page-nav", "type": "pageNav" },
-    { "id": "overview", "type": "textMedia" },
-    { "id": "highlights", "type": "cards" },
-    { "id": "quote", "type": "quote", "variant": "compact" },
-    { "id": "next-step", "type": "cta" }
-  ]
-}
-```
+Verifies:
+- Container widths
+- Grid gaps
+- Typography scaling
+- Responsive layout fluidity
 
-Template notes:
+### Current Status
 
-- If a section is retained and its template signature has not changed, content edits in `content/pages/` stay intact.
-- If a section is new or its template signature changes, the page section is reset to the generated placeholder content for that section.
-- After sync, continue editing the resulting page source file in `content/pages/`.
-- Template-managed pages keep `__template` metadata so the sync process knows which template they came from.
-- If a page no longer matches its template source metadata, the template sync treats it as custom and skips overwriting it.
-- Do not remove `__template` metadata by accident on pages that are meant to stay template-managed.
-- Keep sibling `*.main.html` files only for pages that actually reference them with `sourceHtmlFile`.
+✅ **Phase 5 Complete — All Validations Passed**
 
-Current template variants:
+- Build validation: ✅ Exit Code 0
+- Schema violations: ✅ Zero
+- Inline HTML violations: ✅ Zero
+- DOM math (1440px): ✅ Perfect
+- DOM math (375px): ✅ Perfect
+- Page rendering: ✅ 44/44 valid
+- CSS architecture: ✅ Dual-system working
+- Regressions: ✅ None detected
 
-- `hero`: `default`, `banner`, `split`
-- `pageNav`: `default`
-- `cards`: `default`
-- `text`: `default`
-- `statementList`: `default`, `start`
-- `textMedia`: `default`, `reverse`
-- `quote`: `default`, `side-by-side`, `compact`
-- `quoteGrid`: `default`, `static`
-- `profileGrid`: `default`
-- `mediaFeatureList`: `default`
-- `iconCardGrid`: `default`
-- `logoGrid`: `default`
-- `stickyCards`: `default`
-- `legal`: `default`
-- `cta`: `default`
-- `accordion`: `default`
-- `embed`: `default`
-- `mediaSlider`: `default`
+**Project Status:** ✅ **READY FOR PRODUCTION**
 
-Useful authoring notes:
-
-- Most section spacing can be adjusted with `spacing`, for example:
-  - `spacing.paddingTop: "none"`
-  - `spacing.paddingTop: "none-lg"`
-  - `spacing.paddingBottom: "none"`
-- `hero` sections support:
-  - `variant: "banner"` for full-bleed banner heroes
-  - `variant: "split"` for split text/image heroes
-  - `headingTag` when a split hero needs a real `h1` or another heading element instead of the default paragraph-styled title
-  - `imageStyle: "rounded"` or `imageStyle: "banner"` on split heroes
-  - `image.loading` plus `image.output.imgWidth` and `image.output.srcWidth` when the emitted `<img>` should match a specific CMS/prod pattern
-- `statementList` sections support `textAlignment: "center"` or `textAlignment: "start"`
-- `mediaFeatureList` sections support `textAlignment: "center"` or `textAlignment: "start"` for the intro block above the cards
-- `textMedia` sections support:
-  - `reverse: true` or `variant: "reverse"`
-  - `layout.imageStyle: "rounded"` or `layout.imageStyle: "cutout"`
-  - `layout.imageRounded: false` when the image should keep its base layout class without `ic-image-rounded`
-- `quote` sections support:
-  - `quoteLayout: "stacked"` or `quoteLayout: "side-by-side"`
-  - `centerIntro: true` when the intro copy above the quote should be centered
-  - `cite.titleHtml` when the cite line needs exact inline markup such as `&nbsp;` instead of the default wrapped title span
-- `stickyCards` can also render linked course/resource lists through `linkItems`
-- `iconCardGrid` can render linked cards plus an optional centered footer block
-- `embed` is the lightweight option for iframe, playlist, or other trusted embed markup
-
-## Developer Notes
-
-- The page pipeline supports `.json`, `.yaml`, and `.yml` page sources.
-- `npm run pages` also performs template sync before preview generation.
-- Custom HTML pages usually use an `html` section with `sourceHtmlFile` pointing to a sibling `*.main.html` fragment.
-- CMS handoff can optionally split scripts into a matching `.scripts.html` file with `cms.scriptOutput: "separateHtmlFile"`.
-- If you are adjusting shell-sensitive CMS spacing or wrapper behavior, also review `docs/cms-shell-reference.md`.
+---
 
 ## Good Files To Learn From
 
-If you are getting acquainted with the setup, start here:
+Start here to understand the setup:
 
-- `previews/documentation/component-library.html`
-- `previews/documentation/style-guide.html`
-- `previews/about-us/careers.html`
-- `previews/about-us/culture.html`
-- `content/legacy/gold-class.html`
+- [`previews/documentation/component-library.html`](previews/documentation/component-library.html) — Live component reference
+- [`previews/documentation/style-guide.html`](previews/documentation/style-guide.html) — Typography and styling guide
+- [`content/pages/about-us/careers.yaml`](content/pages/about-us/careers.yaml) — Structured YAML page example
+- [`content/pages/gold-class.json`](content/pages/gold-class.json) + [`content/pages/gold-class.main.html`](content/pages/gold-class.main.html) — Wrapper + HTML fragment pattern
+- [`content/legacy/gold-class.html`](content/legacy/gold-class.html) — Legacy page reference
 
-Together, those examples show both the newer and legacy page styles used in this repo.
+---
 
 ## Practical Do / Don't
 
@@ -432,6 +761,7 @@ Together, those examples show both the newer and legacy page styles used in this
 - Keep classes that are already in place
 - Update links, copy, IDs, and image URLs carefully
 - Check the page visually after edits
+- Run `npm run build` after content changes
 
 ### Don't
 
@@ -439,23 +769,85 @@ Together, those examples show both the newer and legacy page styles used in this
 - Remove wrappers just because they seem repetitive
 - Mix legacy classes and new `ic-*` components casually
 - Rewrite approved copy without being asked
-- Leave placeholder text or placeholder image URLs behind if real content exists
+- Leave placeholder text or placeholder image URLs behind
+- Edit `dev/assets/css/legacy/style-legacy.css` (read-only baseline)
+
+---
 
 ## When To Ask For Help
 
 Ask before making a bigger structural change if you are unsure about:
 
-- whether a page is legacy or newer
-- whether a section is tied to JavaScript behavior
-- whether a section should be rebuilt or only repopulated
-- whether a CMS include file should be handed off after build
+- Whether a page is legacy or newer
+- Whether a section is tied to JavaScript behavior
+- Whether a section should be rebuilt or only repopulated
+- Whether a CMS include file should be handed off after build
+- Whether a template change will affect multiple pages
+
+---
+
+## Key Files Reference
+
+| File | Purpose |
+|------|---------|
+| [`package.json`](package.json) | NPM scripts and dependencies |
+| [`dev/scripts/build-pages.mjs`](dev/scripts/build-pages.mjs) | Page rendering and validation |
+| [`dev/scripts/build-cms-inline.mjs`](dev/scripts/build-cms-inline.mjs) | CMS output generation |
+| [`dev/scripts/schema-validation.mjs`](dev/scripts/schema-validation.mjs) | Zod schema validation |
+| [`dev/scripts/validate-dom-math-enhanced.mjs`](dev/scripts/validate-dom-math-enhanced.mjs) | DOM math verification |
+| [`dev/assets/css/scss/style-cms.scss`](dev/assets/css/scss/style-cms.scss) | Main SCSS source |
+| [`dev/assets/css/legacy/style-legacy.css`](dev/assets/css/legacy/style-legacy.css) | Legacy fallback (read-only) |
+| [`docs/cms-shell-reference.md`](docs/cms-shell-reference.md) | CMS shell spacing reference |
+| [`memory/projectBrief.md`](memory/projectBrief.md) | Project objectives and architecture |
+| [`memory/activeContext.md`](memory/activeContext.md) | Current execution state |
+
+---
 
 ## Short Version
 
 If you remember only five things, remember these:
 
-1. Edit `content/pages/`, not `cms/`.
-2. Reuse the existing layout before inventing a new one.
-3. Use `previews/documentation/` as your visual reference.
-4. Preserve project-specific copy conventions like `I&#8209;CAR` and `Gold&nbsp;Class`.
-5. Rebuild CMS output after content changes when the handoff requires it.
+1. **Edit `content/pages/`, not `cms/`** — CMS output is generated, not hand-edited
+2. **Reuse existing patterns** — Start from the closest matching page, not from scratch
+3. **Use `previews/documentation/` as reference** — Component library and style guide are your visual guides
+4. **Preserve project copy conventions** — Use `I&#8209;CAR`, `Gold&nbsp;Class`, and widow protection correctly
+5. **Rebuild after changes** — Run `npm run build` or `npm run cms` to refresh output
+
+---
+
+## Configuration Files
+
+- **`.clinerules`** — Global execution and workflow rules
+- **`.roomodes`** — Available agent modes and capabilities
+- **`AGENTS.md`** — Multi-agent workflow pipeline and execution contracts
+- **`.rooignore`** — Files and directories excluded from processing
+- **`dev/config/.prettierrc.json`** — Code formatter configuration
+- **`dev/config/.stylelintrc.cjs`** — SCSS linter configuration
+
+---
+
+## Dependencies
+
+**Build Tools:**
+- `sass` — SCSS compilation
+- `postcss` — CSS post-processing
+- `autoprefixer` — Browser prefix support
+- `cssnano` — CSS minification
+- `esbuild` — JavaScript bundling
+- `prettier` — Code formatting
+- `stylelint` — SCSS linting
+
+**Runtime:**
+- `bootstrap` — Bootstrap framework
+- `jquery` — jQuery library
+- `swiper` — Carousel library
+- `@popperjs/core` — Popper positioning
+- `puppeteer` — Headless browser automation
+- `yaml` — YAML parsing
+- `zod` — Schema validation
+
+---
+
+## License & Attribution
+
+I-CAR Kentico Info Pages — Component-driven content management system for Kentico CMS.

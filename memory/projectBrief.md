@@ -1,7 +1,7 @@
 # Project Brief: Kentico Headless Component & Style Migration
 
 ## 1. Executive Objective
-Migrate the legacy Kentico headless codebase (`I-CAR/kentico-content`, branch `content_cleanup`) from unformatted `main.html` + `.json` pairings to a strict, component-driven YAML architecture. Retire legacy CSS styling in favor of modern SCSS modules, and automate validation using a zero-hallucination DOM math verification suite on Port 3001.
+Migrate the legacy Kentico headless codebase (`I-CAR/kentico-content`, branch `content_cleanup`) from unformatted `main.html` + `.json` pairings to a strict, component-driven YAML architecture. Retire legacy CSS styling in favor of modern SCSS modules, and automate validation using a zero-hallucination DOM math verification suite on Port 4001.
 
 ## 2. Core Architecture Laws
 - **Zero HTML in Content:** YAML data files (`content/pages/*.yaml`) MUST NOT contain raw HTML tags, `bodyHtml` strings, or inline styling. Layouts and variants are controlled strictly via structured YAML properties (e.g., `variant: "primary"`, `backgroundTheme: "dark"`).
@@ -18,6 +18,6 @@ Migrate the legacy Kentico headless codebase (`I-CAR/kentico-content`, branch `c
 
 ## 4. Execution Environment & Safety
 - **Target Repository:** `I-CAR/kentico-content` (`content_cleanup` branch).
-- **Port Isolation:** Port 3000 = User Preview. Port 3001 = Agent Dev Server & Headless Testing.
+- **Port Isolation:** Port 4000 = User Preview. Port 4001 = Agent Dev Server & Headless Testing.
 - **Headless MCP Execution:** Puppeteer executes in silent background mode (`--headless=new`). `browser_action` is permanently disabled.
 - **Token Efficiency:** Memory tracking files (`memory/activeContext.md`) store pointers only (URLs, Node IDs, file paths), updated exactly ONCE per task iteration.
