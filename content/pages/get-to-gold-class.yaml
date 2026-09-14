@@ -1,0 +1,240 @@
+slug: get-to-gold-class
+title: Get to Gold Class
+sections:
+  - id: hero
+    type: hero
+    heading: Gold Class Sets You Apart
+    variant: split
+    imageStyle: rounded
+    paragraphs:
+      - Build Your Path to Gold Class
+      - >-
+        Every shop starts in a different place. Tell us about your goals, and we'll create a custom training plan that
+        supports Gold Class and network opportunities.
+    bullets:
+      - 11,000+ participating shops
+      - Industry-recognized training standards
+      - Dedicated support from I-CAR specialists
+    image:
+      alt: Gold Class Hero Background
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1000x900
+        mobile:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1000x900
+      height:
+        desktop: "900"
+        mobile: "550"
+    spacing:
+      paddingTop: none
+    badge:
+      alt: Gold Class Badge
+      src: https://placehold.co/250x231
+      width: "250"
+      height: "231"
+    form:
+      action: https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D1I0000002nE3
+      recaptchaKey: 6LcElycqAAAAAC0ySersTFFTY_QW-x_9Kf8T4v9j
+      fields:
+        - name: first_name
+          label: First Name
+          type: text
+          required: true
+        - name: last_name
+          label: Last Name
+          type: text
+          required: true
+        - name: email
+          label: Email Address
+          type: email
+          required: true
+      submitLabel: Let's Get Started
+      privacyText: >-
+        *Your information is never shared. By clicking "Submit," you agree to the [I‑CAR® Privacy
+        Policy](https://info.i-car.com/about-us/governance/policies/privacy).*
+    __template:
+      id: hero
+      type: hero
+      variant: split
+      signature: b1e748887304b3a8ccf826641f8bb81f867fabe3
+  - id: testimonials
+    type: quoteGrid
+    heading: Testimonials
+    paragraphs: []
+    quotes:
+      - quote: We take pride in the Gold Class designation and the level of professionalism and dedication it represents.
+        name: Casey Montgomery
+        title: Baierl Collision
+        location: Wexford, PA
+        image:
+          alt: Casey Montgomery
+          desktopSrc: https://placehold.co/250x39
+          desktopSrcset: https://placehold.co/250x39 250w
+          width: "250"
+          height: "39"
+          sizes: 250px
+      - quote: >-
+          Every customer who trusts us with their vehicle deserves proof that we're invested in excellence, safety, and
+          continuous improvement.
+        name: Junior Avilez
+        title: Last Touch Collision
+        location: Bakersfield, CA
+        image:
+          alt: Junior Avilez
+          desktopSrc: https://placehold.co/250x39
+          desktopSrcset: https://placehold.co/250x39 250w
+          width: "250"
+          height: "39"
+          sizes: 250px
+      - quote: >-
+          Ongoing training ensures shops stay current with evolving vehicle technology, design, construction, and repair
+          requirements.
+        name: James Norton
+        title: Norton's Body Shop
+        location: Clarks Summit, PA
+        image:
+          alt: James Norton
+          desktopSrc: https://placehold.co/250x39
+          desktopSrcset: https://placehold.co/250x39 250w
+          width: "250"
+          height: "39"
+          sizes: 250px
+    __template:
+      id: testimonials
+      type: quoteGrid
+      variant: default
+      signature: 41a182cfcfb82bbeac4eb4fca1a85a3156abd67a
+  - id: benefits
+    type: textMedia
+    heading: What You Get with I-CAR Gold Class
+    paragraphs: []
+    items:
+      - title: Training trusted by 10,000+ shops
+        description: >-
+          Stay current with evolving vehicle technology and build the skills needed to perform complete, safe, and
+          quality repairs.
+      - title: Industry-recognized repair standards
+        description: >-
+          Strengthen your reputation as a top-tier collision repair provider and demonstrate your commitment to
+          excellence.
+      - title: Dedicated support from I-CAR specialists
+        description: >-
+          Get personalized guidance from I-CAR specialists every step of your journey to achieve and maintain Gold
+          Class.
+    image:
+      alt: Gold Class Journey
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/645x500
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/645x500
+      height:
+        desktop: "500"
+        mobile: "450"
+    __template:
+      id: benefits
+      type: textMedia
+      variant: default
+      signature: 6f083f5cd171a88a9ee206f21e262a3d27bd825f
+  - id: value-props
+    type: iconCardGrid
+    heading: Stay Ahead of Evolving Vehicle Technology
+    paragraphs: []
+    cards:
+      - heading: Build a more capable and aligned team that delivers consistent work
+        paragraphs: []
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
+          </svg>
+      - heading: Create greater consistency to improve shop efficiency
+        paragraphs: []
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
+          </svg>
+      - heading: Strengthen your foundation for sustainable, long-term growth
+        paragraphs: []
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
+          </svg>
+    __template:
+      id: value-props
+      type: iconCardGrid
+      variant: default
+      signature: 783adb0f8c5b3ac33c2d1241cb5d7d9dd69bbeda
+  - id: faq
+    type: accordion
+    heading: FAQ
+    paragraphs: []
+    items:
+      - title: How do I know if Gold Class is right for my shop?
+        paragraphs:
+          - >-
+            Gold Class is designed for collision repair shops of all sizes that are committed to excellence, continuous
+            improvement, and staying current with evolving vehicle technology.
+      - title: Can smaller collision repair shops earn Gold Class recognition?
+        paragraphs:
+          - >-
+            Yes. Gold Class is available to shops of all sizes. The program focuses on your commitment to training,
+            quality standards, and continuous improvement rather than shop size.
+      - title: How long does it take to achieve Gold Class?
+        paragraphs:
+          - >-
+            The timeline varies based on your shop's starting point and training needs. I-CAR specialists will work with
+            you to create a custom plan that fits your goals and timeline.
+      - title: Does Gold Class help meet OEM or insurance network requirements?
+        paragraphs:
+          - >-
+            Yes. Gold Class training and certification help shops meet many OEM and insurance network requirements for
+            quality and safety standards.
+      - title: Can I speak with an advisor before getting started?
+        paragraphs:
+          - >-
+            Absolutely. I-CAR specialists are available to discuss your shop's needs and create a personalized Gold
+            Class plan. Submit the form above to connect with an advisor.
+    __template:
+      id: faq
+      type: accordion
+      variant: default
+      signature: b3f7752995a391fd14163c1072798a8d759a43d2
+  - id: footer-cta
+    type: textMedia
+    heading: Ready to Determine if Gold Class Is Right for Your Shop?
+    paragraphs:
+      - >-
+        Gold Class helps you build a more capable team, improve consistency, and demonstrate your commitment to
+        complete, safe, and quality repairs.
+    buttons: []
+    image:
+      alt: Gold Class Logo
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/264x246
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/264x246
+      height:
+        desktop: "246"
+        mobile: "246"
+    __template:
+      id: footer-cta
+      type: textMedia
+      variant: default
+      signature: 956cd19404ccb1afd5d2e3f5b2103759f63d08cc
+__template:
+  source: get-to-gold-class.yaml
+  signature: ad2ca63f58f1d06e906ea39cdfb161ee4db4b5d3
+

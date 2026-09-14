@@ -1,0 +1,21 @@
+slug: get-to-gold-class
+title: Get to Gold Class
+sections:
+  - id: hero
+    type: hero
+    variant: split
+  - id: testimonials
+    type: quoteGrid
+    variant: default
+  - id: benefits
+    type: textMedia
+    variant: default
+  - id: value-props
+    type: iconCardGrid
+    variant: default
+  - id: faq
+    type: accordion
+    variant: default
+  - id: footer-cta
+    type: textMedia
+    variant: default
