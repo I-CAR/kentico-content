@@ -388,3 +388,75 @@ When escalating, use this format in `memory/activeContext.md`:
    - [ ] `.rooignore` patterns enforce `.clinerules` restrictions
    - [ ] `README.md` reflects current agent roles and capabilities
    - [ ] No contradictions between `.clinerules`, `.roomodes`, and `AGENTS.md`
+
+## 30. Bootstrap Layout System & Responsive Design Standards
+
+### Bootstrap Grid Architecture
+- **Container System:** All sections use `.container` (responsive max-width) or `.container-fluid` (full-width)
+- **Row & Column Structure:** `.row` wraps `.col-*` elements with Bootstrap gutters (default 1.5rem)
+- **Responsive Breakpoints:**
+ - `sm`: 576px
+ - `md`: 768px (tablet consideration per Section 9)
+ - `lg`: 992px
+ - `xl`: 1200px
+ - `xxl`: 1400px
+
+### Fluid Responsive Layout Requirements (375px - 1140px+)
+- **Mobile-First Approach:** Start with single-column layouts, progressively enhance to multi-column
+- **Tablet Fluidity (768px):** All layouts must scale fluidly between 375px and 768px without crushing
+- **Desktop Scaling (1140px+):** Maintain visual hierarchy and spacing at desktop breakpoints
+- **No Hardcoded Widths:** Never use fixed pixel widths for layout containers. Use Bootstrap grid classes exclusively.
+
+### Responsive Spacing Classes
+- **Vertical Spacing:** `.py-3` (padding-y), `.py-md-4`, `.py-lg-5` for progressive spacing
+- **Horizontal Spacing:** `.px-3` (padding-x), `.px-md-4` for responsive horizontal padding
+- **Margins:** `.mt-2`, `.mb-3`, `.mt-md-4`, `.mb-lg-5` for responsive margins
+- **Gutters:** Bootstrap default 1.5rem gutters between columns (no custom gutter overrides without architect approval)
+
+### Form Layout Standards
+- **Form Fields:** `.col-12.col-md-6` for two-column form layouts on tablet+
+- **Full-Width Fields:** `.col-12` for email, textarea, and single-column fields
+- **Form Spacing:** `.mb-3` between field groups, `.mb-md-4` for larger spacing on tablet+
+- **reCAPTCHA Integration:** Salesforce Web-to-Lead with reCAPTCHA v3 (invisible, no user interaction required)
+
+### Hero Section Layout Patterns
+- **Split Hero (Desktop):** `.col-lg-6` for content, `.col-lg-6` for media/form
+- **Stacked Hero (Mobile):** `.col-12` for full-width stacking below 992px
+- **Media Ordering:** Use `order-*` classes for mobile-first reordering (e.g., `order-lg-2` for right-side desktop)
+- **Background Images:** Use CSS background-image with overlay for hero sections, not `<img>` tags
+
+### Card Grid Layouts
+- **Three-Column (Desktop):** `.col-md-4` for 3-column grids on tablet+
+- **Two-Column (Tablet):** `.col-md-6` for 2-column grids on tablet
+- **Single-Column (Mobile):** `.col-12` for full-width cards on mobile
+- **Card Spacing:** Bootstrap gutters + `.mb-3` for vertical spacing between card rows
+
+### Image Responsive Standards
+- **Responsive Images:** Use `srcset` with multiple resolutions (400w, 800w, 1600w)
+- **Aspect Ratio Preservation:** Use CSS aspect-ratio or padding-bottom hack for consistent image containers
+- **Placehold.co Fallbacks:** All missing Figma images default to `https://placehold.co/[width]x[height]`
+- **Image Sizing:** Never hardcode image dimensions in HTML; use CSS max-width: 100% and height: auto
+
+### Accessibility & Semantic HTML
+- **Form Labels:** Every input MUST have associated `<label>` with `for` attribute
+- **ARIA Attributes:** Use `aria-label`, `aria-describedby` for form validation messages
+- **Semantic Sections:** Use `<section>`, `<article>`, `<aside>` for content structure
+- **Button Types:** Use `<button type="submit">` for form submissions, `<a>` for navigation
+
+### Responsive Typography
+- **Font Scaling:** Use CSS `clamp()` for fluid typography between breakpoints (e.g., `font-size: clamp(1.5rem, 5vw, 2.5rem)`)
+- **Line Height:** Maintain 1.5-1.6 line-height for body text across all viewports
+- **Heading Hierarchy:** H1 → H6 with consistent sizing ratios (no skipped heading levels)
+
+### Validation Checklist for Responsive Layouts
+- [ ] All sections use `.container` or `.container-fluid` (no custom width containers)
+- [ ] Column layouts use Bootstrap grid classes (`.col-12`, `.col-md-6`, `.col-lg-4`, etc.)
+- [ ] Responsive spacing uses Bootstrap utilities (`.py-3`, `.mt-md-4`, `.mb-lg-5`)
+- [ ] Mobile layout (375px) renders single-column without horizontal scroll
+- [ ] Tablet layout (768px) scales fluidly without crushing or overflow
+- [ ] Desktop layout (1440px) maintains visual hierarchy and spacing
+- [ ] All images use responsive `srcset` or CSS background-image
+- [ ] Form fields use proper Bootstrap form classes and spacing
+- [ ] No hardcoded pixel widths for layout containers
+- [ ] All form inputs have associated labels with `for` attributes
+- [ ] reCAPTCHA v3 is properly configured for Salesforce Web-to-Lead
