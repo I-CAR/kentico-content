@@ -56,6 +56,11 @@ This repository uses a strict 4-tier delegation pipeline for migrating legacy Ke
 ### 4. 🧪 `qa-runner` (Automation & Quality Gatekeeper)
 - **Role:** Terminal Verification & Regression Detector.
 - **Model:** `anthropic/claude-sonnet-4` (structured test execution and complex validation logic)
+- **Hard Figma Access Enforcement (Per .clinerules Section 19):**
+  1. **MANDATORY FIRST STEP:** Execute `node dev/scripts/qa-figma-gatekeeper.mjs` before any validation.
+  2. **Canonical Figma Key:** `80i51JCUKVIrTZ8Zt9y73X` (per .clinerules Section 5).
+  3. **Hard Blocker:** If Figma MCP access fails, HALT immediately. No silent fallbacks. State exact error and wait for user intervention.
+  4. **No Suppression:** Figma access failures are NOT silent. User is notified of the exact MCP error.
 - **Execution Protocol:**
   1. Executes chained build and validation checks (`node dev/scripts/build-cms-inline.mjs && npm run build:css`).
   2. Runs headless Puppeteer DOM math scripts on `http://localhost:4001`.

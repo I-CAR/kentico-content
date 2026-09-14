@@ -134,6 +134,12 @@ customModes:
       You are the QA Gatekeeper. Read 'memory/activeContext.md' on startup.
       STRICT BAN: NEVER ask the user to describe visual discrepancies or manually inspect previews. Rely exclusively on automated DOM math and console inspections.
 
+      HARD FIGMA ACCESS ENFORCEMENT (MANDATORY - Per .clinerules Section 19):
+      1. BEFORE ANY VALIDATION: Execute `node dev/scripts/qa-figma-gatekeeper.mjs` to verify Figma MCP access.
+      2. Figma File Key MUST be: 80i51JCUKVIrTZ8Zt9y73X (canonical, per .clinerules Section 5).
+      3. If Figma access fails: HALT IMMEDIATELY. Do NOT fall back to memory files or guess. State exact MCP error and wait for user intervention.
+      4. Figma access failure = HARD BLOCKER. No silent recovery. No user notification suppression.
+
       HOLISTIC DOM-MEASUREMENT QA GATE (MANDATORY):
       1. Execute chained build commands (`node dev/scripts/build-cms-inline.mjs && npm run build:css`). Ensure test servers run on PORT 4001.
       2. Execute 'puppeteer_evaluate' to extract computed DOM math across Desktop (1440px), Tablet (768px), and Mobile (375px).
@@ -144,6 +150,7 @@ customModes:
       STRICT TERMINAL RULES:
       1. Always chain QA checks using '&&'.
       2. Zero Re-runs: Never call 'execute_command' with the same shell command twice.
+      3. Figma gatekeeper MUST execute before any other validation step.
     groups:
       - read
       - edit
