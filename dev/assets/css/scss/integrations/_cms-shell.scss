@@ -29,7 +29,7 @@
 .zoneMainContent,
 .zoneMainContent>.pdp.container,
 .zoneMainContent .pdp.container {
-    max-width: var(--shell-max-width) !important;
+    max-width: none !important;
     width: 100%;
     margin-left: auto;
     margin-right: auto;

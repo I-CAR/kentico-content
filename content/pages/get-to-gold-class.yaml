@@ -15,44 +15,104 @@ sections:
       - 11,000+ participating shops
       - Industry-recognized training standards
       - Dedicated support from I-CAR specialists
+    bulletIcon:
+      svg: |-
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="12" viewBox="0 0 11 12" fill="none">
+          <path d="M0.664062 5.44722L5.16406 9.44722L9.66406 0.44722" stroke="#E8C869" stroke-width="2"/>
+        </svg>
     image:
-      alt: Gold Class Hero Background
-      urls:
-        desktop:
-          400w: https://placehold.co/400x550
-          800w: https://placehold.co/800x550
-          1600w: https://placehold.co/1000x900
-        mobile:
-          400w: https://placehold.co/400x550
-          800w: https://placehold.co/800x550
-          1600w: https://placehold.co/1000x900
-      height:
-        desktop: "900"
-        mobile: "550"
+      alt: Technician repairing a vehicle panel in a collision repair shop.
+      desktopSrc: https://stage.info.i-car.com/getmedia/585949b1-0c02-4449-9f6f-ba9dbfa9acb3/Hero-1000x900-gtgc.webp
+      desktopSrcset: https://stage.info.i-car.com/getmedia/585949b1-0c02-4449-9f6f-ba9dbfa9acb3/Hero-1000x900-gtgc.webp 1000w
+      mobileSrcset: >-
+        https://stage.info.i-car.com/getmedia/8926f714-7dc8-4ccb-93c5-54dcee0f5803/Hero-393x354-gtgc.webp 393w,
+        https://stage.info.i-car.com/getmedia/605f187b-b189-4c2c-afe3-ca7165b3f148/Hero-744x670-gtgc.webp 744w
+      width: "1000"
+      height: "900"
+      output:
+        sourceWidth: "744"
+        sourceHeight: "670"
+        imgWidth: "1000"
+        imgHeight: "900"
+        sizes: "(max-width: 768px) 100vw, 1000px"
     spacing:
       paddingTop: none
     badge:
-      alt: Gold Class Badge
-      src: https://placehold.co/250x231
+      alt: I-CAR Gold Class Collision Repair badge
+      src: https://stage.info.i-car.com/getmedia/034be506-2ece-4b48-8740-7908f53cf7a0/Collision_Badge_250w.webp
+      srcset: >-
+        https://stage.info.i-car.com/getmedia/345e9198-a2ff-4dd1-8f64-79f5379bcf98/Collision_Badge_140w.webp 140w,
+        https://stage.info.i-car.com/getmedia/b90c99ab-29e8-4d36-a095-62289bf7422e/Collision_Badge_220w.webp 220w,
+        https://stage.info.i-car.com/getmedia/034be506-2ece-4b48-8740-7908f53cf7a0/Collision_Badge_250w.webp 250w,
+        https://stage.info.i-car.com/getmedia/23a6a84d-5709-4692-9994-73c98cfe1b0d/Collision_Badge_280w.webp 280w,
+        https://stage.info.i-car.com/getmedia/ffac9ce3-82f0-4388-8112-cb7f602b9f4c/Collision_Badge_440w.webp 440w
       width: "250"
       height: "231"
+      sizes: 250px
     form:
+      id: hero-form
+      regionId: hero-form
       action: https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D1I0000002nE3
-      recaptchaKey: 6LcElycqAAAAAC0ySersTFFTY_QW-x_9Kf8T4v9j
+      method: POST
+      hiddenFieldGroups:
+        - comment: Required SFDC Hidden Fields
+          fields:
+            - name: captcha_settings
+              value: "{\"keyname\":\"ICAR2\",\"fallback\":true,\"orgId\":\"00D1I0000002nE3\",\"ts\":\"\"}"
+              quote: single
+              multiline: true
+            - name: oid
+              value: 00D1I0000002nE3
+            - name: company
+              value: GTGC Landing Page
+            - name: lead_source
+              value: Info Website
+            - name: 00N8W00000PF4n8
+              value: Collision Repair
+            - name: 00N8W00000PE1V2
+              value: GTGC Landing Page
+      recaptcha:
+        version: v3
+        siteKey: null
+        action: gtgc_lead_submit
+        responseFieldName: g-recaptcha-response
       fields:
         - name: first_name
           label: First Name
           type: text
+          placeholder: First Name
+          maxLength: 40
           required: true
+          errorMessage: Please enter your first name.
         - name: last_name
           label: Last Name
           type: text
+          placeholder: Last Name
+          maxLength: 80
           required: true
+          errorMessage: Please enter your last name.
         - name: email
           label: Email Address
           type: email
+          placeholder: Email Address
+          maxLength: 80
           required: true
+          errorMessage: Please enter a valid email address.
       submitLabel: Let's Get Started
+      failureNotice:
+        title: Submission failed.
+        message: Please try again.
+      successState:
+        title: Thank You for Your Interest in Gold Class!
+        body: >-
+          We've received your request and appreciate the opportunity to support your shop. An I-CAR specialist will
+          reach out soon to discuss the next steps in your Gold Class journey.
+        icon:
+          svg: |-
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
+              <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
+            </svg>
       privacyText: >-
         *Your information is never shared. By clicking "Submit," you agree to the [I‑CAR® Privacy
         Policy](https://info.i-car.com/about-us/governance/policies/privacy).*
@@ -70,39 +130,21 @@ sections:
         name: Casey Montgomery
         title: Baierl Collision
         location: Wexford, PA
-        image:
-          alt: Casey Montgomery
-          desktopSrc: https://placehold.co/250x39
-          desktopSrcset: https://placehold.co/250x39 250w
-          width: "250"
-          height: "39"
-          sizes: 250px
+        rating: 5
       - quote: >-
           Every customer who trusts us with their vehicle deserves proof that we're invested in excellence, safety, and
           continuous improvement.
         name: Junior Avilez
         title: Last Touch Collision
         location: Bakersfield, CA
-        image:
-          alt: Junior Avilez
-          desktopSrc: https://placehold.co/250x39
-          desktopSrcset: https://placehold.co/250x39 250w
-          width: "250"
-          height: "39"
-          sizes: 250px
+        rating: 5
       - quote: >-
           Ongoing training ensures shops stay current with evolving vehicle technology, design, construction, and repair
           requirements.
         name: James Norton
         title: Norton's Body Shop
         location: Clarks Summit, PA
-        image:
-          alt: James Norton
-          desktopSrc: https://placehold.co/250x39
-          desktopSrcset: https://placehold.co/250x39 250w
-          width: "250"
-          height: "39"
-          sizes: 250px
+        rating: 5
     __template:
       id: testimonials
       type: quoteGrid
@@ -113,7 +155,7 @@ sections:
     heading: What You Get with I-CAR Gold Class
     paragraphs: []
     items:
-      - title: Training trusted by 10,000+ shops
+      - title: Training trusted by 11,000+ participating shops
         description: >-
           Stay current with evolving vehicle technology and build the skills needed to perform complete, safe, and
           quality repairs.
@@ -126,19 +168,25 @@ sections:
           Get personalized guidance from I-CAR specialists every step of your journey to achieve and maintain Gold
           Class.
     image:
-      alt: Gold Class Journey
-      urls:
-        desktop:
-          400w: https://placehold.co/400x550
-          800w: https://placehold.co/800x550
-          1600w: https://placehold.co/645x500
-        mobile:
-          400w: https://placehold.co/400x450
-          800w: https://placehold.co/800x450
-          1600w: https://placehold.co/645x500
-      height:
-        desktop: "500"
-        mobile: "450"
+      alt: Collision repair technicians inspecting and repairing a vehicle component in a repair facility.
+      desktopSrc: https://stage.info.i-car.com/getmedia/5e1bb4e1-77a1-4774-8ad7-09ce20e4f73c/GetToGC_645w.webp
+      desktopSrcset: >-
+        https://stage.info.i-car.com/getmedia/2ebd59fe-e555-410c-b043-4b73f55951ef/GetToGC_330w.webp 330w,
+        https://stage.info.i-car.com/getmedia/38ca436c-a288-4531-bdc4-60273a47246c/GetToGC_400w.webp 400w,
+        https://stage.info.i-car.com/getmedia/9afde3dc-249f-4051-82fc-0c5e33f710cb/GetToGC_444w.webp 444w,
+        https://stage.info.i-car.com/getmedia/5e1bb4e1-77a1-4774-8ad7-09ce20e4f73c/GetToGC_645w.webp 645w,
+        https://stage.info.i-car.com/getmedia/a628bb42-29bd-4cda-9025-cec8b2afe20a/GetToGC_650w.webp 650w,
+        https://stage.info.i-car.com/getmedia/586b943d-c232-46b1-825e-77b1759590fe/GetToGC_800w.webp 800w,
+        https://stage.info.i-car.com/getmedia/1fc89c55-08b1-47cf-8003-b17bb56a8f0e/GetToGC_1300w.webp 1300w,
+        https://stage.info.i-car.com/getmedia/970bc8bb-82f8-45e2-a7e6-fb0e25ba9613/GetToGC_1600w.webp 1600w
+      mobileSrcset: >-
+        https://stage.info.i-car.com/getmedia/2ebd59fe-e555-410c-b043-4b73f55951ef/GetToGC_330w.webp 330w,
+        https://stage.info.i-car.com/getmedia/38ca436c-a288-4531-bdc4-60273a47246c/GetToGC_400w.webp 400w,
+        https://stage.info.i-car.com/getmedia/9afde3dc-249f-4051-82fc-0c5e33f710cb/GetToGC_444w.webp 444w,
+        https://stage.info.i-car.com/getmedia/586b943d-c232-46b1-825e-77b1759590fe/GetToGC_800w.webp 800w
+      width: "645"
+      height: "500"
+      sizes: "(max-width: 768px) 100vw, 645px"
     __template:
       id: benefits
       type: textMedia
@@ -151,22 +199,28 @@ sections:
     cards:
       - heading: Build a more capable and aligned team that delivers consistent work
         paragraphs: []
-        iconSvg: |-
-          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
-          </svg>
+        icon:
+          svg: |-
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
+              <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
+            </svg>
       - heading: Create greater consistency to improve shop efficiency
         paragraphs: []
-        iconSvg: |-
-          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
-          </svg>
+        icon:
+          svg: |-
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
+              <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
+            </svg>
       - heading: Strengthen your foundation for sustainable, long-term growth
         paragraphs: []
-        iconSvg: |-
-          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <path d="M30 5C16.2 5 5 16.2 5 30s11.2 25 25 25 25-11.2 25-25S43.8 5 30 5zm0 45c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm3.5-30h-7v12l10.2 6.2 2.5-4L33.5 32z" fill="#E8C869"/>
-          </svg>
+        icon:
+          svg: |-
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
+              <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
+            </svg>
     __template:
       id: value-props
       type: iconCardGrid
@@ -214,27 +268,52 @@ sections:
       - >-
         Gold Class helps you build a more capable team, improve consistency, and demonstrate your commitment to
         complete, safe, and quality repairs.
-    buttons: []
+    ctaDestination: "#"
+    buttons:
+      - label: Start Your Path to Gold Class
+        href: "#"
     image:
-      alt: Gold Class Logo
-      urls:
-        desktop:
-          400w: https://placehold.co/400x550
-          800w: https://placehold.co/800x550
-          1600w: https://placehold.co/264x246
-        mobile:
-          400w: https://placehold.co/400x450
-          800w: https://placehold.co/800x450
-          1600w: https://placehold.co/264x246
-      height:
-        desktop: "246"
-        mobile: "246"
+      alt: I-CAR Gold Class Collision Repair badge
+      src: https://stage.info.i-car.com/getmedia/23a6a84d-5709-4692-9994-73c98cfe1b0d/Collision_Badge_280w.webp
+      srcset: >-
+        https://stage.info.i-car.com/getmedia/345e9198-a2ff-4dd1-8f64-79f5379bcf98/Collision_Badge_140w.webp 140w,
+        https://stage.info.i-car.com/getmedia/b90c99ab-29e8-4d36-a095-62289bf7422e/Collision_Badge_220w.webp 220w,
+        https://stage.info.i-car.com/getmedia/034be506-2ece-4b48-8740-7908f53cf7a0/Collision_Badge_250w.webp 250w,
+        https://stage.info.i-car.com/getmedia/23a6a84d-5709-4692-9994-73c98cfe1b0d/Collision_Badge_280w.webp 280w,
+        https://stage.info.i-car.com/getmedia/ffac9ce3-82f0-4388-8112-cb7f602b9f4c/Collision_Badge_440w.webp 440w
+      width: "280"
+      height: "259"
+      sizes: 280px
     __template:
       id: footer-cta
       type: textMedia
       variant: default
       signature: 956cd19404ccb1afd5d2e3f5b2103759f63d08cc
+  - id: legal
+    type: legal
+    paragraphs:
+      - >-
+        I-CAR (Inter-Industry Conference on Auto Collision Repair) is a nonprofit organization that provides training,
+        education, and certification programs to improve the quality, safety, and efficiency of collision repair.
+    logo:
+      alt: I-CAR logo
+      src: https://stage.info.i-car.com/getmedia/bd4a66b0-8c77-4397-8c48-fe577b93ed2a/logo.png
+      width: "175"
+      height: "54"
+      sizes: 175px
+    __template:
+      id: legal
+      type: legal
+      variant: default
+      signature: 1d5048d3afedf5713b7d61bf7a3d6765fcddedbe
+cms:
+  headHtml:
+    - >-
+      <style>.pageWrap > footer.footer { display: none !important; } .pageWrap main .breadcrumb { display: none
+      !important; } .zoneMainContent, .zoneMainContent > .pdp.container, .zoneMainContent .pdp.container { /* max-width:
+      var(--shell-max-width) !important; */ width: 100%; margin-left: auto; margin-right: auto; padding-left: 0;
+      padding-right: 0; }</style>
 __template:
   source: get-to-gold-class.yaml
-  signature: ad2ca63f58f1d06e906ea39cdfb161ee4db4b5d3
+  signature: 91a07e46cd75bf7f9c7f8e4055841f29e8bca108
 

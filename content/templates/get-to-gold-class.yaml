@@ -19,3 +19,6 @@ sections:
   - id: footer-cta
     type: textMedia
     variant: default
+  - id: legal
+    type: legal
+    variant: default
