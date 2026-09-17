@@ -1,165 +1,185 @@
-# AGENTS.md - Multi-Agent Workflow Pipeline & Execution Contracts
+# AGENTS.md
 
-This repository uses a strict 4-tier delegation pipeline for migrating legacy Kentico structures to modern component-driven `.yaml` schemas and achieving 1:1 Figma structural, styling, and content parity. All background servers and automated test runners execute strictly on **Port 4001**, leaving **Port 4000** isolated for manual user preview.
+## Purpose
+This file defines repo-local instructions for populating and refining marketing/content HTML pages in this project.
 
-+---------------------+               +------------------+               +---------------+
-| kentico-architect   | --(new_task)->|  frontend-dev    | --(new_task)->|   qa-runner   |
-| (Spec & Structural) |               | (Code & DOM Math)|               | (QA Gatekeeper|
-+---------------------+               +------------------+               +---------------+
-           |                                   ^   |                             |
-           |                                   |   +-----(Reject & Loop Back)----+
-           |                                   |                                 |
-           +-------------(Data Only)-----------> [ data-mapper ]                 v
-                                                (YAML Sync)               (User Notify)
+These rules are intentionally narrow. They do not apply to every possible file change in the repo.
 
----
+## Applies When
+Follow these instructions when all of the following are true:
 
-## Agent Roles & Delegation Protocols
+- You are editing a file under `content/legacy/` or a custom `content/pages/**/*.main.html` source fragment.
+- The task is primarily content population, copy replacement, template cleanup, or page assembly.
+- The page is a marketing, informational, landing, or brand/content page rather than application logic.
 
-### 1. 🏗️ `kentico-architect` (Lead Architect)
-- **Role:** Read-Only Advisor & Schema Specifier.
-- **Model:** `anthropic/claude-haiku-4.5` (default) / `anthropic/claude-sonnet-4` (strategic)
-- **Dynamic Switching:** Uses `switch_mode` to `kentico-architect-strategic` for complex architectural decisions requiring deep analysis (cross-system dependencies, major refactoring, design conflicts).
-- **Execution Protocol:**
-  1. Inspects legacy HTML, target Figma designs (File Key: `80i51JCUKVIrTZ8Zt9y73X`), and layout trees.
-  2. Maps structural skeleton schemas (`content/templates/*.yaml`) and data schemas (`content/pages/*.yaml`).
-  3. Explicitly defines parent layout scaffolding, fluid tablet scaling (768px), and `placehold.co` image fallbacks.
-  4. Maintains strategic memory (`memory/projectBrief.md`) and task execution state (`memory/activeContext.md`).
-- **Handoff:** Invokes `new_task` in `frontend-dev` mode (for structural changes) or `data-mapper` mode (for data mapping). Never edits code directly.
+Typical examples:
 
----
+- Replacing placeholder copy in an HTML template
+- Rebuilding a page from a screenshot, PDF, approved mockup, or written source copy
+- Updating quote sections, CTA copy, benefit lists, legal copy, or section headlines
+- Wiring in-section navigation for a content page
+- Cleaning presentation-only HTML left in a scaffolded template
 
-### 2. ⚡ `frontend-dev` (Implementation & DOM Math)
-- **Role:** Action-First Implementer & SCSS/Template Developer.
-- **Model:** `anthropic/claude-haiku-4.5` (default) / `anthropic/claude-sonnet-4` (intensive)
-- **Dynamic Switching:** Uses `switch_mode` to `frontend-dev-intensive` for complex architectural refactoring, multi-component restructuring, advanced Puppeteer audits, or intricate schema-to-DOM mapping challenges.
-- **Execution Protocol:**
-  1. Queries live Figma MCP for Node IDs before writing SCSS (No blind CSS).
-  2. Synthesizes 1:1 Content, Styling, and Functionality. Missing images MUST use `placehold.co`.
-  3. Compiles build assets and serves static previews strictly on **Port 4001**.
-  4. Runs headless Puppeteer DOM math audits (`window.getComputedStyle()`) across **Desktop (1440px), Tablet (768px), and Mobile (375px)**.
-  5. **CMS Dual-Output Pattern:** Generates HTML with BOTH inline `<style>` tags (for Kentico widget pasting) AND external CSS `<link>` tags (for Port 4001 testing). Copies compiled CSS assets to `cms/` directory for HTTP serving.
-- **Handoff:** Invokes `new_task` in `qa-runner` mode ONLY once full-tree computed DOM math passes. NEVER asks the user for approval.
+## Does Not Apply When
+These instructions should not be treated as global rules for unrelated work such as:
 
----
+- Editing JavaScript application logic
+- Refactoring CSS or design system code without page-copy work
+- Backend, API, data, or build tooling changes
+- Utility scripts, tests, or infrastructure updates
+- Changes outside `content/legacy/` and `content/pages/**/*.main.html` unless the task explicitly says to reuse these content rules
 
-### 3. 🗺️ `data-mapper` (Data Sync & Content Mapper)
-- **Role:** Cost-Efficient Data Mapper & YAML Synchronizer.
-- **Model:** `anthropic/claude-haiku-4.5` (cost-efficient for deterministic YAML mapping)
-- **Execution Protocol:**
-  1. Queries live Figma MCP (File Key: `80i51JCUKVIrTZ8Zt9y73X`) to extract copy, headlines, button labels, and `placehold.co` image dimensions.
-  2. Updates `content/pages/*.yaml` without altering `.mjs` scripts.
-  3. Executes `node dev/scripts/build-cms-inline.mjs` on Port 4001 to verify YAML syntax.
-- **Handoff:** If HTML structural changes are required, halts execution and requests handoff back to `frontend-dev`.
+## Primary Goal
+Preserve the existing component structure while replacing scaffold content with approved copy and production-ready HTML.
 
----
+Unless explicitly requested:
 
-### 4. 🧪 `qa-runner` (Automation & Quality Gatekeeper)
-- **Role:** Terminal Verification & Regression Detector.
-- **Model:** `anthropic/claude-sonnet-4` (structured test execution and complex validation logic)
-- **Hard Figma Access Enforcement (Per .clinerules Section 19):**
-  1. **MANDATORY FIRST STEP:** Execute `node dev/scripts/qa-figma-gatekeeper.mjs` before any validation.
-  2. **Canonical Figma Key:** `80i51JCUKVIrTZ8Zt9y73X` (per .clinerules Section 5).
-  3. **Hard Blocker:** If Figma MCP access fails, HALT immediately. No silent fallbacks. State exact error and wait for user intervention.
-  4. **No Suppression:** Figma access failures are NOT silent. User is notified of the exact MCP error.
-- **Comprehensive Audit Protocol (Per .clinerules Section 29):**
-  1. **HTML Structure Validation:** Verify proper `<html>`, `<head>`, `<body>`, `<main>` elements exist. Files with only CSS/JS are CRITICAL FAILURES.
-  2. **Content Rendering Verification:** Confirm YAML content renders to DOM. Missing bullets, badges, H3 elements indicate template failures.
-  3. **Salesforce Integration Audit:** Verify required hidden fields (`oid`, `retURL`, `lead_source`, `Campaign_ID`, `recordType`) in forms.
-  4. **SEO Metadata Validation:** Check page title, meta description, Open Graph tags, canonical URLs, lang attributes.
-  5. **Analytics Implementation:** Verify Google Analytics, GTM, conversion tracking, event tracking implementation.
-  6. **Accessibility Compliance:** Validate WCAG touch targets (44px min), alt text, ARIA attributes, keyboard navigation.
-  7. **Performance Analysis:** Check unoptimized images, lazy loading, DOM size, resource loading speed.
-  8. **Security Review:** Verify HTTPS enforcement, privacy policy links, CSRF protection, input sanitization.
-  9. **Mobile-Specific Validation:** Check viewport meta, touch targets, horizontal scroll prevention, responsive breakpoints.
-  10. **Third-Party Integration Check:** Verify Google Fonts, Bootstrap, jQuery, reCAPTCHA, social media integrations.
-  11. **Console Error Monitoring:** Capture JavaScript errors, CSS errors, network failures, browser warnings.
-  12. **Network Request Analysis:** Identify 404 errors, slow requests, missing resources, CDN failures.
-- **Execution Protocol:**
-  1. Executes chained build and validation checks (`node dev/scripts/build-cms-inline.mjs && npm run build:css`).
-  2. Runs headless Puppeteer DOM math scripts on `http://localhost:4001`.
-  3. **Auto-Rejection Loop:** If a discrepancy exists (Content, Styles, Tablet fluidity, or Functionality), records exact numerical error to `memory/activeContext.md` and opens a `new_task` in `frontend-dev` mode. **DO NOT ALERT THE USER.**
-  4. **Success Handoff:** Only notifies the user when tests pass 100%.
+- Do not redesign the layout
+- Do not invent new copy
+- Do not restructure sections that already map well to the approved source
 
----
+## Copy Rules
+- Replace all placeholder copy with approved source copy.
+- Remove placeholder labels such as `Section Headline`, `Card Title`, `Section Button`, `Section Link`, `Cite Name`, `Cite Title`, and lorem ipsum text.
+- Keep the existing heading hierarchy unless there is a clear structural problem.
+- Use approved source copy exactly as written unless the user asks for editorial changes.
+- Treat mockups, approved screenshots, and user-provided text as the source of truth for wording, punctuation, capitalization, dashes, quotation marks, and formatting-sensitive phrasing.
+- Do not rewrite, normalize, simplify, “clean up,” or optimize approved copy on your own.
+- If source text appears unusual but is clearly intentional in the approved reference, preserve it.
+- If the source is ambiguous or unreadable, ask or flag the ambiguity instead of inventing a cleaned-up version.
 
-## Cost-Optimized Model Switching Architecture
+## Typography Rules
+- For non-heading copy longer than 5 words, replace the space between the last two words with `&nbsp;` to prevent widows.
+- Do not apply widow protection to headings unless specifically requested.
+- Do not use HTML entity codes in plain-language HTML attributes such as `alt`, `title`, `aria-label`, and similar human-readable attribute text; write those attribute values as plain readable text.
+- If text is visually uppercased by CSS, write it in title case in the HTML source.
+- Remove literal quotation marks from quote text when quote styling is handled by CSS.
 
-This repository implements a **dynamic model switching strategy** to balance cost efficiency with task complexity. All agents default to `anthropic/claude-haiku-4.5` for routine operations, with explicit escalation to `anthropic/claude-sonnet-4` when architectural complexity demands deeper reasoning.
+## Text Normalization Rules
+- Always write `I&#8209;CAR` for I-CAR in HTML text.
+- Always write `Gold&nbsp;Class` for Gold Class in HTML text.
+- Preserve legitimate acronyms such as `CEO`, `FSA`, `HSA`, and `401(k)`.
 
-### Model Assignment by Agent
+## HTML Cleanup Rules
+- Remove presentation-only scaffold metadata such as inline section `--name` variables unless explicitly needed.
+- Keep meaningful section IDs.
+- If a section ID no longer matches the section content, rename it to something accurate and update any related anchor links.
+- Keep existing design system classes unless there is a specific reason to change them.
+- Do not add unnecessary wrapper markup.
+- When editing a file under `content/legacy/` or `content/pages/**/*.main.html`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
 
-| Agent | Default Model | Intensive Model | Trigger for Switch |
-|-------|---------------|-----------------|-------------------|
-| `kentico-architect` | `claude-haiku-4.5` | `claude-sonnet-4` | Complex architectural decisions, cross-system dependencies, major refactoring, design conflicts |
-| `frontend-dev` | `claude-haiku-4.5` | `claude-sonnet-4` | Complex architectural refactoring, multi-component restructuring, advanced Puppeteer audits, intricate schema-to-DOM mapping |
-| `data-mapper` | `claude-haiku-4.5` | N/A | Deterministic YAML mapping (no escalation needed) |
-| `qa-runner` | `claude-sonnet-4` | N/A | Structured test execution and complex validation logic (always uses Sonnet-4) |
+## Markup Ordering Rules
+- When a `section` element has an `id`, place the `id` attribute first.
+- For the first major layout column wrappers in a section, order classes as:
+  1. column responsive classes
+  2. order responsive classes
+  3. spacing classes
+- For `img`, order attributes as:
+  `alt`, `loading`, `class`, `width`, `height`, `sizes`, `src`, `srcset`
+- For `source`, order attributes as:
+  `width`, `height`, `media`, `sizes`, `srcset`
 
-### Dynamic Switching Protocol
+## Navigation Rules
+- On-page navigation must point to real section anchors.
+- Nav labels should match visible section names.
 
-**When to Switch:**
-1. **kentico-architect** → `kentico-architect-strategic`: Use `switch_mode` when facing architectural decisions that require deep cross-system analysis or strategic refactoring.
-2. **frontend-dev** → `frontend-dev-intensive`: Use `switch_mode` when implementing complex multi-component restructuring, advanced DOM math audits, or intricate schema-to-DOM mapping challenges.
-3. **data-mapper**: No switching required. Haiku-4.5 is sufficient for deterministic YAML operations.
-4. **qa-runner**: Always uses Sonnet-4 for structured test execution and complex validation logic.
+## Quote Rules
+- Quote copy should not include literal opening or closing quotation marks if CSS supplies them.
+- Keep attribution within the existing cite structure when one already exists.
 
-**Cost Optimization Principle:**
-- Default to Haiku-4.5 for routine component updates, simple SCSS modifications, straightforward template changes, and standard DOM audits.
-- Escalate to Sonnet-4 ONLY when task complexity exceeds Haiku-4.5's reasoning capacity.
-- Sonnet-4 is reserved for strategic decisions, complex refactoring, and structured validation requiring multi-step reasoning.
+## Images and Assets
+- If final assets are not provided, leave image placeholders or existing asset references in place and update only the copy.
+- If assets are provided, map them to the correct section based on the approved reference.
+- When requested to use placeholders on inventory/demo pages, prefer `placehold.co` URLs without `?text`.
+- If replacing one media type with another inside an existing section, preserve the surrounding section layout and markup unless explicitly asked to redesign it.
+- Keep placeholder media structurally compatible with the component they replace so existing JavaScript behaviors can still initialize.
 
----
+## Scoped Image Placement Rules
+Apply these rules only when:
 
-## Core Operational Rules
+- editing files under `content/legacy/` or `content/pages/**/*.main.html`
+- placing designer-provided image URLs into marketing/content page templates
+- the task includes populating image `src` and `srcset` values
 
-### 1. Port Boundaries
-- **Port 4000 (User Preview):** Strictly reserved for visual user evaluation. Agents must NEVER bind dev servers to Port 4000.
-- **Port 4001 (Agent/Audit Environment):** All background servers, Python static HTTP services, and Puppeteer headless tests execute exclusively on Port 4001.
+### Image Mapping Rules
+- Prefer mapping assets by filename/section-name when the designer names files after page headlines or card titles.
+- Assume filenames such as `Hero`, `Hiring-Process`, `Employee-Benefits`, `Work-That-Works-For-You`, or `Drive-Meaningful-Impact` correspond to the matching visible section or card headline.
+- Before asking for clarification, attempt to map assets to template slots using:
+  1. section headline
+  2. card headline
+  3. quote attribution name
+  4. image placement in the template
 
-### 2. Figma Data Authority & Placehold.co Guardrails
-- **Canonical Key:** `80i51JCUKVIrTZ8Zt9y73X` is the single source of truth for all Figma calls.
-- **Placehold.co Enforcement:** Any missing Figma images or broken media paths must automatically resolve to `placehold.co/[width]x[height]` to prevent container collapse.
+### Responsive URL Rules
+- Only update image `src` and `srcset` values unless the task explicitly asks for more.
+- If a slot uses `<picture>`, populate:
+  - `source srcset`
+  - `img src`
+  - `img srcset`
+- If a slot uses only `<img>`, populate:
+  - `img src`
+  - `img srcset`
+- Do not remove or simplify an existing responsive image pattern unless explicitly requested.
 
-### 3. Zero-Hallucination QA Gate (Tri-Viewport)
-- **No Visual Polling:** Agents are forbidden from asking the user "What do you see?".
-- **Tri-Viewport Protocol:** All layouts must be evaluated mathematically at Desktop, Tablet (768px), and Mobile breakpoints.
-- **Structure Before Paint:** The agent must verify DOM HTML structure via raw output parsing before evaluating CSS paint values.
+### Desktop / Mobile Naming Rules
+- When filenames include `-D` and `-M`, treat:
+  - `-M` as the mobile `source srcset`
+  - `-D` as the default `img src` and `img srcset`
+- When only one responsive set exists and there is no `-D` / `-M` split, use that set in the existing `img src` and `img srcset` fields.
 
-### 4. Schema Over Hacks
-- If high-specificity CSS `!important` tags fail, update the underlying YAML schema (`content/pages/*.yaml`) and template builder (`dev/scripts/build-cms-inline.mjs`) to generate explicit semantic HTML wrappers.
+### Headshot Rules
+- Map person-named assets to matching quote/headshot slots by surname or full name.
+- For small profile images, use the smaller file as `src` and include the larger companion file in `srcset`.
 
----
+### Missing Asset Rules
+- After mapping, explicitly identify any gaps by slot name, not just by count.
+- Report missing assets in a checklist format.
+- If all visible template image slots are covered, state that no asset gaps remain.
 
-## Triple-Brief Memory Architecture (Strategic vs. Task vs. Historical)
+### Placeholder Replacement Rules
+- Replace placeholder image URLs when real assets are available for that slot.
+- Before finishing, confirm there are no remaining placeholder image URLs.
 
-This repository uses a three-tier memory system to maintain strategic context, track task execution state, and preserve historical progress without token bloat.
+## Legal Copy
+- Replace placeholder legal/disclaimer copy with approved legal copy exactly.
+- Apply text normalization rules to legal copy unless doing so would alter a required official string.
 
-### Strategic Charter (`memory/projectBrief.md`)
-- **Scope:** Long-term migration strategy, architectural laws, 5-phase roadmap, execution environment constants
-- **Audience:** All agents at task start (mandatory read per Section 1)
-- **Update Frequency:** Rarely (only when strategic direction changes)
-- **Content:** Executive objectives, core architecture laws, high-level phases, port isolation rules, token efficiency guidelines
-- **Immutability:** Represents the canonical project charter. Changes require architect review.
+## CMS And Build Rules
+- Do not hand-edit generated files under `previews/`; treat that tree as local preview output.
+- For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
+- `cms/` output should mirror the `previews/` tree directly.
+- Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
+- Prefer CMS output that a content author can copy and paste directly from a single HTML file.
+- For template-managed pages under `content/pages/`, keep the page data file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
+- Do not treat a JSON-to-YAML or YAML-to-JSON conversion as complete if the page still depends on `sourceHtmlFile` or a sibling `*.main.html`, unless the user explicitly asks to keep custom HTML authoring.
+- When converting an HTML-wrapper page to structured authoring, prefer native page-data sections and explicit options over preserving raw HTML/CSS/class authoring in page data.
+- When migrating a page from custom HTML authoring to template-managed JSON or YAML, delete any now-unused sibling `*.main.html` file in the same change so orphaned page sources do not linger.
+- When a page is meant to stay template-managed, preserve or restore the page-level `__template.source` metadata so `npm run pages` does not treat it as skipped custom content.
+- If a page is intentionally custom and should no longer follow its template, make that an explicit decision rather than an accidental side effect of removing template metadata or editing generated artifacts directly.
+- Preferred CMS fragment order is:
+  1. external `<link>` tags such as Google Fonts
+  2. inline `<style>`
+  3. page section HTML
+  4. inline `<script>`
+- CSS and JavaScript emitted for CMS usage should be minified in production builds.
+- Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
+- When a page does not use a dependency, do not emit that dependency into the CMS output.
+- Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
+- Prefer author-facing option names and values that describe intent in plain language rather than implementation details.
+- Avoid exposing raw measurements, CSS terminology, or developer-centric phrasing to content authors when a semantic option such as `default`, `compact`, or `roomy` can express the same choice.
+- For dev/watch workflows started by `npm run dev`, generated output in `dev/assets/js/` should remain unminified for readability, while CMS HTML fragments should still be minified.
+- Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
+- Keep development output readable when possible, but comment-free CMS output takes priority.
+- Production builds should apply comment removal and minification for generated JS output.
+- Remove comments from generated CMS HTML fragments in both dev and production output.
 
-### Task Execution State (`memory/activeContext.md`)
-- **Scope:** Current task execution state, Figma node IDs, file paths modified, validation gates, handoff checkpoints
-- **Audience:** Current agent + next agent in handoff chain
-- **Update Frequency:** Exactly ONCE per task (at completion, before `attempt_completion` or `new_task`)
-- **Content:** Phase name, agent responsible, completion status, critical file paths, next handoff target, blocking issues
-- **Format:** Concise pointers only (URLs, node IDs, file paths). Max 5 lines per checkpoint.
+## Final Check For Scoped Page Work
+Before finishing a scoped content-page task, confirm:
 
-### Historical Progress Log (`memory/progress.md`)
-- **Scope:** Completed phases, milestone achievements, major deliverables, project timeline
-- **Audience:** Reference for project status and completed work
-- **Update Frequency:** At major phase completions or significant milestones
-- **Content:** Phase summaries, completion status, deliverable tracking, project timeline
-- **Purpose:** Historical record and project status dashboard
-
-### Triple-Brief Protocol Rules
-- **Mandatory Reads:** At task start, read BOTH `memory/projectBrief.md` (strategic context) AND `memory/activeContext.md` (task state)
-- **Optional Reference:** Read `memory/progress.md` for historical context when needed
-- **No Duplication:** Strategic content → `projectBrief.md`. Task-specific data → `activeContext.md`. Historical data → `progress.md`.
-- **Handoff Clarity:** When invoking `new_task`, the outgoing agent MUST ensure `activeContext.md` contains: (1) completed steps, (2) exact file paths, (3) next agent's required inputs, (4) any blocking issues
-- **Token Efficiency:** Keep `activeContext.md` under 50 lines total. Use abbreviations and pointers, never full code blocks or raw AST data.
-- **Architect Review:** `kentico-architect` maintains `projectBrief.md` accuracy and updates `progress.md` at major milestones. All strategic changes require architect sign-off.
+- No lorem ipsum or placeholder labels remain
+- `I-CAR` is normalized to `I&#8209;CAR`
+- `Gold Class` is normalized to `Gold&nbsp;Class`
+- Non-heading copy over 5 words uses widow protection
+- Quote text does not include literal quotation marks when CSS handles them
+- Display-uppercase text is title case in source
+- On-page nav links target real section IDs
