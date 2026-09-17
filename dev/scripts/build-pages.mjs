@@ -324,6 +324,22 @@ function normalizeImageAssetUrl(value) {
   return value.replace(/https?:\/\/(?:stage\.)?info\.i-car\.com(?=\/)/gi, "");
 }
 
+const previewKenticoMediaOrigin = "https://stage.info.i-car.com";
+
+function resolvePreviewKenticoMediaUrl(value) {
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  const mediaPath = value.trimStart();
+
+  if (!mediaPath.startsWith("/getmedia/")) {
+    return value;
+  }
+
+  return `${previewKenticoMediaOrigin}${mediaPath}`;
+}
+
 function normalizeImageAssetSrcsetValue(value) {
   if (typeof value !== "string" || !value) {
     return value;
@@ -340,6 +356,26 @@ function normalizeImageAssetSrcsetValue(value) {
 
       const [url, ...descriptorParts] = trimmed.split(/\s+/);
       return [normalizeImageAssetUrl(url), ...descriptorParts].filter(Boolean).join(" ");
+    })
+    .join(", ");
+}
+
+function resolvePreviewKenticoMediaSrcsetValue(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  return value
+    .split(",")
+    .map((entry) => {
+      const trimmed = entry.trim();
+
+      if (!trimmed) {
+        return trimmed;
+      }
+
+      const [url, ...descriptorParts] = trimmed.split(/\s+/);
+      return [resolvePreviewKenticoMediaUrl(url), ...descriptorParts].filter(Boolean).join(" ");
     })
     .join(", ");
 }
@@ -369,6 +405,25 @@ function normalizeImageAssetUrlsInHtml(value) {
   });
 
   return normalizeCssImageAssetUrls(normalizedAttributes);
+}
+
+function resolvePreviewKenticoMediaUrlsInHtml(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+
+  const resolvedAttributes = value.replace(/\b(href|src|srcset|poster)=("([^"]*)"|'([^']*)')/gi, (match, attribute, quotedValue, doubleQuoted, singleQuoted) => {
+    const quote = quotedValue[0];
+    const attributeValue = doubleQuoted ?? singleQuoted ?? "";
+    const resolvedValue = attribute.toLowerCase() === "srcset"
+      ? resolvePreviewKenticoMediaSrcsetValue(attributeValue)
+      : resolvePreviewKenticoMediaUrl(attributeValue);
+    return `${attribute}=${quote}${resolvedValue}${quote}`;
+  });
+
+  return resolvedAttributes.replace(/url\(\s*(['"]?)([^)"']+)\1\s*\)/gi, (match, quote = "", url) => {
+    return `url(${quote}${resolvePreviewKenticoMediaUrl(url)}${quote})`;
+  });
 }
 
 const downloadableFileExtensions = new Set([
@@ -600,6 +655,34 @@ function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className
   );
 
   return [...plainMarkup, ...htmlMarkup].join("\n\n");
+}
+
+function renderInlineMarkdownLinks(value = "", { widowProtection = false } = {}) {
+  const parts = [];
+  const source = String(value ?? "");
+  const linkPattern = /\[([^\]]+)]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkPattern.exec(source)) !== null) {
+    const before = source.slice(lastIndex, match.index);
+
+    if (before) {
+      parts.push(renderLiteralText(before));
+    }
+
+    parts.push(`<a href="${escapeHtml(match[2])}">${renderText(match[1])}</a>`);
+    lastIndex = match.index + match[0].length;
+  }
+
+  const after = source.slice(lastIndex);
+
+  if (after) {
+    parts.push(renderLiteralText(after));
+  }
+
+  const markup = parts.join("");
+  return widowProtection ? applyWidowProtection(markup) : markup;
 }
 
 function buildResponsiveSrcset(entries = []) {
@@ -1209,7 +1292,23 @@ function resolveIconSvg(card) {
   throw new Error(`Missing iconSvg or valid iconKey for card "${card.title || "unknown"}"`);
 }
 
-function normalizeIconSvgMarkup(iconSvg) {
+function getSvgAttributeValue(attributes = "", attributeName = "") {
+  const match = attributes.match(new RegExp(`\\b${attributeName}\\s*=\\s*("([^"]*)"|'([^']*)')`, "i"));
+  return match?.[2] ?? match?.[3] ?? "";
+}
+
+function sanitizeSvgInnerMarkup(markup = "") {
+  return markup
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
+    .replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+    .replace(/\s+(?:href|xlink:href)\s*=\s*("|')javascript:[\s\S]*?\1/gi, "");
+}
+
+function normalizeIconSvgMarkup(iconSvg, {
+  className = "ic-card-icon",
+  ariaHidden = false,
+  label = "",
+} = {}) {
   const svgMarkup = typeof iconSvg === "string" ? iconSvg.trim() : "";
 
   if (!svgMarkup.startsWith("<svg")) {
@@ -1217,16 +1316,41 @@ function normalizeIconSvgMarkup(iconSvg) {
   }
 
   const openTagMatch = svgMarkup.match(/^<svg\b([^>]*)>/i);
-  const viewBoxMatch = openTagMatch?.[1]?.match(/\bviewBox="([^"]+)"/i);
-  const fillMatch = openTagMatch?.[1]?.match(/\bfill="([^"]+)"/i);
-  const innerMarkup = svgMarkup
-    .replace(/^<svg\b[^>]*>/i, "")
-    .replace(/<\/svg>\s*$/i, "")
-    .trim();
+  const attributes = openTagMatch?.[1] || "";
+  const width = getSvgAttributeValue(attributes, "width") || "60";
+  const height = getSvgAttributeValue(attributes, "height") || "60";
+  const viewBox = getSvgAttributeValue(attributes, "viewBox") || `0 0 ${width} ${height}`;
+  const fill = getSvgAttributeValue(attributes, "fill") || "none";
+  const innerMarkup = sanitizeSvgInnerMarkup(
+    svgMarkup
+      .replace(/^<svg\b[^>]*>/i, "")
+      .replace(/<\/svg>\s*$/i, "")
+      .trim(),
+  );
+  const accessibilityAttributes = label
+    ? ` role="img" aria-label="${escapeHtml(label)}"`
+    : ariaHidden ? ` aria-hidden="true" focusable="false"` : "";
 
-  return `<svg class="ic-card-icon" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="${escapeHtml(viewBoxMatch?.[1] || "0 0 60 60")}" fill="${escapeHtml(fillMatch?.[1] || "none")}">
+  return `<svg class="${escapeHtml(className)}" xmlns="http://www.w3.org/2000/svg" width="${escapeHtml(width)}" height="${escapeHtml(height)}" viewBox="${escapeHtml(viewBox)}" fill="${escapeHtml(fill)}"${accessibilityAttributes}>
     ${innerMarkup}
   </svg>`;
+}
+
+function renderGoldClassSvgIcon(svg, className, context) {
+  const svgMarkup = typeof svg === "string" ? svg.trim() : "";
+
+  if (!svgMarkup) {
+    return "";
+  }
+
+  if (!/^<svg\b[\s\S]*<\/svg>$/i.test(svgMarkup)) {
+    throw new Error(`Invalid GTGC SVG icon at ${context}: expected an <svg> root`);
+  }
+
+  return svgMarkup.replace(
+    /^<svg\b/i,
+    `<svg class="${escapeHtml(className)}" aria-hidden="true" focusable="false"`,
+  );
 }
 
 function resolveHeroSemanticLayout(section) {
@@ -1308,10 +1432,399 @@ function resolveHeroSemanticLayout(section) {
   };
 }
 
+function normalizeFormFieldId(field = {}) {
+  return field.id || `gtgc-${field.name || "field"}`;
+}
+
+function isSafeHtmlAnchorId(value) {
+  return typeof value === "string" && /^[A-Za-z][A-Za-z0-9_-]*$/.test(value);
+}
+
+function getGoldClassFormRegionId(section = {}) {
+  return section.form?.regionId || "";
+}
+
+function getGoldClassCta(section = {}) {
+  const button = Array.isArray(section.buttons) ? section.buttons[0] : null;
+  return {
+    href: section.ctaDestination || button?.href || "",
+    label: button?.label || "",
+  };
+}
+
+function renderGoldClassLeadFormField(field = {}) {
+  const fieldId = normalizeFormFieldId(field);
+  const errorId = `${fieldId}-error`;
+  const fieldType = field.type || "text";
+  const autocomplete = field.autocomplete || field.autoComplete || {
+    first_name: "given-name",
+    last_name: "family-name",
+    email: "email",
+  }[field.name] || "";
+  const errorText = field.errorMessage || "";
+  const describedBy = `${errorId}`;
+  const maxLength = field.maxLength || field.maxlength || "";
+
+  return `                                    <div class="gtgc-form-field">
+                                        <label for="${escapeHtml(fieldId)}">${renderText(field.label || "")}</label>
+                                        <input id="${escapeHtml(fieldId)}" name="${escapeHtml(field.name || "")}" type="${escapeHtml(fieldType)}"${field.placeholder ? ` placeholder="${escapeHtml(field.placeholder)}"` : ""}${maxLength ? ` maxlength="${escapeHtml(String(maxLength))}"` : ""}${autocomplete ? ` autocomplete="${escapeHtml(autocomplete)}"` : ""}${field.required ? " required" : ""} aria-invalid="false" aria-describedby="${escapeHtml(describedBy)}"${errorText ? ` data-error-message="${escapeHtml(errorText)}"` : ""}>
+                                        <p id="${escapeHtml(errorId)}" class="gtgc-field-error" hidden>${errorText ? renderText(errorText) : ""}</p>
+                                    </div>`;
+}
+
+function getGoldClassHiddenFields(form = {}) {
+  const hiddenFields = Array.isArray(form.hiddenFields) ? form.hiddenFields : [];
+  const groupedFields = (form.hiddenFieldGroups || [])
+    .flatMap((group) => (Array.isArray(group?.fields) ? group.fields : []));
+
+  return [...hiddenFields, ...groupedFields].filter((field) => field?.name);
+}
+
+function renderGoldClassHiddenFields(form = {}) {
+  return getGoldClassHiddenFields(form)
+    .map((field) => indentBlock(renderLeadFormHiddenField(field), 36))
+    .join("\n");
+}
+
+function renderGoldClassCaptcha(form = {}) {
+  const captcha = form.recaptcha || form.captcha || null;
+
+  if (!captcha || captcha.version !== "v3") {
+    return "";
+  }
+
+  const responseFieldName = captcha.responseFieldName || captcha.responseTokenField || captcha.tokenFieldName || "g-recaptcha-response";
+
+  return `                                    <div class="gtgc-recaptcha">
+                                        <input type="hidden" name="${escapeHtml(responseFieldName)}" value="">
+                                    </div>`;
+}
+
+function renderGoldClassIcon(icon, className, context) {
+  if (!icon || typeof icon !== "object" || Array.isArray(icon)) {
+    return "";
+  }
+
+  return renderGoldClassSvgIcon(icon.svg, className, context);
+}
+
+function renderGoldClassLeadForm(section = {}) {
+  const form = section.form || {};
+  const formRegionId = getGoldClassFormRegionId(section);
+  const successState = form.successState || {};
+  const hiddenFieldsMarkup = renderGoldClassHiddenFields(form);
+  const fieldsMarkup = (form.fields || [])
+    .map((field) => renderGoldClassLeadFormField(field))
+    .join("\n");
+  const captchaMarkup = renderGoldClassCaptcha(form);
+  const failureMessage = form.failureNotice?.message || form.failureState?.message || "";
+  const failureTitle = form.failureNotice?.title || form.failureState?.title || "";
+  const successTitle = successState.title || "";
+  const successBody = successState.body || "";
+  const successIconMarkup = renderGoldClassIcon(
+    successState.icon,
+    "gtgc-success-icon",
+    "GTGC success-state icon",
+  );
+  const noSendAttribute = form.noSend === true ? ` data-gtgc-no-send="true"` : "";
+  const failureMarkup = (failureTitle || failureMessage)
+    ? `                                    <p class="gtgc-form-failure" id="gtgc-form-failure" role="alert" tabindex="-1" hidden>${failureTitle ? `<strong>${renderText(failureTitle)}</strong>${failureMessage ? " " : ""}` : ""}${failureMessage ? renderText(failureMessage, { widowProtection: true }) : ""}</p>\n\n`
+    : "";
+  const successMarkup = (successTitle || successBody || successIconMarkup)
+    ? `
+                                <div class="gtgc-form-success" role="status" aria-live="polite" hidden>
+${successIconMarkup ? `                                    ${successIconMarkup}\n` : ""}${successTitle ? `                                    <h2>${renderText(successTitle)}</h2>\n` : ""}${successBody ? `                                    <p>${renderText(successBody, { widowProtection: true })}</p>\n` : ""}                                </div>`
+    : "";
+
+  const captcha = form.recaptcha || form.captcha || {};
+  const captchaVersion = captcha.version || "";
+  const captchaSiteKey = captcha.siteKey || captcha.sitekey || "";
+  const captchaAction = captcha.action || "submit";
+  const captchaResponseFieldName = captcha.responseFieldName || captcha.responseTokenField || captcha.tokenFieldName || "g-recaptcha-response";
+  const captchaAttributes = captchaVersion === "v3"
+    ? ` data-gtgc-captcha-version="v3"${captchaSiteKey ? ` data-gtgc-captcha-site-key="${escapeHtml(captchaSiteKey)}"` : ""} data-gtgc-captcha-action="${escapeHtml(captchaAction)}" data-gtgc-captcha-response-field="${escapeHtml(captchaResponseFieldName)}"`
+    : "";
+
+  return `                                <form${formRegionId ? ` id="${escapeHtml(formRegionId)}" tabindex="-1"` : ""} class="gtgc-lead-form" action="${escapeHtml(form.action || "")}" method="${escapeHtml(form.method || "POST")}" novalidate data-gtgc-lead-form${noSendAttribute}${captchaAttributes}>
+${hiddenFieldsMarkup ? `${hiddenFieldsMarkup}\n` : ""}                                    <div class="gtgc-form-fields">
+${fieldsMarkup}
+                                    </div>
+
+${captchaMarkup ? `${captchaMarkup}\n\n` : ""}                                    <button class="gtgc-submit" type="submit">${renderText(form.submitLabel || "")}</button>
+
+${failureMarkup}${form.privacyText ? `                                    <p class="gtgc-form-privacy">${renderInlineMarkdownLinks(form.privacyText.replace(/^\*|\*$/g, ""), { widowProtection: true })}</p>\n` : ""}                                </form>${successMarkup}`;
+}
+
+function renderGoldClassHeroBullet(bullet, fallbackIcon) {
+  const bulletConfig = typeof bullet === "object" && bullet !== null ? bullet : { text: bullet };
+  const iconMarkup = renderGoldClassIcon(
+    fallbackIcon,
+    "gtgc-bullet-icon",
+    "GTGC hero bullet icon",
+  );
+  const text = bulletConfig.text || bulletConfig.label || bulletConfig.copy || "";
+
+  return `                                    <li>${iconMarkup ? `${iconMarkup}<span>` : ""}${renderText(text, { widowProtection: true })}${iconMarkup ? "</span>" : ""}</li>`;
+}
+
+function renderGoldClassHeroSection(section) {
+  const imageMarkup = renderPicture(
+    section.image,
+    "gtgc-hero-image",
+    "eager",
+    "textMedia",
+    `hero "${section.id}" image`,
+  );
+  const badgeMarkup = section.badge
+    ? renderImg(section.badge, "gtgc-hero-badge", { loading: "eager", context: `hero "${section.id}" badge` })
+    : "";
+  const eyebrow = section.paragraphs?.[0] || "";
+  const body = section.paragraphs?.[1] || "";
+  const bulletIcon = section.bulletIcon;
+  const bulletsMarkup = (section.bullets || [])
+    .map((bullet) => renderGoldClassHeroBullet(bullet, bulletIcon))
+    .join("\n");
+  const hasBulletIcons = Boolean(bulletIcon?.svg);
+  const bulletListClassName = hasBulletIcons
+    ? "gtgc-hero-bullets gtgc-hero-bullets--icons"
+    : "gtgc-hero-bullets";
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("gtgc-page gtgc-hero", section.__autoSectionClassName))}">
+            <div class="gtgc-hero-media">
+                ${imageMarkup}
+${badgeMarkup ? `                ${badgeMarkup}\n` : ""}            </div>
+
+            <div class="gtgc-hero-panel">
+                <div class="gtgc-hero-content">
+                    <h1>${renderText(getHeroHeadline(section))}</h1>
+${eyebrow ? `                    <h2 class="gtgc-eyebrow">${renderText(eyebrow)}</h2>\n` : ""}${body ? `                    <p class="gtgc-hero-copy">${renderText(body, { widowProtection: true })}</p>\n` : ""}${bulletsMarkup ? `                    <ul class="${bulletListClassName}">
+${bulletsMarkup}
+                    </ul>
+\n` : ""}${renderGoldClassLeadForm(section)}
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderGoldClassRatingAsset(quote = {}) {
+  if (!quote.image) {
+    return "";
+  }
+
+  return `                        <div class="gtgc-testimonial-asset">
+                            ${renderImg(quote.image, "gtgc-testimonial-image", { loading: "lazy", context: "GTGC testimonial asset" })}
+                        </div>`;
+}
+
+function renderGoldClassRating(quote = {}) {
+  const rating = Number(quote.rating);
+
+  if (!Number.isFinite(rating) || rating <= 0) {
+    return "";
+  }
+
+  const maxRating = Number.isFinite(Number(quote.maxRating || quote.ratingMax))
+    ? Number(quote.maxRating || quote.ratingMax)
+    : 5;
+  const starCount = Math.max(0, Math.min(Math.round(rating), maxRating));
+  const ratingLabel = quote.ratingLabel || `${rating} out of ${maxRating} stars`;
+
+  if (!starCount) {
+    return "";
+  }
+
+  return `                        <p class="gtgc-stars" aria-label="${escapeHtml(ratingLabel)}"><span aria-hidden="true">${"★".repeat(starCount)}</span></p>`;
+}
+
+function renderGoldClassTestimonialsSection(section) {
+  const quoteMarkup = (section.quotes || [])
+    .map((quote) => `                    <figure class="gtgc-testimonial">
+${renderGoldClassRating(quote) || renderGoldClassRatingAsset(quote)}
+                        <blockquote>
+                            <p>${renderText(quote.quote, { widowProtection: true })}</p>
+                        </blockquote>
+                        <figcaption>
+                            <span class="gtgc-testimonial-attribution"><span aria-hidden="true">— </span><cite>${renderText(quote.name)}</cite>${quote.title ? `<span class="gtgc-testimonial-title">, ${renderText(quote.title)}</span>` : ""}</span>${quote.location ? `<span class="gtgc-testimonial-location">${renderText(quote.location)}</span>` : ""}
+                        </figcaption>
+                    </figure>`)
+    .join("\n\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-testimonials">
+            <div class="gtgc-container">
+                <h2 class="gtgc-visually-hidden">${renderText(getSectionHeading(section))}</h2>
+                <div class="gtgc-testimonial-grid">
+${quoteMarkup}
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderGoldClassBenefitsSection(section) {
+  const itemMarkup = (section.items || [])
+    .map((item) => `                        <li>
+                            <h3>${renderText(item.title)}</h3>
+                            <p>${renderText(item.description, { widowProtection: true })}</p>
+                        </li>`)
+    .join("\n");
+  const pictureMarkup = renderPicture(section.image, "gtgc-benefits-image", "lazy", "textMedia", `section "${section.id}" image`);
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-benefits">
+            <div class="gtgc-container">
+                <div class="gtgc-benefits-grid">
+                    <div class="gtgc-benefits-copy">
+                        <h2>${renderText(getSectionHeading(section))}</h2>
+                        <ul class="gtgc-benefit-list">
+${itemMarkup}
+                        </ul>
+                    </div>
+
+                    <div class="gtgc-benefits-media">
+                        ${pictureMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderGoldClassValueIcon(card = {}) {
+  return renderGoldClassIcon(card.icon, "gtgc-value-icon", "GTGC value icon");
+}
+
+function renderGoldClassValuePropsSection(section) {
+  const cardMarkup = (section.cards || [])
+    .map((card) => {
+      const iconMarkup = renderGoldClassValueIcon(card);
+
+      return `                    <li>
+${iconMarkup ? `                        ${iconMarkup}\n` : ""}                        <h3>${renderText(getCardHeading(card), { widowProtection: true })}</h3>
+                    </li>`;
+    })
+    .join("\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-value-props">
+            <div class="gtgc-container">
+                <h2>${renderText(getSectionHeading(section))}</h2>
+                <ul class="gtgc-value-grid">
+${cardMarkup}
+                </ul>
+            </div>
+        </section>`;
+}
+
+function renderGoldClassFaqSection(section) {
+  const accordionId = escapeHtml(section.accordionId || `${section.id}Accordion`);
+  const itemsMarkup = (section.items || [])
+    .map((item, index) => {
+      const itemNumber = index + 1;
+      const headingId = `${section.id}-heading-${itemNumber}`;
+      const collapseId = `${section.id}-collapse-${itemNumber}`;
+
+      return `                        <div class="ic-card ic-background-white accordion-item gtgc-faq-item mb-2">
+                            <h3 class="ic-card-title accordion-header" id="${escapeHtml(headingId)}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${escapeHtml(collapseId)}" aria-expanded="false" aria-controls="${escapeHtml(collapseId)}">
+                                    ${renderText(getAccordionItemHeading(item))}
+                                </button>
+                            </h3>
+                            <div id="${escapeHtml(collapseId)}" class="accordion-collapse collapse" aria-labelledby="${escapeHtml(headingId)}" data-bs-parent="#${accordionId}">
+                                <div class="accordion-body">
+${renderAccordionItemBody(item)}
+                                </div>
+                            </div>
+                        </div>`;
+    })
+    .join("\n\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-faq">
+            <div class="gtgc-container">
+                <div class="gtgc-faq-grid">
+                    <div class="gtgc-faq-intro">
+                        <h2 class="ic-section-title ic-sticky">${renderText(getSectionHeading(section))}</h2>
+                    </div>
+                    <div class="accordion py-0 gtgc-faq-list" id="${accordionId}">
+${itemsMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
+function hasResponsiveImageFields(image = {}) {
+  return Boolean(
+    image.desktopSrc
+    || image.mobileSrc
+    || image.desktopSrcset
+    || image.mobileSrcset
+    || image.urls
+    || image.desktop
+    || image.mobile,
+  );
+}
+
+function renderGoldClassCtaImage(image, context) {
+  if (!image) {
+    return "";
+  }
+
+  if (hasResponsiveImageFields(image)) {
+    return renderPicture(image, "gtgc-cta-image", "lazy", "textMedia", context);
+  }
+
+  return renderImg(image, "gtgc-cta-image", {
+    loading: "lazy",
+    context,
+  });
+}
+
+function renderGoldClassCtaSection(section) {
+  const mediaMarkup = renderGoldClassCtaImage(section.image, `section "${section.id}" image`);
+  const bodyMarkup = renderParagraphContent(section, "gtgc-cta-copy");
+  const cta = getGoldClassCta(section);
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-footer-cta">
+            <div class="gtgc-container">
+                <div class="gtgc-cta-grid">
+                    <div class="gtgc-cta-media">
+                        ${mediaMarkup}
+                    </div>
+
+                    <div class="gtgc-cta-content">
+                        <h2>${renderText(getSectionHeading(section))}</h2>
+${bodyMarkup ? `${indentBlock(bodyMarkup, 24)}\n` : ""}                        <p class="gtgc-cta-action"><a class="gtgc-submit" href="${escapeHtml(cta.href)}" data-gtgc-lead-form-cta>${renderText(cta.label)}</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderGoldClassFooterSection(section) {
+  const logoMarkup = section.logo
+    ? renderImg(section.logo, "gtgc-footer-logo", { loading: "lazy", context: `section "${section.id}" logo` })
+    : "";
+  const bodyMarkup = (section.paragraphs || [])
+    .map((paragraph) => `                    <p>${renderText(paragraph, { widowProtection: true })}</p>`)
+    .join("\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="gtgc-page gtgc-legal-footer">
+            <div class="gtgc-container">
+                <div class="gtgc-legal-grid">
+                    <div>
+${bodyMarkup}
+                    </div>
+${logoMarkup ? `                    <div class="gtgc-footer-logo-wrap">
+                        <a href="https://i-car.com" target="_blank" rel="noopener noreferrer">${logoMarkup}</a>
+                    </div>\n` : ""}                </div>
+            </div>
+        </section>`;
+}
+
 function renderHeroSection(section) {
   // Support both legacy and structured properties
   // Structured properties: title, subtitle, label, sublabel, body, image, buttons, etc.
   // Legacy properties: headline1, headline2, contentHtml, etc.
+
+  if (section.variant === "splitForm") {
+    return renderGoldClassHeroSection(section);
+  }
 
   const heroHeadline = section.title || getHeroHeadline(section);
   const heroVariant = section.variant || section.heroStyle || "default";
@@ -1880,6 +2393,14 @@ function resolveTextMediaSemanticLayout(section) {
 }
 
 function renderTextMediaSection(section) {
+  if (section.variant === "goldClassBenefits") {
+    return renderGoldClassBenefitsSection(section);
+  }
+
+  if (section.variant === "goldClassCta") {
+    return renderGoldClassCtaSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = indentBlock(renderParagraphContent(section), 12);
   const buttonsMarkup = indentBlock(
@@ -1932,6 +2453,10 @@ ${footerLinksMarkup ? `\n${footerLinksMarkup}` : ""}${footerButtonsMarkup ? `\n$
 }
 
 function renderQuoteGridSection(section) {
+  if (section.variant === "goldClassTestimonials") {
+    return renderGoldClassTestimonialsSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
@@ -2207,6 +2732,10 @@ ${featureMarkup}
 }
 
 function renderIconCardGridSection(section) {
+  if (section.variant === "goldClassValueProps") {
+    return renderGoldClassValuePropsSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const footerBodyMarkup = indentBlock(
@@ -2399,6 +2928,10 @@ ${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
 }
 
 function renderLegalSection(section) {
+  if (section.variant === "goldClassFooter") {
+    return renderGoldClassFooterSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = (section.paragraphs || [])
     .map((paragraph) => `                        <p><small>${renderTrustedHtml(paragraph)}</small></p>`)
@@ -2610,6 +3143,10 @@ ${item.listItems
 }
 
 function renderAccordionSection(section) {
+  if (section.variant === "goldClassFaq") {
+    return renderGoldClassFaqSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const introBodyMarkup = indentBlock(renderParagraphContent(section), 32);
   const accordionId = escapeHtml(section.accordionId || `${section.id}Accordion`);
@@ -2999,6 +3536,449 @@ function normalizePageCms(page, sourceDirectory) {
   return cms;
 }
 
+function getGoldClassFormScriptHtml() {
+  return `<script>
+function initGoldClassForm() {
+  var forms = Array.from(document.querySelectorAll("[data-gtgc-lead-form]"));
+  if (!forms.length) return;
+  var params = new URLSearchParams(window.location.search);
+  var localHostnames = ["localhost", "127.0.0.1", "::1"];
+  var isLocalHost = localHostnames.indexOf(window.location.hostname) !== -1;
+  var requestedNoSend = isLocalHost && params.get("gtgcNoSend") === "1";
+  var requestedState = requestedNoSend ? params.get("gtgcFormState") : "";
+  var emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+  function getFields(form) {
+    return Array.from(form.querySelectorAll("input[required]"));
+  }
+
+  function setInvalid(field, message) {
+    var error = document.getElementById(field.getAttribute("aria-describedby"));
+    var nextMessage = message || field.dataset.errorMessage || "";
+    field.classList.add("is-invalid");
+    field.setAttribute("aria-invalid", "true");
+    if (error) {
+      error.textContent = nextMessage;
+      error.hidden = !nextMessage;
+    }
+  }
+
+  function clearInvalid(field) {
+    var error = document.getElementById(field.getAttribute("aria-describedby"));
+    field.classList.remove("is-invalid");
+    field.setAttribute("aria-invalid", "false");
+    if (error) error.hidden = true;
+  }
+
+  function enforceMaxLength(field) {
+    if (field.maxLength < 0 || field.value.length <= field.maxLength) return;
+    field.value = field.value.slice(0, field.maxLength);
+  }
+
+  function validate(form) {
+    var firstInvalid = null;
+    getFields(form).forEach(function (field) {
+      enforceMaxLength(field);
+      clearInvalid(field);
+      var value = field.value.trim();
+      if (!value) {
+        setInvalid(field);
+        firstInvalid = firstInvalid || field;
+        return;
+      }
+      if (field.type === "email" && !emailPattern.test(value)) {
+        setInvalid(field, field.dataset.errorMessage || "");
+        firstInvalid = firstInvalid || field;
+      }
+    });
+    return firstInvalid;
+  }
+
+  function isNoSendMode(form) {
+    return requestedNoSend || (isLocalHost && form.dataset.gtgcNoSend === "true");
+  }
+
+  function getSubmitButton(form) {
+    return form.querySelector('button[type="submit"], input[type="submit"]');
+  }
+
+  function updateCaptchaSettings(form) {
+    var captchaSettings = form.querySelector('input[name="captcha_settings"]');
+    if (!captchaSettings || !captchaSettings.value) return;
+    try {
+      var settings = JSON.parse(captchaSettings.value);
+      settings.ts = String(Date.now());
+      captchaSettings.value = JSON.stringify(settings);
+    } catch (error) {
+      return;
+    }
+  }
+
+  function getCaptchaConfig(form) {
+    return {
+      version: form.dataset.gtgcCaptchaVersion || "",
+      siteKey: form.dataset.gtgcCaptchaSiteKey || "",
+      action: form.dataset.gtgcCaptchaAction || "submit",
+      responseField: form.dataset.gtgcCaptchaResponseField || "g-recaptcha-response",
+    };
+  }
+
+  function requestRecaptchaToken(form) {
+    var config = getCaptchaConfig(form);
+
+    if (config.version !== "v3" || !config.siteKey) {
+      return Promise.reject(new Error("Missing GTGC reCAPTCHA v3 site key."));
+    }
+
+    if (!window.grecaptcha || typeof window.grecaptcha.ready !== "function" || typeof window.grecaptcha.execute !== "function") {
+      return Promise.reject(new Error("GTGC reCAPTCHA v3 API is unavailable."));
+    }
+
+    return new Promise(function (resolve, reject) {
+      window.grecaptcha.ready(function () {
+        window.grecaptcha.execute(config.siteKey, { action: config.action }).then(function (token) {
+          var responseField = form.querySelector('input[name="' + config.responseField + '"]');
+          if (responseField) responseField.value = token;
+          resolve(token);
+        }).catch(reject);
+      });
+    });
+  }
+
+  function clearPending(form) {
+    var submitButton = getSubmitButton(form);
+    form.dataset.gtgcPending = "false";
+    form.removeAttribute("aria-busy");
+    if (submitButton) {
+      submitButton.disabled = false;
+      if (typeof submitButton.dataset.gtgcOriginalLabel === "string") {
+        if (submitButton.tagName.toLowerCase() === "input") {
+          submitButton.value = submitButton.dataset.gtgcOriginalLabel;
+        } else {
+          submitButton.textContent = submitButton.dataset.gtgcOriginalLabel;
+        }
+        delete submitButton.dataset.gtgcOriginalLabel;
+      }
+    }
+  }
+
+  function setPending(form) {
+    var submitButton = getSubmitButton(form);
+    form.dataset.gtgcPending = "true";
+    form.setAttribute("aria-busy", "true");
+    if (submitButton) {
+      if (typeof submitButton.dataset.gtgcOriginalLabel !== "string") {
+        submitButton.dataset.gtgcOriginalLabel = submitButton.tagName.toLowerCase() === "input"
+          ? submitButton.value
+          : submitButton.textContent;
+      }
+      if (submitButton.tagName.toLowerCase() === "input") {
+        submitButton.value = "Submitting...";
+      } else {
+        submitButton.textContent = "Submitting...";
+      }
+      submitButton.disabled = true;
+    }
+  }
+
+  function showFailure(form) {
+    var notice = form.querySelector(".gtgc-form-failure");
+    clearPending(form);
+    if (!notice) return;
+    notice.hidden = false;
+    notice.focus({ preventScroll: true });
+    notice.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  function showSuccess(form) {
+    var success = form.parentElement.querySelector(".gtgc-form-success");
+    clearPending(form);
+    if (!success) return;
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  function scrollTargetIntoView(target) {
+    if (!target) return;
+    if (typeof target.focus === "function") {
+      target.focus({ preventScroll: true });
+    }
+    target.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  function resolveLeadFormTarget(link) {
+    var hash = "";
+
+    try {
+      var url = new URL(link.href, window.location.href);
+      var currentUrl = new URL(window.location.href);
+      if (url.origin !== currentUrl.origin || url.pathname !== currentUrl.pathname || url.search !== currentUrl.search) {
+        return null;
+      }
+      hash = url.hash;
+    } catch (error) {
+      hash = link.getAttribute("href") || "";
+    }
+
+    if (!hash || hash.charAt(0) !== "#") return null;
+
+    var targetId = hash.slice(1);
+    var target = targetId ? document.getElementById(targetId) : null;
+
+    if (!target || !target.matches("[data-gtgc-lead-form]")) return null;
+
+    return {
+      hash: hash,
+      target: target,
+    };
+  }
+
+  document.querySelectorAll("[data-gtgc-lead-form-cta]").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      var resolvedTarget = resolveLeadFormTarget(link);
+      if (!resolvedTarget) return;
+      event.preventDefault();
+      if (window.location.hash !== resolvedTarget.hash) {
+        history.pushState(null, "", resolvedTarget.hash);
+      }
+      scrollTargetIntoView(resolvedTarget.target);
+    });
+  });
+
+  forms.forEach(function (form) {
+    getFields(form).forEach(function (field) {
+      field.addEventListener("input", function () {
+        enforceMaxLength(field);
+        clearInvalid(field);
+      });
+    });
+
+    form.addEventListener("submit", function (event) {
+      if (form.dataset.gtgcPending === "true") {
+        event.preventDefault();
+        return;
+      }
+
+      var firstInvalid = validate(form);
+      if (firstInvalid) {
+        event.preventDefault();
+        firstInvalid.focus();
+        return;
+      }
+      if (isNoSendMode(form)) {
+        event.preventDefault();
+        if (params.get("gtgcFormState") === "failure") {
+          showFailure(form);
+          return;
+        }
+        showSuccess(form);
+        return;
+      }
+
+      event.preventDefault();
+      setPending(form);
+      updateCaptchaSettings(form);
+      requestRecaptchaToken(form).then(function () {
+        showFailure(form);
+      }).catch(function () {
+        showFailure(form);
+      });
+    });
+
+    if (requestedState === "error") {
+      getFields(form).forEach(function (field) {
+        setInvalid(field);
+      });
+      var firstField = getFields(form)[0];
+      if (firstField) firstField.focus();
+    } else if (requestedState === "failure") {
+      showFailure(form);
+    } else if (requestedState === "success") {
+      showSuccess(form);
+    }
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initGoldClassForm, { once: true });
+} else {
+  initGoldClassForm();
+}
+</script>`;
+}
+
+function renderGoldClassSectionVariant(section = {}) {
+  const explicitVariant = section.goldClassVariant || section.getToGoldClass?.variant || "";
+  const variant = explicitVariant || section.variant || "";
+
+  if ([
+    "splitForm",
+    "goldClassTestimonials",
+    "goldClassBenefits",
+    "goldClassValueProps",
+    "goldClassFaq",
+    "goldClassCta",
+    "goldClassFooter",
+  ].includes(variant)) {
+    return variant;
+  }
+
+  if (section.type === "hero" && section.form?.fields?.length) {
+    return "splitForm";
+  }
+
+  const sectionKey = section.getToGoldClass?.section || section.__template?.id || section.id;
+  const variantByTypeAndKey = {
+    "quoteGrid:testimonials": "goldClassTestimonials",
+    "textMedia:benefits": "goldClassBenefits",
+    "iconCardGrid:value-props": "goldClassValueProps",
+    "accordion:faq": "goldClassFaq",
+    "textMedia:footer-cta": "goldClassCta",
+    "legal:legal": "goldClassFooter",
+  };
+
+  return variantByTypeAndKey[`${section.type}:${sectionKey}`] || "";
+}
+
+function pageUsesGoldClassRenderer(page = {}) {
+  const sections = page.sections || [];
+  const hasGoldClassLeadForm = sections.some((section) => section.type === "hero" && section.form?.fields?.length);
+  const hasGoldClassSupportingSection = sections.some((section) => [
+    "goldClassTestimonials",
+    "goldClassBenefits",
+    "goldClassValueProps",
+    "goldClassFaq",
+    "goldClassCta",
+    "goldClassFooter",
+  ].includes(renderGoldClassSectionVariant(section)));
+
+  return hasGoldClassLeadForm && hasGoldClassSupportingSection;
+}
+
+function pageHasGoldClassLeadForm(page = {}) {
+  return (page.sections || []).some((section) => renderGoldClassSectionVariant(section) === "splitForm" && section.form?.fields?.length);
+}
+
+function getGoldClassRecaptchaScriptHtml(page = {}) {
+  const scriptSources = (page.sections || [])
+    .map((section) => {
+      const captcha = section.form?.recaptcha || section.form?.captcha || null;
+
+      if (captcha?.version !== "v3") {
+        return "";
+      }
+
+      const siteKey = captcha.siteKey || captcha.sitekey || "";
+
+      if (!siteKey) {
+        return "";
+      }
+
+      return captcha.scriptSrc || captcha.scriptSource || `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+    })
+    .filter(Boolean);
+
+  return [...new Set(scriptSources)]
+    .map((src) => `<script src="${escapeHtml(src)}" async defer></script>`);
+}
+
+function validateGoldClassAnchorContract(page = {}) {
+  const anchorIds = new Set();
+
+  (page.sections || []).forEach((section) => {
+    if (typeof section.id === "string" && section.id) {
+      anchorIds.add(section.id);
+    }
+  });
+
+  (page.sections || []).forEach((section) => {
+    if (renderGoldClassSectionVariant(section) !== "splitForm") {
+      return;
+    }
+
+    const regionId = getGoldClassFormRegionId(section);
+
+    if (!regionId) {
+      throw new Error("GTGC form regionId is required for iframe-targeted submission.");
+    }
+
+    if (!isSafeHtmlAnchorId(regionId)) {
+      throw new Error(`GTGC form regionId "${regionId}" must be a safe HTML anchor id.`);
+    }
+
+    if (anchorIds.has(regionId)) {
+      throw new Error(`GTGC form regionId "${regionId}" must be unique on the page.`);
+    }
+
+    anchorIds.add(regionId);
+  });
+
+  (page.sections || []).forEach((section) => {
+    if (renderGoldClassSectionVariant(section) !== "goldClassCta") {
+      return;
+    }
+
+    const cta = getGoldClassCta(section);
+    const ctaHref = cta.href || "";
+
+    if (!cta.label || !ctaHref) {
+      throw new Error(`GTGC CTA section "${section.id}" must include a button label and href.`);
+    }
+
+    if (ctaHref === "#") {
+      return;
+    }
+
+    if (!ctaHref.startsWith("#")) {
+      return;
+    }
+
+    const targetId = ctaHref.slice(1);
+
+    if (!anchorIds.has(targetId)) {
+      throw new Error(`GTGC CTA href "${ctaHref}" must target an existing page anchor.`);
+    }
+  });
+}
+
+function normalizeGetToGoldClassPage(page = {}) {
+  if (!pageUsesGoldClassRenderer(page)) {
+    return page;
+  }
+
+  const sections = (page.sections || []).map((section) => {
+    const goldClassVariant = renderGoldClassSectionVariant(section);
+
+    if (!goldClassVariant) {
+      return section;
+    }
+
+    return {
+      ...section,
+      variant: goldClassVariant,
+    };
+  });
+  validateGoldClassAnchorContract({ ...page, sections });
+  const scriptHtml = [
+    ...normalizeHtmlBlocks(page.cms?.scriptHtml),
+    ...getGoldClassRecaptchaScriptHtml({ ...page, sections }),
+  ];
+
+  if (pageHasGoldClassLeadForm({ ...page, sections })) {
+    scriptHtml.push(getGoldClassFormScriptHtml());
+  }
+
+  return {
+    ...page,
+    sections,
+    cms: {
+      ...(page.cms || {}),
+      scriptHtml,
+    },
+  };
+}
+
 function parseAuthoringFile(sourceFile) {
   const page = parseStructuredAuthoringFile(sourceFile);
 
@@ -3017,9 +3997,11 @@ function parseAuthoringFile(sourceFile) {
   const sourceDirectory = dirname(sourceFile);
 
   return {
-    ...page,
-    sections: normalizePageSections(page, sourceDirectory),
-    cms: normalizePageCms(page, sourceDirectory),
+    ...normalizeGetToGoldClassPage({
+      ...page,
+      sections: normalizePageSections(page, sourceDirectory),
+      cms: normalizePageCms(page, sourceDirectory),
+    }),
   };
 }
 
@@ -3033,7 +4015,7 @@ function toContentHtmlRelativePath(sourceFile, page) {
 
 function syncRenderedHtmlFile(renderedPage) {
   const outputFile = join(previewOutputDir, renderedPage.relativeOutputPath);
-  const nextContents = stripCmsFragmentMarkers(renderedPage.html);
+  const nextContents = stripCmsFragmentMarkers(renderedPage.previewHtml || renderedPage.html);
 
   if (!existsSync(outputFile)) {
     mkdirSync(dirname(outputFile), { recursive: true });
@@ -3077,13 +4059,15 @@ export function collectRenderedPageDocuments() {
     const page = parseAuthoringFile(sourceFile);
     const relativeOutputPath = toContentHtmlRelativePath(sourceFile, page);
     const htmlOutputPath = join(previewOutputDir, relativeOutputPath);
+    const html = renderDocument(page, htmlOutputPath);
 
     return {
       sourceFile,
       page,
       relativeOutputPath,
       htmlOutputPath,
-      html: renderDocument(page, htmlOutputPath),
+      html,
+      previewHtml: resolvePreviewKenticoMediaUrlsInHtml(html),
     };
   });
 }

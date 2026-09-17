@@ -66,6 +66,10 @@ function stripSourceMapComment(source) {
   return source.replace(/\n?\/\/# sourceMappingURL=.*$/m, "");
 }
 
+function ensureSingleTrailingNewline(source) {
+  return `${source.replace(/\s+$/u, "")}\n`;
+}
+
 function logBuildSuccess(reason = "manual") {
   logTargetBuildSuccess("dev/assets/js/script.js", reason);
 }
@@ -114,7 +118,7 @@ async function buildTarget({ entry, output, sourceMap = true }) {
   }
 
   const bundledSource = stripSourceMapComment(outputFile.text);
-  writeFileSync(output, `${bundledSource}\n`);
+  writeFileSync(output, ensureSingleTrailingNewline(bundledSource));
 
   if (productionMode) {
     rmSync(outputMap, { force: true });
@@ -170,9 +174,9 @@ if (watchMode) {
               }
 
               const source = readFileSync(target.output, "utf8");
-              const normalizedSource = stripSourceMapComment(source);
+              const normalizedSource = ensureSingleTrailingNewline(stripSourceMapComment(source));
               if (normalizedSource !== source) {
-                writeFileSync(target.output, `${normalizedSource}\n`);
+                writeFileSync(target.output, normalizedSource);
               }
               logTargetBuildSuccess(
                 target.output,

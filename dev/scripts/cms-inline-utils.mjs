@@ -69,7 +69,7 @@ const tagAttributePriority = {
   script: ["src", "type", "async", "defer"],
   source: ["height", "media", "sizes", "srcset", "width", "type", "src"],
 };
-const cmsShellCss = `:root{--shell-inline-padding:var(--space-12);--shell-header-inline-padding:var(--shell-inline-padding);--shell-footer-inline-padding:var(--shell-inline-padding);--shell-breadcrumb-inline-padding:var(--shell-inline-padding);--shell-content-inline-padding:var(--space-8);--shell-section-inline-padding:var(--space-15);--shell-desktop-inline-offset:0px;--shell-max-width:var(--site-width)}@media screen and (min-width:1024.1px){:root{--shell-inline-padding:var(--space-8);--shell-content-inline-padding:var(--space-12);--shell-section-inline-padding:var(--space-12);--shell-desktop-inline-offset:var(--space-15)}}.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto}.header .header-inner{padding-left:var(--shell-header-inline-padding);padding-right:var(--shell-header-inline-padding)}.footer .footer-inner{padding-left:var(--shell-footer-inline-padding);padding-right:var(--shell-footer-inline-padding)}#main,#main>article{padding-left:0;padding-right:0}.zoneMainContent,.zoneMainContent>.pdp.container,.zoneMainContent .pdp.container{max-width:var(--shell-max-width)!important;width:100%;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0}.pdp.container>.row{margin:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--shell-content-inline-padding)}.content.no-right-rail h1:only-child{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 var(--shell-breadcrumb-inline-padding)}.ic-section .container,.ic-header .container{padding-left:var(--shell-section-inline-padding);padding-right:var(--shell-section-inline-padding)}@media screen and (min-width:1440px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:var(--shell-max-width)!important}}`;
+const cmsShellCss = `:root{--shell-inline-padding:var(--space-12);--shell-header-inline-padding:var(--shell-inline-padding);--shell-footer-inline-padding:var(--shell-inline-padding);--shell-breadcrumb-inline-padding:var(--shell-inline-padding);--shell-content-inline-padding:var(--space-8);--shell-section-inline-padding:var(--space-15);--shell-desktop-inline-offset:0px;--shell-max-width:var(--site-width)}@media screen and (min-width:1024.1px){:root{--shell-inline-padding:var(--space-8);--shell-content-inline-padding:var(--space-12);--shell-section-inline-padding:var(--space-12);--shell-desktop-inline-offset:var(--space-15)}}.header .header-inner,.footer .footer-inner{max-width:100%;margin-left:auto;margin-right:auto}.header .header-inner{padding-left:var(--shell-header-inline-padding);padding-right:var(--shell-header-inline-padding)}.footer .footer-inner{padding-left:var(--shell-footer-inline-padding);padding-right:var(--shell-footer-inline-padding)}#main,#main>article{padding-left:0;padding-right:0}.zoneMainContent,.zoneMainContent>.pdp.container,.zoneMainContent .pdp.container{max-width:none!important;width:100%;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0}.pdp.container>.row{margin:0}#main>article{padding:0}.content.no-right-rail{padding:0 var(--shell-content-inline-padding)}.content.no-right-rail h1:only-child{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.breadcrumb{margin:calc(25rem / var(--rem-base)) auto;padding:0 var(--shell-breadcrumb-inline-padding)}.ic-section .container,.ic-header .container{padding-left:var(--shell-section-inline-padding);padding-right:var(--shell-section-inline-padding)}@media screen and (min-width:1440px){.ic-section .container,.ic-header .container,.breadcrumb,.header .header-inner,.footer .footer-inner{max-width:var(--shell-max-width)!important}}`;
 const cmsFormShellCss = `.ic-section+.row.row--with-cols-padding,.section+.row.row--with-cols-padding{margin-top:var(--section-margin);background:var(--lightest)!important;padding:var(--section-padding) 0}.ic-section.ic-background-white+.row.row--with-cols-padding,.section.ic-background-white+.row.row--with-cols-padding,.section.bg-white+.row.row--with-cols-padding{background:var(--lightest)!important}.ic-section.ic-background-light+.row.row--with-cols-padding,.section.ic-background-light+.row.row--with-cols-padding,.section.bg-light+.row.row--with-cols-padding{margin-top:0;background:none!important}.ic-section+.row.row--with-cols-padding:last-child,.section+.row.row--with-cols-padding:last-child{padding-bottom:clamp(5rem,1.721rem + 9.697vw,7.5rem)}.ic-section+.row.row--with-cols-padding form,.section+.row.row--with-cols-padding form,.row--with-cols-padding form{max-width:100%}.row--with-cols-padding:has(form,.formwidget-submit-text){margin:0}.row--with-cols-padding:has(.formwidget-submit-text) .subhead,.row--with-cols-padding:has(.formwidget-submit-text) .disclaimer{display:none!important}`;
 const aboutUsCmsLegacyCss = `
 :where(body,.content)>section.section_hero {
@@ -933,6 +933,27 @@ function extractHeadExternalLinks(source) {
   return extractLinkTags(headMatch[0]).filter((link) => /href=["'](?:[a-z]+:)?\/\//i.test(link));
 }
 
+function extractCmsHeadStyleCss(page) {
+  const headHtml = Array.isArray(page?.cms?.headHtml) ? page.cms.headHtml : [];
+  const cssParts = [];
+
+  for (const entry of headHtml) {
+    if (typeof entry !== "string") {
+      continue;
+    }
+
+    for (const match of entry.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) {
+      const css = (match[1] ?? "").trim();
+
+      if (css) {
+        cssParts.push(css);
+      }
+    }
+  }
+
+  return cssParts;
+}
+
 function extractCmsMain(source) {
   const bodyMatch = source.match(/<body\b[\s\S]*?<\/body>/i);
 
@@ -1245,6 +1266,8 @@ async function renderCmsStyleTag(
   if (includeCmsFormShell) {
     cssParts.push(cmsFormShellCss);
   }
+
+  cssParts.push(...extractCmsHeadStyleCss(page));
 
   if (cssParts.length === 0) {
     return "";
