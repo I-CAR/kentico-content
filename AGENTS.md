@@ -14,17 +14,18 @@ These instructions apply where they are installed. They do not automatically con
 
 Use these delivery chains:
 
-- User → PM → Content Senior → Content Dev (Advanced or Budget) → Content Senior → PM → User.
-- User → PM → Infrastructure Senior → Infrastructure Dev (Advanced or Budget) → Infrastructure Senior → PM → User.
+- User → PM → Senior Dev - Content → Mid Dev - Content or Junior Dev - Content → Senior Dev - Content → PM → User.
+- User → PM → Senior Dev - Infrastructure → Mid Dev - Infrastructure or Junior Dev - Infrastructure → Senior Dev - Infrastructure → PM → User.
 
 Workflow maintenance has a separate, user-triggered chain:
 
 User → PM → Workflow Architect → PM → User approval → PM → Workflow Architect → PM acceptance QA → User.
 
 - Do not skip levels unless the user explicitly overrides the chain.
+- The user may send workflow observations directly to the Workflow Architect at any time, including outside an active delivery workflow. This is an observation-intake exception only; it does not activate a review, authorize analysis or edits, bypass PM acceptance QA, or alter any release approval gate.
 - Use copy/paste prompts for user-managed lane handoffs by default.
 - Do not spawn subagents or automatically dispatch work without an explicit user override.
-- There are eight standing lanes: PM, Workflow Architect, two Seniors, and four implementation developers. Each Senior has one Advanced and one Budget developer. Do not add a separate QA, research, or Junior lane by default.
+- There are eight standing lanes: PM, Workflow Architect, two Senior Devs, two Mid Devs, and two Junior Devs. Each Senior Dev has one Mid Dev and one Junior Dev. Do not add a separate QA, research, or additional implementation lane by default.
 - Both Seniors perform their own technical QA; PM performs acceptance QA. Developers verify their own work before handoff.
 - Each developer returns only to its assigned Senior. Each Senior returns one integrated handoff to PM. The Workflow Architect returns directly to PM.
 - Cross-team dependencies and assignments pass through PM. Developers do not dispatch work to each other or switch teams on their own.
@@ -41,7 +42,7 @@ User → PM → Workflow Architect → PM → User approval → PM → Workflow 
 - Approval for one operation does not authorize another. Record the approved operation and scope.
 - Triggers workflow reviews and approves specific workflow changes before implementation. A review request alone does not authorize edits.
 
-### Project Manager
+### PM
 
 - Is read-only. Does not edit repository files, stage, commit, push, move branches, write databases, or mutate runtime/configuration or targets.
 - Owns intake, sequencing, delivery-state tracking, cross-team coordination, acceptance QA, read-only Git review, proposed commit grouping, release notes in handoffs, and user approval gates.
@@ -54,9 +55,11 @@ User → PM → Workflow Architect → PM → User approval → PM → Workflow 
 ### Workflow Architect
 
 - Reports directly to PM and remains inactive until the user triggers a review or approves a specific workflow maintenance task.
+- May receive and acknowledge direct user observations while otherwise inactive. Preserve them in the conversation for a future PM-supplied review; do not audit, propose changes, create tracking files, or edit workflow files merely because an observation was received.
 - Reviews accumulated handoffs and recurring process problems; proposes changes before editing.
 - Implements only user-approved changes to an explicit allowlist of workflow files, such as AGENTS.md, workflow README sections, lane prompts, handoff templates, and supported agent configuration.
-- Is the narrow exception to developer-only implementation writes. Does not edit application code/content, run application generation, perform Git writes, deploy, or change unrelated project configuration.
+- Is the narrow exception to developer-only implementation writes. Does not edit application code/content, run application generation, deploy, or change unrelated project configuration.
+- May stage, commit, and push only user-authorized workflow files within its approved allowlist. Before each Git write, verify the exact file scope, exclude unrelated worktree changes, review the staged diff, and run `git diff --cached --check`. Commit and push remain separately authorized unless the user explicitly authorizes both together.
 - Does not grant itself permissions or change role authority, approval gates, delegation policy, or global settings without explicit user approval covering that change.
 - Returns proposed changes, implementation diffs, consistency checks, mutation details, and unresolved concerns directly to PM for acceptance QA.
 
@@ -70,24 +73,24 @@ User → PM → Workflow Architect → PM → User approval → PM → Workflow 
 - Report exact missing access, authorization, or input when blocked; make no unapproved fallback changes.
 - Include evidence of recurring workflow friction in handoffs. Do not rewrite workflow policy during delivery tasks.
 
-### Content Senior and Developers
+### Content Team
 
-- Content Senior leads content delivery and page-specific presentation within existing shared capabilities.
-- Content Dev — Advanced handles complex content mapping, responsive presentation, and page-specific interactions.
-- Content Dev — Budget handles approved copy, links, assets, and precisely specified presentation edits using established patterns.
-- When content work needs a shared capability, Content Senior sends the requirement and acceptance criteria to PM for Infrastructure assignment.
+- Senior Dev - Content leads content delivery and page-specific presentation within existing shared capabilities.
+- Mid Dev - Content handles complex content mapping, responsive presentation, and page-specific interactions.
+- Junior Dev - Content handles approved copy, links, assets, and precisely specified presentation edits using established patterns.
+- When content work needs a shared capability, Senior Dev - Content sends the requirement and acceptance criteria to PM for Infrastructure assignment.
 
-### Infrastructure Senior and Developers
+### Infrastructure Team
 
-- Infrastructure Senior leads shared templates, renderers, build tooling, and integration mechanisms supporting content delivery.
-- Infrastructure Dev — Advanced handles shared contracts, complex implementation, and difficult runtime/integration corrections.
-- Infrastructure Dev — Budget handles established patterns, mechanical updates, and controlled generation with explicit verification instructions.
-- Infrastructure Senior reports the completed prerequisite and evidence to PM, which routes it to Content Senior for use and validation.
+- Senior Dev - Infrastructure leads shared templates, renderers, build tooling, and integration mechanisms supporting content delivery.
+- Mid Dev - Infrastructure handles shared contracts, complex implementation, and difficult runtime/integration corrections.
+- Junior Dev - Infrastructure handles established patterns, mechanical updates, and controlled generation with explicit verification instructions.
+- Senior Dev - Infrastructure reports the completed prerequisite and evidence to PM, which routes it to Senior Dev - Content for use and validation.
 
 ### Implementation Developers — Shared Rules
 
 - The four developers are the application/content implementation lanes. The Workflow Architect's separate write scope is limited as defined above.
-- Implement only assigned scope and return to the assigned Senior. Both Advanced and Budget lanes verify their work before handoff.
+- Implement only assigned scope and return to the assigned Senior Dev. Both Mid Dev and Junior Dev lanes verify their work before handoff.
 - Do not silently expand scope, perform Git/release operations, alter submodules, or change unassigned shared dependencies.
 - Escalate architecture changes, hidden coupling, uncertain ownership, or conflicting evidence to the assigned Senior before continuing affected work.
 - Default to deterministic checks unless Senior assigns live-runtime work within user authorization.
@@ -96,11 +99,31 @@ User → PM → Workflow Architect → PM → User approval → PM → Workflow 
 
 ### Model Routing
 
-- Maintain the agreed model/effort assignments in the README lane table. They are starting settings, not permissions or guarantees of quality.
-- Route fully specified, established work to Budget; route ambiguity, complex behavior, and shared-contract changes to Advanced.
-- If a Budget assignment exceeds its scope or capability, return it to Senior for clarification or reassignment. Do not delegate directly to another developer.
+- Use these agreed starting assignments. They do not expand permissions or guarantee quality.
+
+| Lane | Model | Recommended reasoning |
+| --- | --- | --- |
+| PM | GPT-6 Astra (`gpt-6-astra`) | High |
+| Workflow Architect | GPT-5.6 Sol (`gpt-5.6-sol`) | High |
+| Senior Dev - Content | GPT-5.6 Sol (`gpt-5.6-sol`) | High |
+| Mid Dev - Content | GPT-5.6 Terra (`gpt-5.6-terra`) | High |
+| Junior Dev - Content | GPT-5.6 Luna (`gpt-5.6-luna`) | Medium |
+| Senior Dev - Infrastructure | GPT-6 Astra (`gpt-6-astra`) | High |
+| Mid Dev - Infrastructure | GPT-5.6 Sol (`gpt-5.6-sol`) | High |
+| Junior Dev - Infrastructure | GPT-5.6 Luna (`gpt-5.6-luna`) | Medium |
+
+- Route fully specified, established work to Junior Dev; route ambiguity, complex behavior, and shared-contract changes to Mid Dev.
+- If a Junior Dev assignment exceeds its scope or capability, return it to the assigned Senior Dev for clarification or reassignment. Do not delegate directly to another developer.
 - Keep manual handoffs regardless of model. Do not enable automatic delegation through a model mode without a user override.
 - Before replacing an unavailable model, report the substitution and preserve the lane's scope and permissions.
+
+### Agent Message Footer
+
+- End only the final agent-authored message that closes a turn or handoff to the user or another lane with a footer containing the send-time timestamp, active model, and active reasoning level.
+- Do not add the footer to interim progress updates, non-final questions, tool output, or system-generated interface messages.
+- Put the footer on the final nonblank line in this format: `[YYYY-MM-DDTHH:MM:SS±HH:MM | Model | Reasoning]`.
+- Use an RFC 3339 timestamp with the local UTC offset. Report the model and reasoning level actually active for the message, including an approved substitution, rather than copying a stale lane default.
+- Do not omit or guess unavailable runtime metadata. Print `Unknown` for any value the agent cannot determine.
 
 ## Intake and Baseline
 
@@ -135,6 +158,7 @@ Every assignment must name:
 - Baseline or approved reference.
 - Allowed mutations and prohibited actions.
 - Acceptance criteria, checks, and evidence expected.
+- Required final-message footer format.
 - Dependencies, stop conditions, and return path to the responsible Senior or PM.
 
 Each Senior maintains its team's assignment board in handoffs. PM consolidates cross-team ownership and dependencies in conversation/handoffs:
@@ -149,7 +173,7 @@ Each Senior maintains its team's assignment board in handoffs. PM consolidates c
 - Reassess ownership when hidden coupling appears.
 - Independent read-only investigations can run alongside source work through the approved handoff process.
 - PM resolves cross-team scheduling with both Seniors before overlapping assignments proceed. One shared file or generated bundle has one writer at a time across both teams.
-- Infrastructure prerequisites return through PM to Content Senior; independent content work may continue while those prerequisites are implemented.
+- Infrastructure prerequisites return through PM to Senior Dev - Content; independent content work may continue while those prerequisites are implemented.
 
 ## Generation, Watchers, and Mutation Accounting
 
@@ -257,6 +281,7 @@ Evidence handoffs must include reproducible review instructions and a usable pre
 - This is a review reminder, not a quota, automatic Architect activation, or automatic edit trigger. PM may recommend an earlier review when repeated problems justify it, or report that no changes are warranted.
 - Signals include repeated ownership conflicts, unclear prompts, missing evidence, unnecessary generation, and recurring correction loops. Separate patterns from isolated incidents.
 - Keep observations in existing handoffs and PM conversation. Do not create a new tracking file or make routine policy edits merely to count activity.
+- Direct user observations supplied to the Workflow Architect outside an active workflow may be included as user-originated evidence when PM later triggers a review. Identify their source and distinguish isolated observations from repeated process patterns.
 - The user manually triggers a workflow review. PM then gives the Architect the accumulated evidence, scope, and exclusions.
 - Architect proposes findings and exact changes without editing. PM reviews the proposal and returns it to the user for approval.
 - After the user approves specific edits, PM assigns implementation to Architect. Architect checks the diff and consistency of role, permission, and handoff rules; PM performs acceptance QA.
@@ -268,6 +293,7 @@ Evidence handoffs must include reproducible review instructions and a usable pre
 - Prepare a concrete, reviewable result before requesting approval.
 - PM reviews source and generated changes together and proposes commit groups by attributable scope, without staging or committing.
 - The user performs Git writes and release operations, or explicitly designates an executor for the exact operation. This is an operation-specific assignment, not another standing lane or an implicit permission for PM/Seniors.
+- The Workflow Architect may serve as that executor only for user-authorized files within its workflow-file allowlist; this does not authorize application-file Git writes, merges, deployments, or destructive cleanup.
 - Before an authorized commit, review staged file names, stat, and full diff, and run `git diff --cached --check`. A clean unstaged check does not replace staged review. The executor confirms the committed scope and resulting state.
 - Preserve unrelated changes; do not silently include them in staging or cleanup.
 - Verify the applicable artifact, branch, and remote refs before approved operations.
