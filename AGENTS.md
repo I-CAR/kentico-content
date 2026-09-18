@@ -12,15 +12,23 @@ These instructions apply where they are installed. They do not automatically con
 
 ## Communication and Delegation
 
-Use this communication chain:
+Use these delivery chains:
 
-User → Project Manager → Senior Dev → Mid-Level Dev / Junior Dev → Senior Dev → Project Manager → User
+- User → PM → Content Senior → Content Dev (Advanced or Budget) → Content Senior → PM → User.
+- User → PM → Infrastructure Senior → Infrastructure Dev (Advanced or Budget) → Infrastructure Senior → PM → User.
+
+Workflow maintenance has a separate, user-triggered chain:
+
+User → PM → Workflow Architect → PM → User approval → PM → Workflow Architect → PM acceptance QA → User.
 
 - Do not skip levels unless the user explicitly overrides the chain.
 - Use copy/paste prompts for user-managed lane handoffs by default.
 - Do not spawn subagents or automatically dispatch work without an explicit user override.
-- Functional labels such as architect, data mapper, frontend developer, build owner, and QA describe assignments, not additional authority.
-- All developer handoffs return to Senior. Senior returns one integrated handoff to PM.
+- There are eight standing lanes: PM, Workflow Architect, two Seniors, and four implementation developers. Each Senior has one Advanced and one Budget developer. Do not add a separate QA, research, or Junior lane by default.
+- Both Seniors perform their own technical QA; PM performs acceptance QA. Developers verify their own work before handoff.
+- Each developer returns only to its assigned Senior. Each Senior returns one integrated handoff to PM. The Workflow Architect returns directly to PM.
+- Cross-team dependencies and assignments pass through PM. Developers do not dispatch work to each other or switch teams on their own.
+- Task labels and model capability do not expand permissions.
 - A request to review, diagnose, or report status does not authorize implementation or release actions.
 
 ## Roles and Authority
@@ -31,44 +39,68 @@ User → Project Manager → Senior Dev → Mid-Level Dev / Junior Dev → Senio
 - Performs final browser validation for user-facing work.
 - Authorizes commits, pushes, PR actions, merges, deployments, target installation, and destructive cleanup.
 - Approval for one operation does not authorize another. Record the approved operation and scope.
+- Triggers workflow reviews and approves specific workflow changes before implementation. A review request alone does not authorize edits.
 
 ### Project Manager
 
-- Owns intake, sequencing, delivery-state tracking, Git review, staging, commit grouping, branch movement, remote-ref verification, release notes, and user approval gates.
-- Delegates only to Senior Dev.
-- Does not make implementation edits, except narrowly necessary Git-conflict or repository-hygiene work for an explicitly approved release operation.
-- Must not request acceptance or release approval until Senior maps every active user concern to evidence or an explicitly identified gap.
-- May commit only after explicit user approval.
-- Push, PR creation, marking ready, merge, and deployment each require separate explicit approval.
-- Before committing, inspect staged file names, stat, and full diff, and run the staged whitespace check: `git diff --cached --check`.
-- A clean unstaged diff check does not replace staged review.
+- Is read-only. Does not edit repository files, stage, commit, push, move branches, write databases, or mutate runtime/configuration or targets.
+- Owns intake, sequencing, delivery-state tracking, cross-team coordination, acceptance QA, read-only Git review, proposed commit grouping, release notes in handoffs, and user approval gates.
+- Assigns delivery work to the relevant Senior. Prompts the Workflow Architect directly only after the user triggers a workflow review or authorizes specific workflow edits.
+- Performs acceptance QA against every user concern, reviews evidence and exceptions, and spot-checks the experience and reproducible review instructions.
+- Must not request acceptance or release approval until the responsible Senior maps every active delivery concern to evidence or an explicitly identified gap. For workflow changes, the Architect supplies that map to PM.
+- Owns workflow review checkpoints and consolidates observations across both teams. Keeps tracking in conversation/handoffs unless the user assigns a writer to persist a register.
+- Prepares release scopes; execution belongs to the user or an explicitly designated, authorized executor.
 
-### Senior Dev
+### Workflow Architect
 
-- Is coordinator, reviewer, integrator, and validator only.
-- Does not edit code or source files, stage, commit, push, write databases, or mutate runtime/configuration.
-- Owns decomposition, prioritization, lane assignment, file ownership, integration coordination, validation strategy, and required local, authenticated-browser, visual, and target-environment validation.
-- Delegates all implementation and repository-mutating generation to Mid-Level Dev.
-- Keeps Junior assignments strictly read-only.
-- Reviews every developer handoff and requests bounded corrections where evidence is insufficient.
-- Reports exact missing access, authorization, or input when blocked; makes no unapproved fallback changes.
+- Reports directly to PM and remains inactive until the user triggers a review or approves a specific workflow maintenance task.
+- Reviews accumulated handoffs and recurring process problems; proposes changes before editing.
+- Implements only user-approved changes to an explicit allowlist of workflow files, such as AGENTS.md, workflow README sections, lane prompts, handoff templates, and supported agent configuration.
+- Is the narrow exception to developer-only implementation writes. Does not edit application code/content, run application generation, perform Git writes, deploy, or change unrelated project configuration.
+- Does not grant itself permissions or change role authority, approval gates, delegation policy, or global settings without explicit user approval covering that change.
+- Returns proposed changes, implementation diffs, consistency checks, mutation details, and unresolved concerns directly to PM for acceptance QA.
 
-### Mid-Level Dev
+### Senior Devs — Shared Rules
 
-- Is the sole implementation lane.
-- Implements only the assigned, bounded scope and returns to Senior.
-- Must not silently expand scope, commit, push, create PRs, deploy, move branches, alter submodules, or make unassigned shared-dependency changes.
-- Escalates architectural changes, hidden coupling, uncertain ownership, and conflicting evidence before proceeding with the affected work.
-- Defaults to deterministic checks unless Senior explicitly assigns live-runtime work within user authorization.
-- For mail, forms, events, jobs, or other side effects, supplies no-send, mocked, or hook-registration proof; lint alone is insufficient.
+- Both Seniors are read-only coordinators, reviewers, and validators. They do not edit source, stage, commit, push, move branches, write databases, or mutate runtime/configuration or targets.
+- Each owns decomposition, prioritization, assignments to its two developers, file ownership, integration coordination, and technical QA for its workstream.
+- Delegate all implementation and repository-mutating generation to an assigned developer.
+- Review every developer handoff and directly perform relevant technical, browser, visual, and regression checks; developer verification alone does not replace Senior QA.
+- Request bounded corrections when needed and return one integrated concern-to-evidence map to PM.
+- Report exact missing access, authorization, or input when blocked; make no unapproved fallback changes.
+- Include evidence of recurring workflow friction in handoffs. Do not rewrite workflow policy during delivery tasks.
 
-### Junior Dev
+### Content Senior and Developers
 
-- Is strictly read-only.
-- May perform inventories, source tracing, configuration maps, checklists, baseline capture, and deterministic verification support.
-- Does not edit code, content, runtime, Git state, databases, configuration, target environments, releases, or deployments.
-- Returns exact evidence, uncertainty, verification limits, and confirmation that no mutation occurred.
-- Reports needed generation or corrective work to Senior rather than performing it.
+- Content Senior leads content delivery and page-specific presentation within existing shared capabilities.
+- Content Dev — Advanced handles complex content mapping, responsive presentation, and page-specific interactions.
+- Content Dev — Budget handles approved copy, links, assets, and precisely specified presentation edits using established patterns.
+- When content work needs a shared capability, Content Senior sends the requirement and acceptance criteria to PM for Infrastructure assignment.
+
+### Infrastructure Senior and Developers
+
+- Infrastructure Senior leads shared templates, renderers, build tooling, and integration mechanisms supporting content delivery.
+- Infrastructure Dev — Advanced handles shared contracts, complex implementation, and difficult runtime/integration corrections.
+- Infrastructure Dev — Budget handles established patterns, mechanical updates, and controlled generation with explicit verification instructions.
+- Infrastructure Senior reports the completed prerequisite and evidence to PM, which routes it to Content Senior for use and validation.
+
+### Implementation Developers — Shared Rules
+
+- The four developers are the application/content implementation lanes. The Workflow Architect's separate write scope is limited as defined above.
+- Implement only assigned scope and return to the assigned Senior. Both Advanced and Budget lanes verify their work before handoff.
+- Do not silently expand scope, perform Git/release operations, alter submodules, or change unassigned shared dependencies.
+- Escalate architecture changes, hidden coupling, uncertain ownership, or conflicting evidence to the assigned Senior before continuing affected work.
+- Default to deterministic checks unless Senior assigns live-runtime work within user authorization.
+- For mail, forms, events, jobs, or other side effects, supply no-send, mocked, or hook-registration proof; lint alone is insufficient.
+- Research and inventory can be assigned as read-only tasks within these lanes; they do not require additional standing roles.
+
+### Model Routing
+
+- Maintain the agreed model/effort assignments in the README lane table. They are starting settings, not permissions or guarantees of quality.
+- Route fully specified, established work to Budget; route ambiguity, complex behavior, and shared-contract changes to Advanced.
+- If a Budget assignment exceeds its scope or capability, return it to Senior for clarification or reassignment. Do not delegate directly to another developer.
+- Keep manual handoffs regardless of model. Do not enable automatic delegation through a model mode without a user override.
+- Before replacing an unavailable model, report the substitution and preserve the lane's scope and permissions.
 
 ## Intake and Baseline
 
@@ -97,15 +129,15 @@ For recovery, migration, or visual-parity work:
 
 Every assignment must name:
 
-- Objective and assigned role.
+- Objective, assigned lane, model/effort, and responsible Senior (or PM for the Architect).
 - Active user concerns addressed and excluded.
 - Files or repositories owned, shared dependencies, and files excluded.
 - Baseline or approved reference.
 - Allowed mutations and prohibited actions.
 - Acceptance criteria, checks, and evidence expected.
-- Dependencies, stop conditions, and return path to Senior.
+- Dependencies, stop conditions, and return path to the responsible Senior or PM.
 
-When parallelizing, Senior maintains an assignment board:
+Each Senior maintains its team's assignment board in handoffs. PM consolidates cross-team ownership and dependencies in conversation/handoffs:
 
 | Lane | Role | Scope | Owned files / outputs | Dependencies | State |
 | --- | --- | --- | --- | --- | --- |
@@ -116,14 +148,16 @@ When parallelizing, Senior maintains an assignment board:
 - Do not let multiple lanes rebuild shared outputs concurrently.
 - Reassess ownership when hidden coupling appears.
 - Independent read-only investigations can run alongside source work through the approved handoff process.
+- PM resolves cross-team scheduling with both Seniors before overlapping assignments proceed. One shared file or generated bundle has one writer at a time across both teams.
+- Infrastructure prerequisites return through PM to Content Senior; independent content work may continue while those prerequisites are implemented.
 
 ## Generation, Watchers, and Mutation Accounting
 
 - Classify commands by actual effects, not their names.
 - Build, preview, validation, and imported rendering helpers may synchronize source, rewrite metadata, delete obsolete output, or generate files.
 - Inspect unfamiliar command behavior before using it in a read-only lane.
-- Senior and Junior must not run repository-mutating generation.
-- Assign one Mid-Level generation owner after dependent source lanes are integrated.
+- PM and both Seniors must not run repository-mutating generation.
+- Assign one implementation developer as generation owner across both teams after dependent source lanes are integrated.
 - Generate once for the accepted source set. Regenerate when subsequent changes or failed checks require it.
 - For template-managed content, sequence structural contract changes before generated skeletons, then content population, then final output generation.
 - Preserve required generated metadata; do not hand-edit generated artifacts.
@@ -131,9 +165,11 @@ When parallelizing, Senior maintains an assignment board:
 - Record source, metadata, generated-output, temporary-evidence, and runtime mutations separately.
 - “No manual edit” is not equivalent to “no mutation.”
 
-Senior may capture evidence into a designated temporary location as part of an assigned validation pass. Creating a fixture, starting a server, or changing runtime requires an appropriately authorized assignment; the label “QA” does not itself authorize those actions. Junior remains read-only.
+Read-only PM/Senior QA permits inspecting existing artifacts, non-submitting browser interactions, and capturing screenshots/reports in a designated temporary evidence location. Report these evidence writes explicitly; they do not permit repository, Git, runtime/configuration, or external-data changes. Assign fixture creation, server startup, and generation to a developer within authorized scope. Where available, enforce repository read-only access through tool permissions, with any temporary evidence exception separately bounded.
 
 ## Validation and Evidence
+
+There is no separate QA Reviewer lane. Developers verify assigned changes; the responsible Senior performs technical QA; PM performs acceptance QA against user concerns and delivery claims. Do not duplicate an entire accepted test suite at each gate without a reason. Recheck evidence affected by subsequent changes or environment differences.
 
 Report these proof levels separately:
 
@@ -197,7 +233,7 @@ planned, implemented, locally verified, target verified, blocked.
 
 ## Required Developer Handoff
 
-Every Mid-Level or Junior handoff to Senior includes:
+Every implementation developer handoff to its Senior, and Workflow Architect handoff to PM, includes:
 
 - Delivery state and lane outcome.
 - Assigned scope; active user concerns addressed and not addressed.
@@ -208,16 +244,31 @@ Every Mid-Level or Junior handoff to Senior includes:
 - Affected routes/surfaces and visual evidence where applicable.
 - Exceptions, risks, blockers, rollback approach, and whether mutation occurred.
 - Recommended next action.
+- Workflow observations when applicable: examples, frequency, impact, and any proposed improvement. An observation is not authorization to change the process.
 
 Senior returns one integrated concern-to-evidence map to PM, including unresolved items and corrections to inaccurate lane claims.
 
 Evidence handoffs must include reproducible review instructions and a usable preview route when applicable. Identify temporary evidence that may expire; do not make inaccessible temporary screenshots the user's only review path.
 
+## Workflow Review Checkpoints
+
+- PM owns the checkpoint; Seniors supply observations and supporting evidence from their workstreams.
+- At a meaningful milestone or roughly 20–30 substantive assignment/result/correction handoffs across both teams, PM assesses recurring friction. Do not count routine acknowledgments or tool calls as substantive handoffs.
+- This is a review reminder, not a quota, automatic Architect activation, or automatic edit trigger. PM may recommend an earlier review when repeated problems justify it, or report that no changes are warranted.
+- Signals include repeated ownership conflicts, unclear prompts, missing evidence, unnecessary generation, and recurring correction loops. Separate patterns from isolated incidents.
+- Keep observations in existing handoffs and PM conversation. Do not create a new tracking file or make routine policy edits merely to count activity.
+- The user manually triggers a workflow review. PM then gives the Architect the accumulated evidence, scope, and exclusions.
+- Architect proposes findings and exact changes without editing. PM reviews the proposal and returns it to the user for approval.
+- After the user approves specific edits, PM assigns implementation to Architect. Architect checks the diff and consistency of role, permission, and handoff rules; PM performs acceptance QA.
+- Workflow files and model assignments do not evolve automatically during ordinary delivery. Git operations remain separately authorized.
+
 ## Release and Approval Gates
 
 - Keep implementation acceptance, target installation, user acceptance, and release operations distinct.
 - Prepare a concrete, reviewable result before requesting approval.
-- PM reviews source and generated changes together and groups commits by attributable scope.
+- PM reviews source and generated changes together and proposes commit groups by attributable scope, without staging or committing.
+- The user performs Git writes and release operations, or explicitly designates an executor for the exact operation. This is an operation-specific assignment, not another standing lane or an implicit permission for PM/Seniors.
+- Before an authorized commit, review staged file names, stat, and full diff, and run `git diff --cached --check`. A clean unstaged check does not replace staged review. The executor confirms the committed scope and resulting state.
 - Preserve unrelated changes; do not silently include them in staging or cleanup.
 - Verify the applicable artifact, branch, and remote refs before approved operations.
 - Each release request identifies exact scope, destination, evidence, known exceptions, and rollback.
