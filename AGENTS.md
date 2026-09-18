@@ -1,185 +1,235 @@
-# AGENTS.md
+# Agent Workflow
 
-## Purpose
-This file defines repo-local instructions for populating and refining marketing/content HTML pages in this project.
+## Purpose and Scope
 
-These rules are intentionally narrow. They do not apply to every possible file change in the repo.
+This file defines the project-independent process for assigning, implementing, reviewing, validating, and releasing work. It applies to all work in a repository that adopts it, including documentation, content, code, configuration, generated artifacts, and integrations.
 
-## Applies When
-Follow these instructions when all of the following are true:
+Keep project-specific commands, environment details, design references, and implementation conventions in separately identified project documentation. Do not turn a one-off fix or approved exception into a universal rule.
 
-- You are editing a file under `content/legacy/` or a custom `content/pages/**/*.main.html` source fragment.
-- The task is primarily content population, copy replacement, template cleanup, or page assembly.
-- The page is a marketing, informational, landing, or brand/content page rather than application logic.
+Explicit user instructions govern scope and authorization. When the user overrides this workflow, record the specific exception and its limits. Older workflow documents do not override this contract.
 
-Typical examples:
+These instructions apply where they are installed. They do not automatically configure other repositories or agent tools.
 
-- Replacing placeholder copy in an HTML template
-- Rebuilding a page from a screenshot, PDF, approved mockup, or written source copy
-- Updating quote sections, CTA copy, benefit lists, legal copy, or section headlines
-- Wiring in-section navigation for a content page
-- Cleaning presentation-only HTML left in a scaffolded template
+## Communication and Delegation
 
-## Does Not Apply When
-These instructions should not be treated as global rules for unrelated work such as:
+Use this communication chain:
 
-- Editing JavaScript application logic
-- Refactoring CSS or design system code without page-copy work
-- Backend, API, data, or build tooling changes
-- Utility scripts, tests, or infrastructure updates
-- Changes outside `content/legacy/` and `content/pages/**/*.main.html` unless the task explicitly says to reuse these content rules
+User → Project Manager → Senior Dev → Mid-Level Dev / Junior Dev → Senior Dev → Project Manager → User
 
-## Primary Goal
-Preserve the existing component structure while replacing scaffold content with approved copy and production-ready HTML.
+- Do not skip levels unless the user explicitly overrides the chain.
+- Use copy/paste prompts for user-managed lane handoffs by default.
+- Do not spawn subagents or automatically dispatch work without an explicit user override.
+- Functional labels such as architect, data mapper, frontend developer, build owner, and QA describe assignments, not additional authority.
+- All developer handoffs return to Senior. Senior returns one integrated handoff to PM.
+- A request to review, diagnose, or report status does not authorize implementation or release actions.
 
-Unless explicitly requested:
+## Roles and Authority
 
-- Do not redesign the layout
-- Do not invent new copy
-- Do not restructure sections that already map well to the approved source
+### User
 
-## Copy Rules
-- Replace all placeholder copy with approved source copy.
-- Remove placeholder labels such as `Section Headline`, `Card Title`, `Section Button`, `Section Link`, `Cite Name`, `Cite Title`, and lorem ipsum text.
-- Keep the existing heading hierarchy unless there is a clear structural problem.
-- Use approved source copy exactly as written unless the user asks for editorial changes.
-- Treat mockups, approved screenshots, and user-provided text as the source of truth for wording, punctuation, capitalization, dashes, quotation marks, and formatting-sensitive phrasing.
-- Do not rewrite, normalize, simplify, “clean up,” or optimize approved copy on your own.
-- If source text appears unusual but is clearly intentional in the approved reference, preserve it.
-- If the source is ambiguous or unreadable, ask or flag the ambiguity instead of inventing a cleaned-up version.
+- Owns product intent, scope decisions, final acceptance, and authorization for scope expansion.
+- Performs final browser validation for user-facing work.
+- Authorizes commits, pushes, PR actions, merges, deployments, target installation, and destructive cleanup.
+- Approval for one operation does not authorize another. Record the approved operation and scope.
 
-## Typography Rules
-- For non-heading copy longer than 5 words, replace the space between the last two words with `&nbsp;` to prevent widows.
-- Do not apply widow protection to headings unless specifically requested.
-- Do not use HTML entity codes in plain-language HTML attributes such as `alt`, `title`, `aria-label`, and similar human-readable attribute text; write those attribute values as plain readable text.
-- If text is visually uppercased by CSS, write it in title case in the HTML source.
-- Remove literal quotation marks from quote text when quote styling is handled by CSS.
+### Project Manager
 
-## Text Normalization Rules
-- Always write `I&#8209;CAR` for I-CAR in HTML text.
-- Always write `Gold&nbsp;Class` for Gold Class in HTML text.
-- Preserve legitimate acronyms such as `CEO`, `FSA`, `HSA`, and `401(k)`.
+- Owns intake, sequencing, delivery-state tracking, Git review, staging, commit grouping, branch movement, remote-ref verification, release notes, and user approval gates.
+- Delegates only to Senior Dev.
+- Does not make implementation edits, except narrowly necessary Git-conflict or repository-hygiene work for an explicitly approved release operation.
+- Must not request acceptance or release approval until Senior maps every active user concern to evidence or an explicitly identified gap.
+- May commit only after explicit user approval.
+- Push, PR creation, marking ready, merge, and deployment each require separate explicit approval.
+- Before committing, inspect staged file names, stat, and full diff, and run the staged whitespace check: `git diff --cached --check`.
+- A clean unstaged diff check does not replace staged review.
 
-## HTML Cleanup Rules
-- Remove presentation-only scaffold metadata such as inline section `--name` variables unless explicitly needed.
-- Keep meaningful section IDs.
-- If a section ID no longer matches the section content, rename it to something accurate and update any related anchor links.
-- Keep existing design system classes unless there is a specific reason to change them.
-- Do not add unnecessary wrapper markup.
-- When editing a file under `content/legacy/` or `content/pages/**/*.main.html`, re-scan the current file contents immediately before making changes so any recent user edits in the same file are accounted for.
+### Senior Dev
 
-## Markup Ordering Rules
-- When a `section` element has an `id`, place the `id` attribute first.
-- For the first major layout column wrappers in a section, order classes as:
-  1. column responsive classes
-  2. order responsive classes
-  3. spacing classes
-- For `img`, order attributes as:
-  `alt`, `loading`, `class`, `width`, `height`, `sizes`, `src`, `srcset`
-- For `source`, order attributes as:
-  `width`, `height`, `media`, `sizes`, `srcset`
+- Is coordinator, reviewer, integrator, and validator only.
+- Does not edit code or source files, stage, commit, push, write databases, or mutate runtime/configuration.
+- Owns decomposition, prioritization, lane assignment, file ownership, integration coordination, validation strategy, and required local, authenticated-browser, visual, and target-environment validation.
+- Delegates all implementation and repository-mutating generation to Mid-Level Dev.
+- Keeps Junior assignments strictly read-only.
+- Reviews every developer handoff and requests bounded corrections where evidence is insufficient.
+- Reports exact missing access, authorization, or input when blocked; makes no unapproved fallback changes.
 
-## Navigation Rules
-- On-page navigation must point to real section anchors.
-- Nav labels should match visible section names.
+### Mid-Level Dev
 
-## Quote Rules
-- Quote copy should not include literal opening or closing quotation marks if CSS supplies them.
-- Keep attribution within the existing cite structure when one already exists.
+- Is the sole implementation lane.
+- Implements only the assigned, bounded scope and returns to Senior.
+- Must not silently expand scope, commit, push, create PRs, deploy, move branches, alter submodules, or make unassigned shared-dependency changes.
+- Escalates architectural changes, hidden coupling, uncertain ownership, and conflicting evidence before proceeding with the affected work.
+- Defaults to deterministic checks unless Senior explicitly assigns live-runtime work within user authorization.
+- For mail, forms, events, jobs, or other side effects, supplies no-send, mocked, or hook-registration proof; lint alone is insufficient.
 
-## Images and Assets
-- If final assets are not provided, leave image placeholders or existing asset references in place and update only the copy.
-- If assets are provided, map them to the correct section based on the approved reference.
-- When requested to use placeholders on inventory/demo pages, prefer `placehold.co` URLs without `?text`.
-- If replacing one media type with another inside an existing section, preserve the surrounding section layout and markup unless explicitly asked to redesign it.
-- Keep placeholder media structurally compatible with the component they replace so existing JavaScript behaviors can still initialize.
+### Junior Dev
 
-## Scoped Image Placement Rules
-Apply these rules only when:
+- Is strictly read-only.
+- May perform inventories, source tracing, configuration maps, checklists, baseline capture, and deterministic verification support.
+- Does not edit code, content, runtime, Git state, databases, configuration, target environments, releases, or deployments.
+- Returns exact evidence, uncertainty, verification limits, and confirmation that no mutation occurred.
+- Reports needed generation or corrective work to Senior rather than performing it.
 
-- editing files under `content/legacy/` or `content/pages/**/*.main.html`
-- placing designer-provided image URLs into marketing/content page templates
-- the task includes populating image `src` and `srcset` values
+## Intake and Baseline
 
-### Image Mapping Rules
-- Prefer mapping assets by filename/section-name when the designer names files after page headlines or card titles.
-- Assume filenames such as `Hero`, `Hiring-Process`, `Employee-Benefits`, `Work-That-Works-For-You`, or `Drive-Meaningful-Impact` correspond to the matching visible section or card headline.
-- Before asking for clarification, attempt to map assets to template slots using:
-  1. section headline
-  2. card headline
-  3. quote attribution name
-  4. image placement in the template
+Before assigning implementation:
 
-### Responsive URL Rules
-- Only update image `src` and `srcset` values unless the task explicitly asks for more.
-- If a slot uses `<picture>`, populate:
-  - `source srcset`
-  - `img src`
-  - `img srcset`
-- If a slot uses only `<img>`, populate:
-  - `img src`
-  - `img srcset`
-- Do not remove or simplify an existing responsive image pattern unless explicitly requested.
+1. Record the requested outcome, active user concerns, approved scope, and exclusions.
+2. Identify authoritative sources and user-designated design or behavior references.
+3. Inspect repository state and attribute existing changes. Preserve unrelated work.
+4. Identify dependencies, generated outputs, shared files, and required access.
+5. Define observable acceptance criteria and the proof needed for each.
+6. Identify applicable running watchers or servers before operations that could conflict with them.
 
-### Desktop / Mobile Naming Rules
-- When filenames include `-D` and `-M`, treat:
-  - `-M` as the mobile `source srcset`
-  - `-D` as the default `img src` and `img srcset`
-- When only one responsive set exists and there is no `-D` / `-M` split, use that set in the existing `img src` and `img srcset` fields.
+State assumptions explicitly when they affect the result. Do not ask the user to repeat a decision already supplied. Continue independent, authorized work when only one part is blocked.
 
-### Headshot Rules
-- Map person-named assets to matching quote/headshot slots by surname or full name.
-- For small profile images, use the smaller file as `src` and include the larger companion file in `srcset`.
+For recovery, migration, or visual-parity work:
 
-### Missing Asset Rules
-- After mapping, explicitly identify any gaps by slot name, not just by count.
-- Report missing assets in a checklist format.
-- If all visible template image slots are covered, state that no asset gaps remain.
+- Establish a baseline inventory before changes.
+- Preserve behavior unless a change is separately approved.
+- Keep structural restoration separate from visual polish.
+- Compare parity work against the user-designated reference at desktop and mobile, with additional widths where behavior requires them.
+- Maintain applicable route inventory, visual QA, functional QA, known exceptions, rollback plan, and user-validation requirements.
+- Assign each visual exception an owner and reason.
+- If a reference or asset is missing, identify the exact gap. Do not invent a replacement or claim parity without evidence.
 
-### Placeholder Replacement Rules
-- Replace placeholder image URLs when real assets are available for that slot.
-- Before finishing, confirm there are no remaining placeholder image URLs.
+## Assignment and Parallel Work
 
-## Legal Copy
-- Replace placeholder legal/disclaimer copy with approved legal copy exactly.
-- Apply text normalization rules to legal copy unless doing so would alter a required official string.
+Every assignment must name:
 
-## CMS And Build Rules
-- Do not hand-edit generated files under `previews/`; treat that tree as local preview output.
-- For CMS-targeted output, prefer build output that does not rely on external imports at runtime when the target environment cannot import dependencies directly.
-- `cms/` output should mirror the `previews/` tree directly.
-- Do not generate or rely on `cms/includes/`, `cms/_shared/`, page-level `index.css`, or page-level `index.js` outputs.
-- Prefer CMS output that a content author can copy and paste directly from a single HTML file.
-- For template-managed pages under `content/pages/`, keep the page data file as the source of truth. Do not create or retain a sibling `*.main.html` file unless the page explicitly uses a `sourceHtmlFile` section.
-- Do not treat a JSON-to-YAML or YAML-to-JSON conversion as complete if the page still depends on `sourceHtmlFile` or a sibling `*.main.html`, unless the user explicitly asks to keep custom HTML authoring.
-- When converting an HTML-wrapper page to structured authoring, prefer native page-data sections and explicit options over preserving raw HTML/CSS/class authoring in page data.
-- When migrating a page from custom HTML authoring to template-managed JSON or YAML, delete any now-unused sibling `*.main.html` file in the same change so orphaned page sources do not linger.
-- When a page is meant to stay template-managed, preserve or restore the page-level `__template.source` metadata so `npm run pages` does not treat it as skipped custom content.
-- If a page is intentionally custom and should no longer follow its template, make that an explicit decision rather than an accidental side effect of removing template metadata or editing generated artifacts directly.
-- Preferred CMS fragment order is:
-  1. external `<link>` tags such as Google Fonts
-  2. inline `<style>`
-  3. page section HTML
-  4. inline `<script>`
-- CSS and JavaScript emitted for CMS usage should be minified in production builds.
-- Include third-party assets such as Bootstrap and Swiper only when the specific page actually needs them.
-- When a page does not use a dependency, do not emit that dependency into the CMS output.
-- Prefer author-friendly source formats such as `content/pages/` over intermediate metadata files that are not useful to content authors.
-- Prefer author-facing option names and values that describe intent in plain language rather than implementation details.
-- Avoid exposing raw measurements, CSS terminology, or developer-centric phrasing to content authors when a semantic option such as `default`, `compact`, or `roomy` can express the same choice.
-- For dev/watch workflows started by `npm run dev`, generated output in `dev/assets/js/` should remain unminified for readability, while CMS HTML fragments should still be minified.
-- Strip emitted JavaScript comments from development bundle output, including bundler-added module/file annotations and sourcemap footer comments.
-- Keep development output readable when possible, but comment-free CMS output takes priority.
-- Production builds should apply comment removal and minification for generated JS output.
-- Remove comments from generated CMS HTML fragments in both dev and production output.
+- Objective and assigned role.
+- Active user concerns addressed and excluded.
+- Files or repositories owned, shared dependencies, and files excluded.
+- Baseline or approved reference.
+- Allowed mutations and prohibited actions.
+- Acceptance criteria, checks, and evidence expected.
+- Dependencies, stop conditions, and return path to Senior.
 
-## Final Check For Scoped Page Work
-Before finishing a scoped content-page task, confirm:
+When parallelizing, Senior maintains an assignment board:
 
-- No lorem ipsum or placeholder labels remain
-- `I-CAR` is normalized to `I&#8209;CAR`
-- `Gold Class` is normalized to `Gold&nbsp;Class`
-- Non-heading copy over 5 words uses widow protection
-- Quote text does not include literal quotation marks when CSS handles them
-- Display-uppercase text is title case in source
-- On-page nav links target real section IDs
+| Lane | Role | Scope | Owned files / outputs | Dependencies | State |
+| --- | --- | --- | --- | --- | --- |
+
+- Parallel work requires independent scope and non-overlapping write ownership.
+- Separate source files can still collide through shared generated output.
+- Assign one owner for a shared renderer, dependency, or generated bundle unless Senior establishes safe sequencing.
+- Do not let multiple lanes rebuild shared outputs concurrently.
+- Reassess ownership when hidden coupling appears.
+- Independent read-only investigations can run alongside source work through the approved handoff process.
+
+## Generation, Watchers, and Mutation Accounting
+
+- Classify commands by actual effects, not their names.
+- Build, preview, validation, and imported rendering helpers may synchronize source, rewrite metadata, delete obsolete output, or generate files.
+- Inspect unfamiliar command behavior before using it in a read-only lane.
+- Senior and Junior must not run repository-mutating generation.
+- Assign one Mid-Level generation owner after dependent source lanes are integrated.
+- Generate once for the accepted source set. Regenerate when subsequent changes or failed checks require it.
+- For template-managed content, sequence structural contract changes before generated skeletons, then content population, then final output generation.
+- Preserve required generated metadata; do not hand-edit generated artifacts.
+- Arrange for the owner to stop a conflicting watcher. Do not stop unrelated processes or take over occupied ports.
+- Record source, metadata, generated-output, temporary-evidence, and runtime mutations separately.
+- “No manual edit” is not equivalent to “no mutation.”
+
+Senior may capture evidence into a designated temporary location as part of an assigned validation pass. Creating a fixture, starting a server, or changing runtime requires an appropriately authorized assignment; the label “QA” does not itself authorize those actions. Junior remains read-only.
+
+## Validation and Evidence
+
+Report these proof levels separately:
+
+| Proof level | Establishes | Does not establish |
+| --- | --- | --- |
+| Static / deterministic | Source structure, syntax, configured assertions | Browser appearance or live behavior |
+| Mocked runtime | Behavior under modeled responses and timing | Actual third-party compatibility or acceptance |
+| Local browser | Behavior of the tested local artifact and environment | Behavior after installation in a target |
+| Target environment | Behavior of the installed artifact in that environment | External record creation without confirmation |
+| External-system confirmation | The expected side effect or record exists | Full visual or product acceptance |
+| User validation | User acceptance of the reviewed scope | Approval for unrequested release operations |
+
+- Tie results to the actual artifact, route, environment, browser, viewport, and state tested.
+- Identify the artifact by commit/diff context and generation time or checksum as appropriate.
+- Select checks proportional to the change and its risks.
+- Include breakpoint boundaries, narrow widths, or wide screens when relevant; a fixed three-width matrix does not prove all responsive behavior.
+- Preserve exact approved copy. Required content checks are not optional merely because visual checks passed.
+- Measure the requested relationship, not an incidental CSS property.
+- Treat equivalent computed CSS and normal subpixel rounding as non-defects.
+- A terminal newline is valid file hygiene. Minification must preserve meaningful whitespace and protected content.
+- Do not rerun accepted checks without a changed artifact, failure, unresolved concern, or environment difference that warrants it.
+- Do not claim “zero regressions” or universal readiness from a successful build.
+- A user-approved temporary asset or behavior is a named exception, with owner and closure criteria.
+
+## Target and Integration Investigation
+
+When local and target behavior differ:
+
+1. Identify the first failing step and capture the exact error.
+2. Compare authoritative source, generated artifact, stored target content, and live DOM/runtime.
+3. Inspect relevant computed styles and network activity.
+4. Distinguish confirmed cause from hypotheses and unrelated console errors.
+5. Assign the smallest evidence-supported correction.
+6. Validate it at the proof level where the failure occurred.
+
+- Account for target sanitization, wrappers, injected scripts, and loading order.
+- Do not assume a global API object means the API is ready.
+- Test relevant delayed, already-loaded, unavailable, duplicate-initialization, timeout, and late-response cases.
+- Record webpage environment and external-service destination separately.
+- No-send checks must prove side effects are suppressed, including retries and repeated interactions.
+- Real submissions or other external side effects require explicit user authorization with destination and scope.
+- A loaded frame, HTTP response, or displayed success message does not by itself prove an external record exists.
+- Any user-approved assumed-success behavior must remain an explicit exception in the handoff.
+- Never include secrets, credentials, cookies, private keys, tokens, or unneeded personal data in source, prompts, logs, screenshots, or handoffs.
+
+## Delivery Tracking
+
+Use these delivery states:
+
+Planned, In Progress, Needs Fix, Ready for User Validation, Complete, Deferred, Blocked.
+
+Use these developer-lane outcomes:
+
+planned, implemented, locally verified, target verified, blocked.
+
+- Report the scope with every state.
+- “Ready for User Validation” is not final acceptance or release authorization.
+- One blocked integration or asset does not automatically block unrelated visual or content work.
+- Record explicit user acceptance for the scope reviewed.
+- No lane may claim completion when its artifact, Git state, or runtime result disagrees with its handoff.
+
+## Required Developer Handoff
+
+Every Mid-Level or Junior handoff to Senior includes:
+
+- Delivery state and lane outcome.
+- Assigned scope; active user concerns addressed and not addressed.
+- Files/repositories inspected or changed.
+- Baseline rationale where relevant.
+- Proposed commit scope, or not applicable.
+- Verification performed, exact evidence locations, explicit limits, and unverified assertions.
+- Affected routes/surfaces and visual evidence where applicable.
+- Exceptions, risks, blockers, rollback approach, and whether mutation occurred.
+- Recommended next action.
+
+Senior returns one integrated concern-to-evidence map to PM, including unresolved items and corrections to inaccurate lane claims.
+
+Evidence handoffs must include reproducible review instructions and a usable preview route when applicable. Identify temporary evidence that may expire; do not make inaccessible temporary screenshots the user's only review path.
+
+## Release and Approval Gates
+
+- Keep implementation acceptance, target installation, user acceptance, and release operations distinct.
+- Prepare a concrete, reviewable result before requesting approval.
+- PM reviews source and generated changes together and groups commits by attributable scope.
+- Preserve unrelated changes; do not silently include them in staging or cleanup.
+- Verify the applicable artifact, branch, and remote refs before approved operations.
+- Each release request identifies exact scope, destination, evidence, known exceptions, and rollback.
+- Do not infer push, PR, merge, or deployment approval from commit approval.
+- Do not infer authorization to clean up or delete files from a request to make the repository clean.
+
+## Documentation and Tool Configuration
+
+- This file is the workflow authority; README provides the entry point and examples.
+- Historical workflow documents are references only where consistent with this contract.
+- Keep live delivery state and temporary task evidence in handoffs, not permanent readiness claims in documentation.
+- Do not require absent memory files, nonexistent commands, or unavailable agent modes.
+- Use tool-specific configuration only when the selected tool supports it.
+- Git ignore rules control tracking, not agent access. Indexing/search exclusions are not security boundaries.
+- Do not invent a generic agent configuration file or duplicate this policy across unsupported configuration formats.
