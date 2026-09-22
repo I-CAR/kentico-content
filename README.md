@@ -49,7 +49,7 @@ The Workflow Architect reports directly to PM and is activated only for a user-t
 
 ## How Work Proceeds
 
-1. **Intake:** PM records the outcome, concerns, scope, and existing decisions.
+1. **Intake:** PM records the outcome, concerns, scope, and existing decisions. If target installation is expected, record its page or route, installer, and rollback source early; leave unknown details as explicit gaps while local work continues.
 2. **Baseline:** The responsible Senior Dev inventories sources, repository state, references, dependencies, and acceptance criteria.
 3. **Assignment:** Senior Dev selects its Mid Dev or Junior Dev and defines bounded ownership. PM coordinates dependencies spanning both teams.
 4. **Implementation:** Developers complete assigned changes and verify them before returning to their Senior Dev.
@@ -59,7 +59,7 @@ The Workflow Architect reports directly to PM and is activated only for a user-t
 8. **User review:** PM provides a reproducible review path and the user accepts or requests corrections.
 9. **Release:** PM prepares the scope. The user or an explicitly designated executor performs separately authorized Git and target operations.
 
-A correction returns through the responsible Senior Dev with a bounded assignment. It does not restart unrelated accepted work.
+A correction returns through the responsible Senior Dev with a bounded assignment. It does not restart unrelated accepted work. PM can include an exact, one-retry correction envelope in the original assignment. The developer corrects an owned, provably content- and metadata-preserving byte mismatch; the Senior verifies it before the generation owner retries, without another PM round trip. Cross-team ownership and stop conditions must be named in advance.
 
 If Content needs a shared capability, Senior Dev - Content sends the prerequisite to PM. PM assigns it to Senior Dev - Infrastructure. The reviewed result returns through PM to Senior Dev - Content. Independent work may continue; shared-file writes and generation stay coordinated.
 
@@ -79,6 +79,8 @@ Authoritative source and reference:
 Owned files and generated outputs:
 Dependencies and sequencing:
 Allowed mutations:
+Preauthorized deterministic correction and retry (if applicable):
+Preview server owner and restoration scope (if applicable):
 Acceptance criteria and required proof:
 Required final-message footer: `[YYYY-MM-DDTHH:MM:SS±HH:MM | Model | Reasoning]`
 Stop conditions / escalation:
@@ -102,6 +104,8 @@ A build can modify files even when invoked as a “check.” PM and Seniors insp
 
 Before conflicting source work, identify active watchers and arrange for their owner to stop them. Do not stop unrelated processes. After integrated source changes, use one generation owner and review the resulting diff.
 
+When browser review needs a local server, the assignment can give one developer ownership through QA and permission to restore the same server if it exits. The developer checks the approved document root, loopback host, and free port before restoration and reports the new process. PM and Seniors remain read-only.
+
 PM and Senior read-only QA may capture temporary screenshots/reports in a designated evidence location. That exception does not permit editing repository files, building fixtures, starting servers, changing Git state, or modifying external data. Assign the required setup to a developer. Enforce these boundaries through tool permissions where supported.
 
 ## Reviewing Evidence
@@ -115,6 +119,8 @@ A handoff should answer:
 - What remains unverified?
 - Did any direct or indirect mutation occur?
 - What is the next action and rollback approach?
+
+For a bounded correction after a full map has been accepted, the developer can reference the prior artifact and handoff, then report the changed concern, attributable diff, affected checks, mutations, and remaining gap. The Senior still maps every active concern for PM and carries forward only evidence that the correction cannot affect.
 
 Static, mocked, local-browser, target-environment, external-system, and user evidence are separate proof levels. See [Validation and Evidence](AGENTS.md#validation-and-evidence).
 

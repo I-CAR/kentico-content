@@ -135,6 +135,7 @@ Before assigning implementation:
 4. Identify dependencies, generated outputs, shared files, and required access.
 5. Define observable acceptance criteria and the proof needed for each.
 6. Identify applicable running watchers or servers before operations that could conflict with them.
+7. When target installation is expected, record the exact environment and page or route, the authorized installer, and how to preserve the current target for rollback. An unknown target detail is an explicit gap; it does not block independent local work.
 
 State assumptions explicitly when they affect the result. Do not ask the user to repeat a decision already supplied. Continue independent, authorized work when only one part is blocked.
 
@@ -159,6 +160,8 @@ Every assignment must name:
 - Allowed mutations and prohibited actions.
 - Acceptance criteria, checks, and evidence expected.
 - Required final-message footer format.
+- A preauthorized deterministic correction and retry envelope when applicable, including exact ownership, proof, and stop conditions.
+- Preview server owner and restoration scope when a local review route is required.
 - Dependencies, stop conditions, and return path to the responsible Senior or PM.
 
 Each Senior maintains its team's assignment board in handoffs. PM consolidates cross-team ownership and dependencies in conversation/handoffs:
@@ -183,9 +186,11 @@ Each Senior maintains its team's assignment board in handoffs. PM consolidates c
 - PM and both Seniors must not run repository-mutating generation.
 - Assign one implementation developer as generation owner across both teams after dependent source lanes are integrated.
 - Generate once for the accepted source set. Regenerate when subsequent changes or failed checks require it.
+- PM may preauthorize one deterministic correction and retry in the original assignment. Name the exact owned source files, permitted byte-level change, required proof that content and metadata are preserved, responsible Senior QA, generation owner, and stop conditions. The assigned developer corrects only owned files; the Senior independently verifies the correction before the generation owner retries. For cross-team work, PM must explicitly sequence both Seniors and the conditional retry in that assignment. Changed copy, structure, metadata, ownership, or output scope stops the retry and returns to PM. A retry never expands target or Git authorization.
 - For template-managed content, sequence structural contract changes before generated skeletons, then content population, then final output generation.
 - Preserve required generated metadata; do not hand-edit generated artifacts.
 - Arrange for the owner to stop a conflicting watcher. Do not stop unrelated processes or take over occupied ports.
+- When a preview is needed, assign an implementation developer to own its server through browser QA. The assignment may authorize that same developer to restore the same server if it exits, after confirming the approved document root, loopback host, port availability, and absence of a competing process. Report each new process and temporary log; a changed server scope returns to PM. PM and Seniors remain read-only.
 - Record source, metadata, generated-output, temporary-evidence, and runtime mutations separately.
 - “No manual edit” is not equivalent to “no mutation.”
 
@@ -271,6 +276,8 @@ Every implementation developer handoff to its Senior, and Workflow Architect han
 - Workflow observations when applicable: examples, frequency, impact, and any proposed improvement. An observation is not authorization to change the process.
 
 Senior returns one integrated concern-to-evidence map to PM, including unresolved items and corrections to inaccurate lane claims.
+
+After PM accepts a full concern-to-evidence map, a bounded correction handoff may reference that accepted map instead of repeating unchanged evidence. It must identify the prior artifact and handoff, changed concerns and files, affected checks, mutation details, and remaining gaps. The Senior still returns an integrated map covering every active concern, carrying forward prior evidence only where the changed artifact cannot affect it. Recheck affected evidence at the relevant proof level.
 
 Evidence handoffs must include reproducible review instructions and a usable preview route when applicable. Identify temporary evidence that may expire; do not make inaccessible temporary screenshots the user's only review path.
 
