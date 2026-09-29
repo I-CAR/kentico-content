@@ -194,7 +194,8 @@ sections:
         real-world scenarios to build confidence in advanced driver assistance
         systems. From calibration bays to interactive training, this is where
         ADAS education comes to life.
-      - Travel to the I-CAR CTC
+    bodyHtml:
+      - '<a href="https://info.i-car.com/ctc-travel">Travel to the I-CAR CTC</a>'
   - id: videos
     type: embed
     title: ADAS Learner Experiences
