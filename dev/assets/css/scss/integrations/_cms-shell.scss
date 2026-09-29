@@ -47,7 +47,18 @@
 
 @include mq(md, down) {
     #main>article {
-        overflow: hidden;
+        overflow-x: clip;
+        overflow-y: visible;
+    }
+
+    .ic-section .row>.col:has(>.ic-sticky) {
+        display: contents;
+    }
+
+    .ic-section .row>.col:has(>.ic-sticky)>.ic-sticky {
+        box-sizing: border-box;
+        flex: 0 0 100%;
+        width: 100%;
     }
 }
 
@@ -126,7 +137,7 @@
 }
 
 body>.pageWrap {
-    overflow-x: visible !important;
+    overflow-x: clip !important;
     overflow-y: visible !important;
 }
 
