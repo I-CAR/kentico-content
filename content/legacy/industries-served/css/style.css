@@ -888,7 +888,6 @@ a.card:focus .card-description {
     }
 
     .section_logos {
-        padding: 0;
         background: var(--light);
     }
 
