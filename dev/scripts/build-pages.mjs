@@ -21,6 +21,12 @@ import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJ
 import { validatePageData, throwOnValidationError } from "./schema-validation.mjs";
 
 const watchMode = process.argv.includes("--watch");
+const goldClassRatingProofMode = process.argv.includes("--proof-gtgc-rating-renderer");
+const goldClassNoSendProofMode = process.argv.includes("--proof-gtgc-no-send-gate");
+const goldClassInvisibleV2ProofMode = process.argv.includes("--proof-gtgc-invisible-v2")
+  || process.argv.includes("--proof-gtgc-invisible-v2-flow");
+const goldClassIframeReadinessProofMode = process.argv.includes("--proof-gtgc-iframe-readiness");
+const goldClassSelectProofMode = process.argv.includes("--proof-gtgc-select");
 const contentSourceDir = join("content", "pages");
 const previewOutputDir = "previews";
 const legacyGeneratedPreviewDir = join("previews", "generated");
@@ -33,6 +39,15 @@ let buildRunning = false;
 let queuedReason = null;
 let watchDebounce = null;
 let previousSnapshot = "";
+
+const goldClassNoSendAllowedHostnames = [
+  "localhost",
+  "127.0.0.1",
+  "::1",
+  "stage.info.i-car.com",
+  "info.i-car.com",
+];
+const goldClassNoSendAllowedStates = ["error", "failure", "success"];
 
 function collectFiles(root, extension) {
   const files = [];
@@ -106,6 +121,22 @@ function joinClassNames(...classNames) {
     .filter((className) => typeof className === "string" && className.trim().length > 0)
     .map((className) => className.trim())
     .join(" ");
+}
+
+function getSearchParam(searchParams, name) {
+  return typeof searchParams?.get === "function" ? searchParams.get(name) : null;
+}
+
+function resolveGoldClassNoSendSimulation(hostname = "", searchParams = new URLSearchParams()) {
+  const state = getSearchParam(searchParams, "gtgcFormState") || "";
+  const active = goldClassNoSendAllowedHostnames.includes(String(hostname))
+    && getSearchParam(searchParams, "gtgcNoSend") === "1"
+    && goldClassNoSendAllowedStates.includes(state);
+
+  return {
+    active,
+    state: active ? state : "",
+  };
 }
 
 function getSectionHeading(section = {}) {
@@ -657,7 +688,7 @@ function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className
   return [...plainMarkup, ...htmlMarkup].join("\n\n");
 }
 
-function renderInlineMarkdownLinks(value = "", { widowProtection = false } = {}) {
+function renderInlineMarkdownLinks(value = "", { widowProtection = false, getLinkAttributes = null } = {}) {
   const parts = [];
   const source = String(value ?? "");
   const linkPattern = /\[([^\]]+)]\(([^)]+)\)/g;
@@ -671,7 +702,9 @@ function renderInlineMarkdownLinks(value = "", { widowProtection = false } = {})
       parts.push(renderLiteralText(before));
     }
 
-    parts.push(`<a href="${escapeHtml(match[2])}">${renderText(match[1])}</a>`);
+    const href = match[2];
+    const extraAttributes = typeof getLinkAttributes === "function" ? getLinkAttributes(href, match[1]) : "";
+    parts.push(`<a href="${escapeHtml(href)}"${extraAttributes}>${renderText(match[1])}</a>`);
     lastIndex = match.index + match[0].length;
   }
 
@@ -1336,8 +1369,27 @@ function normalizeIconSvgMarkup(iconSvg, {
   </svg>`;
 }
 
+function normalizeGoldClassSvgMarkup(svg) {
+  let svgMarkup = typeof svg === "string" ? svg : "";
+
+  if (svgMarkup.charCodeAt(0) === 0xFEFF) {
+    svgMarkup = svgMarkup.slice(1);
+  }
+
+  svgMarkup = svgMarkup.trimStart();
+  svgMarkup = svgMarkup.replace(/^<\?xml\b[\s\S]*?\?>\s*/i, "");
+
+  return svgMarkup.trim();
+}
+
+function compactGoldClassSvgMarkup(svgMarkup = "") {
+  return svgMarkup
+    .replace(/[\r\n]/g, "")
+    .replace(/>\s+</g, "><");
+}
+
 function renderGoldClassSvgIcon(svg, className, context) {
-  const svgMarkup = typeof svg === "string" ? svg.trim() : "";
+  const svgMarkup = normalizeGoldClassSvgMarkup(svg);
 
   if (!svgMarkup) {
     return "";
@@ -1347,10 +1399,12 @@ function renderGoldClassSvgIcon(svg, className, context) {
     throw new Error(`Invalid GTGC SVG icon at ${context}: expected an <svg> root`);
   }
 
-  return svgMarkup.replace(
+  const renderedSvg = svgMarkup.replace(
     /^<svg\b/i,
     `<svg class="${escapeHtml(className)}" aria-hidden="true" focusable="false"`,
   );
+
+  return compactGoldClassSvgMarkup(renderedSvg);
 }
 
 function resolveHeroSemanticLayout(section) {
@@ -1464,12 +1518,29 @@ function renderGoldClassLeadFormField(field = {}) {
   const errorText = field.errorMessage || "";
   const describedBy = `${errorId}`;
   const maxLength = field.maxLength || field.maxlength || "";
+  const supportsMaxLength = ["text", "search", "tel", "url", "email", "password"].includes(fieldType.toLowerCase());
+  const controlMarkup = fieldType === "select"
+    ? `<div class="select-w">
+                                            <select id="${escapeHtml(fieldId)}" name="${escapeHtml(field.name || "")}"${autocomplete ? ` autocomplete="${escapeHtml(autocomplete)}"` : ""}${field.required ? " required" : ""} aria-invalid="false" aria-describedby="${escapeHtml(describedBy)}"${errorText ? ` data-error-message="${escapeHtml(errorText)}"` : ""}>
+                                            <option value="" disabled selected>${escapeHtml(field.placeholder || "")}</option>${(field.options || [])
+      .map((option) => `
+                                            <option value="${escapeHtml(String(option?.value ?? ""))}">${escapeHtml(String(option?.label ?? ""))}</option>`)
+      .join("")}
+                                            </select>
+                                        </div>`
+    : `<input id="${escapeHtml(fieldId)}" name="${escapeHtml(field.name || "")}" type="${escapeHtml(fieldType)}"${field.placeholder ? ` placeholder="${escapeHtml(field.placeholder)}"` : ""}${maxLength && supportsMaxLength ? ` maxlength="${escapeHtml(String(maxLength))}"` : ""}${autocomplete ? ` autocomplete="${escapeHtml(autocomplete)}"` : ""}${field.required ? " required" : ""} aria-invalid="false" aria-describedby="${escapeHtml(describedBy)}"${errorText ? ` data-error-message="${escapeHtml(errorText)}"` : ""}>`;
 
   return `                                    <div class="gtgc-form-field">
                                         <label for="${escapeHtml(fieldId)}">${renderText(field.label || "")}</label>
-                                        <input id="${escapeHtml(fieldId)}" name="${escapeHtml(field.name || "")}" type="${escapeHtml(fieldType)}"${field.placeholder ? ` placeholder="${escapeHtml(field.placeholder)}"` : ""}${maxLength ? ` maxlength="${escapeHtml(String(maxLength))}"` : ""}${autocomplete ? ` autocomplete="${escapeHtml(autocomplete)}"` : ""}${field.required ? " required" : ""} aria-invalid="false" aria-describedby="${escapeHtml(describedBy)}"${errorText ? ` data-error-message="${escapeHtml(errorText)}"` : ""}>
+                                        ${controlMarkup}
                                         <p id="${escapeHtml(errorId)}" class="gtgc-field-error" hidden>${errorText ? renderText(errorText) : ""}</p>
                                     </div>`;
+}
+
+function getGoldClassPrivacyLinkAttributes(href = "") {
+  return /\/privacy(?:[/?#]|$)/i.test(href)
+    ? ` target="_blank" rel="noopener noreferrer"`
+    : "";
 }
 
 function getGoldClassHiddenFields(form = {}) {
@@ -1489,14 +1560,18 @@ function renderGoldClassHiddenFields(form = {}) {
 function renderGoldClassCaptcha(form = {}) {
   const captcha = form.recaptcha || form.captcha || null;
 
-  if (!captcha || captcha.version !== "v3") {
+  if (!captcha || !["v2-invisible", "v3"].includes(captcha.version)) {
     return "";
   }
 
   const responseFieldName = captcha.responseFieldName || captcha.responseTokenField || captcha.tokenFieldName || "g-recaptcha-response";
+  const captchaContainer = captcha.version === "v2-invisible"
+    ? `\n                                        <div class="g-recaptcha gtgc-recaptcha-widget" data-gtgc-recaptcha-widget data-size="invisible"></div>`
+    : "";
 
   return `                                    <div class="gtgc-recaptcha">
                                         <input type="hidden" name="${escapeHtml(responseFieldName)}" value="">
+${captchaContainer}
                                     </div>`;
 }
 
@@ -1541,18 +1616,21 @@ ${successIconMarkup ? `                                    ${successIconMarkup}\
   const captchaSiteKey = captcha.siteKey || captcha.sitekey || "";
   const captchaAction = captcha.action || "submit";
   const captchaResponseFieldName = captcha.responseFieldName || captcha.responseTokenField || captcha.tokenFieldName || "g-recaptcha-response";
-  const captchaAttributes = captchaVersion === "v3"
-    ? ` data-gtgc-captcha-version="v3"${captchaSiteKey ? ` data-gtgc-captcha-site-key="${escapeHtml(captchaSiteKey)}"` : ""} data-gtgc-captcha-action="${escapeHtml(captchaAction)}" data-gtgc-captcha-response-field="${escapeHtml(captchaResponseFieldName)}"`
+  const captchaAttributes = ["v2-invisible", "v3"].includes(captchaVersion)
+    ? ` data-gtgc-captcha-version="${escapeHtml(captchaVersion)}"${captchaSiteKey ? ` data-gtgc-captcha-site-key="${escapeHtml(captchaSiteKey)}"` : ""} data-gtgc-captcha-action="${escapeHtml(captchaAction)}" data-gtgc-captcha-response-field="${escapeHtml(captchaResponseFieldName)}"`
     : "";
+  const frameBaseId = formRegionId || "gtgc-lead-form";
+  const frameName = `${frameBaseId.replace(/[^A-Za-z0-9_-]/g, "-")}-target`;
+  const targetAttribute = ` target="${escapeHtml(frameName)}"`;
 
-  return `                                <form${formRegionId ? ` id="${escapeHtml(formRegionId)}" tabindex="-1"` : ""} class="gtgc-lead-form" action="${escapeHtml(form.action || "")}" method="${escapeHtml(form.method || "POST")}" novalidate data-gtgc-lead-form${noSendAttribute}${captchaAttributes}>
+  return `                                <form${formRegionId ? ` id="${escapeHtml(formRegionId)}" tabindex="-1"` : ""} class="gtgc-lead-form" action="${escapeHtml(form.action || "")}" method="${escapeHtml(form.method || "POST")}"${targetAttribute} novalidate data-gtgc-lead-form${noSendAttribute}${captchaAttributes}>
 ${hiddenFieldsMarkup ? `${hiddenFieldsMarkup}\n` : ""}                                    <div class="gtgc-form-fields">
 ${fieldsMarkup}
                                     </div>
 
 ${captchaMarkup ? `${captchaMarkup}\n\n` : ""}                                    <button class="gtgc-submit" type="submit">${renderText(form.submitLabel || "")}</button>
 
-${failureMarkup}${form.privacyText ? `                                    <p class="gtgc-form-privacy">${renderInlineMarkdownLinks(form.privacyText.replace(/^\*|\*$/g, ""), { widowProtection: true })}</p>\n` : ""}                                </form>${successMarkup}`;
+${failureMarkup}${form.privacyText ? `                                    <p class="gtgc-form-privacy">${renderInlineMarkdownLinks(form.privacyText.replace(/^\*|\*$/g, ""), { widowProtection: true, getLinkAttributes: getGoldClassPrivacyLinkAttributes })}</p>\n` : ""}                                </form>${successMarkup}`;
 }
 
 function renderGoldClassHeroBullet(bullet, fallbackIcon) {
@@ -1616,7 +1694,7 @@ function renderGoldClassRatingAsset(quote = {}) {
                         </div>`;
 }
 
-function renderGoldClassRating(quote = {}) {
+function renderGoldClassRating(quote = {}, starRatingIcon = null) {
   const rating = Number(quote.rating);
 
   if (!Number.isFinite(rating) || rating <= 0) {
@@ -1633,13 +1711,18 @@ function renderGoldClassRating(quote = {}) {
     return "";
   }
 
-  return `                        <p class="gtgc-stars" aria-label="${escapeHtml(ratingLabel)}"><span aria-hidden="true">${"★".repeat(starCount)}</span></p>`;
+  const iconMarkup = renderGoldClassIcon(starRatingIcon, "gtgc-star-icon", "GTGC testimonial star rating icon");
+  const ratingMarkup = iconMarkup
+    ? Array.from({ length: starCount }, () => iconMarkup).join("")
+    : "★".repeat(starCount);
+
+  return `                        <p class="gtgc-stars" aria-label="${escapeHtml(ratingLabel)}"><span class="gtgc-stars-list" aria-hidden="true">${ratingMarkup}</span></p>`;
 }
 
 function renderGoldClassTestimonialsSection(section) {
   const quoteMarkup = (section.quotes || [])
     .map((quote) => `                    <figure class="gtgc-testimonial">
-${renderGoldClassRating(quote) || renderGoldClassRatingAsset(quote)}
+${renderGoldClassRating(quote, section.starRatingIcon) || renderGoldClassRatingAsset(quote)}
                         <blockquote>
                             <p>${renderText(quote.quote, { widowProtection: true })}</p>
                         </blockquote>
@@ -3536,27 +3619,191 @@ function normalizePageCms(page, sourceDirectory) {
   return cms;
 }
 
-function getGoldClassFormScriptHtml() {
+function getGoldClassFormScriptHtml(recaptchaScriptSources = []) {
   return `<script>
 function initGoldClassForm() {
   var forms = Array.from(document.querySelectorAll("[data-gtgc-lead-form]"));
   if (!forms.length) return;
   var params = new URLSearchParams(window.location.search);
-  var localHostnames = ["localhost", "127.0.0.1", "::1"];
-  var isLocalHost = localHostnames.indexOf(window.location.hostname) !== -1;
-  var requestedNoSend = isLocalHost && params.get("gtgcNoSend") === "1";
-  var requestedState = requestedNoSend ? params.get("gtgcFormState") : "";
+  var noSendAllowedHostnames = ${JSON.stringify(goldClassNoSendAllowedHostnames)};
+  var noSendAllowedStates = ${JSON.stringify(goldClassNoSendAllowedStates)};
+  var recaptchaScriptSources = ${JSON.stringify(recaptchaScriptSources)};
+  var noSendSimulation = resolveNoSendSimulation(window.location.hostname, params);
   var emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+  var captchaChallengeTimeoutMs = 120000;
+  var captchaApiTimeoutMs = 15000;
+  var iframeResponseTimeoutMs = 30000;
+  var recaptchaScriptPromise = null;
+
+  function resolveNoSendSimulation(hostname, searchParams) {
+    var state = searchParams.get("gtgcFormState") || "";
+    var active = noSendAllowedHostnames.indexOf(hostname) !== -1
+      && searchParams.get("gtgcNoSend") === "1"
+      && noSendAllowedStates.indexOf(state) !== -1;
+    return {
+      active: active,
+      state: active ? state : "",
+    };
+  }
+
+  function isRecaptchaApiUsable() {
+    return !!window.grecaptcha
+      && typeof window.grecaptcha.ready === "function"
+      && typeof window.grecaptcha.render === "function"
+      && typeof window.grecaptcha.execute === "function";
+  }
+
+  function findExistingRecaptchaScript() {
+    return Array.from(document.querySelectorAll("script[src]")).find(function (script) {
+      var src = script.getAttribute("src") || "";
+      return src.indexOf("/recaptcha/api.js") !== -1;
+    });
+  }
+
+  function buildRecaptchaScriptUrl(src, callbackName) {
+    try {
+      var url = new URL(src, window.location.href);
+      url.searchParams.set("onload", callbackName);
+      url.searchParams.set("render", "explicit");
+      return url.toString();
+    } catch (error) {
+      var separator = src.indexOf("?") === -1 ? "?" : "&";
+      return src + separator + "onload=" + encodeURIComponent(callbackName) + "&render=explicit";
+    }
+  }
+
+  function waitForUsableRecaptchaApi() {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      var timeout = setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        reject(new Error("GTGC reCAPTCHA API did not become ready."));
+      }, captchaApiTimeoutMs);
+
+      function finish(api) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        resolve(api);
+      }
+
+      function check() {
+        if (settled) return;
+        var api = window.grecaptcha;
+        if (!api || typeof api.ready !== "function") {
+          setTimeout(check, 50);
+          return;
+        }
+        api.ready(function () {
+          if (isRecaptchaApiUsable()) {
+            finish(window.grecaptcha);
+            return;
+          }
+          setTimeout(check, 50);
+        });
+      }
+
+      check();
+    });
+  }
+
+  function loadRecaptchaScripts() {
+    if (noSendSimulation.active) {
+      return Promise.reject(new Error("GTGC no-send simulation is active."));
+    }
+    if (recaptchaScriptPromise) {
+      return recaptchaScriptPromise;
+    }
+    recaptchaScriptPromise = new Promise(function (resolve, reject) {
+      var src = recaptchaScriptSources[0] || "";
+      var existingScript = findExistingRecaptchaScript();
+      var settled = false;
+      var cleanupApiLoad = function () {};
+      var apiLoadTimer = setTimeout(function () {
+        rejectApi(new Error("GTGC reCAPTCHA API did not become ready."));
+      }, captchaApiTimeoutMs);
+
+      function resolveApi(api) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(apiLoadTimer);
+        cleanupApiLoad();
+        resolve(api);
+      }
+
+      function rejectApi(error) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(apiLoadTimer);
+        cleanupApiLoad();
+        reject(error);
+      }
+
+      if (isRecaptchaApiUsable()) {
+        waitForUsableRecaptchaApi().then(resolveApi).catch(rejectApi);
+        return;
+      }
+
+      if (existingScript) {
+        existingScript.addEventListener("error", function () { rejectApi(new Error("GTGC reCAPTCHA failed to load.")); }, { once: true });
+        waitForUsableRecaptchaApi().then(resolveApi).catch(rejectApi);
+        return;
+      }
+
+      if (!src) {
+        rejectApi(new Error("Missing GTGC reCAPTCHA script source."));
+        return;
+      }
+
+      var callbackName = "__gtgcRecaptchaOnload_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+      var script = document.createElement("script");
+      var cleanupCallback = function () {
+        try {
+          delete window[callbackName];
+        } catch (error) {
+          window[callbackName] = undefined;
+        }
+      };
+      cleanupApiLoad = cleanupCallback;
+
+      window[callbackName] = function () {
+        waitForUsableRecaptchaApi().then(function (api) {
+          resolveApi(api);
+        }).catch(function (error) {
+          rejectApi(error);
+        });
+      };
+      script.src = buildRecaptchaScriptUrl(src, callbackName);
+      script.async = true;
+      script.defer = true;
+      script.addEventListener("error", function () {
+        rejectApi(new Error("GTGC reCAPTCHA failed to load."));
+      }, { once: true });
+      document.head.appendChild(script);
+    }).catch(function (error) {
+      recaptchaScriptPromise = null;
+      throw error;
+    });
+    return recaptchaScriptPromise;
+  }
 
   function getFields(form) {
-    return Array.from(form.querySelectorAll("input[required]"));
+    return Array.from(form.querySelectorAll("input[required], select[required]"));
+  }
+
+  function getFieldLabel(field) {
+    var wrapper = field.closest(".gtgc-form-field");
+    return wrapper ? wrapper.querySelector("label") : null;
   }
 
   function setInvalid(field, message) {
     var error = document.getElementById(field.getAttribute("aria-describedby"));
+    var label = getFieldLabel(field);
     var nextMessage = message || field.dataset.errorMessage || "";
     field.classList.add("is-invalid");
     field.setAttribute("aria-invalid", "true");
+    if (label) label.classList.add("is-invalid");
     if (error) {
       error.textContent = nextMessage;
       error.hidden = !nextMessage;
@@ -3565,12 +3812,21 @@ function initGoldClassForm() {
 
   function clearInvalid(field) {
     var error = document.getElementById(field.getAttribute("aria-describedby"));
+    var label = getFieldLabel(field);
     field.classList.remove("is-invalid");
     field.setAttribute("aria-invalid", "false");
-    if (error) error.hidden = true;
+    if (label) label.classList.remove("is-invalid");
+    if (error) {
+      error.textContent = "";
+      error.hidden = true;
+    }
   }
 
   function enforceMaxLength(field) {
+    var tagName = (field.tagName || "").toLowerCase();
+    var inputType = (field.type || "text").toLowerCase();
+    var supportedInputTypes = ["text", "search", "tel", "url", "email", "password"];
+    if (tagName !== "input" || supportedInputTypes.indexOf(inputType) === -1) return;
     if (field.maxLength < 0 || field.value.length <= field.maxLength) return;
     field.value = field.value.slice(0, field.maxLength);
   }
@@ -3595,7 +3851,7 @@ function initGoldClassForm() {
   }
 
   function isNoSendMode(form) {
-    return requestedNoSend || (isLocalHost && form.dataset.gtgcNoSend === "true");
+    return noSendSimulation.active;
   }
 
   function getSubmitButton(form) {
@@ -3623,25 +3879,201 @@ function initGoldClassForm() {
     };
   }
 
-  function requestRecaptchaToken(form) {
+  function getCaptchaState(form) {
+    if (!form.gtgcCaptchaState) {
+      form.gtgcCaptchaState = {
+        widgetId: null,
+        pendingResolve: null,
+        pendingReject: null,
+        challengeTimer: null,
+        renderPromise: null,
+      };
+    }
+    return form.gtgcCaptchaState;
+  }
+
+  function settleCaptcha(form, error, token) {
+    var state = getCaptchaState(form);
+    clearTimeout(state.challengeTimer);
+    state.challengeTimer = null;
+    var resolve = state.pendingResolve;
+    var reject = state.pendingReject;
+    state.pendingResolve = null;
+    state.pendingReject = null;
+    if (error) {
+      if (reject) reject(error);
+      return;
+    }
+    if (resolve) resolve(token);
+  }
+
+  function ensureInvisibleRecaptcha(form) {
     var config = getCaptchaConfig(form);
+    var state = getCaptchaState(form);
 
-    if (config.version !== "v3" || !config.siteKey) {
-      return Promise.reject(new Error("Missing GTGC reCAPTCHA v3 site key."));
+    if (config.version !== "v2-invisible" || !config.siteKey) {
+      return Promise.reject(new Error("Missing GTGC invisible reCAPTCHA v2 configuration."));
     }
-
-    if (!window.grecaptcha || typeof window.grecaptcha.ready !== "function" || typeof window.grecaptcha.execute !== "function") {
-      return Promise.reject(new Error("GTGC reCAPTCHA v3 API is unavailable."));
+    if (state.widgetId !== null) {
+      return Promise.resolve(state.widgetId);
     }
+    if (state.renderPromise) {
+      return state.renderPromise;
+    }
+    state.renderPromise = loadRecaptchaScripts().then(function (api) {
+      if (!api || typeof api.ready !== "function" || typeof api.render !== "function" || typeof api.execute !== "function") {
+        throw new Error("GTGC invisible reCAPTCHA v2 API is unavailable.");
+      }
+      return new Promise(function (resolve, reject) {
+        api.ready(function () {
+          try {
+            var container = form.querySelector("[data-gtgc-recaptcha-widget]");
+            if (!container) {
+              reject(new Error("Missing GTGC invisible reCAPTCHA container."));
+              return;
+            }
+            state.widgetId = api.render(container, {
+              sitekey: config.siteKey,
+              size: "invisible",
+              callback: function (token) {
+                settleCaptcha(form, null, token);
+              },
+              "error-callback": function () {
+                settleCaptcha(form, new Error("GTGC reCAPTCHA challenge failed."));
+              },
+              "expired-callback": function () {
+                settleCaptcha(form, new Error("GTGC reCAPTCHA token expired."));
+              },
+            });
+            resolve(state.widgetId);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+    }).catch(function (error) {
+      state.renderPromise = null;
+      throw error;
+    });
+    return state.renderPromise;
+  }
 
+  function requestRecaptchaToken(form) {
     return new Promise(function (resolve, reject) {
-      window.grecaptcha.ready(function () {
-        window.grecaptcha.execute(config.siteKey, { action: config.action }).then(function (token) {
+      ensureInvisibleRecaptcha(form).then(function (widgetId) {
+        var state = getCaptchaState(form);
+        clearTimeout(state.challengeTimer);
+        state.pendingResolve = function (token) {
+          if (!token) {
+            reject(new Error("GTGC reCAPTCHA returned an empty token."));
+            return;
+          }
+          var config = getCaptchaConfig(form);
           var responseField = form.querySelector('input[name="' + config.responseField + '"]');
           if (responseField) responseField.value = token;
           resolve(token);
-        }).catch(reject);
+        };
+        state.pendingReject = reject;
+        state.challengeTimer = setTimeout(function () {
+          settleCaptcha(form, new Error("GTGC reCAPTCHA challenge timed out."));
+        }, captchaChallengeTimeoutMs);
+        if (window.grecaptcha && typeof window.grecaptcha.reset === "function") {
+          window.grecaptcha.reset(widgetId);
+        }
+        window.grecaptcha.execute(widgetId);
+      }).catch(reject);
+    });
+  }
+
+  function getIframeState(form) {
+    if (!form.gtgcIframeState) {
+      form.gtgcIframeState = {
+        iframe: null,
+        initialLoadObserved: false,
+        awaitingResponse: false,
+        readinessPromise: null,
+        resolveReady: null,
+        responseTimer: null,
+      };
+    }
+    return form.gtgcIframeState;
+  }
+
+  function getTargetIframe(form) {
+    var state = getIframeState(form);
+    if (state.iframe) return state.iframe;
+    var targetName = form.getAttribute("target") || "";
+    state.iframe = targetName ? document.createElement("iframe") : null;
+    if (state.iframe) {
+      state.iframe.className = "gtgc-hidden-frame";
+      state.iframe.name = targetName;
+      state.iframe.title = "Gold Class lead submission status";
+      state.iframe.hidden = true;
+      state.iframe.setAttribute("aria-hidden", "true");
+      state.iframe.setAttribute("tabindex", "-1");
+      state.readinessPromise = new Promise(function (resolve) {
+        state.resolveReady = resolve;
       });
+      state.iframe.addEventListener("load", function () {
+        if (!state.initialLoadObserved) {
+          state.initialLoadObserved = true;
+          if (state.resolveReady) {
+            state.resolveReady();
+            state.resolveReady = null;
+          }
+          return;
+        }
+        if (state.awaitingResponse) {
+          state.awaitingResponse = false;
+          clearTimeout(state.responseTimer);
+          state.responseTimer = null;
+          showSuccess(form);
+          return;
+        }
+      });
+      form.insertAdjacentElement("afterend", state.iframe);
+      state.iframe.setAttribute("src", "about:blank");
+    }
+    return state.iframe;
+  }
+
+  function ensureIframeReady(form) {
+    var iframe = getTargetIframe(form);
+    var state = getIframeState(form);
+    if (!iframe || !iframe.name) {
+      return Promise.reject(new Error("Missing GTGC iframe target."));
+    }
+    if (state.initialLoadObserved) {
+      return Promise.resolve(iframe);
+    }
+    return state.readinessPromise.then(function () {
+      return iframe;
+    });
+  }
+
+  function submitFormToIframe(form) {
+    return ensureIframeReady(form).then(function (iframe) {
+      var state = getIframeState(form);
+      form.setAttribute("target", iframe.name);
+      state.awaitingResponse = true;
+      clearTimeout(state.responseTimer);
+      state.responseTimer = setTimeout(function () {
+        state.awaitingResponse = false;
+        state.responseTimer = null;
+        clearPending(form);
+        showFailure(form, "We could not confirm the submission. Please try again.");
+      }, iframeResponseTimeoutMs);
+      HTMLFormElement.prototype.submit.call(form);
+    });
+  }
+
+  function submitWithCaptcha(form) {
+    return requestRecaptchaToken(form).then(function (token) {
+      if (!token) {
+        throw new Error("GTGC reCAPTCHA returned an empty token.");
+      }
+      updateCaptchaSettings(form);
+      return submitFormToIframe(form);
     });
   }
 
@@ -3681,10 +4113,18 @@ function initGoldClassForm() {
     }
   }
 
-  function showFailure(form) {
+  function showFailure(form, message) {
     var notice = form.querySelector(".gtgc-form-failure");
     clearPending(form);
     if (!notice) return;
+    if (typeof notice.dataset.gtgcOriginalHtml !== "string") {
+      notice.dataset.gtgcOriginalHtml = notice.innerHTML;
+    }
+    if (message) {
+      notice.textContent = message;
+    } else {
+      notice.innerHTML = notice.dataset.gtgcOriginalHtml;
+    }
     notice.hidden = false;
     notice.focus({ preventScroll: true });
     notice.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -3697,6 +4137,21 @@ function initGoldClassForm() {
     form.hidden = true;
     success.hidden = false;
     success.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  function renderSimulationState(form) {
+    if (!noSendSimulation.active) return;
+    if (noSendSimulation.state === "error") {
+      getFields(form).forEach(function (field) {
+        setInvalid(field);
+      });
+      var firstField = getFields(form)[0];
+      if (firstField) firstField.focus();
+    } else if (noSendSimulation.state === "failure") {
+      showFailure(form);
+    } else if (noSendSimulation.state === "success") {
+      showSuccess(form);
+    }
   }
 
   function scrollTargetIntoView(target) {
@@ -3748,7 +4203,8 @@ function initGoldClassForm() {
 
   forms.forEach(function (form) {
     getFields(form).forEach(function (field) {
-      field.addEventListener("input", function () {
+      var clearEventName = (field.tagName || "").toLowerCase() === "select" ? "change" : "input";
+      field.addEventListener(clearEventName, function () {
         enforceMaxLength(field);
         clearInvalid(field);
       });
@@ -3768,7 +4224,15 @@ function initGoldClassForm() {
       }
       if (isNoSendMode(form)) {
         event.preventDefault();
-        if (params.get("gtgcFormState") === "failure") {
+        if (noSendSimulation.state === "error") {
+          getFields(form).forEach(function (field) {
+            setInvalid(field);
+          });
+          var firstField = getFields(form)[0];
+          if (firstField) firstField.focus();
+          return;
+        }
+        if (noSendSimulation.state === "failure") {
           showFailure(form);
           return;
         }
@@ -3778,25 +4242,14 @@ function initGoldClassForm() {
 
       event.preventDefault();
       setPending(form);
-      updateCaptchaSettings(form);
-      requestRecaptchaToken(form).then(function () {
-        showFailure(form);
-      }).catch(function () {
+      submitWithCaptcha(form).catch(function () {
+        clearPending(form);
         showFailure(form);
       });
     });
 
-    if (requestedState === "error") {
-      getFields(form).forEach(function (field) {
-        setInvalid(field);
-      });
-      var firstField = getFields(form)[0];
-      if (firstField) firstField.focus();
-    } else if (requestedState === "failure") {
-      showFailure(form);
-    } else if (requestedState === "success") {
-      showSuccess(form);
-    }
+    getTargetIframe(form);
+    renderSimulationState(form);
   });
 }
 
@@ -3860,12 +4313,12 @@ function pageHasGoldClassLeadForm(page = {}) {
   return (page.sections || []).some((section) => renderGoldClassSectionVariant(section) === "splitForm" && section.form?.fields?.length);
 }
 
-function getGoldClassRecaptchaScriptHtml(page = {}) {
-  const scriptSources = (page.sections || [])
+function getGoldClassRecaptchaScriptSources(page = {}) {
+  return (page.sections || [])
     .map((section) => {
       const captcha = section.form?.recaptcha || section.form?.captcha || null;
 
-      if (captcha?.version !== "v3") {
+      if (!["v2-invisible", "v3"].includes(captcha?.version)) {
         return "";
       }
 
@@ -3875,12 +4328,13 @@ function getGoldClassRecaptchaScriptHtml(page = {}) {
         return "";
       }
 
+      if (captcha.version === "v2-invisible") {
+        return captcha.scriptSrc || captcha.scriptSource || "https://www.google.com/recaptcha/api.js?render=explicit";
+      }
+
       return captcha.scriptSrc || captcha.scriptSource || `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
     })
     .filter(Boolean);
-
-  return [...new Set(scriptSources)]
-    .map((src) => `<script src="${escapeHtml(src)}" async defer></script>`);
 }
 
 function validateGoldClassAnchorContract(page = {}) {
@@ -3960,13 +4414,13 @@ function normalizeGetToGoldClassPage(page = {}) {
     };
   });
   validateGoldClassAnchorContract({ ...page, sections });
+  const recaptchaScriptSources = [...new Set(getGoldClassRecaptchaScriptSources({ ...page, sections }))];
   const scriptHtml = [
     ...normalizeHtmlBlocks(page.cms?.scriptHtml),
-    ...getGoldClassRecaptchaScriptHtml({ ...page, sections }),
   ];
 
   if (pageHasGoldClassLeadForm({ ...page, sections })) {
-    scriptHtml.push(getGoldClassFormScriptHtml());
+    scriptHtml.push(getGoldClassFormScriptHtml(recaptchaScriptSources));
   }
 
   return {
@@ -3977,6 +4431,1113 @@ function normalizeGetToGoldClassPage(page = {}) {
       scriptHtml,
     },
   };
+}
+
+function assertGoldClassRatingProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-rating-proof] ${message}`);
+  }
+}
+
+function runGoldClassRatingRendererProof() {
+  const page = parseStructuredAuthoringFile(join(contentSourceDir, "get-to-gold-class.yaml"));
+  const testimonialSection = (page.sections || []).find((section) => section.id === "testimonials");
+  const starRatingIcon = testimonialSection?.starRatingIcon;
+  const ratingMarkup = renderGoldClassRating({ rating: 5 }, starRatingIcon);
+  const fallbackMarkup = renderGoldClassRating({ rating: 5 });
+  const svgMatches = ratingMarkup.match(/<svg\b/g) || [];
+  const decorativeSvgMatches = ratingMarkup.match(/<svg\b[^>]*aria-hidden="true"[^>]*focusable="false"/g) || [];
+  const ariaLabelMatches = ratingMarkup.match(/aria-label="5 out of 5 stars"/g) || [];
+  const fallbackVisibleStarMatch = fallbackMarkup.match(/<span class="gtgc-stars-list" aria-hidden="true">([^<]+)<\/span>/);
+
+  assertGoldClassRatingProof(starRatingIcon?.svg?.includes("<svg"), "GTGC testimonials are missing structured starRatingIcon.svg");
+  assertGoldClassRatingProof(ratingMarkup.startsWith('                        <p class="gtgc-stars"'), "rating renderer did not emit the GTGC rating wrapper");
+  assertGoldClassRatingProof(svgMatches.length === 5, "configured rating renderer did not emit exactly five SVG stars");
+  assertGoldClassRatingProof(decorativeSvgMatches.length === 5, "configured rating SVGs are not all decorative and unfocusable");
+  assertGoldClassRatingProof(!ratingMarkup.includes("★"), "configured rating renderer emitted Unicode star text");
+  assertGoldClassRatingProof(ariaLabelMatches.length === 1, "rating renderer did not emit exactly one accessible five-star label");
+  assertGoldClassRatingProof(ratingMarkup.includes('<span class="gtgc-stars-list" aria-hidden="true">'), "rating renderer did not keep visible stars in an aria-hidden child");
+  assertGoldClassRatingProof(!/[\r\n]/.test(ratingMarkup), "configured rating SVG output is not compact");
+  assertGoldClassRatingProof(!/<\?xml/i.test(ratingMarkup), "configured rating SVG output retained an XML declaration");
+  assertGoldClassRatingProof(fallbackVisibleStarMatch?.[1] === "★★★★★", "rating renderer did not preserve the Unicode fallback when no SVG is configured");
+  assertGoldClassRatingProof(!/<svg\b/i.test(fallbackMarkup), "rating renderer emitted fallback SVG markup without configuration");
+
+  console.log("[gtgc-rating-proof] configured five-SVG stars rendered compactly with one rating label; Unicode fallback retained when no SVG is configured");
+}
+
+function assertGoldClassNoSendProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-no-send-proof] ${message}`);
+  }
+}
+
+function runGoldClassNoSendGateProof() {
+  goldClassNoSendAllowedHostnames.forEach((hostname) => {
+    goldClassNoSendAllowedStates.forEach((state) => {
+      const simulation = resolveGoldClassNoSendSimulation(
+        hostname,
+        new URLSearchParams(`gtgcNoSend=1&gtgcFormState=${state}`),
+      );
+      assertGoldClassNoSendProof(simulation.active, `expected active simulation for ${hostname} ${state}`);
+      assertGoldClassNoSendProof(simulation.state === state, `expected state "${state}" for ${hostname}`);
+    });
+  });
+
+  [
+    ["localhost", ""],
+    ["localhost", "gtgcNoSend=1"],
+    ["localhost", "gtgcFormState=success"],
+    ["localhost", "gtgcNoSend=0&gtgcFormState=success"],
+    ["localhost", "gtgcNoSend=true&gtgcFormState=success"],
+    ["localhost", "gtgcNoSend=1&gtgcFormState=complete"],
+    ["preview.info.i-car.com", "gtgcNoSend=1&gtgcFormState=success"],
+    ["foo.stage.info.i-car.com", "gtgcNoSend=1&gtgcFormState=success"],
+    ["stage.info.i-car.com.evil", "gtgcNoSend=1&gtgcFormState=success"],
+  ].forEach(([hostname, query]) => {
+    const simulation = resolveGoldClassNoSendSimulation(hostname, new URLSearchParams(query));
+    assertGoldClassNoSendProof(!simulation.active, `expected inactive simulation for ${hostname} ${query || "(absent params)"}`);
+    assertGoldClassNoSendProof(simulation.state === "", `expected empty inactive state for ${hostname} ${query || "(absent params)"}`);
+  });
+
+  const script = getGoldClassFormScriptHtml(["https://www.google.com/recaptcha/api.js?render=test"]);
+  const simulationIndex = script.indexOf("var noSendSimulation = resolveNoSendSimulation(window.location.hostname, params);");
+  const loadGuardIndex = script.indexOf("if (noSendSimulation.active) {");
+  const loadRejectIndex = script.indexOf('return Promise.reject(new Error("GTGC no-send simulation is active."));', loadGuardIndex);
+  const submitHandlerIndex = script.indexOf('form.addEventListener("submit"');
+  const noSendSubmitIndex = script.indexOf("if (isNoSendMode(form))", submitHandlerIndex);
+  const setPendingIndex = script.indexOf("setPending(form);", submitHandlerIndex);
+  const captchaSubmitIndex = script.indexOf("submitWithCaptcha(form)", submitHandlerIndex);
+  const submitWithCaptchaFunctionIndex = script.indexOf("function submitWithCaptcha(form)");
+  const timestampIndex = script.indexOf("updateCaptchaSettings(form);", submitWithCaptchaFunctionIndex);
+  const iframeFunctionIndex = script.indexOf("function submitFormToIframe(form)");
+  const iframeSubmitIndex = script.indexOf("HTMLFormElement.prototype.submit.call(form);", iframeFunctionIndex);
+
+  assertGoldClassNoSendProof(simulationIndex !== -1, "simulation resolution is missing from GTGC script");
+  assertGoldClassNoSendProof(loadGuardIndex > simulationIndex, "reCAPTCHA load guard does not run after simulation resolution");
+  assertGoldClassNoSendProof(loadRejectIndex > loadGuardIndex, "reCAPTCHA loader is not guarded by active simulation state");
+  assertGoldClassNoSendProof(noSendSubmitIndex > submitHandlerIndex, "submit handler no-send branch is missing");
+  assertGoldClassNoSendProof(noSendSubmitIndex < setPendingIndex, "no-send branch does not short-circuit before pending state");
+  assertGoldClassNoSendProof(noSendSubmitIndex < captchaSubmitIndex, "no-send branch does not short-circuit before CAPTCHA/iframe path");
+  assertGoldClassNoSendProof(timestampIndex > submitWithCaptchaFunctionIndex, "captcha_settings timestamp update is not confined to the CAPTCHA submit path");
+  assertGoldClassNoSendProof(iframeSubmitIndex > iframeFunctionIndex, "native iframe submit is not confined to the iframe submit helper");
+
+  console.log("[gtgc-no-send-proof] exact host/query matrix passed; simulation resolves before CAPTCHA load, timestamp, iframe submit, and Salesforce request paths");
+}
+
+function assertGoldClassSelectProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-select-proof] ${message}`);
+  }
+}
+
+function createGoldClassSelectProofClassList() {
+  const values = new Set();
+
+  return {
+    add(value) {
+      values.add(value);
+    },
+    remove(value) {
+      values.delete(value);
+    },
+    contains(value) {
+      return values.has(value);
+    },
+  };
+}
+
+function createGoldClassSelectProofHarness(fields, simulationState) {
+  const errorsById = new Map();
+  const controls = fields.map((field) => {
+    const id = normalizeFormFieldId(field);
+    const errorId = `${id}-error`;
+    const label = { classList: createGoldClassSelectProofClassList() };
+    const error = {
+      id: errorId,
+      textContent: field.errorMessage || "",
+      hidden: true,
+    };
+    const listeners = {};
+    const attributes = new Map([
+      ["id", id],
+      ["name", field.name || ""],
+      ["aria-describedby", errorId],
+      ["aria-invalid", "false"],
+    ]);
+    const control = {
+      tagName: field.type === "select" ? "SELECT" : "INPUT",
+      type: field.type === "select" ? "select-one" : field.type || "text",
+      name: field.name || "",
+      value: "",
+      maxLength: field.type === "select" ? 1 : Number(field.maxLength || field.maxlength || -1),
+      dataset: { errorMessage: field.errorMessage || "" },
+      classList: createGoldClassSelectProofClassList(),
+      label,
+      error,
+      listeners,
+      focusCount: 0,
+      addEventListener(name, listener) {
+        listeners[name] = listener;
+      },
+      closest(selector) {
+        return selector === ".gtgc-form-field"
+          ? { querySelector: (nestedSelector) => nestedSelector === "label" ? label : null }
+          : null;
+      },
+      getAttribute(name) {
+        return attributes.get(name) || null;
+      },
+      setAttribute(name, value) {
+        attributes.set(name, String(value));
+      },
+      focus() {
+        this.focusCount += 1;
+      },
+      dispatch(name) {
+        if (listeners[name]) listeners[name]();
+      },
+    };
+    errorsById.set(errorId, error);
+    return control;
+  });
+  const submitButton = {
+    tagName: "BUTTON",
+    textContent: "Submit",
+    value: "",
+    disabled: false,
+    dataset: {},
+  };
+  const failureNotice = {
+    dataset: {},
+    innerHTML: "Unable to submit.",
+    textContent: "Unable to submit.",
+    hidden: true,
+    focusCount: 0,
+    focus() {
+      this.focusCount += 1;
+    },
+    scrollIntoView() {},
+  };
+  const successNotice = {
+    hidden: true,
+    scrollIntoView() {},
+  };
+  const formListeners = {};
+  const formAttributes = new Map([
+    ["target", "gtgc-select-proof-target"],
+    ["action", "https://webto.salesforce.com/servlet/servlet.WebToLead"],
+  ]);
+  const effects = {
+    captchaCalls: 0,
+    captchaScriptAppends: 0,
+    iframeSources: [],
+    nativeSubmits: 0,
+  };
+  const form = {
+    dataset: {},
+    hidden: false,
+    parentElement: {
+      querySelector(selector) {
+        return selector === ".gtgc-form-success" ? successNotice : null;
+      },
+    },
+    querySelectorAll(selector) {
+      return selector === "input[required], select[required]" ? controls : [];
+    },
+    querySelector(selector) {
+      if (selector === 'button[type="submit"], input[type="submit"]') return submitButton;
+      if (selector === ".gtgc-form-failure") return failureNotice;
+      return null;
+    },
+    addEventListener(name, listener) {
+      formListeners[name] = listener;
+    },
+    getAttribute(name) {
+      return formAttributes.get(name) || null;
+    },
+    setAttribute(name, value) {
+      formAttributes.set(name, String(value));
+    },
+    removeAttribute(name) {
+      formAttributes.delete(name);
+    },
+    insertAdjacentElement() {},
+    dispatchSubmit() {
+      const event = {
+        defaultPrevented: false,
+        preventDefault() {
+          this.defaultPrevented = true;
+        },
+      };
+      formListeners.submit(event);
+      return event;
+    },
+  };
+  const document = {
+    readyState: "complete",
+    head: {
+      appendChild() {
+        effects.captchaScriptAppends += 1;
+      },
+    },
+    querySelectorAll(selector) {
+      if (selector === "[data-gtgc-lead-form]") return [form];
+      return [];
+    },
+    getElementById(id) {
+      return errorsById.get(id) || null;
+    },
+    createElement(tagName) {
+      if (tagName !== "iframe") {
+        return {
+          addEventListener() {},
+        };
+      }
+      return {
+        tagName: "IFRAME",
+        className: "",
+        name: "",
+        title: "",
+        hidden: false,
+        attributes: {},
+        addEventListener() {},
+        setAttribute(name, value) {
+          this.attributes[name] = String(value);
+          if (name === "src") effects.iframeSources.push(String(value));
+        },
+      };
+    },
+  };
+  const window = {
+    location: {
+      hostname: "localhost",
+      search: `?gtgcNoSend=1&gtgcFormState=${simulationState}`,
+      href: `https://localhost/get-to-gold-class?gtgcNoSend=1&gtgcFormState=${simulationState}`,
+      hash: "",
+    },
+    grecaptcha: {
+      ready() {
+        effects.captchaCalls += 1;
+      },
+      render() {
+        effects.captchaCalls += 1;
+      },
+      execute() {
+        effects.captchaCalls += 1;
+      },
+      reset() {
+        effects.captchaCalls += 1;
+      },
+    },
+  };
+  const HTMLFormElement = {
+    prototype: {
+      submit() {
+        effects.nativeSubmits += 1;
+      },
+    },
+  };
+  const scriptMarkup = getGoldClassFormScriptHtml([]);
+  const scriptSource = scriptMarkup.replace(/^<script>\s*/, "").replace(/\s*<\/script>$/, "");
+  const executeScript = new Function(
+    "window",
+    "document",
+    "URL",
+    "URLSearchParams",
+    "HTMLFormElement",
+    "setTimeout",
+    "clearTimeout",
+    scriptSource,
+  );
+  executeScript(window, document, URL, URLSearchParams, HTMLFormElement, setTimeout, clearTimeout);
+
+  return {
+    controls,
+    effects,
+    failureNotice,
+    form,
+    successNotice,
+  };
+}
+
+function runGoldClassSelectProof() {
+  const fields = [
+    {
+      id: "first_name",
+      name: "first_name",
+      type: "text",
+      label: "First Name",
+      placeholder: "First name",
+      maxLength: 5,
+      autoComplete: "given-name",
+      required: true,
+      errorMessage: "Enter your first name.",
+    },
+    {
+      id: "last_name",
+      name: "last_name",
+      type: "text",
+      label: "Last Name",
+      required: true,
+      errorMessage: "Enter your last name.",
+    },
+    {
+      id: "email",
+      name: "email",
+      type: "email",
+      label: "Email",
+      required: true,
+      errorMessage: "Enter a valid email.",
+    },
+    {
+      id: "state",
+      name: "state",
+      type: "select",
+      label: "State",
+      placeholder: 'Choose <State> & "Region"',
+      maxLength: 1,
+      autoComplete: "address-level1",
+      required: true,
+      errorMessage: "Choose your state.",
+      options: [
+        { value: "CA", label: "California" },
+        { value: 'N\"><script>', label: 'North & <South> "Region"' },
+      ],
+    },
+  ];
+  const formMarkup = renderGoldClassLeadForm({
+    form: {
+      regionId: "gtgc-select-proof-form",
+      action: "https://webto.salesforce.com/servlet/servlet.WebToLead",
+      method: "POST",
+      submitLabel: "Submit",
+      fields,
+    },
+  });
+  const stateMarkup = renderGoldClassLeadFormField(fields[3]);
+  const firstNameMarkup = renderGoldClassLeadFormField(fields[0]);
+  const unsupportedMaxLengthMarkup = renderGoldClassLeadFormField({
+    id: "employee_count",
+    name: "employee_count",
+    type: "number",
+    label: "Employee count",
+    maxLength: 2,
+  });
+
+  const stateStructure = stateMarkup.match(/^\s*<div class="gtgc-form-field">\s*<label for="([^"]+)">State<\/label>\s*<div class="select-w">\s*<select\b([^>]*)>([\s\S]*?)<\/select>\s*<\/div>\s*<p id="([^"]+)" class="gtgc-field-error" hidden>Choose your state\.<\/p>\s*<\/div>\s*$/);
+  assertGoldClassSelectProof(stateStructure, "select wrapper must contain only the native select, with label and error as direct siblings");
+  const renderedStateId = stateStructure[2].match(/\bid="([^"]+)"/)?.[1] || "";
+  const renderedErrorId = stateStructure[2].match(/\baria-describedby="([^"]+)"/)?.[1] || "";
+  assertGoldClassSelectProof(stateStructure[1] === renderedStateId && renderedStateId === "state", "select label for/id association changed");
+  assertGoldClassSelectProof(stateStructure[4] === renderedErrorId && renderedErrorId === `${renderedStateId}-error`, "select error ID linkage changed");
+  assertGoldClassSelectProof((stateMarkup.match(/<div class="select-w">/g) || []).length === 1, "rendered State field must have exactly one select wrapper");
+  assertGoldClassSelectProof((formMarkup.match(/<div class="select-w">/g) || []).length === 1, "rendered form must have exactly one select wrapper");
+  assertGoldClassSelectProof(!firstNameMarkup.includes('class="select-w"') && !unsupportedMaxLengthMarkup.includes('class="select-w"'), "input controls gained a select wrapper");
+  assertGoldClassSelectProof(stateMarkup.includes('<label for="state">State</label>'), "select label is not associated by for/id");
+  assertGoldClassSelectProof(stateMarkup.includes('<select id="state" name="state" autocomplete="address-level1" required aria-invalid="false" aria-describedby="state-error" data-error-message="Choose your state.">'), "select accessibility or destination attributes are incomplete");
+  assertGoldClassSelectProof(stateMarkup.includes('<option value="" disabled selected>Choose &lt;State&gt; &amp; &quot;Region&quot;</option>'), "escaped empty-value placeholder is missing");
+  assertGoldClassSelectProof(stateMarkup.includes('<option value="CA">California</option>'), "configured state option is missing");
+  assertGoldClassSelectProof(stateMarkup.includes('<option value="N&quot;&gt;&lt;script&gt;">North &amp; &lt;South&gt; &quot;Region&quot;</option>'), "configured option value or label is not escaped");
+  assertGoldClassSelectProof(!stateMarkup.includes("<script>"), "configured option emitted executable markup");
+  assertGoldClassSelectProof(stateMarkup.includes('<p id="state-error" class="gtgc-field-error" hidden>Choose your state.</p>'), "matching select error element is missing");
+  assertGoldClassSelectProof(!/<select\b[^>]*\bmaxlength=/i.test(stateMarkup), "select emitted maxlength");
+  assertGoldClassSelectProof(firstNameMarkup.includes('type="text" placeholder="First name" maxlength="5" autocomplete="given-name" required'), "existing supported input attributes were not preserved");
+  assertGoldClassSelectProof(!unsupportedMaxLengthMarkup.includes("maxlength="), "unsupported input type emitted maxlength");
+  assertGoldClassSelectProof((formMarkup.match(/<(?:input|select)\b[^>]*\brequired\b/g) || []).length === 4, "rendered form does not contain all four required controls");
+  const renderedSelects = [...formMarkup.matchAll(/<select\b([^>]*)>([\s\S]*?)<\/select>/gi)].map((match) => ({
+    attributes: match[1],
+    optionsMarkup: match[2],
+    name: match[1].match(/\bname="([^"]*)"/i)?.[1] || "",
+  }));
+  const renderedStateSelects = renderedSelects.filter((select) => select.name === "state");
+  assertGoldClassSelectProof(renderedStateSelects.length === 1, "rendered form must contain exactly one state select");
+  const renderedStateSelect = renderedStateSelects[0];
+  const renderedCaliforniaOptions = [...renderedStateSelect.optionsMarkup.matchAll(/<option\b([^>]*)>\s*California\s*<\/option>/gi)];
+  assertGoldClassSelectProof(renderedCaliforniaOptions.length === 1, "rendered state select must contain exactly one California option");
+  const renderedStateOptionValue = renderedCaliforniaOptions[0][1].match(/\bvalue="([^"]*)"/i)?.[1] || "";
+  assertGoldClassSelectProof(renderedStateOptionValue === "CA", "rendered California option value changed or is missing");
+
+  const errorHarness = createGoldClassSelectProofHarness(fields, "error");
+  const byName = Object.fromEntries(errorHarness.controls.map((control) => [control.name, control]));
+  errorHarness.controls.forEach((control) => {
+    assertGoldClassSelectProof(control.classList.contains("is-invalid"), `${control.name} missing initial no-send error`);
+    assertGoldClassSelectProof(control.label.classList.contains("is-invalid"), `${control.name} label missing initial no-send error`);
+    assertGoldClassSelectProof(!control.error.hidden, `${control.name} message missing initial no-send error`);
+  });
+
+  byName.state.value = "CA";
+  byName.state.dispatch("change");
+  assertGoldClassSelectProof(byName.state.value === "CA", "select value was truncated by maxlength handling");
+  assertGoldClassSelectProof(!byName.state.classList.contains("is-invalid"), "select error did not clear on change");
+  assertGoldClassSelectProof(!byName.state.label.classList.contains("is-invalid"), "select label error did not clear on change");
+  assertGoldClassSelectProof(byName.state.error.hidden && byName.state.error.textContent === "", "select error message did not clear on change");
+
+  byName.first_name.value = "Alexander";
+  byName.first_name.dispatch("input");
+  assertGoldClassSelectProof(byName.first_name.value === "Alexa", "supported input maxlength behavior regressed");
+  assertGoldClassSelectProof(!byName.first_name.classList.contains("is-invalid"), "input error did not clear on input");
+  byName.last_name.value = "Meza";
+  byName.last_name.dispatch("input");
+  byName.email.value = "invalid-email";
+  byName.email.dispatch("input");
+  const invalidEmailSubmit = errorHarness.form.dispatchSubmit();
+  assertGoldClassSelectProof(invalidEmailSubmit.defaultPrevented, "invalid email submission was not prevented");
+  assertGoldClassSelectProof(byName.email.classList.contains("is-invalid"), "existing invalid-email behavior regressed");
+  assertGoldClassSelectProof(!byName.state.classList.contains("is-invalid"), "valid configured select option failed validation");
+
+  byName.email.value = "alex@example.com";
+  byName.email.dispatch("input");
+  byName.state.value = "";
+  const emptySelectSubmit = errorHarness.form.dispatchSubmit();
+  assertGoldClassSelectProof(emptySelectSubmit.defaultPrevented, "empty select submission was not prevented");
+  assertGoldClassSelectProof(byName.state.classList.contains("is-invalid"), "empty required select was treated as valid");
+  byName.state.value = "CA";
+  byName.state.dispatch("change");
+
+  const firstNoSendSubmit = errorHarness.form.dispatchSubmit();
+  const secondNoSendSubmit = errorHarness.form.dispatchSubmit();
+  assertGoldClassSelectProof(firstNoSendSubmit.defaultPrevented && secondNoSendSubmit.defaultPrevented, "repeated no-send submissions were not prevented");
+  errorHarness.controls.forEach((control) => {
+    assertGoldClassSelectProof(control.classList.contains("is-invalid"), `${control.name} missing repeated no-send error simulation`);
+  });
+  assertGoldClassSelectProof(errorHarness.effects.captchaCalls === 0, "no-send error proof reached CAPTCHA");
+  assertGoldClassSelectProof(errorHarness.effects.captchaScriptAppends === 0, "no-send error proof injected a CAPTCHA script");
+  assertGoldClassSelectProof(errorHarness.effects.nativeSubmits === 0, "no-send error proof reached native iframe/Salesforce submission");
+  assertGoldClassSelectProof(errorHarness.effects.iframeSources.length === 1 && errorHarness.effects.iframeSources[0] === "about:blank", "no-send error proof navigated an iframe outside the isolated readiness document");
+
+  const validHarness = createGoldClassSelectProofHarness(fields, "failure");
+  const validByName = Object.fromEntries(validHarness.controls.map((control) => [control.name, control]));
+  validByName.first_name.value = "Alexa";
+  validByName.last_name.value = "Meza";
+  validByName.email.value = "alex@example.com";
+  const renderedStateControl = validHarness.controls.find((control) => control.name === renderedStateSelect.name);
+  assertGoldClassSelectProof(renderedStateControl, "rendered state control is missing from the no-send harness");
+  renderedStateControl.value = renderedStateOptionValue;
+  const validSubmit = validHarness.form.dispatchSubmit();
+  assertGoldClassSelectProof(validSubmit.defaultPrevented, "valid no-send submission was not prevented");
+  assertGoldClassSelectProof(validHarness.controls.every((control) => !control.classList.contains("is-invalid")), "valid required input/select controls failed validation");
+  assertGoldClassSelectProof(!validHarness.failureNotice.hidden, "valid controls did not reach the isolated no-send failure state");
+  const serializedState = new URLSearchParams([[renderedStateSelect.name, renderedStateOptionValue]]);
+  const serializedStateEntries = serializedState.getAll("state");
+  assertGoldClassSelectProof(serializedStateEntries.length === 1, "rendered serialization did not contain exactly one state entry");
+  assertGoldClassSelectProof(serializedStateEntries[0] === "CA", "rendered state entry did not serialize the selected CA option");
+  assertGoldClassSelectProof(serializedState.toString() === "state=CA", "rendered select did not encode exactly as state=CA");
+  assertGoldClassSelectProof(validHarness.effects.captchaCalls === 0, "valid no-send proof reached CAPTCHA");
+  assertGoldClassSelectProof(validHarness.effects.captchaScriptAppends === 0, "valid no-send proof injected a CAPTCHA script");
+  assertGoldClassSelectProof(validHarness.effects.nativeSubmits === 0, "valid no-send proof reached native iframe/Salesforce submission");
+
+  console.log("[gtgc-select-proof] single select-w wrapper, native select rendering, escaping, accessibility, validation, change clearing, maxlength boundaries, repeat no-send simulation, state=CA serialization, and zero live side effects verified");
+}
+
+function assertGoldClassInvisibleV2Proof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-invisible-v2-proof] ${message}`);
+  }
+}
+
+function assertGoldClassIframeReadinessProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-iframe-readiness-proof] ${message}`);
+  }
+}
+
+function createGoldClassIframeReadinessProofHarness() {
+  const events = [];
+  const form = {
+    dataset: {},
+    target: "hero-form-target",
+    getAttribute(name) {
+      return name === "target" ? this.target : "";
+    },
+    setAttribute(name, value) {
+      events.push(`form:${name}=${value}`);
+      if (name === "target") this.target = value;
+    },
+    insertAdjacentElement(position, element) {
+      events.push(`form:insert-${position}:${element.tagName}`);
+    },
+  };
+  const document = {
+    createElement(tagName) {
+      events.push(`document:create-${tagName}`);
+      return iframe;
+    },
+  };
+  const iframe = {
+    tagName: "iframe",
+    className: "",
+    name: "",
+    title: "",
+    hidden: false,
+    src: "",
+    listener: null,
+    attributes: {},
+    addEventListener(name, listener) {
+      if (name === "load") {
+        events.push("iframe:listener-attached");
+        this.listener = listener;
+      }
+    },
+    setAttribute(name, value) {
+      events.push(`iframe:${name}=${value}`);
+      this.attributes[name] = value;
+      if (name === "src") this.src = value;
+    },
+  };
+  const state = {
+    iframe: null,
+    initialLoadObserved: false,
+    awaitingResponse: false,
+    readinessPromise: null,
+    resolveReady: null,
+    responseTimer: null,
+  };
+  const timers = new Map();
+  let timerId = 0;
+  let nativeSubmitCount = 0;
+
+  function clearTimer(id) {
+    if (id) timers.delete(id);
+  }
+
+  function setTimer(callback) {
+    timerId += 1;
+    timers.set(timerId, callback);
+    return timerId;
+  }
+
+  function showSuccess() {
+    events.push("success");
+  }
+
+  function showFailure() {
+    events.push("failure");
+  }
+
+  function clearPending() {
+    events.push("clear-pending");
+    form.dataset.gtgcPending = "false";
+  }
+
+  function getIframeState() {
+    return state;
+  }
+
+  function getTargetIframe() {
+    if (state.iframe) return state.iframe;
+    state.iframe = form.getAttribute("target") ? document.createElement("iframe") : null;
+    if (!state.iframe) return state.iframe;
+    state.iframe.className = "gtgc-hidden-frame";
+    state.iframe.name = form.getAttribute("target");
+    state.iframe.title = "Gold Class lead submission status";
+    state.iframe.hidden = true;
+    state.iframe.setAttribute("aria-hidden", "true");
+    state.iframe.setAttribute("tabindex", "-1");
+    state.readinessPromise = new Promise((resolve) => {
+      state.resolveReady = resolve;
+    });
+    state.iframe.addEventListener("load", () => {
+      if (!state.initialLoadObserved) {
+        state.initialLoadObserved = true;
+        if (state.resolveReady) {
+          state.resolveReady();
+          state.resolveReady = null;
+        }
+        return;
+      }
+      if (state.awaitingResponse) {
+        state.awaitingResponse = false;
+        clearTimer(state.responseTimer);
+        state.responseTimer = null;
+        showSuccess();
+      }
+    });
+    form.insertAdjacentElement("afterend", state.iframe);
+    state.iframe.setAttribute("src", "about:blank");
+    return state.iframe;
+  }
+
+  function ensureIframeReady() {
+    const targetIframe = getTargetIframe();
+    if (!targetIframe || !targetIframe.name) {
+      return Promise.reject(new Error("Missing GTGC iframe target."));
+    }
+    if (state.initialLoadObserved) {
+      return Promise.resolve(targetIframe);
+    }
+    return state.readinessPromise.then(() => targetIframe);
+  }
+
+  function submitFormToIframe() {
+    return ensureIframeReady().then((targetIframe) => {
+      const iframeState = getIframeState();
+      form.setAttribute("target", targetIframe.name);
+      iframeState.awaitingResponse = true;
+      clearTimer(iframeState.responseTimer);
+      iframeState.responseTimer = setTimer(() => {
+        iframeState.awaitingResponse = false;
+        iframeState.responseTimer = null;
+        clearPending();
+        showFailure();
+      });
+      nativeSubmitCount += 1;
+      events.push("native-submit");
+    });
+  }
+
+  function attemptSubmit() {
+    if (form.dataset.gtgcPending === "true") {
+      events.push("duplicate-blocked");
+      return Promise.resolve(false);
+    }
+    form.dataset.gtgcPending = "true";
+    return submitFormToIframe().then(() => true);
+  }
+
+  return {
+    events,
+    form,
+    state,
+    iframe,
+    get nativeSubmitCount() {
+      return nativeSubmitCount;
+    },
+    attemptSubmit,
+    submitFormToIframe,
+    fireLoad() {
+      iframe.listener();
+    },
+    fireTimeout() {
+      const callbacks = Array.from(timers.values());
+      timers.clear();
+      callbacks.forEach((callback) => callback());
+    },
+    flush() {
+      return Promise.resolve();
+    },
+  };
+}
+
+async function runGoldClassIframeReadinessProof() {
+  const script = getGoldClassFormScriptHtml(["https://www.google.com/recaptcha/api.js?render=explicit"]);
+  const formMarkup = renderGoldClassLeadForm({
+    form: {
+      regionId: "hero-form",
+      action: "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D1I0000002nE3",
+      method: "POST",
+      submitLabel: "Submit",
+      recaptcha: {
+        version: "v2-invisible",
+        siteKey: "test-site-key",
+        responseFieldName: "g-recaptcha-response",
+      },
+      fields: [
+        { name: "first_name", label: "First Name", required: true },
+      ],
+    },
+  });
+  const iframeFunctionIndex = script.indexOf("function getTargetIframe(form)");
+  const createIframeIndex = script.indexOf('document.createElement("iframe")', iframeFunctionIndex);
+  const nameAssignmentIndex = script.indexOf("state.iframe.name = targetName;", createIframeIndex);
+  const hiddenAssignmentIndex = script.indexOf("state.iframe.hidden = true;", createIframeIndex);
+  const ariaHiddenIndex = script.indexOf('state.iframe.setAttribute("aria-hidden", "true");', createIframeIndex);
+  const tabindexIndex = script.indexOf('state.iframe.setAttribute("tabindex", "-1");', createIframeIndex);
+  const listenerIndex = script.indexOf('state.iframe.addEventListener("load"', iframeFunctionIndex);
+  const insertIframeIndex = script.indexOf('form.insertAdjacentElement("afterend", state.iframe);', listenerIndex);
+  const initialNavigationIndex = script.indexOf('state.iframe.setAttribute("src", "about:blank");', listenerIndex);
+  const readinessBranchIndex = script.indexOf("if (!state.initialLoadObserved)", listenerIndex);
+  const awaitingBranchIndex = script.indexOf("if (state.awaitingResponse)", listenerIndex);
+  const ensureFunctionIndex = script.indexOf("function ensureIframeReady(form)");
+  const readinessPromiseIndex = script.indexOf("return state.readinessPromise.then", ensureFunctionIndex);
+  const submitFunctionIndex = script.indexOf("function submitFormToIframe(form)");
+  const submitWaitIndex = script.indexOf("return ensureIframeReady(form).then", submitFunctionIndex);
+  const awaitingSetIndex = script.indexOf("state.awaitingResponse = true;", submitFunctionIndex);
+  const nativeSubmitIndex = script.indexOf("HTMLFormElement.prototype.submit.call(form);", submitFunctionIndex);
+  const timeoutIndex = script.indexOf("state.responseTimer = setTimeout", submitFunctionIndex);
+  const responseTimeoutUnsetIndex = script.indexOf("state.awaitingResponse = false;", timeoutIndex);
+  const captchaSubmitReturnIndex = script.indexOf("return submitFormToIframe(form);");
+  const forbiddenIframeAccessTerms = ["content" + "Window", "content" + "Document"];
+
+  assertGoldClassIframeReadinessProof(formMarkup.includes('target="hero-form-target"'), "GTGC form did not render unique iframe target");
+  assertGoldClassIframeReadinessProof(!/<iframe\b[^>]*\bclass="gtgc-hidden-frame"/i.test(formMarkup), "GTGC rendered a static hidden response iframe");
+  assertGoldClassIframeReadinessProof(!/\bsandbox=/.test(formMarkup), "GTGC form markup contains a sandbox attribute");
+  assertGoldClassIframeReadinessProof(createIframeIndex > iframeFunctionIndex, "runtime iframe creation is missing");
+  assertGoldClassIframeReadinessProof(nameAssignmentIndex > createIframeIndex, "runtime iframe name assignment is missing");
+  assertGoldClassIframeReadinessProof(hiddenAssignmentIndex > createIframeIndex, "runtime iframe hidden assignment is missing");
+  assertGoldClassIframeReadinessProof(ariaHiddenIndex > createIframeIndex, "runtime iframe aria-hidden assignment is missing");
+  assertGoldClassIframeReadinessProof(tabindexIndex > createIframeIndex, "runtime iframe tabindex assignment is missing");
+  assertGoldClassIframeReadinessProof(listenerIndex !== -1, "iframe load listener is missing");
+  assertGoldClassIframeReadinessProof(insertIframeIndex > listenerIndex, "runtime iframe is not inserted after attaching the load listener");
+  assertGoldClassIframeReadinessProof(initialNavigationIndex > insertIframeIndex, "initial about:blank navigation is not initiated after inserting the listener-backed iframe");
+  assertGoldClassIframeReadinessProof(readinessBranchIndex > listenerIndex && readinessBranchIndex < awaitingBranchIndex, "initial readiness load is not handled before response loads");
+  assertGoldClassIframeReadinessProof(readinessPromiseIndex > ensureFunctionIndex, "iframe readiness promise is not used before submission");
+  assertGoldClassIframeReadinessProof(submitWaitIndex > submitFunctionIndex, "submit path does not wait for iframe readiness");
+  assertGoldClassIframeReadinessProof(awaitingSetIndex > submitWaitIndex && nativeSubmitIndex > awaitingSetIndex, "awaitingResponse/native submit are not gated behind readiness");
+  assertGoldClassIframeReadinessProof(timeoutIndex > awaitingSetIndex && responseTimeoutUnsetIndex > timeoutIndex, "response timeout disarm path is missing");
+  assertGoldClassIframeReadinessProof(captchaSubmitReturnIndex !== -1, "CAPTCHA submit path does not return the iframe submission promise");
+  assertGoldClassIframeReadinessProof(!forbiddenIframeAccessTerms.some((term) => script.includes(term)), "iframe content access is present");
+  assertGoldClassIframeReadinessProof(!script.includes(".sandbox"), "script mutates iframe sandbox");
+  assertGoldClassIframeReadinessProof(!script.includes('setAttribute("sandbox"'), "script sets iframe sandbox");
+  assertGoldClassIframeReadinessProof(!script.includes('removeAttribute("sandbox"'), "script removes iframe sandbox");
+
+  const earlySubmit = createGoldClassIframeReadinessProofHarness();
+  const earlySubmitPromise = earlySubmit.attemptSubmit();
+  assertGoldClassIframeReadinessProof(earlySubmit.events[0] === "document:create-iframe", "runtime iframe was not created");
+  assertGoldClassIframeReadinessProof(earlySubmit.iframe.name === "hero-form-target", "runtime iframe name did not match form target");
+  assertGoldClassIframeReadinessProof(earlySubmit.iframe.className === "gtgc-hidden-frame", "runtime iframe class is missing");
+  assertGoldClassIframeReadinessProof(earlySubmit.iframe.hidden === true, "runtime iframe is not hidden");
+  assertGoldClassIframeReadinessProof(earlySubmit.iframe.attributes["aria-hidden"] === "true", "runtime iframe aria-hidden is missing");
+  assertGoldClassIframeReadinessProof(earlySubmit.iframe.attributes.tabindex === "-1", "runtime iframe tabindex is missing");
+  assertGoldClassIframeReadinessProof(earlySubmit.events.indexOf("iframe:listener-attached") < earlySubmit.events.indexOf("form:insert-afterend:iframe"), "listener was not attached before insertion");
+  assertGoldClassIframeReadinessProof(earlySubmit.events.indexOf("form:insert-afterend:iframe") < earlySubmit.events.indexOf("iframe:src=about:blank"), "initial navigation was not started after insertion");
+  assertGoldClassIframeReadinessProof(earlySubmit.nativeSubmitCount === 0, "submit attempted before readiness performed native submit");
+  assertGoldClassIframeReadinessProof(!earlySubmit.state.awaitingResponse, "submit attempted before readiness armed awaitingResponse");
+  earlySubmit.fireLoad();
+  await earlySubmitPromise;
+  assertGoldClassIframeReadinessProof(!earlySubmit.events.includes("success"), "initial readiness load showed success");
+  assertGoldClassIframeReadinessProof(earlySubmit.nativeSubmitCount === 1, "submission did not continue after iframe readiness");
+  assertGoldClassIframeReadinessProof(earlySubmit.state.awaitingResponse, "post-readiness submission did not arm awaitingResponse");
+  earlySubmit.fireLoad();
+  assertGoldClassIframeReadinessProof(earlySubmit.events.includes("success"), "submission-associated iframe load did not show success");
+
+  const timeoutThenLateLoad = createGoldClassIframeReadinessProofHarness();
+  const timeoutSubmitPromise = timeoutThenLateLoad.attemptSubmit();
+  timeoutThenLateLoad.fireLoad();
+  await timeoutSubmitPromise;
+  timeoutThenLateLoad.fireTimeout();
+  timeoutThenLateLoad.fireLoad();
+  assertGoldClassIframeReadinessProof(timeoutThenLateLoad.events.includes("failure"), "timeout did not show failure");
+  assertGoldClassIframeReadinessProof(!timeoutThenLateLoad.events.includes("success"), "late iframe load after timeout showed success");
+
+  const duplicateSubmit = createGoldClassIframeReadinessProofHarness();
+  duplicateSubmit.form.dataset.gtgcPending = "true";
+  await duplicateSubmit.attemptSubmit();
+  assertGoldClassIframeReadinessProof(duplicateSubmit.events.includes("duplicate-blocked"), "duplicate submit was not blocked");
+  assertGoldClassIframeReadinessProof(duplicateSubmit.nativeSubmitCount === 0, "duplicate submit performed native submit");
+
+  console.log("[gtgc-iframe-readiness-proof] pre-readiness submit, initial load, response load, timeout/late-load, and duplicate-submit paths verified");
+}
+
+function createGoldClassRecaptchaLifecycleProofHarness({
+  existingScript = false,
+  usableApi = false,
+  unavailableApi = false,
+  executeMode = "success",
+} = {}) {
+  const events = [];
+  const waiters = [];
+  const form = {
+    dataset: {},
+    gtgcCaptchaState: {
+      widgetId: null,
+      pendingResolve: null,
+      pendingReject: null,
+      challengeTimer: null,
+      renderPromise: null,
+    },
+  };
+  const state = {
+    recaptchaScriptPromise: null,
+    existingScript,
+    usableApi,
+    unavailableApi,
+    renderCount: 0,
+    executeCount: 0,
+    submitCount: 0,
+    failureCount: 0,
+    scriptInjectionCount: 0,
+    duplicateCount: 0,
+  };
+
+  function makeApi() {
+    return {
+      ready(callback) {
+        events.push("api-ready");
+        callback();
+      },
+      render(container, options) {
+        events.push("api-render");
+        state.renderCount += 1;
+        state.widgetOptions = options;
+        return 7;
+      },
+      reset() {
+        events.push("api-reset");
+      },
+      execute() {
+        events.push("api-execute");
+        state.executeCount += 1;
+        if (executeMode === "error") {
+          state.widgetOptions["error-callback"]();
+        } else if (executeMode === "expiry") {
+          state.widgetOptions["expired-callback"]();
+        } else if (executeMode === "cancel") {
+          state.widgetOptions.callback("");
+        } else {
+          state.widgetOptions.callback("mock-token");
+        }
+      },
+    };
+  }
+
+  function waitForUsableApi() {
+    events.push("wait-api");
+    if (state.usableApi) {
+      return Promise.resolve(makeApi());
+    }
+    if (state.unavailableApi) {
+      return Promise.reject(new Error("GTGC reCAPTCHA API did not become ready."));
+    }
+    return new Promise((resolve, reject) => {
+      waiters.push({ resolve, reject });
+    });
+  }
+
+  function makeApiUsable() {
+    state.usableApi = true;
+    const api = makeApi();
+    waiters.splice(0).forEach((waiter) => waiter.resolve(api));
+  }
+
+  function loadRecaptchaScripts() {
+    if (state.recaptchaScriptPromise) {
+      events.push("reuse-api-promise");
+      return state.recaptchaScriptPromise;
+    }
+    if (state.usableApi) {
+      events.push("use-ready-api");
+      state.recaptchaScriptPromise = waitForUsableApi();
+      return state.recaptchaScriptPromise;
+    }
+    events.push(state.existingScript ? "reuse-existing-script" : "inject-script");
+    if (!state.existingScript) {
+      state.scriptInjectionCount += 1;
+    }
+    state.recaptchaScriptPromise = waitForUsableApi().catch((error) => {
+      state.recaptchaScriptPromise = null;
+      throw error;
+    });
+    return state.recaptchaScriptPromise;
+  }
+
+  function ensureInvisibleRecaptcha() {
+    const captchaState = form.gtgcCaptchaState;
+    if (captchaState.widgetId !== null) {
+      return Promise.resolve(captchaState.widgetId);
+    }
+    if (captchaState.renderPromise) {
+      return captchaState.renderPromise;
+    }
+    captchaState.renderPromise = loadRecaptchaScripts().then((api) => new Promise((resolve, reject) => {
+      api.ready(() => {
+        try {
+          captchaState.widgetId = api.render({}, {
+            sitekey: "test-site-key",
+            size: "invisible",
+            callback(token) {
+              if (!token) {
+                reject(new Error("GTGC reCAPTCHA returned an empty token."));
+                return;
+              }
+              resolve(token);
+            },
+            "error-callback"() {
+              reject(new Error("GTGC reCAPTCHA challenge failed."));
+            },
+            "expired-callback"() {
+              reject(new Error("GTGC reCAPTCHA token expired."));
+            },
+          });
+          resolve(captchaState.widgetId);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    })).catch((error) => {
+      captchaState.renderPromise = null;
+      throw error;
+    });
+    return captchaState.renderPromise;
+  }
+
+  function requestToken() {
+    return ensureInvisibleRecaptcha().then((widgetId) => new Promise((resolve, reject) => {
+      const api = makeApi();
+      form.gtgcCaptchaState.pendingResolve = resolve;
+      form.gtgcCaptchaState.pendingReject = reject;
+      const options = state.widgetOptions;
+      state.widgetOptions = {
+        ...options,
+        callback(token) {
+          if (!token) {
+            reject(new Error("GTGC reCAPTCHA returned an empty token."));
+            return;
+          }
+          resolve(token);
+        },
+        "error-callback"() {
+          reject(new Error("GTGC reCAPTCHA challenge failed."));
+        },
+        "expired-callback"() {
+          reject(new Error("GTGC reCAPTCHA token expired."));
+        },
+      };
+      api.reset(widgetId);
+      api.execute(widgetId);
+    }));
+  }
+
+  function submit() {
+    if (form.dataset.gtgcPending === "true") {
+      state.duplicateCount += 1;
+      events.push("duplicate-blocked");
+      return Promise.resolve(false);
+    }
+    form.dataset.gtgcPending = "true";
+    return requestToken().then(() => {
+      state.submitCount += 1;
+      events.push("iframe-submit");
+      return true;
+    }).catch((error) => {
+      form.dataset.gtgcPending = "false";
+      state.failureCount += 1;
+      events.push(`failure:${error.message}`);
+      return false;
+    });
+  }
+
+  return {
+    events,
+    state,
+    form,
+    submit,
+    makeApiUsable,
+  };
+}
+
+async function runGoldClassRecaptchaLifecycleProof() {
+  const delayedApi = createGoldClassRecaptchaLifecycleProofHarness();
+  const delayedSubmit = delayedApi.submit();
+  await Promise.resolve();
+  assertGoldClassInvisibleV2Proof(delayedApi.state.executeCount === 0 && delayedApi.state.submitCount === 0, "delayed API did not hold submission before readiness");
+  delayedApi.makeApiUsable();
+  await delayedSubmit;
+  assertGoldClassInvisibleV2Proof(delayedApi.state.renderCount === 1 && delayedApi.state.executeCount === 1 && delayedApi.state.submitCount === 1, "delayed API did not render, execute, and submit once after readiness");
+
+  const unavailableApi = createGoldClassRecaptchaLifecycleProofHarness({ unavailableApi: true });
+  await unavailableApi.submit();
+  assertGoldClassInvisibleV2Proof(unavailableApi.state.failureCount === 1 && unavailableApi.form.dataset.gtgcPending === "false", "unavailable API did not fail cleanly and restore pending state");
+
+  const fullyLoadedApi = createGoldClassRecaptchaLifecycleProofHarness({ usableApi: true });
+  await fullyLoadedApi.submit();
+  assertGoldClassInvisibleV2Proof(fullyLoadedApi.state.scriptInjectionCount === 0 && fullyLoadedApi.state.renderCount === 1 && fullyLoadedApi.state.executeCount === 1, "fully loaded API did not initialize and execute normally");
+
+  const existingLoadingApi = createGoldClassRecaptchaLifecycleProofHarness({ existingScript: true });
+  const existingSubmit = existingLoadingApi.submit();
+  await Promise.resolve();
+  assertGoldClassInvisibleV2Proof(existingLoadingApi.state.scriptInjectionCount === 0 && existingLoadingApi.events.includes("reuse-existing-script"), "existing loading script was not reused");
+  existingLoadingApi.makeApiUsable();
+  await existingSubmit;
+  assertGoldClassInvisibleV2Proof(existingLoadingApi.state.submitCount === 1, "existing loading API did not proceed after readiness");
+
+  const repeatedClick = createGoldClassRecaptchaLifecycleProofHarness({ usableApi: true });
+  const firstClick = repeatedClick.submit();
+  const secondClick = repeatedClick.submit();
+  await Promise.all([firstClick, secondClick]);
+  assertGoldClassInvisibleV2Proof(repeatedClick.state.duplicateCount === 1 && repeatedClick.state.renderCount === 1 && repeatedClick.state.submitCount === 1, "repeated click created duplicate widget or submission");
+
+  for (const mode of ["error", "expiry", "cancel"]) {
+    const failedChallenge = createGoldClassRecaptchaLifecycleProofHarness({ usableApi: true, executeMode: mode });
+    await failedChallenge.submit();
+    assertGoldClassInvisibleV2Proof(failedChallenge.state.failureCount === 1 && failedChallenge.form.dataset.gtgcPending === "false", `${mode} challenge did not recover to failure state`);
+  }
+}
+
+function runGoldClassInvisibleV2FlowProof() {
+  const script = getGoldClassFormScriptHtml(["https://www.google.com/recaptcha/api.js?render=explicit"]);
+  const formMarkup = renderGoldClassLeadForm({
+    form: {
+      regionId: "hero-form",
+      action: "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D1I0000002nE3",
+      method: "POST",
+      submitLabel: "Submit",
+      recaptcha: {
+        version: "v2-invisible",
+        siteKey: "test-site-key",
+        responseFieldName: "g-recaptcha-response",
+      },
+      fields: [
+        { name: "first_name", label: "First Name", required: true },
+      ],
+    },
+  });
+  const submitHandlerIndex = script.indexOf('form.addEventListener("submit"');
+  const duplicateIndex = script.indexOf('if (form.dataset.gtgcPending === "true")', submitHandlerIndex);
+  const validateIndex = script.indexOf("var firstInvalid = validate(form);", submitHandlerIndex);
+  const noSendSubmitIndex = script.indexOf("if (isNoSendMode(form))", submitHandlerIndex);
+  const setPendingIndex = script.indexOf("setPending(form);", submitHandlerIndex);
+  const captchaRequestIndex = script.indexOf("submitWithCaptcha(form)", submitHandlerIndex);
+  const loadScriptFunctionIndex = script.indexOf("function loadRecaptchaScripts()");
+  const ensureRecaptchaFunctionIndex = script.indexOf("function ensureInvisibleRecaptcha(form)");
+  const captchaLoadIndex = script.indexOf("loadRecaptchaScripts().then", ensureRecaptchaFunctionIndex);
+  const usableApiFunctionIndex = script.indexOf("function isRecaptchaApiUsable()");
+  const existingScriptFunctionIndex = script.indexOf("function findExistingRecaptchaScript()");
+  const buildScriptUrlFunctionIndex = script.indexOf("function buildRecaptchaScriptUrl");
+  const waitUsableFunctionIndex = script.indexOf("function waitForUsableRecaptchaApi()");
+  const onloadCallbackIndex = script.indexOf('url.searchParams.set("onload", callbackName);', buildScriptUrlFunctionIndex);
+  const explicitRenderIndex = script.indexOf('url.searchParams.set("render", "explicit");', buildScriptUrlFunctionIndex);
+  const existingReuseIndex = script.indexOf("if (existingScript)", loadScriptFunctionIndex);
+  const earlyObjectResolveIndex = script.indexOf("if (window.grecaptcha) {", loadScriptFunctionIndex);
+  const renderPromiseIndex = script.indexOf("state.renderPromise", script.indexOf("function ensureInvisibleRecaptcha(form)"));
+  const submitWithCaptchaIndex = script.indexOf("function submitWithCaptcha(form)");
+  const timestampIndex = script.indexOf("updateCaptchaSettings(form);", submitWithCaptchaIndex);
+  const iframeSubmitIndex = script.indexOf("submitFormToIframe(form);", submitWithCaptchaIndex);
+  const readinessLoadIndex = script.indexOf("if (!state.initialLoadObserved)");
+  const awaitingLoadIndex = script.indexOf("if (state.awaitingResponse)", readinessLoadIndex);
+  const successIndex = script.indexOf("showSuccess(form);", awaitingLoadIndex);
+  const responseTimeoutIndex = script.indexOf("state.responseTimer = setTimeout");
+  const responseTimeoutRecoveryIndex = script.indexOf("clearPending(form);", responseTimeoutIndex);
+  const responseTimeoutUnsetIndex = script.indexOf("state.awaitingResponse = false;", responseTimeoutIndex);
+  const forbiddenIframeAccessTerms = ["content" + "Window", "content" + "Document"];
+
+  assertGoldClassInvisibleV2Proof(formMarkup.includes('target="hero-form-target"'), "GTGC form did not render unique iframe target");
+  assertGoldClassInvisibleV2Proof(!/<iframe\b[^>]*\bclass="gtgc-hidden-frame"/i.test(formMarkup), "GTGC rendered a static hidden response iframe");
+  assertGoldClassInvisibleV2Proof(script.includes('state.iframe.name = targetName;'), "GTGC runtime iframe name does not follow the form target");
+  assertGoldClassInvisibleV2Proof(script.includes("state.iframe.hidden = true;"), "GTGC runtime iframe is not hidden");
+  assertGoldClassInvisibleV2Proof(script.includes('state.iframe.setAttribute("aria-hidden", "true");'), "GTGC runtime iframe aria-hidden treatment is missing");
+  assertGoldClassInvisibleV2Proof(script.includes('state.iframe.setAttribute("tabindex", "-1");'), "GTGC runtime iframe tabindex treatment is missing");
+  assertGoldClassInvisibleV2Proof(formMarkup.includes('data-gtgc-captcha-version="v2-invisible"'), "GTGC form did not render v2-invisible captcha config");
+  assertGoldClassInvisibleV2Proof(formMarkup.includes('data-gtgc-recaptcha-widget'), "GTGC invisible v2 widget container is missing");
+  assertGoldClassInvisibleV2Proof(formMarkup.includes('name="g-recaptcha-response"'), "GTGC hidden CAPTCHA response field is missing");
+  assertGoldClassInvisibleV2Proof(validateIndex > submitHandlerIndex && validateIndex < captchaRequestIndex, "validation does not occur before CAPTCHA execution");
+  assertGoldClassInvisibleV2Proof(noSendSubmitIndex > validateIndex && noSendSubmitIndex < setPendingIndex, "no-send branch does not short-circuit before pending state");
+  assertGoldClassInvisibleV2Proof(noSendSubmitIndex < captchaRequestIndex, "no-send branch does not short-circuit before CAPTCHA path");
+  assertGoldClassInvisibleV2Proof(captchaLoadIndex > loadScriptFunctionIndex, "v2 script loading is not inside the CAPTCHA path");
+  assertGoldClassInvisibleV2Proof(usableApiFunctionIndex !== -1, "usable API guard is missing");
+  assertGoldClassInvisibleV2Proof(existingScriptFunctionIndex !== -1, "existing API script reuse path is missing");
+  assertGoldClassInvisibleV2Proof(buildScriptUrlFunctionIndex !== -1 && onloadCallbackIndex > buildScriptUrlFunctionIndex && explicitRenderIndex > buildScriptUrlFunctionIndex, "new API script does not use callback-first explicit rendering parameters");
+  assertGoldClassInvisibleV2Proof(waitUsableFunctionIndex !== -1 && script.includes("api.ready(function ()"), "API readiness does not wait for grecaptcha.ready");
+  assertGoldClassInvisibleV2Proof(existingReuseIndex > loadScriptFunctionIndex, "existing loading API script is not reused");
+  assertGoldClassInvisibleV2Proof(earlyObjectResolveIndex === -1, "loader still resolves merely because window.grecaptcha exists");
+  assertGoldClassInvisibleV2Proof(renderPromiseIndex !== -1, "form-level render promise is missing");
+  assertGoldClassInvisibleV2Proof(script.includes("GTGC reCAPTCHA API did not become ready."), "bounded API initialization timeout is missing");
+  assertGoldClassInvisibleV2Proof(script.includes('size: "invisible"'), "invisible v2 render size is missing");
+  assertGoldClassInvisibleV2Proof(script.includes('"error-callback": function ()'), "CAPTCHA error callback is missing");
+  assertGoldClassInvisibleV2Proof(script.includes('"expired-callback": function ()'), "CAPTCHA expiry callback is missing");
+  assertGoldClassInvisibleV2Proof(script.includes("GTGC reCAPTCHA returned an empty token."), "empty-token handling is missing");
+  assertGoldClassInvisibleV2Proof(script.includes("GTGC reCAPTCHA challenge timed out."), "challenge timeout handling is missing");
+  assertGoldClassInvisibleV2Proof(captchaRequestIndex > setPendingIndex, "submit handler does not enter CAPTCHA submission after pending state");
+  assertGoldClassInvisibleV2Proof(timestampIndex > submitWithCaptchaIndex && timestampIndex < iframeSubmitIndex, "captcha_settings timestamp is not updated immediately before iframe submission");
+  assertGoldClassInvisibleV2Proof(readinessLoadIndex !== -1 && readinessLoadIndex < awaitingLoadIndex, "initial iframe load is not handled before response loads");
+  assertGoldClassInvisibleV2Proof(successIndex > awaitingLoadIndex, "post-submit iframe load does not assume inline success");
+  assertGoldClassInvisibleV2Proof(responseTimeoutIndex !== -1 && responseTimeoutRecoveryIndex > responseTimeoutIndex, "iframe response timeout does not restore a usable form");
+  assertGoldClassInvisibleV2Proof(responseTimeoutUnsetIndex > responseTimeoutIndex && responseTimeoutUnsetIndex < responseTimeoutRecoveryIndex, "late iframe loads are not disarmed after response timeout");
+  assertGoldClassInvisibleV2Proof(duplicateIndex > submitHandlerIndex && duplicateIndex < validateIndex, "duplicate submit prevention does not run before validation/CAPTCHA");
+  assertGoldClassInvisibleV2Proof(!forbiddenIframeAccessTerms.some((term) => script.includes(term)), "iframe content access is present");
+
+  return runGoldClassRecaptchaLifecycleProof().then(function () {
+    console.log("[gtgc-invisible-v2-proof] validation, no-send, explicit-render API readiness, iframe success, timeout, and duplicate-submit paths verified");
+  });
 }
 
 function parseAuthoringFile(sourceFile) {
@@ -4150,21 +5711,33 @@ function scheduleBuild(reason) {
 }
 
 if (isDirectRun) {
-  await build();
+  if (goldClassSelectProofMode) {
+    runGoldClassSelectProof();
+  } else if (goldClassRatingProofMode) {
+    runGoldClassRatingRendererProof();
+  } else if (goldClassNoSendProofMode) {
+    runGoldClassNoSendGateProof();
+  } else if (goldClassIframeReadinessProofMode) {
+    await runGoldClassIframeReadinessProof();
+  } else if (goldClassInvisibleV2ProofMode) {
+    await runGoldClassInvisibleV2FlowProof();
+  } else {
+    await build();
 
-  if (watchMode) {
-    console.log("[pages] Watching content/pages/**/*.{json,yaml,yml,html}, content/templates/**/*.{json,yaml,yml}, dev/scripts/**/*.mjs, and package.json");
-    previousSnapshot = createContentSnapshot();
+    if (watchMode) {
+      console.log("[pages] Watching content/pages/**/*.{json,yaml,yml,html}, content/templates/**/*.{json,yaml,yml}, dev/scripts/**/*.mjs, and package.json");
+      previousSnapshot = createContentSnapshot();
 
-    setInterval(() => {
-      const nextSnapshot = createContentSnapshot();
+      setInterval(() => {
+        const nextSnapshot = createContentSnapshot();
 
-      if (nextSnapshot === previousSnapshot) {
-        return;
-      }
+        if (nextSnapshot === previousSnapshot) {
+          return;
+        }
 
-      previousSnapshot = nextSnapshot;
-      scheduleBuild("polling change");
-    }, 250);
+        previousSnapshot = nextSnapshot;
+        scheduleBuild("polling change");
+      }, 250);
+    }
   }
 }

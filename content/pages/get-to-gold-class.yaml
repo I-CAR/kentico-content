@@ -9,8 +9,8 @@ sections:
     paragraphs:
       - Build Your Path to Gold Class
       - >-
-        Every shop starts in a different place. Tell us about your goals, and we'll create a custom training plan that
-        supports Gold Class and network opportunities.
+        Every shop starts in a different place. Tell us about your goals and we'll create a custom Get to Gold Class
+        training package that supports recognition and network opportunities.
     bullets:
       - 11,000+ participating shops
       - Industry-recognized training standards
@@ -58,7 +58,7 @@ sections:
         - comment: Required SFDC Hidden Fields
           fields:
             - name: captcha_settings
-              value: "{\"keyname\":\"ICAR2\",\"fallback\":true,\"orgId\":\"00D1I0000002nE3\",\"ts\":\"\"}"
+              value: "{\"keyname\":\"Invisible_v2\",\"fallback\":true,\"orgId\":\"00D1I0000002nE3\",\"ts\":\"\"}"
               quote: single
               multiline: true
             - name: oid
@@ -72,9 +72,9 @@ sections:
             - name: 00N8W00000PE1V2
               value: GTGC Landing Page
       recaptcha:
-        version: v3
-        siteKey: null
-        action: gtgc_lead_submit
+        version: v2-invisible
+        siteKey: 6Lfgr8AtAAAAADj9zLtrHoJfiX-K8ZDtDRMBBSi6
+        scriptSrc: https://www.google.com/recaptcha/api.js?render=explicit
         responseFieldName: g-recaptcha-response
       fields:
         - name: first_name
@@ -98,6 +98,127 @@ sections:
           maxLength: 80
           required: true
           errorMessage: Please enter a valid email address.
+        - id: state
+          name: state
+          type: select
+          label: State / Territory
+          placeholder: State / Territory
+          required: true
+          autocomplete: address-level1
+          errorMessage: Please select your state or territory.
+          options:
+            - label: Alabama
+              value: AL
+            - label: Alaska
+              value: AK
+            - label: American Samoa
+              value: AS
+            - label: Arizona
+              value: AZ
+            - label: Arkansas
+              value: AR
+            - label: California
+              value: CA
+            - label: Colorado
+              value: CO
+            - label: Connecticut
+              value: CT
+            - label: Delaware
+              value: DE
+            - label: District of Columbia
+              value: DC
+            - label: Florida
+              value: FL
+            - label: Georgia
+              value: GA
+            - label: Guam
+              value: GU
+            - label: Hawaii
+              value: HI
+            - label: Idaho
+              value: ID
+            - label: Illinois
+              value: IL
+            - label: Indiana
+              value: IN
+            - label: Iowa
+              value: IA
+            - label: Kansas
+              value: KS
+            - label: Kentucky
+              value: KY
+            - label: Louisiana
+              value: LA
+            - label: Maine
+              value: ME
+            - label: Maryland
+              value: MD
+            - label: Massachusetts
+              value: MA
+            - label: Michigan
+              value: MI
+            - label: Minnesota
+              value: MN
+            - label: Mississippi
+              value: MS
+            - label: Missouri
+              value: MO
+            - label: Montana
+              value: MT
+            - label: Nebraska
+              value: NE
+            - label: Nevada
+              value: NV
+            - label: New Hampshire
+              value: NH
+            - label: New Jersey
+              value: NJ
+            - label: New Mexico
+              value: NM
+            - label: New York
+              value: NY
+            - label: North Carolina
+              value: NC
+            - label: North Dakota
+              value: ND
+            - label: Northern Mariana Islands
+              value: MP
+            - label: Ohio
+              value: OH
+            - label: Oklahoma
+              value: OK
+            - label: Oregon
+              value: OR
+            - label: Pennsylvania
+              value: PA
+            - label: Puerto Rico
+              value: PR
+            - label: Rhode Island
+              value: RI
+            - label: South Carolina
+              value: SC
+            - label: South Dakota
+              value: SD
+            - label: Tennessee
+              value: TN
+            - label: Texas
+              value: TX
+            - label: Utah
+              value: UT
+            - label: Vermont
+              value: VT
+            - label: Virgin Islands
+              value: VI
+            - label: Virginia
+              value: VA
+            - label: Washington
+              value: WA
+            - label: West Virginia
+              value: WV
+            - label: Wisconsin
+              value: WI
+            - label: Wyoming
+              value: WY
       submitLabel: Let's Get Started
       failureNotice:
         title: Submission failed.
@@ -125,6 +246,15 @@ sections:
     type: quoteGrid
     heading: Testimonials
     paragraphs: []
+    starRatingIcon:
+      svg: >-
+        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none"><path d="M30.5272
+        10.955L23.2072 9.58997C20.3022 14.1 14.3822 17.635 7.02217 19.205L5.74717 28.96C5.71217 29.23 5.98717 29.43
+        6.23217 29.315L15.3972 24.955L24.5622 29.315C24.8072 29.43 25.0822 29.23 25.0472 28.96L23.7322 18.895L30.7122
+        11.525C30.8972 11.33 30.7922 11.005 30.5272 10.955Z" fill="#E8C568"/><path d="M23.2083 9.59L20.5533
+        9.095L15.7033 0.18C15.5733 -0.06 15.2333 -0.06 15.1033 0.18L10.2533 9.095L0.27826 10.955C0.0132602 11.005
+        -0.0917374 11.33 0.0932626 11.525L7.07326 18.895L7.03326 19.205C14.3933 17.635 20.3133 14.1 23.2183
+        9.59H23.2083Z" fill="#EFCF89"/></svg>
     quotes:
       - quote: We take pride in the Gold Class designation and the level of professionalism and dedication it represents.
         name: Casey Montgomery
@@ -201,7 +331,7 @@ sections:
         paragraphs: []
         icon:
           svg: |-
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="6 6 48.1 48.1" fill="none">
               <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
               <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
             </svg>
@@ -209,7 +339,7 @@ sections:
         paragraphs: []
         icon:
           svg: |-
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="6 6 48.1 48.1" fill="none">
               <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
               <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
             </svg>
@@ -217,7 +347,7 @@ sections:
         paragraphs: []
         icon:
           svg: |-
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="6 6 48.1 48.1" fill="none">
               <path d="M53.7945 6.22797C53.3793 6.09357 52.9617 6.02637 52.5489 6.02637C51.8577 6.02637 51.1641 6.20877 50.4321 6.58797C47.7105 7.98957 44.9817 9.75357 42.0873 11.9808C35.6025 16.968 30.8577 22.4856 27.5817 28.8528C26.9313 30.1152 26.3313 31.368 25.6977 32.6952L25.6809 32.7312C25.3953 33.3312 25.1049 33.9336 24.8097 34.5408L24.4281 35.328L23.8401 34.6776C23.6193 34.4328 23.4033 34.1904 23.1801 33.9384C22.7073 33.4056 22.2609 32.9016 21.7857 32.4168C20.5761 31.1832 19.4577 30.1128 18.0153 29.5176C17.4945 29.3016 16.9737 29.1936 16.4649 29.1936C16.1121 29.1936 15.8625 29.244 15.3753 29.3784C15.1929 29.4288 15.1113 29.6232 15.2001 29.7624C15.2793 29.8848 15.3249 29.9304 15.4089 30.048C15.4761 30.1392 15.5409 30.2328 15.6129 30.3264C15.7737 30.5352 15.9393 30.7536 16.0977 30.984C16.5153 31.5936 16.9569 32.2032 17.3817 32.7912C18.4161 34.2264 19.4865 35.7096 20.3433 37.296C21.2049 38.8896 21.8337 40.62 22.4385 42.2928L22.4481 42.3168C22.6425 42.852 22.8417 43.404 23.0481 43.9392C23.2977 44.5968 23.6793 44.9664 24.2793 45.1344C24.8985 45.3072 25.5177 45.396 26.1129 45.396C26.7921 45.396 27.4713 45.2808 28.1265 45.0552C28.7889 44.8272 29.1057 44.4624 29.2161 43.7928C30.4089 36.648 33.3873 29.9736 38.3217 23.3856C42.3801 17.9664 47.3241 12.6816 53.8785 6.75117C54.0945 6.55437 54.0681 6.31917 53.7921 6.23037L53.7945 6.22797Z" fill="#E7C767"/>
               <path d="M45.4871 17.2968C48.5039 20.8752 50.3231 25.4832 50.3231 30.5088C50.3231 41.856 41.0495 51.0888 29.6495 51.0888C18.2495 51.0888 8.97588 41.856 8.97588 30.5088C8.97588 19.1616 18.2495 9.92637 29.6471 9.92637C33.0767 9.92637 36.3143 10.764 39.1655 12.24C39.7919 11.7216 40.4327 11.208 41.0951 10.6992C41.2847 10.5528 41.4767 10.4088 41.6639 10.2648C38.1407 8.18397 34.0319 6.98877 29.6471 6.98877C16.6199 6.98877 6.02148 17.5392 6.02148 30.5064C6.02148 43.4736 16.6199 54.024 29.6471 54.024C42.6743 54.024 53.2727 43.4736 53.2727 30.5064C53.2727 24.636 51.1007 19.26 47.5151 15.1344C46.8167 15.8592 46.1423 16.5792 45.4871 17.2944V17.2968Z" fill="#E7C767"/>
             </svg>
@@ -228,34 +358,41 @@ sections:
       signature: 783adb0f8c5b3ac33c2d1241cb5d7d9dd69bbeda
   - id: faq
     type: accordion
-    heading: FAQ
+    heading: FAQs
     paragraphs: []
     items:
       - title: How do I know if Gold Class is right for my shop?
         paragraphs:
           - >-
-            Gold Class is designed for collision repair shops of all sizes that are committed to excellence, continuous
-            improvement, and staying current with evolving vehicle technology.
+            Gold Class is ideal for collision repair businesses committed to complete, safe, and quality repairs. It
+            helps your team stay current on evolving vehicle technology through role-specific training, supports OEM
+            repair standards, and can help fulfill network program requirements. Gold Class recognition also
+            differentiates your business and strengthens customer confidence.
       - title: Can smaller collision repair shops earn Gold Class recognition?
         paragraphs:
           - >-
-            Yes. Gold Class is available to shops of all sizes. The program focuses on your commitment to training,
-            quality standards, and continuous improvement rather than shop size.
+            Yes. Small shops can achieve Gold Class recognition. While every Gold Class shop must have team members
+            representing the Estimator, Refinish, Structural, and Non-Structural roles, technicians can hold up to two
+            roles when qualified. This flexibility helps smaller teams build a training path that supports Gold Class
+            recognition while meeting the needs of their operation.
       - title: How long does it take to achieve Gold Class?
         paragraphs:
           - >-
-            The timeline varies based on your shop's starting point and training needs. I-CAR specialists will work with
-            you to create a custom plan that fits your goals and timeline.
+            The timeline depends on your team's current training levels and experience. Shops can accelerate their path
+            with the Get to Gold Class package, which includes a custom training plan, an In-Shop Knowledge Assessment,
+            flexible payment options, and a dedicated Customer Care Representative to help guide the process.
       - title: Does Gold Class help meet OEM or insurance network requirements?
         paragraphs:
           - >-
-            Yes. Gold Class training and certification help shops meet many OEM and insurance network requirements for
-            quality and safety standards.
+            Many OEM certification and insurance network programs value advanced training credentials and a commitment
+            to ongoing education. As the industry standard for collision repair training, Gold Class can help strengthen
+            your shop's qualifications while demonstrating your dedication to complete, safe, and quality repairs.
       - title: Can I speak with an advisor before getting started?
         paragraphs:
           - >-
-            Absolutely. I-CAR specialists are available to discuss your shop's needs and create a personalized Gold
-            Class plan. Submit the form above to connect with an advisor.
+            Of course. Every shop's path to Gold Class looks a little different. Connect with us to get answers to your
+            questions, learn what it takes to achieve Gold Class, and create a plan tailored to your team. We're here to
+            help you build the knowledge and skills that support complete, safe, and quality repairs.
     __template:
       id: faq
       type: accordion
@@ -263,7 +400,7 @@ sections:
       signature: b3f7752995a391fd14163c1072798a8d759a43d2
   - id: footer-cta
     type: textMedia
-    heading: Ready to Determine if Gold Class Is Right for Your Shop?
+    heading: Ready to Determine if Gold Class is Right for Your Shop?
     paragraphs:
       - >-
         Gold Class helps you build a more capable team, improve consistency, and demonstrate your commitment to
@@ -309,10 +446,10 @@ sections:
 cms:
   headHtml:
     - >-
-      <style>.pageWrap > footer.footer { display: none !important; } .pageWrap main .breadcrumb { display: none
-      !important; } .zoneMainContent, .zoneMainContent > .pdp.container, .zoneMainContent .pdp.container { /* max-width:
-      var(--shell-max-width) !important; */ width: 100%; margin-left: auto; margin-right: auto; padding-left: 0;
-      padding-right: 0; }</style>
+      <style>.pageWrap > .header { display: none !important; } .pageWrap > footer.footer { display: none !important; }
+      .pageWrap main .breadcrumb { display: none !important; } .zoneMainContent, .zoneMainContent > .pdp.container,
+      .zoneMainContent .pdp.container { /* max-width: var(--shell-max-width) !important; */ width: 100%; margin-left:
+      auto; margin-right: auto; padding-left: 0; padding-right: 0; }</style>
 __template:
   source: get-to-gold-class.yaml
   signature: 91a07e46cd75bf7f9c7f8e4055841f29e8bca108
