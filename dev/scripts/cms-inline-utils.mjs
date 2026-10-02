@@ -8,6 +8,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
+import { pathToFileURL } from "node:url";
 import * as esbuild from "esbuild";
 import postcss from "postcss";
 import { parseStructuredAuthoringFile, stripAuthoringFileExtension } from "./authoring-format.mjs";
@@ -77,42 +78,143 @@ const aboutUsCmsLegacyCss = `
 }
 
 :where(body,.content)>section.section_hero img,
-:where(body,.content)>section:nth-of-type(2) .rounded,
-:where(body,.content)>section:nth-of-type(4) .rounded {
+:where(body,.content)>section.section_about-vision .rounded,
+:where(body,.content)>section.section_about-technical .rounded {
   border-radius: calc(12rem / 16);
-}
-
-:where(body,.content)>section:nth-of-type(3) .card.card-borderless {
-  border-radius: 0;
 }
 
 :where(body,.content)>section.section_programs {
   padding-bottom: 0;
 }
 
-:where(body,.content)>section.section_iacet,
-:where(body,.content)>section:nth-of-type(9) {
-  padding-top: 0;
+.section_about-education .about-education-media,
+.section_about-education .about-education-media img {
+  display: block;
+}
+
+.section_about-education .about-education-copy {
+  padding-top: calc(12rem / 16);
+}
+
+.section_about-education .about-education-title {
+  margin-top: 0;
+}
+
+.section_about-vision h2+h3 {
+  margin-top: var(--space-20);
+}
+
+.section_about-governance .card {
+  --card-body-padding: calc(20rem / 16);
+}
+
+.section_about-governance .card-body {
+  padding: var(--card-body-padding);
+}
+
+.section_programs+.section_logos {
+  margin-top: 0 !important;
+}
+
+.section_international .col-sm-6.col-xl-4 {
+  box-sizing: border-box;
+}
+
+.section_international .card {
+  --card-body-padding: var(--space-20);
+}
+
+.section_international .card-body {
+  padding: var(--card-body-padding);
+}
+
+.section_iacet {
+  --section-padding: clamp(var(--space-40), 0.996rem + 4.449vw, var(--space-60));
+  background-color: var(--lighter, #F7F7F7) !important;
 }
 
 .section_logos {
   background: var(--light);
 }
 
-.box {
-  overflow: hidden;
-  border-radius: var(--global-radius);
+.section_iacet .iacet-accreditations {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(800rem / 16);
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.box-copy {
+.section_iacet .iacet-accreditation-row {
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  background: var(--light);
+  flex-direction: column;
+  align-items: stretch !important;
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
 }
 
-.box-image img {
-  border-radius: calc(12rem / 16);
+.section_iacet .iacet-accreditation-row+.iacet-accreditation-row {
+  margin-top: var(--section-padding);
+}
+
+.section_iacet .iacet-accreditation-logo,
+.section_iacet .iacet-accreditation-copy {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.section_iacet .iacet-accreditation-logo {
+  display: flex;
+  align-items: flex-start;
+  overflow: visible;
+  margin-bottom: calc(24rem / 16);
+}
+
+.section_iacet .iacet-accreditation-logo a {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.section_iacet .iacet-accreditation-logo img {
+  display: block;
+  flex-shrink: 0;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  border-radius: 0 !important;
+}
+
+.section_iacet .iacet-accreditation-row--iacet .iacet-accreditation-logo img {
+  width: calc(155rem / 16);
+}
+
+.section_iacet .iacet-accreditation-row--soc2 .iacet-accreditation-logo img {
+  width: calc(116rem / 16);
+}
+
+.section_iacet .iacet-accreditation-copy {
+  text-align: left;
+}
+
+.section_iacet .iacet-accreditation-copy h2 {
+  margin-top: 0;
+}
+
+.section_iacet .iacet-accreditation-copy>:last-child {
+  margin-bottom: 0;
+}
+
+.section_iacet .iacet-accreditation-row--iacet a:focus,
+.section_iacet .iacet-accreditation-row--iacet a:focus-visible {
+  outline: 3px solid var(--primary-color, #0045FF);
+  outline-offset: 4px;
 }
 
 .row_logos .col-auto {
@@ -127,10 +229,37 @@ const aboutUsCmsLegacyCss = `
 }
 
 @media screen and (min-width: 768px) {
+
+  .section_iacet .iacet-accreditation-row {
+    display: grid;
+    grid-template-columns: calc(155rem / 16) minmax(0, 1fr);
+    column-gap: calc(48rem / 16);
+    align-items: start !important;
+  }
+
+  .section_iacet .iacet-accreditation-logo {
+    width: calc(155rem / 16);
+    max-width: calc(155rem / 16);
+    margin-bottom: 0;
+  }
+
+  .section_iacet .iacet-accreditation-row--iacet .iacet-accreditation-logo img {
+    max-width: calc(155rem / 16);
+  }
+
+  .section_iacet .iacet-accreditation-row--soc2 .iacet-accreditation-logo img {
+    max-width: calc(116rem / 16);
+  }
+
+  .section_iacet .iacet-accreditation-copy {
+    width: auto;
+    max-width: none;
+  }
+
   :where(body,.content)>section.section_hero,
-  :where(body,.content)>section:nth-of-type(2),
-  :where(body,.content)>section:nth-of-type(3),
-  :where(body,.content)>section:nth-of-type(4),
+  :where(body,.content)>section.section_about-vision,
+  :where(body,.content)>section.section_about-education,
+  :where(body,.content)>section.section_about-technical,
   :where(body,.content)>section.section_international {
     padding-top: calc(30rem / 16);
     padding-bottom: calc(30rem / 16);
@@ -140,44 +269,22 @@ const aboutUsCmsLegacyCss = `
     padding-top: calc(30rem / 16);
   }
 
-  :where(body,.content)>section.section_iacet {
-    padding-bottom: calc(30rem / 16);
-  }
-
   :where(body,.content)>section.section_hero {
     margin-top: calc(-60rem / 16);
   }
 
-  :where(body,.content)>section.section_hero img,
-  :where(body,.content)>section:nth-of-type(2) .rounded,
-  :where(body,.content)>section:nth-of-type(4) .rounded {
+  :where(body,.content)>section.section_hero img {
     border-radius: calc(20rem / 16);
   }
 
-  .box-image {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .box-image img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: none;
-    width: 100%;
+  :where(body,.content)>section.section_about-education .about-education-media img,
+  :where(body,.content)>section.section_about-vision .rounded,
+  :where(body,.content)>section.section_about-technical .rounded {
+    border-radius: calc(20rem / 16) !important;
   }
 
   .section_logos img {
     max-width: 80%;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .box-image img {
-    width: auto;
-    min-height: 100%;
-    border-radius: 0;
   }
 }
 
@@ -189,17 +296,144 @@ const aboutUsCmsLegacyCss = `
   .section_logos .container-fluid {
     overflow: auto;
   }
+}
 
-  .section_iacet {
-    background: var(--light);
+@media screen and (max-width: 767.9px) {
+  .section_international {
+    padding-top: var(--space-60);
+    padding-bottom: var(--space-60);
   }
 
-  .section_iacet .logo {
-    max-width: calc(120rem / 16);
+  .section_international h2 {
+    margin-top: 0 !important;
   }
 
-  .box {
-    border-radius: 0;
+  .section_international>.container-fluid>.row>:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_international>.container-fluid>.row>:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section_international .col-sm-6.col-xl-4:last-child {
+    padding-bottom: 0 !important;
+  }
+
+  .section_iacet .iacet-accreditation-logo {
+    justify-content: flex-start !important;
+  }
+
+  .section_about-education,
+  .section_programs {
+    padding-top: calc(40rem / 16);
+  }
+
+  .section_hero:has(+.section_about-vision)>.container-fluid>.row>:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section_hero:has(+.section_about-vision) img,
+  .section_about-vision img,
+  .section_about-technical img {
+    display: block;
+  }
+
+  .section_about-vision {
+    padding-top: calc(40rem / 16);
+    padding-bottom: calc(20rem / 16);
+  }
+
+  .section_about-vision>.container-fluid>.row>:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_about-vision>.container-fluid>.row>:last-child {
+    margin-bottom: calc(20rem / 16) !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section_about-education .about-education-media img,
+  .section_about-vision img,
+  .section_about-technical img {
+    border-radius: calc(12rem / 16) !important;
+  }
+
+  .section_about-vision h2,
+  .section_about-education h2,
+  .section_about-technical h2,
+  .section_programs h2,
+  .section_logos h2,
+  .section_about-governance h2 {
+    margin-top: 0 !important;
+  }
+
+  .section_about-education {
+    padding-bottom: calc(40rem / 16);
+  }
+
+  .section_about-education>.container-fluid {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_about-education .about-education-text,
+  .section_about-education .row>.col-md-6:last-child {
+    margin-bottom: 0;
+  }
+
+  .section_about-education .row>.col-md-6:last-child {
+    padding-bottom: 0 !important;
+  }
+
+  .section_about-technical,
+  .section_logos {
+    padding-top: calc(40rem / 16);
+    padding-bottom: calc(40rem / 16);
+  }
+
+  .section_about-technical .col-12>.row>:last-child {
+    margin-top: 0 !important;
+    order: 1 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_about-technical .col-12>.row>:first-child {
+    margin-bottom: 0 !important;
+    order: 2 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section_about-technical .col-12>.row>:first-child>:last-child {
+    margin-bottom: 0;
+  }
+
+  .section_programs .col-md-10 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_logos>.container-fluid:first-child .row>:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .section_logos .row_logos {
+    margin-bottom: 0 !important;
+  }
+
+  .section_logos .row_logos>[class*="col"] {
+    padding-bottom: 0 !important;
+  }
+
+  .section_about-governance>.container-fluid>.row:first-child>:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 }
 `;
@@ -272,6 +506,13 @@ const inlineSpacingTags = new Set([
   "u",
   "var",
 ]);
+const gtgcDynamicClasses = ["is-invalid"];
+const cmsInlineUtilsProofMode = process.argv.includes("--proof-gtgc-invalid-css-filter");
+const cmsStickyProofMode = process.argv.includes("--proof-cms-sticky");
+const retainedCmsShellSelectors = new Set(["body>.pageWrap"]);
+const isDirectRun = process.argv[1]
+  ? pathToFileURL(process.argv[1]).href === import.meta.url
+  : false;
 
 function normalizeAssetPath(htmlFile, assetPath) {
   return join(dirname(htmlFile), assetPath).replace(/\\/g, "/");
@@ -325,6 +566,10 @@ function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, "").trim();
 }
 
+function pageUsesGtgcLeadForm(source = "") {
+  return /\bdata-gtgc-lead-form\b/i.test(source);
+}
+
 function collectHtmlUsage(source, { includeCmsFormShell = false } = {}) {
   const classes = new Set();
   const ids = new Set(["main"]);
@@ -353,6 +598,10 @@ function collectHtmlUsage(source, { includeCmsFormShell = false } = {}) {
   if (includeCmsFormShell) {
     cmsFormShellClasses.forEach((className) => classes.add(className));
     cmsFormShellTags.forEach((tagName) => tags.add(tagName));
+  }
+
+  if (pageUsesGtgcLeadForm(source)) {
+    gtgcDynamicClasses.forEach((className) => classes.add(className));
   }
 
   if (classes.has("swiper") || classes.has("ic-swiper") || pageUsesSwiper(source)) {
@@ -408,6 +657,10 @@ function splitSelectorList(selectorSource) {
 }
 
 function selectorMatchesHtmlUsage(selector, usage) {
+  if (retainedCmsShellSelectors.has(selector.replace(/\s+/g, ""))) {
+    return true;
+  }
+
   const normalized = selector
     .replace(/:not\(([^()]*)\)/g, "")
     .replace(/::?[\w-]+(?:\([^)]*\))?/g, "")
@@ -1624,7 +1877,7 @@ function normalizeFormFragmentTag(tagSource) {
 function normalizeFormFragmentMarkup(fragment) {
   let output = "";
 
-  for (let index = 0; index < fragment.length; ) {
+  for (let index = 0; index < fragment.length;) {
     if (fragment.startsWith("<!--", index)) {
       const commentEnd = fragment.indexOf("-->", index + 4);
       index = commentEnd === -1 ? fragment.length : commentEnd + 3;
@@ -1655,7 +1908,7 @@ function normalizeFormFragmentMarkup(fragment) {
 function tokenizeFragment(fragment) {
   const tokens = [];
 
-  for (let index = 0; index < fragment.length; ) {
+  for (let index = 0; index < fragment.length;) {
     if (fragment.startsWith("<!--", index)) {
       const commentEnd = fragment.indexOf("-->", index + 4);
       index = commentEnd === -1 ? fragment.length : commentEnd + 3;
@@ -1890,4 +2143,387 @@ export function createHtmlSnapshot() {
     .join("|");
 
   return [createContentSnapshot(), assetSnapshot].filter(Boolean).join("|");
+}
+
+function assertCmsStickyProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[cms-sticky-proof] ${message}`);
+  }
+}
+
+async function runCmsStickyProof() {
+  const fixtureCss = `
+:root {
+  --space-30: 30px;
+  --header-height-mobile: 137px;
+  --header-height-desktop: 97px;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.header {
+  position: relative;
+  height: 72px;
+}
+.ic-header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  height: var(--header-height-mobile);
+}
+@media (min-width: 1024.1px) {
+  .ic-header {
+    height: var(--header-height-desktop);
+  }
+}
+body>.pageWrap {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+#main>article {
+  padding: 0;
+}
+@media (max-width: 768px) {
+  #main>article {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .ic-section .row>.col:has(>.ic-sticky) {
+    display: contents;
+  }
+  .ic-section .row>.col:has(>.ic-sticky)>.ic-sticky {
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    width: 100%;
+  }
+}
+.ic-sticky {
+  position: sticky;
+  top: var(--space-30);
+}
+body:has(.ic-header) .ic-sticky {
+  top: var(--header-height-mobile);
+}
+@media (min-width: 1024.1px) {
+  body:has(.ic-header) .ic-sticky {
+    top: var(--header-height-desktop);
+  }
+}
+.fixture-header {
+  background: #eee;
+}
+.ic-section {
+  padding: 40px 0;
+}
+.container {
+  width: min(100% - 48px, 1120px);
+  margin: 0 auto;
+}
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+}
+.col {
+  min-width: 0;
+}
+.sticky-column {
+  flex: 0 0 34%;
+}
+.content-column {
+  flex: 1 1 66%;
+}
+.ic-sticky {
+  margin: 0;
+  background: white;
+}
+.sticky-copy {
+  margin: 8px 0 0;
+}
+.heading-content {
+  height: 1280px;
+}
+.wrapper-content {
+  height: 1520px;
+}
+.horizontal-probe {
+  width: calc(100vw + 240px);
+  height: 1px;
+}
+.fixture-tail {
+  height: 1100px;
+}
+.unused-route-specific-selector {
+  color: red;
+}
+`;
+  const fixtureFragment = `
+<main id="main">
+  <article>
+    <div class="horizontal-probe"></div>
+    <section class="ic-section" data-sticky-section="heading">
+      <div class="container">
+        <div class="row">
+          <div class="col sticky-column">
+            <h2 class="ic-sticky" data-sticky-fixture="heading">Sticky heading</h2>
+          </div>
+          <div class="col content-column"><div class="heading-content"></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="ic-section" data-sticky-section="wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col sticky-column">
+            <div class="ic-sticky" data-sticky-fixture="wrapper">
+              <h2>Sticky wrapper</h2>
+              <p class="sticky-copy">Heading and supporting copy.</p>
+            </div>
+          </div>
+          <div class="col content-column"><div class="wrapper-content"></div></div>
+        </div>
+      </div>
+    </section>
+    <div class="fixture-tail"></div>
+  </article>
+</main>`;
+  const usageSource = `<body><header class="header ic-header fixture-header"></header>${fixtureFragment}</body>`;
+  const filteredCss = filterSharedStylesheet(fixtureCss, usageSource);
+
+  assertCmsStickyProof(/body\s*>\s*\.pageWrap\s*\{[^}]*overflow-x:\s*clip\s*!important[^}]*overflow-y:\s*visible\s*!important/i.test(filteredCss), "filtered CSS dropped the CMS pageWrap overflow correction");
+  assertCmsStickyProof(/#main\s*>\s*article\s*\{[^}]*overflow-x:\s*clip[^}]*overflow-y:\s*visible/i.test(filteredCss), "filtered CSS dropped the narrow article overflow correction");
+  assertCmsStickyProof(filteredCss.includes(".ic-section .row>.col:has(>.ic-sticky)"), "filtered CSS dropped the stacked sticky containing-range correction");
+  assertCmsStickyProof(!filteredCss.includes("unused-route-specific-selector"), "filter retained an unrelated selector");
+
+  const fixtureHtml = `<!doctype html>
+<html>
+  <head><meta charset="utf-8"><style>${filteredCss}\n${cmsShellCss}</style></head>
+  <body>
+    <header class="header fixture-header">Legacy header</header>
+    <div class="pageWrap">${fixtureFragment}</div>
+  </body>
+</html>`;
+  const viewports = [
+    { name: "desktop", width: 1440, height: 900 },
+    { name: "boundary-992", width: 992, height: 900 },
+    { name: "boundary-991", width: 991, height: 900 },
+    { name: "mobile", width: 375, height: 667 },
+  ];
+  const { default: puppeteer } = await import("puppeteer");
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  });
+  const results = [];
+
+  try {
+    for (const viewport of viewports) {
+      const page = await browser.newPage();
+
+      try {
+        await page.setViewport({ width: viewport.width, height: viewport.height });
+        await page.setContent(fixtureHtml, { waitUntil: "domcontentloaded" });
+        const headerOffsets = await page.evaluate(() => {
+          const header = document.querySelector(".fixture-header");
+          const stickies = [...document.querySelectorAll("[data-sticky-fixture]")];
+          const legacy = {
+            position: getComputedStyle(header).position,
+            stickyTops: stickies.map((sticky) => Number.parseFloat(getComputedStyle(sticky).top)),
+          };
+          header.className = "ic-header fixture-header";
+          const configured = {
+            position: getComputedStyle(header).position,
+            height: Number.parseFloat(getComputedStyle(header).height),
+            stickyTops: stickies.map((sticky) => Number.parseFloat(getComputedStyle(sticky).top)),
+          };
+          header.className = "header fixture-header";
+          return { legacy, configured };
+        });
+        const expectedHeaderOffset = viewport.width > 1024 ? 97 : 137;
+
+        assertCmsStickyProof(headerOffsets.legacy.position === "relative", `${viewport.name}: legacy header is not relative`);
+        assertCmsStickyProof(headerOffsets.legacy.stickyTops.every((top) => top === 30), `${viewport.name}: relative legacy header changed the 30px sticky offset`);
+        assertCmsStickyProof(headerOffsets.configured.position === "sticky", `${viewport.name}: ic-header is not actually sticky`);
+        assertCmsStickyProof(Math.abs(headerOffsets.configured.height - expectedHeaderOffset) <= 0.5, `${viewport.name}: ic-header height does not match its configured offset`);
+        assertCmsStickyProof(headerOffsets.configured.stickyTops.every((top) => top === expectedHeaderOffset), `${viewport.name}: sticky ic-header offset was not preserved`);
+
+        const shell = await page.evaluate(() => {
+          const pageWrap = document.querySelector(".pageWrap");
+          const article = document.querySelector("#main>article");
+          const pageWrapStyle = getComputedStyle(pageWrap);
+          const articleStyle = getComputedStyle(article);
+          return {
+            pageWrap: { overflowX: pageWrapStyle.overflowX, overflowY: pageWrapStyle.overflowY },
+            article: { overflowX: articleStyle.overflowX, overflowY: articleStyle.overflowY },
+            viewportWidth: innerWidth,
+            documentScrollWidth: document.documentElement.scrollWidth,
+          };
+        });
+
+        assertCmsStickyProof(shell.pageWrap.overflowX === "clip" && shell.pageWrap.overflowY === "visible", `${viewport.name}: pageWrap overflow correction is not active`);
+        if (viewport.width <= 768) {
+          assertCmsStickyProof(shell.article.overflowX === "clip" && shell.article.overflowY === "visible", `${viewport.name}: article overflow correction is not active`);
+        }
+        assertCmsStickyProof(shell.documentScrollWidth <= shell.viewportWidth + 1, `${viewport.name}: horizontal clipping no longer contains overflow`);
+
+        const stickyResults = [];
+
+        for (const fixtureName of ["heading", "wrapper"]) {
+          await page.evaluate(() => scrollTo(0, 0));
+          const base = await page.evaluate((name) => {
+            const sticky = document.querySelector(`[data-sticky-fixture="${name}"]`);
+            const section = sticky.closest("[data-sticky-section]");
+            const associatedContent = sticky.closest(".row");
+            const stickyRect = sticky.getBoundingClientRect();
+            const sectionRect = section.getBoundingClientRect();
+            const associatedContentRect = associatedContent.getBoundingClientRect();
+            const ancestors = [];
+            let ancestor = sticky.parentElement;
+
+            while (ancestor && ancestor !== document.documentElement) {
+              const style = getComputedStyle(ancestor);
+              ancestors.push({
+                tag: ancestor.tagName.toLowerCase(),
+                className: ancestor.className,
+                overflowX: style.overflowX,
+                overflowY: style.overflowY,
+              });
+              ancestor = ancestor.parentElement;
+            }
+
+            return {
+              position: getComputedStyle(sticky).position,
+              top: Number.parseFloat(getComputedStyle(sticky).top),
+              naturalTop: stickyRect.top + scrollY,
+              height: stickyRect.height,
+              sectionTop: sectionRect.top + scrollY,
+              sectionBottom: sectionRect.bottom + scrollY,
+              associatedContentBottom: associatedContentRect.bottom + scrollY,
+              ancestors,
+            };
+          }, fixtureName);
+          const activeStart = base.naturalTop - base.top;
+          const releaseStart = base.associatedContentBottom - base.height - base.top;
+          const samples = [
+            { name: "entry", scrollY: activeStart + 10, expectedSticky: true },
+            { name: "midpoint", scrollY: (activeStart + releaseStart) / 2, expectedSticky: true },
+            { name: "near-end", scrollY: releaseStart - 10, expectedSticky: true },
+            { name: "released", scrollY: releaseStart + 40, expectedSticky: false },
+          ];
+          const measurements = [];
+
+          for (const sample of samples) {
+            await page.evaluate((scrollY) => {
+              scrollTo(0, Math.max(0, scrollY));
+            }, sample.scrollY);
+            await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+            const measurement = await page.evaluate((name) => {
+              const sticky = document.querySelector(`[data-sticky-fixture="${name}"]`);
+              const rect = sticky.getBoundingClientRect();
+              return { scrollY, stickyTop: rect.top, stickyBottom: rect.bottom };
+            }, fixtureName);
+            measurements.push({ ...sample, ...measurement });
+          }
+
+          assertCmsStickyProof(base.position === "sticky" && base.top === 30, `${viewport.name}/${fixtureName}: base sticky contract changed`);
+          assertCmsStickyProof(measurements.slice(0, 3).every((sample) => Math.abs(sample.stickyTop - 30) <= 1), `${viewport.name}/${fixtureName}: sticky element did not hold at 30px through its section`);
+          assertCmsStickyProof(measurements[3].stickyTop < 29, `${viewport.name}/${fixtureName}: sticky element did not release at associated-content end`);
+          const conflictingAncestors = base.ancestors.filter((ancestor) => ancestor.tag !== "body" && ancestor.overflowY !== "visible");
+          assertCmsStickyProof(conflictingAncestors.length === 0, `${viewport.name}/${fixtureName}: conflicting vertical overflow ancestor remains`);
+          stickyResults.push({ fixture: fixtureName, base, samples: measurements });
+        }
+
+        results.push({ viewport, headerOffsets, shell, stickies: stickyResults });
+      } finally {
+        await page.close();
+      }
+    }
+  } finally {
+    await browser.close();
+  }
+
+  results.forEach((result) => console.log(`[cms-sticky-proof] ${JSON.stringify(result)}`));
+  console.log("[cms-sticky-proof] filtered shell retention, 30px hold/release, overflow constraints, horizontal clipping, and legacy/sticky header offsets verified");
+}
+
+function assertGtgcInvalidCssProof(condition, message) {
+  if (!condition) {
+    throw new Error(`[gtgc-invalid-css-proof] ${message}`);
+  }
+}
+
+function runGtgcInvalidCssFilterProof() {
+  const css = `
+.gtgc-page .gtgc-lead-form .gtgc-form-field input.is-invalid[aria-invalid=true] { border-color: #FF7070; }
+.gtgc-page .gtgc-lead-form .gtgc-form-field input.is-invalid[aria-invalid=true]:focus { border-color: #FF7070; }
+.gtgc-page .gtgc-lead-form .gtgc-form-field select.is-invalid[aria-invalid=true] { border-color: #FF7070; }
+.gtgc-page .gtgc-lead-form .gtgc-form-field select.is-invalid[aria-invalid=true]:focus { border-color: #FF7070; }
+.gtgc-page .gtgc-lead-form .gtgc-form-field label.is-invalid { color: #FF7070; }
+.other-page input.is-invalid { border-color: red; }
+.other-page select.is-invalid { border-color: red; }
+.unused-selector { color: red; }
+`;
+  const gtgcHtml = `
+<section class="gtgc-page">
+  <form class="gtgc-lead-form" data-gtgc-lead-form>
+    <div class="gtgc-form-field">
+      <label for="first_name">First Name</label>
+      <input id="first_name" name="first_name" type="text" aria-invalid="false">
+    </div>
+    <div class="gtgc-form-field">
+      <label for="state">State</label>
+      <select id="state" name="state" required aria-invalid="false">
+        <option value="" selected>Choose a state</option>
+        <option value="CA">California</option>
+      </select>
+    </div>
+  </form>
+</section>`;
+  const nonGtgcHtml = `
+<section class="other-page">
+  <form>
+    <label for="first_name">First Name</label>
+    <input id="first_name" name="first_name" type="text" aria-invalid="false">
+  </form>
+</section>`;
+  const gtgcFiltered = filterSharedStylesheet(css, gtgcHtml);
+  const nonGtgcFiltered = filterSharedStylesheet(css, nonGtgcHtml);
+
+  assertGtgcInvalidCssProof(
+    gtgcFiltered.includes(".gtgc-page .gtgc-lead-form .gtgc-form-field input.is-invalid[aria-invalid=true]"),
+    "GTGC invalid input selector was removed",
+  );
+  assertGtgcInvalidCssProof(
+    gtgcFiltered.includes(".gtgc-page .gtgc-lead-form .gtgc-form-field input.is-invalid[aria-invalid=true]:focus"),
+    "GTGC focused invalid input selector was removed",
+  );
+  assertGtgcInvalidCssProof(
+    gtgcFiltered.includes(".gtgc-page .gtgc-lead-form .gtgc-form-field select.is-invalid[aria-invalid=true]"),
+    "GTGC invalid select selector was removed",
+  );
+  assertGtgcInvalidCssProof(
+    gtgcFiltered.includes(".gtgc-page .gtgc-lead-form .gtgc-form-field select.is-invalid[aria-invalid=true]:focus"),
+    "GTGC focused invalid select selector was removed",
+  );
+  assertGtgcInvalidCssProof(
+    gtgcFiltered.includes(".gtgc-page .gtgc-lead-form .gtgc-form-field label.is-invalid"),
+    "GTGC invalid label selector was removed",
+  );
+  assertGtgcInvalidCssProof(!gtgcFiltered.includes(".other-page input.is-invalid"), "GTGC page retained unrelated invalid selector");
+  assertGtgcInvalidCssProof(!gtgcFiltered.includes(".other-page select.is-invalid"), "GTGC page retained unrelated invalid select selector");
+  assertGtgcInvalidCssProof(!nonGtgcFiltered.includes(".gtgc-page"), "non-GTGC page gained GTGC selectors");
+  assertGtgcInvalidCssProof(!nonGtgcFiltered.includes(".other-page input.is-invalid"), "non-GTGC page gained unconditional is-invalid safelist");
+  assertGtgcInvalidCssProof(!nonGtgcFiltered.includes(".other-page select.is-invalid"), "non-GTGC page gained unconditional select is-invalid safelist");
+
+  console.log("[gtgc-invalid-css-proof] GTGC invalid input/select/focus selectors retained only for GTGC lead-form pages");
+}
+
+if (isDirectRun) {
+  if (cmsStickyProofMode) {
+    await runCmsStickyProof();
+  } else if (cmsInlineUtilsProofMode) {
+    runGtgcInvalidCssFilterProof();
+  }
 }

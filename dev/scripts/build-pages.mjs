@@ -239,7 +239,7 @@ function normalizeBreakpoint(value, fallback = "lg") {
   return ["sm", "md", "lg", "xl"].includes(breakpoint) ? breakpoint : fallback;
 }
 
-function resolveSplitColumnOrderClasses(desktopMediaPosition = "right", mobileMediaOrder = "below") {
+function resolveSplitColumnOrderClasses(desktopMediaPosition = "right", mobileMediaOrder = "below", mediaFirstInDom = true) {
   if (desktopMediaPosition === "right" && mobileMediaOrder === "above") {
     return {
       copyClassName: "order-last order-md-first",
@@ -251,6 +251,14 @@ function resolveSplitColumnOrderClasses(desktopMediaPosition = "right", mobileMe
     return {
       copyClassName: "order-first order-md-last",
       mediaClassName: "order-last order-md-first",
+    };
+  }
+
+  // Hero DOM has copy first, media second. For left/above the media must lead at all widths.
+  if (desktopMediaPosition === "left" && mobileMediaOrder === "above" && !mediaFirstInDom) {
+    return {
+      copyClassName: "",
+      mediaClassName: "order-first",
     };
   }
 
@@ -824,6 +832,22 @@ function validateImageHeight(image = {}, context = "image", { requireMobileHeigh
 function validateResponsiveImage(image = {}, context = "image") {
   validateImageAlt(image, context);
   validateImageHeight(image, context, { requireMobileHeight: imageHasDeviceUrls(image, "mobile") });
+  if (Array.isArray(image.sources)) {
+    image.sources.forEach((s, i) => {
+      if (s.maxWidth === undefined || s.maxWidth === null) {
+        throw new Error(`${context}: sources[${i}] is missing required field 'maxWidth'`);
+      }
+      if (!s.srcset) {
+        throw new Error(`${context}: sources[${i}] is missing required field 'srcset'`);
+      }
+      if (!s.width) {
+        throw new Error(`${context}: sources[${i}] is missing required field 'width'`);
+      }
+      if (!s.height) {
+        throw new Error(`${context}: sources[${i}] is missing required field 'height'`);
+      }
+    });
+  }
 }
 
 function validateFixedImage(image = {}, context = "image") {
@@ -1097,9 +1121,21 @@ function resolveLinkListClassName(linkGroup, defaultClassName = "ic-menu mt-3") 
   }
 
   const spacing = typeof linkGroup.spacing === "string" ? linkGroup.spacing.trim().toLowerCase() : "";
+  const layout = typeof linkGroup.layout === "string" ? linkGroup.layout.trim().toLowerCase() : "";
+  const align = typeof linkGroup.align === "string" ? linkGroup.align.trim().toLowerCase() : "";
 
   if (spacing === "compact") {
     return "ic-menu mt-0";
+  }
+
+  if (layout === "horizontal") {
+    return align === "center"
+      ? "ic-menu ic-menu-horizontal ic-menu-center"
+      : "ic-menu ic-menu-horizontal";
+  }
+
+  if (align === "center") {
+    return "ic-menu mt-3 ic-menu-align-center";
   }
 
   return defaultClassName;
@@ -1160,9 +1196,16 @@ function renderPicture(image, imageClassName = "", defaultLoading = "lazy", pres
 
   validateResponsiveImage(image, context);
   const config = resolveResponsiveImageConfig(image, preset, defaultLoading);
-  const sourceMarkup = config.mobileSrcset
-    ? `\n                                <source media="(max-width: 768px)" width="${escapeHtml(config.sourceWidth)}" height="${escapeHtml(config.sourceHeight)}" sizes="${escapeHtml(config.sizes)}" srcset="${escapeHtml(config.mobileSrcset)}">`
-    : "";
+  let sourceMarkup = "";
+  if (image.sources && Array.isArray(image.sources) && image.sources.length > 0) {
+    // Art-directed multi-source: narrowest first, each with explicit media query.
+    sourceMarkup = image.sources.map((s) => {
+      const sizesAttr = s.sizes ? ` sizes="${escapeHtml(s.sizes)}"` : "";
+      return `\n                                <source media="(max-width: ${escapeHtml(String(s.maxWidth))}px)" width="${escapeHtml(String(s.width))}" height="${escapeHtml(String(s.height))}"${sizesAttr} srcset="${escapeHtml(s.srcset)}">`;
+    }).join("");
+  } else if (config.mobileSrcset) {
+    sourceMarkup = `\n                                <source media="(max-width: 768px)" width="${escapeHtml(config.sourceWidth)}" height="${escapeHtml(config.sourceHeight)}" sizes="${escapeHtml(config.sizes)}" srcset="${escapeHtml(config.mobileSrcset)}">`;
+  }
   const classAttribute = imageClassName ? ` class="${escapeHtml(imageClassName)}"` : "";
   const sizesAttribute = config.sizes ? ` sizes="${escapeHtml(config.sizes)}"` : "";
   const srcsetAttribute = config.includeSrcset ? ` srcset="${escapeHtml(config.desktopSrcset)}"` : "";
@@ -1322,7 +1365,16 @@ function resolveIconSvg(card) {
     return normalizeIconSvgMarkup(iconSvgMap[card.iconKey]);
   }
 
-  throw new Error(`Missing iconSvg or valid iconKey for card "${card.title || "unknown"}"`);
+  if (card.iconSrc) {
+    const altAttr = card.iconAlt
+      ? ` alt="${escapeHtml(card.iconAlt)}"`
+      : ` alt="" aria-hidden="true"`;
+    const widthAttr = card.iconWidth ? ` width="${escapeHtml(String(card.iconWidth))}"` : "";
+    const heightAttr = card.iconHeight ? ` height="${escapeHtml(String(card.iconHeight))}"` : "";
+    return `<img class="ic-card-icon ic-card-icon--image"${altAttr}${widthAttr}${heightAttr} src="${escapeHtml(card.iconSrc)}" loading="lazy">`;
+  }
+
+  throw new Error(`Missing iconSvg, valid iconKey, or iconSrc for card "${card.title || "unknown"}"`);
 }
 
 function getSvgAttributeValue(attributes = "", attributeName = "") {
@@ -1438,7 +1490,7 @@ function resolveHeroSemanticLayout(section) {
     "text-5-media-7": "col-md-6 col-xl-7",
     "text-7-media-5": "col-md-6 col-xl-5",
   }[desktopSplit] || "col-md-6";
-  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder);
+  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder, false);
   const gapClasses = resolveSplitColumnGapClassNames({
     desktopMediaPosition,
     desktopGapTarget,
@@ -1900,6 +1952,22 @@ ${logoMarkup ? `                    <div class="gtgc-footer-logo-wrap">
         </section>`;
 }
 
+function renderHeroVideo(video, className) {
+  const videoClassName = escapeHtml(className || video.className || "ic-video ic-rounded");
+  const widthAttr = video.width ? ` width="${escapeHtml(String(video.width))}"` : "";
+  const heightAttr = video.height ? ` height="${escapeHtml(String(video.height))}"` : "";
+  const posterAttr = video.poster ? ` poster="${escapeHtml(video.poster)}"` : "";
+  const webmSource = video.webm
+    ? `\n            <source type="video/webm" src="${escapeHtml(video.webm)}">`
+    : "";
+  const mp4Source = video.mp4
+    ? `\n            <source type="video/mp4" src="${escapeHtml(video.mp4)}">`
+    : "";
+
+  return `<video${widthAttr}${heightAttr} preload="auto" playsinline loop autoplay muted${posterAttr} class="${videoClassName}" aria-hidden="true">${webmSource}${mp4Source}
+        </video>`;
+}
+
 function renderHeroSection(section) {
   // Support both legacy and structured properties
   // Structured properties: title, subtitle, label, sublabel, body, image, buttons, etc.
@@ -1933,13 +2001,16 @@ function renderHeroSection(section) {
   const sectionButtons = section.buttons || getSectionButtonsByLocation(section, "header") || [];
   const buttonsMarkup = renderButtons(sectionButtons, "ic-btn ic-btn-primary");
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary");
-  const imageMarkup = renderPicture(
-    section.image,
-    section.imageClassName || section.image?.className || semanticLayout?.imageClassName || "ic-image-banner",
-    "eager",
-    semanticLayout?.imagePreset || "banner",
-    `hero "${section.id}" image`,
-  );
+  const heroMediaElement = section.video
+    ? renderHeroVideo(section.video, section.imageClassName)
+    : renderPicture(
+      section.image,
+      section.imageClassName || section.image?.className || semanticLayout?.imageClassName || "ic-image-banner",
+      "eager",
+      semanticLayout?.imagePreset || "banner",
+      `hero "${section.id}" image`,
+    );
+  const imageMarkup = heroMediaElement;
   const imageLinkHref = section.imageLink?.href || section.buttons?.[0]?.href || "";
   const imageLinkTitle = section.imageLink?.title || section.buttons?.[0]?.label || heroHeadline;
   // Map backgroundTheme to background class
@@ -2164,6 +2235,8 @@ function renderCardsSection(section) {
   const introColumnClass = section.introColumnClass || semanticLayout?.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center";
   const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-9";
   const cardClassName = section.cardClassName || semanticLayout?.cardClassName || "ic-card";
+  const cardTextAlignClass = section.layout?.cardTextAlign === "center" ? " ic-card--text-center" : "";
+  const resolvedCardClassName = cardClassName + cardTextAlignClass;
   const cardBodyClassName = section.cardBodyClassName || semanticLayout?.cardBodyClassName || "ic-card-body ic-card-body-indented";
   const imageClassName = section.imageClassName || semanticLayout?.imageClassName || "ic-card-image ic-image-rounded";
   const cardAlignClassName = section.layout?.cardAlign === "start" ? "justify-content-start" : "justify-content-center";
@@ -2213,58 +2286,98 @@ ${titleMarkup}${linksMarkup}
                             </li>`;
       })
       .join("\n\n")
-    : (section.cards || [])
-      .map(
-        (card) => {
-          const cardHeading = getCardHeading(card);
-          const titleMarkup = cardHeading
-            ? `                                        <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle })}>${renderText(cardHeading)}</a>` : renderText(cardHeading)}</h3>\n`
-            : "";
-          const bodyMarkup = hasParagraphContent(card)
-            ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
-            : "";
-          const listMarkup = card.listItems?.length
-            ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
+    : (() => {
+        const imageBoxClass = section.layout?.imageBox === "3x2" ? " ic-card-media--box" : "";
+        const separateLinks = section.layout?.cardLinks === "separate";
+        return (section.cards || [])
+          .map(
+            (card) => {
+              const cardHeading = getCardHeading(card);
+              const titleMarkup = cardHeading
+                ? `                                        <h3 class="ic-card-title">${card.href
+                    ? separateLinks
+                      ? `<a${renderAnchorAttributes(card, { href: card.href, title: card.linkTitle })}>${renderText(cardHeading)}</a>`
+                      : `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle })}>${renderText(cardHeading)}</a>`
+                    : renderText(cardHeading)}</h3>\n`
+                : "";
+              const bodyMarkup = hasParagraphContent(card)
+                ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
+                : "";
+              const listMarkup = card.listItems?.length
+                ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
 ${card.listItems
-              .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
-              .join("\n")}
+                  .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
+                  .join("\n")}
                                         </ul>\n`
-            : "";
-          const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
-            .map((block) => `                                        ${renderTrustedHtml(block)}`)
-            .join("\n");
-          const linksMarkup = card.links?.length
-            ? `                                        <p>\n${card.links
-              .map(
-                (link) =>
-                  `                                            <a${renderAnchorAttributes(link)}>${renderText(link.label)}</a>`,
-              )
-              .join("<br>\n")}\n                                        </p>\n`
-            : "";
-          const mediaMarkup = card.image
-            ? `                                    <figure class="ic-card-media">
+                : "";
+              const contentHtmlMarkup = normalizeHtmlBlocks(card.contentHtml)
+                .map((block) => `                                        ${renderTrustedHtml(block)}`)
+                .join("\n");
+              const linksMarkup = card.links?.length
+                ? `                                        <p>\n${card.links
+                  .map(
+                    (link) =>
+                      `                                            <a${renderAnchorAttributes(link)}>${renderText(link.label)}</a>`,
+                  )
+                  .join("<br>\n")}\n                                        </p>\n`
+                : "";
+              const figureMarkup = card.image
+                ? `                                    <figure class="ic-card-media${escapeHtml(imageBoxClass)}">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName, "lazy", "card", `card "${cardHeading || "unknown"}" image`)}
                                     </figure>`
-            : card.iconHtml
-              ? `                                    <figure class="ic-card-media">
+                : card.iconHtml
+                  ? `                                    <figure class="ic-card-media">
                                         ${renderTrustedHtml(card.iconHtml)}
                                     </figure>`
-              : "";
+                  : "";
+              const mediaMarkup = separateLinks && card.href && card.image
+                ? `                                    <a${renderAnchorAttributes(card, { href: card.href, className: "ic-card-media-link", title: card.linkTitle })} tabindex="-1" aria-hidden="true">
+${figureMarkup}
+                                    </a>`
+                : figureMarkup;
 
-          return `                            <li class="${escapeHtml(cardColumnClass)}">
-                                <div class="${escapeHtml(card.className || cardClassName)}">
+              return `                            <li class="${escapeHtml(cardColumnClass)}">
+                                <div class="${escapeHtml(card.className ? card.className + cardTextAlignClass : resolvedCardClassName)}">
                                     <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
 ${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
                                     </div>
 ${mediaMarkup}
                                 </div>
                             </li>`;
-        },
-      )
-      .join("\n\n");
+            },
+          )
+          .join("\n\n");
+      })();
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
-            <div class="container">
+  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
+            <div class="container">`;
+  const sectionClose = `${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
+            </div>
+        </section>`;
+
+  if (section.layout?.introPosition === "left") {
+    const leftVerticalAlign = section.layout?.verticalAlign === "start"
+      ? "align-items-start"
+      : section.layout?.verticalAlign === "end"
+        ? "align-items-end"
+        : "align-items-center";
+    return `${sectionOpen}
+                <div class="row justify-content-center ${escapeHtml(leftVerticalAlign)}">
+                    <div class="col col-12 col-xl-4">
+                        ${renderSectionHeading(section)}
+${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
+                    </div>
+
+                    <div class="col col-12 col-xl-6">
+                        <ul class="${escapeHtml(cardListClassName)}">
+${cardMarkup}
+                        </ul>
+                    </div>
+                </div>
+${sectionClose}`;
+  }
+
+  return `${sectionOpen}
                 <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
                     <div class="${escapeHtml(introColumnClass)}">
                         ${renderSectionHeading(section)}
@@ -2279,9 +2392,7 @@ ${cardMarkup}
                         </ul>
                     </div>
                 </div>
-${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
-            </div>
-        </section>`;
+${sectionClose}`;
 }
 
 function renderTextSection(section) {
@@ -2475,6 +2586,51 @@ function resolveTextMediaSemanticLayout(section) {
   };
 }
 
+function renderLinkedItems(linkedItems) {
+  if (!Array.isArray(linkedItems) || linkedItems.length === 0) return "";
+  const itemsMarkup = linkedItems
+    .map((item) => {
+      const logoMarkup = item.logo
+        ? renderImg(item.logo, "ic-linked-item-img", { loading: "lazy", context: `linkedItem "${item.heading || "unknown"}" logo` })
+        : "";
+      const logoCellMarkup = logoMarkup
+        ? `                                    <div class="ic-linked-item-logo">
+                                        ${item.link?.href ? `<a${renderAnchorAttributes(item.link)}>${logoMarkup}</a>` : logoMarkup}
+                                    </div>`
+        : "";
+      const headingMarkup = item.heading
+        ? `                                        <h3 class="ic-linked-item-heading">${renderText(item.heading)}</h3>\n`
+        : "";
+      const bodyContent = hasParagraphContent(item)
+        ? `${indentBlock(renderParagraphContent(item), 24)}\n`
+        : "";
+      const linkMarkup = item.link?.label
+        ? `                                        <p><a${renderAnchorAttributes(item.link)}>${renderText(item.link.label)}</a></p>\n`
+        : "";
+      const copyCellMarkup = `                                    <div class="ic-linked-item-copy">
+${headingMarkup}${bodyContent}${linkMarkup}                                    </div>`;
+      return `                                <div class="ic-linked-item">
+${logoCellMarkup ? `${logoCellMarkup}\n` : ""}${copyCellMarkup}
+                                </div>`;
+    })
+    .join("\n\n");
+  return `                                <div class="ic-linked-items">
+${itemsMarkup}
+                                </div>`;
+}
+
+function renderTextMediaSubsections(subsections) {
+  if (!Array.isArray(subsections) || subsections.length === 0) return "";
+  return subsections
+    .map((sub) => {
+      const level = sub.headingLevel === "h4" ? "h4" : "h3";
+      const headingMarkup = `                                <${level} class="ic-subsection-title">${renderText(sub.heading)}</${level}>`;
+      const subBodyMarkup = indentBlock(renderParagraphContent(sub), 12);
+      return subBodyMarkup ? `${headingMarkup}\n${subBodyMarkup}` : headingMarkup;
+    })
+    .join("\n\n");
+}
+
 function renderTextMediaSection(section) {
   if (section.variant === "goldClassBenefits") {
     return renderGoldClassBenefitsSection(section);
@@ -2493,12 +2649,14 @@ function renderTextMediaSection(section) {
   const headerLinks = getSectionLinksByLocation(section, "header");
   const headerLinkListClassName = resolveLinkListClassName(section.links);
   const linkListMarkup = headerLinks.length ? `${renderLinkList(headerLinks, headerLinkListClassName)}\n` : "";
+  const subsectionsMarkup = renderTextMediaSubsections(section.subsections);
+  const linkedItemsMarkup = renderLinkedItems(section.linkedItems);
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerLinksMarkup = renderFooterLinkRow(getSectionLinksByLocation(section, "footer"));
   const semanticLayout = resolveTextMediaSemanticLayout(section);
-  const textColumnClasses = section.textColumnClass || semanticLayout?.textColumnClasses || (section.reverse
+  const textColumnClasses = (section.textColumnClass || semanticLayout?.textColumnClasses || (section.reverse
     ? "col col-12 col-md-6 mt-3 mt-md-0 pl-lg-5"
-    : "col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5");
+    : "col col-12 col-md-6 mb-3 pb-3 mb-md-0 pb-md-0 pr-lg-5")) + (section.layout?.copyFlow === "block" ? " ic-copy-flow-block" : "");
   const mediaColumnClasses = section.mediaColumnClass || semanticLayout?.mediaColumnClasses || (section.reverse
     ? "col col-12 col-md-6 pr-lg-5"
     : "col col-12 col-md-6 mt-3 pt-1 mt-md-0 pt-md-0");
@@ -2506,10 +2664,10 @@ function renderTextMediaSection(section) {
   const rowClassName = section.rowClassName || semanticLayout?.rowClassName || "row justify-content-between align-items-center";
   const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
                                 <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
-${section.label ? `                                <p class="${escapeHtml(section.labelClassName || "ic-label")}">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
+${section.label ? `                                <p class="${escapeHtml(section.labelClassName || "ic-label")}">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
-    : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || "ic-section-image ic-image-rounded", "lazy", "textMedia", `section "${section.id}" image`);
+    : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || joinClassNames("ic-section-image", section.imageRounded === false ? "" : "ic-image-rounded"), "lazy", "textMedia", `section "${section.id}" image`);
   const linkedPictureMarkup = section.mediaHtml
     ? `                                ${pictureMarkup}`
     : section.imageLink
@@ -2844,8 +3002,34 @@ ${indentBlock(resolveIconSvg(card).trim(), 32)}
     )
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
-            <div class="container">
+  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
+            <div class="container">`;
+  const sectionClose = `            </div>
+        </section>`;
+
+  if (section.layout?.introPosition === "left") {
+    const leftVerticalAlign = section.layout?.verticalAlign === "start"
+      ? "align-items-start"
+      : section.layout?.verticalAlign === "end"
+        ? "align-items-end"
+        : "align-items-center";
+    return `${sectionOpen}
+                <div class="row justify-content-center ${escapeHtml(leftVerticalAlign)}">
+                    <div class="col col-12 col-xl-4 mb-3 pb-3 mb-md-0 pb-md-0 mb-md-3 pb-md-3 mb-xl-0 pb-xl-0">
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
+                    </div>
+
+                    <div class="col col-12 col-xl-6">
+                        <ul class="${escapeHtml(cardListClassName)}">
+${cardMarkup}
+                        </ul>
+                    </div>
+                </div>
+${sectionClose}`;
+  }
+
+  return `${sectionOpen}
                 <div class="row justify-content-center mb-3 pb-3">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
                         <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
@@ -2865,35 +3049,73 @@ ${footerButtonsMarkup ? `\n                <div class="row justify-content-cente
 ${indentBlock(footerButtonsMarkup, 24)}
                     </div>
                 </div>` : ""}` : ""}
-            </div>
-        </section>`;
+${sectionClose}`;
 }
 
 function renderLogoGridSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
+  const introLinksRaw = Array.isArray(section.links) ? section.links : (section.links?.items || []);
+  const introLinkListClassName = resolveLinkListClassName(section.links);
+  const linkListMarkup = introLinksRaw.length ? `\n${renderLinkList(introLinksRaw, introLinkListClassName)}\n` : "";
+  const logoListModifier = section.logoStyle === "box"
+    ? ` ic-logo-list--box${section.layout?.logoBoxSize === "compact" ? " ic-logo-list--box-compact" : ""}`
+    : "";
+  const defaultLogoColumnClass = section.logoStyle === "box" ? "col-auto" : "col-auto mt-3 pt-3 px-md-4";
+  const scrollRows = section.logoStyle === "box" && typeof section.logoScrollRows === "number" ? section.logoScrollRows : null;
+  const fluidContainer = section.layout?.logoContainer === "fluid";
   const logoMarkup = (section.logos || [])
     .map(
-      (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || "col-auto mt-3 pt-3 px-md-4")}">
+      (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || defaultLogoColumnClass)}">
                                 ${logo.href ? `<a${renderAnchorAttributes(logo, { href: logo.href, className: "stretched-link" })}>` : ""}${renderImg(logo, logo.className || "ic-logo", { loading: "lazy", context: `logo "${logo.alt || "unknown"}"` })}${logo.href ? "</a>" : ""}
                             </li>`,
     )
     .join("\n\n");
+  const logoListRowClass = fluidContainer ? " row justify-content-md-center" : " row justify-content-center";
+  const logoListMarkup = `<ul class="ic-logo-list${escapeHtml(logoListModifier)}${logoListRowClass}">
+${logoMarkup}
+                        </ul>`;
+  const logoGridMarkup = scrollRows
+    ? `<div class="ic-logo-list-scroll" style="--logo-scroll-rows: ${scrollRows}" role="region" aria-label="${escapeHtml(getSectionHeading(section))}" tabindex="0">
+                        ${logoListMarkup}
+                    </div>`
+    : logoListMarkup;
+
+  const introAlign = section.layout?.introAlign || "center";
+  const introAlignClass = introAlign === "start" ? "" : introAlign === "end" ? " text-end" : " text-center";
+  const introColumnClass = section.introColumnClass || `col col-md-10 col-lg-8 col-xl-6${introAlignClass}`;
+
+  if (fluidContainer) {
+    return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
+            <div class="container">
+                <div class="row justify-content-center mb-3 pb-3">
+                    <div class="${escapeHtml(introColumnClass)}">
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${linkListMarkup}
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col col-12">
+                        ${logoGridMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+  }
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-2">
-                    <div class="col col-md-10 col-lg-8 col-xl-6 text-center">
+                    <div class="${escapeHtml(introColumnClass)}">
                         <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
-${bodyMarkup ? `\n${bodyMarkup}` : ""}
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${linkListMarkup}
                     </div>
                 </div>
 
                 <div class="row justify-content-center">
                     <div class="col col-12 col-lg-10 col-xl-8">
-                        <ul class="ic-logo-list row justify-content-center">
-${logoMarkup}
-                        </ul>
+                        ${logoGridMarkup}
                     </div>
                 </div>
             </div>
@@ -2920,7 +3142,143 @@ function renderBrandStripSection(section) {
         </section>`;
 }
 
+function renderAccreditationSection(section) {
+  const backgroundClass = getBackgroundClassName(section);
+  const rowsMarkup = (section.rows || [])
+    .map((row) => {
+      const logoImg = renderImg(row.logo, row.logo?.className || "ic-logo", {
+        loading: "lazy",
+        context: `accreditation row logo`,
+      });
+      const logoMarkup = row.logoHref
+        ? `<a href="${escapeHtml(row.logoHref)}" target="_blank" rel="noopener noreferrer">${logoImg}</a>`
+        : logoImg;
+      const copyMarkup = indentBlock(renderParagraphContent(row), 16);
+
+      return `                <div class="ic-accreditation-row">
+                    <div class="ic-accreditation-logo">
+                        ${logoMarkup}
+                    </div>
+                    <div class="ic-accreditation-copy">
+                        <h2>${renderText(row.heading || "")}</h2>
+${copyMarkup}                    </div>
+                </div>`;
+    })
+    .join("\n\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, "ic-section-accreditation", section.__autoSectionClassName))}">
+            <div class="container">
+                <div class="ic-accreditation-rows">
+${rowsMarkup}
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderStickyItemCardsSection(section) {
+  const backgroundClass = getBackgroundClassName(section);
+  const contentColumnClass = section.contentColumnClass || "col col-12 col-lg-10 col-xl-9";
+  const introColumnClass = section.introColumnClass || "col col-12 col-md-6 col-xl-4 mb-4 pr-md-4";
+  const cardsColumnClass = section.cardsColumnClass || "col col-12 col-md-6 col-xl-7 pl-md-4";
+  const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+
+  const leftIconMarkup = section.iconSvg
+    ? normalizeIconSvgMarkup(section.iconSvg, { ariaHidden: true })
+    : section.iconSrc
+      ? section.iconAlt
+        ? `<img src="${escapeHtml(section.iconSrc)}" alt="${escapeHtml(section.iconAlt)}">`
+        : `<img src="${escapeHtml(section.iconSrc)}" alt="" aria-hidden="true">`
+      : "";
+  const leftStickyClass = leftIconMarkup ? "ic-grid ic-sticky" : "ic-sticky";
+
+  const itemsMarkup = (section.items || [])
+    .map((item) => {
+      const addressMarkup = (item.addressLines || [])
+        .map((line) => renderText(line))
+        .join("<br>\n                                        ");
+      const linksMarkup = (item.links || [])
+        .map(
+          (link) => `                                            <li><a${renderAnchorAttributes(link, { href: link.href })}>${renderText(link.label)}</a></li>`,
+        )
+        .join("\n");
+
+      return `                                <li class="ic-card ic-background-white mt-2">
+                                    <strong>${renderText(item.name || "")}</strong>
+${addressMarkup ? `                                    ${addressMarkup}<br>\n` : ""}${item.distance ? `                                    <span class="ic-card-details">${renderText(item.distance)}</span>\n` : ""}${linksMarkup ? `                                    <ul class="ic-menu ic-menu-horizontal">
+${linksMarkup}
+                                    </ul>` : ""}
+                                </li>`;
+    })
+    .join("\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="${escapeHtml(contentColumnClass)}">
+                        <div class="row justify-content-center">
+                            <div class="${escapeHtml(introColumnClass)}">
+                                <div class="${escapeHtml(leftStickyClass)}">
+${leftIconMarkup ? `                                    ${leftIconMarkup}\n` : ""}                                    <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+                                </div>
+                            </div>
+
+                            <div class="${escapeHtml(cardsColumnClass)}">
+                                <ul>
+${itemsMarkup}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}        </section>`;
+}
+
+function renderStickyEmbedSection(section) {
+  const backgroundClass = getBackgroundClassName(section);
+  const stickyCardsContentWidth = section.layout?.contentWidth || "default";
+  const contentColumnClass = section.contentColumnClass || {
+    narrow: "col col-12 col-lg-10 col-xl-8",
+    default: "col col-12 col-lg-10 col-xl-9",
+    ten: "col col-12 col-xl-10",
+    full: "col col-12",
+  }[stickyCardsContentWidth] || "col col-12 col-lg-10 col-xl-9";
+  const introColumnClass = section.introColumnClass || "col col-12 col-md-6 col-xl-4 mb-4 pr-md-4";
+  const embedColumnClass = section.embedColumnClass || "col col-12 col-md-6 col-xl-7 pt-2 pt-md-0 pl-md-4";
+  const iconMarkup = section.iconSvg ? renderTrustedHtml(section.iconSvg) : "";
+  const addressMarkup = section.addressHtml ? renderTrustedHtml(section.addressHtml) : "";
+  const embedMarkup = section.embedHtml ? renderTrustedHtml(section.embedHtml) : "";
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="${escapeHtml(contentColumnClass)}">
+                        <div class="row justify-content-center">
+                            <div class="${escapeHtml(introColumnClass)}">
+                                <div class="ic-grid ic-sticky">
+${iconMarkup ? `                                    ${iconMarkup}\n` : ""}                                    <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${addressMarkup ? `                                    <p>${addressMarkup}</p>\n` : ""}                                </div>
+                            </div>
+
+                            <div class="${escapeHtml(embedColumnClass)}">
+                                ${embedMarkup}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
 function renderStickyCardsSection(section) {
+  if (section.variant === "itemCards") {
+    return renderStickyItemCardsSection(section);
+  }
+
+  if (section.variant === "embed") {
+    return renderStickyEmbedSection(section);
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const introButtonsMarkup = getSectionButtonsByLocation(section, "header").length
     ? `                                ${renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline").trim()}`
@@ -3376,6 +3734,8 @@ function renderSection(section) {
       return renderBrandStripSection(section);
     case "stickyCards":
       return renderStickyCardsSection(section);
+    case "accreditation":
+      return renderAccreditationSection(section);
     case "legal":
       return renderLegalSection(section);
     case "leadForm":

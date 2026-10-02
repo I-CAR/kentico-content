@@ -160,6 +160,73 @@ const sectionTemplateRegistry = {
         },
       ],
     }),
+    introLeft: (id) => ({
+      ...baseSection(id, "cards"),
+      paragraphs: [
+        "Add an introductory paragraph. It sits to the left of the cards at xl and stacks above them on mobile.",
+      ],
+      layout: {
+        introPosition: "left",
+        verticalAlign: "center",
+      },
+      cards: [
+        { heading: "Card One", paragraphs: ["Add supporting card copy here."] },
+        { heading: "Card Two", paragraphs: ["Add supporting card copy here."] },
+        { heading: "Card Three", paragraphs: ["Add supporting card copy here."] },
+      ],
+    }),
+    imageBoxSeparateLinks: (id) => ({
+      ...baseSection(id, "cards"),
+      paragraphs: [
+        "Add a short introduction. Each card image and title link independently.",
+      ],
+      layout: {
+        introPosition: "left",
+        imageBox: "3x2",
+        cardLinks: "separate",
+      },
+      cards: [
+        {
+          heading: "Australia",
+          href: "https://i-car.com.au/",
+          target: "_blank",
+          paragraphs: ["Add supporting copy here."],
+          image: {
+            desktopSrc: "https://placehold.co/130x87",
+            alt: "Australia flag",
+            width: "130",
+            height: "87",
+            singleSource: true,
+          },
+        },
+        {
+          heading: "Canada",
+          href: "https://www.i-car.ca/",
+          target: "_blank",
+          paragraphs: ["Add supporting copy here."],
+          image: {
+            desktopSrc: "https://placehold.co/130x87",
+            alt: "Canada flag",
+            width: "130",
+            height: "87",
+            singleSource: true,
+          },
+        },
+        {
+          heading: "New Zealand",
+          href: "https://i-car.co.nz/",
+          target: "_blank",
+          paragraphs: ["Add supporting copy here."],
+          image: {
+            desktopSrc: "https://placehold.co/130x87",
+            alt: "New Zealand flag",
+            width: "130",
+            height: "87",
+            singleSource: true,
+          },
+        },
+      ],
+    }),
   },
   text: {
     default: (id) => ({
@@ -231,6 +298,49 @@ const sectionTemplateRegistry = {
           label: "Learn More",
           href: "#next-step",
           variant: "outline",
+        },
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    withLinkedItems: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add introductory copy. The linked items appear below, each with a logo, heading, body, and link.",
+      ],
+      linkedItems: [
+        {
+          logo: {
+            src: "https://www.i-car.com/getmedia/placeholder/Logo_100w.svg",
+            alt: "Partner logo",
+            width: "100",
+            height: "47",
+          },
+          heading: "Partner Program Name",
+          body: "Brief description of the program and its purpose.",
+          link: {
+            label: "Learn More",
+            href: "https://www.i-car.com/",
+          },
+        },
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    withSubsections: (id) => ({
+      ...baseSection(id, "textMedia"),
+      layout: {
+        copyFlow: "block",
+      },
+      paragraphs: [
+        "Add optional introductory copy above the subsections.",
+      ],
+      subsections: [
+        {
+          heading: "First Subsection Heading",
+          body: "Add body copy for this subsection.",
+        },
+        {
+          heading: "Second Subsection Heading",
+          body: "Add body copy for this subsection.",
         },
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
@@ -377,6 +487,80 @@ const sectionTemplateRegistry = {
         height: "60",
       })),
     }),
+    withLinks: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      paragraphs: [
+        "Add a short introduction for this logo group.",
+      ],
+      links: {
+        layout: "horizontal",
+        align: "center",
+        items: [
+          { label: "First Related Link", href: "https://www.i-car.com/" },
+          { label: "Second Related Link", href: "https://www.i-car.com/" },
+        ],
+      },
+      logos: Array.from({ length: 4 }, (_, index) => ({
+        alt: `Logo ${index + 1}`,
+        src: "https://placehold.co/180x60",
+        width: "180",
+        height: "60",
+      })),
+    }),
+    box: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      logoStyle: "box",
+      paragraphs: [
+        "Add a short introduction for this logo group.",
+      ],
+      logos: [
+        { alt: "Logo 1", src: "https://placehold.co/150x79",  width: "150", height: "79"  },
+        { alt: "Logo 2", src: "https://placehold.co/150x92",  width: "150", height: "92"  },
+        { alt: "Logo 3", src: "https://placehold.co/150x36",  width: "150", height: "36"  },
+        { alt: "Logo 4", src: "https://placehold.co/150x60",  width: "150", height: "60"  },
+        { alt: "Logo 5", src: "https://placehold.co/150x44",  width: "150", height: "44"  },
+        { alt: "Logo 6", src: "https://placehold.co/150x100", width: "150", height: "100" },
+      ],
+    }),
+    scrollBox: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      logoStyle: "box",
+      logoScrollRows: 3,
+      paragraphs: [
+        "Add a short introduction. The grid scrolls after 3 rows.",
+      ],
+      logos: Array.from({ length: 20 }, (_, i) => {
+        const heights = [79, 92, 36, 60, 44, 100, 55, 80];
+        const h = heights[i % heights.length];
+        return { alt: `Logo ${i + 1}`, src: `https://placehold.co/150x${h}`, width: "150", height: String(h) };
+      }),
+    }),
+    fluid: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      layout: { logoContainer: "fluid" },
+      paragraphs: [
+        "Add a short introduction. The logo row uses the full page width.",
+      ],
+      logos: Array.from({ length: 12 }, (_, index) => ({
+        alt: `Logo ${index + 1}`,
+        src: "https://placehold.co/180x60",
+        width: "180",
+        height: "60",
+      })),
+    }),
+    compactBox: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      logoStyle: "box",
+      layout: { logoContainer: "fluid", logoBoxSize: "compact" },
+      paragraphs: [
+        "Add a short introduction. The compact box grid fits 10 logos per row at 1440 px.",
+      ],
+      logos: Array.from({ length: 20 }, (_, i) => {
+        const heights = [60, 79, 44, 92, 36, 60, 80, 55, 100, 60];
+        const h = heights[i % heights.length];
+        return { alt: `Logo ${i + 1}`, src: `https://placehold.co/120x${h}`, width: "120", height: String(h) };
+      }),
+    }),
   },
   stickyCards: {
     default: (id) => ({
@@ -392,6 +576,32 @@ const sectionTemplateRegistry = {
           "Second supporting point",
         ],
       })),
+    }),
+    itemCards: (id) => ({
+      ...baseSection(id, "stickyCards"),
+      variant: "itemCards",
+      heading: "Section Heading",
+      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none"><title></title><circle cx="25" cy="25" r="22" stroke="#333538" stroke-width="2.25"/></svg>`,
+      items: Array.from({ length: 3 }, (_, index) => ({
+        name: `Item ${index + 1}`,
+        addressLines: ["City, ST"],
+        distance: "0.0 miles",
+        links: [
+          {
+            label: "Directions",
+            href: "https://maps.google.com",
+            target: "_blank",
+          },
+        ],
+      })),
+    }),
+    embed: (id) => ({
+      ...baseSection(id, "stickyCards"),
+      variant: "embed",
+      heading: "Section Heading",
+      iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none"><title></title><circle cx="25" cy="25" r="22" stroke="#333538" stroke-width="2.25"/></svg>`,
+      addressHtml: `<a href="https://maps.google.com" target="_blank" rel="noopener">City, ST 00000</a>`,
+      embedHtml: `<iframe src="" width="616" height="450" style="aspect-ratio:616/450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="ic-rounded"></iframe>`,
     }),
   },
   legal: {
@@ -473,6 +683,37 @@ const sectionTemplateRegistry = {
       type: "html",
       html: [
         `<!-- Replace with approved HTML for the "${id}" section. -->`,
+      ],
+    }),
+  },
+  accreditation: {
+    default: (id) => ({
+      ...baseSection(id, "accreditation"),
+      rows: [
+        {
+          logo: {
+            src: "https://placehold.co/155x93",
+            alt: "Accreditation logo 1",
+            width: "155",
+            height: "93",
+          },
+          heading: "Accreditation Row 1",
+          paragraphs: [
+            "Add copy describing this accreditation.",
+          ],
+        },
+        {
+          logo: {
+            src: "https://placehold.co/116x140",
+            alt: "Accreditation logo 2",
+            width: "116",
+            height: "140",
+          },
+          heading: "Accreditation Row 2",
+          paragraphs: [
+            "Add copy describing this accreditation.",
+          ],
+        },
       ],
     }),
   },

@@ -28,6 +28,7 @@ const ALLOWED_SECTION_TYPES = new Set([
     "profileGrid",
     "quoteGrid",
     "legal",
+    "accreditation",
 ]);
 
 function validateTemplate(data, filePath) {

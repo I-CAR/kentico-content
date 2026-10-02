@@ -36,6 +36,21 @@
     color: var(--gray-900);
 }
 
+.ic-menu.ic-menu-horizontal.ic-menu-center {
+    justify-content: center;
+}
+
+// Stacked list centered on desktop, left-aligned on mobile.
+// For non-horizontal links with align: center.
+// text-align inherits to li > a (display: block).
+.ic-menu.ic-menu-align-center {
+    text-align: left;
+
+    @include mq(md) {
+        text-align: center;
+    }
+}
+
 @include mq(xs, down) {
     .ic-menu.ic-menu-horizontal:has(.ic-btn) {
         flex-flow: column nowrap;

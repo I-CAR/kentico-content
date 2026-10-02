@@ -1,0 +1,77 @@
+@use "../abstracts/mixins" as *;
+
+// Modifier for logo grids using uniform 3:2 boxes.
+// --logo-box-width is the single source of truth for box sizing.
+// Default: 150 px (calc(var(--space-50) * 3)). Box height = width * 2/3.
+// Overrides the fractional flex from ul.ic-logo-list > li in _lists.scss.
+// Source order ensures these rules beat same-specificity rules in _lists.scss.
+
+ul.ic-logo-list--box {
+    --logo-box-width: calc(var(--space-50) * 3);
+    margin-left: 0;
+    margin-right: 0;
+    gap: var(--space-40);
+
+    @include mq(md) {
+        gap: var(--space-24);
+    }
+}
+
+ul.ic-logo-list--box > li {
+    flex: 0 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+    width: var(--logo-box-width);
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ul.ic-logo-list--box > li + li {
+    margin-top: 0;
+}
+
+ul.ic-logo-list--box > li img {
+    aspect-ratio: unset;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(var(--logo-box-width) * 2 / 3);
+
+    @include mq(md) {
+        max-width: 100px;
+    }
+}
+
+// Compact box: 120 px wide (var(--space-120)), 80 px tall (3:2). Fits 10 per row at 1440 px
+// on a container-fluid. Logos render ~20% smaller; density is the explicit trade-off.
+ul.ic-logo-list--box.ic-logo-list--box-compact {
+    --logo-box-width: var(--space-120);
+}
+
+// Scroll wrapper: caps the box grid at N rows with vertical scroll on mobile only.
+// On md+ (≥768.1px) max-height and overflow are unset so the full grid is visible.
+// --logo-scroll-rows is passed via inline style on the wrapper element.
+// --logo-box-width defaults to the standard 150 px and is overridden to 120 px via :has()
+// when a compact grid is inside, keeping the row-height formula correct for both sizes.
+// Row pitch = box height (width * 2/3) + gap (var(--space-40)).
+// N rows max-height = N × pitch − gap (last row has no trailing gap).
+// Note: role="region" and tabindex="0" remain on the element at all widths (set in HTML);
+// on desktop the wrapper does not scroll but adds one keyboard tab stop.
+.ic-logo-list-scroll {
+    --logo-box-width: calc(var(--space-50) * 3);
+
+    @include mq(md, down) {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: calc(
+            var(--logo-scroll-rows) * (var(--logo-box-width) * 2 / 3 + var(--space-40))
+            - var(--space-40)
+        );
+    }
+}
+
+.ic-logo-list-scroll:has(.ic-logo-list--box-compact) {
+    --logo-box-width: var(--space-120);
+}

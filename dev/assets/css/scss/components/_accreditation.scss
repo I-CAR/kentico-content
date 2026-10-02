@@ -1,0 +1,102 @@
+@use "../abstracts/mixins" as *;
+
+.ic-accreditation-rows {
+    @include flex-stack;
+    gap: var(--space-40);
+}
+
+.ic-accreditation-row {
+    @include flex-stack(flex-start, flex-start);
+
+    @include mq(md, down) {
+        gap: var(--space-20);
+    }
+
+    @include mq(md) {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.ic-accreditation-logo {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+
+    @include mq(md) {
+        min-width: clamp(var(--space-100), 8vw, var(--space-250));
+        justify-content: center;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+
+        @include mq(md, down) {
+            max-width: 100px;
+        }
+    }
+}
+
+.ic-accreditation-copy {
+    @include flex-stack;
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Scoped overrides for pages using the accreditation section.
+// Brings section padding, row max-width, column alignment, and logo-text gap
+// in line with the accepted legacy .section_iacet design.
+
+.ic-section-accreditation {
+    --section-padding: clamp(var(--space-40), 0.996rem + 4.449vw, var(--space-60));
+}
+
+.ic-section-accreditation .ic-accreditation-rows {
+    gap: var(--section-padding);
+    max-width: calc(var(--space-100) * 8);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ic-section-accreditation .ic-accreditation-row h2 {
+    margin-top: 0;
+}
+
+.ic-section-accreditation .ic-accreditation-logo {
+    justify-content: center;
+}
+
+@include mq(md) {
+    .ic-section-accreditation .ic-accreditation-rows {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        column-gap: calc(var(--space-24) * 2);
+    }
+
+    .ic-section-accreditation .ic-accreditation-row {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: subgrid;
+        align-items: start;
+    }
+}
+
+@include mq(xl) {
+    .ic-section-accreditation .ic-accreditation-rows {
+        column-gap: var(--section-padding);
+    }
+}
+
+// Modifier for image-based ic-card-icon elements (iconSrc cards).
+// _checkmark-icons.scss is not imported by either entry point, so there are no
+// SVG-specific rules to reset. Standard responsive-image pattern: let the
+// iconWidth/iconHeight YAML fields (rendered as HTML attrs) drive the size.
+// Content should always supply iconWidth and iconHeight to avoid intrinsic-size fallback.
+.ic-card-icon--image {
+    max-width: 100%;
+    height: auto;
+}

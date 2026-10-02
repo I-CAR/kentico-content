@@ -1505,7 +1505,6 @@ a.card:focus .card-description {
     }
 
     .section_logos {
-        padding: 0;
         background: var(--lighter);
     }
 
@@ -1795,4 +1794,305 @@ a.card:focus .card-description {
     border: 0;
     border-top: 2px dashed var(--gray);
     margin: .5rem 0;
+}
+
+.section_about-education .about-education-media,
+.section_about-education .about-education-media img {
+    display: block;
+}
+
+.section_about-education .about-education-copy {
+    padding-top: calc(12rem / 16);
+}
+
+.section_about-education .about-education-title {
+    margin-top: 0;
+}
+
+.section_about-vision h2+h3 {
+    margin-top: var(--space-20);
+}
+
+.section_about-governance .card {
+    --card-body-padding: calc(20rem / 16);
+}
+
+.section_about-governance .card-body {
+    padding: var(--card-body-padding);
+}
+
+.section_programs+.section_logos {
+    margin-top: 0 !important;
+}
+
+.section_international .col-sm-6.col-xl-4 {
+    box-sizing: border-box;
+}
+
+.section_international .card {
+    --card-body-padding: var(--space-20);
+}
+
+.section_international .card-body {
+    padding: var(--card-body-padding);
+}
+
+.section_iacet {
+    --section-padding: clamp(var(--space-40), 0.996rem + 4.449vw, var(--space-60));
+    background-color: var(--lighter, #F7F7F7) !important;
+}
+
+.section_iacet .iacet-accreditations {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: calc(800rem / 16);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.section_iacet .iacet-accreditation-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch !important;
+    box-sizing: border-box;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.section_iacet .iacet-accreditation-row+.iacet-accreditation-row {
+    margin-top: var(--section-padding);
+}
+
+.section_iacet .iacet-accreditation-logo,
+.section_iacet .iacet-accreditation-copy {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.section_iacet .iacet-accreditation-logo {
+    display: flex;
+    align-items: flex-start;
+    overflow: visible;
+    margin-bottom: calc(24rem / 16);
+}
+
+.section_iacet .iacet-accreditation-logo a {
+    display: block;
+    max-width: 100%;
+    overflow: visible;
+}
+
+.section_iacet .iacet-accreditation-logo img {
+    display: block;
+    flex-shrink: 0;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+    border-radius: 0 !important;
+}
+
+.section_iacet .iacet-accreditation-row--iacet .iacet-accreditation-logo img {
+    width: calc(155rem / 16);
+}
+
+.section_iacet .iacet-accreditation-row--soc2 .iacet-accreditation-logo img {
+    width: calc(116rem / 16);
+}
+
+.section_iacet .iacet-accreditation-copy {
+    text-align: left;
+}
+
+.section_iacet .iacet-accreditation-copy h2 {
+    margin-top: 0;
+}
+
+.section_iacet .iacet-accreditation-copy>:last-child {
+    margin-bottom: 0;
+}
+
+.section_iacet .iacet-accreditation-row--iacet a:focus,
+.section_iacet .iacet-accreditation-row--iacet a:focus-visible {
+    outline: 3px solid var(--primary-color, #0045FF);
+    outline-offset: 4px;
+}
+
+@media screen and (min-width: 768px) {
+
+    .section_iacet .iacet-accreditation-row {
+        display: grid;
+        grid-template-columns: calc(155rem / 16) minmax(0, 1fr);
+        column-gap: calc(48rem / 16);
+        align-items: start !important;
+    }
+
+    .section_iacet .iacet-accreditation-logo {
+        width: calc(155rem / 16);
+        max-width: calc(155rem / 16);
+        margin-bottom: 0;
+    }
+
+    .section_iacet .iacet-accreditation-row--iacet .iacet-accreditation-logo img {
+        max-width: calc(155rem / 16);
+    }
+
+    .section_iacet .iacet-accreditation-row--soc2 .iacet-accreditation-logo img {
+        max-width: calc(116rem / 16);
+    }
+
+    .section_iacet .iacet-accreditation-copy {
+        width: auto;
+        max-width: none;
+    }
+
+    .section_about-education .about-education-media img,
+    .section_about-vision img,
+    .section_about-technical img {
+        border-radius: calc(20rem / 16) !important;
+    }
+}
+
+@media screen and (max-width: 767.9px) {
+
+    .section_international {
+        padding-top: var(--space-60);
+        padding-bottom: var(--space-60);
+    }
+
+    .section_international h2 {
+        margin-top: 0 !important;
+    }
+
+    .section_international>.container-fluid>.row>:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_international>.container-fluid>.row>:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .section_international .col-sm-6.col-xl-4:last-child {
+        padding-bottom: 0 !important;
+    }
+
+    .section_iacet .iacet-accreditation-logo {
+        justify-content: flex-start !important;
+    }
+
+    .section_about-education,
+    .section_programs {
+        padding-top: calc(40rem / 16);
+    }
+
+    .section_hero:has(+.section_about-vision)>.container-fluid>.row>:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .section_hero:has(+.section_about-vision) img,
+    .section_about-vision img,
+    .section_about-technical img {
+        display: block;
+    }
+
+    .section_about-vision {
+        padding-top: calc(40rem / 16);
+        padding-bottom: calc(20rem / 16);
+    }
+
+    .section_about-vision>.container-fluid>.row>:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_about-vision>.container-fluid>.row>:last-child {
+        margin-bottom: calc(20rem / 16) !important;
+        padding-bottom: 0 !important;
+    }
+
+    .section_about-education .about-education-media img,
+    .section_about-vision img,
+    .section_about-technical img {
+        border-radius: calc(12rem / 16) !important;
+    }
+
+    .section_about-vision h2,
+    .section_about-education h2,
+    .section_about-technical h2,
+    .section_programs h2,
+    .section_logos h2,
+    .section_about-governance h2 {
+        margin-top: 0 !important;
+    }
+
+    .section_about-education {
+        padding-bottom: calc(40rem / 16);
+    }
+
+    .section_about-education>.container-fluid {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_about-education .about-education-text,
+    .section_about-education .row>.col-md-6:last-child {
+        margin-bottom: 0;
+    }
+
+    .section_about-education .row>.col-md-6:last-child {
+        padding-bottom: 0 !important;
+    }
+
+    .section_about-technical,
+    .section_logos {
+        padding-top: calc(40rem / 16);
+        padding-bottom: calc(40rem / 16);
+    }
+
+    .section_about-technical .col-12>.row>:last-child {
+        margin-top: 0 !important;
+        order: 1 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_about-technical .col-12>.row>:first-child {
+        margin-bottom: 0 !important;
+        order: 2 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .section_about-technical .col-12>.row>:first-child>:last-child {
+        margin-bottom: 0;
+    }
+
+    .section_programs .col-md-10 {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_logos>.container-fluid:first-child .row>:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section_logos .row_logos {
+        margin-bottom: 0 !important;
+    }
+
+    .section_logos .row_logos>[class*="col"] {
+        padding-bottom: 0 !important;
+    }
+
+    .section_about-governance>.container-fluid>.row:first-child>:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
 }

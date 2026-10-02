@@ -23,6 +23,7 @@ const ALLOWED_SECTION_TYPES = [
     "profileGrid",
     "quoteGrid",
     "legal",
+    "accreditation",
 ];
 
 const ALLOWED_BUTTON_VARIANTS = ["primary", "outline", "white", "gray"];
@@ -31,17 +32,6 @@ const ALLOWED_BACKGROUND_THEMES = ["light", "white", "dark"];
 const ALLOWED_IMAGE_PLACEMENTS = ["column", "background"];
 const ALLOWED_HEADING_TAGS = ["h1", "h2", "h3", "p"];
 const ALLOWED_IMAGE_LOADING = ["eager", "lazy"];
-const ALLOWED_ICON_KEYS = [
-    "careerDevelopment",
-    "justInTime",
-    "repairersRealm",
-    "askICar",
-    "adasNews",
-    "skillsUSA",
-    "technicalTsunami",
-    "goldClass",
-    "platinum",
-];
 
 // Button schema for hero and other sections
 const ButtonSchema = z.object({
@@ -72,17 +62,6 @@ const LinkSchema = z.object({
     href: z.string().url("Link href must be a valid URL"),
 }).strict();
 
-// Icon card schema for iconCardGrid
-const IconCardSchema = z.object({
-    title: z.string().min(1, "Card title is required"),
-    body: z.string().min(1, "Card body is required"),
-    iconKey: z.enum(ALLOWED_ICON_KEYS, {
-        errorMap: () => ({
-            message: `Icon key must be one of: ${ALLOWED_ICON_KEYS.join(", ")}`,
-        }),
-    }),
-}).strict();
-
 // Image card schema for cards section
 const ImageCardSchema = z.object({
     title: z.string().min(1, "Card title is required"),
@@ -108,7 +87,7 @@ export const TextMediaSectionSchema = z.record(z.any()).superRefine((data, ctx) 
             path: ["type"],
         });
     }
-    const htmlKeys = ["bodyHtml", "html", "contentHtml", "paragraphsHtml"];
+    const htmlKeys = ["bodyHtml", "html", "contentHtml"];
     for (const key of htmlKeys) {
         if (key in data) {
             ctx.addIssue({
@@ -131,7 +110,7 @@ export const IconCardGridSectionSchema = z.record(z.any()).superRefine((data, ct
             path: ["type"],
         });
     }
-    const htmlKeys = ["bodyHtml", "html", "contentHtml", "paragraphsHtml"];
+    const htmlKeys = ["bodyHtml", "html", "contentHtml"];
     for (const key of htmlKeys) {
         if (key in data) {
             ctx.addIssue({
@@ -201,6 +180,29 @@ export const EmbedSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
         });
     }
     const htmlKeys = ["bodyHtml", "html", "contentHtml", "paragraphsHtml"];
+    for (const key of htmlKeys) {
+        if (key in data) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.forbidden,
+                message: `Inline HTML key '${key}' is not allowed. Use structured properties instead.`,
+                path: [key],
+            });
+        }
+    }
+});
+
+// Accreditation section schema
+export const AccreditationSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
+    if (data.type !== "accreditation") {
+        ctx.addIssue({
+            code: z.ZodIssueCode.invalid_literal,
+            expected: "accreditation",
+            received: data.type,
+            message: "Section type must be 'accreditation'",
+            path: ["type"],
+        });
+    }
+    const htmlKeys = ["bodyHtml", "html", "contentHtml"];
     for (const key of htmlKeys) {
         if (key in data) {
             ctx.addIssue({
@@ -352,6 +354,9 @@ export function validatePageData(data, filePath) {
                         break;
                     case "embed":
                         result = validateSection(section, EmbedSectionSchema, filePath);
+                        break;
+                    case "accreditation":
+                        result = validateSection(section, AccreditationSectionSchema, filePath);
                         break;
                     default:
                         // Skip validation for other section types

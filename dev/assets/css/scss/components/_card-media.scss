@@ -1,0 +1,159 @@
+@use "../abstracts/mixins" as *;
+
+// Opt-in 3:2 box for card images (layout.imageBox: "3x2").
+// Uses object-fit: scale-down: never upscales small images, still contains large ones.
+// Note: max-height: 100% does not resolve on aspect-ratio-sized containers;
+// width/height: 100% + object-fit: scale-down resolves cleanly instead.
+
+figure.ic-card-media--box {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+figure.ic-card-media--box picture {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+figure.ic-card-media--box picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+// Anchor wrapping the figure in cardLinks: "separate" layout.
+// order: -1 matches .ic-card .ic-card-media so the image stays above the title
+// even though the anchor (not the figure) is the flex child of .ic-card.
+a.ic-card-media-link {
+    display: block;
+    order: -1;
+}
+
+// Sub-section headings inside textMedia text columns (opt-in: only pages with subsections change).
+.ic-subsection-title {
+    margin-top: var(--space-20);
+}
+
+// Card title size modifier.
+// Plain rule (0,3,0): beats .ic-card .ic-card-title (0,2,0); ties .ic-card:has(.ic-card-image)
+// .ic-card-title (0,3,0) — source order wins (this file loads after _content-media.scss).
+// Image rule (0,5,0): beats .ic-card:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title
+// (0,4,0) in _content-media.scss which otherwise overrides with h4/bold on cards with images.
+// YAML: cardClassName: "ic-card ic-card--title-h3"
+.ic-card.ic-card--title-h3 .ic-card-title {
+    font-size: var(--h3-font-size);
+    font-weight: var(--semibold);
+}
+
+.ic-card.ic-card--title-h3:has(.ic-card-image):has(:not(.ic-card-body)) .ic-card-title {
+    font-size: var(--h3-font-size);
+    font-weight: var(--semibold);
+}
+
+// Card text alignment opt-in. Centers card text at md and up (≥769 px); mobile stays left-aligned.
+// (0,2,0) — no competing !important on plain cards.
+// YAML: layout: { cardTextAlign: "center" }
+@include mq(md) {
+    .ic-card.ic-card--text-center {
+        text-align: center;
+    }
+}
+
+// Block-flow text column opt-in. (0,5,0) beats the shared content-column rule
+// .ic-section .col:has(h1,h2,.ic-section-title.ic-h1) at (0,4,0) in _sections.scss.
+// Restores margin collapse between headings and paragraphs (flex prevents it).
+// YAML: layout: { copyFlow: "block" }
+.ic-section .col.ic-copy-flow-block:has(h1, h2, .ic-section-title.ic-h1) {
+    display: block;
+}
+
+// Collaboration Centric intro column: same opt-out, scoped by section id
+// since logoGrid has no layout.copyFlow mechanism.
+// Left-aligned on mobile, centered on md and up (matches .ic-menu-align-center's link-list behavior).
+#logos .col:has(h2.ic-section-title) {
+    display: block;
+    text-align: left;
+
+    @include mq(md) {
+        text-align: center;
+    }
+}
+
+// International cards: row_compact's compensating padding only targets .col-xxl-5up,
+// which this section's custom cardColumnClass doesn't use, leaving no gap on mobile stacking.
+#international li + li {
+    margin-top: var(--space-20);
+
+    @include mq(md) {
+        margin-top: 0;
+    }
+}
+
+// International cards: scoped override of the shared ic-card-horizontal-mobile figure
+// padding (0 by default, _base.scss) so other iconCardGrid pages (governance, GTGC,
+// about-us/careers) are unaffected.
+@include mq(md, down) {
+    #international .ic-card.ic-card-horizontal-mobile > figure.ic-card-media {
+        padding: var(--space-20);
+    }
+}
+
+// International cards: remove the shared ic-card-horizontal-mobile card padding
+// (0 var(--space-20), _base.scss) so other iconCardGrid pages are unaffected.
+@include mq(md, down) {
+    #international .ic-card.ic-card-horizontal-mobile.ic-background-white {
+        padding: 0;
+    }
+}
+
+// International cards: cap flag image size on mobile. Shared .ic-card-icon--image
+// (_accreditation.scss) relies on iconWidth/iconHeight (130x87 here, 100x100 on
+// governance); scoped here so governance's icons are unaffected.
+@include mq(md, down) {
+    #international .ic-card-icon--image {
+        max-width: 85px;
+    }
+}
+
+// International cards: remove the shared ic-card-horizontal-mobile gap on mobile
+// so other iconCardGrid pages (governance, GTGC, about-us/careers) are unaffected.
+@include mq(md, down) {
+    #international .ic-card.ic-card-horizontal-mobile {
+        gap: 0;
+    }
+}
+
+// International cards: remove left padding on the card body (shared rule in
+// _content-media.scss covers governance/GTGC/careers too; scoped here).
+#international .ic-card-body {
+    padding-left: 0;
+}
+
+// International intro column: center text from md up to just below xl, where the
+// two-column split (intro left, cards right) starts and left-alignment reads better.
+@include mq(md) {
+    #international .col:has(h2.ic-section-title) {
+        text-align: center;
+    }
+}
+
+@include mq(xl) {
+    #international .col:has(h2.ic-section-title) {
+        text-align: left;
+    }
+}
+
+// Talent Programming: text column needs bottom padding to balance the
+// align-items-end row on md and up (--section-padding is a custom property,
+// not expressible via a Bootstrap utility class).
+@include mq(md) {
+    #programs .row.justify-content-between > .col:first-child {
+        padding-bottom: var(--section-padding);
+    }
+}
