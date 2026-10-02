@@ -73,10 +73,14 @@ a.ic-card-media-link {
     display: block;
 }
 
-// Collaboration Centric intro column: same opt-out, scoped by section id
-// since logoGrid has no layout.copyFlow mechanism.
-// Left-aligned on mobile, centered on md and up (matches .ic-menu-align-center's link-list behavior).
-#logos .col:has(h2.ic-section-title) {
+// Logo grid intro column, flex opt-out variant (opt-in via YAML: className: "ic-logo-grid--split").
+// logoGrid has no layout.copyFlow mechanism of its own, so this bundles the same
+// flex-removal plus responsive text-align (left on mobile, centered on md and up,
+// matching .ic-menu-align-center's link-list behavior). Applied via section.className,
+// not an id, so any logoGrid section can reuse it regardless of its content id.
+// .row ancestor added for specificity (0,4,1), to beat the shared
+// .ic-section .col:has(h1, h2, .ic-section-title.ic-h1) rule (0,4,0) in _sections.scss.
+.ic-logo-grid--split .row .col:has(h2.ic-section-title) {
     display: block;
     text-align: left;
 
@@ -85,9 +89,16 @@ a.ic-card-media-link {
     }
 }
 
-// International cards: row_compact's compensating padding only targets .col-xxl-5up,
-// which this section's custom cardColumnClass doesn't use, leaving no gap on mobile stacking.
-#international li + li {
+// Icon-card grid, left-intro split variant (opt-in via YAML: className: "ic-icon-card-grid--split").
+// Bundles the mobile-stacking and compact-card treatment needed when an iconCardGrid
+// section uses layout.introPosition: left with a narrow, custom cardColumnClass — the
+// shared defaults (row_compact spacing, card padding/gap, icon size) assume the wide,
+// centered-intro layout instead. Applied via section.className, not an id, so any
+// iconCardGrid section can reuse it regardless of its content id.
+
+// row_compact's compensating padding only targets .col-xxl-5up, which a narrow custom
+// cardColumnClass doesn't use, leaving no gap on mobile stacking.
+.ic-icon-card-grid--split li + li {
     margin-top: var(--space-20);
 
     @include mq(md) {
@@ -95,65 +106,94 @@ a.ic-card-media-link {
     }
 }
 
-// International cards: scoped override of the shared ic-card-horizontal-mobile figure
-// padding (0 by default, _base.scss) so other iconCardGrid pages (governance, GTGC,
-// about-us/careers) are unaffected.
+// Remove the shared ic-card-horizontal-mobile card padding and gap (0 var(--space-20),
+// _base.scss) so other iconCardGrid sections without this modifier are unaffected.
+// .ic-card-media keeps the shared default (0) — no override needed here.
 @include mq(md, down) {
-    #international .ic-card.ic-card-horizontal-mobile > figure.ic-card-media {
-        padding: var(--space-20);
-    }
-}
-
-// International cards: remove the shared ic-card-horizontal-mobile card padding
-// (0 var(--space-20), _base.scss) so other iconCardGrid pages are unaffected.
-@include mq(md, down) {
-    #international .ic-card.ic-card-horizontal-mobile.ic-background-white {
+    .ic-icon-card-grid--split .ic-card.ic-card-horizontal-mobile.ic-background-white {
         padding: 0;
     }
-}
 
-// International cards: cap flag image size on mobile. Shared .ic-card-icon--image
-// (_accreditation.scss) relies on iconWidth/iconHeight (130x87 here, 100x100 on
-// governance); scoped here so governance's icons are unaffected.
-@include mq(md, down) {
-    #international .ic-card-icon--image {
+    .ic-icon-card-grid--split .ic-card.ic-card-horizontal-mobile {
+        gap: 0;
+    }
+
+    // Cap icon image size on mobile. Shared .ic-card-icon--image (_accreditation.scss)
+    // relies on iconWidth/iconHeight, which vary per use (e.g. 130x87 flags vs 100x100
+    // governance icons); scoped here so other sections are unaffected.
+    .ic-icon-card-grid--split .ic-card-icon--image {
         max-width: 85px;
     }
 }
 
-// International cards: remove the shared ic-card-horizontal-mobile gap on mobile
-// so other iconCardGrid pages (governance, GTGC, about-us/careers) are unaffected.
-@include mq(md, down) {
-    #international .ic-card.ic-card-horizontal-mobile {
-        gap: 0;
-    }
-}
-
-// International cards: remove left padding on the card body (shared rule in
-// _content-media.scss covers governance/GTGC/careers too; scoped here).
-#international .ic-card-body {
-    padding-left: 0;
-}
-
-// International intro column: center text from md up to just below xl, where the
-// two-column split (intro left, cards right) starts and left-alignment reads better.
+// Intro column: center text from md up to just below 1200px, where the two-column
+// split (intro left, cards right) starts and left-alignment reads better.
+// .row ancestor added for specificity (0,4,1), to beat the shared
+// .ic-section .col:has(h1, h2, .ic-section-title.ic-h1) rule (0,4,0) in _sections.scss.
 @include mq(md) {
-    #international .col:has(h2.ic-section-title) {
+    .ic-icon-card-grid--split .row .col:has(h2.ic-section-title) {
         text-align: center;
     }
 }
 
-@include mq(xl) {
-    #international .col:has(h2.ic-section-title) {
+@include min(1200px) {
+    .ic-icon-card-grid--split .row .col:has(h2.ic-section-title) {
         text-align: left;
     }
 }
 
-// Talent Programming: text column needs bottom padding to balance the
-// align-items-end row on md and up (--section-padding is a custom property,
-// not expressible via a Bootstrap utility class).
+// textMedia row-end balance: whenever layout.rowVerticalAlign: "end" is set, the
+// renderer emits .row.justify-content-between.align-items-end — scoped off that
+// semantic output directly, no extra class or id needed. The first column needs
+// bottom padding to balance the row on md and up (--section-padding is a custom
+// property, not expressible via a Bootstrap utility class).
 @include mq(md) {
-    #programs .row.justify-content-between > .col:first-child {
+    .row.justify-content-between.align-items-end > .col:first-child {
         padding-bottom: var(--section-padding);
+    }
+}
+
+// Even padding for icon-card-grid cards using an image icon (.ic-card-icon--image —
+// governance's two sections, the only current consumer). Lives on the card itself,
+// not .ic-card-body, replacing the shared mobile-only .ic-card-horizontal-mobile
+// padding (0 var(--space-20), _base.scss) with a uniform --space-20 at all widths.
+// .ic-card-body's own padding is zeroed to avoid double-padding. Targeted
+// structurally via :has(), not a content-author option. Full class chain + :has()
+// needed to beat the shared rules' specificity.
+.ic-card.ic-card-horizontal-mobile.ic-background-white:has(.ic-card-icon--image) {
+    padding: var(--space-20);
+}
+
+.ic-card.ic-card-horizontal-mobile.ic-background-white:has(.ic-card-icon--image) .ic-card-body {
+    padding: 0;
+}
+
+// Card-body padding for International's split-layout cards: --space-20 on mobile
+// (where cards stack horizontally), none from md up (shared default in
+// _content-media.scss is asymmetric: --space-12 top/bottom, --space-20 left/right).
+// International's cards also carry .ic-card-icon--image (flag icons), so the
+// governance :has() rule above matches them too and ties this rule's specificity
+// (0,5,0) — these rules must stay last in source order to win that tie.
+@include mq(md, down) {
+    .ic-icon-card-grid--split .ic-card.ic-card-horizontal-mobile.ic-background-white .ic-card-body {
+        padding: var(--space-20);
+    }
+}
+
+@include mq(md) {
+    .ic-icon-card-grid--split .ic-card.ic-card-horizontal-mobile.ic-background-white .ic-card-body {
+        padding: 0;
+    }
+}
+
+// Shared across all icon-card-grid cards with an image icon (governance's two
+// sections plus International): card-media keeps a bottom gap from md up (768.1px+),
+// where cards switch from the horizontal-mobile row layout to the stacked column
+// layout. Excluded on mobile (<=768px): top is already 0 there via the shared
+// .ic-card.ic-card-horizontal-mobile>figure.ic-card-media rule (_base.scss), and
+// bottom stays 0 to match.
+@include mq(md) {
+    .ic-card.ic-card-horizontal-mobile.ic-background-white:has(.ic-card-icon--image) .ic-card-media {
+        padding: 0 0 var(--space-20);
     }
 }

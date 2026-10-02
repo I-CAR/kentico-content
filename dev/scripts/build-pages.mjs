@@ -2131,7 +2131,7 @@ function resolveCardsSemanticLayout(section) {
 
   const contentColumnClass = {
     default: "col col-12 col-xl-9",
-    ten: "col col-12 col-xl-10",
+    wider: "col col-12 col-xl-10",
     wide: "col col-12 col-lg-10 col-xl-9",
     full: "col col-12",
   }[contentWidth] || "col col-12 col-xl-9";
@@ -2188,7 +2188,7 @@ function resolveCardsSemanticLayout(section) {
 
     const iconTextGridContentColumnClass = {
       default: "col col-12 col-xl-10",
-      ten: "col col-12 col-xl-10",
+      wider: "col col-12 col-xl-10",
       wide: "col col-12 col-lg-10 col-xl-10",
       full: "col col-12",
     }[contentWidth] || "col col-12 col-xl-10";
@@ -2236,7 +2236,8 @@ function renderCardsSection(section) {
   const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-9";
   const cardClassName = section.cardClassName || semanticLayout?.cardClassName || "ic-card";
   const cardTextAlignClass = section.layout?.cardTextAlign === "center" ? " ic-card--text-center" : "";
-  const resolvedCardClassName = cardClassName + cardTextAlignClass;
+  const cardTitleSizeClass = section.layout?.cardTitleSize === "h3" ? " ic-card--title-h3" : "";
+  const resolvedCardClassName = cardClassName + cardTextAlignClass + cardTitleSizeClass;
   const cardBodyClassName = section.cardBodyClassName || semanticLayout?.cardBodyClassName || "ic-card-body ic-card-body-indented";
   const imageClassName = section.imageClassName || semanticLayout?.imageClassName || "ic-card-image ic-image-rounded";
   const cardAlignClassName = section.layout?.cardAlign === "start" ? "justify-content-start" : "justify-content-center";
@@ -2337,7 +2338,7 @@ ${figureMarkup}
                 : figureMarkup;
 
               return `                            <li class="${escapeHtml(cardColumnClass)}">
-                                <div class="${escapeHtml(card.className ? card.className + cardTextAlignClass : resolvedCardClassName)}">
+                                <div class="${escapeHtml(card.className ? card.className + cardTextAlignClass + cardTitleSizeClass : resolvedCardClassName)}">
                                     <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
 ${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
                                     </div>
@@ -2552,6 +2553,7 @@ function resolveTextMediaSemanticLayout(section) {
   const mediaMobileSpacingClass = {
     none: "",
     tight: "mt-3 mt-md-0",
+    loose: "mt-4 mt-md-0",
     section: "mt-3 pt-3 mt-md-0 pt-md-0",
   }[mobileMediaSpacing] || "";
   const textVerticalAlignClass = copyVerticalAlign === "center" ? "align-self-center" : "";
@@ -2985,10 +2987,18 @@ function renderIconCardGridSection(section) {
   );
   const headerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
-  const cardListClassName = section.cardListClassName || "row row_compact justify-content-center list-unstyled mb-0";
+  const cardsPerRowClass = {
+    2: "col col-12 col-md-6",
+    3: "col col-12 col-md-4",
+    4: "col col-12 col-md-3",
+  }[section.layout?.cardsPerRow];
+  const cardListClassName = section.cardListClassName
+    // row_compact's compensating padding only targets .col-xxl-5up (the default
+    // cardColumnClass below); a custom cardsPerRow needs plain Bootstrap gutters instead.
+    || (cardsPerRowClass ? "row justify-content-center list-unstyled mb-0" : "row row_compact justify-content-center list-unstyled mb-0");
   const cardMarkup = (section.cards || [])
     .map(
-      (card) => `                    <li class="${escapeHtml(section.cardColumnClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
+      (card) => `                    <li class="${escapeHtml(section.cardColumnClass || cardsPerRowClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
                         <div class="ic-card ic-card-horizontal-mobile ic-background-white">
                             <div class="ic-card-body">
 ${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
@@ -3002,7 +3012,12 @@ ${indentBlock(resolveIconSvg(card).trim(), 32)}
     )
     .join("\n\n");
 
-  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.className, section.__autoSectionClassName))}">
+  // The left-intro split layout narrows the card column (see introPosition branch
+  // below), which needs the compact card treatment in _card-media.scss — content
+  // authors only set layout.introPosition, this class is a derived consequence, not
+  // a separate option.
+  const splitVariantClass = section.layout?.introPosition === "left" ? "ic-icon-card-grid--split" : "";
+  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, splitVariantClass, section.__autoSectionClassName))}">
             <div class="container">`;
   const sectionClose = `            </div>
         </section>`;
@@ -3064,6 +3079,10 @@ function renderLogoGridSection(section) {
   const defaultLogoColumnClass = section.logoStyle === "box" ? "col-auto" : "col-auto mt-3 pt-3 px-md-4";
   const scrollRows = section.logoStyle === "box" && typeof section.logoScrollRows === "number" ? section.logoScrollRows : null;
   const fluidContainer = section.layout?.logoContainer === "fluid";
+  // logoGrid has no layout.copyFlow mechanism of its own; the fluid variant's intro
+  // needs the same flex-removal/responsive-align treatment as textMedia's copyFlow.
+  // Derived from logoContainer: fluid, not a separate content-author option.
+  const splitVariantClass = fluidContainer ? "ic-logo-grid--split" : "";
   const logoMarkup = (section.logos || [])
     .map(
       (logo) => `                            <li class="${escapeHtml(section.logoColumnClass || defaultLogoColumnClass)}">
@@ -3086,7 +3105,7 @@ ${logoMarkup}
   const introColumnClass = section.introColumnClass || `col col-md-10 col-lg-8 col-xl-6${introAlignClass}`;
 
   if (fluidContainer) {
-    return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
+    return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), splitVariantClass, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-3 pb-3">
                     <div class="${escapeHtml(introColumnClass)}">
@@ -3104,7 +3123,7 @@ ${bodyMarkup ? `\n${bodyMarkup}` : ""}${linkListMarkup}
         </section>`;
   }
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), splitVariantClass, section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center mb-2">
                     <div class="${escapeHtml(introColumnClass)}">
@@ -3240,7 +3259,7 @@ function renderStickyEmbedSection(section) {
   const contentColumnClass = section.contentColumnClass || {
     narrow: "col col-12 col-lg-10 col-xl-8",
     default: "col col-12 col-lg-10 col-xl-9",
-    ten: "col col-12 col-xl-10",
+    wider: "col col-12 col-xl-10",
     full: "col col-12",
   }[stickyCardsContentWidth] || "col col-12 col-lg-10 col-xl-9";
   const introColumnClass = section.introColumnClass || "col col-12 col-md-6 col-xl-4 mb-4 pr-md-4";
@@ -3289,7 +3308,7 @@ function renderStickyCardsSection(section) {
   const contentColumnClass = section.contentColumnClass || {
     narrow: "col col-12 col-lg-10 col-xl-8",
     default: "col col-12 col-lg-10 col-xl-9",
-    ten: "col col-12 col-xl-10",
+    wider: "col col-12 col-xl-10",
     full: "col col-12",
   }[stickyCardsContentWidth] || "col col-12 col-lg-10 col-xl-9";
   const introColumnClass = section.introColumnClass || "col col-12 col-md-6 col-xl-5 mb-4 pr-md-4";

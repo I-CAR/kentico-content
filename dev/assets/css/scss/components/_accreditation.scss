@@ -99,4 +99,11 @@
 .ic-card-icon--image {
     max-width: 100%;
     height: auto;
+
+    // Mobile/tablet cap (md and down). This is the only current consumer of
+    // .ic-card-icon--image (governance's two icon-card-grid sections) — a fixed
+    // design value, not a content-author option.
+    @include mq(md, down) {
+        max-width: 72px;
+    }
 }
