@@ -1,0 +1,148 @@
+@use "../abstracts/mixins" as *;
+
+// ic-table: shared table component for structured data presentations.
+// Two variants: roster (stacked at mobile) and stats (borderless two-column).
+// No legacy class names (table-stack, checkmark, etc.) appear in rendered output.
+
+// Scroll wrapper for wide tables
+.ic-table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// Base table reset
+.ic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--primary-font);
+    font-size: 1rem;
+}
+
+.ic-table:last-child {
+    margin-bottom: 0;
+}
+
+// Check icon for boolean columns (replaces legacy .checkmark class)
+.ic-table-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    color: var(--primary-color);
+}
+
+// ---------------------------------------------------------------------------
+// Roster variant: 6-column table that stacks at mobile.
+// YAML: table.variant: "roster"
+// ---------------------------------------------------------------------------
+
+.ic-table--roster {
+    thead th {
+        text-align: left;
+        font-weight: var(--semibold);
+        padding: var(--space-8) var(--space-12);
+        border-bottom: 2px solid var(--darkest);
+        white-space: nowrap;
+    }
+
+    tbody tr + tr {
+        border-top: 1px solid var(--light);
+    }
+
+    tbody th,
+    tbody td {
+        padding: var(--space-8) var(--space-12);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    // Row-header columns (position, name) keep normal weight
+    tbody .ic-table-row-header {
+        font-weight: normal;
+    }
+}
+
+// Stacked card layout at ≤768 px
+@include mq(md, down) {
+    .ic-table--roster {
+        // Hide column headers; labels come from data-label
+        thead {
+            display: none;
+        }
+
+        tbody tr {
+            display: block;
+            padding: var(--space-12) 0;
+        }
+
+        tbody tr + tr {
+            border-top: 1px solid var(--light);
+        }
+
+        tbody th,
+        tbody td {
+            display: flex;
+            gap: var(--space-8);
+            padding: var(--space-4) 0;
+            font-weight: normal;
+            border: none;
+        }
+
+        // Column label appears before the cell value
+        tbody th::before,
+        tbody td::before {
+            content: attr(data-label) ":";
+            font-weight: var(--semibold);
+            flex: 0 0 9rem;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Stats variant: borderless two-column table (label left, value right).
+// Optional .ic-box wrapper via table.boxed: true.
+// YAML: table.variant: "stats"
+// ---------------------------------------------------------------------------
+
+.ic-table--stats {
+    tbody th,
+    tbody td,
+    tfoot th,
+    tfoot td {
+        padding: var(--space-8) 0;
+        border: none;
+    }
+
+    tbody th,
+    tfoot th {
+        font-weight: normal;
+        text-align: left;
+    }
+
+    tbody td,
+    tfoot td {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    // Total / emphasis rows
+    .ic-table-row--total th,
+    .ic-table-row--total td {
+        font-weight: var(--bold);
+    }
+
+    // Extra space above a total row that follows non-total rows
+    tbody .ic-table-row--total:not(:first-child) th,
+    tbody .ic-table-row--total:not(:first-child) td {
+        padding-top: var(--space-20);
+    }
+
+    tfoot {
+        border-top: 1px solid var(--light);
+    }
+
+    tfoot tr th,
+    tfoot tr td {
+        padding-top: var(--space-15);
+    }
+}

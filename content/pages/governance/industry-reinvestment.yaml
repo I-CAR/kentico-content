@@ -1,0 +1,177 @@
+slug: industry-reinvestment
+title: Governance - Industry Reinvestment
+sections:
+  # ─── Section 1: Hero ──────────────────────────────────────────────────────────
+  # Source: lines 1–25. ic-section ic-section-hero (no section id in source).
+  - id: page-hero
+    type: hero
+    heading: "Industry Reinvestment"
+    body: "I-CAR's Industry Impact Fund is a strategic reserve component governed by the I-CAR Board for the industry's benefit. These reinvestments have contributed to I-CAR's strong financial position, enabling the organization to continue providing valuable training and services to the collision repair industry. I-CAR is committed to leading the industry forward with excellence in training, technical information, and collaboration in a dynamic environment impacted by increasing repair complexity and challenges recruiting technicians."
+    image:
+      desktopSrc: "/getmedia/120a13bf-2a54-41c6-a6c4-48ad258e979f/Hero_1724w.webp"
+      desktopSrcset: "/getmedia/c9877564-fa63-4170-9f6a-9073cf6f1072/Hero_400w.webp 400w, /getmedia/895acf54-562e-4424-9f6b-d38484b99f93/Hero_800w.webp 800w, /getmedia/04e5bb96-d506-43a7-9557-02c68452a530/Hero_862w.webp 862w, /getmedia/0da83a5b-e545-44d0-8037-14734ded5a9a/Hero_1456w.webp 1456w, /getmedia/e4753531-920f-414b-a7c3-8cffa58a31f4/Hero_1600w.webp 1600w, /getmedia/120a13bf-2a54-41c6-a6c4-48ad258e979f/Hero_1724w.webp 1724w"
+      sizes: "(max-width: 400px) 400px, (max-width: 768px) 728px, 945px"
+      alt: "Two collision repair technician students at I-CAR's ADAS lab learning how to measure and perform an ADAS calibration."
+      width: 945
+      height: 500
+    imageClassName: ic-image-rounded
+
+  # ─── Section 2: 2025 Impact Report (textMedia, media left) ───────────────────
+  # Source: lines 27–59. ic-section ic-background-light, id=impact-report.
+  # Image is linked (<a href="/onlinemagazine/2025_Impact_Report">). Uses imageLink.
+  # Semantic layout: desktopMediaPosition left, mobileMediaOrder above, desktopSplit text-5-media-7.
+  # PENDING-INFRA: semantic split gives col-md-6 for both; source col-md-5 (text) / col-md-7 col-lg-5 (media).
+  # PENDING-INFRA: rowVerticalAlign:center gives justify-content-between; source had justify-content-center.
+  # STRUCTURAL DIFFERENCES (source → typed):
+  #   article.col-xl-10 → div.col-xl-10 (element type only; no visual diff)
+  - id: impact-report
+    type: textMedia
+    backgroundColor: light
+    heading: "2025 I-CAR Impact Report"
+    body: "Explore I-CAR's key achievements, initiatives, and reinvestments. The report demonstrates I-CAR's continued commitment to leading the industry forward with excellence in training, technical information, and collaboration in a dynamic environment impacted by increasing repair complexity and challenges recruiting technicians."
+    buttons:
+      - label: "Read the Report"
+        href: "/onlinemagazine/2025_Impact_Report"
+        target: _blank
+        location: header
+    image:
+      desktopSrc: "/getmedia/75be72f9-d579-4769-96d9-55e79eb9bc74/ImpactReport2025_400w.webp"
+      desktopSrcset: "/getmedia/75be72f9-d579-4769-96d9-55e79eb9bc74/ImpactReport2025_400w.webp 400w, /getmedia/3db98533-be66-4575-a807-c21cf383f627/ImpactReport2025_800w.webp 800w, /getmedia/398c5fa8-9efb-4905-aeba-aad6c5323dcc/ImpactReport2025_1600w.webp 1600w"
+      sizes: "(max-width: 400px) 362px, (max-width: 768px) 728px, 615px"
+      alt: "I-CAR 2025 Impact Report featuring key achievements, initiatives, reinvestments and commitment to leading the auto collision repair industry forward."
+      width: 615
+      height: 400
+    imageLink:
+      href: "/onlinemagazine/2025_Impact_Report"
+      target: _blank
+      title: "Read the Report"
+    layout:
+      desktopMediaPosition: "left"
+      mobileMediaOrder: "above"
+      desktopSplit: "text-5-media-7"
+      rowVerticalAlign: "center"
+
+  # ─── Section 3: Impact Fund Cards ────────────────────────────────────────────
+  # Source: lines 61–152. ic-section (no background), id=impact-fund-current.
+  # 3 cards: heading (h3), label (ic-card-label), body text, image (ic-card-image ic-image-rounded).
+  # Card 2 body contains an inline link → bodyHtml used for that card only.
+  - id: impact-fund-current
+    type: cards
+    heading: "I-CAR Industry Impact Fund Currently at Work"
+    # ic-card-label has no dedicated card field → bodyClassName: "ic-card-label" renders label,
+    # contentHtml renders the body text paragraph with explicit ic-card-text class.
+    cards:
+      - heading: "Talent Programming Initiative"
+        bodyClassName: "ic-card-label"
+        body: "$20.9M OVER 3 YEARS"
+        contentHtml: '<p class="ic-card-text">I-CAR is committed to attracting, training, and retaining technicians who will fuel the future of the industry. Through our U.S. Department of Labor-approved National Registered Apprenticeship program, we&#39;re expanding access to structured, earn-while-you-learn career pathways. We&#39;re also collaborating to better position the industry, implementing shop-approved training solutions, and providing schools with next-level programming to support tomorrow&#39;s technicians.</p>'
+        image:
+          desktopSrc: "/getmedia/87e18fee-8a48-4972-bc0f-2f76fab1d808/Talent-Programming-Initiative_800w.jpeg"
+          alt: "I-CAR student learning from a collision repair technician instructor in a shop setting through I-CAR's National Registered Apprenticeship program."
+          height: 400
+      - heading: "Consumer Branding Awareness"
+        bodyClassName: "ic-card-label"
+        body: "$1.8M OVER 18 MONTHS"
+        contentHtml: '<p class="ic-card-text">I-CAR is strengthening its consumer brand to promote safety and build trust in collision repair. Through our &ldquo;Count on I-CAR&rdquo; message, a refreshed brand, consumer education on the value of Gold Class, and the Gold Class Shop Locator at <a href="https://goldclass.i-car.com/" target="_blank">GoldClass.I-CAR.com</a>, we&#39;re helping consumers make informed decisions while equipping Gold Class shops with marketing tools to promote their commitment to safe, quality repairs.</p>'
+        image:
+          desktopSrc: "/getmedia/61dbbe1f-4fbb-4a51-9c9e-79fb44976034/Consumer-Branding-Awareness_800w.webp"
+          alt: 'I-CAR booth at a tradeshow featuring "I Count on I-CAR" message to promote safety and build trust in collision repair training.'
+          height: 400
+      - heading: "Advanced Learning Effectiveness"
+        bodyClassName: "ic-card-label"
+        body: "$1.1M OVER 1.5 YEARS"
+        contentHtml: '<p class="ic-card-text">Through continued research, I-CAR has reimagined course delivery to enhance learning and accessibility. We&#39;re introducing more engaging, flexible experiences through interactive and adaptive online learning, paired with a more hands-on approach using Mixed Reality to better prepare technicians for real-world application.</p>'
+        image:
+          desktopSrc: "/getmedia/c0892c6e-1921-40b5-9312-b66926f6fbdb/Advanced-Learning-Effectiveness_800w.webp"
+          desktopSrcset: "/getmedia/87eb8880-a8c3-48f9-97cd-a8b08ecb49e2/Advanced-Learning-Effectiveness_400w.webp 400w, /getmedia/c0892c6e-1921-40b5-9312-b66926f6fbdb/Advanced-Learning-Effectiveness_800w.webp 800w, /getmedia/da1933c3-affb-4ac3-b869-bae084848733/Advanced-Learning-Effectiveness_1600w.webp 1600w"
+          sizes: "(max-width: 400px) 362px, (max-width: 768px) 728px, 486px"
+          alt: "I-CAR student technician with a headset using Mixed Reality learning to prepare for real-world auto collision repair."
+          height: 400
+
+  # ─── Section 4: Re-investments to Support the Industry (textMedia) ───────────
+  # Source: lines 154–186. ic-section ic-background-light, id=industry-support.
+  # Text left at desktop (mobileMediaOrder above, desktopMediaPosition right is default).
+  # Semantic layout: rowVerticalAlign center → justify-content-between align-items-center (exact match).
+  # imageClassName removed → semantic default ic-section-image ic-image-rounded.
+  # PENDING-INFRA: semantic split gives col-md-6; source col-md-5 (text) / col-md-7 (media).
+  - id: industry-support
+    type: textMedia
+    backgroundColor: light
+    heading: "Re-investments to Support the Industry"
+    body: "A healthy reserve with Board oversight, funded by ongoing retained earnings, is vital to I-CAR's ongoing operational sustainability while enabling reinvestment in strategic initiatives responsive to industry needs. I-CAR reserve levels are governed within not-for-profit best practices for organizations with similar scales of operations and service levels. Reserves are there to help weather emergencies or recessionary pressures, provide for necessary capital reinvestments and to support strategic initiatives that directly support industry needs, allowing I-CAR to self-fund versus incurring debt. I-CAR has diligently re-invested in strategic initiatives that further industry training outcomes, strategically expand services driven by industry voice, and annual support for CREF, all geared to create industry benefits that align with I-CAR's vision and mission."
+    image:
+      desktopSrc: "/getmedia/08062367-6c44-4696-b7f6-2652b7858f37/Re-investments-to-Support-Industry_800w-M.webp"
+      desktopSrcset: "/getmedia/08062367-6c44-4696-b7f6-2652b7858f37/Re-investments-to-Support-Industry_400w-M.webp 400w, /getmedia/08062367-6c44-4696-b7f6-2652b7858f37/Re-investments-to-Support-Industry_800w-M.webp 800w, /getmedia/08062367-6c44-4696-b7f6-2652b7858f37/Re-investments-to-Support-Industry_1600w-M.webp 1600w"
+      sizes: "(max-width: 400px) 362px, 744px"
+      alt: "I-CAR reinvestments supporting the collision repair industry."
+      width: 744
+      height: 403
+    layout:
+      mobileMediaOrder: "above"
+      desktopSplit: "text-5-media-7"
+      rowVerticalAlign: "center"
+
+  # ─── Section 5: Financial Recap (text + stats table) ─────────────────────────
+  # Source: lines 188–239. ic-section ic-background-white, id=financial-recap.
+  # Source has h2.text-center → typed renderer uses ic-section-title; heading alignment
+  # differs (no text-center class on h2 in ic-section without textColumnClass override).
+  # leadText replaces <p class="ic-lead text-center">.
+  # boxed: true → ic-box ic-background-light wrapper.
+  # STRUCTURAL DIFFERENCES:
+  #   Source: h2 (no class) → typed: h2.ic-section-title
+  #   Source: <p class="ic-lead text-center"> → typed: <p class="ic-lead text-center"> (leadText)
+  #   Source: table.table.table-borderless → typed: table.ic-table.ic-table--stats
+  #   Source: <tr class="total"> → typed: ic-table-row--total
+  - id: financial-recap
+    type: text
+    backgroundColor: white
+    heading: "Financial Recap"
+    table:
+      variant: stats
+      leadText: "For the year ended 12/31/2025"
+      boxed: true
+      rows:
+        - label: "Revenue"
+          value: "$73M"
+          emphasis: total
+        - label: "Direct Expense"
+          value: "$16M"
+        - label: "Operating Expense"
+          value: "$53M"
+        - label: "Operating Income"
+          value: "$4M"
+          emphasis: total
+        - label: "Investment Income"
+          value: "$12M"
+        - label: "CREF Donations"
+          value: "($273K)"
+        - label: "Industry Impact Fund Initiatives"
+          value: "($13M)"
+      footerRows:
+        - label: "Net Income"
+          value: "$2M"
+          emphasis: total
+
+  # ─── Section 6: Reserves Recap (text + stats table, pt-0) ────────────────────
+  # Source: lines 241–272. ic-section ic-background-white pt-0, id=reserves-recap.
+  # pt-0 expressed via spacing.paddingTop: none (→ resolveSectionSpacingClassNames adds pt-0).
+  # STRUCTURAL DIFFERENCES: same as section 5.
+  - id: reserves-recap
+    type: text
+    backgroundColor: white
+    spacing:
+      paddingTop: "none"
+    heading: "Reserves Recap"
+    table:
+      variant: stats
+      leadText: "For the year ended 12/31/2025"
+      boxed: true
+      rows:
+        - label: "Operating Fund"
+          value: "$59M"
+        - label: "Industry Impact Fund"
+          value: "$47M"
+      footerRows:
+        - label: "Total Reserves"
+          value: "$106M"
+          emphasis: total

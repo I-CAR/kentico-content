@@ -128,6 +128,46 @@ const sectionTemplateRegistry = {
         paddingTop: "none",
       },
     }),
+    pathDropdown: (id) => ({
+      id,
+      type: "hero",
+      heading: titleFromId(id),
+      paragraphs: [
+        "Add approved introductory copy for this hero section.",
+      ],
+      image: placeholderImage({
+        alt: `${titleFromId(id)} image`,
+        desktopWidth: 3200,
+        desktopHeight: 580,
+        mobileWidth: 400,
+        mobileHeight: 300,
+      }),
+      pathDropdown: {
+        label: "Choose Your Path",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
+    }),
+    labelAbove: (id) => ({
+      id,
+      type: "hero",
+      heading: titleFromId(id),
+      label: "Section Label",
+      layout: { labelPosition: "above" },
+      paragraphs: [
+        "Add approved introductory copy for this hero section.",
+      ],
+      image: placeholderImage({
+        alt: `${titleFromId(id)} image`,
+        desktopWidth: 3200,
+        desktopHeight: 580,
+        mobileWidth: 400,
+        mobileHeight: 300,
+      }),
+    }),
   },
   pageNav: {
     default: (id) => ({
@@ -234,6 +274,41 @@ const sectionTemplateRegistry = {
       paragraphs: [
         "Add body copy for this section.",
       ],
+    }),
+    roster: (id) => ({
+      ...baseSection(id, "text"),
+      heading: "Board Members",
+      table: {
+        variant: "roster",
+        caption: "I‑CAR Board Roster",
+        columns: [
+          { key: "position", label: "Board Position" },
+          { key: "name", label: "Name" },
+          { key: "organization", label: "Organization" },
+          { key: "segment", label: "Segment" },
+          { key: "termEnds", label: "Term Ends" },
+          { key: "eligible", label: "Incumbent Eligible for Re-Election", type: "boolean" },
+        ],
+        rows: [
+          { position: "Chair", name: "Member Name", organization: "Organization", segment: "Segment", termEnds: "Q4 20XX", eligible: false },
+        ],
+      },
+    }),
+    stats: (id) => ({
+      ...baseSection(id, "text"),
+      heading: "Financial Recap",
+      table: {
+        variant: "stats",
+        leadText: "For the year ended 12/31/20XX",
+        boxed: true,
+        rows: [
+          { label: "Revenue", value: "$0M", emphasis: "total" },
+          { label: "Direct Expense", value: "$0M" },
+        ],
+        footerRows: [
+          { label: "Net Income", value: "$0M", emphasis: "total" },
+        ],
+      },
     }),
   },
   statementList: {
@@ -342,6 +417,15 @@ const sectionTemplateRegistry = {
           heading: "Second Subsection Heading",
           body: "Add body copy for this subsection.",
         },
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    labelAbove: (id) => ({
+      ...baseSection(id, "textMedia"),
+      label: "Section Label",
+      layout: { labelPosition: "above" },
+      paragraphs: [
+        "Add body copy that pairs with the supporting image.",
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
     }),
@@ -629,6 +713,20 @@ const sectionTemplateRegistry = {
     }),
   },
   accordion: {
+    "desktop-split": (id) => ({
+      ...baseSection(id, "accordion"),
+      layout: { desktopSplit: "text-5-media-7" },
+      heading: "Section Heading",
+      paragraphs: [
+        "Add introductory copy for this accordion.",
+      ],
+      items: Array.from({ length: 3 }, (_, index) => ({
+        title: `Accordion Item ${index + 1}`,
+        paragraphs: [
+          "Add supporting copy for this accordion item.",
+        ],
+      })),
+    }),
     default: (id) => ({
       ...baseSection(id, "accordion"),
       paragraphs: [
@@ -652,6 +750,21 @@ const sectionTemplateRegistry = {
     }),
   },
   mediaSlider: {
+    courses: (id) => ({
+      ...baseSection(id, "mediaSlider"),
+      variant: "courses",
+      slides: Array.from({ length: 4 }, (_, index) => ({
+        title: `Course Title ${index + 1}`,
+        href: "https://www.i-car.com/product/course-slug/salesforce-id",
+        linkTitle: "View course details",
+        image: {
+          src: "/getmedia/placeholder/Course-Image.webp",
+          alt: `Course ${index + 1} image`,
+          width: 491,
+          height: 327,
+        },
+      })),
+    }),
     default: (id) => ({
       ...baseSection(id, "mediaSlider"),
       paragraphs: [

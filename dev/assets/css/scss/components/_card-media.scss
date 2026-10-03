@@ -65,6 +65,16 @@ a.ic-card-media-link {
     }
 }
 
+// Visible CTA label on linked cards. The stretched-link on the heading provides the
+// accessible name; this element is aria-hidden and provides the visual CTA affordance.
+// YAML: card.ctaLabel (requires card.href)
+.ic-card-cta {
+    color: var(--link-color);
+    text-decoration: underline;
+    font-weight: var(--semibold);
+    margin-top: var(--space-8);
+}
+
 // Block-flow text column opt-in. (0,5,0) beats the shared content-column rule
 // .ic-section .col:has(h1,h2,.ic-section-title.ic-h1) at (0,4,0) in _sections.scss.
 // Restores margin collapse between headings and paragraphs (flex prevents it).

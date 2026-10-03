@@ -1968,6 +1968,23 @@ function renderHeroVideo(video, className) {
         </video>`;
 }
 
+const PATH_DROPDOWN_CHEVRON = `<svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 512 298.04" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z"/></svg>`;
+
+function renderPathDropdown(section) {
+  const dropdown = section.pathDropdown;
+  if (!dropdown) return "";
+  const dropdownId = `${escapeHtml(section.id)}-path-dropdown`;
+  const itemsMarkup = (dropdown.items || [])
+    .map((item) => `                                    <li><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></li>`)
+    .join("\n");
+  return `\n                            <div class="ic-dropdown-container js-ic-dropdown-container">
+                                <button class="ic-btn ic-btn-primary ic-btn-dropdown js-ic-btn-dropdown" type="button" aria-expanded="false" aria-controls="${dropdownId}">${renderText(dropdown.label)} ${PATH_DROPDOWN_CHEVRON}</button>
+                                <ul class="ic-dropdown ic-dropdown-menu js-ic-dropdown ic-visually-hidden" id="${dropdownId}" aria-hidden="true" inert>
+${itemsMarkup}
+                                </ul>
+                            </div>`;
+}
+
 function renderHeroSection(section) {
   // Support both legacy and structured properties
   // Structured properties: title, subtitle, label, sublabel, body, image, buttons, etc.
@@ -2056,13 +2073,26 @@ function renderHeroSection(section) {
                             ${imageMarkup}
                         </a>` : imageMarkup}
                     </div>`;
-  const heroBodyMarkup = `                            <${headingTag} class="${escapeHtml(visibleTitleClassName)}">${renderText(heroHeadline)}</${headingTag}>
+  const labelAbove = section.layout?.labelPosition === "above";
+  const pathDropdownMarkup = section.pathDropdown
+    ? renderPathDropdown(section)
+    : "";
+  const heroBodyMarkup = labelAbove && section.label
+    ? `                            <p class="ic-label">${renderText(section.label)}</p>
+                            <${headingTag} class="${escapeHtml(visibleTitleClassName)}">${renderText(heroHeadline)}</${headingTag}>
+                            ${section.sublabel ? `<p class="${escapeHtml(section.sublabelClassName || "ic-sublabel")}">${renderText(section.sublabel, { widowProtection: true })}</p>` : ""}
+${bodyMarkup ? `${bodyMarkup}\n\n` : ""}${buttonsMarkup}${pathDropdownMarkup}
+${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}`
+    : `                            <${headingTag} class="${escapeHtml(visibleTitleClassName)}">${renderText(heroHeadline)}</${headingTag}>
                             ${section.label ? `<p class="ic-label">${renderText(section.label)}</p>` : ""}
                             ${section.sublabel ? `<p class="${escapeHtml(section.sublabelClassName || "ic-sublabel")}">${renderText(section.sublabel, { widowProtection: true })}</p>` : ""}
-${bodyMarkup ? `${bodyMarkup}\n\n` : ""}${buttonsMarkup}
+${bodyMarkup ? `${bodyMarkup}\n\n` : ""}${buttonsMarkup}${pathDropdownMarkup}
 ${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}`;
-  const heroContentMarkup = heroBoxClassName
-    ? `                        <div class="${escapeHtml(heroBoxClassName)}">
+  const heroBoxClassWithMod = labelAbove && section.label
+    ? `${heroBoxClassName} ic-hero-body--label-above`
+    : heroBoxClassName;
+  const heroContentMarkup = heroBoxClassWithMod
+    ? `                        <div class="${escapeHtml(heroBoxClassWithMod)}">
 ${heroBodyMarkup}                        </div>`
     : heroBodyMarkup;
 
@@ -2322,6 +2352,9 @@ ${card.listItems
                   )
                   .join("<br>\n")}\n                                        </p>\n`
                 : "";
+              const ctaLabelMarkup = card.href && card.ctaLabel && !separateLinks
+                ? `                                        <p class="ic-card-cta" aria-hidden="true">${renderText(card.ctaLabel)}</p>\n`
+                : "";
               const figureMarkup = card.image
                 ? `                                    <figure class="ic-card-media${escapeHtml(imageBoxClass)}">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName, "lazy", "card", `card "${cardHeading || "unknown"}" image`)}
@@ -2340,7 +2373,7 @@ ${figureMarkup}
               return `                            <li class="${escapeHtml(cardColumnClass)}">
                                 <div class="${escapeHtml(card.className ? card.className + cardTextAlignClass + cardTitleSizeClass : resolvedCardClassName)}">
                                     <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
-${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}
+${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}${ctaLabelMarkup}
                                     </div>
 ${mediaMarkup}
                                 </div>
@@ -2396,6 +2429,70 @@ ${cardMarkup}
 ${sectionClose}`;
 }
 
+// Inline SVG checkmark for boolean roster cells (replaces legacy .checkmark class)
+const IC_TABLE_CHECK_SVG = '<svg class="ic-table-check" aria-hidden="true" viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M13.5 3.5a1 1 0 0 0-1.4 0L6 9.6 3.9 7.5a1 1 0 0 0-1.4 1.4l2.8 2.8a1 1 0 0 0 1.4 0L13.5 4.9a1 1 0 0 0 0-1.4z"/></svg>';
+
+function renderRosterTable(table) {
+  const columns = table.columns || [];
+  const rows = table.rows || [];
+  const captionMarkup = table.caption
+    ? `\n                                <caption class="ic-visually-hidden">${escapeHtml(table.caption)}</caption>`
+    : "";
+  const theadCells = columns
+    .map((col) => `\n                                        <th scope="col">${escapeHtml(col.label)}</th>`)
+    .join("");
+  const thead = `\n                                <thead>\n                                    <tr>${theadCells}\n                                    </tr>\n                                </thead>`;
+  const tbodyRows = rows
+    .map((row) => {
+      const cells = columns
+        .map((col, i) => {
+          const rawVal = row[col.key] ?? "";
+          if (col.type === "boolean") {
+            const isYes = rawVal === true || rawVal === "yes" || rawVal === "true";
+            return `\n                                        <td data-label="${escapeHtml(col.label)}"><span class="ic-visually-hidden">${isYes ? "Yes" : "No"}</span>${isYes ? IC_TABLE_CHECK_SVG : ""}</td>`;
+          }
+          if (i < 2) {
+            return `\n                                        <th class="ic-table-row-header" scope="row" data-label="${escapeHtml(col.label)}">${renderText(String(rawVal))}</th>`;
+          }
+          return `\n                                        <td data-label="${escapeHtml(col.label)}">${renderText(String(rawVal))}</td>`;
+        })
+        .join("");
+      return `\n                                    <tr>${cells}\n                                    </tr>`;
+    })
+    .join("");
+  const tbody = `\n                                <tbody>${tbodyRows}\n                                </tbody>`;
+  return `                <div class="row justify-content-center">\n                    <div class="col-12 col-md-auto">\n                        <div class="ic-table-responsive">\n                            <table class="ic-table ic-table--roster">${captionMarkup}${thead}${tbody}\n                            </table>\n                        </div>\n                    </div>\n                </div>`;
+}
+
+function renderStatsTable(table) {
+  function renderRow(row) {
+    const rowClass = row.emphasis === "total" ? ' class="ic-table-row--total"' : "";
+    return `<tr${rowClass}>\n                                    <th scope="row">${renderText(String(row.label ?? ""))}</th>\n                                    <td>${renderText(String(row.value ?? ""))}</td>\n                                </tr>`;
+  }
+  const bodyRows = (table.rows || []).map((r) => renderRow(r)).join("\n                                ");
+  const footerRows = (table.footerRows || []).map((r) => renderRow(r)).join("\n                                ");
+  const tbody = `<tbody>\n                                ${bodyRows}\n                            </tbody>`;
+  const tfoot = footerRows
+    ? `\n                            <tfoot>\n                                ${footerRows}\n                            </tfoot>`
+    : "";
+  const leadMarkup = table.leadText
+    ? `\n                <p class="ic-lead text-center">${renderText(String(table.leadText))}</p>`
+    : "";
+  const tableEl = `<table class="ic-table ic-table--stats">\n                            ${tbody}${tfoot}\n                        </table>`;
+  const boxed = table.boxed !== false ? table.boxed === true : false;
+  const inner = boxed
+    ? `<div class="ic-box ic-background-light">\n                        ${tableEl}\n                    </div>`
+    : tableEl;
+  return `${leadMarkup}\n                <div class="row justify-content-center">\n                    <div class="col-12 col-md-10 col-lg-8 col-xl-6">\n                        ${inner}\n                    </div>\n                </div>`;
+}
+
+function renderDataTable(table) {
+  if (!table?.variant) return { inner: "", outer: "" };
+  if (table.variant === "roster") return { inner: "", outer: renderRosterTable(table) };
+  if (table.variant === "stats") return { inner: "", outer: renderStatsTable(table) };
+  return { inner: "", outer: "" };
+}
+
 function renderTextSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const textLayout = section.layout || {};
@@ -2426,6 +2523,7 @@ function renderTextSection(section) {
     })
     : renderButtons(buttons, resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"));
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const { outer: tableMarkup } = renderDataTable(section.table);
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
@@ -2435,7 +2533,7 @@ function renderTextSection(section) {
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
                     </div>
-                </div>
+                </div>${tableMarkup ? `\n${tableMarkup}` : ""}
             </div>
 ${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
@@ -2664,9 +2762,14 @@ function renderTextMediaSection(section) {
     : "col col-12 col-md-6 mt-3 pt-1 mt-md-0 pt-md-0");
   const contentColumnClass = section.contentColumnClass || semanticLayout?.contentColumnClass || "col col-12 col-xl-10";
   const rowClassName = section.rowClassName || semanticLayout?.rowClassName || "row justify-content-between align-items-center";
-  const textColumn = `                            <div class="${escapeHtml(textColumnClasses)}">
-                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
-${section.label ? `                                <p class="${escapeHtml(section.labelClassName || "ic-label")}">${renderText(section.label)}</p>\n` : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
+  const textLabelAbove = section.layout?.labelPosition === "above";
+  const textLabelMarkup = section.label ? `                                <p class="${escapeHtml(section.labelClassName || "ic-label")}">${renderText(section.label)}</p>\n` : "";
+  const textColumnClassesFinal = textLabelAbove && section.label
+    ? `${textColumnClasses} ic-text-column--label-above`
+    : textColumnClasses;
+  const textColumn = `                            <div class="${escapeHtml(textColumnClassesFinal)}">
+${textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
+${!textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
     : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || joinClassNames("ic-section-image", section.imageRounded === false ? "" : "ic-image-rounded"), "lazy", "textMedia", `section "${section.id}" image`);
@@ -2996,10 +3099,12 @@ function renderIconCardGridSection(section) {
     // row_compact's compensating padding only targets .col-xxl-5up (the default
     // cardColumnClass below); a custom cardsPerRow needs plain Bootstrap gutters instead.
     || (cardsPerRowClass ? "row justify-content-center list-unstyled mb-0" : "row row_compact justify-content-center list-unstyled mb-0");
+  const cardTextAlignClass = section.layout?.cardTextAlign === "center" ? " ic-card--text-center" : "";
   const cardMarkup = (section.cards || [])
     .map(
-      (card) => `                    <li class="${escapeHtml(section.cardColumnClass || cardsPerRowClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
-                        <div class="ic-card ic-card-horizontal-mobile ic-background-white">
+      (card) => {
+        return `                    <li class="${escapeHtml(section.cardColumnClass || cardsPerRowClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
+                        <div class="ic-card ic-card-horizontal-mobile ic-background-white${escapeHtml(cardTextAlignClass)}">
                             <div class="ic-card-body">
 ${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
 ${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card, "ic-card-text"), 32)}\n` : ""}
@@ -3008,7 +3113,8 @@ ${hasParagraphContent(card) ? `${indentBlock(renderParagraphContent(card, "ic-ca
 ${indentBlock(resolveIconSvg(card).trim(), 32)}
                             </figure>
                         </div>
-                    </li>`,
+                    </li>`;
+      },
     )
     .join("\n\n");
 
@@ -3017,7 +3123,7 @@ ${indentBlock(resolveIconSvg(card).trim(), 32)}
   // authors only set layout.introPosition, this class is a derived consequence, not
   // a separate option.
   const splitVariantClass = section.layout?.introPosition === "left" ? "ic-icon-card-grid--split" : "";
-  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, splitVariantClass, section.__autoSectionClassName))}">
+  const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), splitVariantClass, section.__autoSectionClassName))}">
             <div class="container">`;
   const sectionClose = `            </div>
         </section>`;
@@ -3230,7 +3336,7 @@ ${linksMarkup}
     })
     .join("\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
@@ -3268,7 +3374,7 @@ function renderStickyEmbedSection(section) {
   const addressMarkup = section.addressHtml ? renderTrustedHtml(section.addressHtml) : "";
   const embedMarkup = section.embedHtml ? renderTrustedHtml(section.embedHtml) : "";
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
@@ -3323,7 +3429,7 @@ function renderStickyCardsSection(section) {
       const hasLinkItemMeta = linkItems.some((item) => item.meta);
       const linkListMarkupInner = linkItems
         .map(
-          (item) => `                                            <li><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a>${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
+          (item) => `                                            <li>${item.href ? `<a${renderAnchorAttributes(item)}>` : ""}${renderText(item.label)}${item.href ? "</a>" : ""}${item.meta ? `<span>${renderText(item.meta)}</span>` : ""}</li>`,
         )
         .join("\n");
       const linkTableMarkup = linkItems.length && linkItemsPresentation === "table"
@@ -3337,7 +3443,7 @@ function renderStickyCardsSection(section) {
                                             <tbody>
 ${linkItems
           .map(
-            (item) => `                                                <tr><th scope="row"><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></th>${hasLinkItemMeta ? `<td>${item.meta ? renderText(item.meta) : ""}</td>` : ""}</tr>`,
+            (item) => `                                                <tr><th scope="row">${item.href ? `<a${renderAnchorAttributes(item)}>` : ""}${renderText(item.label)}${item.href ? "</a>" : ""}</th>${hasLinkItemMeta ? `<td>${item.meta ? renderText(item.meta) : ""}</td>` : ""}</tr>`,
           )
           .join("\n")}
                                             </tbody>
@@ -3350,9 +3456,12 @@ ${linkItems
 
       const cardBodyMarkup = renderParagraphContent(card);
 
+      const cardTitleContent = card.href
+        ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>`
+        : renderText(getCardHeading(card));
       return `                                <div class="ic-card ic-background-white">
                                     <div class="ic-card-body">
-                                        <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${renderText(getCardHeading(card))}</h3>
+                                        <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${cardTitleContent}</h3>
 ${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${cardBodyMarkup ? `${indentBlock(cardBodyMarkup, 40)}\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
 ${listMarkupInner}
                                         </ul>
@@ -3365,7 +3474,7 @@ ${linkListMarkupInner}
     })
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
@@ -3602,6 +3711,28 @@ ${item.listItems
   return [paragraphs, htmlParagraphs, listIntro, listMarkup, closingText].filter(Boolean).join("\n");
 }
 
+function resolveAccordionSplitClasses(section) {
+  const desktopSplit = section.layout?.desktopSplit;
+  if (!desktopSplit) return null;
+  const outerClass = {
+    equal: "col col-12 col-lg-10 col-xl-8",
+    "text-5-media-7": "col col-12 col-lg-10 col-xl-9",
+    "text-7-media-5": "col col-12 col-lg-10 col-xl-9",
+  }[desktopSplit];
+  const introClass = {
+    equal: "col col-12 col-md-6",
+    "text-5-media-7": "col col-12 col-md-6 col-xl-5 mb-4 pr-md-4",
+    "text-7-media-5": "col col-12 col-md-6 col-xl-7 mb-4 pr-md-4",
+  }[desktopSplit];
+  const accordionClass = {
+    equal: "col col-12 col-md-6 pt-2 pt-md-0 pl-md-4",
+    "text-5-media-7": "col col-12 col-md-6 col-xl-7 pt-2 pt-md-0 pl-md-4",
+    "text-7-media-5": "col col-12 col-md-6 col-xl-5 pt-2 pt-md-0 pl-md-4",
+  }[desktopSplit];
+  if (!outerClass || !introClass || !accordionClass) return null;
+  return { outerClass, introClass, accordionClass };
+}
+
 function renderAccordionSection(section) {
   if (section.variant === "goldClassFaq") {
     return renderGoldClassFaqSection(section);
@@ -3610,6 +3741,10 @@ function renderAccordionSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const introBodyMarkup = indentBlock(renderParagraphContent(section), 32);
   const accordionId = escapeHtml(section.accordionId || `${section.id}Accordion`);
+  const split = resolveAccordionSplitClasses(section);
+  const outerColClass = split ? split.outerClass : "col col-12 col-lg-10 col-xl-8";
+  const introColClass = section.introColumnClass || (split ? split.introClass : "col col-12 col-md-6 col-xl");
+  const accordionColClass = section.accordionColumnClass || (split ? split.accordionClass : "col col-12 col-md-6 col-xl-auto pt-2 pt-md-0 pl-md-4");
   const itemsMarkup = (section.items || [])
     .map((item, index) => {
       const itemNumber = index + 1;
@@ -3631,17 +3766,17 @@ ${renderAccordionItemBody(item)}
     })
     .join("\n\n");
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col col-12 col-lg-10 col-xl-8">
+                    <div class="${escapeHtml(outerColClass)}">
                         <div class="row justify-content-center">
 
-                            <div class="${escapeHtml(section.introColumnClass || "col col-12 col-md-6 col-xl")}">
+                            <div class="${escapeHtml(introColClass)}">
                                 <h2 class="${escapeHtml(section.titleClassName || "ic-section-title ic-sticky")}">${renderText(getSectionHeading(section))}</h2>
 ${introBodyMarkup ? `${introBodyMarkup}\n` : ""}                            </div>
 
-                            <div class="${escapeHtml(section.accordionColumnClass || "col col-12 col-md-6 col-xl-auto pt-2 pt-md-0 pl-md-4")}">
+                            <div class="${escapeHtml(accordionColClass)}">
                                 <div class="${escapeHtml(section.accordionClassName || "accordion py-0")}" id="${accordionId}">
 ${itemsMarkup}
                                 </div>
@@ -3677,7 +3812,53 @@ ${indentBlock(renderTrustedHtml(section.embedHtml || ""), 24)}
         </section>`;
 }
 
+function renderCoursesSliderSection(section) {
+  const backgroundClass = getBackgroundClassName(section);
+  const introBodyMarkup = indentBlock(renderParagraphContent(section), 24);
+  const slidesMarkup = (section.slides || [])
+    .map((slide, index) => {
+      const imgMarkup = slide.image
+        ? renderImg(slide.image, "ic-card-image", { loading: index === 0 ? "eager" : "lazy", context: `slide ${index + 1} image` })
+        : "";
+      const titleText = renderText(slide.title || "");
+      const titleMarkup = slide.href
+        ? `<a class="stretched-link" href="${escapeHtml(slide.href)}" title="${escapeHtml(slide.linkTitle || "View course details")}">${titleText}</a>`
+        : titleText;
+      return `                                <div class="swiper-slide">
+                                    <div class="ic-card ic-background-white">
+                                        <div class="ic-card-body">
+                                            <h3 class="ic-card-title">${titleMarkup}</h3>
+                                        </div>
+${imgMarkup ? `                                        <figure class="ic-card-media">${imgMarkup}</figure>\n` : ""}                                    </div>
+                                </div>`;
+    })
+    .join("\n\n");
+  const heading = getSectionHeading(section);
+  const headingRow = heading
+    ? `\n                <div class="row justify-content-center mb-3">
+                    <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
+                        <h2 class="ic-section-title">${renderText(heading)}</h2>
+${introBodyMarkup ? `${introBodyMarkup}\n` : ""}                    </div>
+                </div>`
+    : "";
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
+            <div class="container">${headingRow}
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-9 col-lg-10 p-0">
+                        <div class="swiper ic-swiper js-ic-swiper-courses ic-swiper-courses">
+                            <div class="swiper-wrapper">
+${slidesMarkup}
+                            </div>
+                        </div>
+                        <button aria-label="Previous courses" class="ic-swiper-nav ic-swiper-nav-prev js-ic-swiper-nav-prev" type="button">❮</button><button aria-label="Next courses" class="ic-swiper-nav ic-swiper-nav-next js-ic-swiper-nav-next" type="button">❯</button>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
 function renderMediaSliderSection(section) {
+  if (section.variant === "courses") return renderCoursesSliderSection(section);
   const backgroundClass = getBackgroundClassName(section);
   const introBodyMarkup = indentBlock(renderParagraphContent(section), 32);
   const slidesMarkup = (section.slides || [])

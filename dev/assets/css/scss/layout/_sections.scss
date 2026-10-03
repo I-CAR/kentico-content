@@ -53,6 +53,13 @@ section.ic-section[id] {
 
 .ic-section:has(.ic-btn-dropdown[aria-expanded="true"]) {
     z-index: 2;
+    overflow: visible;
+}
+
+.ic-hero-body--label-above > p.ic-label,
+.ic-text-column--label-above > p.ic-label {
+    order: 0;
+    margin-bottom: var(--space-8);
 }
 
 .ic-section:has(h1, h2, .ic-section-title.ic-h1) .ic-section-title,

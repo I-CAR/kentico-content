@@ -5,14 +5,29 @@
 
 .ic-dropdown {
     position: absolute;
+    z-index: 1;
     top: calc(100% + var(--space-10));
     left: 0;
     width: var(--space-300);
-    max-height: calc(132rem / var(--rem-base));
+    max-width: calc(100vw - 2rem);
+    max-height: calc(200rem / var(--rem-base));
     overflow: auto;
     padding: 0.35em 0;
     border-radius: var(--border-radius-sm);
     text-align: left;
     background: var(--white);
     box-shadow: 0px 3px var(--space-20) #00000033;
+}
+
+// In a hero section the menu spans the full container width, matching the legacy behavior.
+// max-width: calc(100vw - 2rem) on .ic-dropdown still wins at narrow screens (cascades normally).
+.ic-section-hero .ic-dropdown {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ic-dropdown-menu > li > a:not(.ic-btn):hover,
+.ic-dropdown-menu > li > a:not(.ic-btn):focus-visible {
+    background-color: var(--light);
+    text-decoration: none;
 }
