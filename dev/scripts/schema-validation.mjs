@@ -28,6 +28,89 @@ const ALLOWED_SECTION_TYPES = [
 
 const ALLOWED_BUTTON_VARIANTS = ["primary", "outline", "white", "gray"];
 const ALLOWED_HERO_VARIANTS = ["default", "banner", "split"];
+const ALLOWED_LIST_VARIANTS = ["labeled", "ordered", "checks"];
+const ALLOWED_DECORATIVE_IMAGE_PLACEMENTS = ["cover", "bottom"];
+const ALLOWED_TEXT_SECTION_WIDTHS = ["default", "narrow", "full"];
+
+function validateSectionList(list, ctx, path = ["list"]) {
+    if (list === undefined || list === null) return;
+    if (typeof list !== "object" || Array.isArray(list)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "object", received: typeof list, message: "list must be an object", path });
+        return;
+    }
+    if (!ALLOWED_LIST_VARIANTS.includes(list.variant)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_LIST_VARIANTS, received: list.variant, message: `list.variant must be one of: ${ALLOWED_LIST_VARIANTS.join(", ")}`, path: [...path, "variant"] });
+    }
+    if (!Array.isArray(list.items) || list.items.length === 0) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "list.items must be a non-empty array", path: [...path, "items"] });
+    } else if (list.variant === "labeled") {
+        list.items.forEach((item, i) => {
+            if (!item?.label) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "labeled list item requires label", path: [...path, "items", i, "label"] });
+            if (!item?.value) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "labeled list item requires value", path: [...path, "items", i, "value"] });
+        });
+    } else {
+        list.items.forEach((item, i) => {
+            const text = typeof item === "string" ? item : item?.text;
+            if (!text) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "list item must be a string or have a text property", path: [...path, "items", i] });
+        });
+    }
+}
+
+function validateDecorativeImage(di, ctx, path = ["decorativeImage"]) {
+    if (di === undefined || di === null) return;
+    if (typeof di !== "object" || Array.isArray(di)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "object", received: typeof di, message: "decorativeImage must be an object", path });
+        return;
+    }
+    if (!ALLOWED_DECORATIVE_IMAGE_PLACEMENTS.includes(di.placement)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_DECORATIVE_IMAGE_PLACEMENTS, received: di.placement, message: `decorativeImage.placement must be one of: ${ALLOWED_DECORATIVE_IMAGE_PLACEMENTS.join(", ")}`, path: [...path, "placement"] });
+    }
+    if (!di.image || typeof di.image !== "object") {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image is required", path: [...path, "image"] });
+    } else {
+        if (!di.image.desktopSrc) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.desktopSrc is required", path: [...path, "image", "desktopSrc"] });
+        if (!di.image.width) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.width is required", path: [...path, "image", "width"] });
+        if (!di.image.height) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.height is required", path: [...path, "image", "height"] });
+        if (Array.isArray(di.image.sources)) {
+            di.image.sources.forEach((s, i) => {
+                if (!s?.srcset) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.sources[].srcset is required", path: [...path, "image", "sources", i, "srcset"] });
+                if (!s?.width) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.sources[].width is required", path: [...path, "image", "sources", i, "width"] });
+                if (!s?.height) ctx.addIssue({ code: z.ZodIssueCode.custom, message: "decorativeImage.image.sources[].height is required", path: [...path, "image", "sources", i, "height"] });
+            });
+        }
+    }
+}
+// layout.contentWidth on textMedia — distinct from layout.width on text sections (which uses col-xl-5 for narrow)
+const ALLOWED_TEXT_MEDIA_CONTENT_WIDTHS = ["default", "narrow", "wide", "full"];
+
+const ALLOWED_PATH_DROPDOWN_VARIANTS = ["primary", "outline"];
+
+function validatePathDropdown(pd, ctx, path = ["pathDropdown"]) {
+    if (pd === undefined || pd === null) return;
+    if (typeof pd !== "object" || Array.isArray(pd)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "object", received: typeof pd, message: "pathDropdown must be an object", path });
+        return;
+    }
+    if (!pd.label || typeof pd.label !== "string") {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "string", received: typeof pd.label, message: "pathDropdown.label is required", path: [...path, "label"] });
+    }
+    if (!Array.isArray(pd.items) || pd.items.length === 0) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown.items must be a non-empty array", path: [...path, "items"] });
+    } else {
+        pd.items.forEach((item, i) => {
+            if (!item?.label || typeof item.label !== "string") {
+                ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown item label is required", path: [...path, "items", i, "label"] });
+            }
+            if (!item?.href || typeof item.href !== "string") {
+                ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown item href is required", path: [...path, "items", i, "href"] });
+            }
+        });
+    }
+    if (pd.variant !== undefined && !ALLOWED_PATH_DROPDOWN_VARIANTS.includes(pd.variant)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_PATH_DROPDOWN_VARIANTS, received: pd.variant, message: `pathDropdown.variant must be one of: ${ALLOWED_PATH_DROPDOWN_VARIANTS.join(", ")}`, path: [...path, "variant"] });
+    }
+}
+
 const ALLOWED_BACKGROUND_THEMES = ["light", "white", "dark"];
 const ALLOWED_IMAGE_PLACEMENTS = ["column", "background"];
 const ALLOWED_HEADING_TAGS = ["h1", "h2", "h3", "p"];
@@ -102,6 +185,12 @@ export const TextMediaSectionSchema = z.record(z.any()).superRefine((data, ctx) 
     if (data.layout?.labelPosition !== undefined && data.layout.labelPosition !== "above") {
         ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ["above"], received: data.layout.labelPosition, message: "layout.labelPosition must be \"above\"", path: ["layout", "labelPosition"] });
     }
+    if (data.layout?.contentWidth !== undefined && !ALLOWED_TEXT_MEDIA_CONTENT_WIDTHS.includes(data.layout.contentWidth)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_TEXT_MEDIA_CONTENT_WIDTHS, received: data.layout.contentWidth, message: `layout.contentWidth must be one of: ${ALLOWED_TEXT_MEDIA_CONTENT_WIDTHS.join(", ")}`, path: ["layout", "contentWidth"] });
+    }
+    validateSectionList(data.list, ctx);
+    validateDecorativeImage(data.decorativeImage, ctx);
+    validatePathDropdown(data.pathDropdown, ctx);
 });
 
 // IconCardGrid section schema - permissive during transition phase
@@ -148,6 +237,35 @@ export const CardsSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
             });
         }
     }
+    validatePathDropdown(data.pathDropdown, ctx);
+});
+
+// CTA section schema
+export const CtaSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
+    if (data.type !== "cta") {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_literal, expected: "cta", received: data.type, message: "Section type must be 'cta'", path: ["type"] });
+    }
+    const htmlKeys = ["bodyHtml", "html", "contentHtml"];
+    for (const key of htmlKeys) {
+        if (key in data) {
+            ctx.addIssue({ code: z.ZodIssueCode.forbidden, message: `Inline HTML key '${key}' is not allowed. Use structured properties instead.`, path: [key] });
+        }
+    }
+    validatePathDropdown(data.pathDropdown, ctx);
+});
+
+// StatementList section schema
+export const StatementListSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
+    if (data.type !== "statementList") {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_literal, expected: "statementList", received: data.type, message: "Section type must be 'statementList'", path: ["type"] });
+    }
+    const htmlKeys = ["bodyHtml", "html", "contentHtml"];
+    for (const key of htmlKeys) {
+        if (key in data) {
+            ctx.addIssue({ code: z.ZodIssueCode.forbidden, message: `Inline HTML key '${key}' is not allowed. Use structured properties instead.`, path: [key] });
+        }
+    }
+    validatePathDropdown(data.pathDropdown, ctx);
 });
 
 // Accordion section schema - permissive during transition phase
@@ -269,28 +387,7 @@ export const HeroSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
         }
     }
 
-    // Validate pathDropdown if present
-    if (data.pathDropdown !== undefined) {
-        if (typeof data.pathDropdown !== "object" || data.pathDropdown === null) {
-            ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "object", received: typeof data.pathDropdown, message: "pathDropdown must be an object", path: ["pathDropdown"] });
-        } else {
-            if (!data.pathDropdown.label || typeof data.pathDropdown.label !== "string") {
-                ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "string", received: typeof data.pathDropdown.label, message: "pathDropdown.label is required", path: ["pathDropdown", "label"] });
-            }
-            if (!Array.isArray(data.pathDropdown.items) || data.pathDropdown.items.length === 0) {
-                ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown.items must be a non-empty array", path: ["pathDropdown", "items"] });
-            } else {
-                data.pathDropdown.items.forEach((item, i) => {
-                    if (!item.label || typeof item.label !== "string") {
-                        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown item label is required", path: ["pathDropdown", "items", i, "label"] });
-                    }
-                    if (!item.href || typeof item.href !== "string") {
-                        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "pathDropdown item href is required", path: ["pathDropdown", "items", i, "href"] });
-                    }
-                });
-            }
-        }
-    }
+    validatePathDropdown(data.pathDropdown, ctx);
 
     // Validate layout.labelPosition if present
     if (data.layout?.labelPosition !== undefined && data.layout.labelPosition !== "above") {
@@ -415,6 +512,18 @@ export const TextSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
             });
         }
     }
+    if (data.layout?.width !== undefined && !ALLOWED_TEXT_SECTION_WIDTHS.includes(data.layout.width)) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.invalid_enum_value,
+            options: ALLOWED_TEXT_SECTION_WIDTHS,
+            received: data.layout.width,
+            message: `layout.width must be one of: ${ALLOWED_TEXT_SECTION_WIDTHS.join(", ")}`,
+            path: ["layout", "width"],
+        });
+    }
+    validateSectionList(data.list, ctx);
+    validateDecorativeImage(data.decorativeImage, ctx);
+    validatePathDropdown(data.pathDropdown, ctx);
 });
 
 // Template schema
@@ -502,6 +611,12 @@ export function validatePageData(data, filePath) {
                         break;
                     case "text":
                         result = validateSection(section, TextSectionSchema, filePath);
+                        break;
+                    case "cta":
+                        result = validateSection(section, CtaSectionSchema, filePath);
+                        break;
+                    case "statementList":
+                        result = validateSection(section, StatementListSectionSchema, filePath);
                         break;
                     case "mediaSlider":
                         result = validateSection(section, MediaSliderSectionSchema, filePath);

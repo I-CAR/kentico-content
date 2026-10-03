@@ -267,6 +267,26 @@ const sectionTemplateRegistry = {
         },
       ],
     }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "cards"),
+      paragraphs: [
+        "Add introductory copy above the card grid.",
+      ],
+      pathDropdown: {
+        label: "Choose Your Path",
+        variant: "outline",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
+      cards: [
+        { id: "card-1", heading: "Card One", paragraphs: ["Add card body copy."] },
+        { id: "card-2", heading: "Card Two", paragraphs: ["Add card body copy."] },
+        { id: "card-3", heading: "Card Three", paragraphs: ["Add card body copy."] },
+      ],
+    }),
   },
   text: {
     default: (id) => ({
@@ -310,6 +330,80 @@ const sectionTemplateRegistry = {
         ],
       },
     }),
+    listOrdered: (id) => ({
+      ...baseSection(id, "text"),
+      paragraphs: [
+        "Add introductory copy above the ordered list.",
+      ],
+      list: {
+        variant: "ordered",
+        items: [
+          { text: "First step or item." },
+          { text: "Second step or item." },
+          { text: "Third step or item." },
+        ],
+      },
+    }),
+    listChecks: (id) => ({
+      ...baseSection(id, "text"),
+      paragraphs: [
+        "Add introductory copy above the check list.",
+      ],
+      list: {
+        variant: "checks",
+        heading: "Add a subheading (optional)",
+        items: [
+          { text: "First benefit or requirement." },
+          { text: "Second benefit or requirement." },
+          { text: "Third benefit or requirement." },
+        ],
+      },
+    }),
+    decorativeImageCover: (id) => ({
+      ...baseSection(id, "text"),
+      paragraphs: [
+        "Add body copy. The decorative image sits behind the section content.",
+      ],
+      decorativeImage: {
+        placement: "cover",
+        image: {
+          desktopSrc: "https://placehold.co/1440x600",
+          width: "1440",
+          height: "600",
+          alt: "",
+        },
+      },
+    }),
+    decorativeImageBottom: (id) => ({
+      ...baseSection(id, "text"),
+      paragraphs: [
+        "Add body copy. The decorative image appears below the content, full-width.",
+      ],
+      decorativeImage: {
+        placement: "bottom",
+        image: {
+          desktopSrc: "https://placehold.co/1440x500",
+          width: "1440",
+          height: "500",
+          alt: "",
+        },
+      },
+    }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "text"),
+      paragraphs: [
+        "Add introductory copy above the path dropdown.",
+      ],
+      pathDropdown: {
+        label: "Choose Your Path",
+        variant: "outline",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
+    }),
   },
   statementList: {
     default: (id) => ({
@@ -346,6 +440,26 @@ const sectionTemplateRegistry = {
         },
       ],
     }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "statementList"),
+      textAlignment: "center",
+      body: [
+        "Add a short introduction for these statements.",
+      ],
+      statements: [
+        { heading: "Statement One", body: "Add supporting copy for the first statement." },
+        { heading: "Statement Two", body: "Add supporting copy for the second statement." },
+      ],
+      pathDropdown: {
+        label: "Choose Your Path",
+        variant: "outline",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
+    }),
   },
   textMedia: {
     default: (id) => ({
@@ -359,6 +473,14 @@ const sectionTemplateRegistry = {
           href: "#next-step",
           variant: "outline",
         },
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    narrow: (id) => ({
+      ...baseSection(id, "textMedia"),
+      layout: { contentWidth: "narrow" },
+      paragraphs: [
+        "Add body copy that pairs with the supporting image.",
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
     }),
@@ -428,6 +550,102 @@ const sectionTemplateRegistry = {
         "Add body copy that pairs with the supporting image.",
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    listLabeled: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add introductory copy above the labeled list.",
+      ],
+      list: {
+        variant: "labeled",
+        columns: 2,
+        items: [
+          { label: "Label One", value: "Value or description for this item." },
+          { label: "Label Two", value: "Value or description for this item." },
+          { label: "Label Three", value: "Value or description for this item." },
+          { label: "Label Four", value: "Value or description for this item." },
+        ],
+      },
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    listOrdered: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add introductory copy above the ordered list.",
+      ],
+      list: {
+        variant: "ordered",
+        items: [
+          { text: "First step or item." },
+          { text: "Second step or item." },
+          { text: "Third step or item." },
+        ],
+      },
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    listChecks: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add introductory copy above the check list.",
+      ],
+      list: {
+        variant: "checks",
+        heading: "Add a subheading (optional)",
+        items: [
+          { text: "First benefit or requirement." },
+          { text: "Second benefit or requirement." },
+          { text: "Third benefit or requirement." },
+        ],
+      },
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    decorativeImageBottom: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add body copy. The decorative image appears below the content, full-width.",
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+      decorativeImage: {
+        placement: "bottom",
+        image: {
+          desktopSrc: "https://placehold.co/1440x500",
+          width: "1440",
+          height: "500",
+          alt: "",
+        },
+      },
+    }),
+    decorativeImageCover: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add body copy. The decorative image sits behind the section content.",
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+      decorativeImage: {
+        placement: "cover",
+        image: {
+          desktopSrc: "https://placehold.co/1440x600",
+          width: "1440",
+          height: "600",
+          alt: "",
+        },
+      },
+    }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "textMedia"),
+      paragraphs: [
+        "Add body copy that pairs with the supporting image.",
+      ],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+      pathDropdown: {
+        label: "Choose Your Path",
+        variant: "outline",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
     }),
   },
   quote: {
@@ -710,6 +928,21 @@ const sectionTemplateRegistry = {
           variant: "outline",
         },
       ],
+    }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "cta"),
+      paragraphs: [
+        "Add closing copy that supports the final call to action.",
+      ],
+      pathDropdown: {
+        label: "Choose Your Path",
+        variant: "outline",
+        items: [
+          { label: "Path One", href: "#path-one" },
+          { label: "Path Two", href: "#path-two" },
+          { label: "Path Three", href: "#path-three" },
+        ],
+      },
     }),
   },
   accordion: {

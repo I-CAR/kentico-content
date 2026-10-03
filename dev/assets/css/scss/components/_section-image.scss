@@ -1,0 +1,8 @@
+// Decorative image at the bottom of a section, in-flow and full-width (placement: bottom).
+// Use with spacing: { paddingBottom: "none" } on the section to eliminate the gap.
+// Cover placement (placement: cover) reuses .ic-image-banner from base/_media.scss
+// and the position/overflow rules in layout/_sections.scss.
+.ic-section-bg-img {
+    display: block;
+    width: 100%;
+}

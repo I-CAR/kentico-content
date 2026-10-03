@@ -1970,19 +1970,26 @@ function renderHeroVideo(video, className) {
 
 const PATH_DROPDOWN_CHEVRON = `<svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 512 298.04" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z"/></svg>`;
 
-function renderPathDropdown(section) {
-  const dropdown = section.pathDropdown;
+function renderPathDropdownMarkup(dropdown, sectionId, indent) {
   if (!dropdown) return "";
-  const dropdownId = `${escapeHtml(section.id)}-path-dropdown`;
+  const dropdownId = `${escapeHtml(sectionId)}-path-dropdown`;
+  const pad = " ".repeat(indent);
+  const pad4 = " ".repeat(indent + 4);
+  const pad8 = " ".repeat(indent + 8);
+  const outlineClass = (dropdown.variant || "primary") === "outline" ? " ic-btn-outline" : "";
   const itemsMarkup = (dropdown.items || [])
-    .map((item) => `                                    <li><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></li>`)
+    .map((item) => `${pad8}<li><a${renderAnchorAttributes(item)}>${renderText(item.label)}</a></li>`)
     .join("\n");
-  return `\n                            <div class="ic-dropdown-container js-ic-dropdown-container">
-                                <button class="ic-btn ic-btn-primary ic-btn-dropdown js-ic-btn-dropdown" type="button" aria-expanded="false" aria-controls="${dropdownId}">${renderText(dropdown.label)} ${PATH_DROPDOWN_CHEVRON}</button>
-                                <ul class="ic-dropdown ic-dropdown-menu js-ic-dropdown ic-visually-hidden" id="${dropdownId}" aria-hidden="true" inert>
+  return `\n${pad}<div class="ic-dropdown-container js-ic-dropdown-container">
+${pad4}<button class="ic-btn ic-btn-primary${outlineClass} ic-btn-dropdown js-ic-btn-dropdown" type="button" aria-expanded="false" aria-controls="${dropdownId}">${renderText(dropdown.label)} ${PATH_DROPDOWN_CHEVRON}</button>
+${pad4}<ul class="ic-dropdown ic-dropdown-menu js-ic-dropdown ic-visually-hidden" id="${dropdownId}" aria-hidden="true" inert>
 ${itemsMarkup}
-                                </ul>
-                            </div>`;
+${pad4}</ul>
+${pad}</div>`;
+}
+
+function renderPathDropdown(section) {
+  return renderPathDropdownMarkup(section.pathDropdown, section.id, 28);
 }
 
 function renderHeroSection(section) {
@@ -2383,6 +2390,7 @@ ${mediaMarkup}
           .join("\n\n");
       })();
 
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
   const sectionOpen = `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">`;
   const sectionClose = `${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
@@ -2399,7 +2407,7 @@ ${mediaMarkup}
                 <div class="row justify-content-center ${escapeHtml(leftVerticalAlign)}">
                     <div class="col col-12 col-xl-4">
                         ${renderSectionHeading(section)}
-${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
+${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}${pathDropdownMarkup}
                     </div>
 
                     <div class="col col-12 col-xl-6">
@@ -2415,7 +2423,7 @@ ${sectionClose}`;
                 <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
                     <div class="${escapeHtml(introColumnClass)}">
                         ${renderSectionHeading(section)}
-${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}
+${introBodyMarkup ? `\n${introBodyMarkup}` : ""}${headerButtonsMarkup ? `\n\n${headerButtonsMarkup}` : ""}${pathDropdownMarkup}
                     </div>
                 </div>
 
@@ -2493,6 +2501,54 @@ function renderDataTable(table) {
   return { inner: "", outer: "" };
 }
 
+function renderSectionList(list, indent = 24) {
+  if (!list) return "";
+  const { variant, items = [], columns, footnote, heading } = list;
+  const pad = " ".repeat(indent);
+  const padItem = " ".repeat(indent + 4);
+  const headingMarkup = heading ? `${pad}<h3 class="ic-subsection-title">${renderText(heading)}</h3>\n` : "";
+
+  if (variant === "labeled") {
+    const colClass = columns === 2 ? " ic-list-block--cols-2" : "";
+    const itemsMarkup = items
+      .map((item) => `${padItem}<li><strong>${renderText(item.label)}</strong><br>${renderText(item.value)}</li>`)
+      .join("\n");
+    const footnoteMarkup = footnote ? `\n${pad}<p class="ic-disclaimer">${renderText(footnote, { widowProtection: true })}</p>` : "";
+    return `${headingMarkup}${pad}<ul class="ic-list-block ic-list-block--labeled${colClass}">\n${itemsMarkup}\n${pad}</ul>${footnoteMarkup}`;
+  }
+
+  if (variant === "ordered") {
+    const itemsMarkup = items
+      .map((item) => {
+        const text = typeof item === "string" ? item : (item.text || "");
+        return `${padItem}<li>${renderText(text, { widowProtection: true })}</li>`;
+      })
+      .join("\n");
+    return `${headingMarkup}${pad}<ol class="ic-list-block ic-list-block--ordered">\n${itemsMarkup}\n${pad}</ol>`;
+  }
+
+  if (variant === "checks") {
+    const itemsMarkup = items
+      .map((item) => {
+        const text = typeof item === "string" ? item : (item.text || "");
+        return `${padItem}<li>${renderText(text, { widowProtection: true })}</li>`;
+      })
+      .join("\n");
+    return `${headingMarkup}${pad}<ul class="ic-check-list">\n${itemsMarkup}\n${pad}</ul>`;
+  }
+
+  return "";
+}
+
+function renderDecorativeImage(decorativeImage, indent = 8) {
+  if (!decorativeImage?.image) return "";
+  const imgClass = decorativeImage.placement === "cover" ? "ic-image-banner" : "ic-section-bg-img";
+  const picHtml = renderPicture(decorativeImage.image, imgClass, "lazy", "decorative", `decorativeImage in section`);
+  if (!picHtml) return "";
+  const pad = " ".repeat(indent);
+  return pad + picHtml.replace("<picture>", '<picture aria-hidden="true">').trim();
+}
+
 function renderTextSection(section) {
   const backgroundClass = getBackgroundClassName(section);
   const textLayout = section.layout || {};
@@ -2504,6 +2560,7 @@ function renderTextSection(section) {
   const introColumnClass = joinClassNames(
     {
       default: "col col-md-10 col-lg-8 col-xl-6",
+      narrow: "col col-md-10 col-lg-8 col-xl-5",
       full: "col col-12",
     }[textLayout.width || "default"] || "col col-md-10 col-lg-8 col-xl-6",
     textAlignment === "start" ? "" : "text-md-center",
@@ -2524,18 +2581,22 @@ function renderTextSection(section) {
     : renderButtons(buttons, resolveButtonClassName({ variant: actionsVariant }, "ic-btn ic-btn-primary ic-btn-outline"));
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const { outer: tableMarkup } = renderDataTable(section.table);
+  const listMarkup = renderSectionList(section.list, 24);
+  const decorativeCoverMarkup = section.decorativeImage?.placement === "cover" ? renderDecorativeImage(section.decorativeImage, 12) : "";
+  const decorativeBottomMarkup = section.decorativeImage?.placement === "bottom" ? renderDecorativeImage(section.decorativeImage, 8) : "";
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", backgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
-            <div class="container">
+${decorativeCoverMarkup ? `${decorativeCoverMarkup}\n` : ""}            <div class="container">
                 <div class="${escapeHtml(buildStructuredSectionRowClassName(section))}">
                     <div class="${escapeHtml(introColumnClass)}">
                         ${renderSectionHeading(section)}
-${bodyMarkup ? `\n${bodyMarkup}` : ""}
-${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
+${bodyMarkup ? `\n${bodyMarkup}` : ""}${listMarkup ? `\n\n${listMarkup}` : ""}
+${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}${pathDropdownMarkup}
                     </div>
                 </div>${tableMarkup ? `\n${tableMarkup}` : ""}
             </div>
-${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
+${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}${decorativeBottomMarkup ? `\n${decorativeBottomMarkup}` : ""}
         </section>`;
 }
 
@@ -2560,13 +2621,15 @@ function renderStatementListSection(section) {
     )
     .join("\n\n");
 
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
+
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(section.contentColumnClass || joinNonEmptyClassNames("col col-md-10 col-lg-8 col-xl-6", contentAlignmentClass))}">
                         <h2 class="${escapeHtml(sectionHeadingClass)}">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}\n` : ""}
-${statementsMarkup}
+${statementsMarkup}${pathDropdownMarkup}
                     </div>
                 </div>
             </div>
@@ -2577,6 +2640,7 @@ function renderCtaSection(section) {
   const bodyMarkup = renderParagraphContent(section);
   const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section ic-background-light", section.__autoSectionClassName))}">
             <div class="container">
@@ -2584,7 +2648,7 @@ function renderCtaSection(section) {
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
                         <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
-${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}
+${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}${pathDropdownMarkup}
                     </div>
                 </div>
             </div>
@@ -2621,6 +2685,7 @@ function resolveTextMediaSemanticLayout(section) {
 
   const contentColumnClass = {
     default: "col col-12 col-xl-10",
+    narrow: "col col-12 col-lg-10 col-xl-8",
     wide: "col col-12 col-lg-10 col-xl-9",
     full: "col col-12",
   }[contentWidth] || "col col-12 col-xl-10";
@@ -2767,9 +2832,13 @@ function renderTextMediaSection(section) {
   const textColumnClassesFinal = textLabelAbove && section.label
     ? `${textColumnClasses} ic-text-column--label-above`
     : textColumnClasses;
+  const listMarkup = renderSectionList(section.list, 32);
+  const decorativeCoverMarkup = section.decorativeImage?.placement === "cover" ? renderDecorativeImage(section.decorativeImage, 12) : "";
+  const decorativeBottomMarkup = section.decorativeImage?.placement === "bottom" ? renderDecorativeImage(section.decorativeImage, 8) : "";
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 32);
   const textColumn = `                            <div class="${escapeHtml(textColumnClassesFinal)}">
 ${textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
-${!textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}                            </div>`;
+${!textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${listMarkup ? `${listMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}${pathDropdownMarkup ? `${pathDropdownMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
     : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || joinClassNames("ic-section-image", section.imageRounded === false ? "" : "ic-image-rounded"), "lazy", "textMedia", `section "${section.id}" image`);
@@ -2785,7 +2854,7 @@ ${linkedPictureMarkup}
                             </div>`;
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.sectionClassName, section.__autoSectionClassName))}">
-            <div class="container">
+${decorativeCoverMarkup ? `${decorativeCoverMarkup}\n` : ""}            <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
                         <div class="${escapeHtml(rowClassName)}">
@@ -2794,7 +2863,7 @@ ${(section.layout?.desktopMediaPosition || (section.reverse ? "left" : "right"))
                     </div>
                 </div>
             </div>
-${footerLinksMarkup ? `\n${footerLinksMarkup}` : ""}${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
+${footerLinksMarkup ? `\n${footerLinksMarkup}` : ""}${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}${decorativeBottomMarkup ? `\n${decorativeBottomMarkup}` : ""}
         </section>`;
 }
 

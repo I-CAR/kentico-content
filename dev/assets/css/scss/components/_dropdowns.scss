@@ -19,8 +19,13 @@
     box-shadow: 0px 3px var(--space-20) #00000033;
 }
 
-// In a hero section the menu spans the full container width, matching the legacy behavior.
-// max-width: calc(100vw - 2rem) on .ic-dropdown still wins at narrow screens (cascades normally).
+// In a hero section the menu spans the full content column width, matching the legacy behavior.
+// .ic-box has align-items:flex-start, so the container must override to stretch.
+// At narrow screens, max-width: calc(100vw - 2rem) on .ic-dropdown still wins (cascades normally).
+.ic-section-hero .ic-dropdown-container {
+    align-self: stretch;
+}
+
 .ic-section-hero .ic-dropdown {
     width: 100%;
     max-width: 100%;

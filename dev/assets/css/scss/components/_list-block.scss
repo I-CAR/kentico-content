@@ -1,0 +1,37 @@
+@use "../abstracts/mixins" as *;
+
+.ic-list-block {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: var(--space-12);
+}
+
+// Default: 2 columns (xs and md+). Plain media query below widens to 3 at sm range.
+// Source: Bootstrap col-6 (2 col), col-sm-4 (3 col ≥576px), col-md-6 (2 col ≥768px).
+// mq(sm, only) cannot match this exactly — it fires at 576.1px–768px (inclusive),
+// giving 3 columns at 768px (iPad portrait). Use a plain query instead.
+.ic-list-block--labeled {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12) var(--space-20);
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .ic-list-block--labeled:not(.ic-list-block--cols-2) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.ic-list-block--labeled li strong {
+    display: block;
+    margin-bottom: var(--space-4);
+}
+
+.ic-list-block--ordered {
+    padding-left: var(--space-20);
+    list-style: decimal;
+}
+
+.ic-list-block--ordered li + li {
+    margin-top: var(--space-12);
+}
