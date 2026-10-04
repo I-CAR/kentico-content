@@ -551,6 +551,9 @@ function renderAnchorAttributes(link = {}, {
 
   if (!shouldDownload && target) {
     attributes.push(`target="${escapeHtml(target)}"`);
+    if (target === "_blank") {
+      attributes.push(`rel="noopener noreferrer"`);
+    }
   }
 
   if (ariaLabel) {
