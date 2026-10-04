@@ -14,7 +14,7 @@ sections:
       alt: "Two collision repair technician students at I-CAR's ADAS lab learning how to measure and perform an ADAS calibration."
       width: 945
       height: 500
-    imageClassName: ic-image-rounded
+    imageStyle: rounded
 
   # ─── Section 2: 2025 Impact Report (textMedia, media left) ───────────────────
   # Source: lines 27–59. ic-section ic-background-light, id=impact-report.
@@ -54,33 +54,30 @@ sections:
   # ─── Section 3: Impact Fund Cards ────────────────────────────────────────────
   # Source: lines 61–152. ic-section (no background), id=impact-fund-current.
   # 3 cards: heading (h3), label (ic-card-label), body text, image (ic-card-image ic-image-rounded).
-  # Card 2 body contains an inline link → bodyHtml used for that card only.
   - id: impact-fund-current
     type: cards
     heading: "I-CAR Industry Impact Fund Currently at Work"
-    # ic-card-label has no dedicated card field → bodyClassName: "ic-card-label" renders label,
-    # contentHtml renders the body text paragraph with explicit ic-card-text class.
     cards:
       - heading: "Talent Programming Initiative"
-        bodyClassName: "ic-card-label"
-        body: "$20.9M OVER 3 YEARS"
-        contentHtml: '<p class="ic-card-text">I-CAR is committed to attracting, training, and retaining technicians who will fuel the future of the industry. Through our U.S. Department of Labor-approved National Registered Apprenticeship program, we&#39;re expanding access to structured, earn-while-you-learn career pathways. We&#39;re also collaborating to better position the industry, implementing shop-approved training solutions, and providing schools with next-level programming to support tomorrow&#39;s technicians.</p>'
+        label: "$20.9M OVER 3 YEARS"
+        paragraphs:
+          - "I&#8209;CAR is committed to attracting, training, and retaining technicians who will fuel the future of the industry. Through our U.S. Department of Labor-approved National Registered Apprenticeship program, we&#39;re expanding access to structured, earn-while-you-learn career pathways. We&#39;re also collaborating to better position the industry, implementing shop-approved training solutions, and providing schools with next-level programming to support tomorrow&#39;s technicians."
         image:
           desktopSrc: "/getmedia/87e18fee-8a48-4972-bc0f-2f76fab1d808/Talent-Programming-Initiative_800w.jpeg"
           alt: "I-CAR student learning from a collision repair technician instructor in a shop setting through I-CAR's National Registered Apprenticeship program."
           height: 400
       - heading: "Consumer Branding Awareness"
-        bodyClassName: "ic-card-label"
-        body: "$1.8M OVER 18 MONTHS"
-        contentHtml: '<p class="ic-card-text">I-CAR is strengthening its consumer brand to promote safety and build trust in collision repair. Through our &ldquo;Count on I-CAR&rdquo; message, a refreshed brand, consumer education on the value of Gold Class, and the Gold Class Shop Locator at <a href="https://goldclass.i-car.com/" target="_blank">GoldClass.I-CAR.com</a>, we&#39;re helping consumers make informed decisions while equipping Gold Class shops with marketing tools to promote their commitment to safe, quality repairs.</p>'
+        label: "$1.8M OVER 18 MONTHS"
+        paragraphs:
+          - "I&#8209;CAR is strengthening its consumer brand to promote safety and build trust in collision repair. Through our &ldquo;Count on I&#8209;CAR&rdquo; message, a refreshed brand, consumer education on the value of Gold&nbsp;Class, and the Gold&nbsp;Class Shop Locator at [GoldClass.I-CAR.com](https://goldclass.i-car.com/), we&#39;re helping consumers make informed decisions while equipping Gold&nbsp;Class shops with marketing tools to promote their commitment to safe, quality repairs."
         image:
           desktopSrc: "/getmedia/61dbbe1f-4fbb-4a51-9c9e-79fb44976034/Consumer-Branding-Awareness_800w.webp"
           alt: 'I-CAR booth at a tradeshow featuring "I Count on I-CAR" message to promote safety and build trust in collision repair training.'
           height: 400
       - heading: "Advanced Learning Effectiveness"
-        bodyClassName: "ic-card-label"
-        body: "$1.1M OVER 1.5 YEARS"
-        contentHtml: '<p class="ic-card-text">Through continued research, I-CAR has reimagined course delivery to enhance learning and accessibility. We&#39;re introducing more engaging, flexible experiences through interactive and adaptive online learning, paired with a more hands-on approach using Mixed Reality to better prepare technicians for real-world application.</p>'
+        label: "$1.1M OVER 1.5 YEARS"
+        paragraphs:
+          - "Through continued research, I&#8209;CAR has reimagined course delivery to enhance learning and accessibility. We&#39;re introducing more engaging, flexible experiences through interactive and adaptive online learning, paired with a more hands-on approach using Mixed Reality to better prepare technicians for real-world application."
         image:
           desktopSrc: "/getmedia/c0892c6e-1921-40b5-9312-b66926f6fbdb/Advanced-Learning-Effectiveness_800w.webp"
           desktopSrcset: "/getmedia/87eb8880-a8c3-48f9-97cd-a8b08ecb49e2/Advanced-Learning-Effectiveness_400w.webp 400w, /getmedia/c0892c6e-1921-40b5-9312-b66926f6fbdb/Advanced-Learning-Effectiveness_800w.webp 800w, /getmedia/da1933c3-affb-4ac3-b869-bae084848733/Advanced-Learning-Effectiveness_1600w.webp 1600w"

@@ -1,9 +1,125 @@
 import { z } from "zod";
+import { resolve, relative, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 /**
  * Zod schema validation for page and template data
  * Enforces strict structure: no inline HTML, no unapproved keys
  */
+
+// Keys forbidden at any section or card level
+const FORBIDDEN_HTML_KEYS = ["bodyHtml", "html", "contentHtml", "paragraphsHtml"];
+// Raw class/className key pattern
+const RAW_CLASS_PATTERN = /([Cc]lassName|Class)$/;
+
+// Additional card-level keys that must not appear on individual cards
+const FORBIDDEN_CARD_KEYS = ["className", "cardBodyClassName", "bodyClassName", "imageClassName", "listClassName"];
+
+// Workspace root anchored to this file's location — cwd-independent.
+const WORKSPACE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+// Normalize an absolute or relative filePath to a workspace-relative posix path for baseline lookups.
+// Relative inputs are treated as already workspace-relative.
+// Absolute inputs are made relative to the workspace root regardless of cwd.
+function normalizeFilePath(filePath) {
+    const abs = resolve(WORKSPACE_ROOT, filePath);
+    return relative(WORKSPACE_ROOT, abs).replace(/\\/g, "/");
+}
+
+// Legacy violations that are grandfathered as warnings.
+// Key: relative file path (from workspace root). Value: Set of "sectionId:key" or "sectionId:cards.N.key" strings.
+// Any violation NOT present here is an error. Add no entries for adas.yaml or industry-reinvestment.yaml.
+const LEGACY_VIOLATION_BASELINE = new Map([
+    ["content/pages/about-us/awards/jeff-silver-platinum-award.yaml", new Set([
+        "hero:titleClassName", "hero:sublabelClassName", "hero:bodyClassName",
+        "hero:rowClassName", "hero:contentClassName", "hero:badgeColumnClass",
+    ])],
+    ["content/pages/about-us/awards/russ-verona-gold-class-shop-award.yaml", new Set([
+        "hero:titleClassName", "hero:sublabelClassName", "hero:bodyClassName",
+        "hero:rowClassName", "hero:contentClassName", "hero:badgeColumnClass",
+    ])],
+    ["content/pages/about-us.yaml", new Set([
+        "about-education:cards.0.paragraphsHtml",
+        "about-education:cards.1.paragraphsHtml",
+        "about-education:cards.2.paragraphsHtml",
+    ])],
+    ["content/pages/governance/board-of-directors.yaml", new Set([
+        "terms-and-expectations:paragraphsHtml",
+    ])],
+    ["content/pages/governance/membership.yaml", new Set([
+        "who-are-members:cardColumnClass",
+    ])],
+    ["content/pages/electric-hybrid-vehicle-repair.json", new Set([
+        "top:sectionClassName", "top:rowClassName", "top:contentClassName",
+        "top:mediaClassName", "top:boxClassName",
+    ])],
+]);
+
+/**
+ * Find raw markup/class violations in a section data object.
+ * Returns {errors, warnings} depending on whether the violation is in the baseline.
+ * @param {object} data - Section data to check
+ * @param {string} filePath - Relative file path for baseline lookup
+ * @param {string} sectionId - Section id for path construction
+ * @param {string[]} [additionalForbidden] - Extra keys to forbid (beyond FORBIDDEN_HTML_KEYS)
+ */
+function findRawMarkupKeys(data, filePath, sectionId, additionalForbidden = []) {
+    const errors = [];
+    const warnings = [];
+    const fileBaseline = LEGACY_VIOLATION_BASELINE.get(filePath) || new Set();
+    const extraForbidden = new Set(additionalForbidden);
+
+    for (const key of Object.keys(data)) {
+        const isForbiddenHtml = FORBIDDEN_HTML_KEYS.includes(key) || extraForbidden.has(key);
+        const isRawClass = RAW_CLASS_PATTERN.test(key);
+
+        if (isForbiddenHtml || isRawClass) {
+            const violationKey = `${sectionId}:${key}`;
+            if (fileBaseline.has(violationKey)) {
+                warnings.push(`Legacy violation (baseline carve-out): '${key}' in section '${sectionId}'`);
+            } else {
+                errors.push(`Forbidden key '${key}' in section '${sectionId}'`);
+            }
+        }
+    }
+
+    return { errors, warnings };
+}
+
+/**
+ * Find raw markup/class violations on individual cards within a cards section.
+ * Returns {errors, warnings}.
+ * @param {any[]} cards - Cards array
+ * @param {string} filePath - Relative file path for baseline lookup
+ * @param {string} sectionId - Section id for path construction
+ */
+function findCardRawMarkupKeys(cards, filePath, sectionId) {
+    const errors = [];
+    const warnings = [];
+    if (!Array.isArray(cards)) return { errors, warnings };
+
+    const fileBaseline = LEGACY_VIOLATION_BASELINE.get(filePath) || new Set();
+
+    cards.forEach((card, i) => {
+        if (!card || typeof card !== "object") return;
+        for (const key of Object.keys(card)) {
+            const isForbiddenHtml = FORBIDDEN_HTML_KEYS.includes(key);
+            const isRawClass = RAW_CLASS_PATTERN.test(key);
+            const isForbiddenCard = FORBIDDEN_CARD_KEYS.includes(key);
+
+            if (isForbiddenHtml || isRawClass || isForbiddenCard) {
+                const violationKey = `${sectionId}:cards.${i}.${key}`;
+                if (fileBaseline.has(violationKey)) {
+                    warnings.push(`Legacy violation (baseline carve-out): '${key}' on card ${i} in section '${sectionId}'`);
+                } else {
+                    errors.push(`Forbidden key '${key}' on card ${i} in section '${sectionId}'`);
+                }
+            }
+        }
+    });
+
+    return { errors, warnings };
+}
 
 const ALLOWED_SECTION_TYPES = [
     "hero",
@@ -28,6 +144,33 @@ const ALLOWED_SECTION_TYPES = [
 
 const ALLOWED_BUTTON_VARIANTS = ["primary", "outline", "white", "gray"];
 const ALLOWED_HERO_VARIANTS = ["default", "banner", "split"];
+const ALLOWED_HERO_IMAGE_PLACEMENTS = ["column", "background"];
+const ALLOWED_HERO_BACKGROUND_COLORS = ["light", "white", "dark"];
+// Semantic layout desktopSplit values
+const ALLOWED_HERO_DESKTOP_SPLITS = ["equal", "text-5-media-7", "text-7-media-5", "lg-5-7"];
+const ALLOWED_HERO_ROW_VERTICAL_ALIGNS = ["center", "end", "none"];
+const ALLOWED_HERO_ROW_JUSTIFIES = ["between", "center", "none"];
+const ALLOWED_HERO_MOBILE_MEDIA_ORDERS = ["above", "below"];
+const ALLOWED_HERO_DESKTOP_MEDIA_POSITIONS = ["left", "right"];
+const ALLOWED_HERO_IMAGE_STYLES = ["rounded", "cutout", "banner"];
+// Top-level imageStyle applies only to the default hero rendering path; only "rounded" has an effect.
+// "cutout" and "banner" would silently render as banner — reject them here; use layout.imageStyle instead.
+const ALLOWED_HERO_DEFAULT_IMAGE_STYLES = ["rounded"];
+const ALLOWED_HERO_IMAGE_FRAMES = ["section", "none"];
+const ALLOWED_HERO_BOX_STYLES = ["none", "collapse"];
+const ALLOWED_HERO_MOBILE_SPACINGS = ["none", "tight", "section", "offset"];
+const ALLOWED_HERO_GAP_TARGETS = ["copy", "media", "none"];
+const ALLOWED_HERO_SECTION_PADDINGS = ["padded"];
+const ALLOWED_HERO_SPACING_BREAKPOINTS = ["sm", "md", "lg", "xl"];
+// Keys explicitly allowed on the hero section data object
+const ALLOWED_HERO_KEYS = new Set([
+    "id", "type", "variant", "heroStyle", "heading", "title", "headline", "headline1", "headline2",
+    "headingTag", "label", "sublabel", "body", "paragraphs", "buttons", "footerButtons", "links",
+    "image", "imageLink", "imagePlacement", "badgeImage", "badge", "video", "bullets", "bulletIcon",
+    "form", "pathDropdown", "layout", "imageStyle", "imageFrame", "spacing", "sectionSpacing",
+    "backgroundColor", "backgroundLight", "backgroundTheme", "__template", "__autoSectionClassName",
+    "sectionChrome", "ctaDestination",
+]);
 const ALLOWED_LIST_VARIANTS = ["labeled", "ordered", "checks"];
 const ALLOWED_DECORATIVE_IMAGE_PLACEMENTS = ["cover", "bottom"];
 const ALLOWED_TEXT_SECTION_WIDTHS = ["default", "narrow", "full"];
@@ -216,7 +359,7 @@ export const IconCardGridSectionSchema = z.record(z.any()).superRefine((data, ct
     }
 });
 
-// Cards section schema - permissive during transition phase
+// Cards section schema - validates section structure and card array contents
 export const CardsSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
     if (data.type !== "cards") {
         ctx.addIssue({
@@ -234,6 +377,22 @@ export const CardsSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
                 code: z.ZodIssueCode.forbidden,
                 message: `Inline HTML key '${key}' is not allowed. Use structured properties instead.`,
                 path: [key],
+            });
+        }
+    }
+    // Validate cards array and per-card label field
+    if (data.cards !== undefined) {
+        if (!Array.isArray(data.cards)) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "cards must be an array", path: ["cards"] });
+        } else {
+            data.cards.forEach((card, i) => {
+                if (!card || typeof card !== "object" || Array.isArray(card)) {
+                    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "card must be an object", path: ["cards", i] });
+                    return;
+                }
+                if (card.label !== undefined && typeof card.label !== "string") {
+                    ctx.addIssue({ code: z.ZodIssueCode.invalid_type, expected: "string", received: typeof card.label, message: "card.label must be a string", path: ["cards", i, "label"] });
+                }
             });
         }
     }
@@ -350,11 +509,9 @@ export const AccreditationSectionSchema = z.record(z.any()).superRefine((data, c
     }
 });
 
-// Hero section schema - permissive during transition phase
-// Allows legacy properties alongside structured properties
-// TODO: Enforce strict validation after data migration is complete
+// Hero section schema - strict allowlist; raw class and HTML keys are checked
+// with baseline carve-out in validateHeroSection via findRawMarkupKeys.
 export const HeroSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
-    // Only validate that it's a hero section with required id and type
     if (!data.id || typeof data.id !== "string") {
         ctx.addIssue({
             code: z.ZodIssueCode.invalid_type,
@@ -375,24 +532,109 @@ export const HeroSectionSchema = z.record(z.any()).superRefine((data, ctx) => {
         });
     }
 
-    // Reject only inline HTML keys that are explicitly forbidden
-    const strictHtmlKeys = ["bodyHtml", "html"];
-    for (const key of strictHtmlKeys) {
-        if (key in data) {
+    // Unknown keys: any key not in the allowed set that is not a raw class/HTML key
+    // (raw class/HTML key errors are handled by findRawMarkupKeys in validateHeroSection)
+    for (const key of Object.keys(data)) {
+        if (!ALLOWED_HERO_KEYS.has(key) && !RAW_CLASS_PATTERN.test(key) && !FORBIDDEN_HTML_KEYS.includes(key)) {
             ctx.addIssue({
-                code: z.ZodIssueCode.forbidden,
-                message: `Inline HTML key '${key}' is not allowed in hero sections. Use structured properties instead.`,
+                code: z.ZodIssueCode.custom,
+                message: `Unknown hero key '${key}'`,
                 path: [key],
             });
         }
     }
 
-    validatePathDropdown(data.pathDropdown, ctx);
-
-    // Validate layout.labelPosition if present
-    if (data.layout?.labelPosition !== undefined && data.layout.labelPosition !== "above") {
-        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ["above"], received: data.layout.labelPosition, message: "layout.labelPosition must be \"above\"", path: ["layout", "labelPosition"] });
+    // Typed checks for known keys
+    if (data.variant !== undefined && !ALLOWED_HERO_VARIANTS.includes(data.variant) && data.variant !== "splitForm") {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: [...ALLOWED_HERO_VARIANTS, "splitForm"], received: data.variant, message: `variant must be one of: ${[...ALLOWED_HERO_VARIANTS, "splitForm"].join(", ")}`, path: ["variant"] });
     }
+
+    if (data.headingTag !== undefined && !ALLOWED_HEADING_TAGS.includes(data.headingTag)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HEADING_TAGS, received: data.headingTag, message: `headingTag must be one of: ${ALLOWED_HEADING_TAGS.join(", ")}`, path: ["headingTag"] });
+    }
+
+    if (data.imagePlacement !== undefined && !ALLOWED_HERO_IMAGE_PLACEMENTS.includes(data.imagePlacement)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_IMAGE_PLACEMENTS, received: data.imagePlacement, message: `imagePlacement must be one of: ${ALLOWED_HERO_IMAGE_PLACEMENTS.join(", ")}`, path: ["imagePlacement"] });
+    }
+
+    if (data.imageStyle !== undefined && !ALLOWED_HERO_DEFAULT_IMAGE_STYLES.includes(data.imageStyle)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_DEFAULT_IMAGE_STYLES, received: data.imageStyle, message: `imageStyle must be one of: ${ALLOWED_HERO_DEFAULT_IMAGE_STYLES.join(", ")} (top-level; use layout.imageStyle for split/semantic heroes)`, path: ["imageStyle"] });
+    }
+
+    if (data.backgroundColor !== undefined && data.backgroundColor !== "" && !ALLOWED_HERO_BACKGROUND_COLORS.includes(data.backgroundColor)) {
+        ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_BACKGROUND_COLORS, received: data.backgroundColor, message: `backgroundColor must be one of: ${ALLOWED_HERO_BACKGROUND_COLORS.join(", ")}`, path: ["backgroundColor"] });
+    }
+
+    if (data.image !== undefined && typeof data.image === "object" && data.image !== null && !Array.isArray(data.image)) {
+        if (!data.image.alt && data.image.decorative !== true) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "image.alt is required unless image.decorative is true", path: ["image", "alt"] });
+        }
+    }
+
+    // Layout enum checks
+    if (data.layout !== undefined && typeof data.layout === "object" && data.layout !== null) {
+        const lay = data.layout;
+        if (lay.labelPosition !== undefined && lay.labelPosition !== "above") {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ["above"], received: lay.labelPosition, message: "layout.labelPosition must be \"above\"", path: ["layout", "labelPosition"] });
+        }
+        if (lay.desktopSplit !== undefined && !ALLOWED_HERO_DESKTOP_SPLITS.includes(lay.desktopSplit)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_DESKTOP_SPLITS, received: lay.desktopSplit, message: `layout.desktopSplit must be one of: ${ALLOWED_HERO_DESKTOP_SPLITS.join(", ")}`, path: ["layout", "desktopSplit"] });
+        }
+        if (lay.rowVerticalAlign !== undefined && !ALLOWED_HERO_ROW_VERTICAL_ALIGNS.includes(lay.rowVerticalAlign)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_ROW_VERTICAL_ALIGNS, received: lay.rowVerticalAlign, message: `layout.rowVerticalAlign must be one of: ${ALLOWED_HERO_ROW_VERTICAL_ALIGNS.join(", ")}`, path: ["layout", "rowVerticalAlign"] });
+        }
+        if (lay.rowJustify !== undefined && !ALLOWED_HERO_ROW_JUSTIFIES.includes(lay.rowJustify)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_ROW_JUSTIFIES, received: lay.rowJustify, message: `layout.rowJustify must be one of: ${ALLOWED_HERO_ROW_JUSTIFIES.join(", ")}`, path: ["layout", "rowJustify"] });
+        }
+        if (lay.mobileMediaOrder !== undefined && !ALLOWED_HERO_MOBILE_MEDIA_ORDERS.includes(lay.mobileMediaOrder)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_MOBILE_MEDIA_ORDERS, received: lay.mobileMediaOrder, message: `layout.mobileMediaOrder must be one of: ${ALLOWED_HERO_MOBILE_MEDIA_ORDERS.join(", ")}`, path: ["layout", "mobileMediaOrder"] });
+        }
+        if (lay.desktopMediaPosition !== undefined && !ALLOWED_HERO_DESKTOP_MEDIA_POSITIONS.includes(lay.desktopMediaPosition)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_DESKTOP_MEDIA_POSITIONS, received: lay.desktopMediaPosition, message: `layout.desktopMediaPosition must be one of: ${ALLOWED_HERO_DESKTOP_MEDIA_POSITIONS.join(", ")}`, path: ["layout", "desktopMediaPosition"] });
+        }
+        if (lay.imageStyle !== undefined && !ALLOWED_HERO_IMAGE_STYLES.includes(lay.imageStyle)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_IMAGE_STYLES, received: lay.imageStyle, message: `layout.imageStyle must be one of: ${ALLOWED_HERO_IMAGE_STYLES.join(", ")}`, path: ["layout", "imageStyle"] });
+        }
+        if (lay.imageFrame !== undefined && !ALLOWED_HERO_IMAGE_FRAMES.includes(lay.imageFrame)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_IMAGE_FRAMES, received: lay.imageFrame, message: `layout.imageFrame must be one of: ${ALLOWED_HERO_IMAGE_FRAMES.join(", ")}`, path: ["layout", "imageFrame"] });
+        }
+        if (lay.boxStyle !== undefined && !ALLOWED_HERO_BOX_STYLES.includes(lay.boxStyle)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_BOX_STYLES, received: lay.boxStyle, message: `layout.boxStyle must be one of: ${ALLOWED_HERO_BOX_STYLES.join(", ")}`, path: ["layout", "boxStyle"] });
+        }
+        if (lay.sectionPadding !== undefined && !ALLOWED_HERO_SECTION_PADDINGS.includes(lay.sectionPadding)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_SECTION_PADDINGS, received: lay.sectionPadding, message: `layout.sectionPadding must be one of: ${ALLOWED_HERO_SECTION_PADDINGS.join(", ")}`, path: ["layout", "sectionPadding"] });
+        }
+        if (lay.desktopGapTarget !== undefined && !ALLOWED_HERO_GAP_TARGETS.includes(lay.desktopGapTarget)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_GAP_TARGETS, received: lay.desktopGapTarget, message: `layout.desktopGapTarget must be one of: ${ALLOWED_HERO_GAP_TARGETS.join(", ")}`, path: ["layout", "desktopGapTarget"] });
+        }
+        if (lay.desktopGapBreakpoint !== undefined && !ALLOWED_HERO_SPACING_BREAKPOINTS.includes(lay.desktopGapBreakpoint)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: ALLOWED_HERO_SPACING_BREAKPOINTS, received: lay.desktopGapBreakpoint, message: `layout.desktopGapBreakpoint must be one of: ${ALLOWED_HERO_SPACING_BREAKPOINTS.join(", ")}`, path: ["layout", "desktopGapBreakpoint"] });
+        }
+        for (const layKey of Object.keys(lay)) {
+            if (RAW_CLASS_PATTERN.test(layKey)) {
+                ctx.addIssue({ code: z.ZodIssueCode.custom, message: `layout key '${layKey}' is a raw class string; use layout.sectionPadding for section padding, or a semantic option`, path: ["layout", layKey] });
+            }
+        }
+    }
+
+    // Spacing checks
+    if (data.spacing !== undefined && typeof data.spacing === "object" && data.spacing !== null) {
+        const sp = data.spacing;
+        const validPaddingTop = ["none", "none-mobile", "none-lg", "sm"];
+        const validPaddingBottom = ["none", "sm", "lg"];
+        const validMarginTop = ["none"];
+        if (sp.paddingTop !== undefined && !validPaddingTop.includes(sp.paddingTop)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: validPaddingTop, received: sp.paddingTop, message: `spacing.paddingTop must be one of: ${validPaddingTop.join(", ")}`, path: ["spacing", "paddingTop"] });
+        }
+        if (sp.paddingBottom !== undefined && !validPaddingBottom.includes(sp.paddingBottom)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: validPaddingBottom, received: sp.paddingBottom, message: `spacing.paddingBottom must be one of: ${validPaddingBottom.join(", ")}`, path: ["spacing", "paddingBottom"] });
+        }
+        if (sp.marginTop !== undefined && !validMarginTop.includes(sp.marginTop)) {
+            ctx.addIssue({ code: z.ZodIssueCode.invalid_enum_value, options: validMarginTop, received: sp.marginTop, message: `spacing.marginTop must be one of: ${validMarginTop.join(", ")}`, path: ["spacing", "marginTop"] });
+        }
+    }
+
+    validatePathDropdown(data.pathDropdown, ctx);
 });
 
 // Base section schema - strict validation
@@ -558,26 +800,29 @@ export const PageDataSchema = z.record(z.any());
 export function validateTemplate(data, filePath) {
     try {
         TemplateSchema.parse(data);
-        return { valid: true, errors: [] };
+        return { valid: true, errors: [], warnings: [] };
     } catch (error) {
         if (error instanceof z.ZodError) {
             const errors = error.errors.map((err) => {
                 const path = err.path.length > 0 ? ` at ${err.path.join(".")}` : "";
                 return `${err.message}${path}`;
             });
-            return { valid: false, errors };
+            return { valid: false, errors, warnings: [] };
         }
-        return { valid: false, errors: [error.message] };
+        return { valid: false, errors: [error.message], warnings: [] };
     }
 }
 
 /**
  * Validate page data
  * @param {any} data - Page data to validate
- * @param {string} filePath - File path for error reporting
- * @returns {object} - { valid: boolean, errors: string[] }
+ * @param {string} filePath - Relative file path for baseline lookup and error reporting
+ * @returns {object} - { valid: boolean, errors: string[], warnings: string[] }
  */
 export function validatePageData(data, filePath) {
+    const normalizedPath = normalizeFilePath(filePath);
+    const allWarnings = [];
+
     try {
         PageDataSchema.parse(data);
 
@@ -589,59 +834,84 @@ export function validatePageData(data, filePath) {
 
                 switch (section.type) {
                     case "hero":
-                        result = validateHeroSection(section, filePath);
+                        result = validateHeroSection(section, normalizedPath);
                         break;
                     case "textMedia":
-                        result = validateSection(section, TextMediaSectionSchema, filePath);
+                        result = validateSection(section, TextMediaSectionSchema, normalizedPath);
                         break;
                     case "iconCardGrid":
-                        result = validateSection(section, IconCardGridSectionSchema, filePath);
+                        result = validateSection(section, IconCardGridSectionSchema, normalizedPath);
                         break;
-                    case "cards":
-                        result = validateSection(section, CardsSectionSchema, filePath);
+                    case "cards": {
+                        result = validateSection(section, CardsSectionSchema, normalizedPath);
+                        // Baseline-aware per-card checks
+                        const cardLegacy = findCardRawMarkupKeys(section.cards, normalizedPath, section.id);
+                        if (cardLegacy.errors.length > 0) {
+                            return { valid: false, errors: cardLegacy.errors, warnings: [...allWarnings, ...cardLegacy.warnings] };
+                        }
+                        allWarnings.push(...cardLegacy.warnings);
+                        // Baseline-aware section-level raw class checks (HTML already checked by Zod)
+                        const sectionLegacy = findRawMarkupKeys(section, normalizedPath, section.id);
+                        // Filter out HTML keys (already handled by Zod) to avoid double-reporting
+                        const filteredErrors = sectionLegacy.errors.filter((e) => !FORBIDDEN_HTML_KEYS.some((k) => e.includes(`'${k}'`)));
+                        if (filteredErrors.length > 0) {
+                            return { valid: false, errors: filteredErrors, warnings: [...allWarnings, ...sectionLegacy.warnings] };
+                        }
+                        allWarnings.push(...sectionLegacy.warnings);
                         break;
+                    }
                     case "accordion":
-                        result = validateSection(section, AccordionSectionSchema, filePath);
+                        result = validateSection(section, AccordionSectionSchema, normalizedPath);
                         break;
                     case "embed":
-                        result = validateSection(section, EmbedSectionSchema, filePath);
+                        result = validateSection(section, EmbedSectionSchema, normalizedPath);
                         break;
                     case "accreditation":
-                        result = validateSection(section, AccreditationSectionSchema, filePath);
+                        result = validateSection(section, AccreditationSectionSchema, normalizedPath);
                         break;
-                    case "text":
-                        result = validateSection(section, TextSectionSchema, filePath);
+                    case "text": {
+                        result = validateSection(section, TextSectionSchema, normalizedPath);
+                        // Baseline-aware section-level HTML and raw class checks
+                        const textLegacy = findRawMarkupKeys(section, normalizedPath, section.id);
+                        if (textLegacy.errors.length > 0) {
+                            return { valid: false, errors: textLegacy.errors, warnings: [...allWarnings, ...textLegacy.warnings] };
+                        }
+                        allWarnings.push(...textLegacy.warnings);
                         break;
+                    }
                     case "cta":
-                        result = validateSection(section, CtaSectionSchema, filePath);
+                        result = validateSection(section, CtaSectionSchema, normalizedPath);
                         break;
                     case "statementList":
-                        result = validateSection(section, StatementListSectionSchema, filePath);
+                        result = validateSection(section, StatementListSectionSchema, normalizedPath);
                         break;
                     case "mediaSlider":
-                        result = validateSection(section, MediaSliderSectionSchema, filePath);
+                        result = validateSection(section, MediaSliderSectionSchema, normalizedPath);
                         break;
                     default:
                         // Skip validation for other section types
                         continue;
                 }
 
-                if (!result.valid) {
-                    return result;
+                if (result && !result.valid) {
+                    return { valid: false, errors: result.errors, warnings: [...allWarnings, ...(result.warnings || [])] };
+                }
+                if (result?.warnings?.length) {
+                    allWarnings.push(...result.warnings);
                 }
             }
         }
 
-        return { valid: true, errors: [] };
+        return { valid: true, errors: [], warnings: allWarnings };
     } catch (error) {
         if (error instanceof z.ZodError) {
             const errors = error.errors.map((err) => {
                 const path = err.path.length > 0 ? ` at ${err.path.join(".")}` : "";
                 return `${err.message}${path}`;
             });
-            return { valid: false, errors };
+            return { valid: false, errors, warnings: allWarnings };
         }
-        return { valid: false, errors: [error.message] };
+        return { valid: false, errors: [error.message], warnings: allWarnings };
     }
 }
 
@@ -649,45 +919,60 @@ export function validatePageData(data, filePath) {
  * Validate a section with a specific schema
  * @param {any} data - Section data to validate
  * @param {z.ZodSchema} schema - Zod schema to validate against
- * @param {string} filePath - File path for error reporting
- * @returns {object} - { valid: boolean, errors: string[] }
+ * @param {string} filePath - Relative file path for error reporting
+ * @returns {object} - { valid: boolean, errors: string[], warnings: string[] }
  */
 function validateSection(data, schema, filePath) {
     try {
         schema.parse(data);
-        return { valid: true, errors: [] };
+        return { valid: true, errors: [], warnings: [] };
     } catch (error) {
         if (error instanceof z.ZodError) {
             const errors = error.errors.map((err) => {
                 const path = err.path.length > 0 ? ` at ${err.path.join(".")}` : "";
                 return `Section validation failed: ${err.message}${path}`;
             });
-            return { valid: false, errors };
+            return { valid: false, errors, warnings: [] };
         }
-        return { valid: false, errors: [`Section validation failed: ${error.message}`] };
+        return { valid: false, errors: [`Section validation failed: ${error.message}`], warnings: [] };
     }
 }
 
 /**
  * Validate hero section data
  * @param {any} data - Hero section data to validate
- * @param {string} filePath - File path for error reporting
- * @returns {object} - { valid: boolean, errors: string[] }
+ * @param {string} filePath - Relative file path for baseline lookup and error reporting
+ * @returns {object} - { valid: boolean, errors: string[], warnings: string[] }
  */
 export function validateHeroSection(data, filePath) {
+    const normalizedPath = normalizeFilePath(filePath);
+    const warnings = [];
+    let zodErrors = [];
+
     try {
         HeroSectionSchema.parse(data);
-        return { valid: true, errors: [] };
     } catch (error) {
         if (error instanceof z.ZodError) {
-            const errors = error.errors.map((err) => {
+            zodErrors = error.errors.map((err) => {
                 const path = err.path.length > 0 ? ` at ${err.path.join(".")}` : "";
                 return `Hero section validation failed: ${err.message}${path}`;
             });
-            return { valid: false, errors };
+        } else {
+            return { valid: false, errors: [`Hero section validation failed: ${error.message}`], warnings };
         }
-        return { valid: false, errors: [`Hero section validation failed: ${error.message}`] };
     }
+
+    // Baseline-aware check for raw HTML/class keys at section level
+    const sectionId = data?.id || "(no id)";
+    const legacyResult = findRawMarkupKeys(data, normalizedPath, sectionId);
+    zodErrors.push(...legacyResult.errors);
+    warnings.push(...legacyResult.warnings);
+
+    if (zodErrors.length > 0) {
+        return { valid: false, errors: zodErrors, warnings };
+    }
+
+    return { valid: true, errors: [], warnings };
 }
 
 /**

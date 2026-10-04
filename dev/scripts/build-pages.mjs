@@ -726,6 +726,22 @@ function renderInlineMarkdownLinks(value = "", { widowProtection = false, getLin
   return widowProtection ? applyWidowProtection(markup) : markup;
 }
 
+function getCardParagraphLinkAttributes(href) {
+  return href.startsWith("https://") || href.startsWith("http://") ? ' target="_blank" rel="noopener noreferrer"' : "";
+}
+
+function renderCardBodyParagraphs(card, className = "ic-card-text") {
+  const classAttribute = className ? ` class="${className}"` : "";
+  const plainMarkup = getParagraphs(card).map(
+    (paragraph) =>
+      `                <p${classAttribute}>${normalizeContentText(renderInlineMarkdownLinks(paragraph, { widowProtection: true, getLinkAttributes: getCardParagraphLinkAttributes }))}</p>`,
+  );
+  const htmlMarkup = getHtmlParagraphs(card).map(
+    (paragraph) => `                <p${classAttribute}>${renderTrustedHtml(paragraph)}</p>`,
+  );
+  return [...plainMarkup, ...htmlMarkup].join("\n\n");
+}
+
 function buildResponsiveSrcset(entries = []) {
   return entries
     .filter((entry) => typeof entry?.url === "string" && entry.url.length > 0 && entry.width)
@@ -1470,6 +1486,7 @@ function resolveHeroSemanticLayout(section) {
   const mobileMediaOrder = layout?.mobileMediaOrder || "above";
   const desktopSplit = layout?.desktopSplit || "text-5-media-7";
   const rowVerticalAlign = layout?.rowVerticalAlign || "center";
+  const rowJustify = layout?.rowJustify || "between";
   const mobileCopySpacing = layout?.mobileCopySpacing || "none";
   const mobileMediaSpacing = layout?.mobileMediaSpacing || (mobileMediaOrder === "above" ? "section" : "none");
   const desktopGapTarget = layout?.desktopGapTarget || "media";
@@ -1479,16 +1496,20 @@ function resolveHeroSemanticLayout(section) {
   const imageFrame = layout?.imageFrame || section.imageFrame || "section";
   const imageInset = layout?.imageInset === true || section.imageInset === true;
   const imageRounded = layout?.imageRounded !== false && section.imageRounded !== false;
+  const autoSectionClass = layout?.sectionPadding === "padded" ? "ic-section-hero-padded" : "";
 
   const copyDesktopSplitClass = {
     equal: "col-md-6",
     "text-5-media-7": "col-md-6 col-xl-5",
     "text-7-media-5": "col-md-6 col-xl-7",
+    // Non-split hero with media right, auto at md, 5/7 columns at lg
+    "lg-5-7": "col-md col-lg-5",
   }[desktopSplit] || "col-md-6";
   const mediaDesktopSplitClass = {
     equal: "col-md-6",
     "text-5-media-7": "col-md-6 col-xl-7",
     "text-7-media-5": "col-md-6 col-xl-5",
+    "lg-5-7": "col-md col-lg-7",
   }[desktopSplit] || "col-md-6";
   const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder, false);
   const gapClasses = resolveSplitColumnGapClassNames({
@@ -1507,6 +1528,10 @@ function resolveHeroSemanticLayout(section) {
       ? (mobileMediaOrder === "above" ? "mb-3 pb-1 mb-md-0 pb-md-0" : "mt-3 pt-3 mt-md-0 pt-md-0")
       : "";
 
+  const rowAlignClass = rowVerticalAlign === "end" ? "align-items-end"
+    : rowVerticalAlign === "none" ? ""
+    : "align-items-center";
+
   return {
     contentClassName: joinClassNames(
       "col col-12",
@@ -1523,8 +1548,8 @@ function resolveHeroSemanticLayout(section) {
       gapClasses.mediaClassName,
     ),
     rowClassName: joinClassNames(
-      "row justify-content-between",
-      rowVerticalAlign === "end" ? "align-items-end" : "align-items-center",
+      rowJustify === "none" ? "row" : `row justify-content-${rowJustify}`,
+      rowAlignClass,
     ),
     imageClassName: resolveSplitImageClassName({
       imageStyle,
@@ -1533,7 +1558,7 @@ function resolveHeroSemanticLayout(section) {
       imageRounded,
     }),
     imagePreset: imageStyle === "banner" ? "banner" : "textMedia",
-    autoSectionClassName: "",
+    autoSectionClassName: autoSectionClass,
     boxClassName: boxStyle === "collapse" ? "ic-box ic-box-mobile-collapse" : "",
   };
 }
@@ -2004,7 +2029,7 @@ function renderHeroSection(section) {
   const heroHeadline = section.title || getHeroHeadline(section);
   const heroVariant = section.variant || section.heroStyle || "default";
   const headingTag = /^(h1|h2|h3|h4|h5|h6|p)$/i.test(section.headingTag || "") ? section.headingTag.toLowerCase() : "h1";
-  const semanticLayout = heroVariant === "split" ? resolveHeroSemanticLayout(section) : null;
+  const semanticLayout = (heroVariant === "split" || section.layout) ? resolveHeroSemanticLayout(section) : null;
   const heroImagePlacement = section.imagePlacement || "column";
 
   // Build body markup from structured properties or legacy properties
@@ -2029,7 +2054,8 @@ function renderHeroSection(section) {
     ? renderHeroVideo(section.video, section.imageClassName)
     : renderPicture(
       section.image,
-      section.imageClassName || section.image?.className || semanticLayout?.imageClassName || "ic-image-banner",
+      section.imageClassName || section.image?.className || semanticLayout?.imageClassName
+        || (section.imageStyle === "rounded" ? "ic-image-rounded" : "ic-image-banner"),
       "eager",
       semanticLayout?.imagePreset || "banner",
       `hero "${section.id}" image`,
@@ -2339,7 +2365,7 @@ ${titleMarkup}${linksMarkup}
                     : renderText(cardHeading)}</h3>\n`
                 : "";
               const bodyMarkup = hasParagraphContent(card)
-                ? `${indentBlock(renderParagraphContent(card, card.bodyClassName || "ic-card-text"), 24)}\n`
+                ? `${indentBlock(renderCardBodyParagraphs(card, card.bodyClassName || "ic-card-text"), 24)}\n`
                 : "";
               const listMarkup = card.listItems?.length
                 ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
@@ -2377,10 +2403,18 @@ ${figureMarkup}
                                     </a>`
                 : figureMarkup;
 
+              const cardLabelMarkup = card.label
+                ? `                                        <p class="ic-card-label">${renderText(card.label)}</p>\n`
+                : "";
+              // When card.label is present, bodyClassName must not leak to the wrapper div.
+              const resolvedCardBodyClassName = card.label
+                ? (card.cardBodyClassName || cardBodyClassName)
+                : (card.cardBodyClassName || card.bodyClassName || cardBodyClassName);
+
               return `                            <li class="${escapeHtml(cardColumnClass)}">
                                 <div class="${escapeHtml(card.className ? card.className + cardTextAlignClass + cardTitleSizeClass : resolvedCardClassName)}">
-                                    <div class="${escapeHtml(card.cardBodyClassName || card.bodyClassName || cardBodyClassName)}">
-${titleMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}${ctaLabelMarkup}
+                                    <div class="${escapeHtml(resolvedCardBodyClassName)}">
+${titleMarkup}${cardLabelMarkup}${bodyMarkup}${listMarkup}${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${linksMarkup}${ctaLabelMarkup}
                                     </div>
 ${mediaMarkup}
                                 </div>
@@ -2641,8 +2675,10 @@ function renderCtaSection(section) {
   const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
+  // Default to ic-background-light; honor white override; spacing and chrome now apply.
+  const ctaBackgroundClass = getBackgroundColor(section) === "white" ? "ic-background-white" : "ic-background-light";
 
-  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section ic-background-light", section.__autoSectionClassName))}">
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName("ic-section", ctaBackgroundClass, getSectionChromeClassName(section), resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-md-10 col-lg-8 col-xl-6 text-md-center">
