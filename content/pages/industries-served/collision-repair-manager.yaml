@@ -1,0 +1,210 @@
+slug: collision-repair-manager
+title: Industries Served - Collision Repair Shop Owner/Manager
+sections:
+
+  # ─── Section 1: Hero ─────────────────────────────────────────────────────────
+  # Source: lines 1–40. section_hero section_hero-banner.
+  # label-above: h1.label → p.h1 → p.subhead
+  # No pathDropdown. desktopSplit: lg-5-7. 3-source picture.
+  - id: top
+    type: hero
+    label: "Collision Repair Shop Owner/Manager Resources"
+    heading: "Expert Training for Your Customer&#39;s Safety"
+    sublabel: "For industry-recognized education you can count on, count on I&#8209;CAR for training designed to improve repair quality and shop&nbsp;performance."
+    buttons:
+      - label: "Browse Catalog"
+        href: "https://www.i-car.com/browse"
+        variant: primary
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 418
+          srcset: "/getmedia/b349c096-6a4e-4027-8297-006a5b21412a/hero_364w.webp 364w, /getmedia/c8d3893b-ac68-4885-8106-5058dfafa5bc/hero_728w.webp 728w, /getmedia/cc4b297b-551e-4998-af17-6a33a7bdfd99/hero_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 1008
+          height: 669
+          srcset: "/getmedia/ac07b8d3-5e9e-4152-acde-696261278fbf/hero_1008w.webp 1008w, /getmedia/73e18916-9ee4-462a-ad9b-1acfb261d65d/hero_2016w.webp 2016w"
+        - maxWidth: 1199.9
+          width: 1180
+          height: 584
+          srcset: "/getmedia/006de397-d481-452f-a990-70f01ae7bbc0/hero_1180w.webp 1180w, /getmedia/3157e4db-c97a-4509-92a8-7dfde538457d/hero_2360w.webp 2360w"
+      alt: "tech student and instructor welding"
+      width: 1400
+      height: 500
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      src: "/getmedia/46f5f906-37cb-47c6-9946-b464ddb1c127/hero_1400w.webp"
+      srcset: "/getmedia/46f5f906-37cb-47c6-9946-b464ddb1c127/hero_1400w.webp 1400w, /getmedia/2612a928-fdb8-46e4-a7d6-ce79d642b617/hero_2800w.webp 2800w"
+    layout:
+      desktopSplit: lg-5-7
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+      labelPosition: above
+      desktopGapTarget: none
+      rowVerticalAlign: none
+      rowJustify: none
+      mobileMediaSpacing: tight
+
+  # ─── Section 2: Training and Technical Resources ─────────────────────────────
+  # Source: lines 42–112. section-resources bg-light. 4 text cards (no images).
+  # CRM source uses class="text-card" on card divs; typed renders text cards with no image.
+  # Talent Attraction has target="_blank".
+  - id: resources
+    type: cards
+    backgroundColor: light
+    heading: "Training and Technical Resources"
+    body: "Comprehensive education and technical resources are available to drive your shop performance and your team&rsquo;s professional development."
+    cards:
+      - heading: "Gold Class Recognition"
+        paragraphs:
+          - "Set your shop apart and achieve the highest role-relevant training in the industry."
+        href: "https://info.i-car.com/gold-class/gold-class-collision-repair"
+        ctaLabel: "Discover Gold Class"
+      - heading: "Academy for Shops"
+        paragraphs:
+          - "Develop entry-level technicians into productive members of your team."
+        href: "https://www.i-car.com/academyshops"
+        ctaLabel: "Learn About Academy"
+      - heading: "Subscription"
+        paragraphs:
+          - "Take advantage of unlimited live, online, and virtual training for everyone in the shop."
+        href: "https://www.i-car.com/subscription"
+        ctaLabel: "Explore Options"
+      - heading: "Talent Attraction"
+        paragraphs:
+          - "Dedicated to informing and inspiring the next&nbsp;generation."
+        href: "https://www.collisioncareers.com/s/"
+        target: "_blank"
+        ctaLabel: "Visit Collision Careers"
+
+  # ─── Section 3: Prepare for Emerging Technologies ────────────────────────────
+  # Source: lines 114–159. section. box box_lg. textMedia right.
+  # copy: col-md ... order-2 order-md-1; media: col-md order-1 order-md-2
+  # desktopMediaPosition: right (copy left, media right at desktop)
+  # mobileMediaOrder: above (media order-1 at mobile)
+  # resolveSplitColumnOrderClasses("right","above") → order-last order-md-first / order-first order-md-last
+  # REDESIGN DIFFERENCE: box box_lg visual styling and internal p-4/p-lg-5 padding dropped.
+  # imageRounded: false (source image has no class; p-0 on media means no padding)
+  # 4-source picture (3 <source> elements + <img>).
+  - id: emerging-tech
+    type: textMedia
+    imageRounded: false
+    heading: "Prepare for Emerging Technologies"
+    sublabel: "As vehicle technology continues to accelerate, we&rsquo;re here to support your shop with courses, resources, and information to help your team stay&nbsp;current."
+    buttons:
+      - label: "Keep up with ADAS"
+        href: "https://info.i-car.com/adas"
+        variant: outline
+      - label: "Get EV Ready"
+        href: "https://info.i-car.com/electric-vehicles"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 376
+          srcset: "/getmedia/b9b41cf4-83af-4c64-85de-f0e51c89acd9/tech_364w.webp 364w, /getmedia/327abe31-ea59-4c59-aa64-e1ee871d3855/tech_728w.webp 728w, /getmedia/c4f230be-0cdc-4e7c-9c73-8853bcfa4054/tech_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 428
+          height: 561
+          srcset: "/getmedia/aae21350-044f-4188-b1e0-634527c49ede/tech_428w.webp 428w, /getmedia/557f5ae0-71e7-45e6-aa40-2a454366725c/tech_856w.webp 856w"
+        - maxWidth: 1199.9
+          width: 532
+          height: 532
+          srcset: "/getmedia/561b8250-b9fc-45fb-b124-6e96e08e0355/tech_532w.webp 532w, /getmedia/6043019a-8fec-4c5b-bc95-54d6f26668d2/tech_1064w.webp 1064w"
+      alt: "tech inspecting underneath car"
+      width: 574
+      height: 462
+      sizes: "574px"
+      src: "/getmedia/613bab0f-f521-4017-ac4b-f2df71802f0c/tech_574w.webp"
+      srcset: "/getmedia/613bab0f-f521-4017-ac4b-f2df71802f0c/tech_574w.webp 574w, /getmedia/83da64dd-b8d9-4839-a72e-63a7c47c849f/tech_1148w.webp 1148w"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+
+  # ─── Section 4: Get The Most Out of Your Training ────────────────────────────
+  # Source: lines 161–227. section. 3 image cards.
+  - id: training
+    type: cards
+    heading: "Get The Most Out of Your&nbsp;Training"
+    body: "You can multiply the value of your training with powerful programs and&nbsp;preparation."
+    cards:
+      - heading: "Industry Training Alliance"
+        paragraphs:
+          - "Receive I&#8209;CAR training credit to maximize your technicians&rsquo; time learning at no cost to your&nbsp;shop."
+        href: "https://www.i-car.com/industry-training-alliance"
+        image:
+          alt: "tech painting car"
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp"
+          srcset: "/getmedia/50b55308-764c-4506-b902-4ed9630195a9/alliance_362w.webp 362w, /getmedia/1869523d-1b76-4f03-9746-4550d07a2dff/alliance_486w.webp 486w, /getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp 728w, /getmedia/fae8d623-30bd-4c45-b983-0e72681dc56e/alliance_972w.webp 972w, /getmedia/51f6138f-4a0f-4015-84ce-a7cf917556ff/alliance_1456w.webp 1456w"
+      - heading: "Network Programs"
+        paragraphs:
+          - "Training is often an important requirement for participation in OEM or insurance network&nbsp;programs."
+        href: "https://info.i-car.com/network-programs"
+        image:
+          alt: "insurance adjusters inspecting collision"
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/6c64c980-cab3-4df3-a063-500df95cbbd1/programs_728w.webp"
+          srcset: "/getmedia/b7cdf8b9-ea4b-427b-a901-f1d3c77f5bcd/programs_362w.webp 362w, /getmedia/35ad8b05-02a3-4a0a-b56d-6afcc3e08b68/programs_486w.webp 486w, /getmedia/6c64c980-cab3-4df3-a063-500df95cbbd1/programs_728w.webp, /getmedia/55e2bfec-7947-4c6f-92cf-cdc00e91f7b7/programs_972w.webp 972w, /getmedia/00b39cfc-5d99-4e60-a646-c4d063857bfe/programs_1456w.webp 1456w"
+      - heading: "Equipment Preparedness"
+        paragraphs:
+          - "Review PPE and equipment requirements for in-shop training events at your&nbsp;location."
+        href: "https://info.i-car.com/equipment-facility-checklists"
+        image:
+          alt: "tech welding car"
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/1a6df1e3-52d8-4dab-979f-8f71b68cdff5/equipment_728w.webp"
+          srcset: "/getmedia/e6a60633-2ac6-4775-a0e1-431961d9df5a/equipment_362w.webp 362w, /getmedia/8104ee68-e32e-475f-b8d4-4c856d2204aa/equipment_486w.webp 486w, /getmedia/1a6df1e3-52d8-4dab-979f-8f71b68cdff5/equipment_728w.webp 728w, /getmedia/91227c60-2229-4748-ac6c-b3e6857a2393/equipment_972w.webp 972w, /getmedia/56350b88-120f-4a9f-9e23-acb68985086b/equipment_1456w.webp 1456w"
+
+  # ─── Section 5: Brightcove Video Embed ───────────────────────────────────────
+  # Source: lines 229–247. section bg-light.
+  # STOP CONDITION: Senior — confirm type:embed with heading/sublabel fields and
+  #   embedHtml containing the Brightcove div+script is the correct approach.
+  # Alternative: split into text section (heading+body) + embed section (embedHtml only).
+  # Mapping as type:embed with standard heading/sublabel since EmbedSectionSchema
+  #   only blocks bodyHtml/html/contentHtml/paragraphsHtml, not heading/sublabel.
+  - id: video
+    type: embed
+    backgroundColor: light
+    heading: "Gear Up and Be Ready for In&#8209;Shop&nbsp;Training"
+    sublabel: "Maximize your team&rsquo;s training experience by prepping for your next on&#8209;site&nbsp;event."
+    embedHtml: "<div data-experience=\"66fafb9e05140ad47a1b36d4\" style=\"margin:0 -20px\">&nbsp;</div><script src=\"https://players.brightcove.net/1862663934001/experience_66fafb9e05140ad47a1b36d4/live.js\" type=\"text/javascript\"></script>"
+
+  # ─── Section 6: Get Started with I-CAR ───────────────────────────────────────
+  # Source: lines 249–279. section pb-0. textMedia right (default).
+  # copy: col-md col-lg-5 ... my-md-3; media: col-10 col-md col-lg-5 (no order classes)
+  # DOM order: copy first (left), media second (right) → desktopMediaPosition: right (default)
+  # mobileMediaOrder: below (default for right)
+  # No explicit gap on either column → default desktopGapTarget: copy applies.
+  # imageRounded: false (source <img> has no class)
+  # TWO outline buttons in source.
+  # spacing.paddingBottom: none → pb-0 ✓
+  - id: get-started
+    type: textMedia
+    imageRounded: false
+    heading: "Get Started with&nbsp;I&#8209;CAR"
+    sublabel: "Whether you want to begin your Gold Class journey, check out course offerings, or get an assessment of your current shop skill level, I&#8209;CAR can help you get&nbsp;started."
+    spacing:
+      paddingBottom: none
+    buttons:
+      - label: "Achieve Gold Class"
+        href: "https://info.i-car.com/gold-class/achieving"
+        variant: outline
+      - label: "Explore Courses"
+        href: "https://www.i-car.com/browse"
+        variant: outline
+    image:
+      alt: "tech working on tablet"
+      width: 728
+      height: 900
+      sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
+      src: "/getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp"
+      srcset: "/getmedia/92f2a728-f049-414a-8e9d-b2cd58d26490/get-started_362w.webp 362w, /getmedia/59cb69b2-96f0-41bc-8a27-ebb10f1f3f6f/get-started_430w.webp 430w, /getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp 728w, /getmedia/3be671c8-b7c4-4e30-8623-f6b169548d1a/get-started_1456w.webp 1456w"

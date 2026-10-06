@@ -1,0 +1,269 @@
+slug: supplier
+title: Industries Served - Supplier
+sections:
+
+  # ─── Section 1: Hero ─────────────────────────────────────────────────────────
+  # Source: lines 1–41. label-above: h1.label → p.h1 → p.subhead. No dropdown.
+  # Note: source img srcset "b434bdab...1400w" has no width descriptor before comma—preserved.
+  - id: top
+    type: hero
+    label: "Supplier Resources"
+    heading: "Partners in Technical Solutions"
+    sublabel: "For reliable customer satisfaction and industry collaboration, count on I-CAR to deliver technology-specific training and&nbsp;solutions."
+    buttons:
+      - label: "Discover I&#8209;CAR"
+        href: "https://info.i-car.com/about-us"
+        variant: primary
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 418
+          srcset: "/getmedia/f32a4e71-a0cd-4ba7-a100-b7e9b34bf45a/Supplier_Hero_364w.webp 364w, /getmedia/f6d019df-1cf3-4272-bf29-f7b91c9e28c5/Supplier_Hero_728w.webp 728w, /getmedia/24bc2d80-978e-44bf-92a1-7a80c9c278c7/Supplier_Hero_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 1008
+          height: 669
+          srcset: "/getmedia/f248f04f-0bf3-4b78-a0ce-241bc658058f/Supplier_Hero_1008w.webp 1008w, /getmedia/41370ab6-1cd7-4b1f-8f89-f02c389d43ca/Supplier_Hero_2016w.webp 2016w"
+        - maxWidth: 1199.9
+          width: 1180
+          height: 584
+          srcset: "/getmedia/8f0999a8-06a8-4720-925a-43982bc46e6d/Supplier_Hero_1180w.webp 1180w, /getmedia/5adf0060-ab3c-49f1-965f-dd055e5a42e4/Supplier_Hero_2360w.webp 2360w"
+      alt: "tech student and instructor welding"
+      width: 1400
+      height: 500
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      src: "/getmedia/b434bdab-81c1-4982-9985-c5de35949c12/Supplier_Hero_1400w.webp"
+      srcset: "/getmedia/b434bdab-81c1-4982-9985-c5de35949c12/Supplier_Hero_1400w.webp, /getmedia/f8ccc807-be1a-4ca0-b927-37921aad534d/Supplier_Hero_2800w.webp 2800w"
+    layout:
+      desktopSplit: lg-5-7
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+      labelPosition: above
+      desktopGapTarget: none
+      rowVerticalAlign: none
+      rowJustify: none
+      mobileMediaSpacing: tight
+
+  # ─── Section 2: Training and Technical Resources ─────────────────────────────
+  # Source: lines 43–148. bg-light. 4 logo cards (iconCardGrid), cardsPerRow: 4.
+  # All 4 have target="_blank". Note: source "Ask I‑CAR" uses ‑ (U+2011=&#8209;).
+  - id: resources
+    type: iconCardGrid
+    backgroundColor: light
+    heading: "Training and Technical Resources"
+    body: "Access comprehensive education and technical resources to stay aligned with evolving vehicle technologies and industry&nbsp;demands."
+    layout:
+      cardsPerRow: 4
+    cards:
+      - heading: "Repairability Technical Support"
+        paragraphs:
+          - "Find repair info at your&nbsp;fingertips"
+        href: "https://rts.i-car.com/"
+        target: "_blank"
+        iconSrc: "/getmedia/360439f3-768c-4892-a1c7-20d28a514cb3/logo_rts.svg"
+        iconAlt: "Repairability Technical Support"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Ask I&#8209;CAR"
+        paragraphs:
+          - "Get real-time technical support"
+        href: "https://rts.i-car.com/ask-i-car.html"
+        target: "_blank"
+        iconSrc: "/getmedia/c4d63879-3d3a-4be5-b508-d2991d47a5df/logo_ask-icar.svg"
+        iconAlt: "Ask I-CAR logo"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Repairers Realm"
+        paragraphs:
+          - "Watch technical experts talking shop"
+        href: "https://info.i-car.com/repairers-realm"
+        target: "_blank"
+        iconSrc: "/getmedia/3cf495e1-9354-431e-96c4-26b1b9ba1315/logo_repairers-realm.svg"
+        iconAlt: "Repairers Realm logo"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Just In Time"
+        paragraphs:
+          - "Get quick tips on repair topics"
+        href: "https://rts.i-car.com/just-in-time.html"
+        target: "_blank"
+        iconSrc: "/getmedia/8c919f38-1c05-4bca-8784-59a59eeab3c1/logo_just-in-time.svg"
+        iconAlt: "Just In Time logo"
+        iconWidth: 200
+        iconHeight: 114
+
+  # ─── Section 3: Together, We All Win ─────────────────────────────────────────
+  # Source: lines 150–176. section. textMedia left.
+  # copy: col-md col-lg-6 pl-md-5 ml-xl-5 order-2 ... order-2 order-md-1; media: col-auto ... order-1 order-md-2
+  # At mobile: media order-1 (above). At desktop: media order-md-2 (right?), copy order-md-1 (left)?
+  # Source copy: "order-2 order-md-1" → at desktop copy is order-md-1 (first = LEFT).
+  # Source media: "order-1 order-md-2" → at desktop media is order-md-2 (second = RIGHT).
+  # So at desktop: copy LEFT, media RIGHT → desktopMediaPosition: right?
+  # But the sustaining-partners logo is the image, and the copy "Together We All Win" + text is left.
+  # This is different from insurance S3 (media LEFT, copy RIGHT).
+  # desktopMediaPosition: right (media on right at desktop), mobileMediaOrder: above
+  # Gap: copy has pl-md-5 → for desktopMediaPosition:right, desktopGapTarget:copy → pr-md-5.
+  # DEVIATION: source pl-md-5 (left side of copy) vs typed pr-md-5 (right side of copy).
+  # imageRounded: false; imageFrame: none (SVG logo).
+  - id: together
+    type: textMedia
+    imageRounded: false
+    heading: "Together, We All Win"
+    sublabel: "Explore the benefits the I-CAR Sustaining Partner Program provides, including access to information, course content and marketing&nbsp;opportunities."
+    buttons:
+      - label: "See Sustaining Partners"
+        href: "https://info.i-car.com/sustaining-partners"
+        variant: outline
+    image:
+      alt: "sustaining partners logo"
+      width: 220
+      height: 104
+      src: "/getmedia/787c1c7c-72c0-4d88-8564-bddf01a231cb/logo_sustaining-partners.svg"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+      imageFrame: none
+
+  # ─── Section 4: I-CAR Academy ─────────────────────────────────────────────────
+  # Source: lines 178–212. section bg-light. textMedia left.
+  # copy: col-md ... pl-xl-5 order-md-2; media: col-md col-lg-auto ... order-md-1
+  # At desktop: media order-md-1 (left), copy order-md-2 (right) → desktopMediaPosition: left ✓
+  # mobileMediaOrder: below (no mobile order classes → DOM order → copy above, media below)
+  # label "What's New" above heading. imageFrame: none (img_rounded).
+  # Academy button: "Explore I-CAR Academy" → /browse/academy
+  - id: academy
+    type: textMedia
+    backgroundColor: light
+    label: "What&#39;s New"
+    heading: "I&#8209;CAR Academy"
+    sublabel: "A new program for shops and schools, I&#8209;CAR Academy empowers collision repair professionals through comprehensive education to attract, train, and retain talent in our&nbsp;industry."
+    buttons:
+      - label: "Explore I-CAR Academy"
+        href: "https://www.i-car.com/browse/academy"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 615
+          height: 374
+          sizes: "(max-width: 400px) 364px, 728px"
+          srcset: "/getmedia/cd79ebd9-2ca4-407b-bf7e-774a0e61c1ed/academy_364w.webp 364w, /getmedia/aa498d7e-cd7e-46b9-a12b-24bf0f3e53e6/academy_728w.webp 728w, /getmedia/7ec20891-2091-41a8-9dd9-8e7483607091/academy_1456w.webp"
+      alt: "tech in front of car"
+      width: 615
+      height: 400
+      sizes: "615px"
+      src: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp"
+      srcset: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp 615w, /getmedia/dcfa6cae-f8e6-42b1-b9ff-e0e40de1c608/academy_1230w.webp 1230w"
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+      labelPosition: above
+      desktopGapTarget: copy
+      desktopGapBreakpoint: xl
+      imageFrame: none
+
+  # ─── Section 5: Training Your Way ─────────────────────────────────────────────
+  # Source: lines 214–261. section. 2 image cards.
+  - id: training
+    type: cards
+    heading: "Training Your Way"
+    body: "It&rsquo;s easier than ever to get the training that&rsquo;s right for your career and&nbsp;business."
+    cards:
+      - heading: "Explore I&#8209;CAR Learning"
+        paragraphs:
+          - "Discover the 360+ courses available to support career paths and interests."
+        href: "https://www.i-car.com/browse"
+        image:
+          alt: "tech working on bumper"
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/d7d8cea9-30dd-485b-8a1c-77497f223171/learning_728w.webp"
+          srcset: "/getmedia/5228bacf-4516-4070-b765-c5ff3d88d144/learning_362w.webp 362w, /getmedia/881b5e70-cb94-4fd2-9c58-ea33e6ed4a90/learning_486w.webp 486w, /getmedia/d7d8cea9-30dd-485b-8a1c-77497f223171/learning_728w.webp 728w, /getmedia/2a931e63-533f-4b66-b242-d3152baf3546/learning_972w.webp 972w, /getmedia/0d417c3c-1a6b-486a-8a17-1ae043931393/learning_1456w.webp 1456w"
+      - heading: "Industry Training Alliance"
+        paragraphs:
+          - "Explore approved courses that offer technicians the opportunity to earn I-CAR training&nbsp;credits."
+        href: "https://www.i-car.com/industry-training-alliance"
+        image:
+          alt: "tech painting car"
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp"
+          srcset: "/getmedia/50b55308-764c-4506-b902-4ed9630195a9/alliance_362w.webp 362w, /getmedia/1869523d-1b76-4f03-9746-4550d07a2dff/alliance_486w.webp 486w, /getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp 728w, /getmedia/fae8d623-30bd-4c45-b983-0e72681dc56e/alliance_972w.webp 972w, /getmedia/51f6138f-4a0f-4015-84ce-a7cf917556ff/alliance_1456w.webp 1456w"
+
+  # ─── Section 6: Prepare for Emerging Technologies ────────────────────────────
+  # Source: lines 263–307. section. box box_lg. textMedia right.
+  # Same imaging as insurance S6 (shared tech_* assets).
+  # desktopMediaPosition: right; mobileMediaOrder: above
+  # REDESIGN DIFFERENCE: box box_lg styling dropped.
+  # imageRounded: false (source image no class)
+  - id: emerging-tech
+    type: textMedia
+    imageRounded: false
+    heading: "Prepare for Emerging Technologies"
+    sublabel: "As vehicle technology continues to accelerate, we&rsquo;re here to support you with courses, resources, and information to help your team stay&nbsp;current."
+    buttons:
+      - label: "Keep up with ADAS"
+        href: "https://info.i-car.com/adas"
+        variant: outline
+      - label: "Get EV Ready"
+        href: "https://info.i-car.com/electric-vehicles"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 376
+          srcset: "/getmedia/ba56a364-1d40-4b6a-b85b-6dcda6eec210/tech_364w.webp 364w, /getmedia/49517125-0b13-4eda-af5e-f080a4cecc82/tech_728w.webp 728w, /getmedia/6526b1fe-6037-44f1-a5fe-e795192fc9d0/tech_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 428
+          height: 561
+          srcset: "/getmedia/a7bbb64d-8515-4470-a8ee-c929e7d6cbef/tech_428w.webp 428w, /getmedia/130c5df0-8c0f-4a8a-be95-8ac2b9723413/tech_856w.webp 856w"
+        - maxWidth: 1199.9
+          width: 532
+          height: 532
+          srcset: "/getmedia/b0f8b288-2f5f-487d-bda1-e5798b8c4de9/tech_532w.webp 532w, /getmedia/75c2b713-33c2-45f1-875b-18e500b2c12d/tech_1064w.webp 1064w"
+      alt: "i-car educators"
+      width: 574
+      height: 462
+      sizes: "574px"
+      src: "/getmedia/03d5ad13-c604-488a-94dc-eadcd0dcc42c/tech_574w.webp"
+      srcset: "/getmedia/03d5ad13-c604-488a-94dc-eadcd0dcc42c/tech_574w.webp 574w, /getmedia/f581edc2-ea21-404d-a561-3ce8ae8796fd/tech_1148w.webp 1148w"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+
+  # ─── Section 7: Get Started with I-CAR ───────────────────────────────────────
+  # Source: lines 309–334. section pt-4 pb-0. textMedia left.
+  # copy: col-md col-lg-5 ... order-md-2; media: col-10 col-md col-lg-5 pb-0 pr-md-5 order-md-1
+  # desktopMediaPosition: left (media order-md-1 = left at desktop)
+  # mobileMediaOrder: below (no mobile order classes → DOM order → copy above, media below)
+  # desktopGapBreakpoint: md → default desktopGapTarget:media for left → pr-md-5 on media ✓
+  # imageRounded: false (source <img> no class)
+  # spacing.paddingBottom: none → pb-0. DEVIATION: pt-4 lost.
+  # button target: _blank
+  - id: get-started
+    type: textMedia
+    imageRounded: false
+    heading: "Get Started with&nbsp;I&#8209;CAR"
+    sublabel: "Don&rsquo;t wait! Contact us today to unlock the power of training to advance your career in collision&nbsp;repair."
+    spacing:
+      paddingBottom: none
+    buttons:
+      - label: "Contact I&#8209;CAR"
+        href: "https://my.i-car.com/s/contactsupport"
+        target: "_blank"
+        variant: primary
+    image:
+      alt: "tech working on tablet"
+      width: 728
+      height: 900
+      sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
+      src: "/getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp"
+      srcset: "/getmedia/92f2a728-f049-414a-8e9d-b2cd58d26490/get-started_362w.webp 362w, /getmedia/59cb69b2-96f0-41bc-8a27-ebb10f1f3f6f/get-started_430w.webp 430w, /getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp 728w, /getmedia/3be671c8-b7c4-4e30-8623-f6b169548d1a/get-started_1456w.webp 1456w"
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+      desktopGapBreakpoint: md

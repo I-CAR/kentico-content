@@ -1,0 +1,211 @@
+slug: oem
+title: Industries Served - OEM
+sections:
+
+  # ─── Section 1: Hero ─────────────────────────────────────────────────────────
+  # Source: lines 1–40. label-above: h1.label → p.h1 → p.subhead. No dropdown.
+  # Hero image alt="" (decorative) in source; typed preserves alt:"".
+  - id: top
+    type: hero
+    label: "OEM Resources"
+    heading: "Your Collision Repair Network Partner"
+    sublabel: "For improved customer satisfaction in your network that you can count on, count on I-CAR to help improve your vehicle brand&nbsp;experience."
+    buttons:
+      - label: "Training Program Requirements"
+        href: "https://info.i-car.com/network-programs/oem"
+        variant: primary
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 418
+          srcset: "/getmedia/6d0107ea-ba65-4a30-922a-1e37ca851313/OEM-Hero_364w.webp 364w, /getmedia/70f6f271-7224-4492-84d9-19588c748a9d/OEM-Hero_728w.webp 728w, /getmedia/acef8102-90f0-46a6-825b-ad6d4ef154b2/OEM-Hero_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 1008
+          height: 669
+          srcset: "/getmedia/a733e3a5-1dad-4a66-a9a0-9f17469fb2c3/OEM-Hero_1008w.webp 1008w, /getmedia/ec0c1ec7-54da-48b8-921c-1ae3205f6898/OEM-Hero_2016w.webp 2016w"
+        - maxWidth: 1199.9
+          width: 1180
+          height: 584
+          srcset: "/getmedia/d35b77ca-2ce1-482c-bf71-d9bf61dd4ffd/OEM-Hero_1180w.webp 1180w, /getmedia/72ee7f85-7364-42b9-af1a-a9b927f03d91/OEM-Hero_2360w.webp 2360w"
+      decorative: true
+      width: 1400
+      height: 500
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      src: "/getmedia/7fc6e41b-377a-4cdc-894f-93f76901ebe3/OEM-Hero_1400w.webp"
+      srcset: "/getmedia/7fc6e41b-377a-4cdc-894f-93f76901ebe3/OEM-Hero_1400w.webp 1400w, /getmedia/c5318337-829f-46ec-a042-45c874b816df/OEM-Hero_2800w.webp 2800w"
+    layout:
+      desktopSplit: lg-5-7
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+      labelPosition: above
+      desktopGapTarget: none
+      rowVerticalAlign: none
+      rowJustify: none
+      mobileMediaSpacing: tight
+
+  # ─── Section 2: An Exceptional Repair Experience ─────────────────────────────
+  # Source: lines 42–102. section-resources bg-light.
+  # Source uses div.checkmark items (3), NOT a typed card type.
+  # STOP CONDITION: Senior — checkmark visual component has no typed equivalent.
+  # Mapped as cards type (3 cards, heading + paragraph, NO href).
+  # REDESIGN DIFFERENCE: checkmark icon styling dropped; visual appearance differs.
+  - id: repair-experience
+    type: cards
+    backgroundColor: light
+    heading: "An Exceptional Repair Experience"
+    body: "Your collision repair network represents your brand after a collision. Leverage I-CAR&rsquo;s technical expertise, industry connections, and leadership to help them deliver exceptional repair experiences for your&nbsp;customers."
+    cards:
+      - heading: "Vehicle and Technology Specific Training"
+        paragraphs:
+          - "We can help develop customized training and delivery for your network around a specific model, repair process, or&nbsp;technology."
+      - heading: "Technical Resources"
+        paragraphs:
+          - "Our industry-leading subject matter experts develop content and resources in an online hub to support the ongoing needs of collision&nbsp;repairers."
+      - heading: "Network Training Documentation"
+        paragraphs:
+          - "Let us help you track and report on the training status of your network to help facilitate network business decisions to best&nbsp;serve."
+
+  # ─── Section 3: Network Strength ─────────────────────────────────────────────
+  # Source: lines 104–145. section. textMedia right (box_lg-like layout without box class).
+  # copy: col-md order-2 order-md-1 ... pr-md-5; media: col-md order-1 order-md-2
+  # desktopMediaPosition: right (copy left at desktop via order-md-1, media right via order-md-2)
+  # mobileMediaOrder: above (media order-1 at mobile)
+  # desktopGapTarget: copy, desktopGapBreakpoint: md → pr-md-5 on copy ✓
+  # imageRounded: true, imageFrame: none (source class="img-rounded" → rounded without frame)
+  # 4-source picture.
+  - id: network-strength
+    type: textMedia
+    heading: "Network Strength"
+    sublabel: "With over 9,500 Gold Class facilities nationwide, I-CAR can help you strengthen your network by identifying collision repairers who are committed to maintaining the highest level of industry-recognized technical&nbsp;training."
+    buttons:
+      - label: "Get to Gold Class"
+        href: "https://info.i-car.com/gold-class/gold-class-collision-repair"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 376
+          srcset: "/getmedia/4c72ae11-b480-4333-9a32-3ab42544879f/Gold-Class_364w.webp 364w, /getmedia/ed0232e1-ae2b-4b4f-9746-639dfa6a6c9c/Gold-Class_728w.webp 728w, /getmedia/81a3f19e-274f-44a4-a535-0a3e73791fe4/Gold-Class_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 428
+          height: 561
+          srcset: "/getmedia/718c8412-268c-4c03-977c-d974e8fe67db/Gold-Class_428w.webp 428w, /getmedia/f2228a20-21b1-49da-9930-9dc21eb866e4/Gold-Class_856w.webp 856w"
+        - maxWidth: 1199.9
+          width: 532
+          height: 532
+          srcset: "/getmedia/eb42fd8c-c73d-47ff-8b66-9fbada6d0ada/Gold-Class_532w.webp 532w, /getmedia/95f4511c-b8f0-4622-b5b4-b0b9029d2775/Gold-Class_1064w.webp 1064w"
+      alt: ""
+      width: 574
+      height: 462
+      sizes: "574px"
+      src: "/getmedia/bba0f7da-b221-470a-9ccf-26d7f23bfad0/Gold-Class_574w.webp"
+      srcset: "/getmedia/bba0f7da-b221-470a-9ccf-26d7f23bfad0/Gold-Class_574w.webp 574w, /getmedia/c0cfed36-2df1-4e61-9253-aa9d040dfc6c/Gold-Class_1148w.webp 1148w"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+      desktopGapTarget: copy
+      desktopGapBreakpoint: md
+      imageFrame: none
+
+  # ─── Section 4: Collaboration Programs ───────────────────────────────────────
+  # Source: lines 147–195. section bg-light-sm. 2 image cards.
+  # REDESIGN DIFFERENCE: bg-light-sm has no typed equivalent. Rendered without backgroundColor.
+  # Card images have alt="" (decorative).
+  - id: collaboration
+    type: cards
+    heading: "Collaboration Programs"
+    body: "Invest in your network with these industry-recognized&nbsp;programs."
+    cards:
+      - heading: "Industry Training Alliance"
+        paragraphs:
+          - "Designed to reduce training redundancy and receive credit for training completed through OEM and Supplier Training Alliance&nbsp;Partners."
+        href: "https://www.i-car.com/industry-training-alliance"
+        image:
+          alt: ""
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp"
+          srcset: "/getmedia/50b55308-764c-4506-b902-4ed9630195a9/alliance_362w.webp 362w, /getmedia/1869523d-1b76-4f03-9746-4550d07a2dff/alliance_486w.webp 486w, /getmedia/e198ccc1-3e29-44dc-a5c2-756090e258ff/alliance_728w.webp 728w, /getmedia/fae8d623-30bd-4c45-b983-0e72681dc56e/alliance_972w.webp 972w, /getmedia/51f6138f-4a0f-4015-84ce-a7cf917556ff/alliance_1456w.webp 1456w"
+      - heading: "Sustaining Partner Program"
+        paragraphs:
+          - "Unites the industry to support collision repair training with the goal of ensuring complete, safe and quality&nbsp;repairs."
+        href: "https://info.i-car.com/sustaining-partners"
+        image:
+          alt: ""
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/2be428c4-6c6b-4e3f-ab67-3ad8bc4a2078/Sustaining-Partners_728w.webp"
+          srcset: "/getmedia/7e071ad2-c0ba-4ba2-bf8f-e6eb83672b68/Sustaining-Partners_364w.webp 364w, /getmedia/0df0ddd2-58c0-472e-b048-5997b8717ee8/Sustaining-Partners_486w.webp 486w, /getmedia/2be428c4-6c6b-4e3f-ab67-3ad8bc4a2078/Sustaining-Partners_728w.webp 728w, /getmedia/c250a1bd-2806-4dc8-8198-c2e84a91c4bf/Sustaining-Partners_972w.webp 972w, /getmedia/37a2242a-41e0-48a4-936e-84611e90ff91/Sustaining-Partners_1456w.webp"
+
+  # ─── Section 5: I-CAR Academy ─────────────────────────────────────────────────
+  # Source: lines 198–232. section bg-light bg-white-sm. textMedia left.
+  # copy: col-md ... pl-xl-5 order-md-2; media: col-md col-lg-auto ... order-md-1
+  # At desktop: media order-md-1 (left), copy order-md-2 (right) → desktopMediaPosition: left ✓
+  # mobileMediaOrder: below (no mobile order classes → DOM order → copy ABOVE, media BELOW)
+  # label "What's New" above heading (source class="section-label")
+  # REDESIGN DIFFERENCE: bg-white-sm has no typed equivalent; rendered as bg-light.
+  # Academy button: "Explore I-CAR Academy" → /academy (not /browse/academy)
+  # Image: same academy images as other pages (img_rounded → imageFrame:none)
+  - id: academy
+    type: textMedia
+    backgroundColor: light
+    label: "What&#39;s New"
+    heading: "I-CAR Academy"
+    sublabel: "A new program for shops and schools, I-CAR Academy empowers collision repair professionals through comprehensive education to attract, train, and retain talent in our&nbsp;industry."
+    buttons:
+      - label: "Explore I-CAR Academy"
+        href: "https://www.i-car.com/academy"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 615
+          height: 374
+          sizes: "(max-width: 400px) 364px, 728px"
+          srcset: "/getmedia/cd79ebd9-2ca4-407b-bf7e-774a0e61c1ed/academy_364w.webp 364w, /getmedia/aa498d7e-cd7e-46b9-a12b-24bf0f3e53e6/academy_728w.webp 728w, /getmedia/7ec20891-2091-41a8-9dd9-8e7483607091/academy_1456w.webp"
+      alt: ""
+      width: 615
+      height: 400
+      sizes: "615px"
+      src: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp"
+      srcset: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp 615w, /getmedia/dcfa6cae-f8e6-42b1-b9ff-e0e40de1c608/academy_1230w.webp 1230w"
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+      labelPosition: above
+      desktopGapTarget: copy
+      desktopGapBreakpoint: xl
+      imageFrame: none
+
+  # ─── Section 6: Reach Your Collision Repair Network Goals ────────────────────
+  # Source: lines 234–258. section py-0 pt-md-5. textMedia right (default).
+  # copy: col-md ... (DOM first, no order classes); media: col-10 col-md (DOM second)
+  # DOM order: copy first (left), media second (right) → desktopMediaPosition: right (default)
+  # mobileMediaOrder: below (default for right, no mobile order classes)
+  # imageRounded: false (source class="img-flush" — not rounded)
+  # spacing.paddingTop: none-mobile + paddingBottom: none → pt-0 pt-md-5 pb-0 (exact match).
+  # Button: "Contact I-CAR" → contactsupport, variant: primary, NO target="_blank"
+  - id: get-started
+    type: textMedia
+    imageRounded: false
+    heading: "Reach Your Collision Repair Network Goals"
+    sublabel: "I-CAR&rsquo;s customized solutions extend your team&rsquo;s resources and enhance the effectiveness of your&nbsp;network."
+    spacing:
+      paddingTop: none-mobile
+      paddingBottom: none
+    buttons:
+      - label: "Contact I-CAR"
+        href: "https://my.i-car.com/s/contactsupport"
+        variant: primary
+    image:
+      alt: ""
+      width: 728
+      height: 900
+      sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
+      src: "/getmedia/81173898-2a4d-4f06-9dee-d190dfc3c9c3/Contact_I-CAR_XL_728w.webp"
+      srcset: "/getmedia/f7ed955f-8eac-407f-9b12-cc8ff421b0e9/Contact_I-CAR_XL_364w.webp 364w, /getmedia/72ec0a01-c185-4f5d-9d21-44ef7781f73e/Contact_I-CAR_XL_430w.webp 430w, /getmedia/81173898-2a4d-4f06-9dee-d190dfc3c9c3/Contact_I-CAR_XL_728w.webp 728w, /getmedia/f5a3019f-3daf-4e19-add1-31ac05e09d79/Contact_I-CAR_XL_1456w.webp 1456w"

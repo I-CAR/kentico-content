@@ -1,0 +1,250 @@
+slug: collision-repair-technician
+title: Industries Served - Collision Repair Technician
+sections:
+
+  # ─── Section 1: Hero ─────────────────────────────────────────────────────────
+  # Source: lines 1–87. section_hero section_hero-banner.
+  # LABEL IS AFTER HEADING in source DOM:
+  #   <h1 class="mb-3">Take Control of Your Future</h1>
+  #   <p class="label">Collision Repair Technician Resources</p>
+  # Therefore: NO labelPosition: above. Label renders after heading (default).
+  # pathDropdown: same 10-item list as apda.yaml.
+  # desktopSplit: lg-5-7. 3-source picture.
+  - id: top
+    type: hero
+    heading: "Take Control of Your&nbsp;Future"
+    label: "Collision Repair Technician Resources"
+    sublabel: "For entry-level or advanced learning you can count on, count on I&#8209;CAR to provide you with a training path that sets you up for success."
+    pathDropdown:
+      label: "Choose Your Path"
+      items:
+        - label: "ADAS Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A8W000000FGldUAG/adas-technician-platinum-path"
+        - label: "Auto Physical Damage Appraiser"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdrUAE/auto-physical-damage-appraiser-platinum-path"
+        - label: "Electrical/Diagnostics Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdpUAE/electrical-diagnostics-technician-platinum-path"
+        - label: "Entry-Level Technician"
+          href: "https://info.i-car.com/entry-level"
+        - label: "Estimator"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdoUAE/estimator-platinum-path"
+        - label: "Mechanical Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdqUAE/mechanical-technician-platinum-path"
+        - label: "Non-Structural Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdkUAE/nonstructural-technician-platinum-path"
+        - label: "Production Manager"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdlUAE/production-management-platinum-path"
+        - label: "Refinish Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdnUAE/refinish-technician-platinum-path"
+        - label: "Structural Technician"
+          href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdmUAE/structural-technician-platinum-path"
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 418
+          srcset: "/getmedia/b3a1f492-2a3b-460b-a303-e1c5f842c6d5/hero_364w.webp 364w, /getmedia/36522e5d-d293-41ca-b45c-216897e083ef/hero_728w.webp 728w, /getmedia/c826b727-a1e1-4a55-aba6-c56c41187e10/hero_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 1008
+          height: 669
+          srcset: "/getmedia/efe31071-17af-4680-baa8-acb9aa58801e/hero_1008w.webp 1008w, /getmedia/31752365-37b7-446a-8ed9-a268b40107be/hero_2016w.webp 2016w"
+        - maxWidth: 1199.9
+          width: 1180
+          height: 584
+          srcset: "/getmedia/a1f9ae8b-6674-4e20-8655-881f6a4705f6/hero_1180w.webp 1180w, /getmedia/a76721ad-532e-4855-8f3d-30b00e3a31ca/hero_2360w.webp 2360w"
+      alt: "tech working on car"
+      width: 1400
+      height: 500
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      src: "/getmedia/7927ad65-bbbc-49e3-8880-b843e7556218/hero_1400w.webp"
+      srcset: "/getmedia/7927ad65-bbbc-49e3-8880-b843e7556218/hero_1400w.webp 1400w, /getmedia/b687e8db-5e94-4c42-b12b-ac67790d268c/hero_2800w.webp 2800w"
+    layout:
+      desktopSplit: lg-5-7
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+      desktopGapTarget: none
+      rowVerticalAlign: none
+      rowJustify: none
+      mobileMediaSpacing: tight
+
+  # ─── Section 2: Training and Technical Resources ─────────────────────────────
+  # Source: lines 89–191. bg-light. 4 logo cards (iconCardGrid), cardsPerRow: 4.
+  # All 4 have target="_blank".
+  - id: resources
+    type: iconCardGrid
+    backgroundColor: light
+    heading: "Training and Technical Resources"
+    body: "Comprehensive education and technical resources are available to drive your performance and professional&nbsp;development."
+    layout:
+      cardsPerRow: 4
+    cards:
+      - heading: "Repairability Technical Support"
+        paragraphs:
+          - "Find repair info at your&nbsp;fingertips"
+        href: "https://rts.i-car.com/"
+        target: "_blank"
+        iconSrc: "/getmedia/360439f3-768c-4892-a1c7-20d28a514cb3/logo_rts.svg"
+        iconAlt: "Repairability Technical Support"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Ask I&#8209;CAR"
+        paragraphs:
+          - "Get real-time technical support"
+        href: "https://rts.i-car.com/ask-i-car.html"
+        target: "_blank"
+        iconSrc: "/getmedia/c4d63879-3d3a-4be5-b508-d2991d47a5df/logo_ask-icar.svg"
+        iconAlt: "Ask I-CAR logo"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Repairers Realm"
+        paragraphs:
+          - "Watch technical experts talking shop"
+        href: "https://info.i-car.com/repairers-realm"
+        target: "_blank"
+        iconSrc: "/getmedia/3cf495e1-9354-431e-96c4-26b1b9ba1315/logo_repairers-realm.svg"
+        iconAlt: "Repairers Realm logo"
+        iconWidth: 200
+        iconHeight: 114
+      - heading: "Just In Time"
+        paragraphs:
+          - "Get quick tips on repair topics"
+        href: "https://rts.i-car.com/just-in-time.html"
+        target: "_blank"
+        iconSrc: "/getmedia/8c919f38-1c05-4bca-8784-59a59eeab3c1/logo_just-in-time.svg"
+        iconAlt: "Just In Time logo"
+        iconWidth: 200
+        iconHeight: 114
+
+  # ─── Section 3: Stand Out with Platinum ──────────────────────────────────────
+  # Source: lines 193–245. section. box box_lg. textMedia right.
+  # copy: col-md ... order-2 order-md-1; media (box-image): col-md order-1 order-md-2
+  # desktopMediaPosition: right; mobileMediaOrder: above
+  # REDESIGN DIFFERENCE: box box_lg visual styling dropped.
+  # Inline Platinum logo (<img class="logo mb-4"> in copy): typed via badgeImage.
+  # imageRounded: false (source image has no class)
+  # 4-source picture (3 <source> + <img>).
+  - id: platinum
+    type: textMedia
+    imageRounded: false
+    heading: "Stand Out with Platinum"
+    sublabel: "Achieving Platinum means you join 30,000+ technicians in ongoing learning. It shows customers you&rsquo;re focused on safe, top-quality repairs. For your boss, it means you&rsquo;re serious about your career growth. And for you? It means you&rsquo;ve got the smarts and confidence for what&rsquo;s&nbsp;ahead."
+    buttons:
+      - label: "Get to Platinum"
+        href: "https://info.i-car.com/platinum/platinum-collision-repair"
+        variant: outline
+    badgeImage:
+      src: "/getmedia/647952e9-31ec-4d20-bd4d-4463898f5425/logo_platinum.svg"
+      srcset: "/getmedia/647952e9-31ec-4d20-bd4d-4463898f5425/logo_platinum.svg 165w"
+      sizes: "165px"
+      width: 165
+      height: 85
+      alt: "Platinum logo"
+      loading: "lazy"
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 375
+          sizes: "(max-width: 399.9px) 364px, 728px"
+          srcset: "/getmedia/47e0a2a7-f7ae-4920-8bd6-d719e6219b59/platinum_364w.webp 364w, /getmedia/fbc75723-4d51-42ef-8d47-26377152a048/platinum_728w.webp 728w, /getmedia/00ca83e7-70fa-4af5-bd5a-b649977c5bad/platinum_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 452
+          height: 729
+          sizes: "452px"
+          srcset: "/getmedia/eadca56d-14c7-4c7b-8f73-1ab32bd043fc/platinum_452w.webp 452w, /getmedia/e3f42df1-2ed2-4ff8-b7e8-843ca8ddca7f/platinum_904w.webp 904w"
+        - maxWidth: 1199.9
+          width: 532
+          height: 574
+          sizes: "532px"
+          srcset: "/getmedia/16099a37-7f9f-43fe-bbcb-9cca981ef211/platinum_532w.webp 532w, /getmedia/3b8a76c0-4c79-46dc-a380-a87e8d7c24bc/platinum_1064w.webp 1064w"
+      alt: "tech student in front of car"
+      width: 573
+      height: 610
+      sizes: "573px"
+      src: "/getmedia/6cff4ab8-909e-48c0-94c8-981ca616358d/platinum_573w.webp"
+      srcset: "/getmedia/6cff4ab8-909e-48c0-94c8-981ca616358d/platinum_573w.webp 573w, /getmedia/ad61420d-cfa8-4b45-be65-d8e9b5ed73a0/platinum_1146w.webp 1146w"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+
+  # ─── Section 4: Integrated Solutions ─────────────────────────────────────────
+  # Source: lines 247–310. section. 3 image cards.
+  - id: integrated
+    type: cards
+    heading: "Integrated Solutions"
+    body: "It&rsquo;s easier than ever to get the training that&rsquo;s right for your role and goals. Access live, online, and virtual courses, and earn training credits from our OEM and supplier&nbsp;partners."
+    cards:
+      - heading: "Explore I&#8209;CAR Learning"
+        paragraphs:
+          - "Discover the 360+ courses available to support career paths and interests."
+        href: "https://www.i-car.com/browse"
+        image:
+          alt: "tech working on car holding a tablet"
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/3d2f7be7-4248-4baf-8ae5-4734ad33b68f/learning_486w.webp"
+          srcset: "/getmedia/ad213e28-468e-481f-aa4e-b942cd08f8b5/learning_362w.webp 362w, /getmedia/3d2f7be7-4248-4baf-8ae5-4734ad33b68f/learning_486w.webp 486w, /getmedia/e79cbcb4-19d5-48ae-9a83-61562179905a/learning_728w.webp 728w, /getmedia/62f22bca-0b0d-419e-8c7f-5eec0d9ec29c/learning_972w.webp 972w, /getmedia/4629d89c-32e8-4bfd-814e-3dfb1c81bd3c/learning_1456w.webp 1456w"
+      - heading: "Practice Welding"
+        paragraphs:
+          - "Check out tips and resources to practice welding and prepare for certification."
+        href: "https://info.i-car.com/welding"
+        image:
+          alt: "tech student and instructor looking at weld"
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/b3c881b4-0117-4ec2-8a80-74d84c214c45/practice_486w.webp"
+          srcset: "/getmedia/09c7d1d9-2c82-4274-a283-f18c5858676d/practice_362w.webp 362w, /getmedia/b3c881b4-0117-4ec2-8a80-74d84c214c45/practice_486w.webp 486w, /getmedia/f0432523-6db8-44b5-ab6b-d6553fed562d/practice_728w.webp 728w, /getmedia/8ce4c224-c516-4141-b026-476b1e50da34/practice_972w.webp 972w, /getmedia/3899ed3e-06ff-4bc8-9264-29b0fef8fcb5/practice_1456w.webp 1456w"
+      - heading: "Industry Training Alliance"
+        paragraphs:
+          - "Get I&#8209;CAR credit for approved training you&#39;ve already&nbsp;completed."
+        href: "https://www.i-car.com/industry-training-alliance"
+        image:
+          alt: "tech painting a car"
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/7d359f92-fc3b-40fe-85a4-76639a4ec652/alliance_486w.webp"
+          srcset: "/getmedia/f16c22d0-6312-41c1-b3ae-b22d9b3277df/alliance_362w.webp 362w, /getmedia/7d359f92-fc3b-40fe-85a4-76639a4ec652/alliance_486w.webp 486w, /getmedia/e649be40-3dd6-4c52-8549-174f40fb3dff/alliance_728w.webp 728w, /getmedia/7aa6ab63-3dc6-41aa-b7f5-33b821e3b2a4/alliance_972w.webp 972w, /getmedia/cbc83ac4-0695-4538-a4c5-6e11168a4803/alliance_1456w.webp 1456w"
+
+  # ─── Section 5: Brightcove Video Embed ───────────────────────────────────────
+  # Source: lines 312–330. section bg-light.
+  # STOP CONDITION: Same approach as CRM S5. Senior — confirm embed type handles
+  #   standard heading/sublabel fields alongside embedHtml.
+  - id: video
+    type: embed
+    backgroundColor: light
+    heading: "Essential Playlist for Technicians Like You"
+    sublabel: "Stay ready with these helpful tech-focused videos."
+    embedHtml: "<div data-experience=\"66fafb9e05140ad47a1b36d4\" style=\"margin:0 -20px\">&nbsp;</div><script src=\"https://players.brightcove.net/1862663934001/experience_66fafb9e05140ad47a1b36d4/live.js\" type=\"text/javascript\"></script>"
+
+  # ─── Section 6: Get Started with I-CAR ───────────────────────────────────────
+  # Source: lines 332–362. section pb-0. textMedia right (default).
+  # copy: col-md col-lg-5 ...; media: col-10 col-md col-lg-5 (no order classes)
+  # DOM order: copy first (left), media second (right) → desktopMediaPosition: right (default)
+  # mobileMediaOrder: below (default for right)
+  # imageRounded: false (source <img> has no class)
+  # Ordered list: variant:ordered, 3 items. list supported at textMedia line 2874.
+  # spacing.paddingBottom: none → pb-0 ✓
+  # Button target: _blank
+  - id: get-started
+    type: textMedia
+    imageRounded: false
+    heading: "Get Started with&nbsp;I&#8209;CAR"
+    sublabel: "Register for an account to start learning and tracking your progress."
+    list:
+      variant: ordered
+      items:
+        - "Create your <em>my</em>I&#8209;CAR&nbsp;account"
+        - "Choose your path"
+        - "Start learning!"
+    spacing:
+      paddingBottom: none
+    buttons:
+      - label: "Create An Account"
+        href: "https://my.i-car.com/s/self-register"
+        target: "_blank"
+        variant: primary
+    image:
+      alt: "i-car tech"
+      width: 728
+      height: 728
+      sizes: "(max-width: 399.9px) 362px, 728px"
+      src: "/getmedia/c3d4c9e1-e662-4ee7-bb48-d44e714ce39b/get-started_728w.webp"
+      srcset: "/getmedia/ed9879dc-c022-4870-b8d2-02d46154dfff/get-started_362w.webp 362w, /getmedia/48858ba9-8066-40d4-8fe2-c94959572b52/get-started_430w.webp 430w, /getmedia/c3d4c9e1-e662-4ee7-bb48-d44e714ce39b/get-started_728w.webp 728w, /getmedia/73e2b304-d442-4f05-9734-1f5fc93e1f77/get-started_860w.webp 860w, /getmedia/c881553f-c892-4831-b516-2ab328591016/get-started_1456w.webp 1456w"

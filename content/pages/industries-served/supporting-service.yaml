@@ -1,0 +1,207 @@
+slug: supporting-service
+title: Industries Served - Supporting Services
+sections:
+
+  # ─── Section 1: Hero ─────────────────────────────────────────────────────────
+  # Source: lines 1–40. label-above: h1.label → p.h1 → p.subhead. No dropdown.
+  # Hero image alt="" (decorative).
+  - id: top
+    type: hero
+    label: "Supporting Services Resources"
+    heading: "A Network of Opportunities"
+    sublabel: "With over 9,500 Gold Class facilities nationwide, I&#8209;CAR is serving the standard in collision repair education connecting you with repairers committed to top-tier industry&nbsp;training."
+    buttons:
+      - label: "Discover I&#8209;CAR"
+        href: "https://info.i-car.com/about-us"
+        variant: primary
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 728
+          height: 418
+          srcset: "/getmedia/1702c021-ac53-4529-87ee-fb9bb0d6a2b5/Supporting-Services-Hero_364w.webp 364w, /getmedia/79d55793-7523-49ae-a455-a583a316035e/Supporting-Services-Hero_728w.webp 728w, /getmedia/f13ec97a-2e1e-41ba-bab5-7e37fac7d284/Supporting-Services-Hero_1456w.webp 1456w"
+        - maxWidth: 991.9
+          width: 1008
+          height: 669
+          srcset: "/getmedia/85c5491c-89ce-4c15-b648-2f7002859361/Supporting-Services-Hero_1008w.webp 1008w, /getmedia/d880d2bb-5c5f-40c6-b441-51af495d26f5/Supporting-Services-Hero_2016w.webp 2016w"
+        - maxWidth: 1199.9
+          width: 1180
+          height: 584
+          srcset: "/getmedia/25d0cdbc-8a6d-4a5d-83c7-c21cea5368e2/Supporting-Services-Hero_1180w.webp 1180w, /getmedia/12bcb570-dda2-4cbd-83d1-57d9f9075633/Supporting-Services-Hero_2360w.webp 2360w"
+      decorative: true
+      width: 1400
+      height: 500
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      src: "/getmedia/afd0c290-0c40-4236-a94f-8a6a87533227/Supporting-Services-Hero_1400w.webp"
+      srcset: "/getmedia/afd0c290-0c40-4236-a94f-8a6a87533227/Supporting-Services-Hero_1400w.webp 1400w, /getmedia/640def2f-ee26-4d43-8575-804585b20d1e/Supporting-Services-Hero_2800w.webp 2800w"
+    layout:
+      desktopSplit: lg-5-7
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+      labelPosition: above
+      desktopGapTarget: none
+      rowVerticalAlign: none
+      rowJustify: none
+      mobileMediaSpacing: tight
+
+  # ─── Section 2: Together, We All Win ─────────────────────────────────────────
+  # Source: lines 42–67. section bg-light. textMedia.
+  # copy: col-md col-lg-6 pl-md-5 ml-xl-5 order-2; media: col-auto ... order-1 order-md-2
+  # At mobile: media order-1 (above), copy order-2 (below).
+  # At desktop: media order-md-2 (second), copy order-2 (unchanged → DOM-first = left).
+  # → copy LEFT (DOM-first), media RIGHT (order-md-2 = second with tiebreaker DOM-second)
+  # → desktopMediaPosition: right; mobileMediaOrder: above
+  # Gap: copy has pl-md-5. For right+copy desktopGapTarget → pr-md-5 on copy.
+  # DEVIATION: source pl-md-5 (left edge of copy) vs typed pr-md-5 (right edge of copy).
+  # imageRounded: false; imageFrame: none (SVG logo, alt="" decorative).
+  - id: together
+    type: textMedia
+    backgroundColor: light
+    imageRounded: false
+    heading: "Together, We All Win"
+    sublabel: "Explore the benefits the I&#8209;CAR Sustaining Partner Program provides, including access to information, course content and marketing opportunities."
+    buttons:
+      - label: "See Sustaining Partners"
+        href: "https://info.i-car.com/sustaining-partners"
+        variant: outline
+    image:
+      alt: ""
+      width: 220
+      height: 104
+      src: "/getmedia/787c1c7c-72c0-4d88-8564-bddf01a231cb/logo_sustaining-partners.svg"
+    layout:
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+      imageFrame: none
+
+  # ─── Section 3: Training That Matters ────────────────────────────────────────
+  # Source: lines 69–116. section. 2 image cards. Card images have alt="" (decorative).
+  - id: training
+    type: cards
+    heading: "Training That Matters"
+    body: "Getting the right training for individual or business success in collision repair has never been&nbsp;easier."
+    cards:
+      - heading: "Explore I&#8209;CAR Learning"
+        paragraphs:
+          - "Discover the 360+ courses available to support career paths and interests."
+        href: "https://www.i-car.com/browse"
+        image:
+          alt: ""
+          width: 728
+          height: 334
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/ae51ebf5-8950-40e8-a681-08fcc816b704/Explore_I-CAR_Learning_728w.webp"
+          srcset: "/getmedia/af386330-3b13-478a-8c65-d3472f3ea8f5/Explore_I-CAR_Learning_362w.webp 362w, /getmedia/b0d61ddb-0e5d-4294-afb0-bf9d6b7608b1/Explore_I-CAR_Learning_486w.webp 486w, /getmedia/ae51ebf5-8950-40e8-a681-08fcc816b704/Explore_I-CAR_Learning_728w.webp 728w, /getmedia/787d4a1f-86dc-4f8e-885d-7931100a79dd/Explore_I-CAR_Learning_972w.webp 972w, /getmedia/9cca39b8-8004-4fb6-97b1-77245ba41f36/Explore_I-CAR_Learning_1456w.webp 1456w"
+      - heading: "Industry Training Alliance"
+        paragraphs:
+          - "Explore approved courses that offer technicians the opportunity to earn I&#8209;CAR training&nbsp;credits."
+        href: "https://www.i-car.com/industry-training-alliance"
+        image:
+          alt: ""
+          sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
+          src: "/getmedia/363db2b5-017e-428c-8676-48c0195dbf29/Industry-Training-Alliance_728w.webp"
+          srcset: "/getmedia/074c7c02-05a5-4b38-8c7b-c7dcd0f8de06/Industry-Training-Alliance_362w.webp 362w, /getmedia/8f7cb2a2-865c-4146-af1f-bc76e41508d2/Industry-Training-Alliance_486w.webp 486w, /getmedia/363db2b5-017e-428c-8676-48c0195dbf29/Industry-Training-Alliance_728w.webp 728w, /getmedia/b440b620-36b6-4c9f-8847-ff94dceaed8c/Industry-Training-Alliance_972w.webp 972w, /getmedia/8d0b6e32-f5d1-471c-98d4-089ab0c0c757/Industry-Training-Alliance_1456w.webp 1456w"
+
+  # ─── Section 4: I-CAR Academy ─────────────────────────────────────────────────
+  # Source: lines 118–152. section bg-light. textMedia left.
+  # copy: col-md ... pl-xl-5 order-md-2; media: col-md col-lg-auto ... order-md-1
+  # desktopMediaPosition: left (media order-md-1); mobileMediaOrder: below (no mobile order)
+  # label "What's New" above heading. imageFrame: none (img_rounded). alt="" (decorative).
+  - id: academy
+    type: textMedia
+    backgroundColor: light
+    label: "What&#39;s New"
+    heading: "I&#8209;CAR Academy"
+    sublabel: "A new program for shops and schools, I&#8209;CAR Academy empowers collision repair professionals through comprehensive education to attract, train, and retain talent in our&nbsp;industry."
+    buttons:
+      - label: "Explore I-CAR Academy"
+        href: "https://www.i-car.com/browse/academy"
+        variant: outline
+    image:
+      sources:
+        - maxWidth: 767.9
+          width: 615
+          height: 374
+          sizes: "(max-width: 400px) 364px, 728px"
+          srcset: "/getmedia/cd79ebd9-2ca4-407b-bf7e-774a0e61c1ed/academy_364w.webp 364w, /getmedia/aa498d7e-cd7e-46b9-a12b-24bf0f3e53e6/academy_728w.webp 728w, /getmedia/7ec20891-2091-41a8-9dd9-8e7483607091/academy_1456w.webp"
+      alt: ""
+      width: 615
+      height: 400
+      sizes: "615px"
+      src: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp"
+      srcset: "/getmedia/aabbf9c5-c819-42db-bf94-a58e803fa01f/academy_615w.webp 615w, /getmedia/dcfa6cae-f8e6-42b1-b9ff-e0e40de1c608/academy_1230w.webp 1230w"
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+      labelPosition: above
+      desktopGapTarget: copy
+      desktopGapBreakpoint: xl
+      imageFrame: none
+
+  # ─── Section 5: Emerging Technologies ────────────────────────────────────────
+  # Source: lines 154–218. section pt-0 pb-0 pt-lg-1 pb-lg-5. iconCardGrid. 3 icon cards.
+  # spacing.paddingTop: none + paddingBottom: none → pt-0 pb-0 (lg spacing lost).
+  # DEVIATION: source pt-lg-1 pb-lg-5 (tiny top + large bottom at lg+) not typed.
+  # cardsPerRow: 3. Cards link to ADAS/EV/VTST.
+  - id: emerging-tech
+    type: iconCardGrid
+    heading: "Emerging Technologies"
+    body: "Keep up with advanced technology with courses and solutions for ADAS, EV and vehicle-specific repair&nbsp;information."
+    spacing:
+      paddingTop: none
+      paddingBottom: none
+    layout:
+      cardsPerRow: 3
+    cards:
+      - heading: "Advanced Driver Assistance Systems"
+        href: "https://info.i-car.com/adas"
+        iconSrc: "/getmedia/f43b270a-9ea1-4793-9f0e-0be11cb3ce31/Emerging-Tech_ADAS-100w.svg"
+        iconAlt: "Icon of long meeting table with chairs"
+        iconWidth: 100
+        iconHeight: 100
+      - heading: "Electric Vehicles"
+        href: "https://info.i-car.com/electric-vehicles"
+        iconSrc: "/getmedia/bdb6f1f4-303e-4820-a593-252285e41826/Emerging-Tech_EV-100w.svg"
+        iconAlt: "Icon of speaker at podium speaking to an audience"
+        iconWidth: 100
+        iconHeight: 100
+      - heading: "Vehicle and Technology Specific"
+        href: "https://my.i-car.com/s/learning-path-role/a3A1I000000hVdvUAE/vehicle-technology-specific-training"
+        iconSrc: "/getmedia/81f09b77-f18d-48dd-a7f7-39448f648d7a/Emerging-Tech_VTST-100w.svg"
+        iconAlt: "Icon of someone presenting pointing at a line graph show an upward trajectory"
+        iconWidth: 100
+        iconHeight: 100
+
+  # ─── Section 6: Get Started with I-CAR ───────────────────────────────────────
+  # Source: lines 220–244. section pt-3 pb-0. textMedia left.
+  # copy: col-md col-lg-5 ... order-md-2; media: col-10 col-md col-lg-5 pb-0 pr-md-5 order-md-1
+  # desktopMediaPosition: left (media order-md-1 = left at desktop)
+  # mobileMediaOrder: below (no mobile order classes → DOM order)
+  # desktopGapBreakpoint: md → default desktopGapTarget:media for left → pr-md-5 on media ✓
+  # imageRounded: false (source <img> alt="" no class)
+  # spacing.paddingBottom: none → pb-0. DEVIATION: pt-3 lost.
+  # button target: _blank
+  - id: get-started
+    type: textMedia
+    imageRounded: false
+    heading: "Get Started with&nbsp;I&#8209;CAR"
+    sublabel: "Don&rsquo;t wait, contact us today to unlock the power of training to advance your career in collision&nbsp;repair!"
+    spacing:
+      paddingBottom: none
+    buttons:
+      - label: "Contact I&#8209;CAR"
+        href: "https://my.i-car.com/s/contactsupport"
+        target: "_blank"
+        variant: primary
+    image:
+      alt: ""
+      width: 728
+      height: 900
+      sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
+      src: "/getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp"
+      srcset: "/getmedia/92f2a728-f049-414a-8e9d-b2cd58d26490/get-started_362w.webp 362w, /getmedia/59cb69b2-96f0-41bc-8a27-ebb10f1f3f6f/get-started_430w.webp 430w, /getmedia/4f1f78dd-02eb-4493-b1a1-65f13237862c/get-started_728w.webp 728w, /getmedia/3be671c8-b7c4-4e30-8623-f6b169548d1a/get-started_1456w.webp 1456w"
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+      desktopGapBreakpoint: md
