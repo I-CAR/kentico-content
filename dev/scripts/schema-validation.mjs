@@ -334,6 +334,14 @@ export const TextMediaSectionSchema = z.record(z.any()).superRefine((data, ctx) 
     validateSectionList(data.list, ctx);
     validateDecorativeImage(data.decorativeImage, ctx);
     validatePathDropdown(data.pathDropdown, ctx);
+    if (data.badgeImage !== undefined && typeof data.badgeImage === "object" && data.badgeImage !== null) {
+        if (!data.badgeImage.alt && data.badgeImage.decorative !== true) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "badgeImage.alt is required unless badgeImage.decorative is true", path: ["badgeImage", "alt"] });
+        }
+        if (data.badgeImage.className !== undefined) {
+            ctx.addIssue({ code: z.ZodIssueCode.forbidden, message: "badgeImage.className is not allowed; the logo class is fixed", path: ["badgeImage", "className"] });
+        }
+    }
 });
 
 // IconCardGrid section schema - permissive during transition phase

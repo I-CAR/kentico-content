@@ -40,6 +40,15 @@ section.ic-section:has(.ic-image-banner) .ic-image-logo {
     z-index: 1;
 }
 
+.ic-text-logo {
+    display: block;
+    margin-bottom: var(--space-24);
+
+    @include mq(md, down) {
+        display: none;
+    }
+}
+
 video.ic-video-banner {
     position: absolute;
     top: 50%;

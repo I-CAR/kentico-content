@@ -2875,8 +2875,11 @@ function renderTextMediaSection(section) {
   const decorativeCoverMarkup = section.decorativeImage?.placement === "cover" ? renderDecorativeImage(section.decorativeImage, 12) : "";
   const decorativeBottomMarkup = section.decorativeImage?.placement === "bottom" ? renderDecorativeImage(section.decorativeImage, 8) : "";
   const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 32);
+  const badgeImageMarkup = section.badgeImage
+    ? `                                <div class="ic-text-logo">${renderImg(section.badgeImage, "ic-image-logo", { loading: section.badgeImage.loading || "lazy", context: `section "${section.id}" badge image` })}</div>\n`
+    : "";
   const textColumn = `                            <div class="${escapeHtml(textColumnClassesFinal)}">
-${textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
+${badgeImageMarkup}${textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
 ${!textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${listMarkup ? `${listMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}${pathDropdownMarkup ? `${pathDropdownMarkup}\n` : ""}                            </div>`;
   const pictureMarkup = section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
