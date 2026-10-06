@@ -181,6 +181,8 @@ sections:
         href: "https://www.i-car.com/browse"
         image:
           alt: "tech working on car holding a tablet"
+          width: 728
+          height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
           src: "/getmedia/3d2f7be7-4248-4baf-8ae5-4734ad33b68f/learning_486w.webp"
           srcset: "/getmedia/ad213e28-468e-481f-aa4e-b942cd08f8b5/learning_362w.webp 362w, /getmedia/3d2f7be7-4248-4baf-8ae5-4734ad33b68f/learning_486w.webp 486w, /getmedia/e79cbcb4-19d5-48ae-9a83-61562179905a/learning_728w.webp 728w, /getmedia/62f22bca-0b0d-419e-8c7f-5eec0d9ec29c/learning_972w.webp 972w, /getmedia/4629d89c-32e8-4bfd-814e-3dfb1c81bd3c/learning_1456w.webp 1456w"
@@ -190,6 +192,8 @@ sections:
         href: "https://info.i-car.com/welding"
         image:
           alt: "tech student and instructor looking at weld"
+          width: 728
+          height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
           src: "/getmedia/b3c881b4-0117-4ec2-8a80-74d84c214c45/practice_486w.webp"
           srcset: "/getmedia/09c7d1d9-2c82-4274-a283-f18c5858676d/practice_362w.webp 362w, /getmedia/b3c881b4-0117-4ec2-8a80-74d84c214c45/practice_486w.webp 486w, /getmedia/f0432523-6db8-44b5-ab6b-d6553fed562d/practice_728w.webp 728w, /getmedia/8ce4c224-c516-4141-b026-476b1e50da34/practice_972w.webp 972w, /getmedia/3899ed3e-06ff-4bc8-9264-29b0fef8fcb5/practice_1456w.webp 1456w"
@@ -199,6 +203,8 @@ sections:
         href: "https://www.i-car.com/industry-training-alliance"
         image:
           alt: "tech painting a car"
+          width: 728
+          height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
           src: "/getmedia/7d359f92-fc3b-40fe-85a4-76639a4ec652/alliance_486w.webp"
           srcset: "/getmedia/f16c22d0-6312-41c1-b3ae-b22d9b3277df/alliance_362w.webp 362w, /getmedia/7d359f92-fc3b-40fe-85a4-76639a4ec652/alliance_486w.webp 486w, /getmedia/e649be40-3dd6-4c52-8549-174f40fb3dff/alliance_728w.webp 728w, /getmedia/7aa6ab63-3dc6-41aa-b7f5-33b821e3b2a4/alliance_972w.webp 972w, /getmedia/cbc83ac4-0695-4538-a4c5-6e11168a4803/alliance_1456w.webp 1456w"

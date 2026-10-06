@@ -66,7 +66,7 @@ sections:
         href: "https://info.i-car.com/sustaining-partners"
         variant: outline
     image:
-      alt: ""
+      alt: "sustaining partners logo"
       width: 220
       height: 104
       src: "/getmedia/787c1c7c-72c0-4d88-8564-bddf01a231cb/logo_sustaining-partners.svg"
@@ -87,7 +87,7 @@ sections:
           - "Discover the 360+ courses available to support career paths and interests."
         href: "https://www.i-car.com/browse"
         image:
-          alt: ""
+          alt: "TODO: needs real alt text (Explore I-CAR Learning card, supporting-service.yaml)"
           width: 728
           height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
@@ -98,7 +98,9 @@ sections:
           - "Explore approved courses that offer technicians the opportunity to earn I&#8209;CAR training&nbsp;credits."
         href: "https://www.i-car.com/industry-training-alliance"
         image:
-          alt: ""
+          alt: "TODO: needs real alt text (Industry Training Alliance card, supporting-service.yaml)"
+          width: 728
+          height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
           src: "/getmedia/363db2b5-017e-428c-8676-48c0195dbf29/Industry-Training-Alliance_728w.webp"
           srcset: "/getmedia/074c7c02-05a5-4b38-8c7b-c7dcd0f8de06/Industry-Training-Alliance_362w.webp 362w, /getmedia/8f7cb2a2-865c-4146-af1f-bc76e41508d2/Industry-Training-Alliance_486w.webp 486w, /getmedia/363db2b5-017e-428c-8676-48c0195dbf29/Industry-Training-Alliance_728w.webp 728w, /getmedia/b440b620-36b6-4c9f-8847-ff94dceaed8c/Industry-Training-Alliance_972w.webp 972w, /getmedia/8d0b6e32-f5d1-471c-98d4-089ab0c0c757/Industry-Training-Alliance_1456w.webp 1456w"
@@ -125,7 +127,7 @@ sections:
           height: 374
           sizes: "(max-width: 400px) 364px, 728px"
           srcset: "/getmedia/cd79ebd9-2ca4-407b-bf7e-774a0e61c1ed/academy_364w.webp 364w, /getmedia/aa498d7e-cd7e-46b9-a12b-24bf0f3e53e6/academy_728w.webp 728w, /getmedia/7ec20891-2091-41a8-9dd9-8e7483607091/academy_1456w.webp"
-      alt: ""
+      alt: "tech in front of car"
       width: 615
       height: 400
       sizes: "615px"
@@ -195,7 +197,7 @@ sections:
         target: "_blank"
         variant: primary
     image:
-      alt: ""
+      alt: "tech working on tablet"
       width: 728
       height: 900
       sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"

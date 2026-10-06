@@ -97,7 +97,7 @@ sections:
           width: 532
           height: 532
           srcset: "/getmedia/eb42fd8c-c73d-47ff-8b66-9fbada6d0ada/Gold-Class_532w.webp 532w, /getmedia/95f4511c-b8f0-4622-b5b4-b0b9029d2775/Gold-Class_1064w.webp 1064w"
-      alt: ""
+      alt: "TODO: needs real alt text (Gold Class image, oem.yaml)"
       width: 574
       height: 462
       sizes: "574px"
@@ -124,7 +124,7 @@ sections:
           - "Designed to reduce training redundancy and receive credit for training completed through OEM and Supplier Training Alliance&nbsp;Partners."
         href: "https://www.i-car.com/industry-training-alliance"
         image:
-          alt: ""
+          alt: "tech painting car"
           width: 728
           height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
@@ -135,7 +135,7 @@ sections:
           - "Unites the industry to support collision repair training with the goal of ensuring complete, safe and quality&nbsp;repairs."
         href: "https://info.i-car.com/sustaining-partners"
         image:
-          alt: ""
+          alt: "TODO: needs real alt text (Sustaining Partner Program card, oem.yaml)"
           width: 728
           height: 334
           sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 486px"
@@ -168,7 +168,7 @@ sections:
           height: 374
           sizes: "(max-width: 400px) 364px, 728px"
           srcset: "/getmedia/cd79ebd9-2ca4-407b-bf7e-774a0e61c1ed/academy_364w.webp 364w, /getmedia/aa498d7e-cd7e-46b9-a12b-24bf0f3e53e6/academy_728w.webp 728w, /getmedia/7ec20891-2091-41a8-9dd9-8e7483607091/academy_1456w.webp"
-      alt: ""
+      alt: "tech in front of car"
       width: 615
       height: 400
       sizes: "615px"
@@ -203,7 +203,7 @@ sections:
         href: "https://my.i-car.com/s/contactsupport"
         variant: primary
     image:
-      alt: ""
+      alt: "TODO: needs real alt text (Contact I-CAR image, oem.yaml)"
       width: 728
       height: 900
       sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
