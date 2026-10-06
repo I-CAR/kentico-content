@@ -8,7 +8,3 @@ previews
 __pycache__/
 *.py[cod]
 .cache
-
-# Bootstrap-templated governance docs — sourced from the template repo, not tracked here
-AGENTS.md
-README.md
