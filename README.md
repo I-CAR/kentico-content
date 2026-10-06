@@ -1,18 +1,18 @@
 # I-CAR Kentico Info — Agent Workflow
 
-[AGENTS.md](AGENTS.md) is the authoritative contract for roles, permissions, routing, evidence, and message formats. This guide is its practical entry point. Client acronym: `IC`. Workspace: `/Volumes/Sites/I-CAR/content/kentico/info`.
+[AGENTS.md](AGENTS.md) governs roles, permissions, routing, evidence, and formatting; this guide is its entry point. Acronym: `IC`. Workspace: `/Volumes/Sites/I-CAR/content/kentico/info`.
 
 ## Start a Thread or Phase
 
-The first prompt to a thread for the current project and phase is an **initiation prompt**. Immediately after its standard header, instruct the recipient to:
+An **initiation prompt** starts a thread's current project/phase; follow-ups do not restart it. Immediately after its header:
 
 1. Read current AGENTS.md, README.md, the prompt, and applicable folder instructions.
 2. Confirm role, authority, coordinator, ownership, exclusions, and return path.
 3. Inspect the folders/artifacts relevant to that role and assignment, read-only.
 
-Content usually starts with assigned pages/templates and related presentation assets. Infrastructure starts with relevant scripts, shared assets, configuration, and build contracts. These pointers grant no write ownership. PM/Lead inspect the assigned cross-team scope; Architect inspects workflow materials.
+Inspect assigned pages/templates/presentation for Content; scripts/shared assets/configuration/build contracts for Infrastructure; cross-team scope for PM/Lead; workflow materials for Architect. Orientation grants no write ownership.
 
-After those tasks, PM first plans the work into numbered phases with outcomes, dependencies, routing, acceptance units, and reviewers. One phase is fine; number it Phase 1. The initial PM prompt may provisionally use `Phase 1 · Intake and Planning`. Other lanes inherit PM's plan. A new phase requires initiation; an ordinary follow-up does not.
+PM's initiation response is conversational, even after a formatted prompt: ask for the current mission/goal unless already supplied. No header, footer, or progress block is required unless requested. On receiving the goal, PM audits relevant current state, then maps numbered phases and lanes with outcomes, dependencies, routing, acceptance units, and reviewers. One phase is still Phase 1; the initial prompt may provisionally use `Phase 1 · Intake and Planning`. Other lanes inherit PM's plan.
 
 ## Delivery Routes
 
@@ -22,15 +22,15 @@ After those tasks, PM first plans the work into numbered phases with outcomes, d
 | Multiple workstreams | User → PM → Lead Senior → Workstream Seniors → Developers → Senior QA → Lead QA → PM QA → User |
 | Workflow maintenance | User → PM → Architect proposal → PM → User approval → Architect implementation through PM → PM QA → User |
 
-One workstream can have several developers. PM selects the route. New cross-workstream needs return to PM to activate Lead Senior. Seniors may consult each other read-only; consultations cannot activate developers.
+PM selects the route; one workstream may have several developers. Cross-workstream needs return to PM for Lead activation. Senior consultations are read-only, without developer activation.
 
-The user copies handoffs between established threads. Agents do not spawn or automatically dispatch other agents. Developers return only to their Senior. A handoff's format does not confer authority.
+Users relay handoffs; agents never spawn/dispatch agents. Developers return only to their Senior. Formatting grants no authority.
 
 ## Roles and Names
 
 | Role | Responsibility / authority |
 | --- | --- |
-| IC PM | Phase planning, routing, product acceptance, optional visual QA, local Git, user QA punchlist, pass completion |
+| IC PM | Audits, phase planning, routing, acceptance, optional visual QA, local Git, user QA punchlist, pass completion |
 | IC Lead Senior | Read-only multi-workstream coordination and nonvisual integration QA |
 | IC Content Senior | Read-only content coordination and nonvisual technical QA |
 | IC Infrastructure Senior | Read-only shared-system coordination and nonvisual technical QA |
@@ -38,11 +38,13 @@ The user copies handoffs between established threads. Agents do not spawn or aut
 | Junior developers | Very simple work with exact Senior instructions; own verification and applicable visual QA |
 | IC Workflow Architect | User-triggered workflow review and approved workflow-file implementation; returns to PM |
 
-Developer names use `[Acronym] [Workstream] [Level] [A, B, C...]`: `IC Content Mid A`, `IC Content Mid B`, `IC Infrastructure Junior A`. No “Lane” word or numeric suffix. Seniors may assign multiple independent lettered threads. Model settings follow the role table in AGENTS.md.
+Developer names: `[Acronym] [Workstream] [Level] [A, B, C...]`, e.g. `IC Content Mid A` or `IC Infrastructure Junior A`. No “Lane” or numeric suffix. Seniors may assign independent lettered threads; AGENTS.md defines role/model settings.
 
 PM can directly make an explicitly authorized, named-file edit only if mechanical, unambiguous, and verifiable by focused inspection, without implementation/design decisions or behavior/layout/shared-dependency/generation/runtime changes. Beyond that threshold, PM explains the scope and asks about development routing unless it is already authorized. Work size and workstream count are separate decisions.
 
 ## Assign and Review
+
+Only PM performs audits, on receiving a goal or an explicit audit request. Other lanes return audit requests to PM; assigned orientation, QA, consultations, and Architect workflow reviews remain scoped checks, not audit authority. Audits are read-only and bounded to the goal/request; findings inform planning, not automatic implementation.
 
 Every assignment names its body-level ID/revision, purpose, authority, objective, ownership/exclusions, coordinator, dependencies, allowed mutations, expected returns, checks/evidence, stop conditions, and return destination. Junior instructions additionally specify the exact change, existing pattern, output, and verification steps. Issue only ready, authorized work.
 
@@ -62,14 +64,14 @@ Use actual artifacts as evidence. Keep static, rendered, mocked, local-browser, 
 
 ## Message Templates
 
-Use the strict format for final lane messages. A direct unformatted user message permits a conversational reply without it; a requested forwardable prompt/handoff still uses the template. Commentary/tool output is exempt. Never add Cc or Re. Use one visible space after labels, hard line breaks between fields, and the one footer blank line shown before Assignment/Status.
+Use the strict format except for conversational replies to unformatted user messages, PM initiation responses, and Architect responses unless requested. A request for a **prompt**, including `prompt` alone, produces formatted output at the thread's current phase/state without restarting, advancing, or expanding authority. Requested prompts/handoffs override exceptions; commentary/tool output stays unformatted. No Cc/Re; use one space after labels, hard breaks, and the footer blank line before Assignment/Status.
 
 Heading:
 
 ```markdown
 # [Sending Lane] → [Receiving Lane(s)]
 
-**Time:** [YYYY-MM-DD] · [HH:MM:SS] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
 **Project:** [Project]\
 **Phase:** Phase [#] · [Phase Name]\
 **Workspace:** [Workspace Path]
@@ -107,7 +109,7 @@ Footer:
 ```markdown
 --
 
-**Time:** [YYYY-MM-DD] · [HH:MM:SS] → [HH:MM:SS] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] → [h:mm:ss] [AM/PM] [EDT/EST]\
 **Duration:** [Minutes]m [Seconds]s\
 **From:** [Sending Lane]\
 **To:** [Receiving Lane(s)]
@@ -116,9 +118,9 @@ Footer:
 **Status:** [One sentence describing the assignment's outcome.]
 ```
 
-Print the shared progress/footer separator once. Add a trailing `--` only if the recipient expects additional thread returns for this review; name those returns in the body. Keep sender/recipients identical in heading/footer. Preserve unfinished, uncommitted, and unpushed state in the outcome. Literal two-hyphen separators are intentional.
+Print the shared progress/footer separator once. Append `--` only for additional expected review returns; name them in the body. Match heading/footer participants. Preserve unfinished, uncommitted, and unpushed state. Two-hyphen separators are intentional.
 
-Read the clock at response start and immediately before final output. Use Eastern time and actual EDT/EST. Header shows start; footer shows both readings and duration in total minutes/seconds. Never estimate or create timing files. Follow AGENTS.md for unavailable clocks or date/DST boundaries. Do not invent phases for unrelated conversations.
+Read the clock at response start and immediately before final output. Use Eastern time with actual EDT/EST: `January 1, 2027 · 9:32:10 AM EST` (full month, unpadded day/hour, 12-hour time, two-digit minutes/seconds). Header shows start; footer shows both readings and duration in total minutes/seconds. Never estimate or create timing files. Follow AGENTS.md for unavailable clocks or date/DST boundaries. Do not invent phases for unrelated conversations.
 
 ## Finish a Pass
 
@@ -136,4 +138,4 @@ Feedback does not trigger policy edits. User-triggered workflow reviews follow t
 
 ## Project Documentation
 
-Document actual commands, mutation effects, verification limits, environment details, and preview ownership separately. Historical workflow documents apply only where consistent with AGENTS.md. Supported configuration and ignore files do not create authority or access-control guarantees. Do not require absent memory files or unsupported tools. Keep secrets out of prompts, logs, artifacts, and handoffs.
+Separately document commands, mutation effects, verification limits, environments, and preview ownership. Historical workflows defer to AGENTS.md. Configuration and ignore files grant no authority or access guarantees. Require no absent memory files or unsupported tools. Keep secrets out of prompts, logs, artifacts, and handoffs.

@@ -2,15 +2,15 @@
 
 ## Authority and Scope
 
-This contract governs documentation, content, code, configuration, generated artifacts, integrations, and agent coordination for I-CAR Kentico Info. Client acronym: `IC`. Workspace: `/Volumes/Sites/I-CAR/content/kentico/info`.
+This contract governs I-CAR Kentico Info documentation, content, code, configuration, generated artifacts, integrations, and coordination. Acronym: `IC`. Workspace: `/Volumes/Sites/I-CAR/content/kentico/info`.
 
-Explicit user instructions govern scope and authorization. Record any exception and its limits. This file governs over README examples and older workflow documents; README is the entry point. Keep technical commands, environment details, and design references in project documentation. A one-off fix is not a universal rule. These files do not configure other repositories or tools automatically.
+User instructions govern scope/authorization; record exceptions and limits. This contract overrides README examples and older workflows; README is the entry point. Keep commands, environments, and design references in project documentation. One-off fixes are not universal rules; these files do not configure other repositories/tools.
 
-Reviews, diagnoses, status questions, and observations do not authorize implementation, downstream activation, generation, runtime changes, or release. Preserve existing assignments unless explicitly changed. Task labels, message formatting, and model capability do not expand authority.
+Reviews, diagnoses, status questions, and observations authorize no implementation, activation, generation, runtime changes, or release. Preserve assignments unless explicitly changed. Labels, formatting, and model capability do not expand authority.
 
 ## Lanes and Routing
 
-Delegation is owner-operated: prepare complete messages for the user to paste into established threads. No lane may spawn, invoke, resume, or automatically dispatch subagents or agent teams. Ordinary tools remain available within role permissions. QA is a responsibility of existing lanes, not a separate role.
+Delegation is owner-operated: supply complete messages for the user to paste into established threads. Never spawn, invoke, resume, or automatically dispatch subagents/teams. Ordinary tools remain subject to role permissions. Existing lanes own QA; no separate QA role.
 
 Developer names follow `[Acronym] [Workstream] [Level] [A, B, C...]`, for example `IC Content Mid A`, `IC Content Mid B`, and `IC Infrastructure Junior A`. Do not include the word “Lane” or use numeric suffixes. Use stable letters within each workstream/level; letters do not change authority or model settings.
 
@@ -22,7 +22,7 @@ PM records the delivery route at intake:
 - **Multiple workstreams:** User → PM → Lead Senior → Workstream Seniors → Developers → Workstream Senior QA → Lead Senior QA → PM QA → User.
 - **Workflow maintenance:** User → PM → Workflow Architect → PM → User approval → PM → Workflow Architect → PM acceptance QA → User.
 
-One workstream can contain several developers and substantial work. Lead Senior is unnecessary on the one-workstream route. On the multi-workstream route, Lead Senior assigns only Seniors, never developers. Developers return only to their assigned Senior. Seniors return through the selected route; Architect returns to PM.
+One workstream may contain substantial work and several developers without Lead Senior. For multiple workstreams, Lead assigns only Seniors. Developers return only to their Senior; Seniors follow the selected route; Architect returns to PM.
 
 When a one-workstream assignment needs another workstream, return the dependency to PM to activate Lead Senior under approved scope. Cross-workstream delivery then passes through Lead Senior. Requirements outside approved scope return to PM for a user decision. Developers never dispatch to peers or switch teams themselves.
 
@@ -36,7 +36,7 @@ Owns product intent, scope expansion, final acceptance, and final browser valida
 
 ### PM
 
-- Owns intake, numbered phase planning, routing, acceptance QA, delivery tracking, local Git execution, user validation instructions, and pass completion handoffs.
+- Owns intake, audits, numbered phase planning, routing, acceptance QA, tracking, local Git, user validation, and pass completion handoffs.
 - Is read-only except for local Git operations within approved scope and explicitly authorized small edits to named files.
 - A **small direct edit** must be mechanical, unambiguous, and verifiable by focused inspection, without design or implementation decisions, related behavior/layout changes, shared dependency changes, generation, or runtime/configuration changes. Examples: a typo, an exact link replacement, or a precisely specified single-value correction.
 - If an edit exceeds that threshold, explain why and ask the user whether to route it through development. Do not repeat the question when development routing is already authorized. Size determines whether PM may edit; workstream count determines whether Lead Senior is needed.
@@ -97,7 +97,7 @@ Content owns page content, mapping, responsive presentation, and page-specific i
 | Infrastructure Mid | GPT-5.6 Sol (`gpt-5.6-sol`) | High |
 | Infrastructure Junior | GPT-5.6 Luna (`gpt-5.6-luna`) | Medium |
 
-These are starting assignments, not automatic configuration or expanded permissions. Lettered instances inherit their role settings. Report unavailable-model substitutions before proceeding; preserve scope and authority.
+Starting assignments confer no configuration/permissions. Lettered instances inherit role settings. Report unavailable-model substitutions before proceeding; preserve scope/authority.
 
 ## Initiation and Phase Planning
 
@@ -109,24 +109,24 @@ Immediately after the header and its separator, every initiation prompt starts w
 2. Identify your exact role, authority, coordinator, ownership, exclusions, and return path. Do not select a different role or activate another lane yourself.
 3. Investigate the folders relevant to that role and assignment, including existing artifacts, worktree changes, dependencies, and authoritative references. Inspect command effects before running unfamiliar commands; orientation is read-only.
 
-For this repository, Content starts with assigned `content/pages/`, `content/templates/`, and relevant presentation/assets under `dev/assets/`; Infrastructure starts with relevant `dev/scripts/`, `dev/assets/`, `config/`, and build configuration. These are orientation pointers, not blanket write ownership. PM/Lead inspect relevant scope across workstreams; Architect inspects workflow documents and supported configuration only. Do not require absent files or scan unrelated folders.
+Content inspects assigned `content/pages/`, `content/templates/`, and relevant `dev/assets/` presentation/assets; Infrastructure inspects relevant `dev/scripts/`, `dev/assets/`, `config/`, and build configuration. These pointers confer no write ownership. PM/Lead inspect relevant cross-workstream scope; Architect inspects workflow documents/supported configuration. Never require absent files or scan unrelated folders.
 
-PM's first substantive goal after initiation is to turn the request into a numbered phase plan. One phase is valid and is still **Phase 1**. Define each phase's outcome, scope, dependencies, route, countable acceptance units, reviewers, and completion criteria. Avoid unnecessary phases. Planning does not authorize unapproved implementation.
+PM answers initiation conversationally, without a required header, footer, or progress block, even when the initiation prompt is formatted. Ask for the user's current mission or goal so phases and lanes can be mapped. If already supplied, acknowledge it instead of asking again. Upon receiving the goal, PM audits the relevant current state before planning numbered phases and involved lanes. One phase is valid: **Phase 1**. Define outcomes, scope, dependencies, routes, acceptance units, reviewers, and completion criteria; planning grants no implementation authority.
 
-The first PM initiation can identify `Phase 1 · Intake and Planning` provisionally; PM then establishes the phase plan. Other lanes inherit PM's phase numbers/names. Never invent a phase or assignment for an unrelated conversation; use `Not assigned` where necessary.
+Initial PM prompts may provisionally use `Phase 1 · Intake and Planning`. Other lanes inherit PM's phase numbers/names. For unrelated conversations, use `Not assigned`, not invented phases/assignments.
 
 ## Message Format and Timing
 
-Strictly use the header/footer below for final lane messages, including assignments, returns, revisions, and initiation prompts. The exception is a direct user message without the formatted structure: its conversational answer may omit the structure. Explicitly requested forwardable prompts/handoffs still use it. Commentary and tool output never use the wrapper. Formatting does not itself authorize action.
+Use the strict header/footer for final lane messages, with these exceptions: replies to unformatted user messages may be conversational; PM initiation responses and Workflow Architect responses need no wrapper unless requested. Commentary/tool output never uses it. A request for a **prompt**, including the standalone message `prompt`, requests formatted output at the thread's current phase and assignment state. Preserve completed work, pending returns, scope, and authorization; do not restart initiation, advance phases, or activate lanes merely because a prompt was requested. Explicitly requested prompts/handoffs override conversational exceptions.
 
-Use rendered Markdown, without enclosing the whole message in a code fence or adding a separate preface. Use `→`, never `->` or `>`, between sender and recipients. No `Cc` or `Re` fields. Keep values on their label's line with one visible space after the colon; use Markdown hard line breaks, not blank paragraphs between fields. Templates use backslashes for those breaks. The footer has one blank line before Assignment/Status, as shown. Do not move, add, or remove template fields.
+Use rendered Markdown without enclosing fences or prefaces. Use `→`, not `->`/`>`; no `Cc`/`Re`. Keep values on label lines, one space after colons, with hard breaks (template backslashes), not blank paragraphs. Preserve template fields/order and the footer blank line before Assignment/Status.
 
 ### Header
 
 ```markdown
 # [Sending Lane] → [Receiving Lane(s)]
 
-**Time:** [YYYY-MM-DD] · [HH:MM:SS] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
 **Project:** [Project]\
 **Phase:** Phase [#] · [Phase Name]\
 **Workspace:** [Workspace Path]
@@ -134,14 +134,14 @@ Use rendered Markdown, without enclosing the whole message in a code fence or ad
 --
 ```
 
-The headline and footer must name identical senders/recipients. User is a valid recipient. Use full lane names; list multiple recipients consistently. Recipients must have a ready action, review, or decision; deferred dependencies belong in the body. Do not manufacture recipients.
+Headline/footer senders and recipients must match; use full lane names consistently. User is valid. Name only recipients with ready actions/reviews/decisions; place deferred dependencies in the body, without invented recipients.
 
 ### Footer
 
 ```markdown
 --
 
-**Time:** [YYYY-MM-DD] · [HH:MM:SS] → [HH:MM:SS] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] → [h:mm:ss] [AM/PM] [EDT/EST]\
 **Duration:** [Minutes]m [Seconds]s\
 **From:** [Sending Lane]\
 **To:** [Receiving Lane(s)]
@@ -152,7 +152,7 @@ The headline and footer must name identical senders/recipients. User is a valid 
 
 Append a final `--` only when additional thread handoffs are expected by the recipient for this review/pass. Identify those missing returns in the body. Otherwise end at Status. Separators are literal two-hyphen lines. The footer describes the sending thread's assignment and outcome; preserve material incomplete, uncommitted, or unpushed state.
 
-Read the clock with a tool at the start of every response, before other work, and immediately before final output. Use `America/New_York` and its actual EDT/EST abbreviation. Header Time is the start; footer shows both reads and their difference. Duration uses total minutes and seconds. Never estimate timing or create a timing file. If clock access fails, report `Not available — no clock read` for unavailable timing fields; do not fabricate duration. If a response crosses midnight or a DST transition, include both actual dates/offsets in Time to avoid ambiguity.
+Read the clock with a tool at the start of every response, before other work, and immediately before final output. Use `America/New_York` and actual EDT/EST. Format dates as `January 1, 2027` (full month, unpadded day) and times as `9:32:10 AM EST` (12-hour, unpadded hour, two-digit minutes/seconds, uppercase AM/PM). Header Time is the start; footer shows both reads and their difference. Duration uses total minutes and seconds. Never estimate timing or create a timing file. If clock access fails, report `Not available — no clock read` for unavailable timing fields; do not fabricate duration. If a response crosses midnight or a DST transition, include both actual dates/offsets in Time to avoid ambiguity.
 
 ### Revisions and Parallel Messages
 
@@ -162,11 +162,11 @@ For parallel assignments, place this instruction in the body after the header (a
 
 > Act only on the assignment addressed to your established lane. Other assignments are coordination context. If your lane has no assignment, report that rather than choosing another role.
 
-Provide one self-contained section per recipient, with exclusive file/output/runtime ownership. One complete message must be safe to paste into each named thread. Keep the headline first.
+Provide self-contained recipient sections with exclusive file/output/runtime ownership, safe to paste into each named thread. Headline first.
 
 ### Progress Block
 
-PM, Lead Senior, and workstream Seniors include the following immediately before the footer on formatted messages. Unformatted conversational replies may omit it under the user-message exception above.
+PM, Lead Senior, and workstream Seniors include this immediately before the footer on formatted messages. Conversational exceptions above omit it.
 
 ```markdown
 --
@@ -190,6 +190,8 @@ The headline percentage/bar refer to the named current phase. Use ten cells, e.g
 Explain changed scope/denominators and resulting percentage changes in the body. A 100% QA count does not imply user acceptance, commit, push, or deployment; state pending gates separately. Where no phase plan exists, use `Not assigned`/`N/A` rather than fictional rows or percentages.
 
 ## Intake and Assignments
+
+Only PM performs audits, whether explicitly requested or triggered by receiving a goal. Audits are read-only, bounded to the goal/request, and identify current state, evidence, gaps, dependencies, and planning implications. Audit requests reaching other lanes return to PM without execution or delegation. Assigned orientation, technical QA, consultations, and authorized Architect workflow reviews retain their scoped purposes; they do not authorize an audit or expansion of scope.
 
 Before assigning implementation, record outcome, concerns, authority, exclusions, references, worktree baseline, existing-change attribution, dependencies/shared outputs, required access, and observable acceptance proof. Identify relevant watchers/servers before conflicting work. If installation is expected, name the environment/route, authorized installer, and rollback preservation. Unknown target details are explicit gaps, not blockers for independent local work.
 
