@@ -352,3 +352,7 @@ form.ic-form.cc-form :is(button):is(:active) {
 form.ic-form .ic-required {
     color: var(--negative-color);
 }
+
+form.ic-form .ic-form-field {
+    margin: 0.5rem 0;
+}
