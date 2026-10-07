@@ -42,6 +42,8 @@ Users relay handoffs; agents never spawn/dispatch agents. Developers return only
 
 Developer names: `[Acronym] [Workstream] [Level] [A, B, C...]`, e.g. `IC Content Mid A` or `IC Infrastructure Junior A`. No “Lane” or numeric suffix. Seniors may assign independent lettered threads; AGENTS.md defines role/model settings.
 
+Assignments may reference one user-approved fallback for a defined assignment or role/phase scope. Disclose first use and changes without repeating unchanged approval requests; model settings remain user-controlled. See [Model Routing](AGENTS.md#model-routing).
+
 PM can directly make an explicitly authorized, named-file edit only if mechanical, unambiguous, and verifiable by focused inspection, without implementation/design decisions or behavior/layout/shared-dependency/generation/runtime changes. Beyond that threshold, PM explains the scope and asks about development routing unless it is already authorized. Work size and workstream count are separate decisions.
 
 ## Assign and Review
@@ -49,6 +51,8 @@ PM can directly make an explicitly authorized, named-file edit only if mechanica
 Only PM performs audits, on receiving a goal or an explicit audit request. Other lanes return audit requests to PM; assigned orientation, QA, consultations, and Architect workflow reviews remain scoped checks, not audit authority. Audits are read-only and bounded to the goal/request; findings inform planning, not automatic implementation.
 
 Every assignment names its header ID, body-level version, purpose, authority, objective, ownership/exclusions, coordinator, dependencies, allowed mutations, expected returns, checks/evidence, stop conditions, and return destination. Junior instructions additionally specify the exact change, existing pattern, output, and verification steps. Issue only ready, authorized work.
+
+For dependent work requiring stable or complete shared inputs, record readiness and fixture maturity in the existing handoff, reuse valid artifact identity evidence, and reconcile only affected dependencies when relevant facts change. See [Intake and Assignments](AGENTS.md#intake-and-assignments); no separate readiness gate or ledger is required.
 
 Keep diagnosis, setup, implementation, verification, and routine corrections together in an execution-sized assignment. Split for ownership, dependencies, execution size, authority, or risk. Tie investigation and changes to approved requirements or demonstrated prerequisites. Name required proof cases, evidence location/write authority, and the risk or failure that would expand checks. Internal checkpoints do not require another user relay unless explicitly assigned as review boundaries.
 
