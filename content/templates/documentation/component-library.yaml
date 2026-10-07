@@ -1,19 +1,309 @@
 slug: component-library
 title: Component Library
 sections:
-  - id: hero
-    type: hero
-  - id: page-nav
+  # 1. Navigation and orientation
+  - id: chapter-navigation-orientation
+    type: text
+    variant: chapterIntro
+  - id: navigation-page-nav
     type: pageNav
-  - id: hero-patterns
+
+  # 2. Heroes
+  - id: chapter-heroes
+    type: text
+    variant: chapterIntro
+  - id: hero-default
+    type: hero
+  - id: hero-banner
+    type: hero
+    variant: banner
+  - id: hero-split-equal
+    type: hero
+    variant: split
+  - id: hero-split-5-7
+    type: hero
+    variant: split57
+  - id: hero-split-large-screen
+    type: hero
+    variant: splitLargeScreen
+  - id: hero-label-above
+    type: hero
+    variant: labelAbove
+  - id: hero-path-dropdown
+    type: hero
+    variant: pathDropdown
+  - id: hero-video
+    type: hero
+    variant: video
+  - id: hero-linked-image
+    type: hero
+    variant: linkedImage
+  - id: hero-inline-link
+    type: hero
+    variant: inlineLinks
+  - id: hero-background
+    type: hero
+    variant: background
+  - id: hero-badge
+    type: hero
+    variant: badge
+  - id: hero-form
+    type: hero
+    variant: form
+
+  # 3. Text and structured content
+  - id: chapter-text-structured-content
+    type: text
+    variant: chapterIntro
+  - id: text-standard-prose
+    type: text
+  - id: text-stacked-text-links
+    type: text
+    variant: stackedLinks
+  - id: text-ordered-list
+    type: text
+    variant: listOrdered
+  - id: text-roster-table
+    type: text
+    variant: roster
+  - id: text-statistics-table
+    type: text
+    variant: stats
+  - id: text-bordered-compact-table
+    type: text
+    variant: borderedCompact
+  - id: text-narrow-width
+    type: text
+    variant: narrow
+  - id: text-full-width
+    type: text
+    variant: full
+  - id: text-legal-disclaimer
+    type: legal
+
+  # 4. Text and media
+  - id: chapter-text-media
+    type: text
+    variant: chapterIntro
+  - id: text-media-default
+    type: textMedia
+  - id: text-media-reverse
+    type: textMedia
+    variant: reverse
+  - id: text-media-left-equal
+    type: textMedia
+    variant: leftEqual
+  - id: text-media-right-5-7
+    type: textMedia
+    variant: split57
+  - id: text-media-7-5
+    type: textMedia
+    variant: split75
+  - id: text-media-wide
+    type: textMedia
+    variant: wide
+  - id: text-media-narrow
+    type: textMedia
+    variant: narrow
+  - id: text-media-mobile-media-above
+    type: textMedia
+    variant: mediaAbove
+  - id: text-media-mobile-media-below
+    type: textMedia
+    variant: mediaBelow
+  - id: text-media-rounded
+    type: textMedia
+    variant: rounded
+  - id: text-media-square
+    type: textMedia
+    variant: square
+  - id: text-media-cutout
+    type: textMedia
+    variant: cutout
+  - id: text-media-compact-media
+    type: textMedia
+    variant: compactMedia
+  - id: text-media-buttons
+    type: textMedia
+    variant: buttons
+  - id: text-media-text-links
+    type: textMedia
+    variant: textLinks
+  - id: text-media-image-links
+    type: textMedia
+    variant: imageLinks
+  - id: text-media-labeled-list
+    type: textMedia
+    variant: listLabeled
+  - id: text-media-ordered-list
+    type: textMedia
+    variant: listOrdered
+  - id: text-media-items
+    type: textMedia
+    variant: withLinkedItems
+  - id: text-media-subsections
+    type: textMedia
+    variant: withSubsections
+  - id: text-media-typed-media
+    type: textMedia
+    variant: componentLibraryTyped
+  - id: text-media-typed-embed
+    type: embed
+    variant: componentLibraryTyped
+  - id: text-media-badge-image
+    type: textMedia
+    variant: badgeImage
+  - id: text-media-decorative-image
+    type: textMedia
+    variant: decorativeImageCover
+
+  # 5. Cards and grids
+  - id: chapter-cards-grids
+    type: text
+    variant: chapterIntro
+  - id: cards-default
     type: cards
-  - id: text-media-patterns
+  - id: cards-panel-treatment
     type: cards
-  - id: centered-patterns
+    variant: panel
+  - id: cards-centered
     type: cards
-  - id: content-rail-patterns
+    variant: centered
+  - id: cards-independent-image-title-links
     type: cards
-  - id: card-grid-patterns
+    variant: imageBoxSeparateLinks
+  - id: cards-icon-text-grid
+    type: iconCardGrid
+  - id: cards-asset-downloads
     type: cards
-  - id: resources
+    variant: assetDownloads
+  - id: cards-responsive-columns
+    type: cards
+    variant: responsiveColumns
+  - id: cards-icon-grid-with-footer-cta
+    type: iconCardGrid
+    variant: withFooterCta
+  - id: cards-icon-grid-without-footer-cta
+    type: iconCardGrid
+    variant: withoutFooterCta
+  - id: cards-profile-grid
+    type: profileGrid
+  - id: cards-accreditation-rows
+    type: accreditation
+  - id: cards-media-feature-list
+    type: mediaFeatureList
+
+  # 6. Logos
+  - id: chapter-logos
+    type: text
+    variant: chapterIntro
+  - id: logos-standard
+    type: logoGrid
+  - id: logos-boxed
+    type: logoGrid
+    variant: box
+  - id: logos-scrolling-compact
+    type: logoGrid
+    variant: compactBox
+  - id: logos-fluid
+    type: logoGrid
+    variant: fluid
+  - id: logos-linked
+    type: logoGrid
+    variant: withLinks
+  - id: logos-related-links
+    type: logoGrid
+    variant: relatedLinks
+  - id: logos-decorative-bottom
+    type: logoGrid
+    variant: decorativeBottom
+
+  # 7. Rails and structured lists
+  - id: chapter-rails-structured-lists
+    type: text
+    variant: chapterIntro
+  - id: rails-sticky-cards-default
+    type: stickyCards
+  - id: rails-table-link-items
+    type: stickyCards
+    variant: typedListItems
+  - id: rails-gold-class-paths
+    type: stickyCards
+    variant: goldClassPaths
+  - id: rails-resource-tables
+    type: stickyCards
+    variant: resourceTables
+  - id: rails-item-cards
+    type: stickyCards
+    variant: itemCards
+  - id: rails-embedded-location
+    type: stickyCards
+    variant: embed
+  - id: rails-statement-list
+    type: statementList
+  - id: rails-progress-list
+    type: progressList
+
+  # 8. Quotes and testimonials
+  - id: chapter-quotes-testimonials
+    type: text
+    variant: chapterIntro
+  - id: quote-compact
+    type: quote
+    variant: compact
+  - id: quote-default
+    type: quote
+  - id: quote-side-by-side-media
+    type: quote
+    variant: side-by-side
+  - id: quote-grid-carousel
+    type: quoteGrid
+  - id: quote-grid-static
+    type: quoteGrid
+    variant: static
+
+  # 9. Interactive media
+  - id: chapter-interactive-media
+    type: text
+    variant: chapterIntro
+  - id: accordion-default
+    type: accordion
+  - id: accordion-desktop-split
+    type: accordion
+    variant: desktop-split
+  - id: embed-default
+    type: embed
+  - id: embed-path-dropdown
+    type: embed
+    variant: pathDropdown
+  - id: media-slider-default
+    type: mediaSlider
+  - id: media-slider-courses
+    type: mediaSlider
+    variant: courses
+
+  # 10. Actions and forms
+  - id: chapter-actions-forms
+    type: text
+    variant: chapterIntro
+  - id: cta-inline-links
     type: cta
+    variant: inlineLinks
+  - id: cta-default
+    type: cta
+  - id: cta-path-dropdown
+    type: cta
+    variant: pathDropdown
+  - id: lead-form-general
+    type: leadForm
+  - id: lead-form-kentico-ajax-split
+    type: leadForm
+    variant: kenticoAjaxSplit
+
+  # 11. Exceptions
+  - id: chapter-exceptions
+    type: text
+    variant: chapterIntro
+  - id: group-compatibility-debt
+    type: text
+    variant: compatibilityDebt

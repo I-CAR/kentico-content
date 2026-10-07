@@ -1,0 +1,266 @@
+slug: gold-class
+title: Gold Class
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    heading: I‑CAR Gold Class
+    paragraphs:
+      - Gold Class® is the industry-leading recognition for body shops and businesses that invest in continuous collision repair training on the latest procedures and technologies.
+    buttons:
+      - label: Get to Gold Class
+        href: "#get-started"
+        variant: primary
+    image:
+      alt: ""
+      decorative: true
+      desktopSrc: /getmedia/2c1d6ac2-c292-4b3b-9f9c-457513e97263/Hero_1400w.webp
+      desktopSrcset: /getmedia/2c1d6ac2-c292-4b3b-9f9c-457513e97263/Hero_1400w.webp, /getmedia/3f3c2e43-cd28-47ef-9e2a-e5d4f107cc63/Hero_2800w.webp 2800w
+      width: "1400"
+      height: "500"
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      loading: eager
+      sources:
+        - maxWidth: 768
+          width: "728"
+          height: "418"
+          srcset: /getmedia/09e95f06-a46b-4de7-84ec-f7aa509a41bc/Hero_364w.webp 364w, /getmedia/5e7e6d3f-ca78-4d0f-8fa5-993ad703a426/Hero_728w.webp 728w, /getmedia/db80e1b1-5e8f-4cbe-967a-96903f8e30ac/Hero_1456w.webp 1456w
+        - maxWidth: 992
+          width: "1008"
+          height: "669"
+          srcset: /getmedia/7ae5957a-56cc-41ed-8624-2dd57fd57778/Hero_1008w.webp 1008w, /getmedia/b37d8e13-47fa-435f-a26d-4e45f4660a8a/Hero_2016w.webp 2016w
+        - maxWidth: 1200
+          width: "1180"
+          height: "584"
+          srcset: /getmedia/c264bf98-0096-4bfd-a88c-baccc5f9ba67/Hero_1180w.webp 1180w, /getmedia/60fddf46-24a3-4032-a783-be8d10e2bc9f/Hero_2360w.webp 2360w
+  - id: page-nav
+    type: pageNav
+    links:
+      - label: What Is Gold Class?
+        href: "#what-is-gold-class"
+      - label: Gold Class Programs
+        href: "#program-paths"
+      - label: Find a Gold Class Shop
+        href: "#find-a-shop"
+      - label: Get Your Shop to Gold Class
+        href: "#get-started"
+  - id: what-is-gold-class
+    type: logoGrid
+    variant: decorativeBottom
+    heading: What Is Gold Class?
+    paragraphs:
+      - The I‑CAR Gold Class program helps auto body repairers and insurers stay ahead with role-relevant education on evolving vehicle systems. More than 10,000 businesses have earned this recognition, setting the benchmark for industry excellence. When you commit to being Gold Class, you prioritize complete, safe, and quality repairs while supporting original equipment manufacturer standards that improve operational efficiency and build customer confidence.
+    logos:
+      - alt: I-CAR Gold Class Collision Repair badge
+        href: /gold-class/gold-class-collision-repair
+        title: Learn more about Gold Class Collision Repair
+        desktopSrc: /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp
+        desktopSrcset: /getmedia/4d0d19ce-05b6-439a-ba18-51932f001314/Collision_Badge_140w.webp 140w, /getmedia/b0f61512-f9fa-486e-9927-cd771b80beea/Collision_Badge_220w.webp 220w, /getmedia/128db414-1e8d-4dfd-8ba1-1fbd825e0b75/Collision_Badge_280w.webp 280w, /getmedia/717d9b15-5c6d-42c5-8e6b-b57d00496cb3/Collision_Badge_440w.webp 440w
+        width: "200"
+        height: "185"
+        sizes: "(max-width: 1199.9px) 140px, 220px"
+      - alt: I-CAR Gold Class Automotive Insurance badge
+        href: /gold-class/gold-class-insurance
+        title: Learn more about Gold Class Insurance
+        desktopSrc: /getmedia/862b5768-c281-416f-8558-6ce8f5537354/Insurance_Badge_440w.webp
+        desktopSrcset: /getmedia/f4d973e0-df5e-4711-9335-b9bada00380b/Insurance_Badge_140w.webp 140w, /getmedia/5442d5ae-81db-4b4d-b4e2-30a93b5dd709/Insurance_Badge_220w.webp 220w, /getmedia/e65c50ba-fa80-4e58-9e0f-599dbf61b3c0/Insurance_Badge_280w.webp 280w, /getmedia/862b5768-c281-416f-8558-6ce8f5537354/Insurance_Badge_440w.webp 440w
+        width: "200"
+        height: "185"
+        sizes: "(max-width: 1199.9px) 140px, 220px"
+    decorativeImage:
+      placement: bottom
+      image:
+        alt: ""
+        decorative: true
+        desktopSrc: /getmedia/f814ae29-ebda-4e17-8441-894b13e38cc3/GC_Background_2800w.webp
+        desktopSrcset: /getmedia/0b136907-22d7-46dc-9a08-40ed634e7f39/GC_Background_1200w.webp 1200w, /getmedia/2ead580a-9e95-4b73-95cc-fa5a736ea3f5/GC_Background_1400w.webp 1400w, /getmedia/a58aed1a-d025-4480-bccd-428625d0bbd0/GC_Background_2400w.webp 2400w, /getmedia/f814ae29-ebda-4e17-8441-894b13e38cc3/GC_Background_2800w.webp 2800w
+        width: "1400"
+        height: "260"
+        sizes: "(max-width: 1199.9px) 1200px, (max-width: 1919.9px) 1400px, 2800px"
+        sources:
+          - maxWidth: 768
+            width: "800"
+            height: "400"
+            srcset: /getmedia/5ad4479b-ff92-4b47-8d39-6890a7bbab71/GC-Background-400w.webp 400w, /getmedia/0fdf2cec-b005-40b6-8ba6-0ad933d06c61/GC-Background-800w.webp 800w, /getmedia/c408bdfc-30ca-4cd5-ac82-7a99643862d2/GC-Background-1600w.webp 1600w
+  - id: program-paths
+    type: stickyCards
+    variant: goldClassPaths
+    heading: Gold Class Programs
+    cards:
+      - heading: Gold Class for Collision Repair
+        paragraphs:
+          - Collision repair facilities earn Gold Class recognition through I‑CAR’s Professional Development Program. It includes specialized body shop training and certification that equips your team with the knowledge and skills needed to work on today’s vehicles.
+        subheading: Benefits of Being a Gold Class Shop
+        listItems:
+          - Enjoy a 20% discount on I‑CAR training courses
+          - Stand out as a top-tier collision repair provider
+          - Enhance your team with specialized collision training
+          - Able to enroll in collision repair and I‑CAR Academy subscription programs
+        linkItems:
+          - label: View Requirements
+            href: https://info.i-car.com/gold-class/achieving
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: /getmedia/5d8689c5-ced7-4b93-b278-3b71f73e8244/CollisionRepair_650w.webp
+          desktopSrcset: /getmedia/5d8689c5-ced7-4b93-b278-3b71f73e8244/CollisionRepair_650w.webp 650w, /getmedia/559769bf-01a0-456f-8fdb-9736d0a24722/CollisionRepair_1300w.webp 1300w
+          width: "615"
+          height: "500"
+          sizes: 615px
+          sources:
+            - maxWidth: 768
+              width: "800"
+              height: "460"
+              sizes: "(max-width: 400px) 364px, 728px"
+              srcset: /getmedia/bce432da-184c-4532-b63e-1f2584995e32/CollisionRepair_400w.webp 400w, /getmedia/4baec2f2-244b-4cd5-9dff-fc2dd1ba5a0c/CollisionRepair_800w.webp 800w, /getmedia/413c7a49-629f-4f16-a822-c890cd51debe/CollisionRepair_1600w.webp 1600w
+      - heading: Gold Class for Insurance
+        paragraphs:
+          - Insurance companies achieve Gold Class status through I‑CAR’s Professional Development Program for Auto Physical Damage Appraisers (APDAs). This specialized insurance training helps to ensure accurate estimates and proper repair procedures.
+        subheading: Benefits of Being a Gold Class Insurer
+        listItems:
+          - Enjoy a 20% discount on professional development courses
+          - Stand out as a premier vehicle insurance provider
+          - Access specialized training for your team
+        linkItems:
+          - label: View Requirements
+            href: https://info.i-car.com/gold-class/gold-class-insurance
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: /getmedia/bd7c11a8-1f63-424b-be61-e60e94063f49/Insurance_650w.webp
+          desktopSrcset: /getmedia/bd7c11a8-1f63-424b-be61-e60e94063f49/Insurance_650w.webp 650w, /getmedia/8a7dd2d9-dc10-420c-b37c-a1f6f1c8c382/Insurance_1300w.webp 1300w
+          width: "615"
+          height: "500"
+          sizes: 615px
+          sources:
+            - maxWidth: 768
+              width: "800"
+              height: "460"
+              sizes: "(max-width: 400px) 364px, 728px"
+              srcset: /getmedia/fcbf85ff-3180-42bf-8ec3-18358e600875/Insurance_400w.webp 400w, /getmedia/2d932539-9147-4442-99f1-ec1be1b8570f/Insurance_800w.webp 800w, /getmedia/4868b1d2-c25d-404f-a4fa-33854cbe2bc3/Insurance_1600w.webp 1600w
+  - id: find-a-shop
+    type: textMedia
+    variant: reverse
+    label: What's New
+    heading: Find a Gold Class Shop
+    paragraphs:
+      - Reviewing credentials helps customers choose a body shop they feel confident in to perform vehicle repairs. Achieving Gold Class adds your shop to our Gold Class locator, giving you visibility and setting you apart in your market.
+    buttons:
+      - label: Search Gold Class Shops
+        href: http://goldclass.i-car.com
+        target: _blank
+        variant: outline
+    image:
+      alt: ""
+      decorative: true
+      desktopSrc: /getmedia/23d1457f-e0ba-4425-966a-0b105372f404/GC-Search_650w.webp
+      desktopSrcset: /getmedia/23d1457f-e0ba-4425-966a-0b105372f404/GC-Search_650w.webp 650w, /getmedia/30c0e899-9cc0-4113-b7c0-fcb8435cd9df/GC-Search_1300w.webp 1300w
+      width: "615"
+      height: "400"
+      sizes: 615px
+      sources:
+        - maxWidth: 768
+          width: "800"
+          height: "460"
+          sizes: "(max-width: 400px) 364px, 728px"
+          srcset: /getmedia/88c54a91-58fb-453d-91c4-ab9f72e14c36/GC-Search_400w.webp 400w, /getmedia/eac80c5d-7c12-460c-8465-f504c5c09adc/GC-Search_800w.webp 800w, /getmedia/4d46f9fa-0eca-4885-bc46-1a552a00748c/GC-Search_1600w.webp 1600w
+  - id: get-started
+    type: leadForm
+    variant: kenticoAjaxSplit
+    heading: Get Your Shop to Gold Class
+    paragraphs:
+      - Start your body shop’s journey to success with our comprehensive Get to Gold Class package.
+    list:
+      - Custom training plan for your team Includes all live, online, and virtual training
+      - In-Shop Knowledge Assessment to recognize existing experience
+      - Monthly or annual flexible payment plans
+      - Dedicated Customer Care Representative
+      - 10% discount on training needed to achieve Gold Class
+    image:
+      alt: ""
+      decorative: true
+      desktopSrc: /getmedia/1d669830-308a-4dc1-b272-571253b66a0a/GetToGC_650w.webp
+      desktopSrcset: /getmedia/1d669830-308a-4dc1-b272-571253b66a0a/GetToGC_650w.webp 650w, /getmedia/db795df7-e676-4540-827d-d46601f3ab65/GetToGC_1300w.webp 1300w
+      width: "615"
+      height: "520"
+      sizes: 615px
+      sources:
+        - maxWidth: 768
+          width: "800"
+          height: "677"
+          sizes: "(max-width: 400px) 364px, 728px"
+          srcset: /getmedia/8a07b4eb-38fb-4efe-bdc3-b1a5546f4b2c/GetToGC_400w.webp 400w, /getmedia/9cf283b7-29bb-4ffd-9052-e7dda01fc35c/GetToGC_800w.webp 800w, /getmedia/f58a5402-158c-4ae1-945a-d5bc66b7eafe/GetToGC_1600w.webp 1600w
+    form:
+      wrapperId: form-GetMyShopToGoldClass-a22d_wrapper-9ee67ca2-6ffb-4bdd-8207-a880d86b41f6
+      id: form-GetMyShopToGoldClass-a22d
+      prefix: form-GetMyShopToGoldClass-a22d
+      action: /Kentico.Components/en-US/Kentico.FormWidget/KenticoFormWidget/FormSubmit?formName=GetMyShopToGoldClass&prefix=form-GetMyShopToGoldClass-a22d&displayValidationErrors=False
+      method: POST
+      ajaxUpdate: "#form-GetMyShopToGoldClass-a22d_wrapper-9ee67ca2-6ffb-4bdd-8207-a880d86b41f6"
+      submitHandler: window.kentico.updatableFormHelper.submitForm(event)
+      registration:
+        formId: form-GetMyShopToGoldClass-a22d
+        targetAttributeName: data-ktc-ajax-update
+        unobservedAttributeName: data-ktc-notobserved-element
+      fields:
+        - key: organization
+          id: form-GetMyShopToGoldClass-a22d_organization_Value
+          name: form-GetMyShopToGoldClass-a22d.organization.Value
+          type: text
+          label: Organization
+          placeholder: Name
+        - key: first_name
+          id: form-GetMyShopToGoldClass-a22d_first_name_Value
+          name: form-GetMyShopToGoldClass-a22d.first_name.Value
+          type: text
+          label: First Name
+          placeholder: First Name
+        - key: last_name
+          id: form-GetMyShopToGoldClass-a22d_last_name_Value
+          name: form-GetMyShopToGoldClass-a22d.last_name.Value
+          type: text
+          label: Last Name
+          placeholder: Last Name
+        - key: phone_number
+          id: form-GetMyShopToGoldClass-a22d_phone_number_PhoneNumber
+          name: form-GetMyShopToGoldClass-a22d.phone_number.PhoneNumber
+          type: tel
+          label: Phone
+          phoneMask:
+            wrapperId: wrapper-2414394a-31a4-486f-877b-2c8830281042
+            pattern: "(999) 999-9999"
+        - key: email
+          id: form-GetMyShopToGoldClass-a22d_email_Email
+          name: form-GetMyShopToGoldClass-a22d.email.Email
+          type: email
+          label: Email (optional)
+          placeholder: Email Address
+        - key: benefits_drop_down
+          id: form-GetMyShopToGoldClass-a22d_benefits_drop_down_SelectedValue
+          name: form-GetMyShopToGoldClass-a22d.benefits_drop_down.SelectedValue
+          type: select
+          label: What feature of the Get to Gold Class package benefits your shop the most?
+          placeholder: "(Select an option)"
+          options:
+            - value: Accelerated Path to Gold Class
+              label: Accelerated Path to Gold Class
+            - value: Value of Gold Class
+              label: Value of Gold Class
+            - value: Discount
+              label: Discount
+            - value: Payment Plan
+              label: Payment Plan
+            - value: OEM Network
+              label: OEM Network
+            - value: Insurance Network
+              label: Insurance Network
+      runtimeToken:
+        name: __RequestVerificationToken
+      submitLabel: Request Information
+      privacy:
+        text: By submitting this form, you consent to the collection, processing, and use of your personal data as outlined in the
+        href: /about-us/governance/policies/privacy
+        label: I‑CAR® Privacy Policy, which includes marketing communications related to I‑CAR and other services.
+      success:
+        title: Request Submitted
+        body: Congratulations! You’re taking the first step toward Gold Class. We’ll contact you soon about your custom training package.

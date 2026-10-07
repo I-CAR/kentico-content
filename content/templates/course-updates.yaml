@@ -8,6 +8,7 @@ sections:
   - id: formats
     type: iconCardGrid
   - id: recently-launched
-    type: embed
+    type: mediaSlider
+    variant: courses
   - id: faq
     type: accordion

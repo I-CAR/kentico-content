@@ -6,7 +6,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
-import { basename, dirname, join, relative } from "node:path";
+import { basename, dirname, isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   authoringFileExtensions,
@@ -25,6 +25,45 @@ import {
 
 const templateSourceDir = join("content", "templates");
 const outputSourceDir = join("content", "pages");
+
+export function parseOnlySelections(argv = process.argv) {
+  const selections = [];
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const argument = argv[index];
+
+    if (typeof argument === "string" && argument.startsWith("--only=")) {
+      throw new Error("Use --only followed by a non-empty relative template base");
+    }
+
+    if (argument !== "--only") continue;
+
+    const value = argv[index + 1];
+
+    if (typeof value !== "string" || !value.trim() || value.startsWith("-")) {
+      throw new Error("--only requires a following non-option, non-empty value");
+    }
+
+    for (const entry of value.split(",")) {
+      const trimmed = entry.trim();
+      const normalized = trimmed.replace(/^\.\//, "").replace(/\\/g, "/");
+
+      if (!trimmed) {
+        throw new Error("--only does not allow empty selections");
+      }
+
+      if (isAbsolute(trimmed) || normalized.startsWith("/") || normalized.split("/").includes("..")) {
+        throw new Error(`--only selection must be a relative template base without parent traversal: ${trimmed}`);
+      }
+
+      selections.push(stripAuthoringFileExtension(normalized));
+    }
+
+    index += 1;
+  }
+
+  return selections;
+}
 
 function collectFiles(root, extension) {
   const files = [];
@@ -323,10 +362,17 @@ function buildPageFromTemplate(template, sourceFile, existingPage = null, output
   };
 }
 
-function syncGeneratedPage(outputFile, page) {
+function syncGeneratedPage(outputFile, page, { dryRun = false } = {}) {
   const nextContents = `${serializeStructuredAuthoringFile(outputFile, page)}\n`;
 
   if (!existsSync(outputFile)) {
+    if (dryRun) {
+      return {
+        status: "created",
+        outputFile,
+      };
+    }
+
     mkdirSync(dirname(outputFile), { recursive: true });
     writeFileSync(outputFile, nextContents);
 
@@ -341,6 +387,13 @@ function syncGeneratedPage(outputFile, page) {
   if (previousContents === nextContents) {
     return {
       status: "unchanged",
+      outputFile,
+    };
+  }
+
+  if (dryRun) {
+    return {
+      status: "updated",
       outputFile,
     };
   }
@@ -375,11 +428,21 @@ export function createTemplateSnapshot() {
     .join("|");
 }
 
-export function syncTemplates() {
-  const templateFiles = assertUniqueAuthoringBasenames(
+export function syncTemplates({ only = [], dryRun = false } = {}) {
+  const selectedBases = new Set(only.map((file) => stripAuthoringFileExtension(file)));
+  const allTemplateFiles = assertUniqueAuthoringBasenames(
     authoringFileExtensions.flatMap((extension) => collectFiles(templateSourceDir, extension)),
     "template files",
   );
+  const availableBases = new Set(allTemplateFiles.map((sourceFile) => stripAuthoringFileExtension(relative(templateSourceDir, sourceFile))));
+  const unknownBases = [...selectedBases].filter((base) => !availableBases.has(base));
+
+  if (unknownBases.length > 0) {
+    throw new Error(`Unknown template base(s) for --only: ${unknownBases.join(", ")}`);
+  }
+
+  const templateFiles = allTemplateFiles.filter((sourceFile) => selectedBases.size === 0
+    || selectedBases.has(stripAuthoringFileExtension(relative(templateSourceDir, sourceFile))));
 
   if (templateFiles.length === 0) {
     console.log("[templates] No template files found under content/templates");
@@ -408,14 +471,16 @@ export function syncTemplates() {
       }
 
       const { page } = buildPageFromTemplate(template, sourceFile, existingPage, outputFile);
-      const result = syncGeneratedPage(outputFile, page);
+      const result = syncGeneratedPage(outputFile, page, { dryRun });
+      const action = dryRun ? "Would create" : "Created";
+      const updateAction = dryRun ? "Would update" : "Updated";
 
       if (result.status === "created") {
         createdCount += 1;
-        console.log(`[templates] Created ${result.outputFile}`);
+        console.log(`[templates] ${action} ${result.outputFile}`);
       } else if (result.status === "updated") {
         updatedCount += 1;
-        console.log(`[templates] Updated ${result.outputFile}`);
+        console.log(`[templates] ${updateAction} ${result.outputFile}`);
       } else {
         unchangedCount += 1;
         console.log(`[templates] Unchanged ${result.outputFile}`);
@@ -450,7 +515,8 @@ export function syncTemplates() {
 const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 
 if (isDirectRun) {
-  const result = syncTemplates();
+  const only = parseOnlySelections();
+  const result = syncTemplates({ only, dryRun: process.argv.includes("--dry-run") });
 
   if (result.failures.length > 0) {
     process.exitCode = 1;

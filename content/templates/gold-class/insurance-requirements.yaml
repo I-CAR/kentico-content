@@ -6,6 +6,6 @@ sections:
   - id: page-nav
     type: pageNav
   - id: standards
-    type: stickyCards
+    type: progressList
   - id: questions
     type: cta

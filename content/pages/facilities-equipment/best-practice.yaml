@@ -1,0 +1,49 @@
+slug: best-practice
+title: Facility and Equipment - Best Practice
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    heading: Success! You now have access to the Facility and Equipment Best Practice
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "Please visit "
+          - type: link
+            label: RTS I&#8209;CAR.com
+            href: https://rts.i-car.com/
+          - type: text
+            text: " for articles and technical resources that support facility and equipment readiness in collision repair&nbsp;shops."
+    buttons:
+      - label: Access the PDF
+        href: https://info.i-car.com/getmedia/3d88ddbf-7d88-4361-9c46-9e3caf32ab03/i-car-automotive-collision-repair-facility-and-equipment-best-practice.pdf
+        target: _blank
+        variant: primary
+    imageLink:
+      href: https://info.i-car.com/getmedia/3d88ddbf-7d88-4361-9c46-9e3caf32ab03/i-car-automotive-collision-repair-facility-and-equipment-best-practice.pdf
+      target: _blank
+      title: Access the PDF
+      ariaLabel: Access the PDF
+    image:
+      alt: I-CAR's Collision Repair Facility &amp; Equipment Best Practice Guide
+      desktopSrc: /getmedia/a0af9ffc-8032-4d75-9be0-f3ac172c501b/Hero_800w-D.webp
+      desktopSrcset: >-
+        /getmedia/88fe2e2d-b021-478a-9a2c-4b3151187662/Hero_400w-D.webp 400w,
+        /getmedia/a0af9ffc-8032-4d75-9be0-f3ac172c501b/Hero_800w-D.webp 800w,
+        /getmedia/4b1cc49d-593a-4d1c-8844-1023d16d36fa/Hero_1600w-D.webp 1600w
+      mobileSrcset: >-
+        /getmedia/7b62df8c-82b2-4b9c-9844-f31241328e68/Hero_400w-M.webp 400w,
+        /getmedia/532fbfdd-cb6a-42bc-a87c-514820376522/Hero_800w-M.webp 800w,
+        /getmedia/e8d6ee18-2385-4d08-97d7-af2fe115b008/Hero_1600w-M.webp 1600w
+      width: "800"
+      height: "550"
+      sizes: "800px"
+      loading: lazy
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      mobileCopySpacing: tight
+      desktopGapTarget: media
+      desktopGapBreakpoint: lg
+      sectionPadding: padded

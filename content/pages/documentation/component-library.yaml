@@ -1,0 +1,2358 @@
+slug: component-library
+title: Component Library
+sections:
+  - id: chapter-navigation-orientation
+    type: text
+    heading: Navigation and orientation
+    variant: chapterIntro
+    paragraphs:
+      - Use page navigation to move between the production specimens and verify every link targets a rendered chapter.
+  - id: navigation-page-nav
+    type: pageNav
+    links:
+      - label: Navigation and orientation
+        href: "#chapter-navigation-orientation"
+      - label: Heroes
+        href: "#chapter-heroes"
+      - label: Text and structured content
+        href: "#chapter-text-structured-content"
+      - label: Text and media
+        href: "#chapter-text-media"
+      - label: Cards and grids
+        href: "#chapter-cards-grids"
+      - label: Logos
+        href: "#chapter-logos"
+      - label: Rails and structured lists
+        href: "#chapter-rails-structured-lists"
+      - label: Quotes and testimonials
+        href: "#chapter-quotes-testimonials"
+      - label: Interactive media
+        href: "#chapter-interactive-media"
+      - label: Actions and forms
+        href: "#chapter-actions-forms"
+      - label: Exceptions
+        href: "#chapter-exceptions"
+  - id: chapter-heroes
+    type: text
+    heading: Heroes
+    variant: chapterIntro
+    paragraphs:
+      - Compare hero media, split layouts, specialized presentations, and link or form behavior against the fields consumed by the hero renderer.
+  - id: hero-default
+    type: hero
+    heading: Hero Default
+    label: Pattern guidance
+    sublabel: Structured content specimen
+    paragraphs:
+      - This specimen demonstrates the Hero Default production pattern with structured authoring.
+      - Use this space for a second paragraph if the design calls for one.
+    buttons:
+      - label: Explore guidance
+        href: "#next-step"
+    image:
+      alt: Hero Default image
+      urls:
+        desktop:
+          800w: https://placehold.co/800x580
+          1600w: https://placehold.co/1600x580
+          3200w: https://placehold.co/3200x580
+        mobile:
+          400w: https://placehold.co/400x300
+          800w: https://placehold.co/800x300
+          1600w: https://placehold.co/1600x300
+      height:
+        desktop: "580"
+        mobile: "300"
+  - id: hero-banner
+    type: hero
+    heading: Hero Banner
+    variant: banner
+    label: Pattern guidance
+    sublabel: Structured content specimen
+    paragraphs:
+      - This specimen demonstrates the Hero Banner production pattern with structured authoring.
+      - Use this space for a second paragraph if the design calls for one.
+    buttons:
+      - label: Explore guidance
+        href: "#next-step"
+    image:
+      alt: Hero Banner image
+      urls:
+        desktop:
+          800w: https://placehold.co/800x580
+          1600w: https://placehold.co/1600x580
+          3200w: https://placehold.co/3200x580
+        mobile:
+          400w: https://placehold.co/400x300
+          800w: https://placehold.co/800x300
+          1600w: https://placehold.co/1600x300
+      height:
+        desktop: "580"
+        mobile: "300"
+  - id: hero-split-equal
+    type: hero
+    heading: Hero Split Equal
+    variant: split
+    imageStyle: rounded
+    layout:
+      desktopSplit: equal
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+    paragraphs:
+      - This specimen demonstrates the Hero Split Equal production pattern with structured authoring.
+      - Use this space for a second paragraph if the design calls for one.
+    image:
+      alt: Hero Split Equal image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+      height:
+        desktop: "550"
+        mobile: "550"
+    spacing:
+      paddingTop: none
+  - id: hero-split-5-7
+    type: hero
+    variant: split
+    heading: Hero Split 5 7
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+    paragraphs:
+      - Use a 5/7 text-to-media split with media above the copy on mobile.
+    image:
+      alt: Hero Split 5 7 image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+      height:
+        desktop: "550"
+        mobile: "550"
+  - id: hero-split-large-screen
+    type: hero
+    variant: split
+    heading: Hero Split Large Screen
+    layout:
+      desktopSplit: lg-5-7
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+    paragraphs:
+      - Use the current large-screen split treatment with media below the copy on mobile.
+    image:
+      alt: Hero Split Large Screen image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+      height:
+        desktop: "550"
+        mobile: "550"
+  - id: hero-label-above
+    type: hero
+    heading: Hero Label Above
+    label: Section Label
+    layout:
+      labelPosition: above
+    paragraphs:
+      - This specimen demonstrates the Hero Label Above production pattern with structured authoring.
+    image:
+      alt: Hero Label Above image
+      urls:
+        desktop:
+          800w: https://placehold.co/800x580
+          1600w: https://placehold.co/1600x580
+          3200w: https://placehold.co/3200x580
+        mobile:
+          400w: https://placehold.co/400x300
+          800w: https://placehold.co/800x300
+          1600w: https://placehold.co/1600x300
+      height:
+        desktop: "580"
+        mobile: "300"
+  - id: hero-path-dropdown
+    type: hero
+    heading: Hero Path Dropdown
+    paragraphs:
+      - This specimen demonstrates the Hero Path Dropdown production pattern with structured authoring.
+    image:
+      alt: Hero Path Dropdown image
+      urls:
+        desktop:
+          800w: https://placehold.co/800x580
+          1600w: https://placehold.co/1600x580
+          3200w: https://placehold.co/3200x580
+        mobile:
+          400w: https://placehold.co/400x300
+          800w: https://placehold.co/800x300
+          1600w: https://placehold.co/1600x300
+      height:
+        desktop: "580"
+        mobile: "300"
+    pathDropdown:
+      label: Choose Your Path
+      items:
+        - label: Path One
+          href: "#path-one"
+        - label: Path Two
+          href: "#path-two"
+        - label: Path Three
+          href: "#path-three"
+  - id: hero-video
+    type: hero
+    heading: Hero Video
+    video:
+      webm: /getmedia/0e72d3dd-0d8f-4ba1-8e2d-9f8881836f39/CTC_Shot_Drone.webm
+      mp4: /getmedia/ec8ff77a-5230-4ef7-9ae8-9690084bf00e/CTC_Shot_Drone.mp4
+      poster: https://placehold.co/1600x900
+      width: "1600"
+      height: "900"
+    paragraphs:
+      - Hero video presentation.
+  - id: hero-linked-image
+    type: hero
+    heading: Hero Linked Image
+    image:
+      alt: Hero Linked Image image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+    imageLink:
+      href: https://www.i-car.com/
+      label: View details
+  - id: hero-inline-link
+    type: hero
+    heading: Hero Inline Link
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "Hero copy with a scoped "
+          - type: link
+            label: inline link
+            href: https://www.i-car.com/
+          - type: text
+            text: .
+  - id: hero-background
+    type: hero
+    heading: Hero Background
+    imagePlacement: background
+    backgroundColor: light
+    paragraphs:
+      - Hero background image presentation.
+    image:
+      alt: Hero Background background image
+      urls:
+        desktop:
+          800w: https://placehold.co/800x580
+          1600w: https://placehold.co/1600x580
+          3200w: https://placehold.co/3200x580
+        mobile:
+          400w: https://placehold.co/400x300
+          800w: https://placehold.co/800x300
+          1600w: https://placehold.co/1600x300
+      height:
+        desktop: "580"
+        mobile: "300"
+  - id: hero-badge
+    type: hero
+    heading: Hero Badge
+    badgeImage:
+      desktopSrc: https://placehold.co/340x314
+      desktopSrcset: https://placehold.co/170x157 170w, https://placehold.co/340x314 340w
+      alt: Program badge
+      width: "170"
+      height: "157"
+      sizes: 170px
+    paragraphs:
+      - Hero badge presentation.
+  - id: hero-form
+    type: hero
+    heading: Hero Form
+    variant: splitForm
+    paragraphs:
+      - Request information.
+      - Complete the form to continue.
+    bullets:
+      - First benefit
+      - Second benefit
+    image:
+      alt: Hero Form image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x900
+          800w: https://placehold.co/800x900
+          1600w: https://placehold.co/1600x900
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "900"
+        mobile: "450"
+    form:
+      id: hero-form
+      action: "#submit"
+      method: POST
+      fields:
+        - key: email
+          id: hero-email
+          name: email
+          label: Email
+          type: email
+      submitLabel: Submit
+  - id: chapter-text-structured-content
+    type: text
+    heading: Text and structured content
+    variant: chapterIntro
+    paragraphs:
+      - Use structured prose, lists, tables, and legal copy when the renderer can consume the authored field directly.
+  - id: text-standard-prose
+    type: text
+    heading: Text Standard Prose
+    paragraphs:
+      - "This Text Standard Prose specimen demonstrates its structured production behavior. "
+  - id: text-stacked-text-links
+    type: text
+    heading: Text Stacked Text Links
+    layout:
+      width: full
+      align: start
+      actionsStyle: linkList
+      actionsLayout: stack
+      actionsVariant: text
+    paragraphs:
+      - Text with stacked text-link actions.
+    links:
+      - label: First action
+        href: https://www.i-car.com/
+      - label: Second action
+        href: https://www.i-car.com/
+  - id: text-ordered-list
+    type: text
+    heading: Text Ordered List
+    paragraphs:
+      - "This Text Ordered List specimen demonstrates its structured production behavior. "
+    list:
+      variant: ordered
+      items:
+        - text: First step or item.
+        - text: Second step or item.
+        - text: Third step or item.
+  - id: text-roster-table
+    type: text
+    heading: Board Members
+    table:
+      variant: roster
+      caption: I‑CAR Board Roster
+      columns:
+        - key: position
+          label: Board Position
+        - key: name
+          label: Name
+        - key: organization
+          label: Organization
+        - key: segment
+          label: Segment
+        - key: termEnds
+          label: Term Ends
+        - key: eligible
+          label: Incumbent Eligible for Re-Election
+          type: boolean
+      rows:
+        - position: Chair
+          name: Member Name
+          organization: Organization
+          segment: Segment
+          termEnds: Q4 20XX
+          eligible: false
+  - id: text-statistics-table
+    type: text
+    heading: Financial Recap
+    table:
+      variant: stats
+      leadText: For the year ended 12/31/20XX
+      boxed: true
+      rows:
+        - label: Revenue
+          value: $0M
+          emphasis: total
+        - label: Direct Expense
+          value: $0M
+      footerRows:
+        - label: Net Income
+          value: $0M
+          emphasis: total
+  - id: text-bordered-compact-table
+    type: text
+    heading: Text Bordered Compact Table
+    sectionChrome: bordered
+    sectionSpacing: compact
+    paragraphs:
+      - Bordered compact text content.
+    table:
+      variant: stats
+      leadText: Compact table specimen
+      boxed: true
+      rows:
+        - label: First measure
+          value: Approved
+        - label: Second measure
+          value: Required
+  - id: text-narrow-width
+    type: text
+    heading: Text Narrow Width
+    layout:
+      width: narrow
+      align: start
+    paragraphs:
+      - Narrow text content.
+  - id: text-full-width
+    type: text
+    heading: Text Full Width
+    layout:
+      width: full
+      align: start
+    paragraphs:
+      - Full-width text content.
+  - id: text-legal-disclaimer
+    type: legal
+    paragraphs:
+      - "This Text Legal Disclaimer specimen demonstrates its structured production behavior. "
+  - id: chapter-text-media
+    type: text
+    heading: Text and media
+    variant: chapterIntro
+    paragraphs:
+      - Pair text with image or typed embed media and keep split, position, width, mobile-order, and treatment fields explicit.
+  - id: text-media-default
+    type: textMedia
+    heading: Text Media Default
+    paragraphs:
+      - "This Text Media Default specimen demonstrates its structured production behavior. "
+    buttons:
+      - label: Learn More
+        href: "#next-step"
+        variant: outline
+    image:
+      alt: Text Media Default image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-reverse
+    type: textMedia
+    heading: Text Media Reverse
+    reverse: true
+    paragraphs:
+      - "This Text Media Reverse specimen demonstrates its structured production behavior. "
+    buttons:
+      - label: Learn More
+        href: "#next-step"
+        variant: outline
+    image:
+      alt: Text Media Reverse image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-left-equal
+    type: textMedia
+    heading: Text Media Left Equal
+    variant: leftEqual
+    layout:
+      desktopSplit: equal
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+    paragraphs:
+      - Text/media with an explicit equal split, left media position, and mobile order.
+    image:
+      alt: Text Media Left Equal image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-right-5-7
+    type: textMedia
+    heading: Text Media Right 5 7
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: above
+    paragraphs:
+      - Text/media 5/7 split.
+    image:
+      alt: Text Media Right 5 7 image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-7-5
+    type: textMedia
+    heading: Text Media 7 5
+    layout:
+      desktopSplit: text-7-media-5
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+    paragraphs:
+      - Text/media 7/5 split.
+    image:
+      alt: Text Media 7 5 image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-wide
+    type: textMedia
+    heading: Text Media Wide
+    layout:
+      contentWidth: wide
+    paragraphs:
+      - Wide text/media content.
+    image:
+      alt: Text Media Wide image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-narrow
+    type: textMedia
+    heading: Text Media Narrow
+    layout:
+      contentWidth: narrow
+    paragraphs:
+      - "This Text Media Narrow specimen demonstrates its structured production behavior. "
+    image:
+      alt: Text Media Narrow image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-mobile-media-above
+    type: textMedia
+    heading: Text Media Mobile Media Above
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: above
+    paragraphs:
+      - Media above on mobile.
+    image:
+      alt: Text Media Mobile Media Above image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-mobile-media-below
+    type: textMedia
+    heading: Text Media Mobile Media Below
+    layout:
+      desktopMediaPosition: left
+      mobileMediaOrder: below
+    paragraphs:
+      - Media below on mobile.
+    image:
+      alt: Text Media Mobile Media Below image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-rounded
+    type: textMedia
+    heading: Text Media Rounded
+    imageStyle: rounded
+    paragraphs:
+      - Rounded media treatment.
+    image:
+      alt: Text Media Rounded image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-square
+    type: textMedia
+    heading: Text Media Square
+    imageStyle: square
+    paragraphs:
+      - Square media treatment.
+    image:
+      alt: Text Media Square image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x600
+          800w: https://placehold.co/800x600
+          1600w: https://placehold.co/1600x600
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "600"
+        mobile: "450"
+  - id: text-media-cutout
+    type: textMedia
+    heading: Text Media Cutout
+    layout:
+      imageStyle: cutout
+    paragraphs:
+      - Cutout media treatment.
+    image:
+      alt: Text Media Cutout image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-compact-media
+    type: textMedia
+    heading: Text Media Compact Media
+    layout:
+      imageSize: compact
+    paragraphs:
+      - Compact media treatment.
+    image:
+      alt: Text Media Compact Media image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-buttons
+    type: textMedia
+    heading: Text Media Buttons
+    paragraphs:
+      - Text/media with buttons.
+    buttons:
+      - label: Learn More
+        href: "#next-step"
+        variant: outline
+    image:
+      alt: Text Media Buttons image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-text-links
+    type: textMedia
+    heading: Text Media Text Links
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "Text/media with "
+          - type: link
+            label: text link
+            href: https://www.i-car.com/
+    image:
+      alt: Text Media Text Links image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-image-links
+    type: textMedia
+    heading: Text Media Image Links
+    imageLink:
+      label: View image
+      href: https://www.i-car.com/
+    paragraphs:
+      - Text/media with image link.
+    image:
+      alt: Text Media Image Links image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-labeled-list
+    type: textMedia
+    heading: Text Media Labeled List
+    paragraphs:
+      - "This Text Media Labeled List specimen demonstrates its structured production behavior. "
+    list:
+      variant: labeled
+      columns: 2
+      items:
+        - label: Label One
+          value: Value or description for this item.
+        - label: Label Two
+          value: Value or description for this item.
+        - label: Label Three
+          value: Value or description for this item.
+        - label: Label Four
+          value: Value or description for this item.
+    image:
+      alt: Text Media Labeled List image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-ordered-list
+    type: textMedia
+    heading: Text Media Ordered List
+    paragraphs:
+      - "This Text Media Ordered List specimen demonstrates its structured production behavior. "
+    list:
+      variant: ordered
+      items:
+        - text: First step or item.
+        - text: Second step or item.
+        - text: Third step or item.
+    image:
+      alt: Text Media Ordered List image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-items
+    type: textMedia
+    heading: Text Media Items
+    paragraphs:
+      - This Text Media Items specimen demonstrates its structured production behavior. The linked items appear below, each with a logo, heading, body, and link.
+    linkedItems:
+      - logo:
+          src: /getmedia/7cc073e0-df14-4505-ae3d-b3a4d8a214ca/Audi_178w.webp
+          alt: Partner logo
+          width: "100"
+          height: "47"
+        heading: Partner Program Name
+        body: Brief description of the program and its purpose.
+        link:
+          label: Learn More
+          href: https://www.i-car.com/
+    image:
+      alt: Text Media Items image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-subsections
+    type: textMedia
+    heading: Text Media Subsections
+    layout:
+      copyFlow: block
+    paragraphs:
+      - "This Text Media Subsections specimen demonstrates its structured production behavior. "
+    subsections:
+      - heading: First Subsection Heading
+        body: "This Text Media Subsections specimen demonstrates its structured production behavior. "
+      - heading: Second Subsection Heading
+        body: "This Text Media Subsections specimen demonstrates its structured production behavior. "
+    image:
+      alt: Text Media Subsections image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-typed-media
+    type: textMedia
+    heading: Text Media Typed Media
+    variant: componentLibraryTyped
+    reverse: true
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "This specimen demonstrates the Text Media Typed Media text-and-media contract. "
+          - type: link
+            label: Explore Courses
+            href: "#text-media-typed-media"
+    media:
+      src: https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6389084042112
+      title: Training video
+      allow:
+        - autoplay
+        - encrypted-media
+        - fullscreen
+      fullscreen: true
+      loading: lazy
+      referrerPolicy: strict-origin-when-cross-origin
+      width: "616"
+      height: "450"
+      aspectRatio: 616/450
+      link:
+        label: Explore Courses
+        href: "#text-media-typed-media"
+    buttons:
+      - label: Learn More
+        href: "#next-step"
+        variant: outline
+  - id: text-media-typed-embed
+    type: embed
+    heading: Text Media Typed Embed
+    variant: componentLibraryTyped
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "This specimen demonstrates the Text Media Typed Embed embedded-media contract. "
+          - type: link
+            label: Learn more
+            href: https://www.i-car.com/
+    embed:
+      src: https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112
+      title: Embedded training video
+      allow:
+        - encrypted-media
+        - fullscreen
+      fullscreen: true
+      loading: lazy
+      referrerPolicy: strict-origin-when-cross-origin
+      width: "616"
+      height: "450"
+      aspectRatio: 16/9
+  - id: text-media-badge-image
+    type: textMedia
+    heading: Text Media Badge Image
+    badgeImage:
+      src: https://placehold.co/160x100
+      alt: Badge
+      width: "160"
+      height: "100"
+    paragraphs:
+      - Text/media with badge image.
+    image:
+      alt: Text Media Badge Image image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+  - id: text-media-decorative-image
+    type: textMedia
+    heading: Text Media Decorative Image
+    paragraphs:
+      - This Text Media Decorative Image specimen demonstrates its structured production behavior. The decorative image sits behind the section content.
+    image:
+      alt: Text Media Decorative Image image
+      urls:
+        desktop:
+          400w: https://placehold.co/400x550
+          800w: https://placehold.co/800x550
+          1600w: https://placehold.co/1600x550
+        mobile:
+          400w: https://placehold.co/400x450
+          800w: https://placehold.co/800x450
+          1600w: https://placehold.co/1600x450
+      height:
+        desktop: "550"
+        mobile: "450"
+    decorativeImage:
+      placement: cover
+      image:
+        desktopSrc: https://placehold.co/1440x600
+        width: "1440"
+        height: "600"
+        alt: ""
+  - id: chapter-cards-grids
+    type: text
+    heading: Cards and grids
+    variant: chapterIntro
+    paragraphs:
+      - Choose the card or grid specimen that proves its layout, treatment, link mode, responsive columns, or footer action.
+  - id: cards-default
+    type: cards
+    heading: Cards Default
+    paragraphs:
+      - "This Cards Default specimen demonstrates its structured production behavior. "
+    cards:
+      - heading: Card One
+        paragraphs:
+          - "This Cards Default specimen demonstrates its structured production behavior. "
+        image:
+          alt: Card one image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+      - heading: Card Two
+        paragraphs:
+          - "This Cards Default specimen demonstrates its structured production behavior. "
+        image:
+          alt: Card two image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+      - heading: Card Three
+        paragraphs:
+          - "This Cards Default specimen demonstrates its structured production behavior. "
+        image:
+          alt: Card three image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+  - id: cards-panel-treatment
+    type: cards
+    heading: Cards Panel Treatment
+    layout:
+      contentWidth: ten
+      cardsPerRow:
+        md: 2
+        lg: 3
+      cardStyle: panel
+      imageStyle: standard
+    paragraphs:
+      - Panel card treatment.
+    cards:
+      - heading: Panel Card
+        paragraphs:
+          - Panel card copy.
+      - heading: Panel Card Two
+        paragraphs:
+          - Panel card copy.
+  - id: cards-centered
+    type: cards
+    heading: Cards Centered
+    layout:
+      cardTextAlign: center
+      cardTitleSize: h3
+      contentWidth: wider
+    paragraphs:
+      - Centered card treatment.
+    cards:
+      - heading: Centered Card
+        paragraphs:
+          - Centered card copy.
+      - heading: Centered Card Two
+        paragraphs:
+          - Centered card copy.
+  - id: cards-independent-image-title-links
+    type: cards
+    heading: Cards Independent Image Title Links
+    paragraphs:
+      - This Cards Independent Image Title Links specimen demonstrates its structured production behavior. Each card image and title link independently.
+    layout:
+      introPosition: left
+      imageBox: 3x2
+      cardLinks: separate
+    cards:
+      - heading: Australia
+        href: https://i-car.com.au/
+        target: _blank
+        paragraphs:
+          - "This Cards Independent Image Title Links specimen demonstrates its structured production behavior. "
+        image:
+          desktopSrc: https://placehold.co/130x87
+          alt: Australia flag
+          width: "130"
+          height: "87"
+          singleSource: true
+      - heading: Canada
+        href: https://www.i-car.ca/
+        target: _blank
+        paragraphs:
+          - "This Cards Independent Image Title Links specimen demonstrates its structured production behavior. "
+        image:
+          desktopSrc: https://placehold.co/130x87
+          alt: Canada flag
+          width: "130"
+          height: "87"
+          singleSource: true
+      - heading: New Zealand
+        href: https://i-car.co.nz/
+        target: _blank
+        paragraphs:
+          - "This Cards Independent Image Title Links specimen demonstrates its structured production behavior. "
+        image:
+          desktopSrc: https://placehold.co/130x87
+          alt: New Zealand flag
+          width: "130"
+          height: "87"
+          singleSource: true
+  - id: cards-icon-text-grid
+    type: iconCardGrid
+    heading: Cards Icon Text Grid
+    paragraphs:
+      - "This Cards Icon Text Grid specimen demonstrates its structured production behavior. "
+    cards:
+      - heading: Icon Card 1
+        paragraphs:
+          - "This Cards Icon Text Grid specimen demonstrates its structured production behavior. "
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M10.5 7.84668H49.5C53.075 7.84668 56 10.7717 56 14.3467V40.3467C56 43.9217 53.075 46.8467 49.5 46.8467H24.8L14.9506 53.882C13.9947 54.5648 12.6667 53.8814 12.6667 52.7065V46.8467H10.5C6.925 46.8467 4 43.9217 4 40.3467V14.3467C4 10.7717 6.925 7.84668 10.5 7.84668Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M27.0248 32.2439C27.0248 28.5051 29.156 27.1378 31.1257 25.8518C32.8145 24.7256 34.3823 23.7214 34.3823 21.349C34.3823 18.6559 32.5327 17.0873 29.8794 17.0873C27.3472 17.0873 25.3369 18.6559 25.3369 21.4293V21.7508H21.7588V21.3092C21.7588 16.5652 25.2565 13.5498 30.0004 13.5498C34.7842 13.5498 38.2412 16.4849 38.2412 21.3092C38.2412 25.5303 35.8697 26.8967 33.779 28.1429C32.0902 29.1481 30.5631 30.0729 30.5631 32.2439V32.7262H27.0248V32.2439ZM26.221 38.2341C26.221 36.7061 27.3471 35.5808 28.8743 35.5808C30.4023 35.5808 31.5276 36.7061 31.5276 38.2341C31.5276 39.7613 30.4023 40.8874 28.8743 40.8874C27.3471 40.8874 26.221 39.7613 26.221 38.2341Z" fill="#333538" />
+          </svg>
+      - heading: Icon Card 2
+        paragraphs:
+          - "This Cards Icon Text Grid specimen demonstrates its structured production behavior. "
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M10.5 7.84668H49.5C53.075 7.84668 56 10.7717 56 14.3467V40.3467C56 43.9217 53.075 46.8467 49.5 46.8467H24.8L14.9506 53.882C13.9947 54.5648 12.6667 53.8814 12.6667 52.7065V46.8467H10.5C6.925 46.8467 4 43.9217 4 40.3467V14.3467C4 10.7717 6.925 7.84668 10.5 7.84668Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M27.0248 32.2439C27.0248 28.5051 29.156 27.1378 31.1257 25.8518C32.8145 24.7256 34.3823 23.7214 34.3823 21.349C34.3823 18.6559 32.5327 17.0873 29.8794 17.0873C27.3472 17.0873 25.3369 18.6559 25.3369 21.4293V21.7508H21.7588V21.3092C21.7588 16.5652 25.2565 13.5498 30.0004 13.5498C34.7842 13.5498 38.2412 16.4849 38.2412 21.3092C38.2412 25.5303 35.8697 26.8967 33.779 28.1429C32.0902 29.1481 30.5631 30.0729 30.5631 32.2439V32.7262H27.0248V32.2439ZM26.221 38.2341C26.221 36.7061 27.3471 35.5808 28.8743 35.5808C30.4023 35.5808 31.5276 36.7061 31.5276 38.2341C31.5276 39.7613 30.4023 40.8874 28.8743 40.8874C27.3471 40.8874 26.221 39.7613 26.221 38.2341Z" fill="#333538" />
+          </svg>
+      - heading: Icon Card 3
+        paragraphs:
+          - "This Cards Icon Text Grid specimen demonstrates its structured production behavior. "
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M10.5 7.84668H49.5C53.075 7.84668 56 10.7717 56 14.3467V40.3467C56 43.9217 53.075 46.8467 49.5 46.8467H24.8L14.9506 53.882C13.9947 54.5648 12.6667 53.8814 12.6667 52.7065V46.8467H10.5C6.925 46.8467 4 43.9217 4 40.3467V14.3467C4 10.7717 6.925 7.84668 10.5 7.84668Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M27.0248 32.2439C27.0248 28.5051 29.156 27.1378 31.1257 25.8518C32.8145 24.7256 34.3823 23.7214 34.3823 21.349C34.3823 18.6559 32.5327 17.0873 29.8794 17.0873C27.3472 17.0873 25.3369 18.6559 25.3369 21.4293V21.7508H21.7588V21.3092C21.7588 16.5652 25.2565 13.5498 30.0004 13.5498C34.7842 13.5498 38.2412 16.4849 38.2412 21.3092C38.2412 25.5303 35.8697 26.8967 33.779 28.1429C32.0902 29.1481 30.5631 30.0729 30.5631 32.2439V32.7262H27.0248V32.2439ZM26.221 38.2341C26.221 36.7061 27.3471 35.5808 28.8743 35.5808C30.4023 35.5808 31.5276 36.7061 31.5276 38.2341C31.5276 39.7613 30.4023 40.8874 28.8743 40.8874C27.3471 40.8874 26.221 39.7613 26.221 38.2341Z" fill="#333538" />
+          </svg>
+      - heading: Icon Card 4
+        paragraphs:
+          - "This Cards Icon Text Grid specimen demonstrates its structured production behavior. "
+        iconSvg: |-
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <path d="M10.5 7.84668H49.5C53.075 7.84668 56 10.7717 56 14.3467V40.3467C56 43.9217 53.075 46.8467 49.5 46.8467H24.8L14.9506 53.882C13.9947 54.5648 12.6667 53.8814 12.6667 52.7065V46.8467H10.5C6.925 46.8467 4 43.9217 4 40.3467V14.3467C4 10.7717 6.925 7.84668 10.5 7.84668Z" stroke="#333538" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M27.0248 32.2439C27.0248 28.5051 29.156 27.1378 31.1257 25.8518C32.8145 24.7256 34.3823 23.7214 34.3823 21.349C34.3823 18.6559 32.5327 17.0873 29.8794 17.0873C27.3472 17.0873 25.3369 18.6559 25.3369 21.4293V21.7508H21.7588V21.3092C21.7588 16.5652 25.2565 13.5498 30.0004 13.5498C34.7842 13.5498 38.2412 16.4849 38.2412 21.3092C38.2412 25.5303 35.8697 26.8967 33.779 28.1429C32.0902 29.1481 30.5631 30.0729 30.5631 32.2439V32.7262H27.0248V32.2439ZM26.221 38.2341C26.221 36.7061 27.3471 35.5808 28.8743 35.5808C30.4023 35.5808 31.5276 36.7061 31.5276 38.2341C31.5276 39.7613 30.4023 40.8874 28.8743 40.8874C27.3471 40.8874 26.221 39.7613 26.221 38.2341Z" fill="#333538" />
+          </svg>
+  - id: cards-asset-downloads
+    type: cards
+    heading: Asset Downloads
+    variant: assetDownloads
+    cards:
+      - heading: Asset One
+        paragraphs:
+          - "This Cards Asset Downloads specimen demonstrates its structured production behavior. "
+        href: "#asset-one"
+        label: Download asset
+      - heading: Asset Two
+        paragraphs:
+          - "This Cards Asset Downloads specimen demonstrates its structured production behavior. "
+        href: "#asset-two"
+        label: Download asset
+  - id: cards-responsive-columns
+    type: cards
+    heading: Cards Responsive Columns
+    layout:
+      cardsPerRow:
+        base: 1
+        md: 2
+        lg: 3
+        xl: 4
+    paragraphs:
+      - Responsive four-column card treatment.
+    cards:
+      - heading: Card One
+        paragraphs:
+          - Card copy.
+      - heading: Card Two
+        paragraphs:
+          - Card copy.
+      - heading: Card Three
+        paragraphs:
+          - Card copy.
+      - heading: Card Four
+        paragraphs:
+          - Card copy.
+  - id: cards-icon-grid-with-footer-cta
+    type: iconCardGrid
+    heading: Cards Icon Grid With Footer Cta
+    layout:
+      cardsPerRow: 3
+    paragraphs:
+      - Icon cards with a footer CTA.
+    cards:
+      - heading: Icon Card
+        paragraphs:
+          - Supporting copy.
+        iconSvg: <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="20" stroke="#333538" stroke-width="2"/></svg>
+    buttons:
+      - label: View all
+        href: "#all"
+        variant: outline
+  - id: cards-icon-grid-without-footer-cta
+    type: iconCardGrid
+    heading: Cards Icon Grid Without Footer Cta
+    layout:
+      cardsPerRow: 4
+      cardTextAlign: center
+    paragraphs:
+      - Icon cards without a footer CTA.
+    cards:
+      - heading: Icon Card
+        paragraphs:
+          - Supporting copy.
+        iconSvg: <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="20" stroke="#333538" stroke-width="2"/></svg>
+  - id: cards-profile-grid
+    type: profileGrid
+    heading: Cards Profile Grid
+    paragraphs:
+      - "This Cards Profile Grid specimen demonstrates its structured production behavior. "
+    profiles:
+      - name: Person 1
+        title: Person Title
+        image:
+          alt: Person 1
+          urls:
+            desktop:
+              100w: https://placehold.co/100x100
+              200w: https://placehold.co/200x200
+          height:
+            desktop: "100"
+      - name: Person 2
+        title: Person Title
+        image:
+          alt: Person 2
+          urls:
+            desktop:
+              100w: https://placehold.co/100x100
+              200w: https://placehold.co/200x200
+          height:
+            desktop: "100"
+      - name: Person 3
+        title: Person Title
+        image:
+          alt: Person 3
+          urls:
+            desktop:
+              100w: https://placehold.co/100x100
+              200w: https://placehold.co/200x200
+          height:
+            desktop: "100"
+      - name: Person 4
+        title: Person Title
+        image:
+          alt: Person 4
+          urls:
+            desktop:
+              100w: https://placehold.co/100x100
+              200w: https://placehold.co/200x200
+          height:
+            desktop: "100"
+  - id: cards-accreditation-rows
+    type: accreditation
+    heading: Cards Accreditation Rows
+    rows:
+      - logo:
+          src: https://placehold.co/155x93
+          alt: Accreditation logo 1
+          width: "155"
+          height: "93"
+        heading: Accreditation Row 1
+        paragraphs:
+          - "This Cards Accreditation Rows specimen demonstrates its structured production behavior. "
+      - logo:
+          src: https://placehold.co/116x140
+          alt: Accreditation logo 2
+          width: "116"
+          height: "140"
+        heading: Accreditation Row 2
+        paragraphs:
+          - "This Cards Accreditation Rows specimen demonstrates its structured production behavior. "
+  - id: cards-media-feature-list
+    type: mediaFeatureList
+    heading: Cards Media Feature List
+    paragraphs:
+      - "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+    cards:
+      - title: Feature 1
+        lead: "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        paragraphs:
+          - "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        image:
+          alt: Feature 1 image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+      - title: Feature 2
+        lead: "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        paragraphs:
+          - "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        image:
+          alt: Feature 2 image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+      - title: Feature 3
+        lead: "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        paragraphs:
+          - "This Cards Media Feature List specimen demonstrates its structured production behavior. "
+        image:
+          alt: Feature 3 image
+          urls:
+            desktop:
+              400w: https://placehold.co/400x220
+              800w: https://placehold.co/800x220
+              1600w: https://placehold.co/1600x220
+            mobile:
+              400w: https://placehold.co/400x200
+              800w: https://placehold.co/800x200
+              1600w: https://placehold.co/1600x200
+          height:
+            desktop: "220"
+            mobile: "200"
+  - id: chapter-logos
+    type: text
+    heading: Logos
+    variant: chapterIntro
+    paragraphs:
+      - Use logo records for logo behavior, including linked records, boxed layouts, fluid rows, and scroll-row thresholds.
+  - id: logos-standard
+    type: logoGrid
+    heading: Logos Standard
+    paragraphs:
+      - "This Logos Standard specimen demonstrates its structured production behavior. "
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 2
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 3
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 4
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+  - id: logos-boxed
+    type: logoGrid
+    heading: Logos Boxed
+    logoStyle: box
+    paragraphs:
+      - "This Logos Boxed specimen demonstrates its structured production behavior. "
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/150x79
+        width: "150"
+        height: "79"
+      - alt: Logo 2
+        src: https://placehold.co/150x92
+        width: "150"
+        height: "92"
+      - alt: Logo 3
+        src: https://placehold.co/150x36
+        width: "150"
+        height: "36"
+      - alt: Logo 4
+        src: https://placehold.co/150x60
+        width: "150"
+        height: "60"
+      - alt: Logo 5
+        src: https://placehold.co/150x44
+        width: "150"
+        height: "44"
+      - alt: Logo 6
+        src: https://placehold.co/150x100
+        width: "150"
+        height: "100"
+  - id: logos-scrolling-compact
+    type: logoGrid
+    heading: Logos Scrolling Compact
+    logoStyle: box
+    logoScrollRows: 3
+    layout:
+      logoContainer: fluid
+      logoBoxSize: compact
+    paragraphs:
+      - This Logos Scrolling Compact specimen demonstrates its structured production behavior. The compact box grid fits 10 logos per row at 1440 px.
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+      - alt: Logo 2
+        src: https://placehold.co/120x79
+        width: "120"
+        height: "79"
+      - alt: Logo 3
+        src: https://placehold.co/120x44
+        width: "120"
+        height: "44"
+      - alt: Logo 4
+        src: https://placehold.co/120x92
+        width: "120"
+        height: "92"
+      - alt: Logo 5
+        src: https://placehold.co/120x36
+        width: "120"
+        height: "36"
+      - alt: Logo 6
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+      - alt: Logo 7
+        src: https://placehold.co/120x80
+        width: "120"
+        height: "80"
+      - alt: Logo 8
+        src: https://placehold.co/120x55
+        width: "120"
+        height: "55"
+      - alt: Logo 9
+        src: https://placehold.co/120x100
+        width: "120"
+        height: "100"
+      - alt: Logo 10
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+      - alt: Logo 11
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+      - alt: Logo 12
+        src: https://placehold.co/120x79
+        width: "120"
+        height: "79"
+      - alt: Logo 13
+        src: https://placehold.co/120x44
+        width: "120"
+        height: "44"
+      - alt: Logo 14
+        src: https://placehold.co/120x92
+        width: "120"
+        height: "92"
+      - alt: Logo 15
+        src: https://placehold.co/120x36
+        width: "120"
+        height: "36"
+      - alt: Logo 16
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+      - alt: Logo 17
+        src: https://placehold.co/120x80
+        width: "120"
+        height: "80"
+      - alt: Logo 18
+        src: https://placehold.co/120x55
+        width: "120"
+        height: "55"
+      - alt: Logo 19
+        src: https://placehold.co/120x100
+        width: "120"
+        height: "100"
+      - alt: Logo 20
+        src: https://placehold.co/120x60
+        width: "120"
+        height: "60"
+  - id: logos-fluid
+    type: logoGrid
+    heading: Logos Fluid
+    layout:
+      logoContainer: fluid
+    paragraphs:
+      - This Logos Fluid specimen demonstrates its structured production behavior. The logo row uses the full page width.
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 2
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 3
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 4
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 5
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 6
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 7
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 8
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 9
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 10
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 11
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+      - alt: Logo 12
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+  - id: logos-linked
+    type: logoGrid
+    heading: Logos Linked
+    paragraphs:
+      - "This Logos Linked specimen demonstrates its structured production behavior. "
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+        href: https://www.i-car.com/
+        target: _blank
+      - alt: Logo 2
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+        href: https://www.i-car.com/
+        target: _blank
+      - alt: Logo 3
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+        href: https://www.i-car.com/
+        target: _blank
+      - alt: Logo 4
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+        href: https://www.i-car.com/
+        target: _blank
+  - id: logos-related-links
+    type: logoGrid
+    heading: Logos Related Links
+    links:
+      layout: horizontal
+      align: center
+      items:
+        - label: Related resource
+          href: https://www.i-car.com/
+    paragraphs:
+      - Logos with a related-links block.
+    logos:
+      - alt: Logo 1
+        src: https://placehold.co/180x60
+        width: "180"
+        height: "60"
+  - id: logos-decorative-bottom
+    type: logoGrid
+    heading: Logos Decorative Bottom
+    variant: decorativeBottom
+    decorativeImage:
+      placement: bottom
+      image:
+        alt: ""
+        decorative: true
+        desktopSrc: https://placehold.co/1400x500
+        desktopSrcset: https://placehold.co/1200x430 1200w, https://placehold.co/1400x500 1400w, https://placehold.co/2400x860 2400w, https://placehold.co/2800x1000 2800w
+        sizes: "(max-width: 1199.9px) 1200px, (max-width: 1919.9px) 1400px, 2800px"
+        width: "1400"
+        height: "500"
+        sources:
+          - maxWidth: 768
+            srcset: https://placehold.co/400x300 400w, https://placehold.co/800x450 800w, https://placehold.co/1600x900 1600w
+            width: "800"
+            height: "450"
+    logos: []
+  - id: chapter-rails-structured-lists
+    type: text
+    heading: Rails and structured lists
+    variant: chapterIntro
+    paragraphs:
+      - Use rails for sticky cards, typed lists, resource tables, locations, and structured progress content.
+  - id: rails-sticky-cards-default
+    type: stickyCards
+    heading: Rails Sticky Cards Default
+    paragraphs:
+      - "This Rails Sticky Cards Default specimen demonstrates its structured production behavior. "
+    cards:
+      - title: Sticky Card 1
+        paragraphs:
+          - "This Rails Sticky Cards Default specimen demonstrates its structured production behavior. "
+        listItems:
+          - First supporting point
+          - Second supporting point
+      - title: Sticky Card 2
+        paragraphs:
+          - "This Rails Sticky Cards Default specimen demonstrates its structured production behavior. "
+        listItems:
+          - First supporting point
+          - Second supporting point
+      - title: Sticky Card 3
+        paragraphs:
+          - "This Rails Sticky Cards Default specimen demonstrates its structured production behavior. "
+        listItems:
+          - First supporting point
+          - Second supporting point
+  - id: rails-table-link-items
+    type: stickyCards
+    heading: Typed List Items
+    variant: typedListItems
+    cards:
+      - heading: Collision Requirements
+        listItems:
+          - segments:
+              - type: link
+                label: Estimator
+                href: https://www.i-car.com/estimator-platinum-path
+          - segments:
+              - type: link
+                label: Refinish
+                href: https://www.i-car.com/refinish-technician-platinum-path
+          - segments:
+              - type: link
+                label: Structural
+                href: https://www.i-car.com/structural-technician-platinum-path
+          - segments:
+              - type: link
+                label: Nonstructural
+                href: https://www.i-car.com/nonstructural-technician-platinum-path
+          - segments:
+              - type: link
+                label: Location courses
+                href: https://info.i-car.com/I-CAR/media/ICarMain/PDF/Location-Level-Courses.pdf
+          - segments:
+              - type: link
+                label: Vehicle technology
+                href: https://www.i-car.com/vehicle-technology-specific-training
+          - segments:
+              - type: link
+                label: Industry training alliance
+                href: https://info.i-car.com/training/industry-training-alliance
+  - id: rails-gold-class-paths
+    type: stickyCards
+    heading: Rails Gold Class Paths
+    variant: goldClassPaths
+    cards:
+      - heading: Program one
+        paragraphs:
+          - Program copy.
+        subheading: Benefits
+        listItems:
+          - Benefit
+      - heading: Program two
+        paragraphs:
+          - Program copy.
+        subheading: Benefits
+        listItems:
+          - Benefit
+  - id: rails-resource-tables
+    type: stickyCards
+    heading: Rails Resource Tables
+    variant: resourceTables
+    cards:
+      - heading: Welding
+        groups:
+          - heading: Checklists
+            tableLabel: Checklists
+            paragraphs:
+              - "This Rails Resource Tables specimen demonstrates its structured production behavior. "
+            columns:
+              - Resource
+            rows:
+              - - Resource
+            disclaimer: "This Rails Resource Tables specimen demonstrates its structured production behavior. "
+          - heading: Additional Resources
+            tableLabel: Additional Resources
+            paragraphs:
+              - "This Rails Resource Tables specimen demonstrates its structured production behavior. "
+            columns:
+              - Resource
+            rows:
+              - - Resource
+      - heading: Hands-On
+        groups:
+          - heading: Hands-On Resources
+            tableLabel: Hands-On Resources
+            paragraphs:
+              - "This Rails Resource Tables specimen demonstrates its structured production behavior. "
+            columns:
+              - Resource
+            rows:
+              - - Resource
+  - id: rails-item-cards
+    type: stickyCards
+    heading: Section Heading
+    variant: itemCards
+    iconSvg: <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none"><title></title><circle cx="25" cy="25" r="22" stroke="#333538" stroke-width="2.25"/></svg>
+    items:
+      - name: Item 1
+        addressLines:
+          - City, ST
+        distance: 0.0 miles
+        links:
+          - label: Directions
+            href: https://maps.google.com
+            target: _blank
+      - name: Item 2
+        addressLines:
+          - City, ST
+        distance: 0.0 miles
+        links:
+          - label: Directions
+            href: https://maps.google.com
+            target: _blank
+      - name: Item 3
+        addressLines:
+          - City, ST
+        distance: 0.0 miles
+        links:
+          - label: Directions
+            href: https://maps.google.com
+            target: _blank
+  - id: rails-embedded-location
+    type: stickyCards
+    heading: Section Heading
+    variant: embed
+    iconSvg: <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none"><title></title><circle cx="25" cy="25" r="22" stroke="#333538" stroke-width="2.25"/></svg>
+    address:
+      text: City, ST 00000
+      href: https://maps.google.com
+      target: _blank
+    embed:
+      src: https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2954.8746892442214!2d-87.9446621!3d42.2171228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fbd0e2f6965a3%3A0xd10423badb4b9aa2!2sI-CAR%20Chicago%20Technical%20Center%20(CTC)!5e0!3m2!1sen!2sus!4v1764671969557!5m2!1sen!2sus
+      title: I-CAR technical center map
+      allow:
+        - fullscreen
+      fullscreen: true
+      loading: lazy
+      referrerPolicy: no-referrer-when-downgrade
+      width: "616"
+      height: "450"
+      aspectRatio: 616/450
+  - id: rails-statement-list
+    type: statementList
+    heading: Rails Statement List
+    textAlignment: center
+    body:
+      - "This Rails Statement List specimen demonstrates its structured production behavior. "
+    statements:
+      - heading: Statement One
+        body: "This Rails Statement List specimen demonstrates its structured production behavior. "
+      - heading: Statement Two
+        body: "This Rails Statement List specimen demonstrates its structured production behavior. "
+  - id: rails-progress-list
+    type: progressList
+    heading: Rails Progress List
+    paragraphs:
+      - "This Rails Progress List specimen demonstrates its structured production behavior. "
+    groups:
+      - heading: Year one
+        paragraphs:
+          - "This Rails Progress List specimen demonstrates its structured production behavior. "
+        measures:
+          - label: Standard one
+            percent: 0
+          - label: Standard two
+            unavailable: N/A
+  - id: chapter-quotes-testimonials
+    type: text
+    heading: Quotes and testimonials
+    variant: chapterIntro
+    paragraphs:
+      - Keep quote text, citations, grid mode, and media fields aligned with the quote consumers.
+  - id: quote-compact
+    type: quote
+    heading: Quote Compact
+    variant: compact
+    quoteParagraphs:
+      - "This Quote Compact specimen demonstrates its structured production behavior. "
+    cite:
+      name: Person Name
+      title: Person Title
+      image:
+        alt: Person Name
+        urls:
+          desktop:
+            100w: https://placehold.co/100x100
+            200w: https://placehold.co/200x200
+        height:
+          desktop: "100"
+  - id: quote-default
+    type: quote
+    heading: Quote Default
+    paragraphs:
+      - "This Quote Default specimen demonstrates its structured production behavior. "
+    quoteParagraphs:
+      - "This Quote Default specimen demonstrates its structured production behavior. "
+    cite:
+      name: Person Name
+      title: Person Title
+      image:
+        alt: Person Name
+        urls:
+          desktop:
+            100w: https://placehold.co/100x100
+            200w: https://placehold.co/200x200
+        height:
+          desktop: "100"
+  - id: quote-side-by-side-media
+    type: quote
+    heading: Quote Side By Side Media
+    variant: side-by-side
+    paragraphs:
+      - "This Quote Side By Side Media specimen demonstrates its structured production behavior. "
+    quoteParagraphs:
+      - "This Quote Side By Side Media specimen demonstrates its structured production behavior. "
+    cite:
+      name: Person Name
+      title: Person Title
+      image:
+        alt: Person Name
+        urls:
+          desktop:
+            100w: https://placehold.co/100x100
+            200w: https://placehold.co/200x200
+        height:
+          desktop: "100"
+  - id: quote-grid-carousel
+    type: quoteGrid
+    heading: Quote Grid Carousel
+    paragraphs:
+      - "This Quote Grid Carousel specimen demonstrates its structured production behavior. "
+    quotes:
+      - quote: "This Quote Grid Carousel specimen demonstrates its structured production behavior. "
+        name: Person 1
+        title: Person Title
+        image:
+          alt: Person 1
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Carousel specimen demonstrates its structured production behavior. "
+        name: Person 2
+        title: Person Title
+        image:
+          alt: Person 2
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Carousel specimen demonstrates its structured production behavior. "
+        name: Person 3
+        title: Person Title
+        image:
+          alt: Person 3
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Carousel specimen demonstrates its structured production behavior. "
+        name: Person 4
+        title: Person Title
+        image:
+          alt: Person 4
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+  - id: quote-grid-static
+    type: quoteGrid
+    heading: Quote Grid Static
+    carousel: false
+    paragraphs:
+      - "This Quote Grid Static specimen demonstrates its structured production behavior. "
+    quotes:
+      - quote: "This Quote Grid Static specimen demonstrates its structured production behavior. "
+        name: Person 1
+        title: Person Title
+        image:
+          alt: Person 1
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Static specimen demonstrates its structured production behavior. "
+        name: Person 2
+        title: Person Title
+        image:
+          alt: Person 2
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Static specimen demonstrates its structured production behavior. "
+        name: Person 3
+        title: Person Title
+        image:
+          alt: Person 3
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+      - quote: "This Quote Grid Static specimen demonstrates its structured production behavior. "
+        name: Person 4
+        title: Person Title
+        image:
+          alt: Person 4
+          desktopSrc: https://placehold.co/70x70
+          desktopSrcset: https://placehold.co/70x70 70w, https://placehold.co/140x140 140w
+          width: "70"
+          height: "70"
+          sizes: 80px
+  - id: chapter-interactive-media
+    type: text
+    heading: Interactive media
+    variant: chapterIntro
+    paragraphs:
+      - Use accordions, embeds, and sliders with their typed fields or preserve raw HTML only where production compatibility requires it.
+  - id: accordion-default
+    type: accordion
+    heading: Accordion Default
+    paragraphs:
+      - This specimen demonstrates the Accordion Default interaction pattern.
+    items:
+      - title: Accordion Item 1
+        paragraphs:
+          - This item describes how the Accordion Default pattern behaves in production.
+      - title: Accordion Item 2
+        paragraphs:
+          - This item describes how the Accordion Default pattern behaves in production.
+      - title: Accordion Item 3
+        paragraphs:
+          - This item describes how the Accordion Default pattern behaves in production.
+  - id: accordion-desktop-split
+    type: accordion
+    heading: Section Heading
+    layout:
+      desktopSplit: text-5-media-7
+    paragraphs:
+      - This specimen demonstrates the Accordion Desktop Split interaction pattern.
+    items:
+      - title: Accordion Item 1
+        paragraphs:
+          - This item describes how the Accordion Desktop Split pattern behaves in production.
+      - title: Accordion Item 2
+        paragraphs:
+          - This item describes how the Accordion Desktop Split pattern behaves in production.
+      - title: Accordion Item 3
+        paragraphs:
+          - This item describes how the Accordion Desktop Split pattern behaves in production.
+  - id: embed-default
+    type: embed
+    heading: Embed Default
+    paragraphs:
+      - This specimen demonstrates the Embed Default embedded-media contract.
+    embed:
+      src: https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112
+      title: Component Library embedded training example
+      allow:
+        - encrypted-media
+        - fullscreen
+      fullscreen: true
+      loading: lazy
+      referrerPolicy: strict-origin-when-cross-origin
+      width: "616"
+      height: "450"
+      aspectRatio: 16/9
+  - id: embed-path-dropdown
+    type: embed
+    heading: Embed Path Dropdown
+    paragraphs:
+      - Embedded media with a path selector.
+    pathDropdown:
+      label: Choose Your Path
+      variant: outline
+      items:
+        - label: Path One
+          href: "#path-one"
+        - label: Path Two
+          href: "#path-two"
+    embed:
+      src: https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6373625424112
+      title: Component Library path selector media example
+      allow:
+        - encrypted-media
+        - fullscreen
+      fullscreen: true
+      loading: lazy
+      referrerPolicy: strict-origin-when-cross-origin
+      width: "616"
+      height: "450"
+      aspectRatio: 16/9
+  - id: media-slider-default
+    type: mediaSlider
+    heading: Media Slider Default
+    paragraphs:
+      - "This Media Slider Default specimen demonstrates its structured production behavior. "
+    slides:
+      - image:
+          alt: Slide 1
+          urls:
+            desktop:
+              400w: https://placehold.co/400x604
+              800w: https://placehold.co/800x604
+              1600w: https://placehold.co/1600x604
+            mobile:
+              400w: https://placehold.co/400x302
+              800w: https://placehold.co/800x302
+              1600w: https://placehold.co/1600x302
+          height:
+            desktop: "604"
+            mobile: "302"
+      - image:
+          alt: Slide 2
+          urls:
+            desktop:
+              400w: https://placehold.co/400x604
+              800w: https://placehold.co/800x604
+              1600w: https://placehold.co/1600x604
+            mobile:
+              400w: https://placehold.co/400x302
+              800w: https://placehold.co/800x302
+              1600w: https://placehold.co/1600x302
+          height:
+            desktop: "604"
+            mobile: "302"
+      - image:
+          alt: Slide 3
+          urls:
+            desktop:
+              400w: https://placehold.co/400x604
+              800w: https://placehold.co/800x604
+              1600w: https://placehold.co/1600x604
+            mobile:
+              400w: https://placehold.co/400x302
+              800w: https://placehold.co/800x302
+              1600w: https://placehold.co/1600x302
+          height:
+            desktop: "604"
+            mobile: "302"
+    buttons:
+      - label: Learn More
+        href: "#next-step"
+        variant: outline
+  - id: media-slider-courses
+    type: mediaSlider
+    heading: Media Slider Courses
+    variant: courses
+    slides:
+      - title: Course Title 1
+        href: https://www.i-car.com/product/course-slug/salesforce-id
+        linkTitle: View course details
+        image:
+          src: /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp
+          alt: Course 1 image
+          width: 491
+          height: 327
+      - title: Course Title 2
+        href: https://www.i-car.com/product/course-slug/salesforce-id
+        linkTitle: View course details
+        image:
+          src: /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp
+          alt: Course 2 image
+          width: 491
+          height: 327
+      - title: Course Title 3
+        href: https://www.i-car.com/product/course-slug/salesforce-id
+        linkTitle: View course details
+        image:
+          src: /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp
+          alt: Course 3 image
+          width: 491
+          height: 327
+      - title: Course Title 4
+        href: https://www.i-car.com/product/course-slug/salesforce-id
+        linkTitle: View course details
+        image:
+          src: /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp
+          alt: Course 4 image
+          width: 491
+          height: 327
+  - id: chapter-actions-forms
+    type: text
+    heading: Actions and forms
+    variant: chapterIntro
+    paragraphs:
+      - Use typed CTA links, path dropdowns, and form contracts that can be validated and rendered without invented fields.
+  - id: cta-inline-links
+    type: cta
+    heading: Cta Inline Links
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "Questions? Contact "
+          - type: link
+            label: insurance@i-car.com
+            href: mailto:insurance@i-car.com
+          - type: text
+            text: " for more information."
+  - id: cta-default
+    type: cta
+    heading: Cta Default
+    paragraphs:
+      - "This Cta Default specimen demonstrates its structured production behavior. "
+    buttons:
+      - label: Explore guidance
+        href: "#hero"
+        variant: outline
+  - id: cta-path-dropdown
+    type: cta
+    heading: Cta Path Dropdown
+    paragraphs:
+      - "This Cta Path Dropdown specimen demonstrates its structured production behavior. "
+    pathDropdown:
+      label: Choose Your Path
+      variant: outline
+      items:
+        - label: Path One
+          href: "#path-one"
+        - label: Path Two
+          href: "#path-two"
+        - label: Path Three
+          href: "#path-three"
+  - id: lead-form-general
+    type: leadForm
+    heading: Lead Form General
+    paragraphs:
+      - "This Lead Form General specimen demonstrates its structured production behavior. "
+    list:
+      - "This Lead Form General specimen demonstrates its structured production behavior. "
+    form:
+      wrapperId: lead-form-wrapper
+      id: lead-form
+      prefix: lead-form
+      action: "#submit"
+      method: POST
+      fields:
+        - key: first_name
+          id: lead-first-name
+          name: first_name
+          type: text
+          label: First Name
+          placeholder: First Name
+        - key: last_name
+          id: lead-last-name
+          name: last_name
+          type: text
+          label: Last Name
+          placeholder: Last Name
+        - key: email
+          id: lead-email
+          name: email
+          type: email
+          label: Email
+          placeholder: Email
+      submitLabel: Submit
+  - id: lead-form-kentico-ajax-split
+    type: leadForm
+    heading: Lead Form Kentico Ajax Split
+    variant: kenticoAjaxSplit
+    paragraphs:
+      - "This Lead Form Kentico Ajax Split specimen demonstrates its structured production behavior. "
+    list:
+      - "This Lead Form Kentico Ajax Split specimen demonstrates its structured production behavior. "
+    image:
+      desktopSrc: https://placehold.co/800x600
+      alt: Lead Form Kentico Ajax Split image
+      width: "800"
+      height: "600"
+    form:
+      wrapperId: kentico-form-wrapper
+      id: kentico-form
+      prefix: kentico-form
+      action: /Kentico.Components/en-US/Kentico.FormWidget/KenticoFormWidget/FormSubmit?formName=Example&prefix=kentico-form&displayValidationErrors=False
+      method: POST
+      ajaxUpdate: "#kentico-form-wrapper"
+      submitHandler: window.kentico.updatableFormHelper.submitForm(event)
+      registration:
+        formId: kentico-form
+        targetAttributeName: data-ktc-ajax-update
+        unobservedAttributeName: data-ktc-notobserved-element
+      fields:
+        - key: organization
+          id: kentico-organization
+          name: kentico-form.organization.Value
+          type: text
+          label: Organization
+          placeholder: Organization
+        - key: first_name
+          id: kentico-first-name
+          name: kentico-form.first_name.Value
+          type: text
+          label: First Name
+          placeholder: First Name
+        - key: last_name
+          id: kentico-last-name
+          name: kentico-form.last_name.Value
+          type: text
+          label: Last Name
+          placeholder: Last Name
+        - key: phone_number
+          id: kentico-phone
+          name: kentico-form.phone_number.PhoneNumber
+          type: tel
+          label: Phone
+          placeholder: Phone
+          phoneMask:
+            wrapperId: kentico-phone-mask
+            pattern: (999) 999-9999
+        - key: email
+          id: kentico-email
+          name: kentico-form.email.Email
+          type: email
+          label: Email (optional)
+          placeholder: Email
+        - key: benefits_drop_down
+          id: kentico-benefits
+          name: kentico-form.benefits_drop_down.SelectedValue
+          type: select
+          label: Benefits
+          placeholder: Select an option
+          options:
+            - value: Accelerated Path to Gold Class
+              label: Accelerated Path to Gold Class
+            - value: Value of Gold Class
+              label: Value of Gold Class
+            - value: Discount
+              label: Discount
+            - value: Payment Plan
+              label: Payment Plan
+            - value: OEM Network
+              label: OEM Network
+            - value: Insurance Network
+              label: Insurance Network
+      runtimeToken:
+        name: __RequestVerificationToken
+      submitLabel: Submit
+      privacy:
+        text: Review the
+        href: /about-us/governance/policies/privacy
+        label: Privacy Policy
+      success:
+        title: Request Submitted
+        body: Confirmation copy goes here.
+  - id: chapter-exceptions
+    type: text
+    heading: Exceptions
+    variant: chapterIntro
+    paragraphs:
+      - Document compatibility debt as an explicit production exception; do not turn raw HTML into a reusable specimen.
+  - id: group-compatibility-debt
+    type: text
+    heading: "Compatibility debt: raw HTML"
+    variant: compatibilityDebt
+    paragraphs:
+      - "The production corpus contains two html/default sections: about-us/awards/jeff-silver-platinum-award.yaml#form-copy and about-us/awards/russ-verona-gold-class-shop-award.yaml#form-copy. Raw HTML is not reusable catalog content. Closure owner: Content/Lead."

@@ -1,0 +1,192 @@
+slug: course-updates
+title: Course Updates
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    title: Course Updates
+    inlineLinkParagraphs:
+      - segments:
+          - type: text
+            text: "As vehicles and repair methods grow more complex, your training needs to keep pace. I&#8209;CAR&#39;s course updates&mdash;driven by the "
+          - type: link
+            label: Industry Knowledge &amp; Skills Protocol
+            href: https://www.i-car.com/knowledge-skill-protocol-overview
+          - type: text
+            text: "&mdash;are designed to give professionals the support they need to stay ahead of change and deliver complete, safe, and quality repairs with confidence."
+    layout:
+      desktopSplit: text-5-media-7
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      desktopGapTarget: copy
+    imageStyle: rounded
+    image:
+      alt: Top-down illustration of a silver car with blue radar circles representing safety technology for a collision repair course updates page.
+      desktopSrc: /getmedia/075cf384-2f49-4b74-ac97-d66ebf9a0a92/Coming-Soon_Hero_800w.webp
+      desktopSrcset: /getmedia/25daedb2-50d0-461e-b733-67698aba83f3/Coming-Soon_Hero_400w.webp 400w, /getmedia/075cf384-2f49-4b74-ac97-d66ebf9a0a92/Coming-Soon_Hero_800w.webp 800w, /getmedia/5348b5d1-cd1d-40e1-a154-47ff6938315d/Coming-Soon_Hero_1600w.webp 1600w
+      width: "800"
+      height: "600"
+      sizes: "(max-width: 450px) 400px, (max-width: 768px) 800px, (max-width: 991px) 400px, 800px"
+      loading: eager
+
+  - id: new-courses
+    type: stickyCards
+    title: New Courses
+    backgroundColor: light
+    body:
+      - From online to hands-on, new courses are being developed for every skill&nbsp;level.
+    linkItemsPresentation: table
+    cards:
+      - title: Coming in Q2 2026
+        linkTableAriaLabel: Coming in Q2 2026
+        linkItems:
+          - label: Volvo Cars VIDA Content and Navigation
+      - title: Coming in Q3 2026
+        linkTableAriaLabel: Coming in Q3 2026
+        linkItems:
+          - label: Volvo Cars Vehicle Construction and Materials
+          - label: Volvo Cars ADAS System Calibration and Requirements
+      - title: Coming in Q4 2026
+        linkTableAriaLabel: Coming in Q4 2026
+        linkItems:
+          - label: Vehicle Technology and Trends 2027
+
+  - id: formats
+    type: iconCardGrid
+    title: New Training Formats Coming in 2026
+    body:
+      - I&#8209;CAR is rolling out advanced learning experiences designed to fit your needs:
+    layout:
+      cardsPerRow: 3
+      cardTextAlign: center
+    cards:
+      - title: Adaptive Learning (Online)
+        body: Training that adjusts to you. Spend time where it matters most and learn at your own pace&mdash;anytime, anywhere.
+        iconSvg: >-
+          <svg class="ic-card-icon" fill="none" height="70" viewBox="0 0 70 70" width="70" xmlns="http://www.w3.org/2000/svg"><title></title><path d="M39.3086 28.1414H66.5235" stroke="#333538" stroke-width="2"></path><path d="M51.2842 18.157V40.6648" stroke="#333538" stroke-width="2"></path><path d="M66.3203 19.2703V40.9969" stroke="#333538" stroke-width="2"></path><path d="M41.294 19.2332C41.8838 19.4588 42.5987 19.6277 43.6514 19.6277C45.2745 19.6277 46.0957 19.2254 46.8907 18.8348C47.625 18.4715 48.3233 18.1297 49.7452 18.1297C51.169 18.1297 51.8662 18.4715 52.6016 18.8348C53.3955 19.2254 54.2159 19.6277 55.8389 19.6277C57.4639 19.6277 58.2862 19.2254 59.0801 18.8348C59.8164 18.4715 60.5127 18.1297 61.9366 18.1297C63.3526 18.1297 63.9776 18.4656 64.6397 18.823C65.3399 19.2 66.0625 19.5887 67.5616 19.6219C68.1856 19.6219 68.5127 19.0203 68.5127 18.4539V9.69408C68.5127 8.81128 67.876 8.09448 67.0918 8.09448H36.8301" stroke="#333538" stroke-width="2"></path><path d="M44.0547 40.9968H68.6455" stroke="#333538" stroke-width="2"></path><path d="M37.6368 53.7634H45.3565" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M1.35449 53.7634H9.07619" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M37.6368 58.8894H41.0655C41.6377 58.8894 41.8955 59.3318 41.6563 59.8592L38.0401 64.5711C37.6309 65.1082 37.2481 64.9803 36.7715 64.9803H9.94142C9.46682 64.9803 9.22073 65.073 8.95712 64.617L5.05862 59.8592C4.81742 59.3318 5.07522 58.8894 5.64752 58.8894H9.07622" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M42.0332 53.7635V47.1385C42.0332 40.3269 36.9375 35.7996 29.8067 34.1307L23.3565 39.367L16.7041 33.9656C9.6787 35.2732 4.6817 39.0506 4.6817 47.1385V53.7635" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M23.2784 54.8904H23.4366" stroke="#333538" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></path><path d="M9.07617 64.6169V45.3796H37.6368V64.9118" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M12.7286 19.6766C12.7286 25.5037 17.4541 30.2244 23.2754 30.2244C29.1045 30.2244 33.8301 25.5037 33.8301 19.6766C33.8301 13.8495 29.1045 9.12769 23.2754 9.12769C17.4541 9.12769 12.7286 13.8494 12.7286 19.6766Z" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M36.6133 24.9891C35.377 24.9891 34.3711 23.9842 34.3711 22.7469V17.2254C34.3711 15.9881 35.377 14.9851 36.6133 14.9851C37.8516 14.9851 38.8516 15.9881 38.8516 17.2254V22.7469C38.8516 23.9842 37.8516 24.9891 36.6133 24.9891Z" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M9.94528 24.9891C8.70898 24.9891 7.70508 23.9842 7.70508 22.7469V17.2254C7.70508 15.9881 8.70898 14.9851 9.94528 14.9851C11.1836 14.9851 12.1866 15.9881 12.1866 17.2254V22.7469C12.1866 23.9842 11.1836 24.9891 9.94528 24.9891Z" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path><path d="M37.0909 15.0437C35.1036 9.18929 29.7696 5.00659 23.1934 5.00659C16.6143 5.00659 11.3877 9.18929 9.44531 15.0437" stroke="#333538" stroke-miterlimit="10" stroke-width="2"></path></svg>
+      - title: Interactive Video (Online)
+        body: Dive deeper into content with engaging, clickable videos that let you interact and explore as you learn.
+        iconSvg: >-
+          <svg class="ic-card-icon" fill="none" height="70" viewBox="0 0 70 70" width="70" xmlns="http://www.w3.org/2000/svg"><title></title><path d="M63.6911 10.2866H6.30847V53.4123H63.6911V10.2866Z" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M62.3038 59.7132H7.69619C4.21619 59.7132 1.39532 56.8921 1.39532 53.4124H68.6046C68.6046 56.8921 65.7835 59.7132 62.3038 59.7132Z" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M44.4483 29.4173L28.5435 39.0211V19.8135L44.4483 29.4173Z" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M14.8202 45.6816H55.1527" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path><path d="M20.178 42.4685V48.8952" stroke="#333538" stroke-linejoin="round" stroke-width="2"></path></svg>
+      - title: Mixed Reality (VR)
+        body: Put on a headset and step into an immersive, hands-on environment that builds confidence and skills like never before.
+        iconSvg: >-
+          <svg class="ic-card-icon" fill="none" height="70" viewBox="0 0 70 70" width="70" xmlns="http://www.w3.org/2000/svg"><title></title><path d="M54.4783 38.6521H15.5218C12.16 38.6521 9.43481 41.3773 9.43481 44.7391V56.913C9.43481 60.2747 12.16 62.9999 15.5218 62.9999H54.4783C57.84 62.9999 60.5652 60.2747 60.5652 56.913V44.7391C60.5652 41.3773 57.84 38.6521 54.4783 38.6521Z" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.43481 44.739V37.4347C9.43481 36.1272 9.72929 34.8884 10.2556 33.7811C11.9785 30.156 16.2174 28.5134 20.0903 29.5675C28.8113 31.9411 41.1888 31.9411 49.9098 29.5675C53.7827 28.5134 58.0215 30.156 59.7445 33.7811C60.2708 34.8884 60.5653 36.1272 60.5653 37.4347V44.739" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.43472 43.5216C5.40065 43.5216 2.13037 40.2514 2.13037 36.2173" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M67.8695 36.2173C67.8695 40.2514 64.5993 43.5216 60.5652 43.5216" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.43472 53.2609C5.40065 53.2609 2.13037 49.9906 2.13037 45.9565V28.913C2.13037 16.8108 16.8466 7 34.9999 7C53.1533 7 67.8695 16.8108 67.8695 28.913V45.9565C67.8695 49.9906 64.5992 53.2609 60.5652 53.2609" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M2.13037 36.2175C2.13037 24.1153 16.8466 14.3044 34.9999 14.3044C53.1533 14.3044 67.8695 24.1153 67.8695 36.2175" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M55.7309 48.3913V47.1739C55.7309 45.1568 54.099 43.5217 52.0858 43.5217" stroke="#333538" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+    footerBody:
+      - A variety of our courses are being updated to accommodate new formats and improvements.
+    footerButtons:
+      - label: See All Updates
+        href: /getmedia/0c51204d-18ca-44b6-bba1-a137f3752925/i-car-course-updates.pdf
+        target: _blank
+        title: View Course Updates
+        variant: outline
+
+  - id: recently-launched
+    type: mediaSlider
+    variant: courses
+    title: Recently Launched Courses
+    backgroundColor: white
+    slides:
+      - title: VinFast Collision Repair Overview
+        href: https://www.i-car.com/product/vinfast-collision-repair-overview/01tPI00000IctE1YAJ
+        linkTitle: View course details
+        image: { src: /getmedia/df9dd202-4201-435f-959d-6c4011764df0/VinFast-Collision-Repair-Overview.webp, alt: VinFast Collision Repair Overview, width: "491", height: "327" }
+      - title: VinFast Electromechanical Repair Overview
+        href: https://www.i-car.com/product/vinfast-electromechanical-repair-overview/01tPI00000IctFdYAJ
+        linkTitle: View course details
+        image: { src: /getmedia/a3443877-a851-4659-8d3f-1106b15fc533/VinFast-Electromechanical-Repair-Overview.webp, alt: VinFast Electromechanical Repair Overview, width: "491", height: "327" }
+      - title: Volvo Cars Collision Repair Overview
+        href: https://www.i-car.com/product/volvo-cars-collision-repair-overview/01tPI00000JZHJBYA5
+        linkTitle: View course details
+        image: { src: /getmedia/0267d853-71ec-4c3c-9ed7-c7a4878a2966/Volvo-Cars-Collision-Repair-Overview.webp, alt: Volvo Cars Collision Repair Overview, width: "491", height: "327" }
+      - title: Volvo Cars Electromechanical Repair Overview
+        href: https://www.i-car.com/product/volvo-cars-electromechanical-repair-overview/01tPI00000JZHizYAH
+        linkTitle: View course details
+        image: { src: /getmedia/1cd47884-7708-462e-872d-3544fb7b4f23/Volvo-Cars-Electromechanical-Repair-Overview.webp, alt: Volvo Cars Electromechanical Repair Overview, width: "491", height: "327" }
+      - title: Vehicle Technology and Trends 2026
+        href: https://www.i-car.com/product/vehicle-technology-and-trends-2026/01tPI00000GXjhtYAD
+        linkTitle: View course details
+        image: { src: /getmedia/2a1487a3-a7f5-4881-bc33-d1dc3c364ce9/Vtt2026.webp, alt: "", width: "491", height: "327" }
+      - title: Ford Explorer Rear Rail Sectioning
+        href: https://www.i-car.com/product/ford-explorer-rear-rail-sectioning/01tPI00000GXk9JYAT
+        linkTitle: View course details
+        image: { src: /getmedia/3fde9afb-9147-4652-9763-c160165e0418/For-Explorer-Rear-Rail-Sectioning.webp, alt: "", width: "491", height: "327" }
+      - title: FCA Jeep Wagoneer S
+        href: https://www.i-car.com/product/fca-jeep-wagoneer-s/01tRm00000EgU6TIAV
+        linkTitle: View course details
+        image: { src: /getmedia/2350a545-8063-4638-bd7a-b0726900034f/FCA-Jeep-Wagoneer-S.webp, alt: "", width: "491", height: "327" }
+      - title: FCA Dodge Charger LB
+        href: https://www.i-car.com/product/fca-dodge-charger-lb/01tRm00000ENl1NIAT
+        linkTitle: View course details
+        image: { src: /getmedia/b5fb8293-fe2d-4b33-b722-0376d9ecec8b/FCA-Dodge-Charger-LB.webp, alt: "", width: "491", height: "327" }
+      - title: Audi Collision Repair Overview
+        href: https://www.i-car.com/product/audi-collision-repair-overview/01tRm00000ENl4bIAD
+        linkTitle: View course details
+        image: { src: /getmedia/8ad3631f-c9ce-4cb5-814a-0bc1b356d642/Audi-Collision-Repair-Overview.webp, alt: "", width: "491", height: "327" }
+      - title: Audi Electromechanical Repair Overview
+        href: https://www.i-car.com/product/audi-electromechanical-repair-overview/01tRm00000ENl2zIAD
+        linkTitle: View course details
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+      - title: Jaguar Land Rover (JLR) Collision Repair Overview
+        href: https://www.i-car.com/product/jaguar-land-rover-jlr-collision-repair-overview/01tRm00000DpRMrIAN
+        linkTitle: View course details
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+      - title: Jaguar Land Rover (JLR) Electromechanical Repair Overview
+        href: https://www.i-car.com/product/jaguar-land-rover-jlr-electromechanical-repair-overview/01tRm00000DphTFIAZ
+        linkTitle: View course details
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCBK7XZP3SSVHS3DL24LYJ2EF72I?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+      - title: Mazda Collision Repair Overview
+        href: https://www.i-car.com/product/mazda-collision-repair-overview/01tRm00000DpheXIAR
+        linkTitle: View course details
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC43CRFPOENVC2BGL7DSCUTZMWZE?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+      - title: Mazda Electromechanical Repair Overview
+        href: https://www.i-car.com/product/mazda-electromechanical-repair-overview/01tRm00000DpheYIAR
+        linkTitle: View course details
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC5KO4TC3GR5HFLAUECOBU2BMVXA?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+
+  - id: faq
+    type: accordion
+    title: Common Questions About Course Updates
+    backgroundColor: light
+    accordionId: faqAccordion
+    layout:
+      desktopSplit: text-5-media-7
+    items:
+      - title: Why is I&#8209;CAR updating courses?
+        inlineLinkParagraphs:
+          - segments:
+              - type: text
+                text: "I&#8209;CAR updates courses to keep pace with rapidly evolving vehicle technology, OEM repair requirements, and new industry standards. Updates are guided by the "
+              - type: link
+                label: Industry Knowledge &amp; Skills Protocol
+                href: https://www.i-car.com/knowledge-skill-protocol-overview
+              - type: text
+                text: ", ensuring technicians receive training aligned with the necessary information professionals need to perform complete, safe, and quality repairs."
+      - title: How will course updates affect my current training path?
+        body:
+          - Most updates are designed to fit naturally into your existing training plan towards Platinum achievement. If a course is replaced or sunset, I&#8209;CAR will provide guidance on what new course fulfills that requirement so you can stay on track toward your role progression to Platinum.
+      - title: What happens if a course I&#39;m enrolled in is being replaced or retired?
+        body:
+          - If a course is being replaced, any earned training credit will automatically carry over to the updated version. If you have not yet finished the course, you may need to complete the new version to meet the updated training requirements.
+          - If a course is being retired, please complete it and a post test, if required, before its retirement date to ensure you receive full training credit.
+      - title: How long can I access a course that I completed?
+        body:
+          - As an I&#8209;CAR learner, you can return to any online course you&#39;ve completed at any time to refresh your knowledge&mdash;as long as that course remains active in the same format and has not been retired. If the course receives updates while it&#39;s active, you&#39;ll continue to have access to the latest version for as long as the course is available.
+      - title: Where can I find all available and updated courses in one place?
+        inlineLinkParagraphs:
+          - segments:
+              - type: text
+                text: "You can browse all active courses anytime in the "
+              - type: link
+                label: Full Course Catalog
+                href: https://www.i-car.com/browse
+              - type: text
+                text: " or see your personalized required courses in "
+              - type: link
+                label: MyLearning
+                href: https://www.i-car.com/my-learning
+              - type: text
+                text: "."
+      - title: Will the updates impact my Gold Class or Platinum recognition?
+        body:
+          - If a required course for your role is sunset and replaced with a new course, you will need to complete the replacement course within your recognition renewal period to maintain your Gold Class or Platinum status.

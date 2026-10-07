@@ -1,0 +1,177 @@
+slug: platinum
+title: Platinum
+cms:
+  headHtml:
+    - <link rel="stylesheet" href="https://use.typekit.net/gea0iry.css">
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    heading: I&#8209;CAR Platinum
+    body:
+      - I&#8209;CAR Platinum&trade; is a nationally recognized achievement earned by collision repair professionals who&rsquo;ve spent hours mastering the skills needed to work on today&rsquo;s vehicles. It represents advanced training, up-to-date knowledge, and a deep commitment to performing safe, quality repairs the right way—every&nbsp;time.
+    pathDropdown: &platinumRoles
+      label: Explore Platinum Roles
+      variant: outline
+      items:
+        - label: ADAS Technician
+          href: https://www.i-car.com/adas-technician-platinum-path
+        - label: Auto Physical Damage Appraiser
+          href: https://www.i-car.com/auto-physical-damage-appraiser-platinum-path
+        - label: Electrical/Diagnostics Technician
+          href: https://www.i-car.com/electrical-diagnostics-technician-path
+        - label: Estimator
+          href: https://www.i-car.com/estimator-platinum-path
+        - label: Mechanical Technician
+          href: https://www.i-car.com/mechanical-technician-platinum-path
+        - label: Non-Structural Technician
+          href: https://www.i-car.com/nonstructural-technician-platinum-path
+        - label: Production Management
+          href: https://www.i-car.com/production-management-platinum-path
+        - label: Refinish Technician
+          href: https://www.i-car.com/refinish-technician-platinum-path
+        - label: Structural Technician
+          href: https://www.i-car.com/structural-technician-platinum-path
+    layout:
+      desktopSplit: lg-5-7
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      boxStyle: collapse
+      imageStyle: banner
+    image:
+      alt: Male auto technician standing confidently with arms crossed in a collision repair training center, wearing safety glasses and a work uniform, with a damaged vehicle lifted in the background.
+      desktopSrc: /getmedia/781da341-8972-40e7-bbaf-f7b22712b4c0/Hero_1400w.webp
+      desktopSrcset: /getmedia/781da341-8972-40e7-bbaf-f7b22712b4c0/Hero_1400w.webp 1400w, /getmedia/0578e15e-5834-43a3-87e5-ef13a94d808e/Hero_2800w.webp 2800w
+      sources:
+        - maxWidth: "767"
+          width: "728"
+          height: "418"
+          srcset: /getmedia/37d5c5e0-773a-4d05-a234-6af29a2568c0/Hero_364w.webp 364w, /getmedia/7eadd573-145d-4940-ac04-3b6ba6c73059/Hero_728w.webp 728w, /getmedia/09c0d6d3-0a1e-48e4-9f38-f35358d5cc1b/Hero_1456w.webp 1456w
+        - maxWidth: "991"
+          width: "1008"
+          height: "569"
+          srcset: /getmedia/e9050b96-9a09-4aa9-b71e-0d438068c599/Hero_1008w.webp 1008w, /getmedia/576b429d-f6e1-4878-b399-3fb23368f6f7/Hero_2016w.webp 2016w
+        - maxWidth: "1199"
+          width: "1180"
+          height: "584"
+          srcset: /getmedia/514e48d6-1f99-4994-a88c-b47aed9d6d4e/Hero_1180w.webp 1180w, /getmedia/dfb95947-0706-41e0-bdde-e4cd26dc2d60/Hero_2360w.webp 2360w
+      mobileSrcset: /getmedia/37d5c5e0-773a-4d05-a234-6af29a2568c0/Hero_364w.webp 364w, /getmedia/7eadd573-145d-4940-ac04-3b6ba6c73059/Hero_728w.webp 728w, /getmedia/09c0d6d3-0a1e-48e4-9f38-f35358d5cc1b/Hero_1456w.webp 1456w
+      width: "1400"
+      height: "590"
+      sizes: "(max-width: 399.9px) 364px, (max-width: 767.9px) 728px, (max-width: 1199.9px) 1180px, 1400px"
+      loading: eager
+  - id: what-is-platinum
+    type: textMedia
+    variant: reverse
+    backgroundColor: light
+    heading: What Is Platinum?
+    body:
+      - The Platinum designation is awarded to individuals who complete I&#8209;CAR&rsquo;s detailed, role-specific collision repair training. Whether you&rsquo;re an automotive technician, estimator, or appraiser, earning Platinum shows you understand the latest vehicle systems and repair procedures. It also helps your business earn or maintain <a href="https://info.i-car.com/gold-class" title="Learn more about Gold Class">I&#8209;CAR&rsquo;s Gold&nbsp;Class recognition</a>.
+    image:
+      alt: I-CAR Platinum Professional badge logo
+      desktopSrc: /getmedia/06ab284e-6251-4554-8a54-1c5e174b5b11/Platinum_Professional_170w.webp
+      desktopSrcset: /getmedia/06ab284e-6251-4554-8a54-1c5e174b5b11/Platinum_Professional_170w.webp 170w, /getmedia/70e82e6c-87dd-4a9a-8a87-4ffd10c313ad/Platinum_Professional_340w.webp 340w
+      width: "170"
+      height: "157"
+      sizes: 170px
+    decorativeImage:
+      placement: cover
+      image:
+        alt: ""
+        decorative: true
+        desktopSrc: /getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp
+        desktopSrcset: /getmedia/6e76517e-1727-4089-8dc9-566ba62780c4/What-Is-Platinum_1400w.webp 1400w, /getmedia/0325465f-aeb6-4044-bf81-39ddb815afa0/What-Is-Platinum_2800w.webp 2800w
+        mobileSrcset: /getmedia/57dcef79-4a56-4d88-bf45-f0c593bb4c96/What-Is-Platinum_400w.webp 400w, /getmedia/700a3cb4-3d04-4136-8521-bc2e3aebce0a/What-Is-Platinum_800w.webp 800w, /getmedia/ee70a449-b3c6-4636-bedf-459c48d89cae/What-Is-Platinum_1600w.webp 1600w
+        width: "1400"
+        height: "400"
+        sizes: 1400px
+  - id: why-go-platinum
+    type: stickyCards
+    heading: Why Go Platinum?
+    body:
+      - Achieving Platinum sets you apart as a leader in auto body repair—demonstrating your expertise and commitment to excellence. As a Platinum professional, you&nbsp;will:
+    cards:
+      - heading: Platinum benefits
+        listItems:
+          - Stand out with in-depth knowledge of modern vehicle&nbsp;repairs
+          - Become a key asset in your shop with trusted, current&nbsp;skills
+          - Show your commitment to ongoing learning and career&nbsp;growth
+          - Earn national recognition as a top performer in the&nbsp;industry
+          - Position yourself for better career opportunities and&nbsp;advancement
+          - Boost your confidence and credibility in your&nbsp;work
+          - Receive a 20% discount on all I&#8209;CAR&nbsp;training
+        image:
+          alt: Female collision repair technician working on the interior of a car door in a training center, wearing safety glasses and a work uniform, with a focused expression.
+          desktopSrc: /getmedia/13693fdc-dc9b-4a32-b6dc-110733b9c9b8/Why-Go-Platinum_650w.webp
+          desktopSrcset: /getmedia/13693fdc-dc9b-4a32-b6dc-110733b9c9b8/Why-Go-Platinum_650w.webp 650w, /getmedia/177fb08c-dbd3-4353-8a19-bcd912e3a55a/Why-Go-Platinum_1300w.webp 1300w
+          sources:
+            - maxWidth: "767"
+              width: "671"
+              height: "518"
+              sizes: "(max-width: 400px) 400px, 800px"
+              srcset: /getmedia/3c00eb94-707b-43d8-a99c-c8611686c23c/Why-Go-Platinum_400w.webp 400w, /getmedia/6d184945-998a-4630-bdfc-bc4569c9114f/Why-Go-Platinum_800w.webp 800w, /getmedia/8d020c73-9234-4bdc-b225-1a601b25facf/Why-Go-Platinum_1600w.webp 1600w
+          width: "650"
+          height: "502"
+          sizes: 650px
+          loading: lazy
+  - id: training-standards
+    type: embed
+    backgroundColor: light
+    heading: Platinum Training Standards
+    body:
+      - Platinum training is structured across three levels: ProLevel&nbsp;1, 2, and 3. To maintain your Platinum status, you must complete six training course credits each year by your renewal&nbsp;date.
+      - Falling behind puts your recognition at risk—but your progress isn&rsquo;t lost. Completed ProLevel credits are retained, and any missed training can be completed to reinstate&nbsp;Platinum.
+    embedHtml: >-
+      <figure class="cert-flow" role="img" aria-label="Flow chart showing that completing ProLevel 1, 2 and 3 results in Platinum Achieved, and completing Annual Training each year maintains Platinum status."><p>ProLevel&nbsp;1 + ProLevel&nbsp;2 + ProLevel&nbsp;3 = Platinum Achieved</p><p>Annual&nbsp;Training = Platinum Maintained</p></figure>
+    pathDropdown: *platinumRoles
+  - id: appraiser-changes
+    type: textMedia
+    variant: reverse
+    label: What&rsquo;s New
+    heading: Appraiser Platinum Changes
+    body:
+      - Starting August 2026, Auto Physical Damage Appraisers (APDAs) will need to complete ProLevel&nbsp;1, 2, and 3 training to become Platinum. This auto collision training ensures APDAs are prepared for the future of claims processing and advanced vehicle technology, staying aligned with industry&nbsp;standards.
+    image:
+      alt: Collision repair technician photographing the front of a silver Chevrolet SUV with a smartphone, documenting damage marked with green indicators in a repair facility.
+      desktopSrc: /getmedia/dffb62da-6727-4f2f-b470-bbace6e29222/Whats-New_650w.webp
+      desktopSrcset: /getmedia/dffb62da-6727-4f2f-b470-bbace6e29222/Whats-New_650w.webp 650w, /getmedia/6fc5a27d-b850-4058-9e4f-be7d5314f3b5/Whats-New_1300w.webp 1300w
+      mobileSrcset: /getmedia/bb4776d5-d3d4-4e88-9ce2-6af3cc45ffa9/Whats-New_400w.webp 400w, /getmedia/0fa88679-6764-45bf-8f3b-c386f9ad0402/Whats-New_800w.webp 800w, /getmedia/a0c6aacf-c3d4-4985-aacb-1232ca0ab493/Whats-New_1600w.webp 1600w
+      width: "650"
+      height: "370"
+      sizes: 650px
+      loading: lazy
+  - id: testimonials
+    type: quoteGrid
+    variant: static
+    heading: What Platinum Professionals Are Saying
+    quotes:
+      - quote: I personally have been an I&#8209;CAR individual for 23 years and it has led me to the career I am in now with all the different kinds of training available. I use I&#8209;CAR when I have an entry-level estimator or technician. I also have our CSR take classes to get familiar with the&nbsp;business.
+        name: April Lausch
+        title: Faulkner Collision Center of Lancaster
+      - quote: Being Platinum allows me to feel more confident in the answers I am giving as I help develop and train new adjusters, many of whom were not "car people" just like I was when I started with the company. This experience has truly come full circle for me and it feels awesome to be able to contribute.
+        name: Tre Forde
+        title: GEICO
+      - quote: I have been in the collision industry for 22 years&hellip; I have gone from sweeping floors to owning my own shop with my brother who is also Platinum status. It is always nice to have continuing education in this ever-changing field.
+        name: Ryan Woodman
+        title: Woodman Collision Center
+      - quote: As an Auto Claims Adjuster, I&#8209;CAR has been my go-to training &amp; has helped me continue adding value in how I perform my duties with Allstate for over 21 years!
+        name: Stace Long
+        title: Allstate Insurance
+    embed:
+      src: https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6373625424112
+      title: What Platinum Professionals Are Saying
+  - id: start-your-journey
+    type: cta
+    heading: Start Your Platinum Journey
+    body:
+      - Join the nationally recognized network of I&#8209;CAR Platinum professionals committed to performing safe, quality repairs the right way&mdash;every&nbsp;time.
+    pathDropdown: *platinumRoles
+    image:
+      alt: ""
+      decorative: true
+      desktopSrc: /getmedia/2e3880ba-009e-444f-b918-30978042e986/Start-Your-Journey_728w.webp
+      desktopSrcset: /getmedia/256a29fe-2eb1-4d43-90fc-8f8efd1b992c/Start-Your-Journey_362w.webp 362w, /getmedia/be67bb1b-b717-4e50-ba8a-637a5d2af076/Start-Your-Journey_430w.webp 430w, /getmedia/2e3880ba-009e-444f-b918-30978042e986/Start-Your-Journey_728w.webp 728w, /getmedia/f349d8b3-5965-437f-a4e4-4a17392b6aac/Start-Your-Journey_860w.webp 860w, /getmedia/d70d8946-1f0d-455a-9373-513e3b6f6f72/Start-Your-Journey_1456w.webp 1456w
+      width: "728"
+      height: "848"
+      sizes: "(max-width: 399.9px) 362px, (max-width: 767.9px) 728px, 430px"
+      loading: lazy

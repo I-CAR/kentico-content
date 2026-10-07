@@ -1,5 +1,19 @@
 slug: style-guide
 title: I-CAR Web Style Guide
 sections:
-  - id: page-content
-    type: html
+  - id: colors
+    type: text
+    variant: colorTokens
+  - id: typography
+    type: text
+    variant: typographySamples
+  - id: buttons
+    type: cards
+    variant: buttonSamples
+  - id: cards
+    type: cards
+    variant: componentSamples
+  - id: forms
+    type: anchor
+  - id: tables
+    type: anchor

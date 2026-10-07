@@ -1,0 +1,853 @@
+slug: style-guide
+title: I-CAR Web Style Guide
+sections:
+  - id: colors
+    type: text
+    heading: Colors
+    variant: colorTokens
+    colorGroups:
+      - key: brand
+        label: Brand Colors
+        tokens:
+          - token: primary
+            label: Primary
+          - token: secondary
+            label: Secondary
+          - token: tertiary
+            label: Tertiary
+      - key: grayscale
+        label: Grayscale
+        tokens:
+          - token: white
+            label: White
+          - token: gray-50
+            label: Gray 50
+          - token: gray-100
+            label: Gray 100
+          - token: gray-200
+            label: Gray 200
+          - token: gray-500
+            label: Gray 500
+          - token: gray-700
+            label: Gray 700
+          - token: gray-900
+            label: Gray 900
+          - token: black
+            label: Black
+      - key: ui
+        label: UI Colors
+        tokens:
+          - token: positive
+            label: Positive
+          - token: negative
+            label: Negative
+  - id: typography
+    type: text
+    heading: Typography
+    variant: typographySamples
+    headlineSamples:
+      - role: 1
+        text: "Headline 1: Whereas disregard and contempt for human rights have resulted"
+      - role: 2
+        text: "Headline 2: Whereas disregard and contempt for human rights have resulted"
+      - role: 3
+        text: "Headline 3: Whereas disregard and contempt for human rights have resulted"
+      - role: 4
+        text: "Headline 4: Whereas disregard and contempt for human rights have resulted"
+      - role: 5
+        text: "Headline 5: Whereas disregard and contempt for human rights have resulted"
+      - role: 6
+        text: "Headline 6: Whereas disregard and contempt for human rights have resulted"
+    paragraphSamples:
+      - role: lead
+        segments:
+          - type: text
+            text: >-
+              Lead Paragraph: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua.
+          - type: link
+            label: Facilisi cras fermentum odio eu
+            href: "#typography"
+          - type: text
+            text: ". Lacus viverra vitae congue eu consequat ac. "
+          - type: link
+            label: Senectus et netus et malesuada fames ac turpis egestas integer
+            href: "#typography"
+          - type: text
+            text: . Vitae proin sagittis nisl rhoncus mattis rhoncus.
+      - role: body
+        segments:
+          - type: text
+            text: >-
+              Paragraph: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua.
+          - type: link
+            label: Facilisi cras fermentum odio eu
+            href: "#typography"
+          - type: text
+            text: ". Lacus viverra vitae congue eu consequat ac. "
+          - type: link
+            label: Senectus et netus et malesuada fames ac turpis egestas integer
+            href: "#typography"
+          - type: text
+            text: . Vitae proin sagittis nisl rhoncus mattis rhoncus.
+      - role: disclaimer
+        segments:
+          - type: text
+            text: >-
+              Disclaimer Paragraph: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Facilisi cras fermentum odio eu. Lacus viverra vitae congue
+              eu consequat ac. Senectus et netus et malesuada fames ac turpis egestas integer. Vitae proin sagittis nisl
+              rhoncus mattis rhoncus.
+    lists:
+      - kind: unordered
+        items:
+          - "Unordered List: Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+          - Lacus viverra vitae congue eu consequat ac
+          - Senectus et netus et malesuada fames ac turpis egestas integer
+          - Vitae proin sagittis nisl rhoncus mattis rhoncus
+      - kind: ordered
+        items:
+          - "Ordered List: Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+          - Lacus viverra vitae congue eu consequat ac
+          - Senectus et netus et malesuada fames ac turpis egestas integer
+          - Vitae proin sagittis nisl rhoncus mattis rhoncus
+  - id: buttons
+    type: cards
+    heading: Buttons
+    variant: buttonSamples
+    examples:
+      - tone: primary
+        treatment: solid
+        arrow: false
+        disabled: false
+        label: Primary Solid
+        href: "#buttons"
+      - tone: primary
+        treatment: solid
+        arrow: true
+        disabled: false
+        label: Primary Solid
+        href: "#buttons"
+      - tone: primary
+        treatment: outline
+        arrow: false
+        disabled: false
+        label: Primary Outline
+        href: "#buttons"
+      - tone: primary
+        treatment: outline
+        arrow: true
+        disabled: false
+        label: Primary Outline
+        href: "#buttons"
+      - tone: primary
+        treatment: solid
+        arrow: false
+        disabled: true
+        label: Primary Solid (Disabled)
+      - tone: primary
+        treatment: solid
+        arrow: true
+        disabled: true
+        label: Primary Solid (Disabled)
+      - tone: primary
+        treatment: outline
+        arrow: false
+        disabled: true
+        label: Primary Outline (Disabled)
+      - tone: primary
+        treatment: outline
+        arrow: true
+        disabled: true
+        label: Primary Outline (Disabled)
+      - tone: gray
+        treatment: solid
+        arrow: false
+        disabled: false
+        label: Gray Solid
+        href: "#buttons"
+      - tone: gray
+        treatment: solid
+        arrow: true
+        disabled: false
+        label: Gray Solid
+        href: "#buttons"
+      - tone: gray
+        treatment: outline
+        arrow: false
+        disabled: false
+        label: Gray Outline
+        href: "#buttons"
+      - tone: gray
+        treatment: outline
+        arrow: true
+        disabled: false
+        label: Gray Outline
+        href: "#buttons"
+      - tone: gray
+        treatment: solid
+        arrow: false
+        disabled: true
+        label: Gray Solid (Disabled)
+      - tone: gray
+        treatment: solid
+        arrow: true
+        disabled: true
+        label: Gray Solid (Disabled)
+      - tone: gray
+        treatment: outline
+        arrow: false
+        disabled: true
+        label: Gray Outline (Disabled)
+      - tone: gray
+        treatment: outline
+        arrow: true
+        disabled: true
+        label: Gray Outline (Disabled)
+      - tone: white
+        treatment: solid
+        arrow: false
+        disabled: false
+        label: White Solid
+        href: "#buttons"
+      - tone: white
+        treatment: solid
+        arrow: true
+        disabled: false
+        label: White Solid
+        href: "#buttons"
+      - tone: white
+        treatment: outline
+        arrow: false
+        disabled: false
+        label: White Outline
+        href: "#buttons"
+      - tone: white
+        treatment: outline
+        arrow: true
+        disabled: false
+        label: White Outline
+        href: "#buttons"
+      - tone: white
+        treatment: solid
+        arrow: false
+        disabled: true
+        label: White Solid (Disabled)
+      - tone: white
+        treatment: solid
+        arrow: true
+        disabled: true
+        label: White Solid (Disabled)
+      - tone: white
+        treatment: outline
+        arrow: false
+        disabled: true
+        label: White Outline (Disabled)
+      - tone: white
+        treatment: outline
+        arrow: true
+        disabled: true
+        label: White Outline (Disabled)
+      - tone: text
+        treatment: solid
+        arrow: false
+        disabled: false
+        label: Text Button
+        href: "#buttons"
+      - tone: text
+        treatment: solid
+        arrow: true
+        disabled: false
+        label: Text Button
+        href: "#buttons"
+  - id: cards
+    type: cards
+    heading: Cards
+    variant: componentSamples
+    groups:
+      - kind: text
+        heading: Text Cards
+        anchor: text-cards
+        cards:
+          - pattern: linked
+            background: white
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ White Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            action:
+              label: Learn more
+              href: "#text-cards"
+          - pattern: linked
+            background: light
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ Light Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            action:
+              label: Learn more
+              href: "#text-cards"
+          - pattern: linked
+            background: none
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ No Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            action:
+              label: Learn more
+              href: "#text-cards"
+          - pattern: quote
+            background: white
+            cardKind: quote
+            mediaKind: none
+            mediaPlacement: bottom
+            summary: >-
+              Card quote. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            citation:
+              name: Cite Name
+              title: Cite Title
+          - pattern: quote
+            background: light
+            cardKind: quote
+            mediaKind: none
+            mediaPlacement: bottom
+            summary: >-
+              Card quote. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            citation:
+              name: Cite Name
+              title: Cite Title
+          - pattern: quote
+            background: none
+            cardKind: quote
+            mediaKind: none
+            mediaPlacement: bottom
+            summary: >-
+              Card quote. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            citation:
+              name: Cite Name
+              title: Cite Title
+          - pattern: detail
+            background: white
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ Details and White Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            detail:
+              heading: Headline
+              items:
+                - Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                - Lacus viverra vitae congue eu consequat ac
+                - Senectus et netus et malesuada fames ac turpis egestas integer
+            action:
+              label: Primary Outline
+              href: "#text-cards"
+          - pattern: detail
+            background: light
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ Details and Light Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            detail:
+              heading: Headline
+              items:
+                - Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                - Lacus viverra vitae congue eu consequat ac
+                - Senectus et netus et malesuada fames ac turpis egestas integer
+            action:
+              label: Primary Outline
+              href: "#text-cards"
+          - pattern: detail
+            background: none
+            cardKind: standard
+            mediaKind: none
+            mediaPlacement: bottom
+            heading: Linked Card w/ Details and No Background
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#text-cards"
+            detail:
+              heading: Headline
+              items:
+                - Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                - Lacus viverra vitae congue eu consequat ac
+                - Senectus et netus et malesuada fames ac turpis egestas integer
+            action:
+              label: Primary Outline
+              href: "#text-cards"
+      - kind: image
+        heading: Image Cards
+        anchor: image-cards
+        cards:
+          - pattern: unlinked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Card w/ White Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: unlinked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Card w/ Light Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: unlinked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Card w/ No Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Linked Card w/ White Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Linked Card w/ Light Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: bottom
+            heading: Linked Card w/ No Background and Image on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-top
+            background: white
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: top
+            heading: Linked Card w/ White Background and Image on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-top
+            background: light
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: top
+            heading: Linked Card w/ Light Background and Image on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+          - pattern: linked-top
+            background: none
+            cardKind: standard
+            mediaKind: image
+            mediaPlacement: top
+            heading: Linked Card w/ No Background and Image on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#image-cards"
+            image:
+              desktopSrc: https://placehold.co/600x337?text=600w
+              alt: ""
+              decorative: true
+              width: "600"
+              height: "337"
+              desktopSrcset: >-
+                https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w,
+                https://placehold.co/1200x675?text=1200w 1200w
+      - kind: icon
+        heading: Icon Cards
+        anchor: icon-cards
+        cards:
+          - pattern: unlinked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Card w/ White Background and Icon on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: unlinked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Card w/ Light Background and Icon on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: unlinked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Card w/ No Background and Icon on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Linked Card w/ White Background and Icon on Top
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Linked Card w/ Light Background and Icon on Top
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: bottom
+            heading: Linked Card w/ No Background and Icon on Top
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-top
+            background: white
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: top
+            heading: Linked Card w/ White Background and Icon on Left
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-top
+            background: light
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: top
+            heading: Linked Card w/ Light Background and Icon on Left
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+          - pattern: linked-top
+            background: none
+            cardKind: standard
+            mediaKind: icon
+            mediaPlacement: top
+            heading: Linked Card w/ No Background and Icon on Left
+            href: "#icon-cards"
+            image:
+              desktopSrc: https://placehold.co/100x100?text=100w
+              alt: ""
+              decorative: true
+              width: "100"
+              height: "100"
+      - kind: logo
+        heading: Logo Cards
+        anchor: logo-cards
+        cards:
+          - pattern: linked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: bottom
+            heading: Linked Card w/ White Background and Logo on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+          - pattern: linked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: bottom
+            heading: Linked Card w/ Light Background and Logo on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+          - pattern: linked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: bottom
+            heading: Linked Card w/ No Background and Logo on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+          - pattern: linked-top
+            background: white
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: top
+            heading: Linked Card w/ White Background and Logo on Left
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+          - pattern: linked-top
+            background: light
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: top
+            heading: Linked Card w/ Light Background and Logo on Left
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+          - pattern: linked-top
+            background: none
+            cardKind: standard
+            mediaKind: logo
+            mediaPlacement: top
+            heading: Linked Card w/ No Background and Logo on Left
+            href: "#logo-cards"
+            image:
+              desktopSrc: https://placehold.co/150x100?text=150w
+              alt: ""
+              decorative: true
+              width: "150"
+              height: "100"
+      - kind: checkmark
+        heading: Checkmark Cards
+        anchor: checkmark-cards
+        cards:
+          - pattern: unlinked-bottom
+            background: white
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: bottom
+            heading: Card w/ White Background and Checkmark on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+          - pattern: unlinked-bottom
+            background: light
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: bottom
+            heading: Card w/ Light Background and Checkmark on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+          - pattern: unlinked-bottom
+            background: none
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: bottom
+            heading: Card w/ No Background and Checkmark on Top
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+          - pattern: unlinked-top
+            background: white
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: top
+            heading: Card w/ White Background and Checkmark on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+          - pattern: unlinked-top
+            background: light
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: top
+            heading: Card w/ Light Background and Checkmark on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+          - pattern: unlinked-top
+            background: none
+            cardKind: standard
+            mediaKind: checkmark
+            mediaPlacement: top
+            heading: Card w/ No Background and Checkmark on Left
+            summary: >-
+              Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no
+              mea.
+  - id: forms
+    type: anchor
+  - id: tables
+    type: anchor

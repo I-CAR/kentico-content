@@ -7,10 +7,109 @@ sections:
     type: pageNav
   - id: what-is-gold-class
     type: logoGrid
+    variant: decorativeBottom
   - id: program-paths
     type: stickyCards
+    variant: goldClassPaths
   - id: find-a-shop
     type: textMedia
     variant: reverse
   - id: get-started
-    type: stickyCards
+    type: leadForm
+    variant: kenticoAjaxSplit
+    heading: "Content placeholder: form heading"
+    paragraphs:
+      - "Content placeholder: introductory form copy"
+    list:
+      - "Content placeholder: first supporting benefit"
+      - "Content placeholder: second supporting benefit"
+    image:
+      desktopSrc: /getmedia/example/get-to-gold-class.webp
+      alt: "Content placeholder: form-side image description"
+      width: "650"
+      height: "500"
+      sources:
+        - srcset: /getmedia/example/get-to-gold-class-mobile.webp
+          maxWidth: "767"
+          width: "650"
+          height: "500"
+    form:
+      wrapperId: kentico-get-to-gold-class-wrapper
+      id: form-GetMyShopToGoldClass-a22d
+      prefix: form-GetMyShopToGoldClass-a22d
+      action: /Kentico.Components/en-US/Kentico.FormWidget/KenticoFormWidget/FormSubmit?formName=GetMyShopToGoldClass&prefix=form-GetMyShopToGoldClass-a22d&displayValidationErrors=False
+      method: POST
+      ajaxUpdate: "#kentico-get-to-gold-class-wrapper"
+      submitHandler: window.kentico.updatableFormHelper.submitForm(event)
+      registration:
+        formId: form-GetMyShopToGoldClass-a22d
+        targetAttributeName: data-ktc-ajax-update
+        unobservedAttributeName: data-ktc-notobserved-element
+      fields:
+        - key: organization
+          id: form-GetMyShopToGoldClass-a22d_organization_Value
+          name: form-GetMyShopToGoldClass-a22d.organization.Value
+          type: text
+          label: Organization
+          placeholder: Name
+          required: true
+        - key: first_name
+          id: form-GetMyShopToGoldClass-a22d_first_name_Value
+          name: form-GetMyShopToGoldClass-a22d.first_name.Value
+          type: text
+          label: First Name
+          placeholder: First Name
+          required: true
+        - key: last_name
+          id: form-GetMyShopToGoldClass-a22d_last_name_Value
+          name: form-GetMyShopToGoldClass-a22d.last_name.Value
+          type: text
+          label: Last Name
+          placeholder: Last Name
+          required: true
+        - key: phone_number
+          id: form-GetMyShopToGoldClass-a22d_phone_number_PhoneNumber
+          name: form-GetMyShopToGoldClass-a22d.phone_number.PhoneNumber
+          type: tel
+          label: Phone
+          placeholder: Phone
+          required: true
+          phoneMask:
+            wrapperId: kentico-phone-mask-wrapper
+            pattern: (999) 999-9999
+        - key: email
+          id: form-GetMyShopToGoldClass-a22d_email_Email
+          name: form-GetMyShopToGoldClass-a22d.email.Email
+          type: email
+          label: Email (optional)
+          placeholder: Email Address
+        - key: benefits_drop_down
+          id: form-GetMyShopToGoldClass-a22d_benefits_drop_down_SelectedValue
+          name: form-GetMyShopToGoldClass-a22d.benefits_drop_down.SelectedValue
+          type: select
+          label: Which Get to Gold Class benefit interests you most?
+          required: true
+          placeholder: Select an option
+          options:
+            - value: Accelerated Path to Gold Class
+              label: Accelerated Path to Gold Class
+            - value: Value of Gold Class
+              label: Value of Gold Class
+            - value: Discount
+              label: Discount
+            - value: Payment Plan
+              label: Payment Plan
+            - value: OEM Network
+              label: OEM Network
+            - value: Insurance Network
+              label: Insurance Network
+      runtimeToken:
+        name: __RequestVerificationToken
+      submitLabel: "Content placeholder: submit label"
+      privacy:
+        text: "Content placeholder: privacy introduction"
+        href: /about-us/governance/policies/privacy
+        label: "Content placeholder: privacy link label"
+      success:
+        title: "Content placeholder: success title"
+        body: "Content placeholder: success body"

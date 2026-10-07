@@ -1,5 +1,13 @@
 slug: become-board-member
 title: Governance - Board of Directors - Become a Board Member
 sections:
-  - id: page-content
-    type: html
+  - id: top
+    type: hero
+    variant: split
+  - id: available-seats
+    type: iconCardGrid
+  - id: key-dates
+    type: stickyCards
+  - id: apply
+    type: textMedia
+    variant: reverse

@@ -1,0 +1,121 @@
+slug: skillsusa
+title: SkillsUSA
+sections:
+  - id: hero
+    type: hero
+    variant: split
+    heading: Industry-Driven Reinvestment Highlights
+    paragraphs:
+      - >-
+        I&#8209;CAR has diligently re-invested in strategic initiatives that further industry training outcomes,
+        strategically expand services driven by industry voice, and annual support for CREF, all geared to create
+        industry benefits that align with I&#8209;CAR’s vision and mission. These reinvestments have contributed to
+        I&#8209;CAR’s strong financial position, enabling the organization to continue providing valuable training and
+        services to the collision repair&nbsp;industry.
+    image:
+      alt: ""
+      decorative: true
+      desktopSrc: https://placehold.co/945x500
+      desktopSrcset: >-
+        https://placehold.co/362x192 362w, https://placehold.co/728x385 728w,
+        https://placehold.co/945x500 945w, https://placehold.co/1456x770 1456w,
+        https://placehold.co/1890x1000 1890w
+      width: "945"
+      height: "500"
+      sizes: "(max-width: 400px) 362px, (max-width: 768px) 728px, 945px"
+    layout:
+      desktopSplit: equal
+      desktopMediaPosition: right
+      mobileMediaOrder: below
+      rowVerticalAlign: none
+      rowJustify: none
+      sectionPadding: padded
+  - id: impact
+    type: cards
+    heading: I&#8209;CAR Industry Impact Fund Currently at&nbsp;Work
+    layout:
+      cardsPerRow:
+        md: 2
+        xl: 4
+      cardAlign: center
+      cardLinks: separate
+    cards:
+      - heading: Students
+        href: "#"
+        paragraphs:
+          - I&#8209;CAR Academy is the beginning of a lifetime journey towards excellence in collision&nbsp;repair.
+          - Still exploring career&nbsp;opportunities?
+        links:
+          - label: Start Now
+            href: "#"
+          - label: Explore Collision Careers
+            href: "#"
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: https://placehold.co/356x205
+          desktopSrcset: >-
+            https://placehold.co/356x205 356w, https://placehold.co/468x270 468w,
+            https://placehold.co/712x410 712w, https://placehold.co/936x540 936w,
+            https://placehold.co/1424x820 1424w
+          width: "356"
+          height: "205"
+          sizes: "(max-width: 400px) 356px, (max-width: 768px) 712px, (max-width: 1024px) 356px, 486px"
+          loading: lazy
+      - heading: Parents
+        href: "#"
+        paragraphs:
+          - Helping kids find a fulfilling career is a big deal. Let Collision&nbsp;Careers help&nbsp;you.
+        links:
+          - label: Find Out How
+            href: "#"
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: https://placehold.co/356x205
+          desktopSrcset: >-
+            https://placehold.co/356x205 356w, https://placehold.co/468x270 468w,
+            https://placehold.co/712x410 712w, https://placehold.co/936x540 936w,
+            https://placehold.co/1424x820 1424w
+          width: "356"
+          height: "205"
+          sizes: "(max-width: 400px) 356px, (max-width: 768px) 712px, (max-width: 1024px) 356px, 486px"
+          loading: lazy
+      - heading: Schools
+        href: "#"
+        paragraphs:
+          - You’re the guiding force for students. We have the tools to support&nbsp;you.
+        links:
+          - label: Check It Out
+            href: "#"
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: https://placehold.co/356x205
+          desktopSrcset: >-
+            https://placehold.co/356x205 356w, https://placehold.co/468x270 468w,
+            https://placehold.co/712x410 712w, https://placehold.co/936x540 936w,
+            https://placehold.co/1424x820 1424w
+          width: "356"
+          height: "205"
+          sizes: "(max-width: 400px) 356px, (max-width: 768px) 712px, (max-width: 1024px) 356px, 486px"
+          loading: lazy
+      - heading: Collision Repairers
+        href: "#"
+        paragraphs:
+          - Discover I&#8209;CAR Academy’s entry-level collision repair education for&nbsp;shops.
+        links:
+          - label: Learn More
+            href: "#"
+        image:
+          alt: ""
+          decorative: true
+          desktopSrc: https://placehold.co/356x205
+          desktopSrcset: >-
+            https://placehold.co/356x205 356w, https://placehold.co/468x270 468w,
+            https://placehold.co/712x410 712w, https://placehold.co/936x540 936w,
+            https://placehold.co/1424x820 1424w
+          width: "356"
+          height: "205"
+          sizes: "(max-width: 400px) 356px, (max-width: 768px) 712px, (max-width: 1024px) 356px, 486px"
+          loading: lazy

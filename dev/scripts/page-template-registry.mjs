@@ -113,6 +113,7 @@ const sectionTemplateRegistry = {
       heading: titleFromId(id),
       variant: "split",
       imageStyle: "rounded",
+      layout: { desktopSplit: "equal", desktopMediaPosition: "right", mobileMediaOrder: "below" },
       paragraphs: [
         "Add approved introductory copy for this hero section.",
         "Use this space for a second paragraph if the design calls for one.",
@@ -127,6 +128,64 @@ const sectionTemplateRegistry = {
       spacing: {
         paddingTop: "none",
       },
+    }),
+    split57: (id) => ({
+      id,
+      type: "hero",
+      variant: "split",
+      heading: titleFromId(id),
+      layout: { desktopSplit: "text-5-media-7", desktopMediaPosition: "right", mobileMediaOrder: "above" },
+      paragraphs: ["Use a 5/7 text-to-media split with media above the copy on mobile."],
+      image: placeholderImage({ alt: `${titleFromId(id)} image`, desktopWidth: 1600, desktopHeight: 550, mobileHeight: 550 }),
+    }),
+    splitLargeScreen: (id) => ({
+      id,
+      type: "hero",
+      variant: "split",
+      heading: titleFromId(id),
+      layout: { desktopSplit: "lg-5-7", desktopMediaPosition: "right", mobileMediaOrder: "below", boxStyle: "collapse", imageStyle: "banner" },
+      paragraphs: ["Use the current large-screen split treatment with media below the copy on mobile."],
+      image: placeholderImage({ alt: `${titleFromId(id)} image`, desktopWidth: 1600, desktopHeight: 550, mobileHeight: 550 }),
+    }),
+    video: (id) => ({
+      ...baseSection(id, "hero"),
+      video: {
+        webm: "https://cdn.example.test/component-library/hero-video.webm",
+        mp4: "https://cdn.example.test/component-library/hero-video.mp4",
+        poster: "https://placehold.co/1600x900",
+        width: "1600",
+        height: "900",
+      },
+      paragraphs: ["Hero video presentation."],
+    }),
+    linkedImage: (id) => ({
+      ...baseSection(id, "hero"),
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+      imageLink: { href: "https://www.i-car.com/", label: "View details" },
+    }),
+    inlineLinks: (id) => ({
+      ...baseSection(id, "hero"),
+      inlineLinkParagraphs: [{ segments: [{ type: "text", text: "Hero copy with a scoped " }, { type: "link", label: "inline link", href: "https://www.i-car.com/" }, { type: "text", text: "." }] }],
+    }),
+    background: (id) => ({
+      ...baseSection(id, "hero"),
+      imagePlacement: "background",
+      backgroundColor: "light",
+      paragraphs: ["Hero background image presentation."],
+      image: placeholderImage({ alt: `${titleFromId(id)} background image`, desktopWidth: 3200, desktopHeight: 580, mobileHeight: 300 }),
+    }),
+    badge: (id) => ({
+      ...baseSection(id, "hero"),
+      badgeImage: { desktopSrc: "https://placehold.co/340x314", desktopSrcset: "https://placehold.co/170x157 170w, https://placehold.co/340x314 340w", alt: "Program badge", width: "170", height: "157", sizes: "170px" },
+      paragraphs: ["Hero badge presentation."],
+    }),
+    form: (id) => ({
+      ...baseSection(id, "hero"),
+      variant: "splitForm",
+      paragraphs: ["Request information.", "Complete the form to continue."],
+      bullets: ["First benefit", "Second benefit"],
+      image: placeholderImage({ alt: `${titleFromId(id)} image`, desktopWidth: 1600, desktopHeight: 900 }),
+      form: { id: "hero-form", action: "#submit", method: "POST", fields: [{ key: "email", id: "hero-email", name: "email", label: "Email", type: "email" }], submitLabel: "Submit" },
     }),
     pathDropdown: (id) => ({
       id,
@@ -173,10 +232,71 @@ const sectionTemplateRegistry = {
     default: (id) => ({
       id,
       type: "pageNav",
-      links: [],
+      links: [
+        { label: "Navigation and orientation", href: "#chapter-navigation-orientation" },
+        { label: "Heroes", href: "#chapter-heroes" },
+        { label: "Text and structured content", href: "#chapter-text-structured-content" },
+        { label: "Text and media", href: "#chapter-text-media" },
+        { label: "Cards and grids", href: "#chapter-cards-grids" },
+        { label: "Logos", href: "#chapter-logos" },
+        { label: "Rails and structured lists", href: "#chapter-rails-structured-lists" },
+        { label: "Quotes and testimonials", href: "#chapter-quotes-testimonials" },
+        { label: "Interactive media", href: "#chapter-interactive-media" },
+        { label: "Actions and forms", href: "#chapter-actions-forms" },
+        { label: "Exceptions", href: "#chapter-exceptions" },
+      ],
     }),
   },
   cards: {
+    assetDownloads: (id) => ({
+      ...baseSection(id, "cards"),
+      variant: "assetDownloads",
+      heading: "Asset Downloads",
+      cards: [
+        { heading: "Asset One", paragraphs: ["Add a short description for this downloadable asset."], href: "#asset-one", label: "Download asset" },
+        { heading: "Asset Two", paragraphs: ["Add a short description for this downloadable asset."], href: "#asset-two", label: "Download asset" },
+      ],
+    }),
+    buttonSamples: (id) => ({
+      ...baseSection(id, "cards", "Buttons"),
+      variant: "buttonSamples",
+      examples: ["primary", "gray", "white"].flatMap((tone) => [["solid",false,false],["solid",true,false],["outline",false,false],["outline",true,false],["solid",false,true],["solid",true,true],["outline",false,true],["outline",true,true]].map(([treatment,arrow,disabled]) => ({ tone, treatment, arrow, disabled, label: `${tone} ${treatment}${arrow ? " arrow" : ""}${disabled ? " disabled" : ""}`, ...(disabled ? {} : { href: "#buttons" }) }))).concat([
+        { tone: "text", treatment: "solid", arrow: false, disabled: false, label: "Text Button", href: "#buttons" },
+        { tone: "text", treatment: "solid", arrow: true, disabled: false, label: "Text Button Arrow", href: "#buttons" },
+      ]),
+    }),
+    componentSamples: (id) => ({
+      ...baseSection(id, "cards", "Cards"),
+      variant: "componentSamples",
+      groups: [["text", "Text Cards", "text-cards", ["linked", "quote", "detail"]], ["image", "Image Cards", "image-cards", ["unlinked-bottom", "linked-bottom", "linked-top"]], ["icon", "Icon Cards", "icon-cards", ["unlinked-bottom", "linked-bottom", "linked-top"]], ["logo", "Logo Cards", "logo-cards", ["linked-bottom", "linked-top"]], ["checkmark", "Checkmark Cards", "checkmark-cards", ["unlinked-bottom", "unlinked-top"]]].map(([kind, heading, anchor, patterns]) => ({
+        kind, heading, anchor,
+        cards: patterns.flatMap((pattern) => ["white", "light", "none"].map((background, index) => {
+          const linked = pattern.startsWith("linked") || pattern === "detail";
+          const backgroundLabel = background === "white" ? "White" : background === "light" ? "Light" : "No";
+          const title = pattern === "quote"
+            ? undefined
+            : kind === "text"
+              ? `${pattern === "detail" ? "Linked Card w/ Details and" : "Linked Card w/"} ${backgroundLabel} Background`
+              : `${linked ? "Linked Card w/" : "Card w/"} ${backgroundLabel} Background and ${kind === "image" ? "Image" : kind === "icon" ? "Icon" : kind === "logo" ? "Logo" : "Checkmark"} on ${pattern === "unlinked-top" || pattern === "linked-top" ? "Left" : "Top"}`;
+          const summaryRequired = kind === "text" || kind === "image" || kind === "checkmark" || (kind === "icon" && pattern === "unlinked-bottom") || (kind === "logo" && pattern === "linked-bottom") || pattern === "quote";
+          return {
+            pattern, background,
+            cardKind: pattern === "quote" ? "quote" : "standard",
+            mediaKind: kind === "text" ? "none" : kind,
+            mediaPlacement: pattern.endsWith("top") ? "top" : "bottom",
+            ...(title ? { heading: title } : {}),
+            ...(summaryRequired ? { summary: pattern === "quote" ? "Card quote. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no mea." : "Card summary. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no mea." } : {}),
+            ...(pattern === "quote" ? { summary: "Card quote. Lorem ipsum dolor sit amet, simul recusabo evertitur ius an, ceteros civibus efficiendi no mea.", citation: { name: "Cite Name", title: "Cite Title" } } : {}),
+            ...(linked ? { href: "#cards" } : {}),
+            ...(pattern === "detail" ? { detail: { heading: "Headline", items: ["Cu has veniam nonumy omittam", "Usu nisl etiam dicam eu", "Ut amet magna timeam qui, sapientem deterruisset id sed", "Te dico putant pertinax pro, nam mucius fuisset cu, vel alia vitae complectitur no"] }, action: { label: "Primary Outline", href: "#cards" } } : {}),
+            ...(pattern === "linked" ? { action: { label: "Text Button", href: "#cards" } } : {}),
+            ...(kind === "image" ? { image: { desktopSrc: "https://placehold.co/600x337?text=600w", desktopSrcset: "https://placehold.co/300x169?text=300w 300w, https://placehold.co/600x337?text=600w 600w, https://placehold.co/1200x675?text=1200w 1200w", sizes: "(max-width: 768px) 600px, (max-width: 991.9px) 300px, 600px", alt: "", decorative: true, width: "600", height: "337" } } : {}),
+            ...(kind === "logo" ? { image: { desktopSrc: "https://placehold.co/150x100?text=150w", alt: "", decorative: true, width: "150", height: "100" } } : {}),
+            ...(kind === "icon" ? { image: { desktopSrc: "https://placehold.co/100x100?text=100w", desktopSrcset: "https://placehold.co/100x100?text=100w 100w", alt: "", decorative: true, width: "100", height: "100" } } : {}),
+          };
+        })),
+      })),
+    }),
     default: (id) => ({
       ...baseSection(id, "cards"),
       paragraphs: [
@@ -214,6 +334,24 @@ const sectionTemplateRegistry = {
         { heading: "Card Two", paragraphs: ["Add supporting card copy here."] },
         { heading: "Card Three", paragraphs: ["Add supporting card copy here."] },
       ],
+    }),
+    panel: (id) => ({
+      ...baseSection(id, "cards"),
+      layout: { contentWidth: "ten", cardsPerRow: { md: 2, lg: 3 }, cardStyle: "panel", imageStyle: "standard" },
+      paragraphs: ["Panel card treatment."],
+      cards: [{ heading: "Panel Card", paragraphs: ["Panel card copy."] }, { heading: "Panel Card Two", paragraphs: ["Panel card copy."] }],
+    }),
+    centered: (id) => ({
+      ...baseSection(id, "cards"),
+      layout: { cardTextAlign: "center", cardTitleSize: "h3", contentWidth: "wider" },
+      paragraphs: ["Centered card treatment."],
+      cards: [{ heading: "Centered Card", paragraphs: ["Centered card copy."] }, { heading: "Centered Card Two", paragraphs: ["Centered card copy."] }],
+    }),
+    responsiveColumns: (id) => ({
+      ...baseSection(id, "cards"),
+      layout: { cardsPerRow: { base: 1, md: 2, lg: 3, xl: 4 } },
+      paragraphs: ["Responsive four-column card treatment."],
+      cards: [{ heading: "Card One", paragraphs: ["Card copy."] }, { heading: "Card Two", paragraphs: ["Card copy."] }, { heading: "Card Three", paragraphs: ["Card copy."] }, { heading: "Card Four", paragraphs: ["Card copy."] }],
     }),
     imageBoxSeparateLinks: (id) => ({
       ...baseSection(id, "cards"),
@@ -289,10 +427,77 @@ const sectionTemplateRegistry = {
     }),
   },
   text: {
+    chapterIntro: (id) => ({
+      ...baseSection(id, "text", ({
+        "chapter-navigation-orientation": "Navigation and orientation",
+        "chapter-heroes": "Heroes",
+        "chapter-text-structured-content": "Text and structured content",
+        "chapter-text-media": "Text and media",
+        "chapter-cards-grids": "Cards and grids",
+        "chapter-logos": "Logos",
+        "chapter-rails-structured-lists": "Rails and structured lists",
+        "chapter-quotes-testimonials": "Quotes and testimonials",
+        "chapter-interactive-media": "Interactive media",
+        "chapter-actions-forms": "Actions and forms",
+        "chapter-exceptions": "Exceptions",
+      }[id] || "Catalog orientation")),
+      variant: "chapterIntro",
+      paragraphs: [`${({
+        "chapter-navigation-orientation": "Use page navigation to move between the production specimens and verify every link targets a rendered chapter.",
+        "chapter-heroes": "Compare hero media, split layouts, specialized presentations, and link or form behavior against the fields consumed by the hero renderer.",
+        "chapter-text-structured-content": "Use structured prose, lists, tables, and legal copy when the renderer can consume the authored field directly.",
+        "chapter-text-media": "Pair text with image or typed embed media and keep split, position, width, mobile-order, and treatment fields explicit.",
+        "chapter-cards-grids": "Choose the card or grid specimen that proves its layout, treatment, link mode, responsive columns, or footer action.",
+        "chapter-logos": "Use logo records for logo behavior, including linked records, boxed layouts, fluid rows, and scroll-row thresholds.",
+        "chapter-rails-structured-lists": "Use rails for sticky cards, typed lists, resource tables, locations, and structured progress content.",
+        "chapter-quotes-testimonials": "Keep quote text, citations, grid mode, and media fields aligned with the quote consumers.",
+        "chapter-interactive-media": "Use accordions, embeds, and sliders with their typed fields or preserve raw HTML only where production compatibility requires it.",
+        "chapter-actions-forms": "Use typed CTA links, path dropdowns, and form contracts that can be validated and rendered without invented fields.",
+        "chapter-exceptions": "Document compatibility debt as an explicit production exception; do not turn raw HTML into a reusable specimen.",
+      }[id] || "Use the production fields consumed by the selected renderer.")}`],
+    }),
+    compatibilityDebt: (id) => ({
+      ...baseSection(id, "text"),
+      variant: "compatibilityDebt",
+      heading: "Compatibility debt: raw HTML",
+      paragraphs: ["The production corpus contains two html/default sections: about-us/awards/jeff-silver-platinum-award.yaml#form-copy and about-us/awards/russ-verona-gold-class-shop-award.yaml#form-copy. Raw HTML is not reusable catalog content. Closure owner: Content/Lead."],
+    }),
+    narrow: (id) => ({ ...baseSection(id, "text"), layout: { width: "narrow", align: "start" }, paragraphs: ["Narrow text content."] }),
+    full: (id) => ({ ...baseSection(id, "text"), layout: { width: "full", align: "start" }, paragraphs: ["Full-width text content."] }),
+    borderedCompact: (id) => ({ ...baseSection(id, "text"), sectionChrome: "bordered", sectionSpacing: "compact", paragraphs: ["Bordered compact text content."], table: { variant: "stats", leadText: "Compact table specimen", boxed: true, rows: [{ label: "First measure", value: "Approved" }, { label: "Second measure", value: "Required" }] } }),
     default: (id) => ({
       ...baseSection(id, "text"),
       paragraphs: [
         "Add body copy for this section.",
+      ],
+    }),
+    stackedLinks: (id) => ({
+      ...baseSection(id, "text"),
+      layout: { width: "full", align: "start", actionsStyle: "linkList", actionsLayout: "stack", actionsVariant: "text" },
+      paragraphs: ["Text with stacked text-link actions."],
+      links: [{ label: "First action", href: "https://www.i-car.com/" }, { label: "Second action", href: "https://www.i-car.com/" }],
+    }),
+    colorTokens: (id) => ({
+      ...baseSection(id, "text", "Colors"),
+      variant: "colorTokens",
+      colorGroups: [
+        { key: "brand", label: "Brand Colors", tokens: [{ token: "primary", label: "Primary" }, { token: "secondary", label: "Secondary" }, { token: "tertiary", label: "Tertiary" }] },
+        { key: "grayscale", label: "Grayscale", tokens: [{ token: "white", label: "White" }, { token: "gray-50", label: "Gray 50" }, { token: "gray-100", label: "Gray 100" }, { token: "gray-200", label: "Gray 200" }, { token: "gray-500", label: "Gray 500" }, { token: "gray-700", label: "Gray 700" }, { token: "gray-900", label: "Gray 900" }, { token: "black", label: "Black" }] },
+        { key: "ui", label: "UI Colors", tokens: [{ token: "positive", label: "Positive" }, { token: "negative", label: "Negative" }] },
+      ],
+    }),
+    typographySamples: (id) => ({
+      ...baseSection(id, "text", "Typography"),
+      variant: "typographySamples",
+      headlineSamples: [1, 2, 3, 4, 5, 6].map((role) => ({ role, text: `Headline ${role}: Whereas disregard and contempt for human rights have resulted` })),
+      paragraphSamples: [
+        { role: "lead", segments: [{ type: "text", text: "Lead Paragraph: Lorem ipsum dolor sit amet. " }, { type: "link", label: "Facilisi cras fermentum odio eu", href: "#typography" }, { type: "text", text: ". Lacus viverra vitae congue eu consequat ac. " }, { type: "link", label: "Senectus et netus et malesuada fames ac turpis egestas integer", href: "#typography" }, { type: "text", text: "." }] },
+        { role: "body", segments: [{ type: "text", text: "Paragraph: Lorem ipsum dolor sit amet. " }, { type: "link", label: "Facilisi cras fermentum odio eu", href: "#typography" }, { type: "text", text: ". Lacus viverra vitae congue eu consequat ac. " }, { type: "link", label: "Senectus et netus et malesuada fames ac turpis egestas integer", href: "#typography" }, { type: "text", text: "." }] },
+        { role: "disclaimer", segments: [{ type: "text", text: "Disclaimer Paragraph: Lorem ipsum dolor sit amet, consectetur adipiscing elit." }] },
+      ],
+      lists: [
+        { kind: "unordered", items: ["Unordered List: Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Lacus viverra vitae congue eu consequat ac", "Senectus et netus et malesuada fames ac turpis egestas integer", "Vitae proin sagittis nisl rhoncus mattis rhoncus"] },
+        { kind: "ordered", items: ["Ordered List: Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Lacus viverra vitae congue eu consequat ac", "Senectus et netus et malesuada fames ac turpis egestas integer", "Vitae proin sagittis nisl rhoncus mattis rhoncus"] },
       ],
     }),
     roster: (id) => ({
@@ -476,6 +681,13 @@ const sectionTemplateRegistry = {
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
     }),
+    leftEqual: (id) => ({
+      ...baseSection(id, "textMedia"),
+      variant: "leftEqual",
+      layout: { desktopSplit: "equal", desktopMediaPosition: "left", mobileMediaOrder: "below" },
+      paragraphs: ["Text/media with an explicit equal split, left media position, and mobile order."],
+      image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
     narrow: (id) => ({
       ...baseSection(id, "textMedia"),
       layout: { contentWidth: "narrow" },
@@ -498,6 +710,41 @@ const sectionTemplateRegistry = {
         },
       ],
       image: placeholderImage({ alt: `${titleFromId(id)} image` }),
+    }),
+    split57: (id) => ({ ...baseSection(id, "textMedia"), layout: { desktopSplit: "text-5-media-7", desktopMediaPosition: "right", mobileMediaOrder: "above" }, paragraphs: ["Text/media 5/7 split."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    split75: (id) => ({ ...baseSection(id, "textMedia"), layout: { desktopSplit: "text-7-media-5", desktopMediaPosition: "left", mobileMediaOrder: "below" }, paragraphs: ["Text/media 7/5 split."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    wide: (id) => ({ ...baseSection(id, "textMedia"), layout: { contentWidth: "wide" }, paragraphs: ["Wide text/media content."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    mediaAbove: (id) => ({ ...baseSection(id, "textMedia"), layout: { desktopMediaPosition: "left", mobileMediaOrder: "above" }, paragraphs: ["Media above on mobile."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    mediaBelow: (id) => ({ ...baseSection(id, "textMedia"), layout: { desktopMediaPosition: "left", mobileMediaOrder: "below" }, paragraphs: ["Media below on mobile."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    square: (id) => ({ ...baseSection(id, "textMedia"), imageStyle: "square", paragraphs: ["Square media treatment."], image: placeholderImage({ alt: `${titleFromId(id)} image`, desktopWidth: 600, desktopHeight: 600 }) }),
+    rounded: (id) => ({ ...baseSection(id, "textMedia"), imageStyle: "rounded", paragraphs: ["Rounded media treatment."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    cutout: (id) => ({ ...baseSection(id, "textMedia"), layout: { imageStyle: "cutout" }, paragraphs: ["Cutout media treatment."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    compactMedia: (id) => ({ ...baseSection(id, "textMedia"), layout: { imageSize: "compact" }, paragraphs: ["Compact media treatment."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    buttons: (id) => ({ ...baseSection(id, "textMedia"), paragraphs: ["Text/media with buttons."], buttons: [{ label: "Learn More", href: "#next-step", variant: "outline" }], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    textLinks: (id) => ({ ...baseSection(id, "textMedia"), inlineLinkParagraphs: [{ segments: [{ type: "text", text: "Text/media with " }, { type: "link", label: "text link", href: "https://www.i-car.com/" }] }], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    imageLinks: (id) => ({ ...baseSection(id, "textMedia"), imageLink: { label: "View image", href: "https://www.i-car.com/" }, paragraphs: ["Text/media with image link."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    badgeImage: (id) => ({ ...baseSection(id, "textMedia"), badgeImage: { src: "https://placehold.co/160x100", alt: "Badge", width: "160", height: "100" }, paragraphs: ["Text/media with badge image."], image: placeholderImage({ alt: `${titleFromId(id)} image` }) }),
+    componentLibraryTyped: (id) => ({
+      ...baseSection(id, "textMedia"),
+      variant: "componentLibraryTyped",
+      reverse: true,
+      inlineLinkParagraphs: [{ segments: [
+        { type: "text", text: "Add body copy that pairs with the supporting media. " },
+        { type: "link", label: "Explore Courses", href: `#${id}` },
+      ] }],
+      media: {
+        src: "https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6389084042112",
+        title: "Training video",
+        allow: ["autoplay", "encrypted-media", "fullscreen"],
+        fullscreen: true,
+        loading: "lazy",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        width: "616",
+        height: "450",
+        aspectRatio: "616/450",
+        link: { label: "Explore Courses", href: `#${id}` },
+      },
+      buttons: [{ label: "Learn More", href: "#next-step", variant: "outline" }],
     }),
     withLinkedItems: (id) => ({
       ...baseSection(id, "textMedia"),
@@ -654,7 +901,7 @@ const sectionTemplateRegistry = {
       paragraphs: [
         "Add an optional introduction to frame this quote.",
       ],
-      quoteHtml: [
+      quoteParagraphs: [
         "Add approved quote copy here.",
       ],
       cite: {
@@ -665,12 +912,11 @@ const sectionTemplateRegistry = {
     }),
     "side-by-side": (id) => ({
       ...baseSection(id, "quote"),
-      quoteLayout: "side-by-side",
-      centerIntro: true,
+      variant: "side-by-side",
       paragraphs: [
         "Add an optional introduction to frame this quote.",
       ],
-      quoteHtml: [
+      quoteParagraphs: [
         "Add approved quote copy here.",
       ],
       cite: {
@@ -681,8 +927,8 @@ const sectionTemplateRegistry = {
     }),
     compact: (id) => ({
       ...baseSection(id, "quote"),
-      compact: true,
-      quoteHtml: [
+      variant: "compact",
+      quoteParagraphs: [
         "Add approved quote copy here.",
       ],
       cite: {
@@ -761,6 +1007,19 @@ const sectionTemplateRegistry = {
     }),
   },
   iconCardGrid: {
+    withFooterCta: (id) => ({
+      ...baseSection(id, "iconCardGrid"),
+      layout: { cardsPerRow: 3 },
+      paragraphs: ["Icon cards with a footer CTA."],
+      cards: [{ heading: "Icon Card", paragraphs: ["Supporting copy."], iconSvg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\" viewBox=\"0 0 60 60\"><circle cx=\"30\" cy=\"30\" r=\"20\" stroke=\"#333538\" stroke-width=\"2\"/></svg>" }],
+      buttons: [{ label: "View all", href: "#all", variant: "outline" }],
+    }),
+    withoutFooterCta: (id) => ({
+      ...baseSection(id, "iconCardGrid"),
+      layout: { cardsPerRow: 4, cardTextAlign: "center" },
+      paragraphs: ["Icon cards without a footer CTA."],
+      cards: [{ heading: "Icon Card", paragraphs: ["Supporting copy."], iconSvg: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\" viewBox=\"0 0 60 60\"><circle cx=\"30\" cy=\"30\" r=\"20\" stroke=\"#333538\" stroke-width=\"2\"/></svg>" }],
+    }),
     default: (id) => ({
       ...baseSection(id, "iconCardGrid"),
       paragraphs: [
@@ -789,25 +1048,31 @@ const sectionTemplateRegistry = {
         height: "60",
       })),
     }),
+    decorativeBottom: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      variant: "decorativeBottom",
+      decorativeImage: { placement: "bottom", image: { alt: "", decorative: true, desktopSrc: "https://placehold.co/1400x500", desktopSrcset: "https://placehold.co/1200x430 1200w, https://placehold.co/1400x500 1400w, https://placehold.co/2400x860 2400w, https://placehold.co/2800x1000 2800w", sizes: "(max-width: 1199.9px) 1200px, (max-width: 1919.9px) 1400px, 2800px", width: "1400", height: "500", sources: [{ maxWidth: 768, srcset: "https://placehold.co/400x300 400w, https://placehold.co/800x450 800w, https://placehold.co/1600x900 1600w", width: "800", height: "450" }] } },
+      logos: [],
+    }),
     withLinks: (id) => ({
       ...baseSection(id, "logoGrid"),
       paragraphs: [
         "Add a short introduction for this logo group.",
       ],
-      links: {
-        layout: "horizontal",
-        align: "center",
-        items: [
-          { label: "First Related Link", href: "https://www.i-car.com/" },
-          { label: "Second Related Link", href: "https://www.i-car.com/" },
-        ],
-      },
       logos: Array.from({ length: 4 }, (_, index) => ({
         alt: `Logo ${index + 1}`,
         src: "https://placehold.co/180x60",
         width: "180",
         height: "60",
+        href: "https://www.i-car.com/",
+        target: "_blank",
       })),
+    }),
+    relatedLinks: (id) => ({
+      ...baseSection(id, "logoGrid"),
+      links: { layout: "horizontal", align: "center", items: [{ label: "Related resource", href: "https://www.i-car.com/" }] },
+      paragraphs: ["Logos with a related-links block."],
+      logos: [{ alt: "Logo 1", src: "https://placehold.co/180x60", width: "180", height: "60" }],
     }),
     box: (id) => ({
       ...baseSection(id, "logoGrid"),
@@ -853,6 +1118,7 @@ const sectionTemplateRegistry = {
     compactBox: (id) => ({
       ...baseSection(id, "logoGrid"),
       logoStyle: "box",
+      logoScrollRows: 3,
       layout: { logoContainer: "fluid", logoBoxSize: "compact" },
       paragraphs: [
         "Add a short introduction. The compact box grid fits 10 logos per row at 1440 px.",
@@ -879,6 +1145,33 @@ const sectionTemplateRegistry = {
         ],
       })),
     }),
+    typedListItems: (id) => ({
+      ...baseSection(id, "stickyCards"),
+      variant: "typedListItems",
+      heading: "Typed List Items",
+      cards: [{
+        heading: "Collision Requirements",
+        listItems: [
+          { segments: [{ type: "link", label: "Estimator", href: "https://www.i-car.com/estimator-platinum-path" }] },
+          { segments: [{ type: "link", label: "Refinish", href: "https://www.i-car.com/refinish-technician-platinum-path" }] },
+          { segments: [{ type: "link", label: "Structural", href: "https://www.i-car.com/structural-technician-platinum-path" }] },
+          { segments: [{ type: "link", label: "Nonstructural", href: "https://www.i-car.com/nonstructural-technician-platinum-path" }] },
+          { segments: [{ type: "link", label: "Location courses", href: "https://info.i-car.com/I-CAR/media/ICarMain/PDF/Location-Level-Courses.pdf" }] },
+          { segments: [{ type: "link", label: "Vehicle technology", href: "https://www.i-car.com/vehicle-technology-specific-training" }] },
+          { segments: [{ type: "link", label: "Industry training alliance", href: "https://info.i-car.com/training/industry-training-alliance" }] },
+        ],
+      }],
+    }),
+    goldClassPaths: (id) => ({
+      ...baseSection(id, "stickyCards"),
+      variant: "goldClassPaths",
+      cards: [{ heading: "Program one", paragraphs: ["Program copy."], subheading: "Benefits", listItems: ["Benefit"] }, { heading: "Program two", paragraphs: ["Program copy."], subheading: "Benefits", listItems: ["Benefit"] }],
+    }),
+    resourceTables: (id) => ({
+      ...baseSection(id, "stickyCards"),
+      variant: "resourceTables",
+      cards: [{ heading: "Welding", groups: [{ heading: "Checklists", tableLabel: "Checklists", paragraphs: ["Add explanatory copy."], columns: ["Resource"], rows: [["Resource"]], disclaimer: "Add disclaimer copy." }, { heading: "Additional Resources", tableLabel: "Additional Resources", paragraphs: ["Add explanatory copy."], columns: ["Resource"], rows: [["Resource"]] }] }, { heading: "Hands-On", groups: [{ heading: "Hands-On Resources", tableLabel: "Hands-On Resources", paragraphs: ["Add explanatory copy."], columns: ["Resource"], rows: [["Resource"]] }] }],
+    }),
     itemCards: (id) => ({
       ...baseSection(id, "stickyCards"),
       variant: "itemCards",
@@ -902,8 +1195,18 @@ const sectionTemplateRegistry = {
       variant: "embed",
       heading: "Section Heading",
       iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none"><title></title><circle cx="25" cy="25" r="22" stroke="#333538" stroke-width="2.25"/></svg>`,
-      addressHtml: `<a href="https://maps.google.com" target="_blank" rel="noopener">City, ST 00000</a>`,
-      embedHtml: `<iframe src="" width="616" height="450" style="aspect-ratio:616/450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="ic-rounded"></iframe>`,
+      address: { text: "City, ST 00000", href: "https://maps.google.com", target: "_blank" },
+      embed: {
+        src: "https://www.google.com/maps/embed?pb=example",
+        title: "I-CAR technical center map",
+        allow: ["fullscreen"],
+        fullscreen: true,
+        loading: "lazy",
+        referrerPolicy: "no-referrer-when-downgrade",
+        width: "616",
+        height: "450",
+        aspectRatio: "616/450",
+      },
     }),
   },
   legal: {
@@ -944,6 +1247,14 @@ const sectionTemplateRegistry = {
         ],
       },
     }),
+    inlineLinks: (id) => ({
+      ...baseSection(id, "cta"),
+      inlineLinkParagraphs: [{ segments: [
+        { type: "text", text: "Questions? Contact " },
+        { type: "link", label: "insurance@i-car.com", href: "mailto:insurance@i-car.com" },
+        { type: "text", text: " for more information." },
+      ] }],
+    }),
   },
   accordion: {
     "desktop-split": (id) => ({
@@ -979,7 +1290,52 @@ const sectionTemplateRegistry = {
       paragraphs: [
         "Add introductory copy for this embedded content.",
       ],
-      embedHtml: `<div class="ratio ratio-16x9"><div class="d-flex align-items-center justify-content-center border rounded">Replace this placeholder with approved embed HTML.</div></div>`,
+      embed: {
+        src: "https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112",
+        title: "Embedded training video",
+        allow: ["encrypted-media", "fullscreen"],
+        fullscreen: true,
+        loading: "lazy",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        width: "616",
+        height: "450",
+        aspectRatio: "16/9",
+      },
+    }),
+    componentLibraryTyped: (id) => ({
+      ...baseSection(id, "embed"),
+      variant: "componentLibraryTyped",
+      inlineLinkParagraphs: [{ segments: [
+        { type: "text", text: "Add introductory copy for this embedded content. " },
+        { type: "link", label: "Learn more", href: "https://www.i-car.com/" },
+      ] }],
+      embed: {
+        src: "https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112",
+        title: "Embedded training video",
+        allow: ["encrypted-media", "fullscreen"],
+        fullscreen: true,
+        loading: "lazy",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        width: "616",
+        height: "450",
+        aspectRatio: "16/9",
+      },
+    }),
+    pathDropdown: (id) => ({
+      ...baseSection(id, "embed"),
+      paragraphs: ["Embedded media with a path selector."],
+      pathDropdown: { label: "Choose Your Path", variant: "outline", items: [{ label: "Path One", href: "#path-one" }, { label: "Path Two", href: "#path-two" }] },
+      embed: {
+        src: "https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112",
+        title: "Embedded training video with path selector",
+        allow: ["encrypted-media", "fullscreen"],
+        fullscreen: true,
+        loading: "lazy",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        width: "616",
+        height: "450",
+        aspectRatio: "16/9",
+      },
     }),
   },
   mediaSlider: {
@@ -1023,6 +1379,74 @@ const sectionTemplateRegistry = {
       ],
     }),
   },
+  progressList: {
+    default: (id) => ({
+      ...baseSection(id, "progressList"),
+      paragraphs: ["Add an introduction for these standards."],
+      groups: [{
+        heading: "Year one",
+        paragraphs: ["Add context for this standards group."],
+        measures: [
+          { label: "Standard one", percent: 0 },
+          { label: "Standard two", unavailable: "N/A" },
+        ],
+      }],
+    }),
+  },
+  leadForm: {
+    default: (id) => ({
+      ...baseSection(id, "leadForm"),
+      paragraphs: ["Add approved introductory copy for this general lead form."],
+      list: ["Add a benefit or supporting point."],
+      form: {
+        wrapperId: "lead-form-wrapper",
+        id: "lead-form",
+        prefix: "lead-form",
+        action: "#submit",
+        method: "POST",
+        fields: [
+          { key: "first_name", id: "lead-first-name", name: "first_name", type: "text", label: "First Name", placeholder: "First Name" },
+          { key: "last_name", id: "lead-last-name", name: "last_name", type: "text", label: "Last Name", placeholder: "Last Name" },
+          { key: "email", id: "lead-email", name: "email", type: "email", label: "Email", placeholder: "Email" },
+        ],
+        submitLabel: "Submit",
+      },
+    }),
+    kenticoAjaxSplit: (id) => ({
+      ...baseSection(id, "leadForm"),
+      variant: "kenticoAjaxSplit",
+      paragraphs: ["Add approved introductory copy for this Kentico form."],
+      list: ["Add a benefit or supporting point."],
+      image: {
+        desktopSrc: "https://placehold.co/800x600",
+        alt: `${titleFromId(id)} image`,
+        width: "800",
+        height: "600",
+      },
+      form: {
+        wrapperId: "kentico-form-wrapper",
+        id: "kentico-form",
+        prefix: "kentico-form",
+        action: "/Kentico.Components/en-US/Kentico.FormWidget/KenticoFormWidget/FormSubmit?formName=Example&prefix=kentico-form&displayValidationErrors=False",
+        method: "POST",
+        ajaxUpdate: "#kentico-form-wrapper",
+        submitHandler: "window.kentico.updatableFormHelper.submitForm(event)",
+        registration: { formId: "kentico-form", targetAttributeName: "data-ktc-ajax-update", unobservedAttributeName: "data-ktc-notobserved-element" },
+        fields: [
+          { key: "organization", id: "kentico-organization", name: "kentico-form.organization.Value", type: "text", label: "Organization", placeholder: "Organization" },
+          { key: "first_name", id: "kentico-first-name", name: "kentico-form.first_name.Value", type: "text", label: "First Name", placeholder: "First Name" },
+          { key: "last_name", id: "kentico-last-name", name: "kentico-form.last_name.Value", type: "text", label: "Last Name", placeholder: "Last Name" },
+          { key: "phone_number", id: "kentico-phone", name: "kentico-form.phone_number.PhoneNumber", type: "tel", label: "Phone", placeholder: "Phone", phoneMask: { wrapperId: "kentico-phone-mask", pattern: "(999) 999-9999" } },
+          { key: "email", id: "kentico-email", name: "kentico-form.email.Email", type: "email", label: "Email (optional)", placeholder: "Email" },
+          { key: "benefits_drop_down", id: "kentico-benefits", name: "kentico-form.benefits_drop_down.SelectedValue", type: "select", label: "Benefits", placeholder: "Select an option", options: [{ value: "Accelerated Path to Gold Class", label: "Accelerated Path to Gold Class" }, { value: "Value of Gold Class", label: "Value of Gold Class" }, { value: "Discount", label: "Discount" }, { value: "Payment Plan", label: "Payment Plan" }, { value: "OEM Network", label: "OEM Network" }, { value: "Insurance Network", label: "Insurance Network" }] },
+        ],
+        runtimeToken: { name: "__RequestVerificationToken" },
+        submitLabel: "Submit",
+        privacy: { text: "Review the", href: "/about-us/governance/policies/privacy", label: "Privacy Policy" },
+        success: { title: "Request Submitted", body: "Confirmation copy goes here." },
+      },
+    }),
+  },
   html: {
     default: (id) => ({
       id,
@@ -1032,6 +1456,7 @@ const sectionTemplateRegistry = {
       ],
     }),
   },
+  anchor: { default: (id) => ({ id, type: "anchor" }) },
   accreditation: {
     default: (id) => ({
       ...baseSection(id, "accreditation"),

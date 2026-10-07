@@ -1,5 +1,16 @@
 slug: education
 title: Electric and Hybrid Vehicle Repair - Education
 sections:
-  - id: page-content
-    type: html
+  - id: hero
+    type: hero
+    variant: split
+  - id: courses
+    type: stickyCards
+  - id: oem
+    type: logoGrid
+    variant: withLinks
+  - id: ev-lab
+    type: mediaSlider
+  - id: coming-soon
+    type: textMedia
+    variant: reverse

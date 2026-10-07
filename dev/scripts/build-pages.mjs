@@ -10,15 +10,17 @@ import {
 import { spawn } from "node:child_process";
 import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { runInNewContext } from "node:vm";
 import {
   authoringFileExtensions,
   assertUniqueAuthoringBasenames,
   parseStructuredAuthoringFile,
   stripAuthoringFileExtension,
 } from "./authoring-format.mjs";
-import { createTemplateSnapshot, syncTemplates } from "./generate-templates.mjs";
+import { createTemplateSnapshot, parseOnlySelections, syncTemplates } from "./generate-templates.mjs";
 import { pageUsesBootstrap, pageUsesJquery, pageUsesLegacyCss, sourceReferencesJqueryAsset } from "./page-dependencies.mjs";
-import { validatePageData, throwOnValidationError } from "./schema-validation.mjs";
+import { admitIconSvg, validatePageData, throwOnValidationError } from "./schema-validation.mjs";
+import { createTemplateSection } from "./page-template-registry.mjs";
 
 const watchMode = process.argv.includes("--watch");
 const goldClassRatingProofMode = process.argv.includes("--proof-gtgc-rating-renderer");
@@ -27,6 +29,8 @@ const goldClassInvisibleV2ProofMode = process.argv.includes("--proof-gtgc-invisi
   || process.argv.includes("--proof-gtgc-invisible-v2-flow");
 const goldClassIframeReadinessProofMode = process.argv.includes("--proof-gtgc-iframe-readiness");
 const goldClassSelectProofMode = process.argv.includes("--proof-gtgc-select");
+const dryRun = process.argv.includes("--dry-run");
+const selectedAuthoringBases = new Set(parseOnlySelections());
 const contentSourceDir = join("content", "pages");
 const previewOutputDir = "previews";
 const legacyGeneratedPreviewDir = join("previews", "generated");
@@ -80,7 +84,8 @@ export function collectRenderableContentFiles() {
   return assertUniqueAuthoringBasenames(
     authoringFileExtensions.flatMap((extension) => collectFiles(contentSourceDir, extension)),
     "content page files",
-  );
+  ).filter((sourceFile) => selectedAuthoringBases.size === 0
+    || selectedAuthoringBases.has(stripAuthoringFileExtension(relative(contentSourceDir, sourceFile))));
 }
 
 function createFileSnapshot(files) {
@@ -272,6 +277,7 @@ function resolveSplitColumnGapClassNames({
   desktopMediaPosition = "right",
   desktopGapTarget = "",
   desktopGapBreakpoint = "lg",
+  gapSide = "physical",
 } = {}) {
   const gapBreakpoint = normalizeBreakpoint(desktopGapBreakpoint, "lg");
 
@@ -282,10 +288,11 @@ function resolveSplitColumnGapClassNames({
     };
   }
 
-  const gapSide = desktopGapTarget === "copy"
+  const physicalGapSide = desktopGapTarget === "copy"
     ? (desktopMediaPosition === "right" ? "pr" : "pl")
     : (desktopMediaPosition === "right" ? "pl" : "pr");
-  const gapClassName = `${gapSide}-${gapBreakpoint}-5`;
+  const resolvedGapSide = gapSide === "logical-start" ? "ps" : physicalGapSide;
+  const gapClassName = `${resolvedGapSide}-${gapBreakpoint}-5`;
 
   return {
     copyClassName: desktopGapTarget === "copy" ? gapClassName : "",
@@ -697,6 +704,49 @@ function renderContentParagraphs(paragraphs = [], htmlParagraphs = [], className
   );
 
   return [...plainMarkup, ...htmlMarkup].join("\n\n");
+}
+
+function renderTypedInlineLinkParagraph(paragraph = {}) {
+  return (paragraph.segments || []).map((segment) => segment.type === "link"
+    ? `<a href="${escapeHtml(segment.href)}">${renderText(segment.label)}</a>`
+    : renderText(segment.text || "")).join("");
+}
+
+function renderTypedInlineLinkParagraphs(paragraphs = [], className = "") {
+  const classAttribute = className ? ` class="${escapeHtml(className)}"` : "";
+  return paragraphs.map((paragraph) => `                <p${classAttribute}>${renderTypedInlineLinkParagraph(paragraph)}</p>`).join("\n\n");
+}
+
+function renderTypedSegmentItem(item = {}) {
+  return (item.segments || []).map((segment) => segment.type === "link"
+    ? `<a${renderAnchorAttributes({ href: segment.href })}>${renderText(segment.label)}</a>`
+    : renderText(segment.text || "")).join("");
+}
+
+function renderTypedMedia(media = {}, { className = "ic-video ic-rounded", context = "typed media" } = {}) {
+  if (!media || typeof media !== "object") return "";
+  const attributes = [
+    `class="${escapeHtml(className)}"`,
+    `src="${escapeHtml(media.src)}"`,
+    `title="${escapeHtml(media.title)}"`,
+    `width="${escapeHtml(String(media.width))}"`,
+    `height="${escapeHtml(String(media.height))}"`,
+    `loading="${escapeHtml(media.loading || "lazy")}"`,
+    `referrerpolicy="${escapeHtml(media.referrerPolicy || "strict-origin-when-cross-origin")}"`,
+  ];
+  if (Array.isArray(media.allow) && media.allow.length) attributes.push(`allow="${escapeHtml(media.allow.join("; "))}"`);
+  if (media.fullscreen === true) attributes.push("allowfullscreen");
+  if (media.aspectRatio !== undefined) attributes.push(`style="aspect-ratio:${escapeHtml(String(media.aspectRatio))}"`);
+  const iframe = `<iframe ${attributes.join(" ")}></iframe>`;
+  if (!media.link) return iframe;
+  return `<a${renderAnchorAttributes(media.link, { title: media.link.title || media.link.label })} aria-label="${escapeHtml(media.link.label)}">${iframe}</a>`;
+}
+
+export function renderCourseUpdatesInlineLinksProof() {
+  return {
+    hero: renderHeroSection({ id: "proof-course-hero", type: "hero", title: "Proof", inlineLinkParagraphs: [{ segments: [{ type: "text", text: "Read < " }, { type: "link", label: "Industry Knowledge & Skills Protocol", href: "https://www.i-car.com/knowledge-skill-protocol-overview" }, { type: "text", text: " & apply." }] }], image: { desktopSrc: "/proof.webp", alt: "Proof", width: "800", height: "600" } }),
+    accordion: renderAccordionSection({ id: "proof-course-faq", type: "accordion", heading: "FAQ", items: [{ heading: "One", inlineLinkParagraphs: [{ segments: [{ type: "text", text: "Browse " }, { type: "link", label: "Full Course Catalog", href: "https://www.i-car.com/browse" }, { type: "text", text: " or \"visit\" " }, { type: "link", label: "MyLearning", href: "https://www.i-car.com/my-learning" }] }] }] }),
+  };
 }
 
 function renderInlineMarkdownLinks(value = "", { widowProtection = false, getLinkAttributes = null } = {}) {
@@ -1415,9 +1465,8 @@ function normalizeIconSvgMarkup(iconSvg, {
 } = {}) {
   const svgMarkup = typeof iconSvg === "string" ? iconSvg.trim() : "";
 
-  if (!svgMarkup.startsWith("<svg")) {
-    throw new Error("Invalid iconSvg markup: missing <svg> root");
-  }
+  const admission = admitIconSvg(svgMarkup);
+  if (!admission.ok) throw new Error(`Invalid iconSvg markup: ${admission.reason}`);
 
   const openTagMatch = svgMarkup.match(/^<svg\b([^>]*)>/i);
   const attributes = openTagMatch?.[1] || "";
@@ -2037,7 +2086,9 @@ function renderHeroSection(section) {
 
   // Build body markup from structured properties or legacy properties
   let bodyMarkup = "";
-  if (section.body) {
+  if (Array.isArray(section.inlineLinkParagraphs)) {
+    bodyMarkup = section.inlineLinkParagraphs.map((paragraph) => `                            <p class="${escapeHtml(section.bodyClassName || "")}">${renderTypedInlineLinkParagraph(paragraph)}</p>`).join("\n");
+  } else if (section.body) {
     // Structured property: render as paragraph
     bodyMarkup = `                            <p class="${escapeHtml(section.bodyClassName || "")}">${renderText(section.body)}</p>`;
   } else {
@@ -2291,7 +2342,128 @@ function resolveAssetDownloadImageClassName(card = {}) {
   }[imagePreset] || "d-block";
 }
 
+function renderButtonSamplesSection(section) {
+  const renderExample = (example) => {
+    const classes = ["ic-btn", example.tone === "text" ? "" : `ic-btn-${example.tone}`, example.treatment === "outline" ? "ic-btn-outline" : ""].filter(Boolean).join(" ");
+    const contents = `${renderText(example.label)}${example.arrow ? ' <span class="ic-btn-icon">➞</span>' : ""}`;
+    return `                    ${example.disabled ? `<button class="${classes}" disabled>${contents}</button>` : `<a${renderAnchorAttributes({ href: example.href }, { className: classes })}>${contents}</a>`}`;
+  };
+  const groups = [["Branded Buttons", section.examples.slice(0, 8)], ["Gray Buttons", section.examples.slice(8, 16)], ["White Buttons", section.examples.slice(16, 24)], ["Text Buttons", section.examples.slice(24)]].map(([heading, examples]) => `                <div class="col col-12 col-lg-6 py-3"><h3 class="ic-h6">${heading}</h3><p class="mt-3">\n${examples.map(renderExample).join("\n")}\n</p></div>`).join("\n");
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section ic-background-light"><div class="container"><h2 class="ic-h5">${renderText(section.heading)}</h2><div class="row">\n${groups}\n</div></div></section>`;
+}
+
+function renderComponentSamplesSection(section) {
+  const groups = section.groups.map((group) => {
+    const cards = group.cards.map((card) => {
+      const cardClasses = ["ic-card", card.background === "white" ? "ic-background-white" : card.background === "light" ? "ic-background-light" : ""].filter(Boolean).join(" ");
+      const media = card.mediaKind === "image" || card.mediaKind === "logo" ? `<figure class="ic-card-media">${renderPicture(card.image, card.mediaKind === "logo" ? "ic-card-logo" : "ic-card-image", "lazy", "card", "component sample")}</figure>` : card.mediaKind === "icon" ? `<figure class="ic-card-media">${renderPicture(card.image, "ic-card-icon", "lazy", "card", "component sample icon")}</figure>` : card.mediaKind === "checkmark" ? '<span class="ic-checkmark" aria-hidden="true"></span>' : "";
+      const title = card.href ? `<a${renderAnchorAttributes({ href: card.href }, { className: "stretched-link" })}>${renderText(card.heading)}</a>` : renderText(card.heading || "");
+      const body = card.cardKind === "quote" ? `<div class="ic-card-body"><blockquote>${renderText(card.summary)}</blockquote><cite>${renderText(card.citation.name)}, ${renderText(card.citation.title)}</cite></div>` : `<div class="ic-card-body"><h3 class="ic-card-title">${title}</h3>${card.summary ? `<p class="ic-card-text">${renderText(card.summary)}</p>` : ""}${card.detail ? `<h4>${renderText(card.detail.heading)}</h4><ul>${card.detail.items.map(i=>`<li>${renderText(i)}</li>`).join("")}</ul>` : ""}${card.action ? `<p><a${renderAnchorAttributes(card.action, { className: "ic-btn ic-btn-primary ic-btn-outline" })}>${renderText(card.action.label)}</a></p>` : ""}</div>`;
+      return `                    <li class="col col-12 col-md-6 col-xl-4 pt-3 mt-3" data-card-pattern="${escapeHtml(card.pattern)}"><div class="${cardClasses}">${card.mediaPlacement === "top" ? `${media}${body}` : `${body}${media}`}</div></li>`;
+    }).join("\n");
+    return `                <span id="${escapeHtml(group.anchor)}" class="ic-anchor" aria-hidden="true"></span><section data-card-kind="${escapeHtml(group.kind)}"><h3 class="ic-h6">${renderText(group.heading)}</h3><ul class="row list-unstyled mb-0">\n${cards}\n</ul></section>`;
+  }).join("\n");
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section"><div class="container"><h2 class="ic-h5">${renderText(section.heading)}</h2>\n${groups}\n</div></section>`;
+}
+
+export function renderStyleGuideComponentProof() {
+  const buttonsFixture = createTemplateSection("cards", "buttonSamples", "proof-buttons");
+  const cardsFixture = createTemplateSection("cards", "componentSamples", "proof-cards");
+  cardsFixture.groups[0].cards[0].heading = '<linked> & "quoted"';
+  cardsFixture.groups[0].cards[0].summary = "Summary <safe> & text";
+  return {
+    buttons: renderCardsSection({ ...buttonsFixture, examples: buttonsFixture.examples.map((example, index) => ({ ...example, label: index === 0 ? "<escaped>" : example.label })) }),
+    cards: renderComponentSamplesSection(cardsFixture),
+    inventory: cardsFixture.groups.map((group) => ({ kind: group.kind, anchor: group.anchor, patterns: group.cards.map((card) => card.pattern) })),
+  };
+}
+
+export function renderR7InlineLinksContractProof() {
+  const cards = createTemplateSection("cards", "componentSamples", "cards");
+  const sticky = createTemplateSection("stickyCards", "typedListItems", "collision-proof");
+  const cta = createTemplateSection("cta", "inlineLinks", "insurance-proof");
+  cards.groups[0].cards[0].heading = '<linked> & "quoted"';
+  cards.groups[0].cards[0].summary = "Summary <safe> & text";
+  sticky.cards[0].listItems[0] = { segments: [
+    { type: "text", text: "Role <safe> & " },
+    { type: "link", label: "Estimator <link>", href: "https://www.i-car.com/estimator-platinum-path" },
+  ] };
+  const pageData = { slug: "r7-proof", title: "R7 Proof", sections: [cards, sticky, cta] };
+  const validation = validatePageData(pageData, "content/pages/r7-proof.yaml");
+  if (!validation.valid) throw new Error(`R7 proof fixture validation failed: ${validation.errors.join("; ")}`);
+  const summaryCards = cards.groups.flatMap((group) => group.cards);
+  const presentSummaries = summaryCards.filter((card) => card.summary !== undefined).length;
+  const absentSummaries = summaryCards.filter((card) => card.summary === undefined).length;
+  if (presentSummaries !== 30 || absentSummaries !== 9) throw new Error(`R7 summary inventory expected 30 present and 9 absent, got ${presentSummaries}/${absentSummaries}`);
+  const modernPage = parseStructuredAuthoringFile(resolve(process.cwd(), "content/pages/documentation/style-guide.yaml"));
+  const modernValidation = validatePageData(modernPage, "content/pages/documentation/style-guide.yaml");
+  const modernCards = modernPage.sections.find((section) => section.id === "cards");
+  const modernMarkup = renderCardsSection(modernCards);
+  if (!modernValidation.valid || modernValidation.warnings.length !== 0) throw new Error(`R20 modern Style Guide validation failed: ${modernValidation.errors.join("; ")} ${modernValidation.warnings.join("; ")}`);
+  if ((modernMarkup.match(/data-card-pattern=/g) || []).length !== 39 || (modernMarkup.match(/ic-card-icon/g) || []).length !== 9 || modernMarkup.includes("iconSvg")) throw new Error("R20 modern Style Guide renderer proof is incomplete");
+  const invalid = (section) => !validatePageData({ slug: "r7-negative", title: "R7 Negative", sections: [section] }, "content/pages/r7-negative.yaml").valid;
+  const iconSvgOnly = structuredClone(cards);
+  delete iconSvgOnly.groups[2].cards[0].image;
+  iconSvgOnly.groups[2].cards[0].iconSvg = '<svg viewBox="0 0 10 10"><path d="M1 1h8v8H1z"/></svg>';
+  const iconSvgWithImage = structuredClone(cards);
+  iconSvgWithImage.groups[2].cards[0].iconSvg = '<svg viewBox="0 0 10 10"><path d="M1 1h8v8H1z"/></svg>';
+  if (!invalid(iconSvgOnly) || !invalid(iconSvgWithImage)) throw new Error("R7 iconSvg boundary was not rejected");
+  for (const authoredValue of [true, false, "trusted", { token: true }, "legacy-style-guide-icon-trust"]) {
+    const modernExactPath = createTemplateSection("cards", "componentSamples", "modern-marker-exact");
+    modernExactPath.__legacyStyleGuideIconTrusted = authoredValue;
+    const modernUnrelatedPath = structuredClone(modernExactPath);
+    if (validatePageData({ slug: "modern-marker-exact", title: "Modern Marker", sections: [modernExactPath] }, "content/pages/documentation/style-guide.yaml").valid) throw new Error(`R12 authored marker admitted at exact path: ${JSON.stringify(authoredValue)}`);
+    if (validatePageData({ slug: "modern-marker-unrelated", title: "Modern Marker", sections: [modernUnrelatedPath] }, "content/pages/modern-marker.yaml").valid) throw new Error(`R12 authored marker admitted at unrelated path: ${JSON.stringify(authoredValue)}`);
+  }
+  for (const container of ["items", { items: true }, 1, true, null]) {
+    const malformedContainer = structuredClone(sticky);
+    malformedContainer.cards[0].listItems = container;
+    if (!invalid(malformedContainer)) throw new Error(`R10 malformed listItems container was admitted: ${String(container)}`);
+  }
+  for (const item of [{ segments: [] }, { segments: [{ type: "text" }] }, { segments: [{ type: "link", label: "Missing href" }] }, { segments: [{ type: "text", text: "ok" }], extra: true }, { segments: [{ type: "text", text: "   " }] }]) {
+    const malformedItem = structuredClone(sticky);
+    malformedItem.cards[0].listItems = [item];
+    if (!invalid(malformedItem)) throw new Error("R10 malformed typed list item was admitted");
+  }
+  for (const item of [null, 1, true, "", "   "]) {
+    const primitiveItems = structuredClone(sticky);
+    primitiveItems.cards[0].listItems = [item];
+    if (!invalid(primitiveItems)) throw new Error(`R7 sticky primitive was admitted: ${String(item)}`);
+  }
+  for (const href of ["mailto:a@b?subject=x", "mailto:a@b#x", "mailto:a@b/c", "mailto:a@b%0d%0aBcc:evil"]) {
+    const unsafeMailto = structuredClone(cta);
+    unsafeMailto.inlineLinkParagraphs[0].segments[1].href = href;
+    if (!invalid(unsafeMailto)) throw new Error(`R7 unsafe mailto was admitted: ${href}`);
+  }
+  const cardsMarkup = renderCardsSection(cards);
+  const stickyMarkup = renderSection(sticky);
+  const ctaMarkup = renderSection(cta);
+  const combined = `${cardsMarkup}\n${stickyMarkup}\n${ctaMarkup}`;
+  const requiredDestinations = [
+    "https://www.i-car.com/estimator-platinum-path",
+    "https://www.i-car.com/refinish-technician-platinum-path",
+    "https://www.i-car.com/structural-technician-platinum-path",
+    "https://www.i-car.com/nonstructural-technician-platinum-path",
+    "https://info.i-car.com/I-CAR/media/ICarMain/PDF/Location-Level-Courses.pdf",
+    "https://www.i-car.com/vehicle-technology-specific-training",
+    "https://info.i-car.com/training/industry-training-alliance",
+  ];
+  for (const href of requiredDestinations) if (!stickyMarkup.includes(`href="${href}"`)) throw new Error(`R7 sticky proof missing ${href}`);
+  for (const expected of ["<picture>", "width=\"100\"", "height=\"100\"", "ic-card-icon", "href=\"mailto:insurance@i-car.com\"", "&lt;safe&gt; &amp;", "Estimator &lt;link&gt;"]) {
+    if (!combined.includes(expected)) throw new Error(`R7 renderer proof missing ${expected}`);
+  }
+  if ((cardsMarkup.match(/data-card-pattern=/g) || []).length !== 39) throw new Error("R7 Style Guide proof did not render 39 cards");
+  if ((cardsMarkup.match(/id="(?:text|image|icon|logo|checkmark)-cards"/g) || []).length !== 5) throw new Error("R7 Style Guide proof did not render five anchors");
+  if ((cardsMarkup.match(/ic-card-icon/g) || []).length !== 9 || cardsMarkup.includes("iconSvg")) throw new Error("R7 icon cards did not use responsive images");
+  if (cardsMarkup.includes("Card summary text.") || !cardsMarkup.includes("Card quote.")) throw new Error("R7 summary copy is not pattern-specific");
+  const stringCompatibility = renderSection({ id: "string-compatibility", type: "stickyCards", heading: "String compatibility", cards: [{ heading: "String", listItems: ["String <safe> & text"] }] });
+  if (!stringCompatibility.includes("String &lt;safe&gt; &amp; text")) throw new Error("R7 string list-item compatibility failed");
+  return { validation, cards: cardsMarkup, sticky: stickyMarkup, cta: ctaMarkup, requiredDestinations, stringCompatibility };
+}
+
 function renderCardsSection(section) {
+  if (section.variant === "buttonSamples") return renderButtonSamplesSection(section);
+  if (section.variant === "componentSamples") return renderComponentSamplesSection(section);
   const backgroundClass = getBackgroundClassName(section);
   const introBodyMarkup = renderParagraphContent(section);
   const headerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
@@ -2373,7 +2545,7 @@ ${titleMarkup}${linksMarkup}
               const listMarkup = card.listItems?.length
                 ? `                                        <ul class="${escapeHtml(card.listClassName || "")}">
 ${card.listItems
-                  .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
+                .map((item) => `                                            <li>${item && typeof item === "object" ? renderTypedSegmentItem(item) : renderText(item, { widowProtection: true })}</li>`)
                   .join("\n")}
                                         </ul>\n`
                 : "";
@@ -2395,9 +2567,9 @@ ${card.listItems
                 ? `                                    <figure class="ic-card-media${escapeHtml(imageBoxClass)}">
                                         ${renderPicture(card.image, card.imageClassName || imageClassName, "lazy", "card", `card "${cardHeading || "unknown"}" image`)}
                                     </figure>`
-                : card.iconHtml
+                : card.iconSvg
                   ? `                                    <figure class="ic-card-media">
-                                        ${renderTrustedHtml(card.iconHtml)}
+                                        ${normalizeIconSvgMarkup(card.iconSvg, { ariaHidden: true })}
                                     </figure>`
                   : "";
               const mediaMarkup = separateLinks && card.href && card.image
@@ -2586,7 +2758,83 @@ function renderDecorativeImage(decorativeImage, indent = 8) {
   return pad + picHtml.replace("<picture>", '<picture aria-hidden="true">').trim();
 }
 
+function renderTypographySegments(segments = []) {
+  return segments.map((segment) => segment.type === "link"
+    ? `<a${renderAnchorAttributes({ href: segment.href })}>${renderText(segment.label)}</a>`
+    : renderText(segment.text || "")).join("");
+}
+
+function renderColorTokensSection(section) {
+  const groupsMarkup = section.colorGroups.map((group) => {
+    const tokensMarkup = group.tokens.map((token) => `                            <li class="js-ic-swatch ic-swatch ic-background-${escapeHtml(token.token)}"><strong>${renderText(token.label)}</strong></li>`).join("\n");
+    return `                    <div class="col col-12 col-xl-4 pt-1 pb-3">
+                        <h3 class="ic-h6">${renderText(group.label)}</h3>
+                        <ul class="ic-swatches">
+${tokensMarkup}
+                        </ul>
+                    </div>`;
+  }).join("\n");
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section pb-0">
+            <div class="container">
+                <h2 class="ic-h5">${renderText(section.heading)}</h2>
+                <div class="row">
+${groupsMarkup}
+                </div>
+            </div>
+        </section>`;
+}
+
+function renderTypographySamplesSection(section) {
+  const headlinesMarkup = section.headlineSamples.map((sample) => `                        <p class="ic-h${sample.role}">${renderText(sample.text)}</p>`).join("\n");
+  const paragraphsMarkup = section.paragraphSamples.map((sample) => {
+    const className = sample.role === "lead" ? "ic-lead" : sample.role === "disclaimer" ? "ic-disclaimer" : "";
+    return `                        <p${className ? ` class="${className}"` : ""}>${renderTypographySegments(sample.segments)}</p>`;
+  }).join("\n");
+  const listsMarkup = section.lists.map((list) => {
+    const tag = list.kind === "ordered" ? "ol" : "ul";
+    return `                        <${tag}>
+${list.items.map((item) => `                            <li>${renderText(item)}</li>`).join("\n")}
+                        </${tag}>`;
+  }).join("\n");
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section">
+            <div class="container">
+                <h2 class="ic-h5">${renderText(section.heading)}</h2>
+                <div class="row">
+                    <div class="col col-12 py-3">
+                        <h3 class="ic-h6">Headlines</h3>
+${headlinesMarkup}
+                    </div>
+                    <div class="col col-12 col-lg-6 py-3">
+                        <h3 class="ic-h6">Paragraphs</h3>
+${paragraphsMarkup}
+                    </div>
+                    <div class="col col-12 col-lg-6 py-3">
+                        <h3 class="ic-h6">Lists</h3>
+${listsMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
+export function renderStyleGuideFoundationProof() {
+  return {
+    colors: renderTextSection({ id: "proof-colors", type: "text", variant: "colorTokens", heading: "Colors", colorGroups: [
+      { key: "brand", label: "Brand Colors", tokens: [{ token: "primary", label: "Primary" }, { token: "secondary", label: "Secondary" }, { token: "tertiary", label: "Tertiary" }] },
+      { key: "grayscale", label: "Grayscale", tokens: [{ token: "white", label: "White" }, { token: "gray-50", label: "Gray 50" }, { token: "gray-100", label: "Gray 100" }, { token: "gray-200", label: "Gray 200" }, { token: "gray-500", label: "Gray 500" }, { token: "gray-700", label: "Gray 700" }, { token: "gray-900", label: "Gray 900" }, { token: "black", label: "Black" }] },
+      { key: "ui", label: "UI Colors", tokens: [{ token: "positive", label: "Positive" }, { token: "negative", label: "Negative" }] },
+    ] }),
+    typography: renderTextSection({ id: "proof-typography", type: "text", variant: "typographySamples", heading: "Typography", headlineSamples: [1, 2, 3, 4, 5, 6].map((role) => ({ role, text: `Headline ${role}: <escaped>` })), paragraphSamples: [
+      { role: "lead", segments: [{ type: "text", text: "Lead < " }, { type: "link", label: "Reference & guide", href: "#typography" }] },
+      { role: "body", segments: [{ type: "text", text: "Body " }, { type: "link", label: "safe link", href: "https://www.i-car.com" }] },
+      { role: "disclaimer", segments: [{ type: "text", text: "Disclaimer <escaped>" }] },
+    ], lists: [{ kind: "unordered", items: ["Unordered <one>"] }, { kind: "ordered", items: ["Ordered <one>"] }] }),
+  };
+}
+
 function renderTextSection(section) {
+  if (section.variant === "colorTokens") return renderColorTokensSection(section);
+  if (section.variant === "typographySamples") return renderTypographySamplesSection(section);
   const backgroundClass = getBackgroundClassName(section);
   const textLayout = section.layout || {};
   const textAlignment = section.textAlignment === "center"
@@ -2673,11 +2921,42 @@ ${statementsMarkup}${pathDropdownMarkup}
         </section>`;
 }
 
+function renderProgressListSection(section) {
+  const introMarkup = indentBlock(renderParagraphContent(section), 24);
+  const groupsMarkup = (section.groups || []).map((group, groupIndex) => {
+    const measuresMarkup = (group.measures || []).map((measure, measureIndex) => {
+      const progressId = `${section.id}-progress-${groupIndex + 1}-${measureIndex + 1}`;
+      const valueMarkup = measure.percent === undefined
+        ? `<span class="ic-progress-list-unavailable">${renderText(measure.unavailable)}</span>`
+        : `<progress id="${escapeHtml(progressId)}" max="100" value="${escapeHtml(String(measure.percent))}">${escapeHtml(String(measure.percent))}%</progress><span aria-hidden="true">${escapeHtml(String(measure.percent))}%</span>`;
+      return `                            <li class="ic-progress-list-item">${measure.percent === undefined ? `<span>${renderText(measure.label)}</span>` : `<label for="${escapeHtml(progressId)}">${renderText(measure.label)}</label>`}${valueMarkup}${measure.supportingText ? `<p>${renderText(measure.supportingText)}</p>` : ""}</li>`;
+    }).join("\n");
+    const groupBody = (group.paragraphs || []).map((paragraph) => `<p>${renderText(paragraph)}</p>`).join("\n");
+    return `                        <section class="ic-progress-list-group"><h3>${renderText(group.heading)}</h3>${groupBody}\n                        <ul class="ic-progress-list list-unstyled">\n${measuresMarkup}\n                        </ul></section>`;
+  }).join("\n");
+
+  return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${getBackgroundClassName(section)}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 col-lg-10 col-xl-9">
+                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
+${introMarkup ? `${introMarkup}\n` : ""}${groupsMarkup}
+                    </div>
+                </div>
+            </div>
+        </section>`;
+}
+
 function renderCtaSection(section) {
-  const bodyMarkup = renderParagraphContent(section);
+  const bodyMarkup = section.inlineLinkParagraphs
+    ? renderTypedInlineLinkParagraphs(section.inlineLinkParagraphs)
+    : renderParagraphContent(section);
   const buttonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerButtonsMarkup = renderFooterButtonRow(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
   const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
+  const imageMarkup = section.image
+    ? `\n                    <div class="col col-12 col-md-5">${renderPicture(section.image, "ic-section-image ic-image-rounded", "lazy", "cta", `section \"${section.id}\" image`)}</div>`
+    : "";
   // Default to ic-background-light; honor white override; spacing and chrome now apply.
   const ctaBackgroundClass = getBackgroundColor(section) === "white" ? "ic-background-white" : "ic-background-light";
 
@@ -2688,7 +2967,7 @@ function renderCtaSection(section) {
                         <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>
 ${bodyMarkup ? `\n${bodyMarkup}` : ""}
 ${buttonsMarkup ? `\n\n${buttonsMarkup}` : ""}${pathDropdownMarkup}
-                    </div>
+                    </div>${imageMarkup}
                 </div>
             </div>
 ${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
@@ -2721,6 +3000,7 @@ function resolveTextMediaSemanticLayout(section) {
   const imageRounded = layout.imageRounded !== false && section.imageRounded !== false;
   const desktopGapTarget = layout.desktopGapTarget || (desktopMediaPosition === "right" ? "copy" : "media");
   const desktopGapBreakpoint = layout.desktopGapBreakpoint || "lg";
+  const mobileCopySpacingResetBreakpoint = layout.mobileCopySpacingResetBreakpoint || "md";
 
   const contentColumnClass = {
     default: "col col-12 col-xl-10",
@@ -2740,17 +3020,19 @@ function resolveTextMediaSemanticLayout(section) {
     "text-5-media-7": "col-md-6 col-xl-7",
     "text-7-media-5": "col-md-6 col-xl-5",
   }[desktopSplit] || "col-md-6";
-  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder);
+  const copyFirstDomOrder = layout.domOrder === "copy-first";
+  const orderClasses = resolveSplitColumnOrderClasses(desktopMediaPosition, mobileMediaOrder, !copyFirstDomOrder);
   const gapClasses = resolveSplitColumnGapClassNames({
     desktopMediaPosition,
     desktopGapTarget,
     desktopGapBreakpoint,
+    gapSide: layout.desktopGapSide,
   });
 
   const textMobileSpacingClass = mobileCopySpacing === "offset"
-    ? "mt-2 pt-1 mt-md-0 pt-md-0"
+    ? `mt-2 pt-1 mt-${mobileCopySpacingResetBreakpoint}-0 pt-${mobileCopySpacingResetBreakpoint}-0`
     : mobileCopySpacing === "tight"
-      ? (mobileMediaOrder === "above" ? "mt-3 pt-1 mt-md-0 pt-md-0" : "mb-3 mb-md-0")
+      ? (mobileMediaOrder === "above" ? `mt-3 pt-1 mt-${mobileCopySpacingResetBreakpoint}-0 pt-${mobileCopySpacingResetBreakpoint}-0` : `mb-3 mb-${mobileCopySpacingResetBreakpoint}-0`)
       : "";
   const mediaMobileSpacingClass = {
     none: "",
@@ -2845,7 +3127,9 @@ function renderTextMediaSection(section) {
   }
 
   const backgroundClass = getBackgroundClassName(section);
-  const bodyMarkup = indentBlock(renderParagraphContent(section), 12);
+  const bodyMarkup = indentBlock(section.inlineLinkParagraphs
+    ? renderTypedInlineLinkParagraphs(section.inlineLinkParagraphs)
+    : renderParagraphContent(section), 12);
   const buttonsMarkup = indentBlock(
     renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline"),
     12,
@@ -2881,10 +3165,12 @@ function renderTextMediaSection(section) {
   const textColumn = `                            <div class="${escapeHtml(textColumnClassesFinal)}">
 ${badgeImageMarkup}${textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}                                <h2 class="${escapeHtml(section.titleClassName || "ic-section-title")}">${renderText(getSectionHeading(section))}</h2>
 ${!textLabelAbove && textLabelMarkup ? textLabelMarkup : ""}${section.sublabel ? `                                <p class="ic-sublabel">${renderText(section.sublabel, { widowProtection: true })}</p>\n` : ""}${bodyMarkup ? `${bodyMarkup}\n` : ""}${listMarkup ? `${listMarkup}\n` : ""}${subsectionsMarkup ? `${subsectionsMarkup}\n` : ""}${linkedItemsMarkup ? `${linkedItemsMarkup}\n` : ""}${linkListMarkup}${buttonsMarkup ? `\n${buttonsMarkup}\n` : ""}${pathDropdownMarkup ? `${pathDropdownMarkup}\n` : ""}                            </div>`;
-  const pictureMarkup = section.mediaHtml
+  const pictureMarkup = section.variant === "componentLibraryTyped" && section.media
+    ? renderTypedMedia(section.media, { context: `section "${section.id}" media` })
+    : section.mediaHtml
     ? renderTrustedHtml(section.mediaHtml)
     : renderPicture(section.image, section.imageClassName || semanticLayout?.imageClassName || joinClassNames("ic-section-image", section.imageRounded === false ? "" : "ic-image-rounded"), "lazy", "textMedia", `section "${section.id}" image`);
-  const linkedPictureMarkup = section.mediaHtml
+  const linkedPictureMarkup = (section.variant === "componentLibraryTyped" && section.media) || section.mediaHtml
     ? `                                ${pictureMarkup}`
     : section.imageLink
       ? `                                <a${renderAnchorAttributes(section.imageLink, { title: section.imageLink.title || getSectionHeading(section) })}>
@@ -2895,12 +3181,14 @@ ${indentBlock(pictureMarkup, 36)}
 ${linkedPictureMarkup}
                             </div>`;
 
+  const copyFirstDomOrder = section.layout?.domOrder === "copy-first";
+
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.sectionClassName, section.__autoSectionClassName))}">
 ${decorativeCoverMarkup ? `${decorativeCoverMarkup}\n` : ""}            <div class="container">
                 <div class="row justify-content-center">
                     <div class="${escapeHtml(contentColumnClass)}">
                         <div class="${escapeHtml(rowClassName)}">
-${(section.layout?.desktopMediaPosition || (section.reverse ? "left" : "right")) === "left" ? `${mediaColumn}\n\n${textColumn}` : `${textColumn}\n\n${mediaColumn}`}
+${(section.layout?.desktopMediaPosition || (section.reverse ? "left" : "right")) === "left" && !copyFirstDomOrder ? `${mediaColumn}\n\n${textColumn}` : `${textColumn}\n\n${mediaColumn}`}
                         </div>
                     </div>
                 </div>
@@ -2952,6 +3240,9 @@ ${quoteMarkup}
     : `                        <div class="row align-items-stretch">
 ${quoteMarkup}
                         </div>`;
+  const embedMarkup = section.embed?.src
+    ? `\n                <div class="row justify-content-center pt-4"><div class="col col-12 col-lg-10 col-xl-8">${renderQuoteEmbedMarkup({ src: section.embed.src, title: section.embed.title })}</div></div>`
+    : "";
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.sectionClassName, section.__autoSectionClassName))}">
             <div class="container">
@@ -2968,34 +3259,35 @@ ${quotesWrapperMarkup}
                     </div>
                 </div>
 ${footerButtonsMarkup ? `\n\n${footerButtonsMarkup}` : ""}
+${embedMarkup}
             </div>
         </section>`;
 }
 
 function renderQuoteSection(section) {
+  const legacyTrusted = section.__legacyQuoteTrusted === true;
   const backgroundClass = getBackgroundClassName(section);
-  const quoteClass = section.compact ? "ic-quote-text mb-3 pb-1" : "ic-quote-text";
-  const quoteLayout = section.quoteLayout || "stacked";
-  const quoteEmbedHtml = typeof section.embed?.html === "string" ? section.embed.html.trim() : "";
+  const variant = ["default", "side-by-side", "compact"].includes(section.variant) ? section.variant : (section.compact ? "compact" : section.quoteLayout === "side-by-side" ? "side-by-side" : "default");
+  const quoteClass = variant === "compact" ? "ic-quote-text mb-3 pb-1" : "ic-quote-text";
+  const quoteLayout = variant === "side-by-side" ? "side-by-side" : "stacked";
   const quoteEmbedSrc = typeof section.embed?.src === "string" ? section.embed.src.trim() : "";
+  const quoteEmbedHtml = legacyTrusted && typeof section.embed?.html === "string" ? section.embed.html.trim() : "";
   const quoteEmbedTitle = typeof section.embed?.title === "string" && section.embed.title.trim()
     ? section.embed.title.trim()
     : `${getSectionHeading(section) || "Embedded"} video`;
   const quoteEmbedMarkup = renderQuoteEmbedMarkup({ html: quoteEmbedHtml, src: quoteEmbedSrc, title: quoteEmbedTitle });
-  const citeTitleMarkup = section.cite?.titleHtml
-    ? renderTrustedHtml(section.cite.titleHtml)
-    : `<span class="ic-cite-title">${renderText(section.cite.title, { widowProtection: true })}</span>`;
+  const citeTitleMarkup = legacyTrusted && section.cite?.titleHtml ? renderTrustedHtml(section.cite.titleHtml) : `<span class="ic-cite-title">${renderText(section.cite.title, { widowProtection: true })}</span>`;
   const introBodyMarkup = hasParagraphContent(section)
     ? indentBlock(renderParagraphContent(section, section.introTextClassName || (section.centerIntro ? "text-center" : "")), 8)
     : "";
-  const quoteBody = (section.quoteHtml || [])
+  const quoteBody = (section.quoteParagraphs || (legacyTrusted ? section.quoteHtml : []) || [])
     .map((paragraph) => {
-      const paragraphClass = section.compact ? ' class="text-md-center"' : "";
-      return `                                <p${paragraphClass}>${renderTrustedHtml(paragraph)}</p>`;
+      const paragraphClass = variant === "compact" ? ' class="text-md-center"' : "";
+      return `                                <p${paragraphClass}>${legacyTrusted ? renderTrustedHtml(paragraph) : renderText(paragraph)}</p>`;
     })
     .join("\n");
 
-  if (section.compact) {
+  if (variant === "compact") {
     return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
                 <div class="row justify-content-center">
@@ -3075,6 +3367,23 @@ ${quoteEmbedMarkup ? `\n${quoteEmbedMarkup}` : ""}
                 </div>
             </div>
         </section>`;
+}
+
+export function renderQuoteContractProof() {
+  const cite={ name:"A & B", title:"Title <safe>", image:{ alt:"A", desktopSrc:"/a.webp", width:"70", height:"70" } };
+  const culturePage=parseStructuredAuthoringFile(resolve(process.cwd(),"content/pages/about-us/culture.yaml"));
+  const careersPage=parseStructuredAuthoringFile(resolve(process.cwd(),"content/pages/about-us/careers.yaml"));
+  throwOnValidationError(validatePageData(culturePage,"content/pages/about-us/culture.yaml"),"culture proof");
+  throwOnValidationError(validatePageData(careersPage,"content/pages/about-us/careers.yaml"),"careers proof");
+  const legacyCulture=culturePage.sections.find((section)=>section.id==="ceo");
+  const legacyCareers=careersPage.sections.find((section)=>section.id==="ceo-quote");
+  return {
+    default: renderQuoteSection({id:"quote-default",type:"quote",variant:"default",heading:"Default",quoteParagraphs:["<escaped>"],cite}),
+    sideBySide: renderQuoteSection({id:"quote-side",type:"quote",variant:"side-by-side",heading:"Side",paragraphs:["Intro"],quoteParagraphs:["Quote"],cite,embed:{src:"https://example.test/video",title:"Video"}}),
+    compact: renderQuoteSection({id:"quote-compact",type:"quote",variant:"compact",heading:"Compact",quoteParagraphs:["Quote"],cite}),
+    legacyCulture: renderQuoteSection(legacyCulture),
+    legacyCareers: renderQuoteSection(legacyCareers),
+  };
 }
 
 function renderQuoteEmbedMarkup({ html = "", src = "", title = "" } = {}) {
@@ -3188,6 +3497,50 @@ ${featureMarkup}
         </section>`;
 }
 
+function resolveIconCardColumnClass(cardsPerRow) {
+  const columnsByBreakpoint = typeof cardsPerRow === "object" && cardsPerRow !== null && !Array.isArray(cardsPerRow)
+    ? cardsPerRow
+    : null;
+  const responsiveClasses = columnsByBreakpoint
+    ? ["sm", "md", "lg", "xl", "xxl"].flatMap((breakpoint) => {
+      const columns = columnsByBreakpoint[breakpoint];
+      if (columns === "auto") return [`col-${breakpoint}-auto`];
+      const span = { 1: "12", 2: "6", 3: "4", 4: "3" }[columns];
+      return span ? [`col-${breakpoint}-${span}`] : [];
+    })
+    : [];
+  const numericClass = { 2: "col-md-6", 3: "col-md-4", 4: "col-md-3" }[cardsPerRow];
+
+  return responsiveClasses.length > 0
+    ? joinNonEmptyClassNames("col col-12", ...responsiveClasses)
+    : numericClass
+      ? joinNonEmptyClassNames("col col-12", numericClass)
+      : "";
+}
+
+function resolveIconCardSpacingClassNames(cardSpacing) {
+  if (!cardSpacing || typeof cardSpacing !== "object" || Array.isArray(cardSpacing)) return "";
+
+  const tokenScale = { none: "0", tight: "1", small: "2", medium: "3", wide: "4" };
+  const propertyPrefixes = {
+    paddingInline: "px",
+    paddingBlock: "py",
+    paddingTop: "pt",
+    marginTop: "mt",
+  };
+  const breakpointOrder = ["base", "sm", "md", "lg", "xl", "xxl"];
+
+  return Object.entries(propertyPrefixes).flatMap(([property, prefix]) => {
+    const values = cardSpacing[property];
+    if (!values || typeof values !== "object" || Array.isArray(values)) return [];
+    return breakpointOrder.flatMap((breakpoint) => {
+      const scale = tokenScale[values[breakpoint]];
+      if (scale === undefined) return [];
+      return [`${prefix}${breakpoint === "base" ? "" : `-${breakpoint}`}-${scale}`];
+    });
+  }).join(" ");
+}
+
 function renderIconCardGridSection(section) {
   if (section.variant === "goldClassValueProps") {
     return renderGoldClassValuePropsSection(section);
@@ -3201,11 +3554,10 @@ function renderIconCardGridSection(section) {
   );
   const headerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline");
   const footerButtonsMarkup = renderButtons(getSectionButtonsByLocation(section, "footer"), "ic-btn ic-btn-primary ic-btn-outline");
-  const cardsPerRowClass = {
-    2: "col col-12 col-md-6",
-    3: "col col-12 col-md-4",
-    4: "col col-12 col-md-3",
-  }[section.layout?.cardsPerRow];
+  const cardsPerRowClass = resolveIconCardColumnClass(section.layout?.cardsPerRow);
+  const cardSpacingClass = resolveIconCardSpacingClassNames(section.layout?.cardSpacing);
+  const defaultCardColumnClass = "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up";
+  const cardColumnClass = section.cardColumnClass || joinNonEmptyClassNames(cardsPerRowClass || defaultCardColumnClass, cardSpacingClass);
   const cardListClassName = section.cardListClassName
     // row_compact's compensating padding only targets .col-xxl-5up (the default
     // cardColumnClass below); a custom cardsPerRow needs plain Bootstrap gutters instead.
@@ -3214,7 +3566,7 @@ function renderIconCardGridSection(section) {
   const cardMarkup = (section.cards || [])
     .map(
       (card) => {
-        return `                    <li class="${escapeHtml(section.cardColumnClass || cardsPerRowClass || "col col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-5up")}">
+        return `                    <li class="${escapeHtml(cardColumnClass)}">
                         <div class="ic-card ic-card-horizontal-mobile ic-background-white${escapeHtml(cardTextAlignClass)}">
                             <div class="ic-card-body">
 ${getCardHeading(card) ? `                                <h3 class="ic-card-title">${card.href ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>` : renderText(getCardHeading(card))}</h3>\n` : ""}
@@ -3286,6 +3638,7 @@ ${sectionClose}`;
 
 function renderLogoGridSection(section) {
   const backgroundClass = getBackgroundClassName(section);
+  const decorativeBottomMarkup = section.decorativeImage?.placement === "bottom" ? renderDecorativeImage(section.decorativeImage, 8) : "";
   const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
   const introLinksRaw = Array.isArray(section.links) ? section.links : (section.links?.items || []);
   const introLinkListClassName = resolveLinkListClassName(section.links);
@@ -3336,7 +3689,7 @@ ${bodyMarkup ? `\n${bodyMarkup}` : ""}${linkListMarkup}
                         ${logoGridMarkup}
                     </div>
                 </div>
-            </div>
+            </div>${decorativeBottomMarkup ? `\n${decorativeBottomMarkup}` : ""}
         </section>`;
   }
 
@@ -3354,7 +3707,7 @@ ${bodyMarkup ? `\n${bodyMarkup}` : ""}${linkListMarkup}
                         ${logoGridMarkup}
                     </div>
                 </div>
-            </div>
+            </div>${decorativeBottomMarkup ? `\n${decorativeBottomMarkup}` : ""}
         </section>`;
 }
 
@@ -3481,9 +3834,13 @@ function renderStickyEmbedSection(section) {
   }[stickyCardsContentWidth] || "col col-12 col-lg-10 col-xl-9";
   const introColumnClass = section.introColumnClass || "col col-12 col-md-6 col-xl-4 mb-4 pr-md-4";
   const embedColumnClass = section.embedColumnClass || "col col-12 col-md-6 col-xl-7 pt-2 pt-md-0 pl-md-4";
-  const iconMarkup = section.iconSvg ? renderTrustedHtml(section.iconSvg) : "";
-  const addressMarkup = section.addressHtml ? renderTrustedHtml(section.addressHtml) : "";
-  const embedMarkup = section.embedHtml ? renderTrustedHtml(section.embedHtml) : "";
+  const iconMarkup = section.iconSvg ? normalizeIconSvgMarkup(section.iconSvg, { ariaHidden: true }) : "";
+  const addressMarkup = section.address
+    ? `<a${renderAnchorAttributes({ href: section.address.href, target: section.address.target }, { title: section.address.text })}>${renderText(section.address.text)}</a>`
+    : section.addressHtml ? renderTrustedHtml(section.addressHtml) : "";
+  const embedMarkup = section.embed
+    ? renderTypedMedia(section.embed, { context: `section "${section.id}" embed` })
+    : section.embedHtml ? renderTrustedHtml(section.embedHtml) : "";
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}">
             <div class="container">
@@ -3515,6 +3872,16 @@ function renderStickyCardsSection(section) {
     return renderStickyEmbedSection(section);
   }
 
+  if (section.variant === "resourceTables") {
+    const cards = (section.cards || []).map((card) => {
+      const groups = (card.groups || []).map((group) => `                                        <h4 class="ic-card-subtitle">${renderText(group.heading)}</h4>
+${group.paragraphs ? indentBlock(renderParagraphContent(group), 40) + "\n" : ""}                                        <table class="ic-card-table ic-card-table-courses mt-0" aria-label="${escapeHtml(group.tableLabel)}"><thead class="ic-visually-hidden"><tr>${(group.columns || []).map((column) => `<th scope="col">${renderText(column)}</th>`).join("")}</tr></thead><tbody>${(group.rows || []).map((row) => `<tr>${row.map((cell, index) => `<${index === 0 ? "th scope=\"row\"" : "td"}>${cell?.href ? `<a${renderAnchorAttributes(cell)}>${renderText(cell.label)}</a>` : renderText(cell?.label || cell)}</${index === 0 ? "th" : "td"}>`).join("")}</tr>`).join("")}</tbody></table>${group.disclaimer ? `\n                                        <p class="ic-disclaimer">${renderText(group.disclaimer)}</p>` : ""}`).join("\n");
+      return `                                <div class="ic-card ic-background-white"><div class="ic-card-body"><h3 class="ic-card-title">${renderText(card.heading)}</h3>
+${groups}${card.footer ? `\n                                        <p>${renderText(card.footer)}</p>` : ""}</div></div>`;
+    }).join("\n\n");
+    return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${getBackgroundClassName(section)}`, resolveSectionSpacingClassNames(section), section.__autoSectionClassName))}"><div class="container"><div class="row justify-content-center"><div class="col col-12 col-lg-10 col-xl-9"><div class="row justify-content-center"><div class="col col-12 col-md-6 col-xl-5 mb-4 pr-md-4"><div class="ic-sticky"><h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>${indentBlock(renderParagraphContent(section), 36)}</div></div><div class="col col-12 col-md-6 col-xl-7 pt-2 pt-md-0 pl-md-4">${cards}</div></div></div></div></div></section>`;
+  }
+
   const backgroundClass = getBackgroundClassName(section);
   const introButtonsMarkup = getSectionButtonsByLocation(section, "header").length
     ? `                                ${renderButtons(getSectionButtonsByLocation(section, "header"), "ic-btn ic-btn-primary ic-btn-outline").trim()}`
@@ -3533,7 +3900,7 @@ function renderStickyCardsSection(section) {
   const listMarkup = (section.cards || [])
     .map((card) => {
       const listMarkupInner = (card.listItems || [])
-        .map((item) => `                                            <li>${renderText(item, { widowProtection: true })}</li>`)
+        .map((item) => `                                            <li>${item && typeof item === "object" ? renderTypedSegmentItem(item) : renderText(item, { widowProtection: true })}</li>`)
         .join("\n");
       const linkItems = card.linkItems || [];
       const linkItemsPresentation = card.linkItemsPresentation || section.linkItemsPresentation || "list";
@@ -3566,6 +3933,12 @@ ${linkItems
         .join("\n");
 
       const cardBodyMarkup = renderParagraphContent(card);
+      const cardImageMarkup = card.image
+        ? `\n                                    <figure class="ic-card-media">${renderPicture(card.image, "ic-card-image", "lazy", "card", `sticky card \"${getCardHeading(card) || "unknown"}\" image`)}</figure>`
+        : "";
+      const cardIconMarkup = card.iconSvg
+        ? `\n                                    <figure class="ic-card-media">${normalizeIconSvgMarkup(card.iconSvg, { ariaHidden: true })}</figure>`
+        : "";
 
       const cardTitleContent = card.href
         ? `<a${renderAnchorAttributes(card, { href: card.href, className: "stretched-link", title: card.linkTitle || getCardHeading(card) })}>${renderText(getCardHeading(card))}</a>`
@@ -3573,14 +3946,14 @@ ${linkItems
       return `                                <div class="ic-card ic-background-white">
                                     <div class="ic-card-body">
                                         <h3 class="ic-card-title${card.titleClassName ? ` ${escapeHtml(card.titleClassName)}` : ""}">${cardTitleContent}</h3>
-${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${cardBodyMarkup ? `${indentBlock(cardBodyMarkup, 40)}\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
+${contentHtmlMarkup ? `${contentHtmlMarkup}\n` : ""}${cardBodyMarkup ? `${indentBlock(cardBodyMarkup, 40)}\n` : ""}${card.subheading ? `                                        <h4 class="ic-card-subheading">${renderText(card.subheading)}</h4>\n` : ""}${listMarkupInner ? `                                        <ul class="ic-card-list mt-0">
 ${listMarkupInner}
                                         </ul>
 ` : ""}${linkTableMarkup ? `${linkTableMarkup}` : ""}${linkListMarkupInner && !linkTableMarkup ? `                                        <ul class="${escapeHtml(card.linkListClassName || "ic-card-list ic-card-list-courses")}">
 ${linkListMarkupInner}
                                         </ul>
 ` : ""}${card.footer ? `                                        <p>${renderText(card.footer, { widowProtection: true })}</p>` : ""}${card.footerHtml ? `                                        <p>${renderTrustedHtml(card.footerHtml)}</p>` : ""}
-                                    </div>
+                                    </div>${cardImageMarkup}${cardIconMarkup}
                                 </div>`;
     })
     .join("\n\n");
@@ -3605,6 +3978,299 @@ ${listMarkup}
             </div>
 ${footerButtonsMarkup ? `\n${footerButtonsMarkup}` : ""}
         </section>`;
+}
+
+export function renderStructuredCardMediaProof() {
+  const iconSvg = '<svg viewBox="0 0 10 10"><path d="M1 1h8v8H1z"/></svg>';
+  const image = { desktopSrc: "/getmedia/proof.webp", alt: "Proof image", width: "800", height: "600" };
+  return {
+    generic: renderCardsSection({ id: "proof-cards", type: "cards", heading: "Proof", cards: [{ heading: "Icon", iconSvg }] }),
+    stickyIcon: renderStickyCardsSection({ id: "proof-sticky-icon", type: "stickyCards", heading: "Proof", cards: [{ heading: "Icon", iconSvg }] }),
+    stickyImage: renderStickyCardsSection({ id: "proof-sticky-image", type: "stickyCards", heading: "Proof", cards: [{ heading: "Image", image }] }),
+  };
+}
+
+export function renderGoldClassAndFacilitiesContractProof() {
+  const gold = renderLogoGridSection({ id: "gold", type: "logoGrid", variant: "decorativeBottom", heading: "Gold", logos: [], decorativeImage: { placement: "bottom", image: { alt: "", decorative: true, desktopSrc: "/desktop-1400.webp", desktopSrcset: "/desktop-1200.webp 1200w, /desktop-1400.webp 1400w, /desktop-2400.webp 2400w, /desktop-2800.webp 2800w", sizes: "(max-width: 1199.9px) 1200px, (max-width: 1919.9px) 1400px, 2800px", width: "1400", height: "500", sources: [{ maxWidth: 768, srcset: "/mobile-400.webp 400w, /mobile-800.webp 800w, /mobile-1600.webp 1600w", width: "800", height: "450" }] } } });
+  const sticky = renderStickyCardsSection({ id: "paths", type: "stickyCards", heading: "Paths", cards: [{ heading: "One", paragraphs: ["Copy & <safe>"], subheading: "Benefits One", listItems: ["Item"] }, { heading: "Two", paragraphs: ["Copy"], subheading: "Benefits Two", listItems: ["Item"] }] });
+  const facilities = renderStickyCardsSection({ id: "resources", type: "stickyCards", variant: "resourceTables", heading: "Resources", paragraphs: ["Introduction"], cards: [{ heading: "Welding", groups: [{ heading: "Checklists", tableLabel: "Checklists", paragraphs: ["Copy"], columns: ["Name"], rows: [[{ label: "A", href: "https://example.test", target: "_blank" }]], disclaimer: "Disclaimer" }, { heading: "Additional Resources", tableLabel: "Additional Resources", paragraphs: ["Copy"], columns: ["Name"], rows: [["B"]] }] }, { heading: "Hands-On", groups: [{ heading: "Hands-On Resources", tableLabel: "Hands-On Resources", paragraphs: ["Copy"], columns: ["Name"], rows: [["C"]] }] }] });
+  return { gold, sticky, facilities };
+}
+
+export function renderPlatinumContractProof() {
+  return {
+    embed: renderEmbedSection({ id: "proof-embed", type: "embed", heading: "Proof", embedHtml: "<div>Embed</div>", pathDropdown: { label: "Choose", variant: "outline", items: [{ label: "Role", href: "#role" }] } }),
+    quote: renderQuoteGridSection({ id: "proof-quote", type: "quoteGrid", heading: "Proof", quotes: [], embed: { src: "https://example.com/video", title: "Proof video" } }),
+    cta: renderCtaSection({ id: "proof-cta", type: "cta", heading: "Proof", image: { desktopSrc: "/proof.webp", alt: "Proof image", width: "800", height: "600" } }),
+  };
+}
+
+export function renderTypedEmbedVariantsContractProof() {
+  const defaultEmbed = createTemplateSection("embed", "default", "embed-default");
+  const pathEmbed = createTemplateSection("embed", "pathDropdown", "embed-path-dropdown");
+  const componentEmbed = createTemplateSection("embed", "componentLibraryTyped", "embed-component-library");
+  const validate = (section, path = "content/pages/documentation/embed-proof.yaml") => validatePageData({ slug: "embed-proof", title: "Embed Proof", sections: [section] }, path);
+  const defaultValidation = validate(defaultEmbed);
+  const pathValidation = validate(pathEmbed);
+  const componentValidation = validate(componentEmbed, "content/pages/documentation/component-library.yaml");
+  if (!defaultValidation.valid || !pathValidation.valid || !componentValidation.valid) throw new Error("typed embed variant validation failed");
+  const defaultMarkup = renderEmbedSection({ ...defaultEmbed, heading: "Default <embed>" });
+  const pathMarkup = renderEmbedSection({ ...pathEmbed, heading: "Path & <embed>" });
+  const componentMarkup = renderEmbedSection(componentEmbed);
+  for (const [markup, title, source] of [[defaultMarkup, defaultEmbed.embed.title, defaultEmbed.embed.src], [pathMarkup, pathEmbed.embed.title, pathEmbed.embed.src], [componentMarkup, componentEmbed.embed.title, componentEmbed.embed.src]]) {
+    if (!markup.includes(`<iframe`) || !markup.includes(`src="${source}"`) || !markup.includes(`title="${title}"`) || !markup.includes('width="616"') || !markup.includes('height="450"') || !markup.includes('allowfullscreen')) throw new Error("typed embed renderer output is incomplete");
+  }
+  const dropdownStart = pathMarkup.indexOf('Choose Your Path');
+  const firstItem = pathMarkup.indexOf('Path One');
+  const secondItem = pathMarkup.indexOf('Path Two');
+  const iframe = pathMarkup.indexOf('<iframe');
+  if (dropdownStart < 0 || firstItem < dropdownStart || secondItem < firstItem || iframe < secondItem || !pathMarkup.includes('href="#path-one"') || !pathMarkup.includes('href="#path-two"')) throw new Error("typed path-dropdown ordering or links are incorrect");
+  if (!defaultMarkup.includes('Default &lt;embed&gt;') || !pathMarkup.includes('Path &amp; &lt;embed&gt;')) throw new Error("typed embed heading escaping failed");
+  const raw = { id: "legacy-raw-embed", type: "embed", heading: "Legacy", embedHtml: "<div data-legacy=\"embed\">Legacy embed</div>" };
+  const rawValidation = validate(raw, "content/pages/adas/what-is-adas.yaml");
+  const rawMarkup = renderEmbedSection(raw);
+  if (!rawValidation.valid || !rawMarkup.includes(raw.embedHtml)) throw new Error("raw embed compatibility failed");
+  const rejects = [];
+  const expectReject = (section, label) => { if (validate(section).valid) rejects.push(label); };
+  const mixed = structuredClone(defaultEmbed); mixed.embedHtml = "<div>raw</div>"; expectReject(mixed, "typed plus embedHtml");
+  for (const variant of ["default", "pathDropdown"]) {
+    const base = variant === "default" ? defaultEmbed : pathEmbed;
+    for (const media of [null, [], { ...base.embed, title: "" }, { ...base.embed, title: " " }, { ...base.embed, src: "javascript:alert(1)" }, { ...base.embed, src: "https://" }, { ...base.embed, width: 1.5 }, { ...base.embed, width: "0" }, { ...base.embed, width: "0x10" }, { ...base.embed, height: "1.0" }, { ...base.embed, height: " 450" }, { ...base.embed, loading: "eagerly" }, { ...base.embed, referrerPolicy: "invalid" }, { ...base.embed, allow: ["fullscreen", "fullscreen"] }, { ...base.embed, fullscreen: "true" }, { ...base.embed, aspectRatio: "0" }, { ...base.embed, aspectRatio: "0x10" }, { ...base.embed, extra: true }]) {
+      const invalid = structuredClone(base); invalid.embed = media; expectReject(invalid, `${variant} malformed media`);
+    }
+  }
+  if (rejects.length) throw new Error(`typed embed negative cases admitted: ${rejects.join(", ")}`);
+  return { default: true, pathDropdown: true, componentLibraryTyped: true, rawOnly: true, negativesRejected: true, defaultMarkup, pathMarkup, componentMarkup };
+}
+
+export function renderTypedMediaContractProof() {
+  const textMedia = createTemplateSection("textMedia", "componentLibraryTyped", "text-media-40-60");
+  const centeredMedia = createTemplateSection("embed", "componentLibraryTyped", "centered-media");
+  const mediaRail = createTemplateSection("stickyCards", "embed", "media-rail");
+  textMedia.media.title = '<Training & "quoted">';
+  textMedia.media.link.label = '<Explore & "Courses">';
+  textMedia.media.link.href = "#text-media-40-60";
+  textMedia.inlineLinkParagraphs[0].segments[1].href = "#text-media-40-60";
+  textMedia.inlineLinkParagraphs[0].segments[0].text = "Copy <safe> & authored text. ";
+  const mediaRailWithoutAddress = structuredClone(mediaRail);
+  delete mediaRailWithoutAddress.address;
+  const optionalAddressValidation = validatePageData({ slug: "typed-media-no-address", title: "Typed Media No Address", sections: [mediaRailWithoutAddress] }, "content/pages/typed-media-no-address.yaml");
+  if (!optionalAddressValidation.valid) throw new Error(`typed sticky embed without address was rejected: ${optionalAddressValidation.errors.join("; ")}`);
+  const optionalAddressMarkup = renderStickyEmbedSection(mediaRailWithoutAddress);
+  for (const forbidden of ["https://maps.google.com", "href=\"#address\"", "<p>", "City, ST 00000"]) if (optionalAddressMarkup.includes(forbidden)) throw new Error(`typed sticky embed without address rendered forbidden content: ${forbidden}`);
+  if (!optionalAddressMarkup.includes('src="https://www.google.com/maps/embed?pb=example"') || !optionalAddressMarkup.includes('title="I-CAR technical center map"')) throw new Error("typed sticky embed without address did not render its titled iframe");
+  const typedNegative = (section) => !validatePageData({ slug: "typed-media-negative", title: "Typed Media Negative", sections: [section] }, "content/pages/typed-media-negative.yaml").valid;
+  const addressWithoutEmbed = structuredClone(mediaRail);
+  delete addressWithoutEmbed.embed;
+  if (!typedNegative(addressWithoutEmbed)) throw new Error("typed address without embed was admitted");
+  for (const rawKey of ["embedHtml", "addressHtml"]) {
+    const mixed = structuredClone(mediaRail);
+    mixed[rawKey] = "<p>raw</p>";
+    if (!typedNegative(mixed)) throw new Error(`typed embed plus ${rawKey} was admitted`);
+    const addressMixed = structuredClone(mediaRailWithoutAddress);
+    addressMixed.address = structuredClone(mediaRail.address);
+    addressMixed[rawKey] = "<p>raw</p>";
+    if (!typedNegative(addressMixed)) throw new Error(`typed address plus ${rawKey} was admitted`);
+  }
+  for (const malformedEmbed of [null, [], { ...mediaRail.embed, src: "javascript:bad" }, { ...mediaRail.embed, width: "0" }, { ...mediaRail.embed, aspectRatio: "0x10" }, { ...mediaRail.embed, extra: true }]) {
+    const malformed = structuredClone(mediaRailWithoutAddress);
+    malformed.embed = malformedEmbed;
+    if (!typedNegative(malformed)) throw new Error("malformed typed embed was admitted");
+  }
+  for (const malformedAddress of [null, [], { text: "Address" }, { text: "Address", href: "javascript:bad" }, { text: "Address", href: "https://maps.google.com", target: "_parent" }, { text: "Address", href: "https://maps.google.com", extra: true }]) {
+    const malformed = structuredClone(mediaRail);
+    malformed.address = malformedAddress;
+    if (!typedNegative(malformed)) throw new Error("malformed optional typed address was admitted");
+  }
+  const rawOnly = { id: "raw-only", type: "stickyCards", variant: "embed", heading: "Raw only", embedHtml: "<div>raw embed</div>", addressHtml: "<p>raw address</p>" };
+  if (!validatePageData({ slug: "raw-only", title: "Raw only", sections: [rawOnly] }, "content/pages/raw-only.yaml").valid || !renderStickyEmbedSection(rawOnly).includes("raw embed")) throw new Error("raw-only sticky embed compatibility failed");
+  const page = { slug: "typed-media-proof", title: "Typed Media Proof", sections: [textMedia, centeredMedia, mediaRail] };
+  const validation = validatePageData(page, "content/pages/documentation/typed-media-proof.yaml");
+  if (!validation.valid) throw new Error(`typed media contract proof validation failed: ${validation.errors.join("; ")}`);
+  const rendered = page.sections.map(renderSection);
+  const combined = rendered.join("\n");
+  if ((combined.match(/<a\b/g) || []).length !== 5) throw new Error("typed media renderer proof did not emit five links");
+  for (const expected of [
+    'src="https://players.brightcove.net/',
+    'title="&lt;Training &amp; &quot;quoted&quot;&gt;"',
+    'allow="autoplay; encrypted-media; fullscreen"',
+    'allowfullscreen',
+    'loading="lazy"',
+    'referrerpolicy="strict-origin-when-cross-origin"',
+    'width="616"',
+    'height="450"',
+    'style="aspect-ratio:616/450"',
+    'aria-label="&lt;Explore &amp; &quot;Courses&quot;&gt;"',
+    'href="#text-media-40-60"',
+    'href="https://maps.google.com"',
+    "Copy &lt;safe&gt; &amp; authored text.",
+  ]) if (!combined.includes(expected)) throw new Error(`typed media renderer proof missing ${expected}`);
+  return { validation, sections: rendered, registryParity: renderTypedMediaRegistryParityProof() };
+}
+
+export function renderTypedMediaRegistryParityProof() {
+  const reverse = createTemplateSection("textMedia", "reverse", "unrelated-reverse");
+  const embed = createTemplateSection("embed", "default", "unrelated-embed");
+  if (reverse.variant !== undefined || reverse.media !== undefined || reverse.inlineLinkParagraphs !== undefined || JSON.stringify(reverse.paragraphs) !== JSON.stringify(["Add body copy that pairs with the supporting image."])) {
+    throw new Error("global textMedia/reverse registry factory changed");
+  }
+  if (embed.variant !== undefined || !embed.embed || embed.embed.src !== "https://players.brightcove.net/1862663934001/default_default/index.html?videoId=6363935215112" || embed.embed.title !== "Embedded training video" || embed.embedHtml !== undefined) {
+    throw new Error("embed/default typed registry contract changed");
+  }
+  return { reverse: "unchanged", embed: "typed-compatible" };
+}
+
+export function renderProgressListContractProof() {
+  return renderProgressListSection({
+    id: "proof-progress-list",
+    type: "progressList",
+    heading: "Progress <proof>",
+    paragraphs: ["Section paragraph & context"],
+    groups: [
+      {
+        heading: "First <group>",
+        paragraphs: ["First group & paragraph"],
+        measures: [
+          { label: "Zero <measure>", percent: 0, supportingText: "Zero & supporting text" },
+          { label: "Complete measure", percent: 100, supportingText: "Complete supporting text" },
+        ],
+      },
+      {
+        heading: "Second group",
+        paragraphs: ["Second group paragraph"],
+        measures: [{ label: "Unavailable measure", unavailable: "Data <unavailable>" }],
+      },
+    ],
+  });
+}
+
+export function createKenticoAjaxSplitFormContractProofFixture() {
+  return {
+    id: "proof-kentico-form",
+    type: "leadForm",
+    variant: "kenticoAjaxSplit",
+    heading: "Request <information>",
+    paragraphs: ["Proof & copy"],
+    list: ["First <benefit>"],
+    image: { desktopSrc: "/proof-form.webp", alt: "Proof image", width: "800", height: "600", sources: [{ srcset: "/proof-form-mobile.webp", maxWidth: "767", width: "800", height: "600" }] },
+    form: {
+      wrapperId: "proof-kentico-wrapper", id: "proof-kentico-form-id", prefix: "proof-kentico-form-id", action: "/Kentico.Components/en-US/Kentico.FormWidget/KenticoFormWidget/FormSubmit?formName=Proof&prefix=proof-kentico-form-id&displayValidationErrors=False", method: "POST", ajaxUpdate: "#proof-kentico-wrapper", submitHandler: "window.kentico.updatableFormHelper.submitForm(event)",
+      registration: { formId: "proof-kentico-form-id", targetAttributeName: "data-ktc-ajax-update", unobservedAttributeName: "data-ktc-notobserved-element" },
+      fields: [
+        { key: "organization", id: "proof-org", name: "proof-kentico-form-id.organization.Value", type: "text", label: "Organization", placeholder: "Name" }, { key: "first_name", id: "proof-first", name: "proof-kentico-form-id.first_name.Value", type: "text", label: "First Name", placeholder: "First Name" }, { key: "last_name", id: "proof-last", name: "proof-kentico-form-id.last_name.Value", type: "text", label: "Last Name", placeholder: "Last Name" }, { key: "phone_number", id: "proof-phone", name: "proof-kentico-form-id.phone_number.PhoneNumber", type: "tel", label: "Phone", placeholder: "Phone", phoneMask: { wrapperId: "proof-phone-mask", pattern: "(999) 999-9999" } }, { key: "email", id: "proof-email", name: "proof-kentico-form-id.email.Email", type: "email", label: "Email (optional)", placeholder: "Email Address" }, { key: "benefits_drop_down", id: "proof-benefits", name: "proof-kentico-form-id.benefits_drop_down.SelectedValue", type: "select", label: "Benefits", options: [{ value: "Accelerated Path to Gold Class", label: "Accelerated Path to Gold Class" }, { value: "Value of Gold Class", label: "Value of Gold Class" }, { value: "Discount", label: "Discount" }, { value: "Payment Plan", label: "Payment Plan" }, { value: "OEM Network", label: "OEM Network" }, { value: "Insurance Network", label: "Insurance Network" }] },
+      ],
+      runtimeToken: { name: "__RequestVerificationToken" }, submitLabel: "Request Information",
+      privacy: { text: "Review the", href: "/about-us/governance/policies/privacy", label: "Privacy Policy" }, success: { title: "Request Submitted", body: "We will contact you." },
+    },
+  };
+}
+
+export function renderKenticoAjaxSplitFormContractProof() {
+  return renderKenticoAjaxSplitLeadForm(createKenticoAjaxSplitFormContractProofFixture());
+}
+
+function createKenticoNavigationTrap(counters) {
+  const fail = () => { counters.navigation += 1; throw new Error("navigation blocked"); };
+  const location = { assign: fail, replace: fail, reload: fail };
+  Object.defineProperty(location, "href", { get: () => "about:blank", set: fail });
+  return { location, fail };
+}
+
+function runKenticoMockedScenario({ script, submitHook, registration, readyState }) {
+  const counters = { fetch: 0, xhr: 0, beacon: 0, nativeSubmit: 0, requestSubmit: 0, navigation: 0, registrations: 0, submissions: 0, prevented: 0 };
+  const listeners = [];
+  const document = {
+    readyState,
+    addEventListener(type, callback, options) {
+      listeners.push({ type, callback, options, fired: false });
+    },
+  };
+  const form = {
+    submit() { counters.nativeSubmit += 1; },
+    requestSubmit() { counters.requestSubmit += 1; },
+  };
+  const navigation = createKenticoNavigationTrap(counters);
+  Object.defineProperty(document, "location", { get: () => navigation.location, set: navigation.fail });
+  const window = { kentico: { updatableFormHelper: {
+    registerEventListeners(config) {
+      if (JSON.stringify(config) !== JSON.stringify(registration)) throw new Error("Kentico registration configuration diverged");
+      counters.registrations += 1;
+    },
+    submitForm(event) {
+      counters.submissions += 1;
+      event.preventDefault();
+    },
+  } } };
+  Object.defineProperty(window, "location", { get: () => navigation.location, set: navigation.fail });
+  const sandbox = {
+    document,
+    window,
+    fetch() { counters.fetch += 1; throw new Error("network access blocked"); },
+    XMLHttpRequest: class { constructor() { counters.xhr += 1; throw new Error("XHR blocked"); } },
+    navigator: { sendBeacon() { counters.beacon += 1; throw new Error("beacon blocked"); } },
+  };
+  Object.defineProperty(sandbox, "location", { get: () => navigation.location, set: navigation.fail });
+  runInNewContext(script, sandbox, { timeout: 1000 });
+  if (readyState === "complete") {
+    if (listeners.length !== 0 || counters.registrations !== 1) throw new Error("complete registration branch diverged");
+  } else {
+    if (listeners.length !== 1 || listeners[0].type !== "DOMContentLoaded" || listeners[0].options?.once !== true || counters.registrations !== 0) throw new Error("DOMContentLoaded registration branch diverged");
+    for (let dispatch = 0; dispatch < 2; dispatch += 1) {
+      const listener = listeners[0];
+      if (!listener.fired) {
+        listener.fired = true;
+        listener.callback();
+      }
+    }
+    if (counters.registrations !== 1) throw new Error("DOMContentLoaded registration was not once-only");
+  }
+  for (let submission = 0; submission < 2; submission += 1) {
+    const event = { target: form, preventDefault() { counters.prevented += 1; } };
+    sandbox.event = event;
+    runInNewContext(submitHook, sandbox, { timeout: 1000 });
+  }
+  if (counters.submissions !== 2 || counters.prevented !== 2) throw new Error("Kentico submit hook was not intercepted");
+  for (const key of ["fetch", "xhr", "beacon", "nativeSubmit", "requestSubmit", "navigation"]) if (counters[key] !== 0) throw new Error(`no-send trap fired: ${key}`);
+  return counters;
+}
+
+function normalizeKenticoRegistrationScript(script) {
+  return String(script || "").trim().replace(/\s+/g, " ");
+}
+
+function assertKenticoNavigationTraps() {
+  const counters = { navigation: 0 };
+  const navigation = createKenticoNavigationTrap(counters);
+  const document = {};
+  const window = {};
+  Object.defineProperty(document, "location", { get: () => navigation.location, set: navigation.fail });
+  Object.defineProperty(window, "location", { get: () => navigation.location, set: navigation.fail });
+  const sandbox = { document, window };
+  Object.defineProperty(sandbox, "location", { get: () => navigation.location, set: navigation.fail });
+  for (const statement of ["location = '/blocked'", "window.location = '/blocked'", "document.location = '/blocked'", "location.href = '/blocked'", "window.location.assign('/blocked')", "document.location.replace('/blocked')", "location.reload()"] ) {
+    const before = counters.navigation;
+    let threw = false;
+    try { runInNewContext(statement, sandbox, { timeout: 1000 }); } catch { threw = true; }
+    if (!threw || counters.navigation !== before + 1) throw new Error(`navigation trap failed for ${statement}`);
+  }
+}
+
+export function runKenticoAjaxSplitMockedRuntimeProof() {
+  const fixture = createKenticoAjaxSplitFormContractProofFixture();
+  const markup = renderKenticoAjaxSplitLeadForm(fixture);
+  const submitHook = markup.match(/\bonsubmit="([^"]+)"/)?.[1];
+  const script = markup.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+  const registration = fixture.form.registration;
+  const canonicalScript = `(function(){var config=${JSON.stringify(registration)};var register=function(){window.kentico.updatableFormHelper.registerEventListeners(config);};if(document.readyState === "complete"){register();}else{document.addEventListener("DOMContentLoaded", register, { once: true });}}());`;
+  if (submitHook !== fixture.form.submitHandler || normalizeKenticoRegistrationScript(script) !== normalizeKenticoRegistrationScript(canonicalScript)) throw new Error("emitted Kentico contract diverged from the accepted typed contract");
+  for (const alteredScript of [`${script};window.extraRegistration = true;`, String(script).replace("document.readyState === \"complete\"", "document.readyState === \"interactive\""), String(script).replace("DOMContentLoaded", "load")]) {
+    if (normalizeKenticoRegistrationScript(alteredScript) === normalizeKenticoRegistrationScript(canonicalScript)) throw new Error("altered Kentico registration script was admitted");
+  }
+  assertKenticoNavigationTraps();
+  return {
+    complete: runKenticoMockedScenario({ script, submitHook, registration, readyState: "complete" }),
+    loading: runKenticoMockedScenario({ script, submitHook, registration, readyState: "loading" }),
+  };
 }
 
 function renderLegalSection(section) {
@@ -3700,7 +4366,60 @@ function renderLeadFormHiddenField(field = {}) {
   return `<input name="${escapeHtml(field.name || "")}" type="hidden" ${valueAttribute} />`;
 }
 
+function renderKenticoAjaxField(field = {}) {
+  const id = escapeHtml(field.id || "");
+  const name = escapeHtml(field.name || "");
+  const required = field.required ? " required" : "";
+  const control = field.type === "select"
+    ? `<select id="${id}" name="${name}" data-ktc-notobserved-element=""${required}>${field.placeholder ? `\n<option value="" disabled selected>${renderText(field.placeholder)}</option>` : ""}${(field.options || []).map((option) => `\n<option value="${escapeHtml(option.value)}">${renderText(option.label)}</option>`).join("")}\n</select>`
+    : `<input id="${id}" name="${name}" type="${escapeHtml(field.type || "text")}"${field.placeholder ? ` placeholder="${escapeHtml(field.placeholder)}"` : ""} data-ktc-notobserved-element=""${required}>`;
+  const maskedControl = field.phoneMask
+    ? `<span id="${escapeHtml(field.phoneMask.wrapperId)}" data-kentico-phone-mask="${escapeHtml(field.phoneMask.pattern)}">${control}</span>`
+    : control;
+  return `                                <div class="kentico-form-field">
+                                    <label for="${id}">${renderText(field.label || "")}</label>
+                                    ${maskedControl}
+                                </div>`;
+}
+
+function renderKenticoAjaxSplitLeadForm(section = {}) {
+  const form = section.form || {};
+  const fields = (form.fields || []).map((field) => renderKenticoAjaxField(field)).join("\n");
+  const runtimeToken = form.runtimeToken
+    ? `                                <input name="${escapeHtml(form.runtimeToken.name || "")}" type="hidden" value="" data-kentico-runtime-token="">`
+    : "";
+  const image = renderPicture(section.image, "ic-lead-form-image", "lazy", "textMedia", `leadForm \"${section.id}\" image`);
+  const list = (section.list || []).map((item) => `                                <li>${renderText(item)}</li>`).join("\n");
+  const registration = form.registration || {};
+  const registrationConfig = JSON.stringify({ formId: registration.formId, targetAttributeName: registration.targetAttributeName, unobservedAttributeName: registration.unobservedAttributeName });
+  return `        <section id="${escapeHtml(section.id)}" class="ic-section ic-lead-form-split">
+            <div class="container"><div class="row">
+                <div class="col col-12 col-lg-6">
+                    <h2>${renderText(section.heading || "")}</h2>
+${(section.paragraphs || []).map((paragraph) => `                    <p>${renderText(paragraph)}</p>`).join("\n")}
+                    <ul>\n${list}\n                    </ul>
+                    ${image}
+                </div>
+                <div class="col col-12 col-lg-6">
+                    <div id="${escapeHtml(form.wrapperId || "")}" data-kentico-ajax-wrapper>
+                        <form id="${escapeHtml(form.id || "")}" action="${escapeHtml(form.action || "")}" method="${escapeHtml(form.method || "POST")}" data-ktc-ajax-update="${escapeHtml(form.ajaxUpdate || "")}" onsubmit="${escapeHtml(form.submitHandler || "")}">
+${runtimeToken}${runtimeToken ? "\n" : ""}${fields}
+                                <button type="submit">${renderText(form.submitLabel || "")}</button>
+                                <p>${renderText(form.privacy?.text || "")} <a href="${escapeHtml(form.privacy?.href || "")}" target="_blank" rel="noopener noreferrer">${renderText(form.privacy?.label || "")}</a></p>
+                        </form>
+                    </div>
+                    <div class="kentico-form-success" hidden>
+                        <h3>${renderText(form.success?.title || "")}</h3>
+                        <p>${renderText(form.success?.body || "")}</p>
+                    </div>
+                </div>
+            </div></div>
+            <script>(function(){var config=${registrationConfig};var register=function(){window.kentico.updatableFormHelper.registerEventListeners(config);};if(document.readyState === "complete"){register();}else{document.addEventListener("DOMContentLoaded", register, { once: true });}}());</script>
+        </section>`;
+}
+
 function renderLeadFormSection(section) {
+  if (section.variant === "kenticoAjaxSplit") return renderKenticoAjaxSplitLeadForm(section);
   const emphasizedLeft = renderLiteralText(section.lead?.emphasisLeft || "").replace(/\s+([^\s]+)\s*$/, "&nbsp;$1");
   const emphasizedRight = renderLiteralText(section.lead?.emphasisRight || "").replace(/\s+([^\s]+)\s*$/, "&nbsp;$1");
   const leadMarkup = section.lead
@@ -3799,8 +4518,8 @@ ${disclaimerMarkup}
 }
 
 function renderAccordionItemBody(item) {
-  const paragraphs = getParagraphs(item)
-    .map((paragraph) => `                                                <p>${renderText(paragraph, { widowProtection: true })}</p>`)
+  const paragraphs = (Array.isArray(item.inlineLinkParagraphs) ? item.inlineLinkParagraphs.map(renderTypedInlineLinkParagraph) : getParagraphs(item).map((paragraph) => renderText(paragraph, { widowProtection: true })))
+    .map((paragraph) => `                                                <p>${paragraph}</p>`)
     .join("\n");
   const htmlParagraphs = getHtmlParagraphs(item)
     .map((paragraph) => `                                                <p>${renderTrustedHtml(paragraph)}</p>`)
@@ -3902,20 +4621,23 @@ ${itemsMarkup}
 
 function renderEmbedSection(section) {
   const backgroundClass = getBackgroundClassName(section);
-  const bodyMarkup = indentBlock(renderParagraphContent(section), 8);
+  const bodyMarkup = indentBlock(section.inlineLinkParagraphs
+    ? renderTypedInlineLinkParagraphs(section.inlineLinkParagraphs)
+    : renderParagraphContent(section), 8);
+  const pathDropdownMarkup = renderPathDropdownMarkup(section.pathDropdown, section.id, 24);
 
   return `        <section id="${escapeHtml(section.id)}" class="${escapeHtml(buildSectionClassName(`ic-section${backgroundClass}`, section.__autoSectionClassName))}">
             <div class="container">
 
                 <div class="row justify-content-center${section.introRowClassName ? ` ${escapeHtml(section.introRowClassName)}` : " mb-3 pb-3"}">
                     <div class="${escapeHtml(section.introColumnClass || "col col-md-10 col-lg-8 col-xl-6 text-md-center")}">
-${getSectionHeading(section) ? `                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>\n` : ""}${bodyMarkup ? `\n${bodyMarkup}` : ""}
+${getSectionHeading(section) ? `                        <h2 class="ic-section-title">${renderText(getSectionHeading(section))}</h2>\n` : ""}${bodyMarkup ? `\n${bodyMarkup}` : ""}${pathDropdownMarkup}
                     </div>
                 </div>
 
                 <div class="row justify-content-center${section.embedRowClassName ? ` ${escapeHtml(section.embedRowClassName)}` : " pt-2"}">
                     <div class="${escapeHtml(section.embedColumnClass || "col col-12 col-lg-10 col-xl-8")}">
-${indentBlock(renderTrustedHtml(section.embedHtml || ""), 24)}
+                        ${indentBlock(section.embed && typeof section.embed === "object" && !Array.isArray(section.embed) ? renderTypedMedia(section.embed, { context: `section "${section.id}" embed` }) : renderTrustedHtml(section.embedHtml || ""), 24)}
                     </div>
                 </div>
 
@@ -4027,10 +4749,14 @@ function renderSection(section) {
       return renderHtmlSection(section);
     case "statementList":
       return renderStatementListSection(section);
+    case "progressList":
+      return renderProgressListSection(section);
     case "textMedia":
       return renderTextMediaSection(section);
     case "quote":
       return renderQuoteSection(section);
+    case "anchor":
+      return `        <a id="${escapeHtml(section.id)}"></a>`;
     case "quoteGrid":
       return renderQuoteGridSection(section);
     case "profileGrid":
@@ -6245,11 +6971,15 @@ function toContentHtmlRelativePath(sourceFile, page) {
   return join(sourceDirectory, `${outputBaseName}.html`).replace(/\\/g, "/");
 }
 
-function syncRenderedHtmlFile(renderedPage) {
+function syncRenderedHtmlFile(renderedPage, { dryRun: isDryRun = false } = {}) {
   const outputFile = join(previewOutputDir, renderedPage.relativeOutputPath);
   const nextContents = stripCmsFragmentMarkers(renderedPage.previewHtml || renderedPage.html);
 
   if (!existsSync(outputFile)) {
+    if (isDryRun) {
+      return { status: "created", outputFile };
+    }
+
     mkdirSync(dirname(outputFile), { recursive: true });
     writeFileSync(outputFile, nextContents);
 
@@ -6268,6 +6998,10 @@ function syncRenderedHtmlFile(renderedPage) {
     };
   }
 
+  if (isDryRun) {
+    return { status: "updated", outputFile };
+  }
+
   writeFileSync(outputFile, nextContents);
 
   return {
@@ -6277,7 +7011,10 @@ function syncRenderedHtmlFile(renderedPage) {
 }
 
 export function collectRenderedPageDocuments() {
-  const templateSyncResult = syncTemplates();
+  const templateSyncResult = syncTemplates({
+    only: [...selectedAuthoringBases],
+    dryRun,
+  });
 
   if (templateSyncResult.failures.length > 0) {
     throw new Error("Template sync failed");
@@ -6306,14 +7043,16 @@ export function collectRenderedPageDocuments() {
 
 async function buildPages() {
   const renderedPages = collectRenderedPageDocuments();
-  rmSync(legacyGeneratedPreviewDir, { recursive: true, force: true });
+  if (!dryRun && selectedAuthoringBases.size === 0) {
+    rmSync(legacyGeneratedPreviewDir, { recursive: true, force: true });
+  }
 
   for (const renderedPage of renderedPages) {
-    const result = syncRenderedHtmlFile(renderedPage);
+    const result = syncRenderedHtmlFile(renderedPage, { dryRun });
     const label = result.status === "created"
-      ? "Created"
+      ? (dryRun ? "Would create" : "Created")
       : result.status === "updated"
-        ? "Updated"
+        ? (dryRun ? "Would update" : "Updated")
         : "Unchanged";
     console.log(`[pages] ${label} ${result.outputFile}`);
   }
@@ -6393,6 +7132,10 @@ if (isDirectRun) {
   } else if (goldClassInvisibleV2ProofMode) {
     await runGoldClassInvisibleV2FlowProof();
   } else {
+    if (watchMode && (dryRun || selectedAuthoringBases.size > 0)) {
+      throw new Error("--watch cannot be combined with --dry-run or --only");
+    }
+
     await build();
 
     if (watchMode) {
