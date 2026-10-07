@@ -17,7 +17,7 @@ ul.ic-logo-list--box {
     }
 }
 
-ul.ic-logo-list--box > li {
+ul.ic-logo-list--box>li {
     flex: 0 0 auto;
     padding-left: 0;
     padding-right: 0;
@@ -28,11 +28,11 @@ ul.ic-logo-list--box > li {
     justify-content: center;
 }
 
-ul.ic-logo-list--box > li + li {
+ul.ic-logo-list--box>li+li {
     margin-top: 0;
 }
 
-ul.ic-logo-list--box > li img {
+ul.ic-logo-list--box>li img {
     aspect-ratio: unset;
     width: auto;
     height: auto;
@@ -63,12 +63,12 @@ ul.ic-logo-list--box.ic-logo-list--box-compact {
     --logo-box-width: calc(var(--space-50) * 3);
 
     @include mq(md, down) {
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: calc(
-            var(--logo-scroll-rows) * (var(--logo-box-width) * 2 / 3 + var(--space-40))
-            - var(--space-40)
-        );
+        overflow-y: hidden;
+        overflow-x: auto;
+
+        .ic-logo-list {
+            width: 1100vw;
+        }
     }
 }
 
