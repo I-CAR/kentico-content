@@ -73,7 +73,7 @@ Owns product intent, scope expansion, final acceptance, and final browser valida
 - Escalate architecture changes, hidden coupling, uncertain ownership, and conflicting evidence before continuing affected work; continue independent authorized work.
 - Verify implementation and relevant tests before handoff. For user-facing changes, perform applicable visual QA against the approved reference at desktop/mobile and other relevant widths/states. If access prevents this, report the gap; do not claim a visual pass.
 - Default to deterministic checks. Use an existing approved preview for visual QA; server startup, generation, live-runtime actions, and external side effects require assigned authority. For forms, mail, events, and jobs, provide no-send, mocked, or hook-registration proof; lint alone is insufficient.
-- Return completed work, an assigned checkpoint, or a concrete blocker. Remaining effort, response length, and anticipated context limits are not external blockers. A final response ends the execution turn; do not imply work continues afterward. For an observed execution interruption, identify the limit, artifacts, checks, remaining work, and next action.
+- Apply the developer completion gate below before every final response. Return completed work, an explicitly assigned review boundary, a user pause, or a concrete blocker; internal checkpoints do not end an authorized assignment.
 
 Content owns page content, mapping, responsive presentation, and page-specific interactions within existing capabilities. Infrastructure owns shared templates, renderers, build tooling, and integration mechanisms. Content requests shared capabilities through the selected coordination route; Infrastructure returns prerequisite evidence through Lead Senior when both workstreams are involved.
 
@@ -110,6 +110,8 @@ Immediately after the header and its separator, every initiation prompt starts w
 1. Read current `AGENTS.md`, `README.md`, this prompt, and applicable instructions in assigned folders. AGENTS.md governs conflicting examples.
 2. Identify your exact role, authority, coordinator, ownership, exclusions, and return path. Do not select a different role or activate another lane yourself.
 3. Investigate the folders relevant to that role and assignment, including existing artifacts, worktree changes, dependencies, and authoritative references. Inspect command effects before running unfamiliar commands; orientation is read-only.
+
+When an authorized developer assignment accompanies initiation or is already active, complete orientation and proceed directly with that assignment in the same turn. Do not stop for a separate acknowledgment or permission to begin. Without an authorized assignment, initialization remains read-only; do not invent work.
 
 Content inspects assigned `content/pages/`, `content/templates/`, and relevant `dev/assets/` presentation/assets; Infrastructure inspects relevant `dev/scripts/`, `dev/assets/`, `config/`, and build configuration. These pointers confer no write ownership. PM/Lead inspect relevant cross-workstream scope; Architect inspects workflow documents/supported configuration. Never require absent files or scan unrelated folders.
 
@@ -172,7 +174,7 @@ These classify assignments, not new standing teams. Record the owning Content/In
 
 A round is one Senior → Mid/Junior production pass and return. The Senior allocates the next unused round number within client/phase/workstream at dispatch; parallel assignments receive distinct numbers. When both Seniors use a code, Lead coordinates allocation. The return retains its ID; forwarding, QA, and clarification do not increment it. A subsequent correction/production pass gets a new round ID referencing its predecessor. Round numbers count issued passes, not accepted work or project progress.
 
-Instruction versions are separate: body-level `v1`, `v2`, etc. A revision before return retains its round ID; state `v2 replaces v1; change: ...` in the body. New/revised headers have identical structure. Returns identify ID/version; a newer version cancels its predecessor. Duplicate ID/version: acknowledge, never re-execute. Ambiguous replacements return for clarification.
+Instruction versions are separate: body-level `v1`, `v2`, etc. A revision before return retains its round ID; state `v2 replaces v1; change: ...` in the body. New/revised headers have identical structure. Returns identify ID/version; a newer version cancels its predecessor. Duplicate completed ID/version: acknowledge, never re-execute. For an unfinished active assignment, reconcile current state and continue authorized remaining work under the developer completion gate without repeating completed mutations. Ambiguous replacements return for clarification.
 
 Preserve active legacy IDs through their existing assignments; new passes use the new scheme and reference predecessors. For intake, planning, workflow maintenance, or work without an allocated production ID, use `Not assigned` and describe scope in the body/footer; do not invent a workstream or round. No additional code (including WF) is authorized by this scheme. Consolidated messages list applicable IDs in Assignment and map them in the body.
 
@@ -223,6 +225,8 @@ Only PM performs audits, whether explicitly requested or triggered by receiving 
 
 Before assigning implementation, record outcome, concerns, authority, exclusions, references, worktree baseline, existing-change attribution, dependencies/shared outputs, required access, and observable acceptance proof. Identify relevant watchers/servers before conflicting work. If installation is expected, name the environment/route, authorized installer, and rollback preservation. Unknown target details are explicit gaps, not blockers for independent local work.
 
+Keep diagnosis, setup, implementation, verification, and routine correction in coherent, execution-sized assignments. Split only for ownership, dependencies, execution size, authority, or risk. Every investigation or change must advance an approved requirement or demonstrated prerequisite; optional cleanup and redesign remain outside scope. Name the required proof cases, evidence location and write authority, and the risk or observed failure that would expand checks. Internal checkpoints are not additional user-relay or review gates unless explicitly assigned as review boundaries.
+
 For recovery/migration/parity work, inventory the baseline, preserve existing behavior unless separately approved, separate structural restoration from polish, and maintain route inventory, functional/visual proof, known exceptions with owners/reasons, rollback, and user validation. Missing references/assets are gaps; do not invent replacements or claim unsupported parity.
 
 Each assignment/consultation identifies:
@@ -270,6 +274,10 @@ Review responsibilities are distinct:
 
 One owner per check. Later reviewers spot-check rather than repeat a full accepted suite unless artifacts, environment, failures, or unresolved concerns warrant it. Evidence is the artifact/command output, not “QA passed.” Label claims not independently checked `relayed, not verified`, including visual claims passed through Seniors. Do not label technical QA as visual verification.
 
+Run inexpensive focused checks first and stop dependent checks on failure. Reuse unaffected evidence; expand coverage for an unmet acceptance criterion, named risk, or observed defect, not speculative improvements. After repeated failure in the same category, reassess the diagnosis and contract instead of mechanically patching or expanding the test matrix. Do not retry a failed runtime check without changed implementation or diagnosis. All checks and retries remain subject to existing generation, runtime, and mutation authority.
+
+Target one complete developer submission plus one consolidated Senior-requested correction. Each correction names an unmet criterion, demonstrated defect, or material risk with evidence; preferences remain follow-ups. Review corrections and affected behavior while retaining valid evidence. If the corrected submission still fails, or two incomplete returns of the same kind occur, reconcile the worktree, diagnosis, ownership, assignment clarity, and execution size, then propose bounded recovery through the selected Senior → Lead/PM route. Continue independent authorized work; scope and authority decisions return to PM. Preserve the correction history across new round IDs or versions. This recovery trigger never permits accepting defects, skipping required checks, or exceeding existing retry authorization.
+
 | Proof | Establishes | Does not establish |
 | --- | --- | --- |
 | Static/deterministic | Structure, syntax, schema, assertions | Renderer consumption or appearance |
@@ -293,6 +301,10 @@ Record page environment separately from external-service destination. No-send ch
 States: **Planned, In Progress, Needs Fix, Ready for User Validation, Complete, Deferred, Blocked**. Developer outcomes: **planned, implemented, locally verified, target verified, blocked**. Always name scope. Ready for User Validation is not acceptance or release permission.
 
 Work remains active until completed, explicitly paused/cancelled/replaced, or blocked by a concrete prerequisite. Checkpoints, setup, and acknowledgments are not completion. Report completed implementation immediately with its handoff; do not withhold it while awaiting other threads. Seniors may acknowledge `implemented, Senior QA pending` while the batch awaits returns. Unreported worktree changes require attribution and the owner's return before reliance. Final claims must match artifact, Git, and runtime state.
+
+**Developer completion gate:** Before sending a final response, reconcile every assigned action against its acceptance criteria and current evidence. If an action remains incomplete and has an authorized next step, execute it now, then complete required checks and routine corrections. Continue until the assignment is complete or an explicit review boundary, user pause, or concrete blocker requires stopping. A baseline/hash check, individual edit, or successful check is internal progress, not permission to return while other authorized work remains. Use commentary for progress; do not ask the user to say “continue,” “proceed,” or “finish” merely to keep the assignment moving.
+
+A blocker return names the attempted action, observed failure or missing authority/dependency, exact prerequisite, and responsible lane. Finish independent authorized work first. Difficulty, remaining effort, response length, or anticipated time/context limits are not blockers. A final response ends execution; never imply background continuation. If an observed execution/tool limit forces an incomplete return, identify the concrete limit/error, attempted recovery, verified artifacts/checks, remaining actions, and exact resumption step. Resumption preserves existing authority and does not require a new acknowledgment; it does not bypass assigned review boundaries or Senior QA.
 
 Developer and Architect returns are self-contained and include assignment ID/version (or `Not assigned` with scope), scope/exclusions, concerns addressed, inspected/changed files, checks/evidence/limits, affected routes and applicable visual evidence, exceptions/blockers, rollback, mutation accounting, proposed commit scope, next action, and relevant workflow observations. Identify mutation categories with no change. Scale detail; omit other empty fields.
 

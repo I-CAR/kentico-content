@@ -12,6 +12,8 @@ An **initiation prompt** starts a thread's current project/phase; follow-ups do 
 
 Inspect assigned pages/templates/presentation for Content; scripts/shared assets/configuration/build contracts for Infrastructure; cross-team scope for PM/Lead; workflow materials for Architect. Orientation grants no write ownership.
 
+When an authorized developer assignment accompanies initiation or is already active, finish orientation and proceed directly in the same turn. Do not return only an acknowledgment or request permission to begin. Without an assignment, remain read-only.
+
 PM's initiation response is conversational, even after a formatted prompt: ask for the current mission/goal unless already supplied. No header, footer, or progress block is required unless requested. On receiving the goal, PM audits relevant current state, then maps numbered phases and lanes with outcomes, dependencies, routing, acceptance units, and reviewers. One phase is still Phase 1; the initial prompt may provisionally use `Phase 1 · Intake and Planning`. Other lanes inherit PM's plan.
 
 ## Delivery Routes
@@ -48,6 +50,8 @@ Only PM performs audits, on receiving a goal or an explicit audit request. Other
 
 Every assignment names its header ID, body-level version, purpose, authority, objective, ownership/exclusions, coordinator, dependencies, allowed mutations, expected returns, checks/evidence, stop conditions, and return destination. Junior instructions additionally specify the exact change, existing pattern, output, and verification steps. Issue only ready, authorized work.
 
+Keep diagnosis, setup, implementation, verification, and routine corrections together in an execution-sized assignment. Split for ownership, dependencies, execution size, authority, or risk. Tie investigation and changes to approved requirements or demonstrated prerequisites. Name required proof cases, evidence location/write authority, and the risk or failure that would expand checks. Internal checkpoints do not require another user relay unless explicitly assigned as review boundaries.
+
 New production IDs use `[CLIENT]-P[PHASE]-[WORKSTREAM]-R[ROUND]`, e.g. `IC-P1-FE-R1`. Codes: FE = Frontend, CM = CMS, IN = Integration, PL = Platform. These classify assignments; existing Content/Infrastructure Seniors retain ownership and routing responsibilities. Seniors allocate unique rounds per client/phase/code; Lead coordinates shared-code allocation across teams. Each Senior → developer → Senior pass has one ID; parallel passes get distinct rounds, and subsequent correction passes get new rounds. Forwarding, QA, and clarification do not increment rounds.
 
 Body-level versions (`v1`, `v2`) distinguish revised instructions within a round. Preserve active legacy IDs; new passes use the new scheme and reference predecessors. Use `Not assigned` for planning/workflow maintenance or unallocated production IDs; no WF or other extra code is implied. Consolidated headers list relevant IDs. The progress owner's assignment table tracks ID/version and ownership only inside its progress update; routine assignments/QA handoffs supply this information in concise text, without repeating the table. Required assignment details and technical evidence tables remain.
@@ -63,6 +67,10 @@ Each reviewer first checks readiness:
 If prompted early, list the missing handoffs. Do not declare QA complete. Immediate implementation reporting and independent authorized work can continue while a review awaits returns.
 
 Developers perform applicable visual QA plus implementation/tests. Seniors review technical correctness without visual verification. Lead checks integration, dependencies, and combined coverage without visual verification. PM checks user intent, acceptance, usability, and exceptions, and may verify visuals. Do not repeat an accepted full suite without changed evidence or a specific concern.
+
+Run focused checks first, stop dependent checks on failure, and reuse unaffected evidence. Expand checks only for acceptance gaps, named risks, or observed defects. Repeated failures require reassessing the diagnosis; a failed runtime check needs changed implementation or diagnosis before retry. Existing generation and runtime authorization still applies.
+
+Target one complete developer submission plus one consolidated Senior-requested correction. If that correction still fails, or two similar incomplete returns occur, reconcile artifacts, diagnosis, ownership, and assignment size/clarity, then propose bounded recovery through the existing Senior → Lead/PM route. Preserve correction history across new IDs/versions; continue independent authorized work. This is a recovery trigger, not permission to accept defects, skip checks, or exceed retry authority.
 
 Use actual artifacts as evidence. Keep static, rendered, mocked, local-browser, target, external-confirmation, and user proof distinct. Schema success does not prove a renderer consumed content. New/converted content needs field-by-field rendered proof. Claims passed along without independent checking are `relayed, not verified`.
 
@@ -84,7 +92,7 @@ Heading:
 --
 ```
 
-For initiation prompts, place the three initiation tasks first after this header. For later prompts, remind the recipient to read current instructions. Assignment contains only the ID, no short title/version. Put versions and replacement explanations in the body; revised headings have identical structure. Recipients act only on the latest version and do not repeat duplicate ID/version assignments.
+For initiation prompts, place the three initiation tasks first after this header. For later prompts, remind the recipient to read current instructions. Assignment contains only the ID, no short title/version. Put versions and replacement explanations in the body; revised headings have identical structure. Recipients act only on the latest version. A duplicate completed ID/version is acknowledged without re-execution; an unfinished active assignment resumes its authorized remaining work after reconciling current state, without repeating completed mutations.
 
 For multiple recipients, include a self-contained assignment for each and this body instruction:
 
@@ -138,6 +146,10 @@ Read the clock at response start and immediately before final output. Both heade
 Returns identify scope, assignment ID/version (or `Not assigned`), files, evidence and limits, relevant routes/visual proof, mutations, exceptions, rollback, proposed commit scope, and next action. Seniors integrate concern-to-evidence maps; Lead consolidates multi-workstream results; PM checks every active concern. Keep source, metadata, output, temporary evidence, and runtime changes distinct.
 
 Use Planned, In Progress, Needs Fix, Ready for User Validation, Complete, Deferred, or Blocked, with explicit scope. Checkpoints and progress updates are not completion. A final message ends the execution turn. Report a concrete interruption and remaining work accurately; continue authorized independent work where possible.
+
+Apply AGENTS.md's developer completion gate before every final response: reconcile every assigned action with its acceptance criteria and evidence, then execute any remaining authorized next step, required checks, and routine corrections. Baseline checks, individual edits, and passing checks are internal progress. Use commentary for updates; never require a generic “continue” to finish authorized work.
+
+Return completed work, an explicit review boundary, a user pause, or a concrete blocker after completing independent authorized work. A blocker names the attempted action, failure or missing authority/dependency, prerequisite, and responsible lane. An observed execution/tool limit requires its actual error/limit, attempted recovery, verified work, remaining actions, and exact resumption step. Anticipated effort or context pressure is not a blocker. Resumption retains authority without another acknowledgment and preserves review boundaries and Senior QA.
 
 After PM QA, PM gives the user a concrete punchlist with route/artifact, steps, expected results, applicable viewports/interactions, exceptions, and failure-reporting instructions. On user approval, PM reviews the staged names/stat/full diff, runs `git diff --cached --check`, commits the accepted pass, reports Git state, and asks whether to push unless that exact push is already authorized.
 
