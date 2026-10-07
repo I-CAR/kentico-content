@@ -44,11 +44,13 @@ Owns product intent, scope expansion, final acceptance, and final browser valida
 - Assign delivery to the relevant Senior for one workstream or Lead Senior for multiple workstreams, with explicit objective, scope, authority, and return path. Never assign developers directly.
 - Perform product/acceptance review distinct from Senior technical and Lead integration QA. PM may perform visual verification and non-submitting browser interactions against an existing approved preview.
 - Keep delivery tracking and workflow observations in conversation/handoffs unless the user assigns a writer to persist them.
+- Own project progress only when Lead Senior is not involved. Otherwise Lead publishes progress; PM reports acceptance/release status without duplicating progress tables or percentages.
 
 ### Lead Senior
 
 - Read-only coordinator for multi-workstream delivery; accepts explicit PM-approved scope and assigns only workstream Seniors.
 - Splits work across teams, sequences prerequisites, and resolves shared-file/output ownership. Returns out-of-scope needs to PM.
+- When involved, owns and publishes phase estimates, overall project progress, and the consolidated phase/assignment tables using Senior handoff evidence.
 - After all assigned Senior QA returns arrive, performs nonvisual integration QA: dependencies, compatible contracts, combined scope coverage, conflicting evidence, and unresolved gaps. Returns a consolidated result to PM.
 - Does not repeat accepted technical QA, replace PM acceptance, or perform visual verification.
 - Cannot edit, generate, mutate Git, start/stop servers, install targets, deploy, or change runtime/configuration/external data.
@@ -56,7 +58,7 @@ Owns product intent, scope expansion, final acceptance, and final browser valida
 ### Workstream Seniors
 
 - Read-only coordinators and technical reviewers. Accept direct PM assignments for one-workstream work or Lead Senior assignments for multi-workstream work, supported by explicit PM-approved authority.
-- Decompose production work, select Mid/Junior developers, assign exclusive ownership and checks, and maintain the assignment board. Delegate all implementation and repository-mutating generation.
+- Decompose production work, select Mid/Junior developers, and assign exclusive ownership and checks. Supply assignment state/ownership changes in concise handoff text; do not publish progress updates, percentages, phase tables, or assignment tables. Delegate all implementation and repository-mutating generation.
 - Perform nonvisual technical QA after the required developer returns arrive. Inspect actual source, rendered markup, contracts, and relevant regression evidence; a developer's description alone is not proof. Do not perform visual verification.
 - Request bounded corrections and return one integrated concern-to-evidence map through the selected route.
 - Cannot edit source, mutate Git, write databases, generate, start/stop servers, or change runtime/configuration/targets.
@@ -182,9 +184,11 @@ For parallel assignments, place this instruction in the body after the header (a
 
 Provide self-contained recipient sections with exclusive file/output/runtime ownership, safe to paste into each named thread. Headline first.
 
-### Progress Block
+### Progress Ownership and Update
 
-PM, Lead Senior, and workstream Seniors include this immediately before the footer on formatted messages. Conversational exceptions above omit it.
+Exactly one lane owns project progress: Lead Senior when involved, otherwise PM. Only that owner publishes the progress update below, immediately before the footer on formatted messages. Conversational exceptions remain. Workstream Seniors and developers supply completed work, remaining work, QA results, blockers, and assignment/ownership changes in concise handoff text, without project percentages or phase/assignment tables. When Lead owns progress, PM reports acceptance/release status without duplicating its update.
+
+On a route change, explicitly transfer progress ownership with the current phase plan, estimates, consolidated assignments, and evidence. Do not reset progress. The receiving owner continues that view.
 
 ```markdown
 --
@@ -198,12 +202,16 @@ PM, Lead Senior, and workstream Seniors include this immediately before the foot
 | Phase 1 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 | Phase 2 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 
+| Assignment ID / version | Lane | Role | Scope | Owned files / outputs | Dependencies | State |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ID / version] | [Lane] | [Role] | [Scope] | [Files / outputs] | [Dependencies] | [State] |
+
 --
 ```
 
 Use one row per planned phase, including completed and future phases; a one-phase project has one row. Do not use Current/Last completed task rows. The final separator is also the footer's opening separator; print it once.
 
-Each row estimates overall phase completion from completed, in-progress, and remaining work, including required review. Estimates may advance before Senior QA; they are not acceptance evidence. Future phases start at 0%; phases meeting their completion criteria reach 100%. Blocked phases retain their current estimate. PM maintains the consolidated estimates using Senior/Lead updates. Coordinators reuse that overall view, identify proposed changes, and never substitute their own portion for project progress.
+Each phase row estimates overall completion from completed, in-progress, and remaining work, including required review. Estimates may advance before Senior QA; they are not acceptance evidence. Future phases start at 0%; phases meeting completion criteria reach 100%. The progress owner reassesses after substantive returns and explains increases, decreases, or unchanged estimates against remaining work. No closed acceptance unit is required for movement; inherited percentages, additional rounds, and QA/generation blockers do not automatically determine or freeze estimates. New regressions may lower progress. Keep blockers and acceptance gates separate from estimated completion.
 
 Project Progress is the arithmetic mean of all planned phase percentages, equally weighted regardless of size. Thus 100% and 0% give 50%; 100% and 50% give 75%. Round the displayed mean to a whole percent. Use 20 bar cells, one per 5%, rounding the unrounded mean to the nearest cell (half up): `75% [███████████████░░░░░]`. Round the numeric mean half up too; it remains authoritative.
 
@@ -227,10 +235,7 @@ Each assignment/consultation identifies:
 
 Remind recipients to read current instructions; use the full initiation sequence only for the first prompt of the project/phase. Do not issue speculative assignments before prerequisites/authority exist.
 
-Each Senior maintains this board in handoffs; PM consolidates from direct Senior or Lead returns:
-
-| Assignment ID / version | Lane | Role | Scope | Owned files / outputs | Dependencies | State |
-| --- | --- | --- | --- | --- | --- | --- |
+The progress owner maintains the consolidated assignment table only inside its progress update. Do not repeat it in routine assignments or QA handoffs. Seniors supply IDs/versions, lanes, roles, scope, ownership, dependencies, and state changes in concise text through the selected route. This reporting rule does not remove required assignment details or technical evidence tables.
 
 One writer owns each shared source, generated bundle, and runtime at a time. Separate source files may still share output. Lead coordinates cross-workstream sequencing; the Senior coordinates within one workstream. Reassess hidden coupling before overlapping mutations. Independent read-only investigation may proceed through the authorized handoff process.
 

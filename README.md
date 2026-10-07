@@ -30,8 +30,8 @@ Users relay handoffs; agents never spawn/dispatch agents. Developers return only
 
 | Role | Responsibility / authority |
 | --- | --- |
-| IC PM | Audits, phase planning, routing, acceptance, optional visual QA, local Git, user QA punchlist, pass completion |
-| IC Lead Senior | Read-only multi-workstream coordination and nonvisual integration QA |
+| IC PM | Audits, planning, routing, acceptance, optional visual QA, local Git, user QA, pass completion; progress owner only without Lead |
+| IC Lead Senior | Read-only multi-workstream coordination, nonvisual integration QA, and progress ownership when involved |
 | IC Content Senior | Read-only content coordination and nonvisual technical QA |
 | IC Infrastructure Senior | Read-only shared-system coordination and nonvisual technical QA |
 | Mid developers | Assigned implementation involving complexity, behavior, or shared contracts; own verification and applicable visual QA |
@@ -50,7 +50,7 @@ Every assignment names its header ID, body-level version, purpose, authority, ob
 
 New production IDs use `[CLIENT]-P[PHASE]-[WORKSTREAM]-R[ROUND]`, e.g. `IC-P1-FE-R1`. Codes: FE = Frontend, CM = CMS, IN = Integration, PL = Platform. These classify assignments; existing Content/Infrastructure Seniors retain ownership and routing responsibilities. Seniors allocate unique rounds per client/phase/code; Lead coordinates shared-code allocation across teams. Each Senior → developer → Senior pass has one ID; parallel passes get distinct rounds, and subsequent correction passes get new rounds. Forwarding, QA, and clarification do not increment rounds.
 
-Body-level versions (`v1`, `v2`) distinguish revised instructions within a round. Preserve active legacy IDs; new passes use the new scheme and reference predecessors. Use `Not assigned` for planning/workflow maintenance or unallocated production IDs; no WF or other extra code is implied. Consolidated headers list the relevant IDs; assignment boards track ID/version alongside ownership.
+Body-level versions (`v1`, `v2`) distinguish revised instructions within a round. Preserve active legacy IDs; new passes use the new scheme and reference predecessors. Use `Not assigned` for planning/workflow maintenance or unallocated production IDs; no WF or other extra code is implied. Consolidated headers list relevant IDs. The progress owner's assignment table tracks ID/version and ownership only inside its progress update; routine assignments/QA handoffs supply this information in concise text, without repeating the table. Required assignment details and technical evidence tables remain.
 
 Keep one writer per shared file/output/runtime. Assign generation and preview startup to developers; inspect command effects before treating a command as read-only. One generation run is authorized at a time; use the exact deterministic retry contract in AGENTS.md when applicable. Batches of three or more similar pages use a rendered pilot, one remaining batch, per-page evidence, and one Senior review.
 
@@ -90,7 +90,7 @@ For multiple recipients, include a self-contained assignment for each and this b
 
 > Act only on the assignment addressed to your established lane. Other assignments are coordination context. If your lane has no assignment, report that rather than choosing another role.
 
-PM, Lead Senior, and workstream Seniors place a phase progress block immediately before the footer:
+Lead Senior owns progress when involved; otherwise PM does. Only the owner publishes the following consolidated update before the footer on formatted messages; conversational exceptions remain. Seniors/developers report completed work, remaining work, QA, blockers, and assignment/ownership changes in concise text, without progress percentages or phase/assignment tables. PM does not duplicate Lead's updates. Route changes explicitly transfer the phase plan, estimates, assignments, and evidence to the new owner without resetting progress.
 
 ```markdown
 --
@@ -104,10 +104,14 @@ PM, Lead Senior, and workstream Seniors place a phase progress block immediately
 | Phase 1 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 | Phase 2 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 
+| Assignment ID / version | Lane | Role | Scope | Owned files / outputs | Dependencies | State |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ID / version] | [Lane] | [Role] | [Scope] | [Files / outputs] | [Dependencies] | [State] |
+
 --
 ```
 
-One row per planned phase. Each percentage estimates the whole phase's completed/in-progress/remaining work, including required review; it need not wait for Senior QA. PM consolidates Senior/Lead input; coordinators reuse that overall view and identify proposed changes. Future phases start at 0%; completed phases reach 100%; blocked phases retain estimates.
+One row per planned phase. The progress owner estimates overall completion, including required review, and reassesses after substantive returns. Explain changed or unchanged estimates against remaining work. Closed acceptance units are not required for movement; inherited percentages, round counts, and QA/generation blockers do not automatically increase or freeze progress. Regressions may lower it. Future phases start at 0%; completed phases reach 100%. Report acceptance gates/blockers separately.
 
 Project Progress equally averages all planned phases: 100% + 0% gives 50%; 100% + 50% gives 75%. Round the mean to a whole percent, half up; use 20 cells at 5% each, rounding the unrounded mean to the nearest cell, half up: `75% [███████████████░░░░░]`. Explain material estimate/scope changes; do not omit blocked/deferred phases. Unknown estimates mean N/A, not a partial average. Progress never substitutes for acceptance/release gates.
 
