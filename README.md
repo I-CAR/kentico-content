@@ -46,7 +46,11 @@ PM can directly make an explicitly authorized, named-file edit only if mechanica
 
 Only PM performs audits, on receiving a goal or an explicit audit request. Other lanes return audit requests to PM; assigned orientation, QA, consultations, and Architect workflow reviews remain scoped checks, not audit authority. Audits are read-only and bounded to the goal/request; findings inform planning, not automatic implementation.
 
-Every assignment names its body-level ID/revision, purpose, authority, objective, ownership/exclusions, coordinator, dependencies, allowed mutations, expected returns, checks/evidence, stop conditions, and return destination. Junior instructions additionally specify the exact change, existing pattern, output, and verification steps. Issue only ready, authorized work.
+Every assignment names its header ID, body-level version, purpose, authority, objective, ownership/exclusions, coordinator, dependencies, allowed mutations, expected returns, checks/evidence, stop conditions, and return destination. Junior instructions additionally specify the exact change, existing pattern, output, and verification steps. Issue only ready, authorized work.
+
+New production IDs use `[CLIENT]-P[PHASE]-[WORKSTREAM]-R[ROUND]`, e.g. `IC-P1-FE-R1`. Codes: FE = Frontend, CM = CMS, IN = Integration, PL = Platform. These classify assignments; existing Content/Infrastructure Seniors retain ownership and routing responsibilities. Seniors allocate unique rounds per client/phase/code; Lead coordinates shared-code allocation across teams. Each Senior → developer → Senior pass has one ID; parallel passes get distinct rounds, and subsequent correction passes get new rounds. Forwarding, QA, and clarification do not increment rounds.
+
+Body-level versions (`v1`, `v2`) distinguish revised instructions within a round. Preserve active legacy IDs; new passes use the new scheme and reference predecessors. Use `Not assigned` for planning/workflow maintenance or unallocated production IDs; no WF or other extra code is implied. Consolidated headers list the relevant IDs; assignment boards track ID/version alongside ownership.
 
 Keep one writer per shared file/output/runtime. Assign generation and preview startup to developers; inspect command effects before treating a command as read-only. One generation run is authorized at a time; use the exact deterministic retry contract in AGENTS.md when applicable. Batches of three or more similar pages use a rendered pilot, one remaining batch, per-page evidence, and one Senior review.
 
@@ -71,15 +75,16 @@ Heading:
 ```markdown
 # [Sending Lane] → [Receiving Lane(s)]
 
-**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
+**Workspace:** [Workspace Path]\
 **Project:** [Project]\
+**Assignment:** [Assignment ID]\
 **Phase:** Phase [#] · [Phase Name]\
-**Workspace:** [Workspace Path]
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]
 
 --
 ```
 
-For initiation prompts, place the three initiation tasks first after this header. For later prompts, remind the recipient to read current instructions. Assignment IDs/revisions and replacement explanations belong in the body; revised headings are identical. Recipients act only on the highest revision and do not repeat duplicate assignments.
+For initiation prompts, place the three initiation tasks first after this header. For later prompts, remind the recipient to read current instructions. Assignment contains only the ID, no short title/version. Put versions and replacement explanations in the body; revised headings have identical structure. Recipients act only on the latest version and do not repeat duplicate ID/version assignments.
 
 For multiple recipients, include a self-contained assignment for each and this body instruction:
 
@@ -92,9 +97,9 @@ PM, Lead Senior, and workstream Seniors place a phase progress block immediately
 
 **Project:** [Project]\
 **Phase:** Phase [#] · [Phase Name]\
-**Progress:** [#]% [character progress bar]
+**Project Progress:** [#]% [character progress bar]
 
-| Phase | Name / outcome | Responsible lanes | State | % complete |
+| Phase | Name / outcome | Responsible lanes | State | Estimated completion |
 | --- | --- | --- | --- | --- |
 | Phase 1 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 | Phase 2 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
@@ -102,14 +107,16 @@ PM, Lead Senior, and workstream Seniors place a phase progress block immediately
 --
 ```
 
-One row per planned phase, including completed/future phases; one-phase work has one row. The headline percentage is for the current phase. Count reviewed units, not effort. Delivery units count after Senior QA. Use ten bar cells, e.g. `60% [██████░░░░]`. PM/Lead show overall phase progress; Seniors identify their assigned portion. No assignment means N/A, not guessed progress. Report denominator changes and distinguish QA completion from acceptance/release.
+One row per planned phase. Each percentage estimates the whole phase's completed/in-progress/remaining work, including required review; it need not wait for Senior QA. PM consolidates Senior/Lead input; coordinators reuse that overall view and identify proposed changes. Future phases start at 0%; completed phases reach 100%; blocked phases retain estimates.
+
+Project Progress equally averages all planned phases: 100% + 0% gives 50%; 100% + 50% gives 75%. Round the mean to a whole percent, half up; use 20 cells at 5% each, rounding the unrounded mean to the nearest cell, half up: `75% [███████████████░░░░░]`. Explain material estimate/scope changes; do not omit blocked/deferred phases. Unknown estimates mean N/A, not a partial average. Progress never substitutes for acceptance/release gates.
 
 Footer:
 
 ```markdown
 --
 
-**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] → [h:mm:ss] [AM/PM] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
 **Duration:** [Minutes]m [Seconds]s\
 **From:** [Sending Lane]\
 **To:** [Receiving Lane(s)]
@@ -120,11 +127,11 @@ Footer:
 
 Print the shared progress/footer separator once. Append `--` only for additional expected review returns; name them in the body. Match heading/footer participants. Preserve unfinished, uncommitted, and unpushed state. Two-hyphen separators are intentional.
 
-Read the clock at response start and immediately before final output. Use Eastern time with actual EDT/EST: `January 1, 2027 · 9:32:10 AM EST` (full month, unpadded day/hour, 12-hour time, two-digit minutes/seconds). Header shows start; footer shows both readings and duration in total minutes/seconds. Never estimate or create timing files. Follow AGENTS.md for unavailable clocks or date/DST boundaries. Do not invent phases for unrelated conversations.
+Read the clock at response start and immediately before final output. Both header and footer display only the identical final reading: `January 1, 2027 · 9:32:10 AM EST` (full month, unpadded day/hour, 12-hour time, two-digit minutes/seconds, actual Eastern EDT/EST). Duration uses actual elapsed time between both reads in total minutes/seconds, including midnight/DST crossings. No displayed start/range, estimated timing, or timing files. Follow AGENTS.md for unavailable clocks; do not invent phases.
 
 ## Finish a Pass
 
-Returns identify scope, revision, files, evidence and limits, relevant routes/visual proof, mutations, exceptions, rollback, proposed commit scope, and next action. Seniors integrate concern-to-evidence maps; Lead consolidates multi-workstream results; PM checks every active concern. Keep source, metadata, output, temporary evidence, and runtime changes distinct.
+Returns identify scope, assignment ID/version (or `Not assigned`), files, evidence and limits, relevant routes/visual proof, mutations, exceptions, rollback, proposed commit scope, and next action. Seniors integrate concern-to-evidence maps; Lead consolidates multi-workstream results; PM checks every active concern. Keep source, metadata, output, temporary evidence, and runtime changes distinct.
 
 Use Planned, In Progress, Needs Fix, Ready for User Validation, Complete, Deferred, or Blocked, with explicit scope. Checkpoints and progress updates are not completion. A final message ends the execution turn. Report a concrete interruption and remaining work accurately; continue authorized independent work where possible.
 

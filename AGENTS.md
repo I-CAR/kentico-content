@@ -126,10 +126,11 @@ Use rendered Markdown without enclosing fences or prefaces. Use `→`, not `->`/
 ```markdown
 # [Sending Lane] → [Receiving Lane(s)]
 
-**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
+**Workspace:** [Workspace Path]\
 **Project:** [Project]\
+**Assignment:** [Assignment ID]\
 **Phase:** Phase [#] · [Phase Name]\
-**Workspace:** [Workspace Path]
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]
 
 --
 ```
@@ -141,7 +142,7 @@ Headline/footer senders and recipients must match; use full lane names consisten
 ```markdown
 --
 
-**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] → [h:mm:ss] [AM/PM] [EDT/EST]\
+**Time:** [Month D, YYYY] · [h:mm:ss] [AM/PM] [EDT/EST]\
 **Duration:** [Minutes]m [Seconds]s\
 **From:** [Sending Lane]\
 **To:** [Receiving Lane(s)]
@@ -152,11 +153,28 @@ Headline/footer senders and recipients must match; use full lane names consisten
 
 Append a final `--` only when additional thread handoffs are expected by the recipient for this review/pass. Identify those missing returns in the body. Otherwise end at Status. Separators are literal two-hyphen lines. The footer describes the sending thread's assignment and outcome; preserve material incomplete, uncommitted, or unpushed state.
 
-Read the clock with a tool at the start of every response, before other work, and immediately before final output. Use `America/New_York` and actual EDT/EST. Format dates as `January 1, 2027` (full month, unpadded day) and times as `9:32:10 AM EST` (12-hour, unpadded hour, two-digit minutes/seconds, uppercase AM/PM). Header Time is the start; footer shows both reads and their difference. Duration uses total minutes and seconds. Never estimate timing or create a timing file. If clock access fails, report `Not available — no clock read` for unavailable timing fields; do not fabricate duration. If a response crosses midnight or a DST transition, include both actual dates/offsets in Time to avoid ambiguity.
+Read the clock with a tool at response start and immediately before final output. Display only the final reading, identically in header and footer; no start time or range. Use its date and `America/New_York` EDT/EST abbreviation: `January 1, 2027 · 9:32:10 AM EST` (full month, unpadded day/hour, 12-hour time, two-digit minutes/seconds, uppercase AM/PM). Calculate Duration from actual elapsed time between both readings in total minutes/seconds, including midnight/DST crossings. Never estimate timing or create timing files. Report unavailable readings as `Not available — no clock read`; without both readings, Duration is unavailable.
 
-### Revisions and Parallel Messages
+### Assignment IDs, Rounds, and Versions
 
-New and revised assignments use identical headers. Put the assignment ID/revision and replacement explanation in the body, not a special header field: `Assignment P2-CON-03 r2 replaces r1; change: ...`. IDs use `P[phase]-[CON|INF|WF]-[nn]`; revisions start at r1. Returns identify the revision answered. A newer revision cancels its predecessor. Duplicate ID/revision: acknowledge once and do not re-execute. An ambiguous apparent replacement returns for clarification.
+New production assignments use `[CLIENT]-P[PHASE]-[WORKSTREAM]-R[ROUND]`, e.g. `IC-P1-FE-R1`. The header Assignment field contains only the ID, without a short title or version. Workstream codes are:
+
+| Code | Workstream |
+| --- | --- |
+| FE | Frontend |
+| CM | CMS |
+| IN | Integration |
+| PL | Platform |
+
+These classify assignments, not new standing teams. Record the owning Content/Infrastructure Senior separately; routing still follows the responsible teams and dependencies. Do not rename lanes or create four Senior teams from these codes.
+
+A round is one Senior → Mid/Junior production pass and return. The Senior allocates the next unused round number within client/phase/workstream at dispatch; parallel assignments receive distinct numbers. When both Seniors use a code, Lead coordinates allocation. The return retains its ID; forwarding, QA, and clarification do not increment it. A subsequent correction/production pass gets a new round ID referencing its predecessor. Round numbers count issued passes, not accepted work or project progress.
+
+Instruction versions are separate: body-level `v1`, `v2`, etc. A revision before return retains its round ID; state `v2 replaces v1; change: ...` in the body. New/revised headers have identical structure. Returns identify ID/version; a newer version cancels its predecessor. Duplicate ID/version: acknowledge, never re-execute. Ambiguous replacements return for clarification.
+
+Preserve active legacy IDs through their existing assignments; new passes use the new scheme and reference predecessors. For intake, planning, workflow maintenance, or work without an allocated production ID, use `Not assigned` and describe scope in the body/footer; do not invent a workstream or round. No additional code (including WF) is authorized by this scheme. Consolidated messages list applicable IDs in Assignment and map them in the body.
+
+### Parallel Messages
 
 For parallel assignments, place this instruction in the body after the header (and after initiation tasks when applicable):
 
@@ -173,9 +191,9 @@ PM, Lead Senior, and workstream Seniors include this immediately before the foot
 
 **Project:** [Project]\
 **Phase:** Phase [#] · [Phase Name]\
-**Progress:** [#]% [character progress bar]
+**Project Progress:** [#]% [character progress bar]
 
-| Phase | Name / outcome | Responsible lanes | State | % complete |
+| Phase | Name / outcome | Responsible lanes | State | Estimated completion |
 | --- | --- | --- | --- | --- |
 | Phase 1 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
 | Phase 2 | [Name / outcome] | [Lane(s)] | [State] | [#]% |
@@ -185,9 +203,11 @@ PM, Lead Senior, and workstream Seniors include this immediately before the foot
 
 Use one row per planned phase, including completed and future phases; a one-phase project has one row. Do not use Current/Last completed task rows. The final separator is also the footer's opening separator; print it once.
 
-The headline percentage/bar refer to the named current phase. Use ten cells, e.g. `60% [██████░░░░]`; the numeric percentage is authoritative and filled cells round down to completed ten-percent increments. Count accepted units over defined total units, never effort estimates. Delivery units count after workstream Senior QA; planning/workflow units count after their designated review. PM/Lead report the phase overall; Seniors label their figures as their assigned portion and use the same phase plan. Unassigned portions are N/A, not invented percentages.
+Each row estimates overall phase completion from completed, in-progress, and remaining work, including required review. Estimates may advance before Senior QA; they are not acceptance evidence. Future phases start at 0%; phases meeting their completion criteria reach 100%. Blocked phases retain their current estimate. PM maintains the consolidated estimates using Senior/Lead updates. Coordinators reuse that overall view, identify proposed changes, and never substitute their own portion for project progress.
 
-Explain changed scope/denominators and resulting percentage changes in the body. A 100% QA count does not imply user acceptance, commit, push, or deployment; state pending gates separately. Where no phase plan exists, use `Not assigned`/`N/A` rather than fictional rows or percentages.
+Project Progress is the arithmetic mean of all planned phase percentages, equally weighted regardless of size. Thus 100% and 0% give 50%; 100% and 50% give 75%. Round the displayed mean to a whole percent. Use 20 bar cells, one per 5%, rounding the unrounded mean to the nearest cell (half up): `75% [███████████████░░░░░]`. Round the numeric mean half up too; it remains authoritative.
+
+Explain material estimate changes and added/removed phases; changed phase counts change the average. Keep completed and future phases in the table. Do not silently omit blocked/deferred phases from the denominator. Without a phase plan or a credible estimate for a phase, show N/A rather than inventing progress; an unknown phase prevents a complete project average. Progress does not authorize acceptance or release; report outstanding gates separately.
 
 ## Intake and Assignments
 
@@ -199,7 +219,7 @@ For recovery/migration/parity work, inventory the baseline, preserve existing be
 
 Each assignment/consultation identifies:
 
-- ID/revision; request type (implementation, correction, generation, consultation, QA, or decision); objective and current state.
+- ID and body-level version (or `Not assigned` with scope); request type (implementation, correction, generation, consultation, QA, or decision); objective and current state.
 - Sender, recipient, return destination, responsible coordinator, model/effort, authority source, and whether developer activation is authorized.
 - Active concerns, scope/exclusions, owned files/outputs, shared dependencies, and approved reference.
 - Allowed/prohibited mutations; acceptance criteria and evidence; checks, stop conditions, and escalation.
@@ -209,8 +229,8 @@ Remind recipients to read current instructions; use the full initiation sequence
 
 Each Senior maintains this board in handoffs; PM consolidates from direct Senior or Lead returns:
 
-| Lane | Role | Scope | Owned files / outputs | Dependencies | State |
-| --- | --- | --- | --- | --- | --- |
+| Assignment ID / version | Lane | Role | Scope | Owned files / outputs | Dependencies | State |
+| --- | --- | --- | --- | --- | --- | --- |
 
 One writer owns each shared source, generated bundle, and runtime at a time. Separate source files may still share output. Lead coordinates cross-workstream sequencing; the Senior coordinates within one workstream. Reassess hidden coupling before overlapping mutations. Independent read-only investigation may proceed through the authorized handoff process.
 
@@ -269,7 +289,7 @@ States: **Planned, In Progress, Needs Fix, Ready for User Validation, Complete, 
 
 Work remains active until completed, explicitly paused/cancelled/replaced, or blocked by a concrete prerequisite. Checkpoints, setup, and acknowledgments are not completion. Report completed implementation immediately with its handoff; do not withhold it while awaiting other threads. Seniors may acknowledge `implemented, Senior QA pending` while the batch awaits returns. Unreported worktree changes require attribution and the owner's return before reliance. Final claims must match artifact, Git, and runtime state.
 
-Developer and Architect returns are self-contained and include assignment/revision, scope/exclusions, concerns addressed, inspected/changed files, checks/evidence/limits, affected routes and applicable visual evidence, exceptions/blockers, rollback, mutation accounting, proposed commit scope, next action, and relevant workflow observations. Identify mutation categories with no change. Scale detail; omit other empty fields.
+Developer and Architect returns are self-contained and include assignment ID/version (or `Not assigned` with scope), scope/exclusions, concerns addressed, inspected/changed files, checks/evidence/limits, affected routes and applicable visual evidence, exceptions/blockers, rollback, mutation accounting, proposed commit scope, next action, and relevant workflow observations. Identify mutation categories with no change. Scale detail; omit other empty fields.
 
 Seniors return integrated concern-to-evidence maps; Lead preserves them and resolves integration issues; PM checks every active concern before requesting acceptance. A developer report reaching PM without Senior QA goes through the selected coordination route to the responsible Senior for QA, not repeated implementation.
 
