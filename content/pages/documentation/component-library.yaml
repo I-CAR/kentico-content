@@ -1023,6 +1023,7 @@ sections:
         width: "1440"
         height: "600"
         alt: ""
+        decorative: true
   - id: chapter-cards-grids
     type: text
     heading: Cards and grids

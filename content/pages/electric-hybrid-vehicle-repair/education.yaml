@@ -27,7 +27,9 @@ sections:
       desktopSrc: /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp
       desktopSrcset: /getmedia/c6f4cfc6-2eed-423f-9416-51e760129446/Hero_400w_D.webp 400w, /getmedia/f13a583e-1381-4fcf-b66d-ce63baf04a72/Hero_800w_D.webp 800w, /getmedia/9514cca9-d102-40f3-bb60-f30bff012854/Hero_1600w_D.webp 1600w
       sources:
-        - media: "(max-width: 767px)"
+        - maxWidth: 767
+          width: "862"
+          height: "539"
           srcset: /getmedia/c4254e5d-33df-4d82-a0bf-e6e7f35da2fb/Hero_400w_M.webp 400w, /getmedia/aebaaa3d-f736-4279-88fd-1dd8b6ed4c7c/Hero_800w_M.webp 800w, /getmedia/359cfd1e-eb09-43ae-b1c4-e3b89f06fdab/Hero_1600w_M.webp 1600w
       width: "862"
       height: "539"

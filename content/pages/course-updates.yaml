@@ -106,43 +106,43 @@ sections:
       - title: Vehicle Technology and Trends 2026
         href: https://www.i-car.com/product/vehicle-technology-and-trends-2026/01tPI00000GXjhtYAD
         linkTitle: View course details
-        image: { src: /getmedia/2a1487a3-a7f5-4881-bc33-d1dc3c364ce9/Vtt2026.webp, alt: "", width: "491", height: "327" }
+        image: { src: /getmedia/2a1487a3-a7f5-4881-bc33-d1dc3c364ce9/Vtt2026.webp, alt: "TODO: needs real alt text (Vehicle Technology and Trends 2026, course-updates.yaml)", width: "491", height: "327" }
       - title: Ford Explorer Rear Rail Sectioning
         href: https://www.i-car.com/product/ford-explorer-rear-rail-sectioning/01tPI00000GXk9JYAT
         linkTitle: View course details
-        image: { src: /getmedia/3fde9afb-9147-4652-9763-c160165e0418/For-Explorer-Rear-Rail-Sectioning.webp, alt: "", width: "491", height: "327" }
+        image: { src: /getmedia/3fde9afb-9147-4652-9763-c160165e0418/For-Explorer-Rear-Rail-Sectioning.webp, alt: "TODO: needs real alt text (Ford Explorer Rear Rail Sectioning, course-updates.yaml)", width: "491", height: "327" }
       - title: FCA Jeep Wagoneer S
         href: https://www.i-car.com/product/fca-jeep-wagoneer-s/01tRm00000EgU6TIAV
         linkTitle: View course details
-        image: { src: /getmedia/2350a545-8063-4638-bd7a-b0726900034f/FCA-Jeep-Wagoneer-S.webp, alt: "", width: "491", height: "327" }
+        image: { src: /getmedia/2350a545-8063-4638-bd7a-b0726900034f/FCA-Jeep-Wagoneer-S.webp, alt: "TODO: needs real alt text (FCA Jeep Wagoneer S, course-updates.yaml)", width: "491", height: "327" }
       - title: FCA Dodge Charger LB
         href: https://www.i-car.com/product/fca-dodge-charger-lb/01tRm00000ENl1NIAT
         linkTitle: View course details
-        image: { src: /getmedia/b5fb8293-fe2d-4b33-b722-0376d9ecec8b/FCA-Dodge-Charger-LB.webp, alt: "", width: "491", height: "327" }
+        image: { src: /getmedia/b5fb8293-fe2d-4b33-b722-0376d9ecec8b/FCA-Dodge-Charger-LB.webp, alt: "TODO: needs real alt text (FCA Dodge Charger LB, course-updates.yaml)", width: "491", height: "327" }
       - title: Audi Collision Repair Overview
         href: https://www.i-car.com/product/audi-collision-repair-overview/01tRm00000ENl4bIAD
         linkTitle: View course details
-        image: { src: /getmedia/8ad3631f-c9ce-4cb5-814a-0bc1b356d642/Audi-Collision-Repair-Overview.webp, alt: "", width: "491", height: "327" }
+        image: { src: /getmedia/8ad3631f-c9ce-4cb5-814a-0bc1b356d642/Audi-Collision-Repair-Overview.webp, alt: "TODO: needs real alt text (Audi Collision Repair Overview, course-updates.yaml)", width: "491", height: "327" }
       - title: Audi Electromechanical Repair Overview
         href: https://www.i-car.com/product/audi-electromechanical-repair-overview/01tRm00000ENl2zIAD
         linkTitle: View course details
-        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "TODO: needs real alt text (Audi Electromechanical Repair Overview, course-updates.yaml)", width: "491", height: "327" }
       - title: Jaguar Land Rover (JLR) Collision Repair Overview
         href: https://www.i-car.com/product/jaguar-land-rover-jlr-collision-repair-overview/01tRm00000DpRMrIAN
         linkTitle: View course details
-        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCXV4JTATBZNC4XLVWOVVEN5TK3A?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "TODO: needs real alt text (Jaguar Land Rover (JLR) Collision Repair Overview, course-updates.yaml)", width: "491", height: "327" }
       - title: Jaguar Land Rover (JLR) Electromechanical Repair Overview
         href: https://www.i-car.com/product/jaguar-land-rover-jlr-electromechanical-repair-overview/01tRm00000DphTFIAZ
         linkTitle: View course details
-        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCBK7XZP3SSVHS3DL24LYJ2EF72I?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MCBK7XZP3SSVHS3DL24LYJ2EF72I?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "TODO: needs real alt text (Jaguar Land Rover (JLR) Electromechanical Repair Overview, course-updates.yaml)", width: "491", height: "327" }
       - title: Mazda Collision Repair Overview
         href: https://www.i-car.com/product/mazda-collision-repair-overview/01tRm00000DpheXIAR
         linkTitle: View course details
-        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC43CRFPOENVC2BGL7DSCUTZMWZE?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC43CRFPOENVC2BGL7DSCUTZMWZE?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "TODO: needs real alt text (Mazda Collision Repair Overview, course-updates.yaml)", width: "491", height: "327" }
       - title: Mazda Electromechanical Repair Overview
         href: https://www.i-car.com/product/mazda-electromechanical-repair-overview/01tRm00000DpheYIAR
         linkTitle: View course details
-        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC5KO4TC3GR5HFLAUECOBU2BMVXA?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "", width: "491", height: "327" }
+        image: { src: "https://www.i-car.com/sfsites/c/cms/delivery/media/MC5KO4TC3GR5HFLAUECOBU2BMVXA?version=1.1&channelId=0ap8W000000Gp2l&oid=00D1I0000002nE3", alt: "TODO: needs real alt text (Mazda Electromechanical Repair Overview, course-updates.yaml)", width: "491", height: "327" }
 
   - id: faq
     type: accordion

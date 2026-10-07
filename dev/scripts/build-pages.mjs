@@ -3218,7 +3218,7 @@ function renderQuoteGridSection(section) {
                                         <p class="ic-card-text">${renderText(quote.quote, { widowProtection: true })}</p>
                                     </blockquote>
                                     <figcaption class="ic-card-cite ic-cite">
-                                        ${renderImg(quote.image || { alt: quote.name }, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${quote.name}" image` })}
+                                        ${quote.image ? renderImg(quote.image, "ic-cite-photo", { width: "70", height: "70", sizes: "80px", loading: "lazy", context: `quote "${quote.name}" image` }) : ""}
                                         <p>
                                             <cite>
                                                 <strong>${renderText(quote.name)}</strong><br>
